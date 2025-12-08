@@ -1,0 +1,47 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+// ============================================
+// PATIENT MODEL
+// ============================================
+// Modelo para armazenar informações dos pacientes
+model Patient {
+  id        String     @id @default(cuid())
+  name      String
+  phone     String?
+  birthDate DateTime?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  anamneses Anamnese[]
+
+  @@map("patients")
+}
+
+// ============================================
+// ANAMNESE MODEL
+// ============================================
+// Modelo para armazenar anamneses geradas pela IA
+// structured: dados estruturados coletados
+// finalText: texto narrativo final gerado pela IA
+model Anamnese {
+  id         String   @id @default(cuid())
+  patientId  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  structured Json     // dados estruturados coletados (perguntas/respostas)
+  finalText  String   // texto narrativo final gerado pela IA
+  Patient    Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+
+  @@map("anamneses")
+  @@index([patientId])
+}

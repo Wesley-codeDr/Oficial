@@ -1,0 +1,184 @@
+# Cursor Rules - Wavewell Oficial
+# Spec-Driven Development Workflow
+
+## Princípios Fundamentais
+
+Este projeto segue **Spec-Driven Development** usando o GitHub Spec-Kit. TODAS as features e mudanças devem seguir este workflow rigorosamente.
+
+## Workflow Obrigatório
+
+### ANTES de qualquer implementação de código:
+
+1. **ESPECIFICAÇÃO PRIMEIRO** - NUNCA comece a codificar sem uma especificação aprovada
+2. **PLANO DEPOIS** - Gere o plano de implementação baseado na spec
+3. **TAREFAS DEPOIS** - Quebre o plano em tarefas executáveis
+4. **IMPLEMENTAÇÃO POR ÚLTIMO** - Só então implemente seguindo as tarefas
+
+### Regra de Ouro:
+```
+SEM SPEC → SEM CÓDIGO
+```
+
+## Estrutura de Diretórios
+
+SEMPRE respeite a estrutura:
+```
+specs/[feature-name]/
+├── spec.md          # OBRIGATÓRIO antes de qualquer código
+├── plan.md          # OBRIGATÓRIO antes de implementar
+├── tasks.md         # OBRIGATÓRIO antes de implementar
+└── contracts/       # Opcional: contratos de API
+```
+
+## Comportamento Esperado
+
+### Quando o usuário pede uma nova feature:
+
+1. **VERIFICAR** se existe `specs/[feature-name]/spec.md`
+   - Se NÃO existe: CRIAR a estrutura primeiro usando `./scripts/setup-plan.sh [feature-name]`
+   - Se existe: LER e seguir a especificação
+
+2. **VERIFICAR** se existe `specs/[feature-name]/plan.md`
+   - Se NÃO existe: Usar `/speckit.plan` para gerar
+   - Se existe: LER e validar antes de implementar
+
+3. **VERIFICAR** se existe `specs/[feature-name]/tasks.md`
+   - Se NÃO existe: Usar `/speckit.tasks` para gerar
+   - Se existe: LER e seguir as tarefas na ordem
+
+4. **SOMENTE ENTÃO** implementar seguindo `tasks.md`
+
+### Quando o usuário pede mudanças em código existente:
+
+1. **VERIFICAR** se a mudança está na spec atual
+   - Se NÃO está: ALERTAR o usuário que precisa atualizar a spec primeiro
+   - Se está: Proceder com a implementação
+
+2. **SEGUIR** a estrutura definida no `plan.md`
+
+3. **RESPEITAR** as tarefas em `tasks.md`
+
+## Validações Obrigatórias
+
+Antes de escrever QUALQUER código, SEMPRE:
+
+- [ ] Verificar se `memory/constitution.md` existe e foi lido
+- [ ] Verificar se `specs/[feature-name]/spec.md` existe e foi lido
+- [ ] Verificar se `specs/[feature-name]/plan.md` existe e foi lido
+- [ ] Verificar se `specs/[feature-name]/tasks.md` existe e foi lido
+- [ ] Confirmar que o código segue a arquitetura do `plan.md`
+- [ ] Confirmar que está seguindo as tarefas do `tasks.md` na ordem correta
+
+## Comandos do Spec-Kit
+
+Use estes comandos quando apropriado:
+
+- `/speckit.plan` - Gera plano de implementação
+- `/speckit.tasks` - Gera breakdown de tarefas
+- `/speckit.implement` - Executa implementação seguindo tasks.md
+
+## Gerenciador de Pacotes
+
+- **SEMPRE** use `pnpm` para instalar dependências, executar scripts e gerenciar pacotes
+- **NUNCA** use `npm` ou `yarn` neste projeto
+- Use `pnpm install`, `pnpm add`, `pnpm run`, etc.
+- O projeto está configurado com `.npmrc` para garantir o uso do pnpm
+
+## Regras de Código
+
+### Estrutura
+- SEMPRE siga a arquitetura definida em `plan.md`
+- SEMPRE use os caminhos de arquivos especificados em `tasks.md`
+- NUNCA crie arquivos fora da estrutura definida sem atualizar a spec
+
+### Qualidade
+- Siga `memory/constitution.md` para padrões de código
+- Escreva código legível e bem documentado
+- Use nomes descritivos e auto-documentados
+- Inclua comentários onde necessário para clareza
+
+### Testes
+- Se TDD está especificado em `tasks.md`, escreva testes ANTES do código
+- Mantenha cobertura de testes adequada
+- Testes devem ser executáveis e claros
+
+## Quando o Usuário Pede Implementação Direta
+
+Se o usuário pedir para implementar algo SEM especificação:
+
+1. **ALERTAR** que é necessário criar a spec primeiro
+2. **SUGERIR** executar: `./scripts/setup-plan.sh [feature-name]`
+3. **OFERECER** ajudar a criar a spec
+4. **NÃO** implementar código até que a spec exista
+
+Exceção: Correções de bugs críticos podem ser feitas, mas devem ser documentadas depois.
+
+## Atualização de Especificações
+
+Quando o código precisa mudar de forma que não está na spec:
+
+1. **PARAR** a implementação
+2. **ATUALIZAR** `spec.md` primeiro
+3. **ATUALIZAR** `plan.md` se necessário
+4. **ATUALIZAR** `tasks.md` se necessário
+5. **ENTÃO** continuar a implementação
+
+## Dependências entre Tarefas
+
+- SEMPRE respeite as dependências definidas em `tasks.md`
+- Tarefas marcadas com `[P]` podem ser executadas em paralelo
+- NUNCA pule tarefas que têm dependências não resolvidas
+
+## Arquitetura e Design
+
+- SEMPRE consulte `plan.md` para decisões arquiteturais
+- NUNCA faça mudanças arquiteturais sem atualizar `plan.md`
+- Use a stack tecnológica definida em `plan.md`
+- Siga o modelo de dados definido em `plan.md`
+
+## Documentação
+
+- Atualize documentação conforme especificado em `tasks.md`
+- Mantenha README atualizado
+- Documente APIs conforme `plan.md`
+- Adicione comentários onde a spec indica necessidade
+
+## Mensagens de Erro e Avisos
+
+Quando detectar violações do workflow:
+
+```
+⚠️ ATENÇÃO: Esta implementação requer uma especificação primeiro.
+Por favor, crie a spec usando: ./scripts/setup-plan.sh [feature-name]
+```
+
+```
+⚠️ ATENÇÃO: Esta mudança não está na especificação atual.
+Por favor, atualize specs/[feature-name]/spec.md primeiro.
+```
+
+## Checklist Antes de Implementar
+
+Antes de escrever QUALQUER código de feature:
+
+- [ ] Spec existe e foi aprovada
+- [ ] Plan existe e foi validado
+- [ ] Tasks existem e estão completas
+- [ ] Constitution foi lida e entendida
+- [ ] Arquitetura do plan foi compreendida
+- [ ] Tarefas estão na ordem correta
+- [ ] Dependências foram verificadas
+
+## Prioridades
+
+1. **ESPECIFICAÇÃO** - Sempre a prioridade máxima
+2. **PLANO** - Necessário antes de qualquer código
+3. **TAREFAS** - Guia a implementação
+4. **CÓDIGO** - Último na ordem de prioridade
+
+## Lembrete Final
+
+> "A especificação não é um obstáculo - é a fundação que garante código de qualidade, arquitetura sólida e desenvolvimento eficiente. Sem spec, não há código."
+
+SEMPRE priorize a especificação sobre a velocidade de implementação. Melhor fazer certo do que fazer rápido.
+

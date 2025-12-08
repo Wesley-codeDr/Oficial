@@ -1,0 +1,59 @@
+name: Prisma Migrate Check
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'prisma/schema.prisma'
+      - 'prisma/migrations/**'
+  pull_request:
+    branches: [main, master]
+    paths:
+      - 'prisma/schema.prisma'
+      - 'prisma/migrations/**'
+  workflow_dispatch:
+
+jobs:
+  check-migrations:
+    name: Check Prisma Migrations
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Validate Prisma schema
+        run: pnpm prisma validate
+
+      - name: Check migration status
+        run: |
+          if [ -z "${{ secrets.DATABASE_URL }}" ]; then
+            echo "⚠️ DATABASE_URL not set, skipping migration check"
+            echo "This is expected for PRs from forks"
+            exit 0
+          fi
+          
+          pnpm prisma migrate status || true
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        continue-on-error: true
+
+      - name: Generate Prisma Client
+        run: pnpm prisma generate
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://user:password@localhost:5432/test' }}
+

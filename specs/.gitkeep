@@ -1,0 +1,13 @@
+# Este diretório contém as especificações de features
+
+Cada feature deve ter seu próprio diretório em `specs/[feature-name]/` contendo:
+- spec.md - Especificação da feature
+- plan.md - Plano de implementação
+- tasks.md - Breakdown de tarefas
+- contracts/ - Contratos de API, SignalR, etc. (opcional)
+
+Para criar uma nova feature, execute:
+```bash
+./scripts/setup-plan.sh nome-da-feature
+```
+
