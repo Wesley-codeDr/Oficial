@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "sources": [],
+  "debugId": "9fbf6b1b-ce05-9ed7-b51c-69b1179de559",
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/wesleywillian/Wavewell/Oficial/node_modules/.pnpm/next%4016.0.7_%40babel%2Bcore%407.28.5_%40opentelemetry%2Bapi%401.9.0_react-dom%4019.2.1_react%4019.2.1__react%4019.2.1/node_modules/next/router.js"],"sourcesContent":["module.exports = require('./dist/client/router')\n"],"names":[],"mappings":"AAAA,OAAO,OAAO","ignoreList":[0]}},
+    {"offset": {"line": 8, "column": 0}, "map": {"version":3,"sources":["file:///Users/wesleywillian/Wavewell/Oficial/node_modules/.pnpm/next%4016.0.7_%40babel%2Bcore%407.28.5_%40opentelemetry%2Bapi%401.9.0_react-dom%4019.2.1_react%4019.2.1__react%4019.2.1/node_modules/next/error.js"],"sourcesContent":["module.exports = require('./dist/pages/_error')\n"],"names":[],"mappings":"AAAA,OAAO,OAAO","ignoreList":[0]}}]
+}

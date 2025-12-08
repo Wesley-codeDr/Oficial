@@ -1,0 +1,8 @@
+{
+  "version": 3,
+  "sources": [],
+  "debugId": "20761f65-c182-233e-6800-78e1a01ce7c5",
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["file:///Users/wesleywillian/Wavewell/Oficial/app/layout.tsx"],"sourcesContent":["import type { Metadata } from \"next\";\nimport \"./globals.css\";\n\nexport const metadata: Metadata = {\n  title: \"Wavewell Oficial\",\n  description: \"Projeto desenvolvido usando Spec-Driven Development\",\n};\n\nexport default function RootLayout({\n  children,\n}: Readonly<{\n  children: React.ReactNode;\n}>) {\n  return (\n    <html lang=\"pt-BR\">\n      <body>{children}</body>\n    </html>\n  );\n}\n\n"],"names":[],"mappings":";;;;;;;;;AAGO,MAAM,WAAqB;IAChC,OAAO;IACP,aAAa;AACf;AAEe,SAAS,WAAW,EACjC,QAAQ,EAGR;IACA,qBACE,ubAAC;QAAK,MAAK;kBACT,cAAA,ubAAC;sBAAM;;;;;;;;;;;AAGb"}},
+    {"offset": {"line": 38, "column": 0}, "map": {"version":3,"sources":["file:///Users/wesleywillian/Wavewell/Oficial/node_modules/.pnpm/next%4016.0.7_%40babel%2Bcore%407.28.5_%40opentelemetry%2Bapi%401.9.0_react-dom%4019.2.1_react%4019.2.1__react%4019.2.1/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = (\n  require('../../module.compiled') as typeof import('../../module.compiled')\n).vendored['react-rsc']!.ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":"AAAAA,OAAOC,OAAO,GACZC,QAAQ,mPACRC,QAAQ,CAAC,YAAY,CAAEC,kBAAkB","ignoreList":[0]}}]
+}
