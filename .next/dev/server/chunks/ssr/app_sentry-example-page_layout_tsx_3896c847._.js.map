@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "debugId": "9244ccfa-96c9-2e21-87f2-e1e06c9a6c2d",
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["file:///Users/wesleywillian/Wavewell/Oficial/app/sentry-example-page/layout.tsx"],"sourcesContent":["import type { Metadata } from \"next\";\n\nexport const metadata: Metadata = {\n  title: \"Sentry Example Page - Wavewell Oficial\",\n  description: \"Teste as funcionalidades do Sentry nesta página de exemplo\",\n};\n\nexport default function SentryExampleLayout({\n  children,\n}: {\n  children: React.ReactNode;\n}) {\n  return <>{children}</>;\n}\n\n"],"names":[],"mappings":";;;;;;;;AAEO,MAAM,WAAqB;IAChC,OAAO;IACP,aAAa;AACf;AAEe,SAAS,oBAAoB,EAC1C,QAAQ,EAGT;IACC,qBAAO;kBAAG;;AACZ"}}]
+}
