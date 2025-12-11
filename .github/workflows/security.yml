@@ -46,6 +46,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
 
       - name: Run security audit
         run: pnpm audit --audit-level=moderate

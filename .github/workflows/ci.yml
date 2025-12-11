@@ -10,7 +10,7 @@ jobs:
   lint-and-typecheck:
     name: Lint & Type Check
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,6 +28,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
 
       - name: Run ESLint
         run: pnpm lint
@@ -38,7 +40,7 @@ jobs:
   prisma-validate:
     name: Validate Prisma Schema
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -56,9 +58,13 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
 
       - name: Validate Prisma schema
         run: pnpm prisma validate
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
 
       - name: Format Prisma schema
         run: pnpm prisma format --check

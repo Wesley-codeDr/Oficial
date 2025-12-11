@@ -29,6 +29,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
 
       - name: Check package.json formatting
         run: |
@@ -40,6 +42,8 @@ jobs:
 
       - name: Check Prisma schema formatting
         run: pnpm prisma format --check
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
 
   check-dependencies:
     name: Check Dependencies
@@ -62,6 +66,8 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
 
       - name: Check for outdated dependencies
         run: pnpm outdated || true
