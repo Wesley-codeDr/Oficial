@@ -24,8 +24,8 @@ Sentry.init({
     
     // Filter out "aborted" errors from HTTP server
     // These occur when clients disconnect before requests complete (normal behavior)
-    if (error && typeof error === 'object' && 'message' in error) {
-      const errorMessage = String(error.message).toLowerCase();
+    if (error instanceof Error) {
+      const errorMessage = error.message.toLowerCase();
       
       // Check for aborted connection errors
       if (errorMessage.includes('aborted')) {
