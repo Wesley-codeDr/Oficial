@@ -1,0 +1,922 @@
+openapi: 3.1.0
+info:
+  title: WellWave MVP API
+  description: |
+    API para a plataforma WellWave - Sistema de Anamnese Digital para Emergências.
+
+    ## Autenticação
+    Todas as rotas (exceto /auth/*) requerem autenticação via Bearer token JWT.
+    O token é obtido através do Supabase Auth.
+
+    ## Rate Limiting
+    - Rotas de autenticação: 10 req/min
+    - Rotas de chat: 30 req/min
+    - Demais rotas: 100 req/min
+  version: 1.0.0
+  contact:
+    name: WellWave Team
+    email: dev@wellwave.com
+
+servers:
+  - url: https://api.wellwave.com/v1
+    description: Production
+  - url: http://localhost:3000/api
+    description: Development
+
+tags:
+  - name: Auth
+    description: Autenticação e gerenciamento de sessão
+  - name: Syndromes
+    description: Templates de síndromes clínicas
+  - name: Anamnese
+    description: Geração de anamnese
+  - name: Chat
+    description: Chat EBM com IA
+  - name: User
+    description: Perfil do usuário
+
+paths:
+  # ============================================
+  # AUTH ENDPOINTS
+  # ============================================
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login com email e senha
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: medico@hospital.com
+                password:
+                  type: string
+                  format: password
+                  minLength: 8
+      responses:
+        '200':
+          description: Login bem sucedido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Logout
+      operationId: logout
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Logout bem sucedido
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/forgot-password:
+    post:
+      tags: [Auth]
+      summary: Solicitar recuperação de senha
+      operationId: forgotPassword
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '200':
+          description: Email de recuperação enviado (se email existir)
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Renovar token de acesso
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: Token renovado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  # ============================================
+  # USER ENDPOINTS
+  # ============================================
+  /user/profile:
+    get:
+      tags: [User]
+      summary: Obter perfil do usuário logado
+      operationId: getUserProfile
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Perfil do usuário
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    patch:
+      tags: [User]
+      summary: Atualizar perfil do usuário
+      operationId: updateUserProfile
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                  minLength: 2
+                  maxLength: 100
+                specialty:
+                  type: string
+                  maxLength: 100
+      responses:
+        '200':
+          description: Perfil atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  # ============================================
+  # SYNDROME ENDPOINTS
+  # ============================================
+  /syndromes:
+    get:
+      tags: [Syndromes]
+      summary: Listar síndromes disponíveis
+      operationId: listSyndromes
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: active
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Filtrar por síndromes ativas
+      responses:
+        '200':
+          description: Lista de síndromes
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Syndrome'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /syndromes/{syndromeId}:
+    get:
+      tags: [Syndromes]
+      summary: Obter síndrome com checkboxes
+      operationId: getSyndrome
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/syndromeId'
+      responses:
+        '200':
+          description: Síndrome com checkboxes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyndromeWithCheckboxes'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /syndromes/{syndromeId}/red-flags:
+    get:
+      tags: [Syndromes]
+      summary: Obter regras de red flags da síndrome
+      operationId: getSyndromeRedFlags
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/syndromeId'
+      responses:
+        '200':
+          description: Regras de red flags
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RedFlagRule'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ============================================
+  # ANAMNESE ENDPOINTS
+  # ============================================
+  /anamnese/sessions:
+    post:
+      tags: [Anamnese]
+      summary: Iniciar nova sessão de anamnese
+      operationId: createAnamneseSession
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [syndromeId]
+              properties:
+                syndromeId:
+                  type: string
+                  format: uuid
+      responses:
+        '201':
+          description: Sessão criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnamneseSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Síndrome não encontrada
+
+    get:
+      tags: [Anamnese]
+      summary: Listar sessões do usuário
+      operationId: listAnamneseSessions
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: Lista de sessões
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AnamneseSessionSummary'
+                  total:
+                    type: integer
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /anamnese/sessions/{sessionId}:
+    get:
+      tags: [Anamnese]
+      summary: Obter sessão de anamnese
+      operationId: getAnamneseSession
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
+      responses:
+        '200':
+          description: Sessão de anamnese
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnamneseSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      tags: [Anamnese]
+      summary: Atualizar sessão (marcar checkboxes)
+      operationId: updateAnamneseSession
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                checkedItems:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                  description: Array de IDs de checkboxes marcados
+                outputMode:
+                  type: string
+                  enum: [SUMMARY, DETAILED]
+      responses:
+        '200':
+          description: Sessão atualizada com texto regenerado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnamneseSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /anamnese/sessions/{sessionId}/complete:
+    post:
+      tags: [Anamnese]
+      summary: Marcar sessão como completa
+      operationId: completeAnamneseSession
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
+      responses:
+        '200':
+          description: Sessão marcada como completa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnamneseSession'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /anamnese/sessions/{sessionId}/copy:
+    post:
+      tags: [Anamnese]
+      summary: Registrar que texto foi copiado
+      operationId: markSessionCopied
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/sessionId'
+      responses:
+        '200':
+          description: Registro de cópia salvo
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /anamnese/generate:
+    post:
+      tags: [Anamnese]
+      summary: Gerar texto de anamnese (preview)
+      description: |
+        Gera preview do texto sem salvar sessão.
+        Útil para preview em tempo real.
+      operationId: generateAnamneseText
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [syndromeId, checkedItems]
+              properties:
+                syndromeId:
+                  type: string
+                  format: uuid
+                checkedItems:
+                  type: array
+                  items:
+                    type: string
+                    format: uuid
+                outputMode:
+                  type: string
+                  enum: [SUMMARY, DETAILED]
+                  default: SUMMARY
+      responses:
+        '200':
+          description: Texto gerado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    type: string
+                  redFlags:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DetectedRedFlag'
+                  missingRequired:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                    description: IDs de checkboxes obrigatórios não marcados
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  # ============================================
+  # CHAT ENDPOINTS
+  # ============================================
+  /chat/conversations:
+    post:
+      tags: [Chat]
+      summary: Iniciar nova conversa EBM
+      operationId: createChatConversation
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sessionId:
+                  type: string
+                  format: uuid
+                  description: ID da sessão de anamnese para contexto
+      responses:
+        '201':
+          description: Conversa criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatConversation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /chat/conversations/{conversationId}:
+    get:
+      tags: [Chat]
+      summary: Obter conversa com mensagens
+      operationId: getChatConversation
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/conversationId'
+      responses:
+        '200':
+          description: Conversa com mensagens
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChatConversationWithMessages'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /chat/conversations/{conversationId}/messages:
+    post:
+      tags: [Chat]
+      summary: Enviar mensagem e receber resposta (streaming)
+      description: |
+        Envia mensagem do usuário e recebe resposta da IA via Server-Sent Events.
+
+        O response é um stream SSE com os seguintes eventos:
+        - `data: {"type": "token", "content": "..."}` - Token de texto
+        - `data: {"type": "citation", "citation": {...}}` - Citação estruturada
+        - `data: {"type": "done", "message": {...}}` - Mensagem completa
+        - `data: {"type": "error", "error": "..."}` - Erro
+      operationId: sendChatMessage
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/conversationId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content]
+              properties:
+                content:
+                  type: string
+                  maxLength: 2000
+      responses:
+        '200':
+          description: Stream de resposta SSE
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          description: Rate limit excedido
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Token JWT obtido via Supabase Auth
+
+  parameters:
+    syndromeId:
+      name: syndromeId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    sessionId:
+      name: sessionId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    conversationId:
+      name: conversationId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  responses:
+    Unauthorized:
+      description: Não autenticado ou token inválido
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Recurso não encontrado
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ValidationError:
+      description: Erro de validação
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+
+  schemas:
+    # ============================================
+    # AUTH SCHEMAS
+    # ============================================
+    AuthResponse:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresIn:
+          type: integer
+          description: Tempo em segundos até expiração
+        user:
+          $ref: '#/components/schemas/User'
+
+    # ============================================
+    # USER SCHEMAS
+    # ============================================
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        fullName:
+          type: string
+        crmNumber:
+          type: string
+        crmState:
+          type: string
+        specialty:
+          type: string
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        lastLoginAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    # ============================================
+    # SYNDROME SCHEMAS
+    # ============================================
+    Syndrome:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        code:
+          type: string
+        description:
+          type: string
+          nullable: true
+        icon:
+          type: string
+          nullable: true
+        orderIndex:
+          type: integer
+
+    SyndromeWithCheckboxes:
+      allOf:
+        - $ref: '#/components/schemas/Syndrome'
+        - type: object
+          properties:
+            checkboxes:
+              type: array
+              items:
+                $ref: '#/components/schemas/Checkbox'
+
+    Checkbox:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        category:
+          type: string
+          enum: [QP, HDA, ANTECEDENTES, MEDICACOES, ALERGIAS, HABITOS, EXAME_FISICO, NEGATIVAS]
+        displayText:
+          type: string
+        narrativeText:
+          type: string
+        isRequired:
+          type: boolean
+        isRedFlag:
+          type: boolean
+        isNegative:
+          type: boolean
+        orderIndex:
+          type: integer
+
+    RedFlagRule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+          nullable: true
+        severity:
+          type: string
+          enum: [WARNING, CRITICAL]
+        message:
+          type: string
+
+    DetectedRedFlag:
+      type: object
+      properties:
+        ruleId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        severity:
+          type: string
+          enum: [WARNING, CRITICAL]
+        message:
+          type: string
+
+    # ============================================
+    # ANAMNESE SCHEMAS
+    # ============================================
+    AnamneseSession:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        syndromeId:
+          type: string
+          format: uuid
+        syndrome:
+          $ref: '#/components/schemas/Syndrome'
+        checkedItems:
+          type: array
+          items:
+            type: string
+            format: uuid
+        generatedText:
+          type: string
+          nullable: true
+        outputMode:
+          type: string
+          enum: [SUMMARY, DETAILED]
+        redFlagsDetected:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetectedRedFlag'
+        wasCopied:
+          type: boolean
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    AnamneseSessionSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        syndrome:
+          type: object
+          properties:
+            name:
+              type: string
+            code:
+              type: string
+        hasRedFlags:
+          type: boolean
+        wasCopied:
+          type: boolean
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+          nullable: true
+
+    # ============================================
+    # CHAT SCHEMAS
+    # ============================================
+    ChatConversation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        sessionId:
+          type: string
+          format: uuid
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+
+    ChatConversationWithMessages:
+      allOf:
+        - $ref: '#/components/schemas/ChatConversation'
+        - type: object
+          properties:
+            messages:
+              type: array
+              items:
+                $ref: '#/components/schemas/ChatMessage'
+
+    ChatMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum: [USER, ASSISTANT]
+        content:
+          type: string
+        citations:
+          type: array
+          nullable: true
+          items:
+            $ref: '#/components/schemas/Citation'
+        createdAt:
+          type: string
+          format: date-time
+
+    Citation:
+      type: object
+      properties:
+        author:
+          type: string
+        title:
+          type: string
+        journal:
+          type: string
+        year:
+          type: integer
+        pmid:
+          type: string
+          nullable: true
+        doi:
+          type: string
+          nullable: true
+
+    # ============================================
+    # ERROR SCHEMAS
+    # ============================================
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+
+    ValidationError:
+      type: object
+      properties:
+        code:
+          type: string
+          example: VALIDATION_ERROR
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              field:
+                type: string
+              message:
+                type: string

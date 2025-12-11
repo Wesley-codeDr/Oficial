@@ -1,6 +1,6 @@
 # Plano de Rollback - WellWave MVP
 
-> **Documento de Contingência** - Última atualização: Dezembro 2024
+> Documento de contingência para reversão rápida em caso de problemas críticos em produção.
 
 ---
 
@@ -8,38 +8,31 @@
 
 Iniciar rollback imediatamente se:
 
-- Error rate > 50% por 5 minutos consecutivos
-- Tempo de resposta médio > 10s por 5 minutos
-- Feature crítica quebrada (login, anamnese, chat EBM)
-- Perda de dados detectada
-- Vulnerabilidade de segurança crítica identificada
+- **Error rate** > 50% por 5 minutos contínuos
+- **Tempo de resposta** > 10 segundos por 5 minutos
+- **Features críticas quebradas**: login, anamnese, chat EBM
+- **Perda de dados** detectada ou reportada
+- **Vulnerabilidade de segurança** identificada
 
 ---
 
-## 📋 Procedimentos de Rollback
+## 🔄 Procedimentos de Rollback
 
 ### 1. Rollback de Deploy (Vercel)
 
 **Tempo estimado: ~30 segundos**
 
 1. Acesse [Vercel Dashboard](https://vercel.com/dashboard)
-2. Selecione o projeto **wellwave-mvp**
-3. Vá para **Deployments**
-4. Encontre o último deploy estável (marcado com ✅)
-5. Clique nos **"..."** → **"Promote to Production"**
-6. Aguarde confirmação (~30 segundos)
-7. Verifique se a URL de produção está funcionando
+2. Navegue até **Project → Deployments**
+3. Localize o último deploy **estável** (marcado com ✓ verde antes do problema)
+4. Clique nos **"..."** → **"Promote to Production"**
+5. Aguarde confirmação (~30 segundos)
+6. Verifique se o site está funcionando
 
-**Via CLI (alternativa):**
 ```bash
-# Listar deployments
-vercel ls
-
-# Promover deployment específico
-vercel promote [deployment-url]
+# Alternativa via CLI (se tiver vercel CLI instalado)
+vercel rollback
 ```
-
----
 
 ### 2. Rollback de Database (Supabase)
 
@@ -47,127 +40,102 @@ vercel promote [deployment-url]
 
 #### Opção A: Point-in-Time Recovery (Pro Plan)
 1. Acesse [Supabase Dashboard](https://supabase.com/dashboard)
-2. Selecione o projeto
-3. Vá para **Settings** → **Database** → **Backups**
-4. Clique em **"Point-in-time Recovery"**
-5. Selecione data/hora anterior ao problema
-6. Confirme restauração
-7. Aguarde conclusão
+2. Navegue até **Database → Backups**
+3. Selecione **"Point in time recovery"**
+4. Escolha timestamp **anterior ao problema**
+5. Clique em **"Restore"**
+6. Aguarde conclusão (~5-10 minutos)
 
-#### Opção B: Restore de Backup Diário (Free/Pro)
-1. Acesse **Database** → **Backups**
-2. Selecione o backup mais recente antes do problema
+#### Opção B: Daily Backup (Free Plan)
+1. Acesse **Database → Backups**
+2. Selecione o backup diário mais recente **antes do problema**
 3. Clique em **"Restore"**
-4. Confirme a operação
-5. Aguarde conclusão (~5-10 minutos)
+4. Aguarde conclusão
 
-⚠️ **ATENÇÃO:** Restaurar backup sobrescreve TODOS os dados atuais!
-
----
+⚠️ **ATENÇÃO**: Restore de banco sobrescreve dados. Dados inseridos após o backup serão perdidos.
 
 ### 3. Rollback de Schema (Prisma)
 
-**Para reverter mudanças no schema:**
+**Se uma migration causou o problema:**
 
 ```bash
 # Ver histórico de migrations
 pnpm prisma migrate status
 
-# Ver diferença entre schema e banco
-pnpm prisma db pull
+# Verificar SQL da migration problemática
+cat prisma/migrations/[TIMESTAMP]_[nome]/migration.sql
 
-# Se necessário, reverter manualmente via SQL
-# Consulte: prisma/migrations/[nome]/migration.sql
+# Reverter manualmente (criar migration de reversão)
+pnpm prisma migrate dev --name revert_[nome_migration]
 ```
 
-**Rollback manual de migration:**
-```sql
--- Exemplo: Reverter adição de coluna
-ALTER TABLE users DROP COLUMN IF EXISTS new_column;
-
--- Exemplo: Reverter criação de tabela
-DROP TABLE IF EXISTS new_table CASCADE;
-```
-
----
-
-## 🔄 Checklist Pós-Rollback
-
-- [ ] Verificar se aplicação está respondendo
-- [ ] Testar login/autenticação
-- [ ] Testar fluxo de anamnese
-- [ ] Testar chat EBM
-- [ ] Verificar logs de erro no Sentry
-- [ ] Notificar equipe via Slack/Email
-- [ ] Documentar causa do problema
-- [ ] Criar issue no GitHub para investigação
-- [ ] Agendar post-mortem (se necessário)
+**Reversão manual via SQL Editor do Supabase:**
+1. Acesse **SQL Editor** no Supabase
+2. Execute os comandos de reversão apropriados
+3. Sincronize o Prisma: `pnpm prisma db pull`
 
 ---
 
 ## 📞 Contatos de Emergência
 
-| Serviço | Contato | SLA |
-|---------|---------|-----|
-| Supabase Support | support@supabase.io | 24h (Pro) |
-| Vercel Support | support@vercel.com | 24h (Pro) |
-| OpenAI Status | status.openai.com | - |
-| Sentry Status | status.sentry.io | - |
+| Serviço | Contato | Tempo de Resposta |
+|---------|---------|-------------------|
+| **Supabase Support** | support@supabase.io | 24-48h (Free), 4h (Pro) |
+| **Vercel Support** | support@vercel.com | 24-48h (Free), 4h (Pro) |
+| **OpenAI Status** | status.openai.com | N/A |
+| **Sentry Status** | status.sentry.io | N/A |
 
 ---
 
-## 📊 Informações de Backup
+## 📋 Checklist Pós-Rollback
 
-| Item | Frequência | Retenção | Tipo |
-|------|------------|----------|------|
-| Supabase (Free) | Diário | 7 dias | Automático |
-| Supabase (Pro) | Contínuo | 30 dias | PITR |
-| Vercel Deploys | Por commit | Ilimitado | Automático |
-| Git Repository | Por commit | Ilimitado | Manual |
+Após executar rollback:
 
----
-
-## 🔐 Variáveis de Ambiente Críticas
-
-Em caso de comprometimento, regenerar imediatamente:
-
-1. `SUPABASE_SERVICE_ROLE_KEY` - Supabase Dashboard → Settings → API
-2. `OPENAI_API_KEY` - platform.openai.com/api-keys
-3. `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase Dashboard → Settings → API
-
-**Após regenerar:**
-1. Atualizar no Vercel (Settings → Environment Variables)
-2. Fazer redeploy
-3. Revogar chaves antigas
+- [ ] **Verificar funcionamento** - Testar features críticas manualmente
+- [ ] **Notificar equipe** - Informar sobre o rollback e motivo
+- [ ] **Monitorar métricas** - Acompanhar error rate e latência por 30 min
+- [ ] **Documentar incidente** - Registrar:
+  - Horário de início do problema
+  - Horário do rollback
+  - Causa identificada (se conhecida)
+  - Impacto estimado (usuários afetados)
+- [ ] **Criar issue** - Abrir issue no GitHub para fix definitivo
+- [ ] **Agendar post-mortem** - Se incidente grave, agendar reunião de análise
 
 ---
 
-## 📝 Template de Post-Mortem
+## 🔍 Comandos Úteis de Diagnóstico
 
-```markdown
-# Post-Mortem: [Título do Incidente]
+```bash
+# Verificar status do Prisma
+pnpm prisma migrate status
 
-**Data:** YYYY-MM-DD
-**Duração:** HH:MM - HH:MM
-**Severidade:** Alta/Média/Baixa
-**Impacto:** [Descrição do impacto]
+# Verificar conexão com banco
+pnpm prisma db pull --print
 
-## Timeline
-- HH:MM - Problema detectado
-- HH:MM - Rollback iniciado
-- HH:MM - Serviço restaurado
+# Verificar logs do Vercel
+vercel logs --follow
 
-## Causa Raiz
-[Descrição técnica]
-
-## Ações Tomadas
-1. [Ação 1]
-2. [Ação 2]
-
-## Prevenção Futura
-- [ ] [Melhoria 1]
-- [ ] [Melhoria 2]
-
-## Lições Aprendidas
-[Reflexões]
+# Verificar variáveis de ambiente
+vercel env ls
 ```
+
+---
+
+## 📊 Histórico de Incidentes
+
+| Data | Descrição | Ação | Resolução |
+|------|-----------|------|-----------|
+| _YYYY-MM-DD_ | _Descrição do incidente_ | _Rollback realizado_ | _Causa e fix_ |
+
+---
+
+## 📚 Referências
+
+- [Vercel Rollback Docs](https://vercel.com/docs/deployments/rollback)
+- [Supabase Backup & Restore](https://supabase.com/docs/guides/platform/backups)
+- [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate)
+
+---
+
+*Última atualização: Dezembro 2024*

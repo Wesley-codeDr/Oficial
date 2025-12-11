@@ -1,33 +1,56 @@
 /**
  * Supabase Server Client Configuration
- * 
+ *
  * This file provides server-side Supabase client instances.
  * Use this for server-side operations, API routes, and server components.
  */
 
-import { createClient } from "@supabase/supabase-js";
+import { createServerClient as createSupabaseServerClient, type CookieOptions } from '@supabase/ssr'
+import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
 
-// Validate environment variables
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
-if (!supabaseUrl) {
-  throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL environment variable");
+/**
+ * Create a Supabase client for Server Components, Server Actions, and Route Handlers
+ * This client respects RLS policies based on the user session
+ */
+export async function createServerClient() {
+  const cookieStore = await cookies()
+
+  return createSupabaseServerClient(supabaseUrl, supabaseAnonKey, {
+    cookies: {
+      getAll() {
+        return cookieStore.getAll()
+      },
+      setAll(cookiesToSet: { name: string; value: string; options?: CookieOptions }[]) {
+        try {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            cookieStore.set(name, value, options)
+          })
+        } catch {
+          // The `setAll` method was called from a Server Component.
+          // This can be ignored if you have middleware refreshing sessions.
+        }
+      },
+    },
+  })
 }
 
 /**
- * Server-side Supabase client with service role key
- * Use this for admin operations that bypass Row Level Security (RLS)
- * 
- * ⚠️ WARNING: Never expose the service role key in client-side code!
- * This client should only be used in server-side code (API routes, server components, etc.)
+ * Create an admin Supabase client that bypasses RLS
+ * Use this only for admin operations that need full access
+ *
+ * WARNING: Never expose this in client-side code!
  */
-export function createServerClient() {
+export function createAdminClient() {
   if (!supabaseServiceRoleKey) {
     throw new Error(
-      "Missing SUPABASE_SERVICE_ROLE_KEY environment variable. " +
-      "Get this from your Supabase dashboard: Settings > API > service_role key"
-    );
+      'Missing SUPABASE_SERVICE_ROLE_KEY environment variable. ' +
+        'Get this from your Supabase dashboard: Settings > API > service_role key'
+    )
   }
 
   return createClient(supabaseUrl, supabaseServiceRoleKey, {
@@ -35,30 +58,42 @@ export function createServerClient() {
       autoRefreshToken: false,
       persistSession: false,
     },
-  });
+  })
 }
 
 /**
- * Server-side Supabase client with user session
- * Use this when you have a user session and want to respect RLS policies
+ * Get the current user from the session
+ * Returns null if not authenticated
  */
-export function createServerClientWithSession(accessToken: string) {
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseAnonKey) {
-    throw new Error("Missing NEXT_PUBLIC_SUPABASE_ANON_KEY environment variable");
-  }
-
-  return createClient(supabaseUrl, supabaseAnonKey, {
-    global: {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    },
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  });
+export async function getUser() {
+  const supabase = await createServerClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  return user
 }
+
+/**
+ * Get the current session
+ * Returns null if not authenticated
+ */
+export async function getSession() {
+  const supabase = await createServerClient()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  return session
+}
+
+/**
+ * Require authentication - throws redirect if not authenticated
+ */
+export async function requireAuth() {
+  const user = await getUser()
+  if (!user) {
+    throw new Error('UNAUTHORIZED')
+  }
+  return user
+}
+
 
