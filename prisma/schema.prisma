@@ -1,47 +1,239 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// WellWave MVP - Prisma Schema
+// Based on: /specs/1-wellwave-mvp/data-model.md
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider          = "postgresql"
-  url               = env("DATABASE_URL")
-  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  provider = "postgresql"
 }
 
 // ============================================
-// PATIENT MODEL
+// USER MODEL
 // ============================================
-// Modelo para armazenar informações dos pacientes
-model Patient {
-  id        String     @id @default(cuid())
-  name      String
-  phone     String?
-  birthDate DateTime?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  anamneses Anamnese[]
+// Represents a registered physician in the system
+// Linked to Supabase Auth via id
+model User {
+  id          String    @id @default(uuid())
+  email       String    @unique
+  fullName    String    @map("full_name")
+  crmNumber   String    @map("crm_number")
+  crmState    String    @map("crm_state") @db.Char(2)
+  specialty   String?
+  isActive    Boolean   @default(true) @map("is_active")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  lastLoginAt DateTime? @map("last_login_at")
 
-  @@map("patients")
+  // Relations
+  sessions      AnamneseSession[]
+  conversations ChatConversation[]
+  auditLogs     AuditLog[]
+
+  @@index([email])
+  @@index([crmNumber, crmState])
+  @@map("users")
 }
 
 // ============================================
-// ANAMNESE MODEL
+// SYNDROME MODEL
 // ============================================
-// Modelo para armazenar anamneses geradas pela IA
-// structured: dados estruturados coletados
-// finalText: texto narrativo final gerado pela IA
-model Anamnese {
-  id         String   @id @default(cuid())
-  patientId  String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  structured Json     // dados estruturados coletados (perguntas/respostas)
-  finalText  String   // texto narrativo final gerado pela IA
-  Patient    Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+// Clinical syndrome template with associated checkboxes
+model Syndrome {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String   @unique
+  description String?
+  icon        String?
+  orderIndex  Int      @map("order_index")
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
-  @@map("anamneses")
-  @@index([patientId])
+  // Relations
+  checkboxes   Checkbox[]
+  redFlagRules RedFlagRule[]
+  sessions     AnamneseSession[]
+
+  @@index([code])
+  @@index([orderIndex])
+  @@map("syndromes")
+}
+
+// ============================================
+// CHECKBOX MODEL
+// ============================================
+// Individual checkbox item associated with a syndrome
+model Checkbox {
+  id            String           @id @default(uuid())
+  syndromeId    String           @map("syndrome_id")
+  category      CheckboxCategory
+  displayText   String           @map("display_text")
+  narrativeText String           @map("narrative_text")
+  isRequired    Boolean          @default(false) @map("is_required")
+  isRedFlag     Boolean          @default(false) @map("is_red_flag")
+  isNegative    Boolean          @default(false) @map("is_negative")
+  orderIndex    Int              @map("order_index")
+  createdAt     DateTime         @default(now()) @map("created_at")
+  updatedAt     DateTime         @updatedAt @map("updated_at")
+
+  // Relations
+  syndrome Syndrome @relation(fields: [syndromeId], references: [id], onDelete: Cascade)
+
+  @@index([syndromeId])
+  @@index([category])
+  @@index([orderIndex])
+  @@map("checkboxes")
+}
+
+enum CheckboxCategory {
+  QP           // Queixa Principal
+  HDA          // Historia da Doenca Atual
+  ANTECEDENTES // Antecedentes Pessoais
+  MEDICACOES   // Medicacoes em Uso
+  ALERGIAS     // Alergias
+  HABITOS      // Habitos
+  EXAME_FISICO // Exame Fisico
+  NEGATIVAS    // Negativas Importantes
+
+  @@map("checkbox_category")
+}
+
+// ============================================
+// RED FLAG RULE MODEL
+// ============================================
+// Rules for automatic detection of alarm signs
+model RedFlagRule {
+  id            String          @id @default(uuid())
+  syndromeId    String          @map("syndrome_id")
+  name          String
+  description   String?
+  severity      RedFlagSeverity
+  conditionJson Json            @map("condition_json")
+  message       String
+  isActive      Boolean         @default(true) @map("is_active")
+  createdAt     DateTime        @default(now()) @map("created_at")
+  updatedAt     DateTime        @updatedAt @map("updated_at")
+
+  // Relations
+  syndrome Syndrome @relation(fields: [syndromeId], references: [id], onDelete: Cascade)
+
+  @@index([syndromeId])
+  @@map("red_flag_rules")
+}
+
+enum RedFlagSeverity {
+  WARNING
+  CRITICAL
+
+  @@map("red_flag_severity")
+}
+
+// ============================================
+// ANAMNESE SESSION MODEL
+// ============================================
+// Anamnesis filling session
+model AnamneseSession {
+  id               String     @id @default(uuid())
+  userId           String     @map("user_id")
+  syndromeId       String     @map("syndrome_id")
+  checkedItems     Json       @map("checked_items") // Array of checkbox IDs
+  generatedText    String?    @map("generated_text") @db.Text
+  outputMode       OutputMode @default(SUMMARY) @map("output_mode")
+  redFlagsDetected Json?      @map("red_flags_detected") // Array of RedFlagRule IDs
+  wasCopied        Boolean    @default(false) @map("was_copied")
+  startedAt        DateTime   @default(now()) @map("started_at")
+  completedAt      DateTime?  @map("completed_at")
+  createdAt        DateTime   @default(now()) @map("created_at")
+
+  // Relations
+  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  syndrome     Syndrome          @relation(fields: [syndromeId], references: [id])
+  conversation ChatConversation?
+
+  @@index([userId])
+  @@index([syndromeId])
+  @@index([startedAt])
+  @@map("anamnese_sessions")
+}
+
+enum OutputMode {
+  SUMMARY  // Modo resumido (PS)
+  DETAILED // Modo expandido (internacao)
+
+  @@map("output_mode")
+}
+
+// ============================================
+// CHAT CONVERSATION MODEL
+// ============================================
+// Conversation with EBM Chat associated with a session
+model ChatConversation {
+  id              String   @id @default(uuid())
+  sessionId       String?  @unique @map("session_id")
+  userId          String   @map("user_id")
+  contextSnapshot Json?    @map("context_snapshot") // Snapshot of anamnese at conversation start
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  session  AnamneseSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages ChatMessage[]
+
+  @@index([userId])
+  @@index([sessionId])
+  @@map("chat_conversations")
+}
+
+// ============================================
+// CHAT MESSAGE MODEL
+// ============================================
+// Individual message in a chat conversation
+model ChatMessage {
+  id             String      @id @default(uuid())
+  conversationId String      @map("conversation_id")
+  role           MessageRole
+  content        String      @db.Text
+  citations      Json?       // Array of citation objects
+  createdAt      DateTime    @default(now()) @map("created_at")
+
+  // Relations
+  conversation ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([createdAt])
+  @@map("chat_messages")
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+
+  @@map("message_role")
+}
+
+// ============================================
+// AUDIT LOG MODEL
+// ============================================
+// Audit log for compliance
+model AuditLog {
+  id           String   @id @default(uuid())
+  userId       String?  @map("user_id")
+  action       String
+  resourceType String   @map("resource_type")
+  resourceId   String?  @map("resource_id")
+  metadata     Json?
+  ipAddress    String?  @map("ip_address")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([action])
+  @@index([resourceType])
+  @@index([createdAt])
+  @@map("audit_logs")
 }

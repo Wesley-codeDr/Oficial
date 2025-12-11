@@ -85,3 +85,8 @@ Os workflows trabalham em conjunto com:
 - **Sentry**: Monitoramento de erros
 - **Prisma**: Validação de schema e migrations
 
+
+
+
+
+

@@ -10,6 +10,10 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Inter", "SF Pro Display", "-apple-system", "BlinkMacSystemFont", "sans-serif"],
+        mono: ["SF Mono", "Menlo", "Monaco", "Consolas", "monospace"],
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -50,6 +54,23 @@ const config: Config = {
           "3": "hsl(var(--chart-3))",
           "4": "hsl(var(--chart-4))",
           "5": "hsl(var(--chart-5))",
+        },
+        // Medical-specific colors
+        medical: {
+          redFlag: "#FF3B30",
+          warning: "#FF9500",
+          safe: "#34C759",
+          info: "#5AC8FA",
+        },
+        // Apple accent colors
+        apple: {
+          blue: "#007AFF",
+          green: "#34C759",
+          orange: "#FF9500",
+          red: "#FF3B30",
+          purple: "#AF52DE",
+          pink: "#FF2D55",
+          teal: "#5AC8FA",
         },
       },
       borderRadius: {

@@ -1,4 +1,30 @@
-# Wavewell Oficial
+# WellWave - Sistema de Anamnese Digital para Emergências
+
+[![CI](https://github.com/wellwaveoficial/oficial/actions/workflows/ci.yml/badge.svg)](https://github.com/wellwaveoficial/oficial/actions/workflows/ci.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
+
+WellWave é um sistema médico avançado para geração automática de anamneses (históricos médicos) em ambientes de pronto-socorro. O sistema transforma checkboxes simples em documentação clínica completa, juridicamente robusta e 100% compatível com as normas do Conselho Federal de Medicina (CFM).
+
+## Funcionalidades Principais
+
+- **Anamnese Digital**: Geração de texto médico a partir de checkboxes
+- **Detecção de Red Flags**: Alertas automáticos para sinais críticos
+- **Chat EBM**: Assistente de IA para consultas baseadas em evidências
+- **3 Síndromes Suportadas**: Dor Torácica, Dispneia, Abdome Agudo
+- **Modo Resumido/Detalhado**: Adapte o output ao seu workflow
+- **Histórico de Sessões**: Acesse anamneses anteriores
+
+## Tech Stack
+
+- **Frontend**: Next.js 15 (App Router), TypeScript, Tailwind CSS, shadcn/ui
+- **Backend**: Next.js API Routes, Prisma ORM, PostgreSQL
+- **Auth**: Supabase Auth
+- **AI**: Vercel AI SDK + OpenAI GPT-4
+- **Monitoring**: Sentry
+- **Testing**: Vitest (55 unit tests), Playwright (E2E)
+
+---
 
 Projeto desenvolvido usando **Spec-Driven Development** com o [GitHub Spec-Kit](https://github.com/github/spec-kit).
 
@@ -204,12 +230,41 @@ O agente irá:
 - `./scripts/setup-plan.sh [feature-name]` - Cria nova feature
 - `./scripts/create-new-feature.sh [feature-name]` - Alias para setup-plan.sh
 
+### Comandos de Desenvolvimento
+
+```bash
+pnpm dev              # Inicia servidor de desenvolvimento (Turbopack)
+pnpm build            # Build de produção
+pnpm start            # Inicia servidor de produção
+pnpm typecheck        # Verificação de tipos TypeScript
+pnpm lint             # Executa ESLint
+pnpm format           # Formata código com Prettier
+```
+
+### Comandos de Teste
+
+```bash
+pnpm vitest run       # Executa testes unitários (55 tests)
+pnpm test             # Executa testes em modo watch
+pnpm test:coverage    # Executa testes com cobertura
+pnpm playwright test  # Executa testes E2E
+pnpm test:e2e:ui      # Executa E2E com UI interativa
+```
+
+### Comandos de Análise
+
+```bash
+pnpm build:analyze    # Analisa bundle size (abre relatório no browser)
+pnpm audit            # Auditoria de segurança das dependências
+```
+
 ### Comandos Prisma
 
 - `pnpm prisma generate` - Gera o cliente Prisma
 - `pnpm prisma migrate dev` - Cria e aplica migrations
 - `pnpm prisma db push` - Aplica o schema diretamente ao banco
 - `pnpm prisma studio` - Abre o Prisma Studio (interface visual)
+- `pnpm db:seed` - Popula banco com dados iniciais (síndromes, checkboxes)
 
 ## 🔧 Regras do Cursor
 

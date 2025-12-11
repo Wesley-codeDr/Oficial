@@ -1,21 +1,31 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   typescript: {
     ignoreBuildErrors: false,
   },
+  // Performance optimizations
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-icons'],
+  },
+  // Image optimization
+  images: {
+    formats: ['image/avif', 'image/webp'],
+  },
 };
 
-module.exports = nextConfig;
-
-
+// Apply bundle analyzer
+let config = withBundleAnalyzer(nextConfig);
 
 // Injected content via Sentry wizard below
-
 const { withSentryConfig } = require("@sentry/nextjs");
 
 module.exports = withSentryConfig(
-  module.exports,
+  config,
   {
     // For all available options, see:
     // https://www.npmjs.com/package/@sentry/webpack-plugin#options

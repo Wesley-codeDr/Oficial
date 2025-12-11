@@ -1,0 +1,41 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - link "WellWave" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - img [ref=e5]
+        - generic [ref=e7]: WellWave
+    - main [ref=e8]:
+      - generic [ref=e11]:
+        - generic [ref=e12]:
+          - heading "Bem-vindo de volta" [level=1] [ref=e13]
+          - paragraph [ref=e14]: Entre com suas credenciais para acessar o sistema
+        - generic [ref=e15]:
+          - generic [ref=e16]:
+            - generic [ref=e17]: Email
+            - generic [ref=e18]:
+              - img [ref=e19]
+              - textbox "Email" [ref=e22]:
+                - /placeholder: medico@hospital.com
+          - generic [ref=e23]:
+            - generic [ref=e24]:
+              - generic [ref=e25]: Senha
+              - link "Esqueci minha senha" [ref=e26] [cursor=pointer]:
+                - /url: /forgot-password
+            - generic [ref=e27]:
+              - img [ref=e28]
+              - textbox "Senha" [ref=e31]:
+                - /placeholder: ••••••••
+          - button "Entrar" [ref=e32] [cursor=pointer]
+          - paragraph [ref=e33]:
+            - text: Ainda não tem conta?
+            - link "Criar conta" [ref=e34] [cursor=pointer]:
+              - /url: /register
+    - contentinfo [ref=e35]:
+      - paragraph [ref=e36]: © 2025 WellWave. Todos os direitos reservados.
+  - region "Notifications (F8)":
+    - list
+```

@@ -100,3 +100,8 @@ Este projeto também usa Prisma para acesso ao banco de dados. Você pode usar:
 
 Ambos podem coexistir e usar a mesma instância PostgreSQL do Supabase.
 
+
+
+
+
+

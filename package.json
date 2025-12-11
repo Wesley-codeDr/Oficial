@@ -1,20 +1,62 @@
 {
+	"name": "wellwave",
+	"version": "1.0.0",
+	"private": true,
 	"scripts": {
-		"dev": "next dev",
+		"dev": "next dev --turbo",
 		"build": "prisma generate && next build",
+		"build:analyze": "ANALYZE=true pnpm build",
 		"start": "next start",
 		"lint": "next lint",
+		"lint:fix": "next lint --fix",
+		"typecheck": "tsc --noEmit",
+		"format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+		"format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md}\"",
+		"test": "vitest",
+		"test:ui": "vitest --ui",
+		"test:coverage": "vitest run --coverage",
+		"test:e2e": "playwright test",
+		"test:e2e:ui": "playwright test --ui",
+		"db:generate": "prisma generate",
+		"db:push": "prisma db push",
+		"db:migrate": "prisma migrate dev",
+		"db:migrate:deploy": "prisma migrate deploy",
+		"db:seed": "prisma db seed",
+		"db:studio": "prisma studio",
+		"db:reset": "prisma migrate reset",
 		"postinstall": "prisma generate"
 	},
+	"prisma": {
+		"seed": "tsx prisma/seed.ts"
+	},
 	"devDependencies": {
+		"@next/bundle-analyzer": "^16.0.8",
+		"@playwright/test": "^1.49.0",
+		"@tanstack/react-query-devtools": "^5.91.1",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/react": "^16.3.0",
+		"@types/pg": "^8.15.6",
+		"@vitejs/plugin-react": "^4.3.0",
+		"@vitest/coverage-v8": "^2.1.0",
+		"@vitest/ui": "^2.1.0",
 		"autoprefixer": "^10.4.0",
+		"dotenv": "^17.2.3",
+		"eslint-config-prettier": "^9.1.0",
+		"husky": "^9.1.0",
+		"jsdom": "^25.0.0",
+		"lint-staged": "^15.2.0",
 		"postcss": "^8.4.0",
+		"prettier": "^3.4.0",
 		"prisma": "^7.1.0",
 		"tailwindcss": "^3.4.18",
-		"tailwindcss-animate": "^1.0.7"
+		"tailwindcss-animate": "^1.0.7",
+		"tsx": "^4.19.0",
+		"vitest": "^2.1.0"
 	},
 	"dependencies": {
+		"@ai-sdk/openai": "^1.2.0",
 		"@hookform/resolvers": "^5.2.2",
+		"@prisma/adapter-pg": "^7.1.0",
 		"@prisma/client": "^7.1.0",
 		"@radix-ui/react-accordion": "^1.2.12",
 		"@radix-ui/react-alert-dialog": "^1.1.15",
@@ -42,19 +84,36 @@
 		"@radix-ui/react-toggle-group": "^1.1.11",
 		"@radix-ui/react-tooltip": "^1.2.8",
 		"@sentry/nextjs": "^10.29.0",
+		"@supabase/ssr": "^0.5.0",
 		"@supabase/supabase-js": "^2.86.2",
+		"@tanstack/react-query": "^5.62.0",
 		"@types/node": "^24.10.1",
 		"@types/react": "^19.2.7",
 		"@types/react-dom": "^19.2.3",
+		"ai": "^4.3.19",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"framer-motion": "^12.23.25",
+		"lucide-react": "^0.469.0",
 		"next": "^16.0.7",
+		"next-themes": "^0.4.3",
+		"pg": "^8.16.3",
 		"react": "^19.2.1",
 		"react-dom": "^19.2.1",
 		"react-hook-form": "^7.68.0",
+		"react-markdown": "^9.0.1",
 		"tailwind-merge": "^3.4.0",
 		"typescript": "^5.9.3",
-		"zod": "^4.1.13"
+		"zod": "^3.25.76",
+		"zustand": "^5.0.0"
+	},
+	"lint-staged": {
+		"*.{ts,tsx,js,jsx}": [
+			"eslint --fix",
+			"prettier --write"
+		],
+		"*.{json,md}": [
+			"prettier --write"
+		]
 	}
 }
