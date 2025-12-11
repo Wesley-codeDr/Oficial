@@ -28,7 +28,7 @@ Sentry.init({
       const errorMessage = String(error.message).toLowerCase();
       
       // Check for aborted connection errors
-      if (errorMessage === 'aborted' || errorMessage.includes('aborted')) {
+      if (errorMessage.includes('aborted')) {
         return null; // Don't send to Sentry
       }
     }
