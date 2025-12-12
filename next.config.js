@@ -33,8 +33,13 @@ module.exports = withSentryConfig(
     org: "wellwaveoficial",
     project: "oficial",
 
-    // Only print logs for uploading source maps in CI
-    silent: !process.env.CI,
+    // Always silent to avoid build failures when auth token is missing
+    silent: true,
+
+    // Disable source map upload if no auth token
+    sourcemaps: {
+      disable: !process.env.SENTRY_AUTH_TOKEN,
+    },
 
     // For all available options, see:
     // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
