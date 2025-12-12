@@ -60,3 +60,4 @@ temp/
 
 # Local directories
 Calculadora medico/
+.env.vercel.setup
