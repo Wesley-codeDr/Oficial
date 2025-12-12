@@ -75,8 +75,13 @@ export function KanbanColumn({
             </span>
           </h4>
         </div>
-        <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
-          <MoreHorizontal className="w-5 h-5" />
+        <button
+          type="button"
+          aria-label="Mais opções da coluna"
+          title="Mais opções da coluna"
+          className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+        >
+          <MoreHorizontal className="w-5 h-5" aria-hidden="true" />
         </button>
       </div>
 

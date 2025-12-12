@@ -125,8 +125,13 @@ export function BloodPressureCard({
           <span className="text-xs text-slate-400 dark:text-slate-500">
             Última medição: há 2h
           </span>
-          <button className="w-8 h-8 rounded-full bg-white/60 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-600 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all shadow-sm backdrop-blur-md border border-white/40 dark:border-white/5">
-            <ChevronRight className="w-4 h-4" />
+          <button
+            type="button"
+            aria-label="Ver histórico de pressão arterial"
+            title="Ver histórico de pressão arterial"
+            className="w-8 h-8 rounded-full bg-white/60 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-600 flex items-center justify-center text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all shadow-sm backdrop-blur-md border border-white/40 dark:border-white/5"
+          >
+            <ChevronRight className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
       </div>

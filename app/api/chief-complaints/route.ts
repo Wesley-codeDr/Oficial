@@ -1,19 +1,14 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { getUser } from '@/lib/supabase/server'
+import { requireApiUser } from '@/lib/api/auth'
 import { createValidationError, createApiError } from '@/lib/api/errors'
 
 // GET /api/chief-complaints - List chief complaints with groups
 export async function GET(req: Request) {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return NextResponse.json(
-        createApiError('UNAUTHORIZED', 'Unauthorized'),
-        { status: 401 }
-      )
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const { searchParams } = new URL(req.url)
     const groupCode = searchParams.get('group')

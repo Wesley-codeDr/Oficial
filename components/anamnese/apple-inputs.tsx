@@ -227,17 +227,21 @@ export function MultiSelectItem({ label, options, value, onChange }: MultiSelect
 // 4. RANGE SLIDER (Apple Health Style)
 // ============================================
 
-export function RangeItem({ label, min, max, step = 1, value, onChange }: RangeItemProps) {
+export function RangeItem({ id, label, min, max, step = 1, value, onChange }: RangeItemProps) {
   const numVal = value || min;
   const percentage = ((numVal - min) / (max - min)) * 100;
+  const inputId = `range-${id}`;
 
   return (
     <div className="px-6 py-5 border-b border-slate-100 dark:border-white/5 first:rounded-t-3xl last:rounded-b-3xl last:border-0">
       <div className="flex justify-between items-center mb-5">
-        <span className="text-[13px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">
+        <label
+          htmlFor={inputId}
+          className="text-[13px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide"
+        >
           {label}
-        </span>
-        <div className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-700 dark:text-white min-w-[3rem] text-center shadow-sm">
+        </label>
+        <div className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-700 dark:text-white min-w-[3rem] text-center shadow-sm" aria-live="polite">
           {value}
         </div>
       </div>
@@ -250,6 +254,7 @@ export function RangeItem({ label, min, max, step = 1, value, onChange }: RangeI
           />
         </div>
         <input
+          id={inputId}
           type="range"
           min={min}
           max={max}
@@ -257,11 +262,17 @@ export function RangeItem({ label, min, max, step = 1, value, onChange }: RangeI
           value={numVal}
           onChange={(e) => onChange(parseInt(e.target.value, 10))}
           className="absolute w-full h-full opacity-0 cursor-pointer z-20"
+          aria-valuemin={min}
+          aria-valuemax={max}
+          aria-valuenow={numVal}
+          aria-label={label}
+          title={label}
         />
         {/* Large Thumb */}
         <div
           className="absolute h-8 w-8 bg-white dark:bg-slate-200 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-slate-100/50 pointer-events-none transition-transform group-hover:scale-105 duration-200 z-10 flex items-center justify-center"
           style={{ left: `calc(${percentage}% - 16px)` }}
+          aria-hidden="true"
         >
           <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-500"></div>
         </div>

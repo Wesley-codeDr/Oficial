@@ -71,8 +71,13 @@ export function HeartRateCard({ data = defaultData, currentBpm = 72, className }
           </div>
 
           {/* Action Button */}
-          <button className="w-10 h-10 rounded-full bg-white/60 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-600 flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all shadow-sm backdrop-blur-md border border-white/40 dark:border-white/5">
-            <ChevronRight className="w-5 h-5" />
+          <button
+            type="button"
+            aria-label="Ver histórico de frequência cardíaca"
+            title="Ver histórico de frequência cardíaca"
+            className="w-10 h-10 rounded-full bg-white/60 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-600 flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all shadow-sm backdrop-blur-md border border-white/40 dark:border-white/5"
+          >
+            <ChevronRight className="w-5 h-5" aria-hidden="true" />
           </button>
         </div>
 

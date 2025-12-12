@@ -92,10 +92,25 @@ export async function checkRateLimit(
 
     return { allowed: true }
   } catch (error) {
-    // On database error, allow the request but log the error
-    // This prevents rate limiting from breaking the service
-    console.error('Rate limit check failed:', error)
-    return { allowed: true }
+    // Log enhanced error context for debugging
+    console.error('Rate limit check failed:', {
+      error,
+      userId,
+      timestamp: new Date(now).toISOString(),
+      now,
+    })
+    
+    // Check if we should fail open (allow) or closed (deny) on database errors
+    // Default to fail open (true) to prevent rate limiting from breaking the service
+    const failOpen = process.env.RATE_LIMIT_FAIL_OPEN !== 'false'
+    
+    if (failOpen) {
+      return { allowed: true }
+    }
+    
+    // Stricter mode: deny requests when database is unavailable
+    // Use a reasonable retry-after value (60 seconds)
+    return { allowed: false, retryAfter: 60 }
   }
 }
 

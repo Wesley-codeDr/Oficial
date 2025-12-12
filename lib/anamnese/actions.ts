@@ -2,7 +2,6 @@
 
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
-import { validateCrmData } from '@/lib/auth/validation'
 import { revalidatePath } from 'next/cache'
 
 export async function getSyndromeByCode(code: string) {

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { getUser } from '@/lib/supabase/server'
+import { requireApiUser } from '@/lib/api/auth'
 import { createApiError } from '@/lib/api/errors'
 
 // GET /api/chat/conversations/[id] - Get conversation with messages
@@ -9,14 +9,9 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return NextResponse.json(
-        createApiError('UNAUTHORIZED', 'Unauthorized'),
-        { status: 401 }
-      )
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const { id } = await params
 
@@ -66,14 +61,9 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return NextResponse.json(
-        createApiError('UNAUTHORIZED', 'Unauthorized'),
-        { status: 401 }
-      )
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const { id } = await params
 

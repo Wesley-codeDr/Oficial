@@ -3,6 +3,7 @@
 import { createServerClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import { validateCrmData } from '@/lib/auth/validation'
 
 const loginSchema = z.object({
   email: z.string().email('Email inválido'),

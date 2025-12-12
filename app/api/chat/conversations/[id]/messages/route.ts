@@ -120,10 +120,10 @@ export async function POST(
           error,
         })
         return new Response(
-          JSON.stringify({
-            code: error?.code || 'INVALID_CONTEXT_SNAPSHOT',
-            message: error?.message || 'O contexto da conversa está em formato inválido. Por favor, crie uma nova conversa.',
-          }),
+          JSON.stringify(createApiError(
+            error?.code || 'INVALID_CONTEXT_SNAPSHOT',
+            error?.message || 'O contexto da conversa está em formato inválido. Por favor, crie uma nova conversa.'
+          )),
           {
             status: 400,
             headers: { 'Content-Type': 'application/json' },
@@ -176,10 +176,10 @@ export async function POST(
           error: sessionContextResult.error,
         })
         return new Response(
-          JSON.stringify({
-            code: sessionContextResult.error.code,
-            message: sessionContextResult.error.message,
-          }),
+          JSON.stringify(createApiError(
+            sessionContextResult.error.code,
+            sessionContextResult.error.message
+          )),
           {
             status: sessionContextResult.error.status,
             headers: { 'Content-Type': 'application/json' },
