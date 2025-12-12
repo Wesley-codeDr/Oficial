@@ -52,15 +52,18 @@ export function LandingHeader() {
                 className="relative w-10 h-10"
               >
                 <Image
-                  src="/wavewell-logo.svg"
+                  src="/logo-wave.png"
                   alt="WellWave"
                   fill
                   className="object-contain"
                   priority
                 />
               </motion.div>
-              <span className="text-xl font-bold text-slate-900 dark:text-white tracking-tight">
-                WellWave
+              <span className="text-xl font-bold tracking-tight">
+                <span className="text-slate-900 dark:text-white">Well</span>
+                <span className="wordmark-wave-gradient animate-gradient">
+                  Wave
+                </span>
               </span>
             </Link>
 

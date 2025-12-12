@@ -221,6 +221,36 @@
   }
 
   /* ======================================
+     WELLWAVE BRAND WORDMARK GRADIENT
+     Canonical gradient for "Wave" text
+     ====================================== */
+
+  /* Keyframes for animated wordmark gradient */
+  @keyframes gradient {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* Static wordmark gradient (no animation) */
+  .wordmark-wave-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(to right, #06b6d4, #3b82f6, #2563eb);
+    background-size: 200% auto;
+  }
+
+  /* Animated wordmark gradient - used for landing page and brand elements */
+  .animate-gradient {
+    animation: gradient 4s ease infinite;
+  }
+
+  /* Reduced motion: disable gradient animation for accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-gradient {
+      animation: none;
+    }
+  }
+
+  /* ======================================
      APPLE TRANSITIONS
      ====================================== */
 

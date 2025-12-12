@@ -1,17 +1,15 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { getUser } from '@/lib/supabase/server'
+import { requireApiUser } from '@/lib/api/auth'
 import { buildContext, extractRedFlags } from '@/lib/ai/context'
-import { validateCrmData } from '@/lib/auth/validation'
+import { createApiError, createValidationError } from '@/lib/api/errors'
 
 // POST /api/chat/conversations - Create a new conversation
 export async function POST(req: Request) {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const body = await req.json()
     const { sessionId } = body as { sessionId?: string }
@@ -34,7 +32,10 @@ export async function POST(req: Request) {
 
       // Verify ownership
       if (session && session.userId !== user.id) {
-        return NextResponse.json({ error: 'Session not found' }, { status: 404 })
+        return NextResponse.json(
+          createApiError('NOT_FOUND', 'Session not found'),
+          { status: 404 }
+        )
       }
 
       if (session) {
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
         const redFlags = checkedItems.filter((cb) => cb.isRedFlag)
 
         contextSnapshot = {
+          version: 1, // Explicitly set version for schema compliance
           syndromeName: session.syndrome.name,
           syndromeDescription: session.syndrome.description,
           checkedItems: checkedItems.map((cb) => ({
@@ -62,31 +64,26 @@ export async function POST(req: Request) {
     }
 
     // Ensure user exists in database
-    let dbUser = await prisma.user.findUnique({
-      where: { id: user.id },
-    })
-
-    if (!dbUser) {
-      // Validate CRM data using shared helper
-      try {
-        const { crmNumber, crmState } = validateCrmData(user.user_metadata || {})
-        dbUser = await prisma.user.create({
-          data: {
-            id: user.id,
-            email: user.email!,
-            fullName: user.user_metadata?.full_name || 'Usuario',
-            crmNumber,
-            crmState,
-          },
-        })
-      } catch (error) {
+    const { ensureDbUser, isCrmValidationError } = await import('@/lib/auth/user-bootstrap')
+    try {
+      await ensureDbUser(user)
+    } catch (error) {
+      // Distinguish CRM validation errors from database errors
+      if (isCrmValidationError(error)) {
         return NextResponse.json(
-          {
-            error: error instanceof Error ? error.message : 'Dados de CRM inválidos',
-          },
+          createValidationError(
+            error.message || 'Dados de CRM inválidos',
+            [{ field: 'crm', message: error.message || 'Dados de CRM inválidos' }]
+          ),
           { status: 400 }
         )
       }
+      // Database or other unexpected errors return 500
+      console.error('Unexpected error in ensureDbUser:', error)
+      return NextResponse.json(
+        createApiError('INTERNAL_ERROR', 'Failed to create conversation'),
+        { status: 500 }
+      )
     }
 
     const conversation = await prisma.chatConversation.create({
@@ -112,7 +109,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('Error creating conversation:', error)
     return NextResponse.json(
-      { error: 'Failed to create conversation' },
+      createApiError('INTERNAL_ERROR', 'Failed to create conversation'),
       { status: 500 }
     )
   }
@@ -121,11 +118,9 @@ export async function POST(req: Request) {
 // GET /api/chat/conversations - List user's conversations
 export async function GET(req: Request) {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const { searchParams } = new URL(req.url)
     const rawLimit = parseInt(searchParams.get('limit') || '20', 10)
@@ -136,7 +131,12 @@ export async function GET(req: Request) {
 
     if (rawLimit < 1 || rawLimit > MAX_LIMIT) {
       return NextResponse.json(
-        { error: `Limit must be between 1 and ${MAX_LIMIT}` },
+        createValidationError(`Limit must be between 1 and ${MAX_LIMIT}`, [
+          {
+            field: 'limit',
+            message: `Limit must be between 1 and ${MAX_LIMIT}`,
+          },
+        ]),
         { status: 400 }
       )
     }
@@ -167,7 +167,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error('Error listing conversations:', error)
     return NextResponse.json(
-      { error: 'Failed to list conversations' },
+      createApiError('INTERNAL_ERROR', 'Failed to list conversations'),
       { status: 500 }
     )
   }

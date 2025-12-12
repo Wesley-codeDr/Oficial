@@ -1,6 +1,6 @@
 import { streamText, type Message } from 'ai'
 import { prisma } from '@/lib/db/prisma'
-import { getUser } from '@/lib/supabase/server'
+import { requireApiUser } from '@/lib/api/auth'
 import { openai, DEFAULT_MODEL, MODEL_CONFIG } from '@/lib/ai/config'
 import { buildSystemPrompt } from '@/lib/ai/prompts'
 import { buildContext } from '@/lib/ai/context'
@@ -11,7 +11,7 @@ import {
   postProcessResponse,
 } from '@/lib/ai/guardrails'
 import { extractCitations } from '@/lib/ai/citations'
-import { createValidationError, createMinimumDataError } from '@/lib/api/errors'
+import { createValidationError, createMinimumDataError, createApiError } from '@/lib/api/errors'
 import { safeParseContextSnapshot } from '@/lib/ai/context-snapshot'
 import { checkRateLimit, checkRateLimitInMemory } from '@/lib/rate-limit/rate-limiter'
 import { buildContextFromSession } from '@/lib/chat/context'
@@ -26,11 +26,9 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return new Response('Unauthorized', { status: 401 })
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const { id: conversationId } = await params
     const body = await req.json()
@@ -80,7 +78,13 @@ export async function POST(
     })
 
     if (!conversation) {
-      return new Response('Conversation not found', { status: 404 })
+      return new Response(
+        JSON.stringify(createApiError('NOT_FOUND', 'Conversation not found')),
+        {
+          status: 404,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
     }
 
     // Save user message
@@ -109,15 +113,16 @@ export async function POST(
       const parseResult = safeParseContextSnapshot(conversation.contextSnapshot)
 
       if (!parseResult.success) {
+        const error = parseResult.error
         console.error('Invalid contextSnapshot', {
           conversationId,
           userId: user.id,
-          error: parseResult.error,
+          error,
         })
         return new Response(
           JSON.stringify({
-            code: parseResult.error.code,
-            message: parseResult.error.message,
+            code: error?.code || 'INVALID_CONTEXT_SNAPSHOT',
+            message: error?.message || 'O contexto da conversa está em formato inválido. Por favor, crie uma nova conversa.',
           }),
           {
             status: 400,
@@ -253,7 +258,15 @@ export async function POST(
     return result.toDataStreamResponse()
   } catch (error) {
     console.error('Error in chat:', error)
-    return new Response('Internal Server Error', { status: 500 })
+    // Return structured error response with metadata for better diagnostics
+    const errorResponse = createApiError(
+      'CHAT_STREAM_ERROR',
+      'Failed to process chat message'
+    )
+    return new Response(JSON.stringify(errorResponse), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' },
+    })
   }
 }
 
@@ -263,11 +276,9 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return new Response('Unauthorized', { status: 401 })
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const { id: conversationId } = await params
 
@@ -277,7 +288,13 @@ export async function GET(
     })
 
     if (!conversation) {
-      return new Response('Conversation not found', { status: 404 })
+      return new Response(
+        JSON.stringify(createApiError('NOT_FOUND', 'Conversation not found')),
+        {
+          status: 404,
+          headers: { 'Content-Type': 'application/json' },
+        }
+      )
     }
 
     const messages = await prisma.chatMessage.findMany({
@@ -288,6 +305,12 @@ export async function GET(
     return Response.json(messages)
   } catch (error) {
     console.error('Error fetching messages:', error)
-    return new Response('Internal Server Error', { status: 500 })
+    return new Response(
+      JSON.stringify(createApiError('INTERNAL_ERROR', 'Failed to fetch messages')),
+      {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      }
+    )
   }
 }

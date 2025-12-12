@@ -26,7 +26,7 @@ const COLUMN_LABELS: Record<string, string> = {
 };
 
 export function DashboardSettingsModal({ isOpen, onClose }: DashboardSettingsModalProps) {
-  const { preferences, updatePreferences, resetPreferences } = useDashboardPreferences();
+  const { preferences, updatePreferences, resetPreferences, toggleKanbanColumn } = useDashboardPreferences();
 
   // Local state for dragging (to avoid constant context updates during drag)
   const [localKpiOrder, setLocalKpiOrder] = useState(preferences.kpiOrder);
@@ -90,10 +90,8 @@ export function DashboardSettingsModal({ isOpen, onClose }: DashboardSettingsMod
   };
 
   const toggleColumnVisibility = (id: string) => {
-    const current = preferences.visibleKanbanColumns;
-    const isVisible = current.includes(id);
-    const updated = isVisible ? current.filter((c) => c !== id) : [...current, id];
-    updatePreferences({ visibleKanbanColumns: updated });
+    // Delegate to context function which enforces the invariant
+    toggleKanbanColumn(id);
   };
 
   return (
@@ -238,6 +236,10 @@ export function DashboardSettingsModal({ isOpen, onClose }: DashboardSettingsMod
                   <motion.label
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      updatePreferences({ showGreeting: !preferences.showGreeting });
+                    }}
                     className="flex items-center justify-between p-4 rounded-[20px] bg-white/50 dark:bg-white/5 border border-white/40 dark:border-white/10 cursor-pointer backdrop-blur-sm hover:bg-white/70 dark:hover:bg-white/10 transition-colors"
                   >
                     <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
@@ -245,13 +247,10 @@ export function DashboardSettingsModal({ isOpen, onClose }: DashboardSettingsMod
                     </span>
                     <motion.div
                       whileTap={{ scale: 0.95 }}
+                      onClick={(e) => e.stopPropagation()}
                       className={`relative w-[52px] h-[32px] rounded-full p-1 transition-colors duration-300 ${
                         preferences.showGreeting ? 'bg-ios-green' : 'bg-slate-300 dark:bg-slate-600'
                       }`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        updatePreferences({ showGreeting: !preferences.showGreeting });
-                      }}
                     >
                       <motion.div
                         layout
@@ -268,20 +267,29 @@ export function DashboardSettingsModal({ isOpen, onClose }: DashboardSettingsMod
                   <motion.label
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      updatePreferences({ showAlertRow: !preferences.showAlertRow });
+                    }}
                     className="flex items-center justify-between p-4 rounded-[20px] bg-white/50 dark:bg-white/5 border border-white/40 dark:border-white/10 cursor-pointer backdrop-blur-sm hover:bg-white/70 dark:hover:bg-white/10 transition-colors"
                   >
-                    <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
-                      Linha de Alertas
-                    </span>
+                    <div className="flex flex-col">
+                      <span className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                        Linha de Prioridade de Alertas
+                      </span>
+                      <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                        {preferences.showAlertRow 
+                          ? 'Ocultar para liberar mais espaço vertical'
+                          : 'Mostrar alertas prioritários no topo'
+                        }
+                      </span>
+                    </div>
                     <motion.div
                       whileTap={{ scale: 0.95 }}
+                      onClick={(e) => e.stopPropagation()}
                       className={`relative w-[52px] h-[32px] rounded-full p-1 transition-colors duration-300 ${
                         preferences.showAlertRow ? 'bg-ios-green' : 'bg-slate-300 dark:bg-slate-600'
                       }`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        updatePreferences({ showAlertRow: !preferences.showAlertRow });
-                      }}
                     >
                       <motion.div
                         layout
@@ -334,20 +342,23 @@ export function DashboardSettingsModal({ isOpen, onClose }: DashboardSettingsMod
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {Object.entries(COLUMN_LABELS).map(([id, label]) => {
                   const isVisible = preferences.visibleKanbanColumns.includes(id);
+                  const isLastVisible = isVisible && preferences.visibleKanbanColumns.length === 1;
                   return (
                     <motion.button
                       key={id}
-                      whileHover={{ scale: 1.02, y: -2 }}
-                      whileTap={{ scale: 0.98 }}
+                      whileHover={isLastVisible ? {} : { scale: 1.02, y: -2 }}
+                      whileTap={isLastVisible ? {} : { scale: 0.98 }}
                       onClick={() => toggleColumnVisibility(id)}
                       variants={staggerChild}
+                      title={isLastVisible ? 'Pelo menos uma coluna deve estar visível' : undefined}
                       className={`
-                        flex items-center justify-between p-4 rounded-[20px] border transition-all duration-300 text-left backdrop-blur-sm
+                        flex items-center justify-between p-4 rounded-[20px] border transition-all duration-300 text-left backdrop-blur-sm relative
                         ${
                           isVisible
                             ? 'bg-ios-blue/10 dark:bg-ios-blue/20 border-ios-blue/30 dark:border-ios-blue/40 shadow-sm'
                             : 'bg-white/40 dark:bg-white/5 border-white/20 dark:border-white/10 opacity-70 hover:opacity-100'
                         }
+                        ${isLastVisible ? 'cursor-not-allowed opacity-90' : 'cursor-pointer'}
                       `}
                     >
                       <span
@@ -374,6 +385,9 @@ export function DashboardSettingsModal({ isOpen, onClose }: DashboardSettingsMod
                   );
                 })}
               </div>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3 px-1 leading-relaxed font-medium">
+                Pelo menos uma coluna deve estar visível. Clique para mostrar ou ocultar cada coluna.
+              </p>
             </motion.section>
           </motion.div>
 

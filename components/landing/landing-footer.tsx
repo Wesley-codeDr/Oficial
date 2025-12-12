@@ -69,14 +69,17 @@ export function LandingFooter() {
             <Link href="/" className="inline-flex items-center gap-3 mb-6">
               <div className="relative w-10 h-10">
                 <Image
-                  src="/wavewell-logo.svg"
+                  src="/logo-wave.png"
                   alt="WellWave"
                   fill
                   className="object-contain brightness-0 invert"
                 />
               </div>
               <span className="text-2xl font-bold tracking-tight">
-                WellWave
+                <span className="text-white">Well</span>
+                <span className="wordmark-wave-gradient animate-gradient">
+                  Wave
+                </span>
               </span>
             </Link>
             <p className="text-slate-400 mb-6 max-w-xs leading-relaxed">

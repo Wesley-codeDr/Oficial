@@ -75,10 +75,8 @@ export function ValueCards() {
             className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white tracking-tight mb-6"
           >
             Por que escolher o{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              WellWave
-            </span>
-            ?
+            <span className="text-slate-900 dark:text-white">Well</span>
+            <span className="wordmark-wave-gradient">Wave</span>?
           </motion.h2>
           <motion.p
             variants={staggerChild}

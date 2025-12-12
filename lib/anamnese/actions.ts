@@ -32,30 +32,20 @@ export async function saveAnamneseSession(data: {
     throw new Error('User not authenticated')
   }
 
-  // Check if user exists in our database, create if not
-  let dbUser = await prisma.user.findUnique({
-    where: { id: user.id },
-  })
-
-  if (!dbUser) {
-    // Validate CRM data using shared helper
-    try {
-      const { crmNumber, crmState } = validateCrmData(user.user_metadata || {})
-      dbUser = await prisma.user.create({
-        data: {
-          id: user.id,
-          email: user.email!,
-          fullName: user.user_metadata?.full_name || 'Usuario',
-          crmNumber,
-          crmState,
-        },
-      })
-    } catch (error) {
-      // Re-throw with clear error message for user
+  // Ensure user exists in database with validated CRM data
+  // Only catch CRM validation errors, let database errors propagate
+  const { ensureDbUser, isCrmValidationError } = await import('@/lib/auth/user-bootstrap')
+  try {
+    await ensureDbUser(user)
+  } catch (error) {
+    // Only handle CRM validation errors, re-throw others
+    if (isCrmValidationError(error)) {
       throw new Error(
-        error instanceof Error ? error.message : 'Dados de CRM inválidos. Por favor, complete seu perfil com informações válidas de CRM.'
+        error.message || 'Dados de CRM inválidos. Por favor, complete seu perfil com informações válidas de CRM.'
       )
     }
+    // Re-throw database or other unexpected errors
+    throw error
   }
 
   const session = await prisma.anamneseSession.create({

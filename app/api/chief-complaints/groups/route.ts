@@ -1,15 +1,14 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { getUser } from '@/lib/supabase/server'
+import { requireApiUser } from '@/lib/api/auth'
+import { createApiError } from '@/lib/api/errors'
 
 // GET /api/chief-complaints/groups - List all active groups with complaint counts
 export async function GET() {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const groups = await prisma.chiefComplaintGroup.findMany({
       where: { isActive: true },
@@ -25,11 +24,12 @@ export async function GET() {
   } catch (error) {
     console.error('Error listing chief complaint groups:', error)
     return NextResponse.json(
-      { error: 'Failed to list groups' },
+      createApiError('INTERNAL_ERROR', 'Failed to list groups'),
       { status: 500 }
     )
   }
 }
+
 
 
 

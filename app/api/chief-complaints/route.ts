@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
-import { createValidationError } from '@/lib/api/errors'
+import { createValidationError, createApiError } from '@/lib/api/errors'
 
 // GET /api/chief-complaints - List chief complaints with groups
 export async function GET(req: Request) {
@@ -9,7 +9,10 @@ export async function GET(req: Request) {
     const user = await getUser()
 
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json(
+        createApiError('UNAUTHORIZED', 'Unauthorized'),
+        { status: 401 }
+      )
     }
 
     const { searchParams } = new URL(req.url)
@@ -75,7 +78,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error('Error listing chief complaints:', error)
     return NextResponse.json(
-      { error: 'Failed to list chief complaints' },
+      createApiError('INTERNAL_ERROR', 'Failed to list chief complaints'),
       { status: 500 }
     )
   }

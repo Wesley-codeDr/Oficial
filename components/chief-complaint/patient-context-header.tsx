@@ -7,7 +7,7 @@
  * Displays avatar, category selector, gender, age, phone, allergies and status.
  */
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import {
@@ -65,18 +65,23 @@ export function PatientContextHeader({
   })
   const [newAllergy, setNewAllergy] = useState('')
   const [isAddingAllergy, setIsAddingAllergy] = useState(false)
+  const hasInitializedRef = useRef(false)
 
   // Load from sessionStorage on mount
   useEffect(() => {
-    if (!context) {
+    if (!context && !hasInitializedRef.current) {
       const stored = sessionStorage.getItem(STORAGE_KEY)
       if (stored) {
         try {
           const parsed = JSON.parse(stored) as ExtendedPatientContext
           setLocalContext(prev => ({ ...prev, ...parsed }))
-          onContextChange({
-            ageGroup: parsed.ageGroup,
-            specialConditions: parsed.specialConditions,
+          hasInitializedRef.current = true
+          // Use queueMicrotask to defer state update until after render
+          queueMicrotask(() => {
+            onContextChange({
+              ageGroup: parsed.ageGroup,
+              specialConditions: parsed.specialConditions,
+            })
           })
         } catch {
           // Ignore parse errors

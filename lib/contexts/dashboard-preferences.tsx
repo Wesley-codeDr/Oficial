@@ -106,9 +106,16 @@ export const DashboardPreferencesProvider: React.FC<{ children: React.ReactNode 
   }, [savePreferences]);
 
   // Toggle a Kanban column visibility
+  // Enforces invariant: at least one column must remain visible
   const toggleKanbanColumn = useCallback((columnId: string) => {
     setPreferences((prev) => {
       const isVisible = prev.visibleKanbanColumns.includes(columnId);
+      
+      // Prevent hiding the last visible column
+      if (isVisible && prev.visibleKanbanColumns.length === 1) {
+        return prev; // No change - cannot hide the last column
+      }
+      
       const visibleKanbanColumns = isVisible
         ? prev.visibleKanbanColumns.filter((id) => id !== columnId)
         : [...prev.visibleKanbanColumns, columnId];

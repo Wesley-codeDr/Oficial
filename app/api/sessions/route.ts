@@ -1,17 +1,14 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { getUser } from '@/lib/supabase/server'
-import { validateCrmData } from '@/lib/auth/validation'
-import { createValidationError } from '@/lib/api/errors'
+import { requireApiUser } from '@/lib/api/auth'
+import { createValidationError, createApiError } from '@/lib/api/errors'
 
 // GET /api/sessions - List user's anamnese sessions
 export async function GET(req: Request) {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const { searchParams } = new URL(req.url)
     const rawLimit = searchParams.get('limit')
@@ -105,7 +102,7 @@ export async function GET(req: Request) {
   } catch (error) {
     console.error('Error listing sessions:', error)
     return NextResponse.json(
-      { error: 'Failed to list sessions' },
+      createApiError('INTERNAL_ERROR', 'Failed to list sessions'),
       { status: 500 }
     )
   }
@@ -114,18 +111,18 @@ export async function GET(req: Request) {
 // POST /api/sessions - Create a new session
 export async function POST(req: Request) {
   try {
-    const user = await getUser()
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+    const { user } = auth
 
     const body = await req.json()
     const { syndromeId } = body as { syndromeId: string }
 
     if (!syndromeId) {
       return NextResponse.json(
-        { error: 'syndromeId is required' },
+        createValidationError('syndromeId is required', [
+          { field: 'syndromeId', message: 'syndromeId is required' },
+        ]),
         { status: 400 }
       )
     }
@@ -137,37 +134,32 @@ export async function POST(req: Request) {
 
     if (!syndrome) {
       return NextResponse.json(
-        { error: 'Syndrome not found' },
+        createApiError('NOT_FOUND', 'Syndrome not found'),
         { status: 404 }
       )
     }
 
     // Ensure user exists in database
-    let dbUser = await prisma.user.findUnique({
-      where: { id: user.id },
-    })
-
-    if (!dbUser) {
-      // Validate CRM data using shared helper
-      try {
-        const { crmNumber, crmState } = validateCrmData(user.user_metadata || {})
-        dbUser = await prisma.user.create({
-          data: {
-            id: user.id,
-            email: user.email!,
-            fullName: user.user_metadata?.full_name || 'Usuario',
-            crmNumber,
-            crmState,
-          },
-        })
-      } catch (error) {
+    const { ensureDbUser, isCrmValidationError } = await import('@/lib/auth/user-bootstrap')
+    try {
+      await ensureDbUser(user)
+    } catch (error) {
+      // Distinguish CRM validation errors from database errors
+      if (isCrmValidationError(error)) {
         return NextResponse.json(
-          {
-            error: error instanceof Error ? error.message : 'Dados de CRM inválidos',
-          },
+          createValidationError(
+            error.message || 'Dados de CRM inválidos',
+            [{ field: 'crm', message: error.message || 'Dados de CRM inválidos' }]
+          ),
           { status: 400 }
         )
       }
+      // Database or other unexpected errors return 500
+      console.error('Unexpected error in ensureDbUser:', error)
+      return NextResponse.json(
+        createApiError('INTERNAL_ERROR', 'Failed to create session'),
+        { status: 500 }
+      )
     }
 
     const session = await prisma.anamneseSession.create({
@@ -197,7 +189,7 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error('Error creating session:', error)
     return NextResponse.json(
-      { error: 'Failed to create session' },
+      createApiError('INTERNAL_ERROR', 'Failed to create session'),
       { status: 500 }
     )
   }

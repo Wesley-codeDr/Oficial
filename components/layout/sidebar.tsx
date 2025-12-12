@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  FileText, MessageCircle, FolderClock, Settings,
+  PlusCircle, MessageCircle, FolderClock, Settings,
   Activity, PanelLeftClose, PanelLeftOpen, LayoutGrid,
   LogOut, Sun, Moon, Calculator
 } from 'lucide-react';
@@ -104,7 +104,7 @@ function NavItem({ icon: Icon, label, href, isActive, isCollapsed }: NavItemProp
 // Default menu configuration
 const defaultMainItems: SidebarItem[] = [
   { id: 'dashboard', label: 'Visão Geral', icon: LayoutGrid, href: '/dashboard' },
-  { id: 'anamnese', label: 'Nova Anamnese', icon: FileText, href: '/queixa' },
+  { id: 'anamnese', label: 'Nova Anamnese', icon: PlusCircle, href: '/queixa' },
   { id: 'chat-ebm', label: 'ChatWell', icon: MessageCircle, href: '/chat' },
 ];
 
@@ -244,19 +244,9 @@ export function Sidebar({
           )}>
             <h1 className="text-[20px] font-bold tracking-tight flex items-baseline gap-0.5 leading-none">
               <span className="text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-300">Well</span>
-              <motion.span
-                className="bg-gradient-to-r from-sky-500 via-indigo-500 via-sky-400 to-blue-600 bg-[length:200%_auto] bg-clip-text text-transparent font-bold tracking-tight"
-                animate={{
-                  opacity: [1, 0.85, 1],
-                  backgroundPosition: ['0% 50%', '200% 50%']
-                }}
-                transition={{
-                  opacity: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
-                  backgroundPosition: { duration: 8, repeat: Infinity, ease: 'linear' }
-                }}
-              >
+              <span className="wordmark-wave-gradient animate-gradient font-bold tracking-tight">
                 Wave
-              </motion.span>
+              </span>
             </h1>
             <span className="text-[9px] text-slate-400 dark:text-slate-500 font-bold tracking-[0.2em] uppercase mt-1 ml-0.5 opacity-80">
               Professional

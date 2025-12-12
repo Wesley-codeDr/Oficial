@@ -20,6 +20,7 @@ import {
   HeartPulse,
 } from 'lucide-react';
 import { MetricCard, chartDataOrange, chartDataBlue, chartDataGreen, chartDataPurple } from '@/components/dashboard/cards';
+import { DraggableKpiCard } from '@/components/dashboard/cards/draggable-kpi-card';
 import { KanbanColumn } from '@/components/dashboard/kanban';
 import { DashboardSettingsModal } from '@/components/dashboard/dashboard-settings-modal';
 import { useDashboardPreferences } from '@/lib/contexts/dashboard-preferences';
@@ -80,11 +81,14 @@ const kanbanColumnsConfig: Record<KanbanStatus, { title: string; icon: typeof St
 };
 
 export default function DashboardPage() {
-  const { preferences } = useDashboardPreferences();
+  const { preferences, reorderKpiCards } = useDashboardPreferences();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { sessions, isLoading } = useSessions({ autoFetch: true });
   const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
   const [dragOverColumn, setDragOverColumn] = useState<string | null>(null);
+  const [draggedKpiId, setDraggedKpiId] = useState<string | null>(null);
+  const [dragOverKpiId, setDragOverKpiId] = useState<string | null>(null);
+  const dragLeaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Memoize session data key to detect changes (stable string comparison)
   const sessionsKey = useMemo(() => {
@@ -202,11 +206,15 @@ export default function DashboardPage() {
   }), [preferences.density]);
 
   // Renderable KPI Cards based on order and visibility
-  const renderableKpiCards = useMemo(() => {
+  const renderableKpiCards = useMemo<Array<{ id: string; card: React.ReactElement }>>(() => {
     return preferences.kpiOrder
       .filter((id) => preferences.visibleKpiCards.includes(id))
-      .map((id) => kpiCardsMap[id])
-      .filter(Boolean); // Filter out undefined entries
+      .map((id) => {
+        const card = kpiCardsMap[id];
+        if (!card) return null;
+        return { id, card };
+      })
+      .filter((item): item is { id: string; card: React.ReactElement } => item !== null);
   }, [preferences.kpiOrder, preferences.visibleKpiCards, kpiCardsMap]);
 
   // Drag handlers
@@ -237,6 +245,75 @@ export default function DashboardPage() {
 
   const handleStatusChange = (taskId: string, newStatus: KanbanStatus) => {
     setTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t)));
+  };
+
+  // KPI Drag handlers
+  const handleKpiDragStart = (e: React.DragEvent, kpiId: string) => {
+    setDraggedKpiId(kpiId);
+    e.dataTransfer.effectAllowed = 'move';
+  };
+
+  const handleKpiDragEnd = () => {
+    // Clear any pending timeout when drag ends
+    if (dragLeaveTimeoutRef.current) {
+      clearTimeout(dragLeaveTimeoutRef.current);
+      dragLeaveTimeoutRef.current = null;
+    }
+    setDraggedKpiId(null);
+    setDragOverKpiId(null);
+  };
+
+  const handleKpiDragOver = (e: React.DragEvent, kpiId: string) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    
+    // Clear any pending dragLeave timeout to prevent flicker
+    if (dragLeaveTimeoutRef.current) {
+      clearTimeout(dragLeaveTimeoutRef.current);
+      dragLeaveTimeoutRef.current = null;
+    }
+    
+    if (dragOverKpiId !== kpiId && draggedKpiId && draggedKpiId !== kpiId) {
+      setDragOverKpiId(kpiId);
+    }
+  };
+
+  const handleKpiDragLeave = () => {
+    // Clear dragOver state when leaving a card
+    // Small delay to prevent flickering when moving between cards
+    // Store timeout ID so it can be cancelled if entering another card
+    dragLeaveTimeoutRef.current = setTimeout(() => {
+      setDragOverKpiId(null);
+      dragLeaveTimeoutRef.current = null;
+    }, 100);
+  };
+
+  const handleKpiDrop = (e: React.DragEvent, targetKpiId: string) => {
+    e.preventDefault();
+    setDragOverKpiId(null);
+
+    if (!draggedKpiId || draggedKpiId === targetKpiId) {
+      setDraggedKpiId(null);
+      return;
+    }
+
+    // Reorder KPI cards
+    const currentOrder = [...preferences.kpiOrder];
+    const draggedIndex = currentOrder.indexOf(draggedKpiId);
+    const targetIndex = currentOrder.indexOf(targetKpiId);
+
+    if (draggedIndex === -1 || targetIndex === -1) {
+      setDraggedKpiId(null);
+      return;
+    }
+
+    // Remove dragged item and insert at target position
+    const newOrder = [...currentOrder];
+    newOrder.splice(draggedIndex, 1);
+    newOrder.splice(targetIndex, 0, draggedKpiId);
+
+    reorderKpiCards(newOrder);
+    setDraggedKpiId(null);
   };
 
   const handleNewAttendance = () => {
@@ -301,7 +378,23 @@ export default function DashboardPage() {
         </div>
 
         {/* KPI Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">{renderableKpiCards}</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+          {renderableKpiCards.map(({ id, card }) => (
+            <DraggableKpiCard
+              key={id}
+              id={id}
+              isDragging={draggedKpiId === id}
+              isDragOver={dragOverKpiId === id}
+              onDragStart={handleKpiDragStart}
+              onDragEnd={handleKpiDragEnd}
+              onDragOver={(e) => handleKpiDragOver(e, id)}
+              onDragLeave={handleKpiDragLeave}
+              onDrop={(e) => handleKpiDrop(e, id)}
+            >
+              {card}
+            </DraggableKpiCard>
+          ))}
+        </div>
       </div>
 
       {/* 2. Priority Insight Row */}

@@ -78,7 +78,7 @@ export function HeroSection() {
                 Anamnese digital
               </span>
               <br />
-              <span className="bg-gradient-to-r from-blue-600 via-purple-500 to-blue-600 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
+              <span className="wordmark-wave-gradient animate-gradient">
                 inteligente
               </span>
               <br />
@@ -261,16 +261,6 @@ export function HeroSection() {
           />
         </div>
       </motion.div>
-
-      <style jsx>{`
-        @keyframes gradient {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-        }
-        .animate-gradient {
-          animation: gradient 4s ease infinite;
-        }
-      `}</style>
     </section>
   )
 }

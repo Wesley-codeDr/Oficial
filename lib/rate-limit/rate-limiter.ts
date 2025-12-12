@@ -33,10 +33,12 @@ export async function checkRateLimit(
   now: number = Date.now()
 ): Promise<RateLimitResult> {
   try {
-    // Clean up old entries (older than 1 hour)
+    // Clean up old entries for this user only (older than 1 hour)
+    // Scoped cleanup prevents unnecessary work and improves performance at scale
     const oneHourAgo = new Date(now - 3600000)
     await prisma.rateLimitEntry.deleteMany({
       where: {
+        userId,
         timestamp: {
           lt: oneHourAgo,
         },

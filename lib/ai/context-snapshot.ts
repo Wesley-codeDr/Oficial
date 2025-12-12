@@ -31,9 +31,12 @@ const checkedItemSchema = z.object({
 
 /**
  * Zod schema for validating context snapshot structure
+ * 
+ * Version defaults to 1 for backward compatibility with legacy snapshots.
+ * Currently only version 1 is supported. Future versions will require schema updates.
  */
 export const contextSnapshotSchema = z.object({
-  version: z.number().int().positive().optional().default(1),
+  version: z.number().int().min(1).max(1).default(1), // Default to 1 for backward compatibility
   syndromeName: z.string().min(1, 'Syndrome name is required'),
   syndromeDescription: z.string().optional(),
   checkedItems: z.array(checkedItemSchema).min(1, 'At least one checked item is required'),
@@ -74,7 +77,8 @@ export function safeParseContextSnapshot(snapshot: unknown): {
   try {
     const data = parseContextSnapshot(snapshot)
     
-    // Additional validation: check version
+    // Version validation is now handled by the schema (max(1))
+    // This check remains for backward compatibility with any legacy data
     if (data.version > 1) {
       return {
         success: false,

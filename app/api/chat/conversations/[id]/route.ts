@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
+import { createApiError } from '@/lib/api/errors'
 
 // GET /api/chat/conversations/[id] - Get conversation with messages
 export async function GET(
@@ -11,7 +12,10 @@ export async function GET(
     const user = await getUser()
 
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json(
+        createApiError('UNAUTHORIZED', 'Unauthorized'),
+        { status: 401 }
+      )
     }
 
     const { id } = await params
@@ -41,7 +45,7 @@ export async function GET(
 
     if (!conversation) {
       return NextResponse.json(
-        { error: 'Conversation not found' },
+        createApiError('NOT_FOUND', 'Conversation not found'),
         { status: 404 }
       )
     }
@@ -50,7 +54,7 @@ export async function GET(
   } catch (error) {
     console.error('Error fetching conversation:', error)
     return NextResponse.json(
-      { error: 'Failed to fetch conversation' },
+      createApiError('INTERNAL_ERROR', 'Failed to fetch conversation'),
       { status: 500 }
     )
   }
@@ -65,7 +69,10 @@ export async function DELETE(
     const user = await getUser()
 
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      return NextResponse.json(
+        createApiError('UNAUTHORIZED', 'Unauthorized'),
+        { status: 401 }
+      )
     }
 
     const { id } = await params
@@ -77,7 +84,7 @@ export async function DELETE(
 
     if (!conversation) {
       return NextResponse.json(
-        { error: 'Conversation not found' },
+        createApiError('NOT_FOUND', 'Conversation not found'),
         { status: 404 }
       )
     }
@@ -100,7 +107,7 @@ export async function DELETE(
   } catch (error) {
     console.error('Error deleting conversation:', error)
     return NextResponse.json(
-      { error: 'Failed to delete conversation' },
+      createApiError('INTERNAL_ERROR', 'Failed to delete conversation'),
       { status: 500 }
     )
   }
