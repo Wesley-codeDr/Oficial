@@ -1,6 +1,8 @@
-import { PrismaClient, CheckboxCategory, RedFlagSeverity } from '@prisma/client'
+import { PrismaClient, CheckboxCategory, RedFlagSeverity, TagCategory } from '@prisma/client'
 import { PrismaPg } from '@prisma/adapter-pg'
 import 'dotenv/config'
+import { CHIEF_COMPLAINT_GROUPS } from '../lib/chief-complaint/constants'
+import { ALL_COMPLAINTS } from './seeds/chief-complaints'
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
 const prisma = new PrismaClient({ adapter })
@@ -638,10 +640,493 @@ async function main() {
     ],
   })
 
+  // ============================================
+  // SYNDROME 4: DEFICIT NEUROLOGICO / AVC
+  // ============================================
+  const neuroDeficit = await prisma.syndrome.create({
+    data: {
+      name: 'Deficit Neurologico',
+      code: 'NEURO_DEFICIT',
+      description: 'Deficit Neurologico / AVC - Avaliacao de acidente vascular cerebral',
+      icon: 'brain',
+      orderIndex: 4,
+    },
+  })
+
+  const neuroQP = [
+    { displayText: 'Fraqueza em hemicorpo', narrativeText: 'Paciente refere fraqueza em hemicorpo', isRedFlag: true },
+    { displayText: 'Alteracao da fala', narrativeText: 'alteracao da fala', isRedFlag: true },
+    { displayText: 'Desvio de rima labial', narrativeText: 'desvio de rima labial', isRedFlag: true },
+    { displayText: 'Alteracao visual', narrativeText: 'alteracao visual subita', isRedFlag: true },
+    { displayText: 'Confusao mental', narrativeText: 'confusao mental', isRedFlag: true },
+    { displayText: 'Cefaleia subita intensa', narrativeText: 'cefaleia subita de forte intensidade', isRedFlag: true },
+    { displayText: 'Inicio subito', narrativeText: 'de inicio subito', isRedFlag: true },
+  ]
+
+  for (let i = 0; i < neuroQP.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: neuroDeficit.id,
+        category: CheckboxCategory.QP,
+        displayText: neuroQP[i]!.displayText,
+        narrativeText: neuroQP[i]!.narrativeText,
+        isRedFlag: neuroQP[i]!.isRedFlag || false,
+        isRequired: i < 2,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  const neuroExameFisico = [
+    { displayText: 'Glasgow < 15', narrativeText: 'Ao exame fisico: Glasgow abaixo de 15', isRedFlag: true },
+    { displayText: 'Paresia facial', narrativeText: 'paresia facial', isRedFlag: true },
+    { displayText: 'Hemiparesia', narrativeText: 'hemiparesia', isRedFlag: true },
+    { displayText: 'Disartria', narrativeText: 'disartria', isRedFlag: true },
+    { displayText: 'Afasia', narrativeText: 'afasia', isRedFlag: true },
+    { displayText: 'Pupilas isocorica', narrativeText: 'pupilas isocoricas e fotorreagentes' },
+    { displayText: 'Anisocoria', narrativeText: 'anisocoria', isRedFlag: true },
+    { displayText: 'PA elevada', narrativeText: 'pressao arterial elevada' },
+  ]
+
+  for (let i = 0; i < neuroExameFisico.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: neuroDeficit.id,
+        category: CheckboxCategory.EXAME_FISICO,
+        displayText: neuroExameFisico[i]!.displayText,
+        narrativeText: neuroExameFisico[i]!.narrativeText,
+        isRedFlag: neuroExameFisico[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  // ============================================
+  // SYNDROME 5: SINCOPE / TONTURA
+  // ============================================
+  const syncope = await prisma.syndrome.create({
+    data: {
+      name: 'Sincope',
+      code: 'SYNCOPE',
+      description: 'Sincope / Tontura - Avaliacao de perda de consciencia transitoria',
+      icon: 'activity',
+      orderIndex: 5,
+    },
+  })
+
+  const syncopeQP = [
+    { displayText: 'Perda de consciencia', narrativeText: 'Paciente refere perda de consciencia', isRedFlag: true },
+    { displayText: 'Tontura intensa', narrativeText: 'tontura intensa' },
+    { displayText: 'Escurecimento visual', narrativeText: 'escurecimento visual' },
+    { displayText: 'Palpitacoes previas', narrativeText: 'palpitacoes previas ao episodio', isRedFlag: true },
+    { displayText: 'Dor toracica previa', narrativeText: 'dor toracica previa ao episodio', isRedFlag: true },
+    { displayText: 'Recuperacao rapida', narrativeText: 'com recuperacao rapida e completa' },
+    { displayText: 'Confusao pos-evento', narrativeText: 'confusao mental pos-evento', isRedFlag: true },
+  ]
+
+  for (let i = 0; i < syncopeQP.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: syncope.id,
+        category: CheckboxCategory.QP,
+        displayText: syncopeQP[i]!.displayText,
+        narrativeText: syncopeQP[i]!.narrativeText,
+        isRedFlag: syncopeQP[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  // ============================================
+  // SYNDROME 6: CEFALEIA
+  // ============================================
+  const headache = await prisma.syndrome.create({
+    data: {
+      name: 'Cefaleia',
+      code: 'HEADACHE',
+      description: 'Cefaleia - Avaliacao de dor de cabeca',
+      icon: 'sparkles',
+      orderIndex: 6,
+    },
+  })
+
+  const headacheQP = [
+    { displayText: 'Cefaleia holocraniana', narrativeText: 'Paciente refere cefaleia holocraniana' },
+    { displayText: 'Cefaleia hemicraniana', narrativeText: 'cefaleia hemicraniana' },
+    { displayText: 'Cefaleia frontal', narrativeText: 'cefaleia frontal' },
+    { displayText: 'Cefaleia occipital', narrativeText: 'cefaleia occipital' },
+    { displayText: 'A pior dor de cabeca da vida', narrativeText: 'refere ser a pior dor de cabeca da vida', isRedFlag: true },
+    { displayText: 'Inicio subito (em segundos)', narrativeText: 'de inicio subito (em segundos)', isRedFlag: true },
+    { displayText: 'Inicio gradual', narrativeText: 'de inicio gradual' },
+    { displayText: 'Carater pulsatil', narrativeText: 'de carater pulsatil' },
+    { displayText: 'Carater em pressao', narrativeText: 'de carater em pressao' },
+    { displayText: 'Intensidade intensa (7-10)', narrativeText: 'de intensidade intensa (EVA 7-10/10)', isRedFlag: true },
+  ]
+
+  for (let i = 0; i < headacheQP.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: headache.id,
+        category: CheckboxCategory.QP,
+        displayText: headacheQP[i]!.displayText,
+        narrativeText: headacheQP[i]!.narrativeText,
+        isRedFlag: headacheQP[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  const headacheNegativas = [
+    { displayText: 'Nega febre', narrativeText: 'Nega febre', isNegative: true },
+    { displayText: 'Nega rigidez de nuca', narrativeText: 'Nega rigidez de nuca', isNegative: true },
+    { displayText: 'Nega alteracao visual', narrativeText: 'Nega alteracao visual', isNegative: true },
+    { displayText: 'Nega vomitos', narrativeText: 'Nega vomitos', isNegative: true },
+    { displayText: 'Nega alteracao de consciencia', narrativeText: 'Nega alteracao do nivel de consciencia', isNegative: true },
+  ]
+
+  for (let i = 0; i < headacheNegativas.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: headache.id,
+        category: CheckboxCategory.NEGATIVAS,
+        displayText: headacheNegativas[i]!.displayText,
+        narrativeText: headacheNegativas[i]!.narrativeText,
+        isNegative: true,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  // ============================================
+  // SYNDROME 7: FEBRE / SEPSE
+  // ============================================
+  const fever = await prisma.syndrome.create({
+    data: {
+      name: 'Febre / Sepse',
+      code: 'FEVER_SEPSIS',
+      description: 'Febre / Sepse - Avaliacao de quadro infeccioso',
+      icon: 'thermometer',
+      orderIndex: 7,
+    },
+  })
+
+  const feverQP = [
+    { displayText: 'Febre aferida', narrativeText: 'Paciente refere febre aferida' },
+    { displayText: 'Sensacao febril', narrativeText: 'sensacao febril' },
+    { displayText: 'Calafrios', narrativeText: 'acompanhada de calafrios' },
+    { displayText: 'Sudorese noturna', narrativeText: 'sudorese noturna' },
+    { displayText: 'Temperatura > 38.5C', narrativeText: 'temperatura acima de 38.5 graus', isRedFlag: true },
+    { displayText: 'Febre ha mais de 7 dias', narrativeText: 'febre ha mais de 7 dias', isRedFlag: true },
+  ]
+
+  for (let i = 0; i < feverQP.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: fever.id,
+        category: CheckboxCategory.QP,
+        displayText: feverQP[i]!.displayText,
+        narrativeText: feverQP[i]!.narrativeText,
+        isRedFlag: feverQP[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  const feverExameFisico = [
+    { displayText: 'Taquicardia (FC > 90)', narrativeText: 'Ao exame fisico: taquicardia', isRedFlag: true },
+    { displayText: 'Taquipneia (FR > 22)', narrativeText: 'taquipneia', isRedFlag: true },
+    { displayText: 'Hipotensao', narrativeText: 'hipotensao', isRedFlag: true },
+    { displayText: 'Alteracao do nivel de consciencia', narrativeText: 'alteracao do nivel de consciencia', isRedFlag: true },
+    { displayText: 'Sinais de foco infeccioso', narrativeText: 'sinais de foco infeccioso ao exame' },
+  ]
+
+  for (let i = 0; i < feverExameFisico.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: fever.id,
+        category: CheckboxCategory.EXAME_FISICO,
+        displayText: feverExameFisico[i]!.displayText,
+        narrativeText: feverExameFisico[i]!.narrativeText,
+        isRedFlag: feverExameFisico[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  // ============================================
+  // SYNDROME 8: LOMBALGIA / COLICA RENAL
+  // ============================================
+  const backPain = await prisma.syndrome.create({
+    data: {
+      name: 'Lombalgia',
+      code: 'BACK_PAIN',
+      description: 'Lombalgia / Colica Renal - Avaliacao de dor lombar',
+      icon: 'activity',
+      orderIndex: 8,
+    },
+  })
+
+  const backPainQP = [
+    { displayText: 'Dor lombar', narrativeText: 'Paciente refere dor lombar' },
+    { displayText: 'Dor em flanco', narrativeText: 'dor em flanco' },
+    { displayText: 'Irradiacao para virilha', narrativeText: 'com irradiacao para regiao inguinal' },
+    { displayText: 'Dor em colica', narrativeText: 'de carater em colica' },
+    { displayText: 'Dor tipo facada', narrativeText: 'de carater lancinante' },
+    { displayText: 'Incapacitante', narrativeText: 'de intensidade incapacitante' },
+    { displayText: 'Irradiacao para MMII', narrativeText: 'com irradiacao para membros inferiores', isRedFlag: true },
+  ]
+
+  for (let i = 0; i < backPainQP.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: backPain.id,
+        category: CheckboxCategory.QP,
+        displayText: backPainQP[i]!.displayText,
+        narrativeText: backPainQP[i]!.narrativeText,
+        isRedFlag: backPainQP[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  const backPainNegativas = [
+    { displayText: 'Nega deficit motor', narrativeText: 'Nega deficit motor em MMII', isNegative: true },
+    { displayText: 'Nega incontinencia urinaria', narrativeText: 'Nega incontinencia urinaria', isNegative: true },
+    { displayText: 'Nega incontinencia fecal', narrativeText: 'Nega incontinencia fecal', isNegative: true },
+    { displayText: 'Nega anestesia em sela', narrativeText: 'Nega anestesia em sela', isNegative: true },
+    { displayText: 'Nega hematuria', narrativeText: 'Nega hematuria', isNegative: true },
+  ]
+
+  for (let i = 0; i < backPainNegativas.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: backPain.id,
+        category: CheckboxCategory.NEGATIVAS,
+        displayText: backPainNegativas[i]!.displayText,
+        narrativeText: backPainNegativas[i]!.narrativeText,
+        isNegative: true,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  // ============================================
+  // SYNDROME 9: TRAUMA / QUEDA
+  // ============================================
+  const trauma = await prisma.syndrome.create({
+    data: {
+      name: 'Trauma',
+      code: 'TRAUMA',
+      description: 'Trauma / Queda - Avaliacao de paciente traumatizado',
+      icon: 'bone',
+      orderIndex: 9,
+    },
+  })
+
+  const traumaQP = [
+    { displayText: 'Queda da propria altura', narrativeText: 'Paciente refere queda da propria altura' },
+    { displayText: 'Queda de altura', narrativeText: 'queda de altura significativa', isRedFlag: true },
+    { displayText: 'Acidente automobilistico', narrativeText: 'acidente automobilistico', isRedFlag: true },
+    { displayText: 'Atropelamento', narrativeText: 'atropelamento', isRedFlag: true },
+    { displayText: 'Agressao fisica', narrativeText: 'agressao fisica' },
+    { displayText: 'Trauma craniano', narrativeText: 'com trauma craniano', isRedFlag: true },
+    { displayText: 'Perda de consciencia', narrativeText: 'com perda de consciencia no local', isRedFlag: true },
+  ]
+
+  for (let i = 0; i < traumaQP.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: trauma.id,
+        category: CheckboxCategory.QP,
+        displayText: traumaQP[i]!.displayText,
+        narrativeText: traumaQP[i]!.narrativeText,
+        isRedFlag: traumaQP[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  const traumaExameFisico = [
+    { displayText: 'Glasgow 15', narrativeText: 'Ao exame fisico: Glasgow 15' },
+    { displayText: 'Glasgow 13-14', narrativeText: 'Glasgow 13-14', isRedFlag: true },
+    { displayText: 'Glasgow < 13', narrativeText: 'Glasgow abaixo de 13', isRedFlag: true },
+    { displayText: 'Escoriacoes', narrativeText: 'escoriacoes' },
+    { displayText: 'Hematoma', narrativeText: 'hematoma' },
+    { displayText: 'Ferimento corto-contuso', narrativeText: 'ferimento corto-contuso' },
+    { displayText: 'Deformidade ossea', narrativeText: 'deformidade ossea sugestiva de fratura', isRedFlag: true },
+    { displayText: 'Crepitacao', narrativeText: 'crepitacao a palpacao' },
+  ]
+
+  for (let i = 0; i < traumaExameFisico.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: trauma.id,
+        category: CheckboxCategory.EXAME_FISICO,
+        displayText: traumaExameFisico[i]!.displayText,
+        narrativeText: traumaExameFisico[i]!.narrativeText,
+        isRedFlag: traumaExameFisico[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  // ============================================
+  // SYNDROME 10: AGITACAO / PSIQUIATRICO
+  // ============================================
+  const psychiatric = await prisma.syndrome.create({
+    data: {
+      name: 'Agitacao Psicomotora',
+      code: 'PSYCHIATRIC',
+      description: 'Agitacao / Psiquiatrico - Avaliacao de emergencia psiquiatrica',
+      icon: 'alert',
+      orderIndex: 10,
+    },
+  })
+
+  const psychiatricQP = [
+    { displayText: 'Agitacao psicomotora', narrativeText: 'Paciente apresenta agitacao psicomotora' },
+    { displayText: 'Heteroagressividade', narrativeText: 'heteroagressividade', isRedFlag: true },
+    { displayText: 'Autoagressividade', narrativeText: 'autoagressividade', isRedFlag: true },
+    { displayText: 'Ideacao suicida', narrativeText: 'ideacao suicida', isRedFlag: true },
+    { displayText: 'Tentativa de suicidio', narrativeText: 'tentativa de suicidio', isRedFlag: true },
+    { displayText: 'Alucinacoes', narrativeText: 'alucinacoes', isRedFlag: true },
+    { displayText: 'Delirios', narrativeText: 'delirios' },
+    { displayText: 'Ansiedade intensa', narrativeText: 'ansiedade intensa' },
+    { displayText: 'Ataque de panico', narrativeText: 'ataque de panico' },
+  ]
+
+  for (let i = 0; i < psychiatricQP.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: psychiatric.id,
+        category: CheckboxCategory.QP,
+        displayText: psychiatricQP[i]!.displayText,
+        narrativeText: psychiatricQP[i]!.narrativeText,
+        isRedFlag: psychiatricQP[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  const psychiatricAntecedentes = [
+    { displayText: 'Transtorno bipolar', narrativeText: 'Antecedentes de transtorno bipolar' },
+    { displayText: 'Esquizofrenia', narrativeText: 'esquizofrenia' },
+    { displayText: 'Depressao', narrativeText: 'depressao' },
+    { displayText: 'Uso de substancias', narrativeText: 'uso de substancias psicoativas', isRedFlag: true },
+    { displayText: 'Internacao psiquiatrica previa', narrativeText: 'internacao psiquiatrica previa' },
+    { displayText: 'Tentativa previa de suicidio', narrativeText: 'tentativa previa de suicidio', isRedFlag: true },
+  ]
+
+  for (let i = 0; i < psychiatricAntecedentes.length; i++) {
+    await prisma.checkbox.create({
+      data: {
+        syndromeId: psychiatric.id,
+        category: CheckboxCategory.ANTECEDENTES,
+        displayText: psychiatricAntecedentes[i]!.displayText,
+        narrativeText: psychiatricAntecedentes[i]!.narrativeText,
+        isRedFlag: psychiatricAntecedentes[i]!.isRedFlag || false,
+        orderIndex: i + 1,
+      },
+    })
+  }
+
+  // ============================================
+  // CHIEF COMPLAINT GROUPS AND COMPLAINTS
+  // ============================================
+  console.log('Seeding Chief Complaint Groups...')
+
+  // Clear existing chief complaint data
+  await prisma.chiefComplaintTag.deleteMany()
+  await prisma.chiefComplaintSession.deleteMany()
+  await prisma.chiefComplaint.deleteMany()
+  await prisma.chiefComplaintGroup.deleteMany()
+
+  // Create groups
+  const groupMap = new Map<string, string>()
+
+  for (let i = 0; i < CHIEF_COMPLAINT_GROUPS.length; i++) {
+    const group = CHIEF_COMPLAINT_GROUPS[i]!
+    const created = await prisma.chiefComplaintGroup.create({
+      data: {
+        code: group.code,
+        namePt: group.namePt,
+        nameEn: group.nameEn,
+        description: group.description,
+        icon: group.icon,
+        color: group.color,
+        orderIndex: i + 1,
+      },
+    })
+    groupMap.set(group.code, created.id)
+  }
+
+  console.log(`Created ${CHIEF_COMPLAINT_GROUPS.length} Chief Complaint Groups`)
+
+  // Create complaints with tags
+  console.log('Seeding Chief Complaints...')
+
+  // Helper to find syndrome by code (for optional linking)
+  const syndromeByCode = new Map<string, string>()
+  const syndromes = await prisma.syndrome.findMany()
+  for (const syndrome of syndromes) {
+    syndromeByCode.set(syndrome.code, syndrome.id)
+  }
+
+  for (let i = 0; i < ALL_COMPLAINTS.length; i++) {
+    const complaint = ALL_COMPLAINTS[i]!
+    const groupId = groupMap.get(complaint.groupCode)
+
+    if (!groupId) {
+      console.warn(`Group not found for complaint ${complaint.code}: ${complaint.groupCode}`)
+      continue
+    }
+
+    // Find linked syndrome if specified
+    let syndromeId: string | undefined = undefined
+    if (complaint.legacySyndromeCode) {
+      syndromeId = syndromeByCode.get(complaint.legacySyndromeCode)
+    }
+
+    const created = await prisma.chiefComplaint.create({
+      data: {
+        groupId,
+        code: complaint.code,
+        namePt: complaint.namePt,
+        nameEn: complaint.nameEn,
+        definition: complaint.definition,
+        synonyms: complaint.synonyms,
+        icd10Codes: complaint.icd10Codes,
+        isTimeSensitive: complaint.isTimeSensitive,
+        isHighAcuity: complaint.isHighAcuity,
+        requiresIsolation: complaint.requiresIsolation || false,
+        syndromeId,
+        defaultCalculatorId: complaint.defaultCalculatorId,
+        clinicalFlow: complaint.clinicalFlow ? complaint.clinicalFlow : undefined,
+        orderIndex: i + 1,
+      },
+    })
+
+    // Create tags for this complaint
+    if (complaint.tags && complaint.tags.length > 0) {
+      await prisma.chiefComplaintTag.createMany({
+        data: complaint.tags.map((tag) => ({
+          complaintId: created.id,
+          category: tag.category as TagCategory,
+          value: tag.value,
+        })),
+      })
+    }
+  }
+
+  console.log(`Created ${ALL_COMPLAINTS.length} Chief Complaints`)
+
   console.log('Seeding completed!')
   console.log(`Created syndromes: ${await prisma.syndrome.count()}`)
   console.log(`Created checkboxes: ${await prisma.checkbox.count()}`)
   console.log(`Created red flag rules: ${await prisma.redFlagRule.count()}`)
+  console.log(`Created chief complaint groups: ${await prisma.chiefComplaintGroup.count()}`)
+  console.log(`Created chief complaints: ${await prisma.chiefComplaint.count()}`)
+  console.log(`Created chief complaint tags: ${await prisma.chiefComplaintTag.count()}`)
 }
 
 main()
