@@ -85,13 +85,19 @@ export interface SyndromeCard {
 
 // Reference item for evidence-based references
 export type EvidenceLevel = 'Nível 1A' | 'Nível 1B' | 'Nível 2A' | 'Opinião de Expert' | 'Consenso';
+export type ReferenceType = 'guideline' | 'trial' | 'review' | 'consensus';
+export type EvidenceLevelGrade = 'A' | 'B' | 'C';
 
 export interface ReferenceItem {
   source: string;
   title: string;
-  url: string;
-  evidenceLevel: EvidenceLevel;
-  year: string;
+  url?: string;
+  evidenceLevel?: EvidenceLevel;
+  year?: string;
+  type?: ReferenceType;
+  level?: EvidenceLevelGrade;
+  summary?: string;
+  keyPoints?: string[];
 }
 
 // Complaint data types
