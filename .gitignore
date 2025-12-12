@@ -41,6 +41,7 @@ out/
 .env
 .env.local
 .env.*.local
+.env.vercel
 
 # Temporary files
 tmp/
@@ -51,3 +52,11 @@ temp/
 
 # Sentry Config File
 .env.sentry-build-plugin
+.vercel
+.env*.local
+
+# Byterover context tree
+.brv/
+
+# Local directories
+Calculadora medico/

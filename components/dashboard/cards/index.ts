@@ -1,9 +1,11 @@
 /**
  * Dashboard Cards Exports
+ * Apple 2025 Liquid Glass Design
  */
 
 export { BloodPressureCard } from './blood-pressure-card';
 export { HeartRateCard } from './heart-rate-card';
+export { MetricCard, chartDataOrange, chartDataBlue, chartDataGreen, chartDataPurple } from './metric-card';
 export {
   SleepCard,
   VigilanceCard,

@@ -4,14 +4,14 @@
 
 @layer base {
   :root {
-    /* Apple 2025 Light Theme - Cores suaves e modernas */
-    --background: 0 0% 100%;
+    /* Apple 2025 Light Theme - Liquid Glass Design */
+    --background: 0 0% 98%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 221 83% 53%;
+    --primary: 211 100% 50%;
     --primary-foreground: 0 0% 100%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -23,29 +23,63 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 221 83% 53%;
+    --ring: 211 100% 50%;
     --radius: 0.75rem;
-    --chart-1: 221 83% 53%;
-    --chart-2: 142 76% 36%;
+    --chart-1: 211 100% 50%;
+    --chart-2: 142 71% 45%;
     --chart-3: 346 77% 50%;
     --chart-4: 199 89% 48%;
     --chart-5: 280 100% 70%;
-    
-    /* Apple-specific variables */
-    --blur: blur(20px);
-    --glass-bg: rgba(255, 255, 255, 0.7);
+
+    /* iOS 18 / Apple 2025 Colors */
+    --ios-blue: 211 100% 50%;
+    --ios-green: 142 71% 45%;
+    --ios-red: 0 100% 59%;
+    --ios-orange: 28 100% 53%;
+    --ios-yellow: 45 100% 51%;
+    --ios-purple: 280 87% 65%;
+    --ios-pink: 349 100% 62%;
+    --ios-teal: 199 89% 70%;
+    --ios-indigo: 234 89% 74%;
+    --ios-mint: 168 71% 69%;
+    --ios-cyan: 189 76% 62%;
+
+    /* Apple 2025 Liquid Glass Variables */
+    --glass-bg: rgba(255, 255, 255, 0.72);
+    --glass-bg-elevated: rgba(255, 255, 255, 0.85);
+    --glass-bg-inset: rgba(255, 255, 255, 0.40);
+    --glass-blur: blur(20px);
+    --glass-blur-heavy: blur(40px);
+    --glass-saturate: saturate(180%);
     --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-border-subtle: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --glass-shadow-elevated: 0 20px 50px rgba(0, 0, 0, 0.12);
+    --glass-glow: 0 0 40px rgba(10, 132, 255, 0.15);
+
+    /* Squircle Radii - Apple Design Language */
+    --radius-squircle-xs: 12px;
+    --radius-squircle-sm: 18px;
+    --radius-squircle-md: 24px;
+    --radius-squircle-lg: 32px;
+    --radius-squircle-xl: 40px;
+    --radius-squircle-2xl: 48px;
+
+    /* Animation Timing */
+    --timing-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --timing-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --timing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
   }
 
   .dark {
-    /* Apple 2025 Dark Theme - Profundo e elegante */
-    --background: 240 10% 3.9%;
+    /* Apple 2025 Dark Theme - Deep & Elegant */
+    --background: 0 0% 7%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    --card: 0 0% 9%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 0 0% 9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 221 83% 53%;
+    --primary: 211 100% 50%;
     --primary-foreground: 0 0% 100%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -57,16 +91,22 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 221 83% 53%;
-    --chart-1: 221 83% 53%;
-    --chart-2: 142 76% 36%;
+    --ring: 211 100% 50%;
+    --chart-1: 211 100% 50%;
+    --chart-2: 142 71% 45%;
     --chart-3: 346 77% 50%;
     --chart-4: 199 89% 48%;
     --chart-5: 280 100% 70%;
-    
-    /* Apple-specific dark variables */
-    --glass-bg: rgba(0, 0, 0, 0.4);
-    --glass-border: rgba(255, 255, 255, 0.1);
+
+    /* Apple 2025 Dark Liquid Glass */
+    --glass-bg: rgba(28, 28, 30, 0.72);
+    --glass-bg-elevated: rgba(44, 44, 46, 0.85);
+    --glass-bg-inset: rgba(0, 0, 0, 0.40);
+    --glass-border: rgba(255, 255, 255, 0.10);
+    --glass-border-subtle: rgba(255, 255, 255, 0.05);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
+    --glass-shadow-elevated: 0 20px 50px rgba(0, 0, 0, 0.45);
+    --glass-glow: 0 0 40px rgba(10, 132, 255, 0.20);
   }
 }
 
@@ -74,46 +114,344 @@
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* Apple-style gradient background */
+    background: linear-gradient(
+      135deg,
+      hsl(var(--background)) 0%,
+      hsl(240 5% 96%) 50%,
+      hsl(var(--background)) 100%
+    );
   }
-  
-  /* Smooth scrolling */
+
+  .dark body {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--background)) 0%,
+      hsl(240 5% 10%) 50%,
+      hsl(var(--background)) 100%
+    );
+  }
+
   html {
     scroll-behavior: smooth;
+  }
+
+  /* Apple-style selection */
+  ::selection {
+    background-color: hsl(var(--ios-blue) / 0.3);
+    color: inherit;
   }
 }
 
 @layer utilities {
-  /* Glass morphism effect - estilo Apple */
+  /* ======================================
+     LIQUID GLASS SYSTEM - Apple 2025
+     ====================================== */
+
+  /* Base Glass Effect */
   .glass {
     background: var(--glass-bg);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
     border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
   }
-  
-  /* Text gradient - estilo Apple */
+
+  /* Elevated Glass (Cards, Modals) */
+  .glass-elevated {
+    background: var(--glass-bg-elevated);
+    backdrop-filter: var(--glass-blur-heavy) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur-heavy) var(--glass-saturate);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow-elevated);
+  }
+
+  /* Inset Glass (Inputs, Nested Elements) */
+  .glass-inset {
+    background: var(--glass-bg-inset);
+    backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    -webkit-backdrop-filter: var(--glass-blur) var(--glass-saturate);
+    border: 1px solid var(--glass-border-subtle);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+
+  /* ======================================
+     SQUIRCLE BORDERS - iOS Design Language
+     ====================================== */
+
+  .squircle-xs { border-radius: var(--radius-squircle-xs); }
+  .squircle-sm { border-radius: var(--radius-squircle-sm); }
+  .squircle-md { border-radius: var(--radius-squircle-md); }
+  .squircle-lg { border-radius: var(--radius-squircle-lg); }
+  .squircle-xl { border-radius: var(--radius-squircle-xl); }
+  .squircle-2xl { border-radius: var(--radius-squircle-2xl); }
+
+  /* ======================================
+     TEXT EFFECTS
+     ====================================== */
+
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary;
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      hsl(var(--ios-blue)) 0%,
+      hsl(var(--ios-purple)) 50%,
+      hsl(var(--ios-blue)) 100%
+    );
+    background-size: 200% auto;
   }
-  
-  /* Smooth transitions */
+
+  .text-gradient-animated {
+    @apply text-gradient;
+    animation: gradient-shift 8s linear infinite;
+  }
+
+  @keyframes gradient-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  /* ======================================
+     APPLE TRANSITIONS
+     ====================================== */
+
   .transition-apple {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s var(--timing-apple);
   }
-  
-  /* Hover scale effect */
+
+  .transition-spring {
+    transition: all 0.5s var(--timing-spring);
+  }
+
+  .transition-bounce {
+    transition: all 0.4s var(--timing-bounce);
+  }
+
+  /* ======================================
+     HOVER EFFECTS
+     ====================================== */
+
   .hover-lift {
     @apply transition-apple;
   }
-  
+
   .hover-lift:hover {
-    @apply scale-[1.02] shadow-lg;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--glass-shadow-elevated);
+  }
+
+  .hover-lift:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .hover-glow {
+    @apply transition-apple;
+  }
+
+  .hover-glow:hover {
+    box-shadow: var(--glass-glow);
+  }
+
+  /* ======================================
+     VOLUMETRIC GLOW EFFECTS
+     ====================================== */
+
+  .glow-blue {
+    box-shadow: 0 0 40px rgba(10, 132, 255, 0.25);
+  }
+
+  .glow-green {
+    box-shadow: 0 0 40px rgba(48, 209, 88, 0.25);
+  }
+
+  .glow-red {
+    box-shadow: 0 0 40px rgba(255, 69, 58, 0.25);
+  }
+
+  .glow-orange {
+    box-shadow: 0 0 40px rgba(255, 159, 10, 0.25);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 40px rgba(191, 90, 242, 0.25);
+  }
+
+  /* ======================================
+     CUSTOM SCROLLBAR - Apple Style
+     ====================================== */
+
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.15);
+    border-radius: 100px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  .dark .custom-scrollbar {
+    scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+
+  /* ======================================
+     ANIMATIONS
+     ====================================== */
+
+  /* Fade In Up - Apple Style */
+  @keyframes fade-in-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fade-in-up 0.5s var(--timing-apple) forwards;
+  }
+
+  /* Scale In - Modal/Card Entrance */
+  @keyframes scale-in {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  .animate-scale-in {
+    animation: scale-in 0.3s var(--timing-spring) forwards;
+  }
+
+  /* Shimmer Effect */
+  @keyframes shimmer {
+    0% { background-position: -1000px 0; }
+    100% { background-position: 1000px 0; }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    background-size: 1000px 100%;
+  }
+
+  /* Pulse Glow */
+  @keyframes pulse-glow {
+    0%, 100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s var(--timing-apple) infinite;
+  }
+
+  /* Float Animation */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  /* ======================================
+     PRINT STYLES
+     ====================================== */
+
+  @media print {
+    .glass,
+    .glass-elevated,
+    .glass-inset {
+      background: white !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      box-shadow: none !important;
+      border: 1px solid #e5e5e5 !important;
+    }
   }
 }
 
+/* ======================================
+   ANIMATE.CSS COMPATIBILITY CLASSES
+   ====================================== */
+
+.animate-in {
+  animation-duration: 0.3s;
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fade-in-up;
+}
+
+.zoom-in-95 {
+  animation-name: scale-in;
+}
+
+.slide-in-from-bottom-2 {
+  --tw-enter-translate-y: 0.5rem;
+}
+
+.slide-in-from-left-4 {
+  --tw-enter-translate-x: -1rem;
+}
+
+/* Duration modifiers */
+.duration-200 { animation-duration: 200ms; }
+.duration-300 { animation-duration: 300ms; }
+.duration-500 { animation-duration: 500ms; }
+.duration-700 { animation-duration: 700ms; }
+.duration-1000 { animation-duration: 1000ms; }
+
+/* Delay modifiers */
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-500 { animation-delay: 500ms; }
