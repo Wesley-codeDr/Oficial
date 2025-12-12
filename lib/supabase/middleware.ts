@@ -47,12 +47,17 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/anamnese') ||
     request.nextUrl.pathname.startsWith('/chat') ||
     request.nextUrl.pathname.startsWith('/history') ||
-    request.nextUrl.pathname.startsWith('/profile')
+    request.nextUrl.pathname.startsWith('/profile') ||
+    request.nextUrl.pathname.startsWith('/queixa')
 
   const isAuthRoute =
     request.nextUrl.pathname.startsWith('/login') ||
     request.nextUrl.pathname.startsWith('/register') ||
-    request.nextUrl.pathname.startsWith('/forgot-password')
+    request.nextUrl.pathname.startsWith('/forgot-password') ||
+    request.nextUrl.pathname.startsWith('/reset-password')
+
+  // Allow auth callback without authentication
+  const isAuthCallback = request.nextUrl.pathname.startsWith('/auth/callback')
 
   if (isProtectedRoute && !user) {
     const url = request.nextUrl.clone()
@@ -61,11 +66,16 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Redirect authenticated users away from auth pages
-  if (isAuthRoute && user) {
+  // Redirect authenticated users away from auth pages (except reset-password which needs session)
+  if (isAuthRoute && user && !request.nextUrl.pathname.startsWith('/reset-password')) {
     const url = request.nextUrl.clone()
     url.pathname = '/dashboard'
     return NextResponse.redirect(url)
+  }
+
+  // Allow auth callback to proceed (handles password reset tokens)
+  if (isAuthCallback) {
+    return supabaseResponse
   }
 
   return supabaseResponse

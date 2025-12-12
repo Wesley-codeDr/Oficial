@@ -25,6 +25,15 @@ export interface AnamnesisSection {
   items: Symptom[];
 }
 
+// Special conditions for patient context
+// Note: Pregnancy is handled separately via `isPregnant` boolean field
+export type SpecialCondition = 
+  | 'post_surgical'
+  | 'oncological'
+  | 'immunocompromised'
+  | 'dialysis'
+  | 'transplant';
+
 // Patient types for UI
 export interface UIPatient {
   id: string;
@@ -35,6 +44,7 @@ export interface UIPatient {
   phoneNumber: string;
   allergies: string[];
   medications: string[];
+  specialConditions: SpecialCondition[];
   entryTime: string; // ISO string
   status: 'waiting' | 'in_progress' | 'discharged';
 }

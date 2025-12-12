@@ -104,7 +104,7 @@ function NavItem({ icon: Icon, label, href, isActive, isCollapsed }: NavItemProp
 // Default menu configuration
 const defaultMainItems: SidebarItem[] = [
   { id: 'dashboard', label: 'Visão Geral', icon: LayoutGrid, href: '/dashboard' },
-  { id: 'anamnese', label: 'Nova Anamnese', icon: FileText, href: '/anamnese' },
+  { id: 'anamnese', label: 'Nova Anamnese', icon: FileText, href: '/queixa' },
   { id: 'chat-ebm', label: 'ChatWell', icon: MessageCircle, href: '/chat' },
 ];
 

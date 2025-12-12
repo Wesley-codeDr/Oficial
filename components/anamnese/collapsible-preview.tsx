@@ -89,14 +89,27 @@ export function CollapsiblePreview({
           'shadow-[0_-8px_30px_rgba(0,0,0,0.08)]',
           'rounded-t-[24px]',
           'transition-all duration-300 ease-out',
-          expanded ? 'h-[50vh]' : 'h-[120px]',
+          // Responsive height: smaller on mobile, larger on desktop
+          expanded ? 'h-[50vh] max-h-[600px] min-h-[300px]' : 'h-[120px]',
           className
         )}
+        role="region"
+        aria-label="Preview da anamnese"
       >
         {/* Drag Handle & Header */}
         <div
           className="flex items-center justify-between px-5 py-3 cursor-pointer select-none"
           onClick={() => setExpanded(!expanded)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              setExpanded(!expanded)
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label={expanded ? 'Recolher preview' : 'Expandir preview'}
+          aria-expanded={expanded}
         >
           <div className="flex items-center gap-3">
             {/* Drag indicator */}
@@ -169,10 +182,14 @@ export function CollapsiblePreview({
         </div>
 
         {/* Preview Content */}
-        <div className={cn(
-          'flex-1 overflow-hidden px-5',
-          expanded ? 'pb-20' : 'pb-4'
-        )}>
+        <div
+          className={cn(
+            'flex-1 overflow-hidden px-5',
+            expanded ? 'pb-20' : 'pb-4'
+          )}
+          // Ensure focusable content is accessible
+          tabIndex={expanded ? 0 : -1}
+        >
           {isEmpty ? (
             <div className="h-full flex items-center justify-center text-slate-400 text-sm">
               Selecione itens para gerar o texto da anamnese
@@ -184,8 +201,13 @@ export function CollapsiblePreview({
               animate={{ opacity: 1 }}
               className={cn(
                 'h-full overflow-y-auto custom-scrollbar',
+                // Ensure proper scrolling on small screens
+                'focus:outline-none focus:ring-2 focus:ring-ios-blue focus:ring-offset-2 rounded-lg',
                 expanded ? '' : 'line-clamp-2'
               )}
+              role="textbox"
+              aria-label="Texto gerado da anamnese"
+              aria-readonly="true"
             >
               <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
                 {narrative}

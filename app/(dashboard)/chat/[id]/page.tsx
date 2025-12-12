@@ -20,7 +20,8 @@ export async function generateMetadata({ params }: ChatPageProps): Promise<Metad
 }
 
 async function getConversation(id: string, userId: string) {
-  return prisma.chatConversation.findUnique({
+  // Use findFirst to support composite where clause
+  return prisma.chatConversation.findFirst({
     where: { id, userId },
     include: {
       messages: {

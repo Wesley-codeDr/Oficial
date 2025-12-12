@@ -241,6 +241,20 @@ model AuditLog {
 }
 
 // ============================================
+// RATE LIMIT ENTRY MODEL
+// ============================================
+// Distributed rate limiting entries for chat messages
+model RateLimitEntry {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  timestamp DateTime @default(now())
+
+  @@index([userId, timestamp])
+  @@index([timestamp])
+  @@map("rate_limit_entries")
+}
+
+// ============================================
 // CHIEF COMPLAINT GROUP MODEL
 // ============================================
 // Macro groups for chief complaints (18 categories)

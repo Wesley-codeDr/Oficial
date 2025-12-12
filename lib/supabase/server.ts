@@ -86,12 +86,19 @@ export async function getSession() {
 }
 
 /**
- * Require authentication - throws redirect if not authenticated
+ * Require authentication - redirects to login if not authenticated
+ * 
+ * @param redirectTo - Optional path to redirect back to after login
+ * @returns The authenticated user (never returns if not authenticated, redirects instead)
  */
-export async function requireAuth() {
+export async function requireAuth(redirectTo?: string) {
   const user = await getUser()
   if (!user) {
-    throw new Error('UNAUTHORIZED')
+    const { redirect } = await import('next/navigation')
+    const loginUrl = redirectTo 
+      ? `/login?redirect=${encodeURIComponent(redirectTo)}`
+      : '/login'
+    redirect(loginUrl)
   }
   return user
 }

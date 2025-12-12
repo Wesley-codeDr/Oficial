@@ -16,7 +16,8 @@ export async function GET(
 
     const { id } = await params
 
-    const conversation = await prisma.chatConversation.findUnique({
+    // Use findFirst to support composite where clause
+    const conversation = await prisma.chatConversation.findFirst({
       where: { id, userId: user.id },
       include: {
         messages: {
@@ -69,8 +70,8 @@ export async function DELETE(
 
     const { id } = await params
 
-    // Verify ownership
-    const conversation = await prisma.chatConversation.findUnique({
+    // Verify ownership using findFirst
+    const conversation = await prisma.chatConversation.findFirst({
       where: { id, userId: user.id },
     })
 

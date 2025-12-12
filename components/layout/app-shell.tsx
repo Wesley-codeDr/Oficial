@@ -28,6 +28,7 @@ const defaultPatient: UIPatient = {
   phoneNumber: '',
   allergies: [],
   medications: [],
+  specialConditions: [],
   entryTime: new Date().toISOString(),
   status: 'in_progress'
 };

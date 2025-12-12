@@ -1,118 +1,105 @@
 'use client'
 
 /**
- * Queixa Principal Page
+ * Queixa Principal Page - Integrated Selection
  *
- * Main entry point for chief complaint selection.
- * Flow: Context Selection -> Group Selection -> Complaint List -> Detail
+ * Unified page for chief complaint selection.
+ * Flow: Context Header (collapsible) -> Group Grid -> Inline Expansion -> Anamnese
  */
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { GlassCard } from '@/components/ui/glass-card'
-import { ContextSelector, GroupSelector } from '@/components/chief-complaint'
-import { getChiefComplaintGroups } from '@/lib/chief-complaint/actions'
-import type { PatientContext, ChiefComplaintGroupWithCount } from '@/types/chief-complaint'
-
-type Step = 'context' | 'groups'
+import { useState, useEffect, useCallback } from 'react'
+import { PatientContextHeader } from '@/components/chief-complaint/patient-context-header'
+import { IntegratedComplaintSelection } from '@/components/chief-complaint/integrated-complaint-selection'
+import {
+  getChiefComplaintGroups,
+  getComplaintsByGroup,
+  getChiefComplaintById,
+} from '@/lib/chief-complaint/actions'
+import type {
+  PatientContext,
+  ChiefComplaintGroupWithCount,
+  ChiefComplaintWithTags,
+  ChiefComplaintWithRelations,
+} from '@/types/chief-complaint'
 
 export default function QueixaPage() {
-  const router = useRouter()
-  const [step, setStep] = useState<Step>('context')
   const [patientContext, setPatientContext] = useState<PatientContext | null>(null)
   const [groups, setGroups] = useState<ChiefComplaintGroupWithCount[]>([])
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
-  // Load groups when moving to group selection
+  // Load groups on mount
   useEffect(() => {
-    if (step === 'groups' && groups.length === 0) {
-      setLoading(true)
-      getChiefComplaintGroups()
-        .then(setGroups)
-        .finally(() => setLoading(false))
-    }
-  }, [step, groups.length])
+    getChiefComplaintGroups()
+      .then(setGroups)
+      .finally(() => setLoading(false))
+  }, [])
 
-  const handleContextSelect = (context: PatientContext) => {
+  // Load context from sessionStorage on mount
+  useEffect(() => {
+    const stored = sessionStorage.getItem('chiefComplaintContext')
+    if (stored) {
+      try {
+        setPatientContext(JSON.parse(stored))
+      } catch {
+        // Ignore parse errors
+      }
+    }
+  }, [])
+
+  // Callback to load complaints for a group
+  const handleLoadComplaints = useCallback(async (groupCode: string): Promise<ChiefComplaintWithTags[]> => {
+    return getComplaintsByGroup(groupCode)
+  }, [])
+
+  // Callback to load complaint details
+  const handleLoadComplaintDetails = useCallback(async (complaintId: string): Promise<ChiefComplaintWithRelations> => {
+    const complaint = await getChiefComplaintById(complaintId)
+    if (!complaint) {
+      throw new Error('Complaint not found')
+    }
+    return complaint
+  }, [])
+
+  // Handle context change
+  const handleContextChange = useCallback((context: PatientContext) => {
     setPatientContext(context)
-    setStep('groups')
-  }
-
-  const handleGroupSelect = (groupCode: string) => {
-    if (patientContext) {
-      // Store context in sessionStorage for use in nested pages
-      sessionStorage.setItem('chiefComplaintContext', JSON.stringify(patientContext))
-      router.push(`/queixa/${groupCode.toLowerCase()}`)
-    }
-  }
+    sessionStorage.setItem('chiefComplaintContext', JSON.stringify(context))
+  }, [])
 
   return (
-    <div className="container mx-auto max-w-6xl space-y-8 py-8">
+    <div className="container mx-auto max-w-6xl space-y-6 py-6 px-4">
       {/* Header */}
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Queixa Principal</h1>
-        <p className="text-muted-foreground">
-          {step === 'context'
-            ? 'Selecione o contexto do paciente para continuar.'
-            : 'Selecione o grupo da queixa principal.'}
+      <div className="space-y-1">
+        <h1 className="text-[28px] font-bold tracking-tight text-slate-900 dark:text-white">
+          Queixa Principal
+        </h1>
+        <p className="text-sm text-slate-500 dark:text-slate-400">
+          Selecione o grupo e a queixa principal para iniciar a anamnese.
         </p>
       </div>
 
-      {/* Steps Indicator */}
-      <div className="flex items-center gap-4">
-        <div
-          className={`flex items-center gap-2 ${step === 'context' ? 'text-primary' : 'text-muted-foreground'}`}
-        >
-          <div
-            className={`flex size-8 items-center justify-center rounded-full ${step === 'context' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}
-          >
-            1
-          </div>
-          <span className="text-sm font-medium">Contexto</span>
-        </div>
-        <div className="h-px flex-1 bg-border" />
-        <div
-          className={`flex items-center gap-2 ${step === 'groups' ? 'text-primary' : 'text-muted-foreground'}`}
-        >
-          <div
-            className={`flex size-8 items-center justify-center rounded-full ${step === 'groups' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}
-          >
-            2
-          </div>
-          <span className="text-sm font-medium">Grupo</span>
-        </div>
-        <div className="h-px flex-1 bg-border" />
-        <div className="flex items-center gap-2 text-muted-foreground">
-          <div className="flex size-8 items-center justify-center rounded-full bg-muted">3</div>
-          <span className="text-sm font-medium">Queixa</span>
-        </div>
-        <div className="h-px flex-1 bg-border" />
-        <div className="flex items-center gap-2 text-muted-foreground">
-          <div className="flex size-8 items-center justify-center rounded-full bg-muted">4</div>
-          <span className="text-sm font-medium">Confirmar</span>
-        </div>
-      </div>
+      {/* Patient Context Header - Collapsible */}
+      <PatientContextHeader
+        context={patientContext}
+        onContextChange={handleContextChange}
+      />
 
-      {/* Content */}
-      <GlassCard hover={false} className="p-6">
-        {step === 'context' && <ContextSelector onSelect={handleContextSelect} />}
-
-        {step === 'groups' && patientContext && (
-          <>
-            {loading ? (
-              <div className="flex items-center justify-center py-12">
-                <div className="size-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
-              </div>
-            ) : (
-              <GroupSelector
-                groups={groups}
-                patientContext={patientContext}
-                onSelect={handleGroupSelect}
-              />
-            )}
-          </>
-        )}
-      </GlassCard>
+      {/* Main Content */}
+      {loading ? (
+        <div className="flex items-center justify-center py-20">
+          <div className="flex flex-col items-center gap-3">
+            <div className="size-8 animate-spin rounded-full border-4 border-ios-blue border-t-transparent" />
+            <span className="text-sm text-slate-400">Carregando grupos...</span>
+          </div>
+        </div>
+      ) : (
+        <IntegratedComplaintSelection
+          groups={groups}
+          patientContext={patientContext}
+          onLoadComplaints={handleLoadComplaints}
+          onLoadComplaintDetails={handleLoadComplaintDetails}
+        />
+      )}
     </div>
   )
 }

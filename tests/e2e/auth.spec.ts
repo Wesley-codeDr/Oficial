@@ -62,4 +62,35 @@ test.describe('Authentication', () => {
     const passwordInput = page.getByLabel(/senha/i)
     await expect(passwordInput).toHaveAttribute('required', '')
   })
+
+  test('should show reset password page', async ({ page }) => {
+    await page.goto('/reset-password')
+
+    await expect(page.getByRole('heading', { name: /redefinir senha/i })).toBeVisible()
+    await expect(page.getByLabel(/nova senha/i)).toBeVisible()
+    await expect(page.getByLabel(/confirmar senha/i)).toBeVisible()
+  })
+
+  test('should validate password length on reset', async ({ page }) => {
+    await page.goto('/reset-password')
+
+    const passwordInput = page.getByLabel(/nova senha/i)
+    await passwordInput.fill('12345')
+    await page.getByLabel(/confirmar senha/i).fill('12345')
+    await page.getByRole('button', { name: /atualizar senha/i }).click()
+
+    // Should show error about minimum length
+    await expect(page.getByText(/senha deve ter pelo menos 6 caracteres/i)).toBeVisible()
+  })
+
+  test('should validate password match on reset', async ({ page }) => {
+    await page.goto('/reset-password')
+
+    await page.getByLabel(/nova senha/i).fill('password123')
+    await page.getByLabel(/confirmar senha/i).fill('password456')
+    await page.getByRole('button', { name: /atualizar senha/i }).click()
+
+    // Should show error about passwords not matching
+    await expect(page.getByText(/senhas não coincidem/i)).toBeVisible()
+  })
 })

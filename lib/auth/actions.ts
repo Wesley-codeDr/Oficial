@@ -61,6 +61,18 @@ export async function register(_prevState: AuthState, formData: FormData): Promi
     return { error: validated.error.errors[0]?.message ?? 'Dados invalidos' }
   }
 
+  // Additional CRM validation using shared helper for consistency
+  try {
+    validateCrmData({
+      crm_number: validated.data.crmNumber,
+      crm_state: validated.data.crmState,
+    })
+  } catch (error) {
+    return { 
+      error: error instanceof Error ? error.message : 'Dados de CRM inválidos. Verifique o número e a UF do CRM.' 
+    }
+  }
+
   const supabase = await createServerClient()
 
   const { error } = await supabase.auth.signUp({
@@ -100,8 +112,21 @@ export async function forgotPassword(_prevState: AuthState, formData: FormData):
 
   const supabase = await createServerClient()
 
+  // Validate NEXT_PUBLIC_APP_URL in production
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL
+  if (!baseUrl) {
+    if (process.env.NODE_ENV === 'production') {
+      console.error('NEXT_PUBLIC_APP_URL is not set in production')
+      return { error: 'Erro de configuração. Entre em contato com o suporte.' }
+    }
+    // Development fallback with warning
+    console.warn('NEXT_PUBLIC_APP_URL not set, using localhost fallback')
+  }
+
+  const redirectUrl = `${baseUrl || 'http://localhost:3000'}/auth/callback?type=recovery&next=/reset-password`
+
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback?next=/reset-password`,
+    redirectTo: redirectUrl,
   })
 
   if (error) {

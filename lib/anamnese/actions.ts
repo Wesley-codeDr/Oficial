@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
+import { validateCrmData } from '@/lib/auth/validation'
 import { revalidatePath } from 'next/cache'
 
 export async function getSyndromeByCode(code: string) {
@@ -37,15 +38,24 @@ export async function saveAnamneseSession(data: {
   })
 
   if (!dbUser) {
-    dbUser = await prisma.user.create({
-      data: {
-        id: user.id,
-        email: user.email!,
-        fullName: user.user_metadata?.full_name || 'Usuario',
-        crmNumber: user.user_metadata?.crm_number || '000000',
-        crmState: user.user_metadata?.crm_state || 'SP',
-      },
-    })
+    // Validate CRM data using shared helper
+    try {
+      const { crmNumber, crmState } = validateCrmData(user.user_metadata || {})
+      dbUser = await prisma.user.create({
+        data: {
+          id: user.id,
+          email: user.email!,
+          fullName: user.user_metadata?.full_name || 'Usuario',
+          crmNumber,
+          crmState,
+        },
+      })
+    } catch (error) {
+      // Re-throw with clear error message for user
+      throw new Error(
+        error instanceof Error ? error.message : 'Dados de CRM inválidos. Por favor, complete seu perfil com informações válidas de CRM.'
+      )
+    }
   }
 
   const session = await prisma.anamneseSession.create({
@@ -88,8 +98,17 @@ export async function markSessionAsCopied(sessionId: string) {
     throw new Error('User not authenticated')
   }
 
+  // First verify ownership, then update
+  const session = await prisma.anamneseSession.findUnique({
+    where: { id: sessionId },
+  })
+
+  if (!session || session.userId !== user.id) {
+    throw new Error('Session not found')
+  }
+
   await prisma.anamneseSession.update({
-    where: { id: sessionId, userId: user.id },
+    where: { id: sessionId },
     data: { wasCopied: true },
   })
 

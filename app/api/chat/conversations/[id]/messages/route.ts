@@ -3,13 +3,22 @@ import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
 import { openai, DEFAULT_MODEL, MODEL_CONFIG } from '@/lib/ai/config'
 import { buildSystemPrompt } from '@/lib/ai/prompts'
-import { buildContext, extractRedFlags } from '@/lib/ai/context'
+import { buildContext } from '@/lib/ai/context'
 import {
   validateMinimumData,
   validateUserMessage,
   DISCLAIMER_TEXT,
+  postProcessResponse,
 } from '@/lib/ai/guardrails'
 import { extractCitations } from '@/lib/ai/citations'
+import { createValidationError, createMinimumDataError } from '@/lib/api/errors'
+import { safeParseContextSnapshot } from '@/lib/ai/context-snapshot'
+import { checkRateLimit, checkRateLimitInMemory } from '@/lib/rate-limit/rate-limiter'
+import { buildContextFromSession } from '@/lib/chat/context'
+import type { CheckboxCategory } from '@prisma/client'
+
+// Use in-memory rate limiter only in development or when explicitly enabled
+const USE_IN_MEMORY_RATE_LIMIT = process.env.USE_IN_MEMORY_RATE_LIMIT === 'true' || process.env.NODE_ENV === 'development'
 
 // POST /api/chat/conversations/[id]/messages - Send message and get streaming response
 export async function POST(
@@ -30,17 +39,38 @@ export async function POST(
     // Validate user message
     const messageValidation = validateUserMessage(content)
     if (!messageValidation.isValid) {
+      const errorResponse = createValidationError(
+        'Mensagem inválida',
+        messageValidation.errors.map((e) => ({ message: e }))
+      )
+      return new Response(JSON.stringify(errorResponse), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      })
+    }
+
+    // Check rate limit (distributed Postgres-based or in-memory fallback)
+    const rateLimitCheck = USE_IN_MEMORY_RATE_LIMIT
+      ? checkRateLimitInMemory(user.id)
+      : await checkRateLimit(user.id)
+    if (!rateLimitCheck.allowed) {
       return new Response(
-        JSON.stringify({ error: messageValidation.errors[0] }),
+        JSON.stringify({
+          error: 'Limite de requisições excedido. Tente novamente em alguns instantes.',
+          retryAfter: rateLimitCheck.retryAfter,
+        }),
         {
-          status: 400,
-          headers: { 'Content-Type': 'application/json' },
+          status: 429,
+          headers: {
+            'Content-Type': 'application/json',
+            'Retry-After': String(rateLimitCheck.retryAfter || 60),
+          },
         }
       )
     }
 
-    // Fetch conversation with context
-    const conversation = await prisma.chatConversation.findUnique({
+    // Fetch conversation with context using findFirst
+    const conversation = await prisma.chatConversation.findFirst({
       where: { id: conversationId, userId: user.id },
       include: {
         messages: {
@@ -65,31 +95,97 @@ export async function POST(
     // Build context from snapshot
     let contextText = ''
     let redFlags: string[] = []
+    let checkedItemsForValidation: Array<{
+      id: string
+      category: CheckboxCategory
+      displayText: string
+      narrativeText: string
+      isRedFlag: boolean
+      isNegative: boolean
+    }> = []
 
     if (conversation.contextSnapshot) {
-      const snapshot = conversation.contextSnapshot as {
-        syndromeName: string
-        syndromeDescription?: string
-        checkedItems: Array<{
-          id: string
-          category: string
-          displayText: string
-          narrativeText: string
-          isRedFlag: boolean
-          isNegative: boolean
-        }>
-        generatedText: string
-        redFlags: string[]
+      // Strict validation using Zod schema
+      const parseResult = safeParseContextSnapshot(conversation.contextSnapshot)
+
+      if (!parseResult.success) {
+        console.error('Invalid contextSnapshot', {
+          conversationId,
+          userId: user.id,
+          error: parseResult.error,
+        })
+        return new Response(
+          JSON.stringify({
+            code: parseResult.error.code,
+            message: parseResult.error.message,
+          }),
+          {
+            status: 400,
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+      }
+
+      const typedSnapshot = parseResult.data!
+
+      // Map validated items to CheckboxCategory type
+      checkedItemsForValidation = typedSnapshot.checkedItems.map((item) => ({
+        id: item.id,
+        category: item.category,
+        displayText: item.displayText,
+        narrativeText: item.narrativeText,
+        isRedFlag: item.isRedFlag,
+        isNegative: item.isNegative,
+      }))
+
+      // Validate minimum data before proceeding
+      const dataValidation = validateMinimumData(checkedItemsForValidation)
+      if (!dataValidation.isValid) {
+        const errorResponse = createMinimumDataError(
+          dataValidation.errors,
+          dataValidation.warnings
+        )
+        return new Response(JSON.stringify(errorResponse), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json' },
+        })
       }
 
       contextText = buildContext({
-        syndromeName: snapshot.syndromeName,
-        syndromeDescription: snapshot.syndromeDescription,
-        checkedItems: snapshot.checkedItems as Parameters<typeof buildContext>[0]['checkedItems'],
-        generatedText: snapshot.generatedText,
-        redFlags: snapshot.checkedItems.filter((c) => c.isRedFlag) as Parameters<typeof buildContext>[0]['redFlags'],
+        syndromeName: typedSnapshot.syndromeName,
+        syndromeDescription: typedSnapshot.syndromeDescription,
+        checkedItems: checkedItemsForValidation,
+        generatedText: typedSnapshot.generatedText || '',
+        redFlags: checkedItemsForValidation.filter((c) => c.isRedFlag),
       })
-      redFlags = snapshot.redFlags || []
+      redFlags = typedSnapshot.redFlags || []
+    } else if (conversation.sessionId) {
+      // If no snapshot but has session, build context from session
+      const sessionContextResult = await buildContextFromSession(conversation.sessionId, user.id)
+
+      if (!sessionContextResult.success) {
+        console.error('Failed to build context from session', {
+          conversationId,
+          sessionId: conversation.sessionId,
+          userId: user.id,
+          error: sessionContextResult.error,
+        })
+        return new Response(
+          JSON.stringify({
+            code: sessionContextResult.error.code,
+            message: sessionContextResult.error.message,
+          }),
+          {
+            status: sessionContextResult.error.status,
+            headers: { 'Content-Type': 'application/json' },
+          }
+        )
+      }
+
+      const sessionContext = sessionContextResult.data
+      contextText = sessionContext.contextText
+      redFlags = sessionContext.redFlags
+      checkedItemsForValidation = sessionContext.checkedItems
     }
 
     // Build message history for context
@@ -117,14 +213,16 @@ export async function POST(
       temperature: MODEL_CONFIG.temperature,
       maxTokens: MODEL_CONFIG.maxTokens,
       onFinish: async ({ text }) => {
-        // Save assistant message after streaming completes
-        const citations = extractCitations(text)
+        // Post-process response to ensure disclaimer is present
+        const processedText = postProcessResponse(text)
+        const citations = extractCitations(processedText)
 
+        // Save assistant message with post-processed content
         await prisma.chatMessage.create({
           data: {
             conversationId,
             role: 'ASSISTANT',
-            content: text,
+            content: processedText,
             citations: citations.length > 0 ? citations : undefined,
           },
         })
@@ -173,8 +271,8 @@ export async function GET(
 
     const { id: conversationId } = await params
 
-    // Verify ownership
-    const conversation = await prisma.chatConversation.findUnique({
+    // Verify ownership using findFirst
+    const conversation = await prisma.chatConversation.findFirst({
       where: { id: conversationId, userId: user.id },
     })
 

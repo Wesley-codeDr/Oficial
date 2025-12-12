@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
+import { validateCrmData } from '@/lib/auth/validation'
+import { createValidationError } from '@/lib/api/errors'
 
 // GET /api/sessions - List user's anamnese sessions
 export async function GET(req: Request) {
@@ -12,9 +14,57 @@ export async function GET(req: Request) {
     }
 
     const { searchParams } = new URL(req.url)
-    const limit = parseInt(searchParams.get('limit') || '20', 10)
-    const offset = parseInt(searchParams.get('offset') || '0', 10)
-    const status = searchParams.get('status') // 'pending' | 'completed' | 'all'
+    const rawLimit = searchParams.get('limit')
+    const rawOffset = searchParams.get('offset')
+    const rawStatus = searchParams.get('status')
+
+    // Validate status parameter
+    const validStatuses = ['pending', 'completed', 'all'] as const
+    type StatusType = typeof validStatuses[number]
+    
+    let status: StatusType = 'all' // Default to 'all' if not provided
+    if (rawStatus) {
+      if (!validStatuses.includes(rawStatus as StatusType)) {
+        const errorResponse = createValidationError('Parâmetro status inválido', [
+          {
+            field: 'status',
+            message: `Status deve ser um dos seguintes valores: ${validStatuses.join(', ')}`,
+          },
+        ])
+        return NextResponse.json(errorResponse, { status: 400 })
+      }
+      status = rawStatus as StatusType
+    }
+
+    // Validate and parse limit
+    const MAX_LIMIT = 100
+    const limitValue = rawLimit ? parseInt(rawLimit, 10) : 20
+
+    if (isNaN(limitValue) || limitValue < 1 || limitValue > MAX_LIMIT) {
+      const errorResponse = createValidationError('Parâmetro limit inválido', [
+        {
+          field: 'limit',
+          message: `Limit deve ser um número entre 1 e ${MAX_LIMIT}`,
+        },
+      ])
+      return NextResponse.json(errorResponse, { status: 400 })
+    }
+
+    // Validate and parse offset
+    const offsetValue = rawOffset ? parseInt(rawOffset, 10) : 0
+
+    if (isNaN(offsetValue) || offsetValue < 0) {
+      const errorResponse = createValidationError('Parâmetro offset inválido', [
+        {
+          field: 'offset',
+          message: 'Offset deve ser um número maior ou igual a 0',
+        },
+      ])
+      return NextResponse.json(errorResponse, { status: 400 })
+    }
+
+    const limit = limitValue
+    const offset = offsetValue
 
     const where: Record<string, unknown> = { userId: user.id }
 
@@ -49,6 +99,7 @@ export async function GET(req: Request) {
       total,
       limit,
       offset,
+      status, // Include normalized status in response
       hasMore: offset + sessions.length < total,
     })
   } catch (error) {
@@ -97,15 +148,26 @@ export async function POST(req: Request) {
     })
 
     if (!dbUser) {
-      dbUser = await prisma.user.create({
-        data: {
-          id: user.id,
-          email: user.email!,
-          fullName: user.user_metadata?.full_name || 'Usuario',
-          crmNumber: user.user_metadata?.crm_number || '000000',
-          crmState: user.user_metadata?.crm_state || 'SP',
-        },
-      })
+      // Validate CRM data using shared helper
+      try {
+        const { crmNumber, crmState } = validateCrmData(user.user_metadata || {})
+        dbUser = await prisma.user.create({
+          data: {
+            id: user.id,
+            email: user.email!,
+            fullName: user.user_metadata?.full_name || 'Usuario',
+            crmNumber,
+            crmState,
+          },
+        })
+      } catch (error) {
+        return NextResponse.json(
+          {
+            error: error instanceof Error ? error.message : 'Dados de CRM inválidos',
+          },
+          { status: 400 }
+        )
+      }
     }
 
     const session = await prisma.anamneseSession.create({

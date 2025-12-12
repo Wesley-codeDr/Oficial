@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
+import { createValidationError } from '@/lib/api/errors'
 
 // GET /api/chief-complaints - List chief complaints with groups
 export async function GET(req: Request) {
@@ -14,7 +15,23 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url)
     const groupCode = searchParams.get('group')
     const search = searchParams.get('search')
-    const limit = parseInt(searchParams.get('limit') || '50', 10)
+    const rawLimit = searchParams.get('limit')
+
+    // Validate and parse limit
+    const MAX_LIMIT = 100
+    const limitValue = rawLimit ? parseInt(rawLimit, 10) : 50
+
+    if (isNaN(limitValue) || limitValue < 1 || limitValue > MAX_LIMIT) {
+      const errorResponse = createValidationError('Parâmetro limit inválido', [
+        {
+          field: 'limit',
+          message: `Limit deve ser um número entre 1 e ${MAX_LIMIT}`,
+        },
+      ])
+      return NextResponse.json(errorResponse, { status: 400 })
+    }
+
+    const limit = limitValue
 
     // Build where clause
     const where: Record<string, unknown> = { isActive: true }
@@ -64,38 +81,5 @@ export async function GET(req: Request) {
   }
 }
 
-// GET /api/chief-complaints/groups - List all groups
-export async function POST(req: Request) {
-  try {
-    const user = await getUser()
-
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const body = await req.json()
-    const { action } = body as { action: string }
-
-    if (action === 'list-groups') {
-      const groups = await prisma.chiefComplaintGroup.findMany({
-        where: { isActive: true },
-        orderBy: { orderIndex: 'asc' },
-        include: {
-          _count: {
-            select: { complaints: true },
-          },
-        },
-      })
-
-      return NextResponse.json(groups)
-    }
-
-    return NextResponse.json({ error: 'Invalid action' }, { status: 400 })
-  } catch (error) {
-    console.error('Error in chief complaints action:', error)
-    return NextResponse.json(
-      { error: 'Failed to process request' },
-      { status: 500 }
-    )
-  }
-}
+// POST /api/chief-complaints - Reserved for future write operations
+// Groups listing has been moved to GET /api/chief-complaints/groups
