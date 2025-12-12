@@ -120,6 +120,8 @@ const defaultSystemItems: SidebarItem[] = [
 // Sidebar Component
 interface SidebarProps {
   menuGroups?: SidebarGroups;
+  userName?: string;
+  userEmail?: string;
 }
 
 export function Sidebar({
@@ -127,7 +129,9 @@ export function Sidebar({
     main: defaultMainItems,
     records: defaultRecordItems,
     system: defaultSystemItems
-  }
+  },
+  userName = 'Médico',
+  userEmail = ''
 }: SidebarProps) {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
@@ -172,12 +176,12 @@ export function Sidebar({
   return (
     <aside
       className={cn(
-        'h-full bg-white/40 dark:bg-[#1c1c1e]/60 backdrop-blur-3xl backdrop-saturate-[180%]',
+        'fixed top-0 left-0 h-screen bg-white/40 dark:bg-[#1c1c1e]/60 backdrop-blur-3xl backdrop-saturate-[180%]',
         'flex flex-col shrink-0 border-r border-white/20 dark:border-white/10',
         'shadow-[inset_-1px_0_0_rgba(255,255,255,0.1)]',
         'rounded-r-[40px] my-2 ml-2',
-        'transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] z-40 relative',
-        isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'
+        'transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] z-40',
+        isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-64'
       )}
     >
       {/* Toggle Button */}
@@ -387,7 +391,7 @@ export function Sidebar({
         )}>
           <div className="relative shrink-0">
             <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 overflow-hidden ring-2 ring-white dark:ring-slate-800 shadow-md flex items-center justify-center">
-              <span className="text-white font-bold text-sm">Dr</span>
+              <span className="text-white font-bold text-sm">{userName.slice(0, 2).toUpperCase()}</span>
             </div>
             <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full" />
           </div>
@@ -396,8 +400,8 @@ export function Sidebar({
             'overflow-hidden transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] whitespace-nowrap',
             isCollapsed ? 'max-w-0 opacity-0 -translate-x-4' : 'max-w-[140px] opacity-100 ml-3 hidden lg:block'
           )}>
-            <p className="text-[13px] font-bold text-slate-800 dark:text-slate-100 leading-tight">Médico</p>
-            <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5">WellWave Pro</p>
+            <p className="text-[13px] font-bold text-slate-800 dark:text-slate-100 leading-tight truncate">{userName}</p>
+            <p className="text-[10px] font-semibold text-slate-500 dark:text-slate-400 mt-0.5 truncate">{userEmail || 'WellWave Pro'}</p>
           </div>
 
           {!isCollapsed && (
