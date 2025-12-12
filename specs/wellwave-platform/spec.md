@@ -53,7 +53,7 @@ WellWave é uma plataforma digital que converte seleções objetivas (checkboxes
 - [ ] Preservação da formatação médica padrão
 - [ ] Metadados de geração (timestamp, versão do sistema)
 
-### US-004: Chat Médico EBM
+### US-004: ChatWell
 **Como** médico
 **Quero** consultar um assistente de IA com a anamnese do paciente
 **Para que** eu receba sugestões de hipóteses diagnósticas e condutas baseadas em evidência
@@ -96,7 +96,7 @@ WellWave é uma plataforma digital que converte seleções objetivas (checkboxes
 - Paleta neutra com acentos discretos
 - Animações suaves (Framer Motion)
 
-### FR-004: Chat Médico EBM
+### FR-004: ChatWell
 - Entrada: dados estruturados da anamnese + exame físico + sinais vitais
 - Saída: hipóteses, exames recomendados, condutas com doses
 - Citações estruturadas obrigatórias

@@ -4,6 +4,9 @@
 
 @layer base {
   :root {
+    /* Sidebar Layout - Single Source of Truth */
+    --sidebar-w: 256px; /* Default: expanded (256px), collapsed: 88px */
+
     /* Apple 2025 Light Theme - Liquid Glass Design */
     --background: 0 0% 98%;
     --foreground: 240 10% 3.9%;
@@ -402,6 +405,11 @@
     animation: float 3s ease-in-out infinite;
   }
 
+  /* Animation delay utilities */
+  .animate-delay-1s {
+    animation-delay: 1s;
+  }
+
   /* ======================================
      PRINT STYLES
      ====================================== */
@@ -455,3 +463,169 @@
 .delay-200 { animation-delay: 200ms; }
 .delay-300 { animation-delay: 300ms; }
 .delay-500 { animation-delay: 500ms; }
+
+/* ======================================
+   MASK GRADIENT UTILITY
+   ====================================== */
+
+.mask-gradient-bottom {
+  mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 90%, transparent 100%);
+}
+
+/* ======================================
+   APPLE 2025 LIST STYLES
+   ====================================== */
+
+/* Grouped List Container */
+.apple-list-container {
+  @apply rounded-2xl overflow-hidden;
+  background: var(--glass-bg-elevated);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+/* List Item */
+.apple-list-item {
+  @apply relative flex items-center px-4 py-3.5;
+  @apply transition-all duration-150 ease-out;
+  @apply active:bg-black/[0.03] dark:active:bg-white/[0.03];
+}
+
+.apple-list-item:hover {
+  @apply bg-black/[0.02] dark:bg-white/[0.02];
+}
+
+/* List Separator */
+.apple-list-separator {
+  @apply h-px bg-black/[0.04] dark:bg-white/[0.04] ml-4;
+}
+
+/* ======================================
+   APPLE 2025 TYPOGRAPHY SCALE
+   ====================================== */
+
+/* Large Title - 34pt */
+.text-apple-largeTitle {
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+/* Title 1 - 28pt */
+.text-apple-title1 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+}
+
+/* Title 2 - 22pt */
+.text-apple-title2 {
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+/* Title 3 - 20pt */
+.text-apple-title3 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+/* Headline - 17pt semibold */
+.text-apple-headline {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+}
+
+/* Body - 17pt */
+.text-apple-body {
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Callout - 16pt */
+.text-apple-callout {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+/* Subheadline - 15pt */
+.text-apple-subheadline {
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+/* Footnote - 13pt */
+.text-apple-footnote {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+/* Caption 1 - 12pt */
+.text-apple-caption1 {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.35;
+}
+
+/* Caption 2 - 11pt */
+.text-apple-caption2 {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+/* ======================================
+   APPLE 2025 SPACING SCALE
+   ====================================== */
+
+/* Inset spacing for grouped lists */
+.apple-inset-grouped {
+  @apply px-5 sm:px-8;
+}
+
+/* Content max-width */
+.apple-content-width {
+  @apply max-w-[640px] mx-auto;
+}
+
+/* ======================================
+   SUBTLE SURFACE STYLES
+   ====================================== */
+
+/* Primary surface - cards, list containers */
+.surface-primary {
+  @apply bg-white/70 dark:bg-white/[0.04];
+  @apply border border-black/[0.04] dark:border-white/[0.06];
+}
+
+/* Secondary surface - nested elements */
+.surface-secondary {
+  @apply bg-black/[0.02] dark:bg-white/[0.02];
+}
+
+/* Tertiary surface - inputs, wells */
+.surface-tertiary {
+  @apply bg-black/[0.04] dark:bg-white/[0.04];
+}
+
+/* ======================================
+   NEXT.JS PORTAL POSITIONING OVERRIDE
+   ====================================== */
+
+nextjs-portal {
+  left: unset !important;
+  top: unset !important;
+}

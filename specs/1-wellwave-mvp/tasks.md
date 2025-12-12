@@ -367,7 +367,7 @@
 
 ---
 
-## Phase 4: Chat EBM Integration [D:Phase3] ✅ COMPLETE
+## Phase 4: ChatWell Integration [D:Phase3] ✅ COMPLETE
 
 ### 4.1 OpenAI Integration
 
@@ -654,7 +654,7 @@
 - [ ] [D:T6.3.4] **T6.4.1** Smoke tests
   - Login flow
   - Anamnese generation
-  - Chat EBM
+  - ChatWell
   - Copy functionality
 
 - [ ] [D:T6.4.1] **T6.4.2** Configure alerts

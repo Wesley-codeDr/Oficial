@@ -31,7 +31,7 @@ tags:
   - name: Anamnese
     description: Geração de anamnese
   - name: Chat
-    description: Chat EBM com IA
+    description: ChatWell com IA
   - name: User
     description: Perfil do usuário
 

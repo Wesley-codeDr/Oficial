@@ -10,7 +10,7 @@ Este guia fornece instruções para configurar e executar o projeto WellWave MVP
 - **pnpm** 8.x ou superior (recomendado) ou npm
 - **Git**
 - Conta no **Supabase** (gratuita para desenvolvimento)
-- Chave de API da **OpenAI** (para Chat EBM)
+- Chave de API da **OpenAI** (para ChatWell)
 
 ---
 
@@ -53,7 +53,7 @@ SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 # Database (Prisma)
 DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.xxx.supabase.co:5432/postgres
 
-# OpenAI (para Chat EBM)
+# OpenAI (para ChatWell)
 OPENAI_API_KEY=sk-...
 
 # Sentry (opcional para desenvolvimento)
@@ -208,9 +208,9 @@ curl -X POST http://localhost:3000/api/auth/signup \
 4. Verifique destaque de red flags se aplicável
 5. Clique em "Copiar" e verifique o clipboard
 
-### 6.3 Chat EBM
+### 6.3 ChatWell
 
-1. Com uma anamnese preenchida, abra o Chat EBM
+1. Com uma anamnese preenchida, abra o ChatWell
 2. Envie uma pergunta (ex: "Quais as hipóteses diagnósticas?")
 3. Observe a resposta em streaming
 4. Verifique citações na resposta
@@ -306,7 +306,7 @@ Configure no Vercel Dashboard (Settings > Environment Variables):
 | `NEXT_PUBLIC_SUPABASE_URL` | ✅ | Supabase project URL |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | ✅ | Supabase anon/public key |
 | `SUPABASE_SERVICE_ROLE_KEY` | ✅ | Supabase service role key (server-side) |
-| `OPENAI_API_KEY` | ✅ | OpenAI API key for Chat EBM |
+| `OPENAI_API_KEY` | ✅ | OpenAI API key for ChatWell |
 | `NEXT_PUBLIC_SENTRY_DSN` | ⚠️ | Sentry DSN for error tracking |
 | `SENTRY_AUTH_TOKEN` | ⚠️ | Sentry auth token for source maps |
 | `NEXT_PUBLIC_APP_URL` | ✅ | Production URL (ex: https://wellwave.com) |
@@ -318,7 +318,7 @@ Configure no Vercel Dashboard (Settings > Environment Variables):
 - [ ] Popular dados iniciais (`pnpm db:seed`)
 - [ ] Testar login/registro
 - [ ] Testar geração de anamnese
-- [ ] Testar Chat EBM
+- [ ] Testar ChatWell
 - [ ] Verificar Sentry está recebendo eventos
 - [ ] Configurar domínio customizado (opcional)
 

@@ -5,6 +5,12 @@ import { Sidebar } from './sidebar';
 import { Header } from './header';
 import type { UIPatient } from '@/types/frontend';
 import { cn } from '@/lib/utils';
+import { SidebarProvider } from '@/lib/contexts/sidebar-context';
+import {
+  SharedLayoutGrid,
+  SharedLayoutBackground,
+  SharedSidebarColumn,
+} from './shared-layout';
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -30,27 +36,35 @@ export function AppShell({ children, showHeader = true, className }: AppShellPro
   const [patient, setPatient] = useState<UIPatient>(defaultPatient);
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-500">
-      {/* Sidebar */}
-      <Sidebar />
+    <SidebarProvider>
+      {/* Default gradient background using shared primitive */}
+      <SharedLayoutBackground variant="default" />
+      
+      {/* CSS Grid Layout using shared primitive */}
+      <SharedLayoutGrid>
+        {/* Sidebar Column using shared primitive */}
+        <SharedSidebarColumn>
+          <Sidebar />
+        </SharedSidebarColumn>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col h-full min-w-0 relative overflow-hidden z-0">
-        {showHeader && (
-          <div className="px-6 pt-6 shrink-0 z-20">
-            <Header patient={patient} setPatient={setPatient} />
-          </div>
-        )}
+        {/* Main Content Area */}
+        <div className="flex flex-col h-full min-w-0 w-full relative overflow-hidden z-0">
+          {showHeader && (
+            <div className="px-6 pt-6 shrink-0 z-20">
+              <Header patient={patient} setPatient={setPatient} />
+            </div>
+          )}
 
-        {/* Content */}
-        <main className={cn(
-          'flex-1 overflow-hidden px-6 pb-6 relative',
-          className
-        )}>
-          {children}
-        </main>
-      </div>
-    </div>
+          {/* Content */}
+          <main className={cn(
+            'flex-1 overflow-hidden px-6 pb-6 relative',
+            className
+          )}>
+            {children}
+          </main>
+        </div>
+      </SharedLayoutGrid>
+    </SidebarProvider>
   );
 }
 
@@ -73,28 +87,36 @@ export function AppShellWithPatient({ children, showHeader = true, className }: 
   const [patient, setPatient] = useState<UIPatient>(defaultPatient);
 
   return (
-    <PatientContext.Provider value={{ patient, setPatient }}>
-      <div className="flex h-screen w-full overflow-hidden bg-gradient-to-br from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-800 dark:text-slate-100 font-sans transition-colors duration-500">
-        {/* Sidebar */}
-        <Sidebar />
+    <SidebarProvider>
+      <PatientContext.Provider value={{ patient, setPatient }}>
+        {/* Default gradient background using shared primitive */}
+        <SharedLayoutBackground variant="default" />
+        
+        {/* CSS Grid Layout using shared primitive */}
+        <SharedLayoutGrid>
+          {/* Sidebar Column using shared primitive */}
+          <SharedSidebarColumn>
+            <Sidebar />
+          </SharedSidebarColumn>
 
-        {/* Main Content Area */}
-        <div className="flex-1 flex flex-col h-full min-w-0 relative overflow-hidden z-0">
-          {showHeader && (
-            <div className="px-6 pt-6 shrink-0 z-20">
-              <Header patient={patient} setPatient={setPatient} />
-            </div>
-          )}
+          {/* Main Content Area */}
+          <div className="flex flex-col h-full min-w-0 w-full relative overflow-hidden z-0">
+            {showHeader && (
+              <div className="px-6 pt-6 shrink-0 z-20">
+                <Header patient={patient} setPatient={setPatient} />
+              </div>
+            )}
 
-          {/* Content */}
-          <main className={cn(
-            'flex-1 overflow-hidden px-6 pb-6 relative',
-            className
-          )}>
-            {children}
-          </main>
-        </div>
-      </div>
-    </PatientContext.Provider>
+            {/* Content */}
+            <main className={cn(
+              'flex-1 overflow-hidden px-6 pb-6 relative',
+              className
+            )}>
+              {children}
+            </main>
+          </div>
+        </SharedLayoutGrid>
+      </PatientContext.Provider>
+    </SidebarProvider>
   );
 }

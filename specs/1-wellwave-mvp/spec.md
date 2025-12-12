@@ -72,12 +72,12 @@ WellWave é uma plataforma digital que converte seleções objetivas (checkboxes
 - Botão de cópia funciona em um clique
 - Tempo total do fluxo < 90 segundos
 
-### Cenário 2: Consulta ao Chat Médico EBM
+### Cenário 2: Consulta ao ChatWell
 
 **Ator:** Dra. Marina (médica residente)
 **Pré-condição:** Anamnese já preenchida no sistema
 **Fluxo:**
-1. Médica abre o Chat Médico EBM
+1. Médica abre o ChatWell
 2. Sistema envia automaticamente contexto da anamnese atual
 3. Médica pergunta: "Quais são as hipóteses diagnósticas e exames iniciais?"
 4. Sistema retorna hipóteses ordenadas por probabilidade
@@ -220,7 +220,7 @@ O sistema DEVE identificar e destacar sinais de alarme:
 - Dispneia: cianose, uso de musculatura acessória, alteração de consciência
 - Abdome agudo: defesa abdominal, febre alta, parada de eliminação de gases
 
-### FR-005: Chat Médico EBM
+### FR-005: ChatWell (Assistente EBM)
 
 O sistema DEVE oferecer assistente de IA para suporte à decisão:
 
@@ -277,7 +277,7 @@ O sistema DEVE permitir exportar a anamnese gerada:
 
 - Carregamento inicial: < 2 segundos em conexão hospitalar típica
 - Geração de texto: < 1.5 segundos após marcar checkbox
-- Resposta do Chat EBM: início do streaming < 2 segundos
+- Resposta do ChatWell: início do streaming < 2 segundos
 - Fluxo completo de anamnese: < 90 segundos
 
 ### NFR-002: Disponibilidade
@@ -379,7 +379,7 @@ O sistema DEVE permitir exportar a anamnese gerada:
 
 ### Externas
 - Serviço de autenticação (Supabase Auth ou equivalente)
-- Serviço de LLM para Chat EBM (OpenAI ou equivalente)
+- Serviço de LLM para ChatWell (OpenAI ou equivalente)
 - Hospedagem web (Vercel ou equivalente)
 
 ### Internas
@@ -392,7 +392,7 @@ O sistema DEVE permitir exportar a anamnese gerada:
 ### Incluído no MVP
 - 3 síndromes: dor torácica, dispneia, abdome agudo
 - Geração de texto de anamnese
-- Chat EBM básico com citações
+- ChatWell básico com citações
 - Autenticação de médicos
 - Exportação via copy-paste
 

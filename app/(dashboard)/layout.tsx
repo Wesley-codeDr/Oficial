@@ -2,6 +2,13 @@ import { redirect } from 'next/navigation';
 import { getUser } from '@/lib/supabase/server';
 import { Sidebar } from '@/components/layout/sidebar';
 import { DashboardPreferencesProvider } from '@/lib/contexts/dashboard-preferences';
+import { SidebarProvider } from '@/lib/contexts/sidebar-context';
+import {
+  SharedLayoutGrid,
+  SharedLayoutBackground,
+  SharedSidebarColumn,
+  SharedMainContent,
+} from '@/components/layout/shared-layout';
 
 export default async function DashboardLayout({
   children,
@@ -18,27 +25,31 @@ export default async function DashboardLayout({
 
   return (
     <DashboardPreferencesProvider>
-      <div className="flex h-screen w-full overflow-hidden bg-transparent text-slate-800 dark:text-slate-100 font-sans transition-colors duration-500">
-        {/* Apple 2025 Gradient Background */}
-        <div className="fixed inset-0 -z-10">
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 dark:from-[#0a0a0a] dark:via-[#0d0d0f] dark:to-[#0a0a0a]" />
-          {/* Subtle animated gradient orbs */}
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-gradient-to-br from-ios-blue/10 to-ios-purple/10 rounded-full blur-3xl opacity-50 dark:opacity-30" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-gradient-to-br from-ios-teal/10 to-ios-green/10 rounded-full blur-3xl opacity-50 dark:opacity-30" />
-        </div>
+      <SidebarProvider>
+        {/* Apple 2025 Gradient Background with animated orbs */}
+        <SharedLayoutBackground variant="apple2025" />
+        
+        {/* 
+          CSS Grid Layout using shared primitive:
+          - Coluna 1: var(--sidebar-w) - largura do sidebar
+          - Coluna 2: 1fr - conteúdo principal
+        */}
+        <SharedLayoutGrid className="bg-transparent">
+          {/* Sidebar Column */}
+          <SharedSidebarColumn>
+            <Sidebar userName={userName} userEmail={user.email || ''} />
+          </SharedSidebarColumn>
 
-        {/* Sidebar */}
-        <Sidebar userName={userName} userEmail={user.email || ''} />
-
-        {/* Main Content */}
-        <main className="flex-1 flex flex-col h-full min-w-0 relative overflow-hidden z-0 ml-[88px] lg:ml-0">
-          <div className="flex-1 overflow-y-auto custom-scrollbar">
-            <div className="p-6 lg:pl-[280px]">
-              {children}
+          {/* Main Content Column */}
+          <SharedMainContent>
+            <div className="flex-1 overflow-y-auto custom-scrollbar min-h-0">
+              <div className="h-full flex flex-col max-w-[1920px] mx-auto w-full">
+                {children}
+              </div>
             </div>
-          </div>
-        </main>
-      </div>
+          </SharedMainContent>
+        </SharedLayoutGrid>
+      </SidebarProvider>
     </DashboardPreferencesProvider>
   );
 }

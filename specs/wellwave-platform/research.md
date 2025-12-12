@@ -250,7 +250,7 @@ src/
 │   ├── (auth)/            # Rotas públicas (login)
 │   ├── (dashboard)/       # Rotas protegidas
 │   │   ├── anamnese/      # Gerador de anamnese
-│   │   ├── chat/          # Chat EBM
+│   │   ├── chat/          # ChatWell
 │   │   └── history/       # Histórico
 │   └── api/               # API routes
 ├── components/

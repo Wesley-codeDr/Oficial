@@ -409,8 +409,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
       {/* 2. MAIN FORM AREA (Sheet Style) */}
       <div
         id="form-container"
-        className="flex-1 h-full overflow-y-auto custom-scrollbar scroll-smooth pr-2 pb-20"
-        style={{ maskImage: 'linear-gradient(to bottom, black 90%, transparent 100%)' }}
+        className="flex-1 h-full overflow-y-auto custom-scrollbar scroll-smooth pr-2 pb-20 mask-gradient-bottom"
       >
         {/* Red Flag Alert */}
         <RedFlagAlert redFlags={redFlags} />
@@ -474,7 +473,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           </Button>
           <Button variant="secondary" onClick={handleOpenChat} disabled={isPending || !savedSessionId} className="flex-1">
             <MessageSquare className="mr-2 h-4 w-4" />
-            Chat EBM
+            ChatWell
           </Button>
         </div>
       </div>

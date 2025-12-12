@@ -71,6 +71,8 @@ function AllergyTag({ name, onRemove }: AllergyTagProps) {
       <button
         onClick={onRemove}
         className="w-4 h-4 rounded-full flex items-center justify-center bg-slate-100/80 dark:bg-slate-700/80 text-slate-400 group-hover:bg-red-100 dark:group-hover:bg-red-900 group-hover:text-red-500 transition-colors"
+        aria-label={`Remover alergia ${name}`}
+        title={`Remover alergia ${name}`}
       >
         <X className="w-2.5 h-2.5" />
       </button>

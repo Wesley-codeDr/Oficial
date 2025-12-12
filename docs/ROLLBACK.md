@@ -10,7 +10,7 @@ Iniciar rollback imediatamente se:
 
 - **Error rate** > 50% por 5 minutos contínuos
 - **Tempo de resposta** > 10 segundos por 5 minutos
-- **Features críticas quebradas**: login, anamnese, chat EBM
+- **Features críticas quebradas**: login, anamnese, ChatWell
 - **Perda de dados** detectada ou reportada
 - **Vulnerabilidade de segurança** identificada
 

@@ -1,16 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  FileText, MessageCircle, FileSignature, FolderClock, Settings,
+  FileText, MessageCircle, FolderClock, Settings,
   Activity, PanelLeftClose, PanelLeftOpen, LayoutGrid,
-  LogOut, Sun, Moon, Eye, Calculator
+  LogOut, Sun, Moon, Calculator
 } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useSidebar, SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_EXPANDED_WIDTH } from '@/lib/contexts/sidebar-context';
 
 // Types for navigation items
 interface SidebarItem {
@@ -104,7 +105,7 @@ function NavItem({ icon: Icon, label, href, isActive, isCollapsed }: NavItemProp
 const defaultMainItems: SidebarItem[] = [
   { id: 'dashboard', label: 'Visão Geral', icon: LayoutGrid, href: '/dashboard' },
   { id: 'anamnese', label: 'Nova Anamnese', icon: FileText, href: '/anamnese' },
-  { id: 'chat-ebm', label: 'Chat EBM', icon: MessageCircle, href: '/chat' },
+  { id: 'chat-ebm', label: 'ChatWell', icon: MessageCircle, href: '/chat' },
 ];
 
 const defaultRecordItems: SidebarItem[] = [
@@ -135,30 +136,12 @@ export function Sidebar({
 }: SidebarProps) {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { isCollapsed, toggle } = useSidebar();
   const [mounted, setMounted] = useState(false);
 
   // Handle hydration
   useEffect(() => {
     setMounted(true);
-  }, []);
-
-  // Responsive: Auto-collapse on small screens
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 1024) {
-        setIsCollapsed(true);
-      } else {
-        setIsCollapsed(false);
-      }
-    };
-
-    if (typeof window !== 'undefined') {
-      if (window.innerWidth < 1024) setIsCollapsed(true);
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }
-    return undefined;
   }, []);
 
   // Check if current path is active
@@ -173,6 +156,9 @@ export function Sidebar({
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
+  // Calcular largura baseada no estado de collapse
+  const sidebarWidth = isCollapsed ? SIDEBAR_COLLAPSED_WIDTH : SIDEBAR_EXPANDED_WIDTH;
+
   return (
     <aside
       className={cn(
@@ -180,13 +166,15 @@ export function Sidebar({
         'flex flex-col shrink-0 border-r border-white/20 dark:border-white/10',
         'shadow-[inset_-1px_0_0_rgba(255,255,255,0.1)]',
         'rounded-r-[40px] my-2 ml-2',
-        'transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] z-40',
-        isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-64'
+        'transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] z-40'
       )}
+      style={{
+        width: `${sidebarWidth}px`,
+      }}
     >
       {/* Toggle Button */}
       <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
+        onClick={toggle}
         className="absolute -right-3 top-12 w-7 h-7 bg-white dark:bg-slate-700 rounded-full border border-slate-100 dark:border-slate-600 shadow-md flex items-center justify-center text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all z-50 hidden lg:flex hover:scale-110 active:scale-95 group"
       >
         <div className="transition-transform duration-500 group-hover:rotate-180">

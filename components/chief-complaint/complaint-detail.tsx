@@ -123,16 +123,29 @@ export function ComplaintDetail({
       {/* Group Info */}
       <div
         className="flex items-center gap-3 rounded-lg p-3"
-        style={{ backgroundColor: `${complaint.group.color}10` }}
+        style={
+          {
+            backgroundColor: `${complaint.group.color}10`,
+            '--group-color': complaint.group.color ?? '#6b7280',
+          } as React.CSSProperties & { '--group-color': string }
+        }
       >
         <div
           className="flex size-10 items-center justify-center rounded-full"
-          style={{ backgroundColor: `${complaint.group.color}20`, color: complaint.group.color ?? '#6b7280' }}
+          style={
+            {
+              backgroundColor: `${complaint.group.color}20`,
+              color: 'var(--group-color)',
+            } as React.CSSProperties
+          }
         >
           <span className="text-sm font-bold">{complaint.group.code}</span>
         </div>
         <div>
-          <p className="font-medium" style={{ color: complaint.group.color ?? '#6b7280' }}>
+          <p
+            className="font-medium"
+            style={{ color: 'var(--group-color)' } as React.CSSProperties}
+          >
             {complaint.group.namePt}
           </p>
           <p className="text-xs text-muted-foreground">{complaint.group.description}</p>

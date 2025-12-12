@@ -168,7 +168,7 @@ Este documento consolida as decisões técnicas e pesquisa realizada para o MVP 
 └─────────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────────┐
-│                    Chat EBM Flow                             │
+│                    ChatWell Flow                             │
 ├─────────────────────────────────────────────────────────────┤
 │                                                              │
 │  User Message → System Prompt (context) → OpenAI → Stream   │
@@ -401,7 +401,7 @@ export default {
 ### Critical E2E Flows
 1. Login completo (email/senha → dashboard)
 2. Fluxo de anamnese de dor torácica (selecionar → gerar → copiar)
-3. Chat EBM (enviar pergunta → receber resposta com citações)
+3. ChatWell (enviar pergunta → receber resposta com citações)
 4. Detecção de red flags (marcar red flag → ver destaque)
 
 ---

@@ -10,7 +10,7 @@ WellWave é um sistema médico avançado para geração automática de anamneses
 
 - **Anamnese Digital**: Geração de texto médico a partir de checkboxes
 - **Detecção de Red Flags**: Alertas automáticos para sinais críticos
-- **Chat EBM**: Assistente de IA para consultas baseadas em evidências
+- **ChatWell**: Assistente de IA para consultas baseadas em evidências
 - **3 Síndromes Suportadas**: Dor Torácica, Dispneia, Abdome Agudo
 - **Modo Resumido/Detalhado**: Adapte o output ao seu workflow
 - **Histórico de Sessões**: Acesse anamneses anteriores
