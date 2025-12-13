@@ -24,15 +24,15 @@ export function validateCrmData(userMetadata: {
   crm_number?: string | null
   crm_state?: string | null
 }): { crmNumber: string; crmState: string } {
-  const crmNumber = userMetadata.crm_number
-  const crmState = userMetadata.crm_state
+  const crmNumber = userMetadata.crm_number?.trim() ?? ''
+  const crmState = userMetadata.crm_state?.trim() ?? ''
 
   // Check for missing fields
   const missingFields: string[] = []
-  if (!crmNumber || crmNumber.trim() === '') {
+  if (!crmNumber || crmNumber === '') {
     missingFields.push('número do CRM')
   }
-  if (!crmState || crmState.trim() === '') {
+  if (!crmState || crmState === '') {
     missingFields.push('UF do CRM')
   }
 
@@ -51,7 +51,7 @@ export function validateCrmData(userMetadata: {
   }
 
   // Validate CRM state format (must be exactly 2 characters)
-  const normalizedState = crmState.trim().toUpperCase()
+  const normalizedState = crmState.toUpperCase()
   if (normalizedState.length !== 2) {
     throw new Error(
       'UF do CRM inválida. Por favor, informe a UF com exatamente 2 caracteres (ex: SP, RJ, MG).'
@@ -71,7 +71,7 @@ export function validateCrmData(userMetadata: {
   }
 
   return {
-    crmNumber: crmNumber.trim(),
+    crmNumber,
     crmState: normalizedState,
   }
 }

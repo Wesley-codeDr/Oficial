@@ -22,6 +22,8 @@ import { CollapsiblePreview } from './collapsible-preview'
 import { SectionNavItem } from './section-nav-item'
 import { RedFlagAlert } from './red-flag-alert'
 import { generateNarrative, detectRedFlags, type OutputMode } from '@/lib/anamnese/generate-narrative'
+import type { DetectedRedFlag } from '@/types/medical'
+import { RedFlagSeverity } from '@prisma/client'
 import { saveAnamneseSession, markSessionAsCopied } from '@/lib/anamnese/actions'
 import { useToast } from '@/hooks/use-toast'
 import { analytics } from '@/lib/analytics'
@@ -188,8 +190,15 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   // Detect red flags and update store
   const redFlags = useMemo(() => {
     const detected = detectRedFlags(selectedCheckboxes)
+    // Convert CheckboxData to DetectedRedFlag format for store
+    const detectedRedFlags: DetectedRedFlag[] = detected.map((cb) => ({
+      ruleId: cb.id,
+      name: cb.displayText,
+      severity: RedFlagSeverity.WARNING,
+      message: `Sinal de alarme: ${cb.displayText}`,
+    }))
     // Update store with red flags
-    setRedFlags(detected)
+    setRedFlags(detectedRedFlags)
     return detected
   }, [selectedCheckboxes, setRedFlags])
 
