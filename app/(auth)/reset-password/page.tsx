@@ -1,38 +1,70 @@
 'use client'
 
 import { Suspense, useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { ArrowLeft, Lock, Loader2 } from 'lucide-react'
+import { ArrowLeft, Lock, Loader2, AlertTriangle } from 'lucide-react'
+
+type PageState = 'validating' | 'valid' | 'invalid' | 'success'
 
 function ResetPasswordContent() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState(false)
+  const [pageState, setPageState] = useState<PageState>('validating')
 
   useEffect(() => {
-    // Check if we have a valid session (user came from password reset email)
-    const checkSession = async () => {
-      const supabase = createClient()
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
+    const supabase = createClient()
 
-      if (!session) {
-        // No session means invalid or expired token
-        setError('Link de redefinição inválido ou expirado. Solicite um novo link.')
+    // Listen for auth state changes to detect PASSWORD_RECOVERY event
+    // This is the recommended way to detect password recovery flow
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        // User arrived via password recovery link - valid state
+        setPageState('valid')
+      } else if (event === 'SIGNED_IN' && session) {
+        // Already signed in, check if this is a recovery session by trying getUser
+        // If the user can be retrieved, the session is valid
+        const { data: { user }, error: userError } = await supabase.auth.getUser()
+        if (user && !userError) {
+          setPageState('valid')
+        } else {
+          setPageState('invalid')
+        }
+      } else if (event === 'SIGNED_OUT' || event === 'TOKEN_REFRESHED') {
+        // These events don't affect our validation
+      }
+    })
+
+    // Initial check: see if there's already a valid session from the callback
+    const checkInitialState = async () => {
+      // Give a brief moment for auth state to settle after redirect
+      await new Promise((resolve) => setTimeout(resolve, 100))
+
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+      if (userError || !user) {
+        // No valid user/session - token is invalid or expired
+        setPageState('invalid')
+      } else {
+        // Valid user exists - the callback already established the recovery session
+        setPageState('valid')
       }
     }
 
-    checkSession()
+    checkInitialState()
+
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,17 +86,37 @@ function ResetPasswordContent() {
 
     try {
       const supabase = createClient()
+      
+      // Double-check we still have a valid session before updating
+      const { data: { user }, error: userError } = await supabase.auth.getUser()
+      if (userError || !user) {
+        setError('Sessão expirada. Solicite um novo link de redefinição.')
+        setPageState('invalid')
+        setLoading(false)
+        return
+      }
+
       const { error: updateError } = await supabase.auth.updateUser({
         password: password,
       })
 
       if (updateError) {
-        setError(updateError.message || 'Erro ao atualizar senha')
+        // Handle specific Supabase errors
+        if (updateError.message.includes('expired') || updateError.message.includes('invalid')) {
+          setError('Link de redefinição expirado. Solicite um novo link.')
+          setPageState('invalid')
+        } else {
+          setError(updateError.message || 'Erro ao atualizar senha')
+        }
         setLoading(false)
         return
       }
 
-      setSuccess(true)
+      setPageState('success')
+      
+      // Sign out after password reset for security
+      await supabase.auth.signOut()
+      
       setTimeout(() => {
         router.push('/login?password_reset=success')
       }, 2000)
@@ -74,7 +126,52 @@ function ResetPasswordContent() {
     }
   }
 
-  if (success) {
+  // Loading/Validating state
+  if (pageState === 'validating') {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
+        <div className="w-full max-w-md space-y-6 rounded-2xl border border-border/50 bg-card/50 p-8 shadow-lg backdrop-blur-sm">
+          <div className="flex flex-col items-center justify-center space-y-4">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            <p className="text-sm text-muted-foreground">Validando link de redefinição...</p>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Invalid token state
+  if (pageState === 'invalid') {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
+        <div className="w-full max-w-md space-y-6 rounded-2xl border border-border/50 bg-card/50 p-8 shadow-lg backdrop-blur-sm">
+          <div className="text-center">
+            <div className="mx-auto mb-4 flex size-16 items-center justify-center rounded-full bg-amber-500/10">
+              <AlertTriangle className="size-8 text-amber-500" />
+            </div>
+            <h1 className="mb-2 text-2xl font-semibold">Link Inválido</h1>
+            <p className="mb-6 text-muted-foreground">
+              O link de redefinição de senha é inválido ou expirou. Por favor, solicite um novo link.
+            </p>
+            <div className="flex flex-col gap-3">
+              <Button asChild className="w-full">
+                <Link href="/forgot-password">Solicitar novo link</Link>
+              </Button>
+              <Button variant="ghost" asChild>
+                <Link href="/login">
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Voltar para o login
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // Success state
+  if (pageState === 'success') {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
         <div className="w-full max-w-md space-y-6 rounded-2xl border border-border/50 bg-card/50 p-8 shadow-lg backdrop-blur-sm">
@@ -92,6 +189,7 @@ function ResetPasswordContent() {
     )
   }
 
+  // Valid state - show form
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
       <div className="w-full max-w-md space-y-6 rounded-2xl border border-border/50 bg-card/50 p-8 shadow-lg backdrop-blur-sm">
@@ -123,6 +221,7 @@ function ResetPasswordContent() {
               required
               minLength={6}
               disabled={loading}
+              autoComplete="new-password"
             />
           </div>
 
@@ -137,11 +236,19 @@ function ResetPasswordContent() {
               required
               minLength={6}
               disabled={loading}
+              autoComplete="new-password"
             />
           </div>
 
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Atualizando...' : 'Atualizar Senha'}
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Atualizando...
+              </>
+            ) : (
+              'Atualizar Senha'
+            )}
           </Button>
         </form>
 
@@ -163,8 +270,9 @@ function LoadingFallback() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-background via-background to-primary/5 p-4">
       <div className="w-full max-w-md space-y-6 rounded-2xl border border-border/50 bg-card/50 p-8 shadow-lg backdrop-blur-sm">
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center space-y-4">
           <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          <p className="text-sm text-muted-foreground">Carregando...</p>
         </div>
       </div>
     </div>
