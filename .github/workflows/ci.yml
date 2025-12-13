@@ -136,6 +136,67 @@ jobs:
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key' }}
           DATABASE_URL: ${{ secrets.DATABASE_URL || 'postgresql://user:password@localhost:5432/test' }}
 
+  e2e:
+    name: Playwright (Mock AI)
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ vars.RUN_E2E == 'true' }}
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: ci
+          POSTGRES_PASSWORD: ci
+          POSTGRES_DB: ci
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
+
+      - name: Prepare database
+        run: pnpm prisma migrate deploy
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Run Playwright tests (mock AI)
+        run: pnpm test:e2e
+        env:
+          DATABASE_URL: 'postgresql://ci:ci@localhost:5432/ci'
+          OPENAI_API_KEY: 'test-key'
+          AI_PROVIDER: 'mock'
+          MOCK_AI: 'true'
+          MOCK_AI_RESPONSE: 'Resposta simulada para testes'
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key' }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY || 'placeholder-key' }}
+          RATE_LIMIT_FAIL_OPEN: 'false'
 
 
 

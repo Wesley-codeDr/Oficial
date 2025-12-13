@@ -279,6 +279,9 @@ export function MessageBubble({ role, content, isStreaming }: MessageBubbleProps
         'flex gap-3',
         isUser ? 'flex-row-reverse' : 'flex-row'
       )}
+      role="listitem"
+      aria-label={isUser ? 'Mensagem do usuário' : 'Mensagem do ChatWell'}
+      data-role={role}
     >
       {/* Avatar */}
       <div className="shrink-0">

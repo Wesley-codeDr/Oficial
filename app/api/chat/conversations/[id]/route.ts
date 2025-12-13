@@ -1,19 +1,17 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { requireApiUser } from '@/lib/api/auth'
+import { withApiAuth } from '@/lib/api/auth'
 import { createApiError } from '@/lib/api/errors'
+import { logger } from '@/lib/logging'
 
 // GET /api/chat/conversations/[id] - Get conversation with messages
-export async function GET(
+export const GET = withApiAuth(async (
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+  { params }: { params: { id: string } },
+  user
+) => {
   try {
-    const auth = await requireApiUser()
-    if (auth.error) return auth.error
-    const { user } = auth
-
-    const { id } = await params
+    const { id } = params
 
     // Use findFirst to support composite where clause
     const conversation = await prisma.chatConversation.findFirst({
@@ -47,25 +45,26 @@ export async function GET(
 
     return NextResponse.json(conversation)
   } catch (error) {
-    console.error('Error fetching conversation:', error)
+    logger.error('Error fetching conversation', {
+      route: '/api/chat/conversations/[id]',
+      event: 'GET',
+      userId: user.id,
+    }, error)
     return NextResponse.json(
       createApiError('INTERNAL_ERROR', 'Failed to fetch conversation'),
       { status: 500 }
     )
   }
-}
+})
 
 // DELETE /api/chat/conversations/[id] - Delete conversation
-export async function DELETE(
+export const DELETE = withApiAuth(async (
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+  { params }: { params: { id: string } },
+  user
+) => {
   try {
-    const auth = await requireApiUser()
-    if (auth.error) return auth.error
-    const { user } = auth
-
-    const { id } = await params
+    const { id } = params
 
     // Verify ownership using findFirst
     const conversation = await prisma.chatConversation.findFirst({
@@ -95,10 +94,14 @@ export async function DELETE(
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error deleting conversation:', error)
+    logger.error('Error deleting conversation', {
+      route: '/api/chat/conversations/[id]',
+      event: 'DELETE',
+      userId: user.id,
+    }, error)
     return NextResponse.json(
       createApiError('INTERNAL_ERROR', 'Failed to delete conversation'),
       { status: 500 }
     )
   }
-}
+})

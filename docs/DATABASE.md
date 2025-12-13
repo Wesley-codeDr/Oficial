@@ -16,6 +16,12 @@ Ambos utilizam a mesma instância PostgreSQL do Supabase em produção, permitin
 - **Produção**: Supabase (com PgBouncer e SSL obrigatórios)
 - **Desenvolvimento**: PostgreSQL local via Docker (recomendado para evitar consumo desnecessário de conexões)
 
+### LGPD e Retenção de Dados
+
+- **Campos sensíveis**: `AnamneseSession.generatedText` e `ChatMessage.content` armazenam texto clínico. Evite inserir identificadores de pacientes; o MVP assume conteúdo desidentificado.
+- **Retenção recomendada**: 30 dias para histórico de chat e anamnese gerada. Planeje um job de limpeza ou política de retenção no provedor.
+- **Fallback/Mock**: use `MOCK_AI=true` em ambientes de teste/CI para impedir envio de conteúdo clínico real a provedores externos.
+
 ## Configuração Inicial
 
 ### 1. Desenvolvimento Local (Docker)

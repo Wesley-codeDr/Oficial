@@ -6,12 +6,18 @@ import type { ApiError, FieldError } from '@/types/api'
 export function createApiError(
   code: string,
   message: string,
-  errors?: FieldError[]
+  errors?: FieldError[],
+  options?: {
+    meta?: Record<string, unknown>
+    retryAfter?: number
+  }
 ): ApiError {
   return {
     code,
     message,
     ...(errors && errors.length > 0 && { errors }),
+    ...(options?.retryAfter !== undefined && { retryAfter: options.retryAfter }),
+    ...(options?.meta && { meta: options.meta }),
   }
 }
 
@@ -50,6 +56,5 @@ export function createMinimumDataError(
     })),
   ])
 }
-
 
 

@@ -6,7 +6,7 @@
  */
 
 import { prisma } from '@/lib/db/prisma'
-import { buildContext } from '@/lib/ai/context'
+import { buildContext, buildSessionContext } from '@/lib/ai/context'
 import { validateMinimumData } from '@/lib/ai/guardrails'
 import { createMinimumDataError } from '@/lib/api/errors'
 import type { CheckboxCategory } from '@prisma/client'
@@ -81,8 +81,7 @@ export async function buildContextFromSession(
   }
 
   // Validate checkedItems format
-  const checkedIds = session.checkedItems as string[]
-  if (!Array.isArray(checkedIds)) {
+  if (!Array.isArray(session.checkedItems)) {
     return {
       success: false,
       error: {
@@ -93,18 +92,8 @@ export async function buildContextFromSession(
     }
   }
 
-  // Filter checkboxes to only those that were checked
-  const checkedItems = session.syndrome.checkboxes.filter((cb) => checkedIds.includes(cb.id))
-
-  // Map to validation format
-  const checkedItemsForValidation = checkedItems.map((cb) => ({
-    id: cb.id,
-    category: cb.category as CheckboxCategory,
-    displayText: cb.displayText,
-    narrativeText: cb.narrativeText,
-    isRedFlag: cb.isRedFlag,
-    isNegative: cb.isNegative,
-  }))
+  const sessionContext = buildSessionContext(session)
+  const checkedItemsForValidation = sessionContext.checkedItems
 
   // Validate minimum data
   const dataValidation = validateMinimumData(checkedItemsForValidation)
@@ -119,26 +108,16 @@ export async function buildContextFromSession(
     }
   }
 
-  // Extract red flags
-  const redFlagItems = checkedItems.filter((cb) => cb.isRedFlag)
-
   // Build context text
   const contextText = buildContext({
-    syndromeName: session.syndrome.name,
-    syndromeDescription: session.syndrome.description || undefined,
+    syndromeName: sessionContext.context.syndromeName,
+    syndromeDescription: sessionContext.context.syndromeDescription,
     checkedItems: checkedItemsForValidation,
-    generatedText: session.generatedText || '',
-    redFlags: redFlagItems.map((cb) => ({
-      id: cb.id,
-      category: cb.category,
-      displayText: cb.displayText,
-      narrativeText: cb.narrativeText,
-      isRedFlag: cb.isRedFlag,
-      isNegative: cb.isNegative,
-    })),
+    generatedText: sessionContext.context.generatedText,
+    redFlags: sessionContext.redFlags,
   })
 
-  const redFlags = redFlagItems.map((rf) => rf.displayText)
+  const redFlags = sessionContext.redFlags.map((rf) => rf.displayText)
 
   return {
     success: true,
@@ -149,4 +128,3 @@ export async function buildContextFromSession(
     },
   }
 }
-

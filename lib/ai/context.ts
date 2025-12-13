@@ -1,4 +1,7 @@
-import type { CheckboxCategory } from '@prisma/client'
+import type { Message as AiMessage } from 'ai'
+import type { AnamneseSession, Checkbox, CheckboxCategory, Syndrome } from '@prisma/client'
+import { MODEL_CONFIG } from './config'
+import type { ContextSnapshot } from './context-snapshot'
 
 type CheckboxData = {
   id: string
@@ -26,6 +29,61 @@ const CATEGORY_LABELS: Record<CheckboxCategory, string> = {
   HABITOS: 'Hábitos de Vida',
   EXAME_FISICO: 'Exame Físico',
   NEGATIVAS: 'Negativas Pertinentes',
+}
+
+type SessionWithContext = Pick<AnamneseSession, 'checkedItems' | 'generatedText'> & {
+  syndrome: Syndrome & { checkboxes: Checkbox[] }
+}
+
+export interface BuiltSessionContext {
+  context: SessionContext
+  snapshot: ContextSnapshot
+  checkedItems: CheckboxData[]
+  redFlags: CheckboxData[]
+}
+
+/**
+ * Build a normalized context structure (and snapshot) from a loaded session.
+ * All AI/chat context should flow through this helper to keep semantics consistent.
+ */
+export function buildSessionContext(session: SessionWithContext): BuiltSessionContext {
+  const checkedIds = Array.isArray(session.checkedItems) ? (session.checkedItems as string[]) : []
+  const checkedItems = session.syndrome.checkboxes.filter((cb) => checkedIds.includes(cb.id))
+
+  const normalizedCheckedItems: CheckboxData[] = checkedItems.map((cb) => ({
+    id: cb.id,
+    category: cb.category,
+    displayText: cb.displayText,
+    narrativeText: cb.narrativeText,
+    isRedFlag: cb.isRedFlag,
+    isNegative: cb.isNegative,
+  }))
+
+  const redFlagItems = normalizedCheckedItems.filter((item) => item.isRedFlag)
+
+  const context: SessionContext = {
+    syndromeName: session.syndrome.name,
+    syndromeDescription: session.syndrome.description || undefined,
+    checkedItems: normalizedCheckedItems,
+    generatedText: session.generatedText || '',
+    redFlags: redFlagItems,
+  }
+
+  const snapshot: ContextSnapshot = {
+    version: 1,
+    syndromeName: context.syndromeName,
+    syndromeDescription: context.syndromeDescription,
+    checkedItems: normalizedCheckedItems,
+    generatedText: context.generatedText,
+    redFlags: redFlagItems.map((rf) => rf.displayText),
+  }
+
+  return {
+    context,
+    snapshot,
+    checkedItems: normalizedCheckedItems,
+    redFlags: redFlagItems,
+  }
 }
 
 /**
@@ -111,4 +169,35 @@ export function buildMinimalContext(session: SessionContext): string {
   }
 
   return parts.join(' | ')
+}
+
+type ChatMessage = Pick<AiMessage, 'id' | 'role' | 'content'>
+
+/**
+ * Limit the number of messages sent to the model to avoid runaway token counts.
+ * Defaults to the 20 most recent messages or a rough token budget derived from MODEL_CONFIG.
+ */
+export function truncateMessageHistory<T extends ChatMessage>(
+  messages: T[],
+  maxMessages = 20,
+  tokenBudget = MODEL_CONFIG.maxTokens * 4
+): T[] {
+  const estimateTokens = (text: string) => Math.ceil(text.trim().split(/\s+/).length * 1.25)
+  const reversed = [...messages].reverse()
+  const kept: T[] = []
+  let runningTokens = 0
+
+  for (const message of reversed) {
+    const tokens = estimateTokens(message.content)
+    const withinBudget = runningTokens + tokens <= tokenBudget || kept.length === 0
+
+    if (kept.length < maxMessages && withinBudget) {
+      kept.push(message)
+      runningTokens += tokens
+    } else {
+      break
+    }
+  }
+
+  return kept.reverse()
 }

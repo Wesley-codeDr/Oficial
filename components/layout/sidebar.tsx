@@ -6,9 +6,8 @@ import { usePathname } from 'next/navigation';
 import {
   PlusCircle, FolderClock, Settings,
   Activity, PanelLeftClose, PanelLeftOpen, LayoutGrid,
-  LogOut, Sun, Moon, Calculator, ChevronDown, ChevronRight
+  LogOut, Calculator, ChevronDown
 } from 'lucide-react';
-import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useSidebar, SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_EXPANDED_WIDTH } from '@/lib/contexts/sidebar-context';
@@ -266,14 +265,7 @@ export function Sidebar({
   userEmail = ''
 }: SidebarProps) {
   const pathname = usePathname();
-  const { theme, setTheme } = useTheme();
   const { isCollapsed, toggle } = useSidebar();
-  const [mounted, setMounted] = useState(false);
-
-  // Handle hydration
-  useEffect(() => {
-    setMounted(true);
-  }, []);
 
   // Check if current path is active
   const isActiveItem = (href: string) => {
@@ -281,10 +273,6 @@ export function Sidebar({
       return pathname === '/dashboard' || pathname === '/';
     }
     return pathname?.startsWith(href) ?? false;
-  };
-
-  const toggleTheme = () => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   // Calculate width based on collapse state
@@ -458,56 +446,7 @@ export function Sidebar({
         'mt-auto px-2 pb-2 flex flex-col gap-2 transition-all duration-300',
         isCollapsed ? 'items-center px-1' : ''
       )}>
-        {/* Theme Toggle - Apple HIG segmented control style */}
-        {mounted && (
-          <div className={cn(
-            'flex items-center justify-between transition-all duration-300 p-2 rounded-xl',
-            'bg-white/40 dark:bg-white/5 border border-white/30 dark:border-white/10',
-            isCollapsed ? 'w-auto justify-center bg-transparent border-transparent' : 'w-full'
-          )}>
-            {!isCollapsed && (
-              <span className="text-[12px] font-medium text-slate-500 dark:text-slate-400 pl-1">
-                Aparência
-              </span>
-            )}
-
-            <button
-              onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Mudar para tema claro' : 'Mudar para tema escuro'}
-              className={cn(
-                'group relative h-7 w-14 rounded-full',
-                'transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]',
-                'cursor-pointer',
-                // Apple HIG focus states
-                'outline-none focus-visible:ring-2 focus-visible:ring-healthcare-primary/50',
-                'focus-visible:ring-offset-1',
-                theme === 'dark'
-                  ? 'bg-[#3a3a3c] border border-white/10'
-                  : 'bg-slate-200 border border-black/5'
-              )}
-            >
-              <motion.div
-                className={cn(
-                  'absolute top-[3px] left-[3px] h-[22px] w-[22px] rounded-full',
-                  'flex items-center justify-center',
-                  'shadow-sm border border-white/20',
-                  theme === 'dark'
-                    ? 'bg-[#636366] text-indigo-300'
-                    : 'bg-white text-amber-500'
-                )}
-                animate={{ x: theme === 'dark' ? 24 : 0 }}
-                transition={{ duration: 0.3, ease: [0.32, 0.72, 0, 1] }}
-              >
-                {theme === 'dark' ? (
-                  <Moon className="w-3 h-3" />
-                ) : (
-                  <Sun className="w-3 h-3" />
-                )}
-              </motion.div>
-            </button>
-          </div>
-        )}
-
+        
         {/* User Profile - Apple HIG list item style */}
         <div className={cn(
           'flex items-center rounded-xl transition-all duration-200 group w-full',

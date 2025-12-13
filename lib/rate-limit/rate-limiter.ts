@@ -11,6 +11,7 @@
 
 import { prisma } from '@/lib/db/prisma'
 import { RATE_LIMIT } from '@/lib/ai/guardrails'
+import { logger } from '@/lib/logging'
 import type { RateLimitEntry } from '@prisma/client'
 
 export interface RateLimitResult {
@@ -32,26 +33,30 @@ export async function checkRateLimit(
   userId: string,
   now: number = Date.now()
 ): Promise<RateLimitResult> {
+  const oneHourAgo = new Date(now - 3600000)
+
   try {
-    // Clean up old entries for this user only (older than 1 hour)
-    // Scoped cleanup prevents unnecessary work and improves performance at scale
-    const oneHourAgo = new Date(now - 3600000)
-    await prisma.rateLimitEntry.deleteMany({
-      where: {
-        userId,
-        timestamp: {
-          lt: oneHourAgo,
+    // Run cleanup only when the number of rows for the user crosses a threshold
+    const totalEntries = await prisma.rateLimitEntry.count({ where: { userId } })
+    const cleanupThreshold = RATE_LIMIT.maxRequestsPerHour * 2
+
+    if (totalEntries > cleanupThreshold) {
+      await prisma.rateLimitEntry.deleteMany({
+        where: {
+          userId,
+          timestamp: {
+            lt: oneHourAgo,
+          },
         },
-      },
-    })
+      })
+    }
 
     // Get all entries for this user in the last hour
-    const oneHourAgoDate = new Date(now - 3600000)
     const entries = await prisma.rateLimitEntry.findMany({
       where: {
         userId,
         timestamp: {
-          gte: oneHourAgoDate,
+          gte: oneHourAgo,
         },
       },
       orderBy: {
@@ -92,17 +97,17 @@ export async function checkRateLimit(
 
     return { allowed: true }
   } catch (error) {
-    // Log enhanced error context for debugging
-    console.error('Rate limit check failed:', {
-      error,
+    // Log enhanced error context for debugging/alerting
+    logger.error('Rate limit check failed', {
       userId,
+      route: 'rate-limit',
+      event: 'checkRateLimit',
       timestamp: new Date(now).toISOString(),
-      now,
-    })
+    }, error)
     
     // Check if we should fail open (allow) or closed (deny) on database errors
-    // Default to fail open (true) to prevent rate limiting from breaking the service
-    const failOpen = process.env.RATE_LIMIT_FAIL_OPEN !== 'false'
+    // Default is fail-closed; opt in to fail-open explicitly for availability trade-off.
+    const failOpen = process.env.RATE_LIMIT_FAIL_OPEN === 'true'
     
     if (failOpen) {
       return { allowed: true }
@@ -162,4 +167,3 @@ export function checkRateLimitInMemory(userId: string): RateLimitResult {
   inMemoryStore.set(userId, userLimit)
   return { allowed: true }
 }
-

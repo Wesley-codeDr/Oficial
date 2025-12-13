@@ -1,16 +1,14 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { requireApiUser } from '@/lib/api/auth'
-import { buildContext, extractRedFlags } from '@/lib/ai/context'
+import { withApiAuth } from '@/lib/api/auth'
+import { buildSessionContext } from '@/lib/ai/context'
 import { createApiError, createValidationError } from '@/lib/api/errors'
+import { CRM_PUBLIC_ERROR_MESSAGE, isCrmValidationError } from '@/lib/auth/user-bootstrap'
+import { logger } from '@/lib/logging'
 
 // POST /api/chat/conversations - Create a new conversation
-export async function POST(req: Request) {
+export const POST = withApiAuth(async (req: Request, _ctx, user) => {
   try {
-    const auth = await requireApiUser()
-    if (auth.error) return auth.error
-    const { user } = auth
-
     const body = await req.json()
     const { sessionId } = body as { sessionId?: string }
 
@@ -39,47 +37,37 @@ export async function POST(req: Request) {
       }
 
       if (session) {
-        const checkedIds = session.checkedItems as string[]
-        const checkedItems = session.syndrome.checkboxes.filter((cb) =>
-          checkedIds.includes(cb.id)
-        )
-        const redFlags = checkedItems.filter((cb) => cb.isRedFlag)
-
-        contextSnapshot = {
-          version: 1, // Explicitly set version for schema compliance
-          syndromeName: session.syndrome.name,
-          syndromeDescription: session.syndrome.description,
-          checkedItems: checkedItems.map((cb) => ({
-            id: cb.id,
-            category: cb.category,
-            displayText: cb.displayText,
-            narrativeText: cb.narrativeText,
-            isRedFlag: cb.isRedFlag,
-            isNegative: cb.isNegative,
-          })),
-          generatedText: session.generatedText || '',
-          redFlags: redFlags.map((rf) => rf.displayText),
-        }
+        const sessionContext = buildSessionContext(session)
+        contextSnapshot = sessionContext.snapshot
       }
     }
 
     // Ensure user exists in database
-    const { ensureDbUser, isCrmValidationError } = await import('@/lib/auth/user-bootstrap')
+    const { ensureDbUser } = await import('@/lib/auth/user-bootstrap')
     try {
       await ensureDbUser(user)
     } catch (error) {
       // Distinguish CRM validation errors from database errors
       if (isCrmValidationError(error)) {
+        logger.error('CRM validation failed while creating conversation', {
+          route: '/api/chat/conversations',
+          event: 'POST.ensureDbUser',
+          userId: user.id,
+        }, error)
         return NextResponse.json(
           createValidationError(
-            error.message || 'Dados de CRM inválidos',
-            [{ field: 'crm', message: error.message || 'Dados de CRM inválidos' }]
+            CRM_PUBLIC_ERROR_MESSAGE,
+            [{ field: 'crm', message: CRM_PUBLIC_ERROR_MESSAGE }]
           ),
           { status: 400 }
         )
       }
       // Database or other unexpected errors return 500
-      console.error('Unexpected error in ensureDbUser:', error)
+      logger.error('Unexpected error in ensureDbUser', {
+        route: '/api/chat/conversations',
+        event: 'POST.ensureDbUser',
+        userId: user.id,
+      }, error)
       return NextResponse.json(
         createApiError('INTERNAL_ERROR', 'Failed to create conversation'),
         { status: 500 }
@@ -107,21 +95,21 @@ export async function POST(req: Request) {
 
     return NextResponse.json(conversation)
   } catch (error) {
-    console.error('Error creating conversation:', error)
+    logger.error('Error creating conversation', {
+      route: '/api/chat/conversations',
+      event: 'POST',
+      userId: user.id,
+    }, error)
     return NextResponse.json(
       createApiError('INTERNAL_ERROR', 'Failed to create conversation'),
       { status: 500 }
     )
   }
-}
+})
 
 // GET /api/chat/conversations - List user's conversations
-export async function GET(req: Request) {
+export const GET = withApiAuth(async (req: Request, _ctx, user) => {
   try {
-    const auth = await requireApiUser()
-    if (auth.error) return auth.error
-    const { user } = auth
-
     const { searchParams } = new URL(req.url)
     const rawLimit = parseInt(searchParams.get('limit') || '20', 10)
 
@@ -165,10 +153,14 @@ export async function GET(req: Request) {
 
     return NextResponse.json(conversations)
   } catch (error) {
-    console.error('Error listing conversations:', error)
+    logger.error('Error listing conversations', {
+      route: '/api/chat/conversations',
+      event: 'GET',
+      userId: user.id,
+    }, error)
     return NextResponse.json(
       createApiError('INTERNAL_ERROR', 'Failed to list conversations'),
       { status: 500 }
     )
   }
-}
+})

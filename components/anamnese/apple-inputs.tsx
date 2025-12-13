@@ -262,9 +262,10 @@ export function RangeItem({ id, label, min, max, step = 1, value, onChange }: Ra
           value={numVal}
           onChange={(e) => onChange(parseInt(e.target.value, 10))}
           className="absolute w-full h-full opacity-0 cursor-pointer z-20"
-          aria-valuemin={min}
-          aria-valuemax={max}
-          aria-valuenow={numVal}
+          role="slider"
+          aria-valuemin={Number(min)}
+          aria-valuemax={Number(max)}
+          aria-valuenow={Number(numVal)}
           aria-label={label}
           title={label}
         />

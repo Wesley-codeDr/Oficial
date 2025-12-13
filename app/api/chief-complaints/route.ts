@@ -1,15 +1,11 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { requireApiUser } from '@/lib/api/auth'
+import { withApiAuth } from '@/lib/api/auth'
 import { createValidationError, createApiError } from '@/lib/api/errors'
 
 // GET /api/chief-complaints - List chief complaints with groups
-export async function GET(req: Request) {
+export const GET = withApiAuth(async (req: Request, _ctx, _user) => {
   try {
-    const auth = await requireApiUser()
-    if (auth.error) return auth.error
-    const { user } = auth
-
     const { searchParams } = new URL(req.url)
     const groupCode = searchParams.get('group')
     const search = searchParams.get('search')
@@ -77,7 +73,7 @@ export async function GET(req: Request) {
       { status: 500 }
     )
   }
-}
+})
 
 // POST /api/chief-complaints - Reserved for future write operations
 // Groups listing has been moved to GET /api/chief-complaints/groups

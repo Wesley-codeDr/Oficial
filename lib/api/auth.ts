@@ -49,6 +49,26 @@ export async function requireApiUser(): Promise<
   return { user, error: null }
 }
 
+export type AuthenticatedUser = NonNullable<Awaited<ReturnType<typeof getUser>>>
+
+/**
+ * Wrap an API handler with mandatory authentication.
+ * Ensures medical endpoints consistently enforce auth before executing logic.
+ */
+export function withApiAuth<TContext = unknown>(
+  handler: (
+    req: Request,
+    context: TContext,
+    user: AuthenticatedUser
+  ) => Promise<Response | NextResponse> | Response | NextResponse
+) {
+  return async (req: Request, context: TContext) => {
+    const auth = await requireApiUser()
+    if (auth.error) return auth.error
+
+    return handler(req, context, auth.user)
+  }
+}
 
 
 

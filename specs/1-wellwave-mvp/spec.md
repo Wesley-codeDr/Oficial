@@ -290,7 +290,7 @@ O sistema DEVE permitir exportar a anamnese gerada:
 - Autenticação obrigatória para acesso
 - Sessões com timeout configurável
 - Conformidade LGPD para dados de saúde
-- Dados de pacientes NÃO são armazenados no MVP (copy-paste para prontuário externo)
+- Dados clínicos armazenados: anamnese gerada (estrutura + texto) e histórico de chat são persistidos para auditoria, sem identificadores do paciente. Retenção máxima recomendada: 30 dias.
 
 ### NFR-004: Usabilidade
 

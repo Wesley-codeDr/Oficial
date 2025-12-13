@@ -1,13 +1,13 @@
+import { NextResponse } from 'next/server'
 import { streamText, type Message } from 'ai'
 import { prisma } from '@/lib/db/prisma'
-import { requireApiUser } from '@/lib/api/auth'
-import { openai, DEFAULT_MODEL, MODEL_CONFIG } from '@/lib/ai/config'
+import { withApiAuth } from '@/lib/api/auth'
+import { getChatModel, MODEL_CONFIG } from '@/lib/ai/config'
 import { buildSystemPrompt } from '@/lib/ai/prompts'
-import { buildContext } from '@/lib/ai/context'
+import { buildContext, truncateMessageHistory } from '@/lib/ai/context'
 import {
   validateMinimumData,
   validateUserMessage,
-  DISCLAIMER_TEXT,
   postProcessResponse,
 } from '@/lib/ai/guardrails'
 import { extractCitations } from '@/lib/ai/citations'
@@ -16,21 +16,19 @@ import { safeParseContextSnapshot } from '@/lib/ai/context-snapshot'
 import { checkRateLimit, checkRateLimitInMemory } from '@/lib/rate-limit/rate-limiter'
 import { buildContextFromSession } from '@/lib/chat/context'
 import type { CheckboxCategory } from '@prisma/client'
+import { logger } from '@/lib/logging'
 
 // Use in-memory rate limiter only in development or when explicitly enabled
 const USE_IN_MEMORY_RATE_LIMIT = process.env.USE_IN_MEMORY_RATE_LIMIT === 'true' || process.env.NODE_ENV === 'development'
 
 // POST /api/chat/conversations/[id]/messages - Send message and get streaming response
-export async function POST(
+export const POST = withApiAuth(async (
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+  { params }: { params: { id: string } },
+  user
+) => {
   try {
-    const auth = await requireApiUser()
-    if (auth.error) return auth.error
-    const { user } = auth
-
-    const { id: conversationId } = await params
+    const { id: conversationId } = params
     const body = await req.json()
     const { content } = body as { content: string }
 
@@ -41,10 +39,7 @@ export async function POST(
         'Mensagem inválida',
         messageValidation.errors.map((e) => ({ message: e }))
       )
-      return new Response(JSON.stringify(errorResponse), {
-        status: 400,
-        headers: { 'Content-Type': 'application/json' },
-      })
+      return NextResponse.json(errorResponse, { status: 400 })
     }
 
     // Check rate limit (distributed Postgres-based or in-memory fallback)
@@ -52,19 +47,19 @@ export async function POST(
       ? checkRateLimitInMemory(user.id)
       : await checkRateLimit(user.id)
     if (!rateLimitCheck.allowed) {
-      return new Response(
-        JSON.stringify({
-          error: 'Limite de requisições excedido. Tente novamente em alguns instantes.',
-          retryAfter: rateLimitCheck.retryAfter,
-        }),
-        {
-          status: 429,
-          headers: {
-            'Content-Type': 'application/json',
-            'Retry-After': String(rateLimitCheck.retryAfter || 60),
-          },
-        }
+      const retryAfter = rateLimitCheck.retryAfter ?? 60
+      const errorResponse = createApiError(
+        'RATE_LIMIT_EXCEEDED',
+        'Limite de requisições excedido. Tente novamente em alguns instantes.',
+        undefined,
+        { retryAfter }
       )
+      return NextResponse.json(errorResponse, {
+        status: 429,
+        headers: {
+          'Retry-After': String(retryAfter),
+        },
+      })
     }
 
     // Fetch conversation with context using findFirst
@@ -78,13 +73,9 @@ export async function POST(
     })
 
     if (!conversation) {
-      return new Response(
-        JSON.stringify(createApiError('NOT_FOUND', 'Conversation not found')),
-        {
-          status: 404,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      )
+      return NextResponse.json(createApiError('NOT_FOUND', 'Conversation not found'), {
+        status: 404,
+      })
     }
 
     // Save user message
@@ -114,20 +105,18 @@ export async function POST(
 
       if (!parseResult.success) {
         const error = parseResult.error
-        console.error('Invalid contextSnapshot', {
+        logger.error('Invalid contextSnapshot', {
           conversationId,
           userId: user.id,
-          error,
-        })
-        return new Response(
-          JSON.stringify(createApiError(
+          route: '/api/chat/conversations/[id]/messages',
+          event: 'parseContextSnapshot',
+        }, error)
+        return NextResponse.json(
+          createApiError(
             error?.code || 'INVALID_CONTEXT_SNAPSHOT',
             error?.message || 'O contexto da conversa está em formato inválido. Por favor, crie uma nova conversa.'
-          )),
-          {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' },
-          }
+          ),
+          { status: 400 }
         )
       }
 
@@ -150,10 +139,7 @@ export async function POST(
           dataValidation.errors,
           dataValidation.warnings
         )
-        return new Response(JSON.stringify(errorResponse), {
-          status: 400,
-          headers: { 'Content-Type': 'application/json' },
-        })
+        return NextResponse.json(errorResponse, { status: 400 })
       }
 
       contextText = buildContext({
@@ -169,21 +155,16 @@ export async function POST(
       const sessionContextResult = await buildContextFromSession(conversation.sessionId, user.id)
 
       if (!sessionContextResult.success) {
-        console.error('Failed to build context from session', {
+        logger.error('Failed to build context from session', {
           conversationId,
           sessionId: conversation.sessionId,
           userId: user.id,
-          error: sessionContextResult.error,
-        })
-        return new Response(
-          JSON.stringify(createApiError(
-            sessionContextResult.error.code,
-            sessionContextResult.error.message
-          )),
-          {
-            status: sessionContextResult.error.status,
-            headers: { 'Content-Type': 'application/json' },
-          }
+          route: '/api/chat/conversations/[id]/messages',
+          event: 'buildContextFromSession',
+        }, sessionContextResult.error)
+        return NextResponse.json(
+          createApiError(sessionContextResult.error.code, sessionContextResult.error.message),
+          { status: sessionContextResult.error.status }
         )
       }
 
@@ -207,80 +188,87 @@ export async function POST(
       content,
     })
 
+    const boundedMessageHistory = truncateMessageHistory(messageHistory)
+
     // Build system prompt with context
     const systemPrompt = buildSystemPrompt(contextText, redFlags)
 
     // Stream the response
     const result = streamText({
-      model: openai(DEFAULT_MODEL),
+      model: getChatModel(),
       system: systemPrompt,
-      messages: messageHistory,
+      messages: boundedMessageHistory,
       temperature: MODEL_CONFIG.temperature,
       maxTokens: MODEL_CONFIG.maxTokens,
       onFinish: async ({ text }) => {
-        // Post-process response to ensure disclaimer is present
-        const processedText = postProcessResponse(text)
-        const citations = extractCitations(processedText)
+        try {
+          // Post-process response to ensure disclaimer is present
+          const processedText = postProcessResponse(text)
+          const citations = extractCitations(processedText)
 
-        // Save assistant message with post-processed content
-        await prisma.chatMessage.create({
-          data: {
-            conversationId,
-            role: 'ASSISTANT',
-            content: processedText,
-            citations: citations.length > 0 ? citations : undefined,
-          },
-        })
-
-        // Update conversation timestamp
-        await prisma.chatConversation.update({
-          where: { id: conversationId },
-          data: { updatedAt: new Date() },
-        })
-
-        // Audit log
-        await prisma.auditLog.create({
-          data: {
-            userId: user.id,
-            action: 'CHAT_MESSAGE_SENT',
-            resourceType: 'ChatConversation',
-            resourceId: conversationId,
-            metadata: {
-              messageLength: content.length,
-              responseLength: text.length,
-              citationCount: citations.length,
+          // Save assistant message with post-processed content
+          await prisma.chatMessage.create({
+            data: {
+              conversationId,
+              role: 'ASSISTANT',
+              content: processedText,
+              citations: citations.length > 0 ? citations : undefined,
             },
-          },
-        })
+          })
+
+          // Update conversation timestamp
+          await prisma.chatConversation.update({
+            where: { id: conversationId },
+            data: { updatedAt: new Date() },
+          })
+
+          // Audit log
+          await prisma.auditLog.create({
+            data: {
+              userId: user.id,
+              action: 'CHAT_MESSAGE_SENT',
+              resourceType: 'ChatConversation',
+              resourceId: conversationId,
+              metadata: {
+                messageLength: content.length,
+                responseLength: text.length,
+                citationCount: citations.length,
+              },
+            },
+          })
+        } catch (streamPersistError) {
+          logger.error('Failed to persist streamed chat message', {
+            route: '/api/chat/conversations/[id]/messages',
+            event: 'onFinish',
+            userId: user.id,
+            conversationId,
+          }, streamPersistError)
+        }
       },
     })
 
     return result.toDataStreamResponse()
   } catch (error) {
-    console.error('Error in chat:', error)
+    logger.error('Error in chat stream', {
+      route: '/api/chat/conversations/[id]/messages',
+      event: 'POST',
+      userId: user.id,
+      conversationId: params.id,
+    }, error)
     // Return structured error response with metadata for better diagnostics
-    const errorResponse = createApiError(
-      'CHAT_STREAM_ERROR',
-      'Failed to process chat message'
-    )
-    return new Response(JSON.stringify(errorResponse), {
-      status: 500,
-      headers: { 'Content-Type': 'application/json' },
-    })
+    const errorResponse = createApiError('CHAT_STREAM_ERROR', 'Failed to process chat message')
+    return NextResponse.json(errorResponse, { status: 500 })
   }
-}
+})
 
 // GET /api/chat/conversations/[id]/messages - Get messages for a conversation
-export async function GET(
+export const GET = withApiAuth(async (
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+  { params }: { params: { id: string } },
+  user
+) => {
   try {
-    const auth = await requireApiUser()
-    if (auth.error) return auth.error
-    const { user } = auth
-
-    const { id: conversationId } = await params
+    const { id: conversationId } = params
 
     // Verify ownership using findFirst
     const conversation = await prisma.chatConversation.findFirst({
@@ -288,13 +276,9 @@ export async function GET(
     })
 
     if (!conversation) {
-      return new Response(
-        JSON.stringify(createApiError('NOT_FOUND', 'Conversation not found')),
-        {
-          status: 404,
-          headers: { 'Content-Type': 'application/json' },
-        }
-      )
+      return NextResponse.json(createApiError('NOT_FOUND', 'Conversation not found'), {
+        status: 404,
+      })
     }
 
     const messages = await prisma.chatMessage.findMany({
@@ -302,15 +286,15 @@ export async function GET(
       orderBy: { createdAt: 'asc' },
     })
 
-    return Response.json(messages)
+    return NextResponse.json(messages)
   } catch (error) {
-    console.error('Error fetching messages:', error)
-    return new Response(
-      JSON.stringify(createApiError('INTERNAL_ERROR', 'Failed to fetch messages')),
-      {
-        status: 500,
-        headers: { 'Content-Type': 'application/json' },
-      }
-    )
+    logger.error('Error fetching messages', {
+      route: '/api/chat/conversations/[id]/messages',
+      event: 'GET',
+      userId: user.id,
+    }, error)
+    return NextResponse.json(createApiError('INTERNAL_ERROR', 'Failed to fetch messages'), {
+      status: 500,
+    })
   }
-}
+})

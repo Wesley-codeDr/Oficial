@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
+import { logger } from '@/lib/logging'
 import { revalidatePath } from 'next/cache'
 
 export async function getSyndromeByCode(code: string) {
@@ -33,15 +34,18 @@ export async function saveAnamneseSession(data: {
 
   // Ensure user exists in database with validated CRM data
   // Only catch CRM validation errors, let database errors propagate
-  const { ensureDbUser, isCrmValidationError } = await import('@/lib/auth/user-bootstrap')
+  const { ensureDbUser, isCrmValidationError, CRM_PUBLIC_ERROR_MESSAGE } = await import('@/lib/auth/user-bootstrap')
   try {
     await ensureDbUser(user)
   } catch (error) {
     // Only handle CRM validation errors, re-throw others
     if (isCrmValidationError(error)) {
-      throw new Error(
-        error.message || 'Dados de CRM inválidos. Por favor, complete seu perfil com informações válidas de CRM.'
-      )
+      logger.error('CRM validation failed while saving anamnese session', {
+        userId: user.id,
+        route: 'anamnese/save-session',
+        event: 'ensureDbUser',
+      }, error)
+      throw new Error(CRM_PUBLIC_ERROR_MESSAGE)
     }
     // Re-throw database or other unexpected errors
     throw error

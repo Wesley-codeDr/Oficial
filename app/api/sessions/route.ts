@@ -1,15 +1,13 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { requireApiUser } from '@/lib/api/auth'
+import { withApiAuth } from '@/lib/api/auth'
 import { createValidationError, createApiError } from '@/lib/api/errors'
+import { CRM_PUBLIC_ERROR_MESSAGE, isCrmValidationError } from '@/lib/auth/user-bootstrap'
+import { logger } from '@/lib/logging'
 
 // GET /api/sessions - List user's anamnese sessions
-export async function GET(req: Request) {
+export const GET = withApiAuth(async (req: Request, _ctx, user) => {
   try {
-    const auth = await requireApiUser()
-    if (auth.error) return auth.error
-    const { user } = auth
-
     const { searchParams } = new URL(req.url)
     const rawLimit = searchParams.get('limit')
     const rawOffset = searchParams.get('offset')
@@ -100,21 +98,17 @@ export async function GET(req: Request) {
       hasMore: offset + sessions.length < total,
     })
   } catch (error) {
-    console.error('Error listing sessions:', error)
+    logger.error('Error listing sessions', { route: '/api/sessions', event: 'GET', userId: user.id }, error)
     return NextResponse.json(
       createApiError('INTERNAL_ERROR', 'Failed to list sessions'),
       { status: 500 }
     )
   }
-}
+})
 
 // POST /api/sessions - Create a new session
-export async function POST(req: Request) {
+export const POST = withApiAuth(async (req: Request, _ctx, user) => {
   try {
-    const auth = await requireApiUser()
-    if (auth.error) return auth.error
-    const { user } = auth
-
     const body = await req.json()
     const { syndromeId } = body as { syndromeId: string }
 
@@ -140,22 +134,31 @@ export async function POST(req: Request) {
     }
 
     // Ensure user exists in database
-    const { ensureDbUser, isCrmValidationError } = await import('@/lib/auth/user-bootstrap')
+    const { ensureDbUser } = await import('@/lib/auth/user-bootstrap')
     try {
       await ensureDbUser(user)
     } catch (error) {
       // Distinguish CRM validation errors from database errors
       if (isCrmValidationError(error)) {
+        logger.error('CRM validation failed while creating session', {
+          route: '/api/sessions',
+          event: 'POST.ensureDbUser',
+          userId: user.id,
+        }, error)
         return NextResponse.json(
           createValidationError(
-            error.message || 'Dados de CRM inválidos',
-            [{ field: 'crm', message: error.message || 'Dados de CRM inválidos' }]
+            CRM_PUBLIC_ERROR_MESSAGE,
+            [{ field: 'crm', message: CRM_PUBLIC_ERROR_MESSAGE }]
           ),
           { status: 400 }
         )
       }
       // Database or other unexpected errors return 500
-      console.error('Unexpected error in ensureDbUser:', error)
+      logger.error('Unexpected error in ensureDbUser', {
+        route: '/api/sessions',
+        event: 'POST.ensureDbUser',
+        userId: user.id,
+      }, error)
       return NextResponse.json(
         createApiError('INTERNAL_ERROR', 'Failed to create session'),
         { status: 500 }
@@ -187,10 +190,10 @@ export async function POST(req: Request) {
 
     return NextResponse.json(session, { status: 201 })
   } catch (error) {
-    console.error('Error creating session:', error)
+    logger.error('Error creating session', { route: '/api/sessions', event: 'POST', userId: user.id }, error)
     return NextResponse.json(
       createApiError('INTERNAL_ERROR', 'Failed to create session'),
       { status: 500 }
     )
   }
-}
+})

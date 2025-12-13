@@ -15,6 +15,8 @@ export interface ApiError {
   code: string
   message: string
   errors?: FieldError[]
+  retryAfter?: number
+  meta?: Record<string, unknown>
 }
 
 export interface FieldError {

@@ -16,6 +16,9 @@ export function TypingIndicator({ className }: TypingIndicatorProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       className={cn('flex gap-3', className)}
+      role="status"
+      aria-live="polite"
+      aria-label="ChatWell está digitando"
     >
       {/* Avatar */}
       <ChatWellAvatar size="md" isAnimating />
@@ -102,6 +105,9 @@ export function DetailedTypingIndicator({ className }: TypingIndicatorProps) {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
       className={cn('flex gap-3', className)}
+      role="status"
+      aria-live="polite"
+      aria-label="ChatWell está digitando"
     >
       <ChatWellAvatar size="md" isAnimating />
 

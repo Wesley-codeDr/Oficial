@@ -22,6 +22,10 @@ export class CrmValidationError extends Error {
   }
 }
 
+// User-facing message for CRM validation failures (detailed messages are internal only)
+export const CRM_PUBLIC_ERROR_MESSAGE =
+  'Dados de CRM inválidos. Por favor, revise seu CRM e UF no perfil.'
+
 /**
  * Type guard to check if an error is a CrmValidationError
  */
@@ -92,5 +96,4 @@ export async function ensureDbUser(user: SupabaseUser) {
 
   return dbUser
 }
-
 

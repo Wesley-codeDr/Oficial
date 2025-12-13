@@ -35,6 +35,16 @@ Substituir completamente o frontend atual do WellWave pelo design desenvolvido n
 
 ---
 
+## Notas Operacionais
+
+- `OPENAI_API_KEY` é validada em tempo de execução. Se estiver ausente ou vazia, o ChatWell fica indisponível.
+- Para rotas médicas, use sempre `withApiAuth` (`@/lib/api/auth`) e o `logger` (`@/lib/logging`) em vez de `console.error`.
+- Em testes ou CI, habilite `MOCK_AI=true` (ou `AI_PROVIDER=mock`) para evitar chamadas externas; a resposta simulada pode ser ajustada via `MOCK_AI_RESPONSE`.
+- `RATE_LIMIT_FAIL_OPEN` só deve ser definido como `true` quando a disponibilidade for mais importante que bloquear requisições durante falhas do banco.
+- O histórico de mensagens enviado ao modelo é truncado (~20 mensagens) para respeitar o `MODEL_CONFIG.maxTokens`.
+
+---
+
 ## 2. Inventário de Componentes do Frontend
 
 ### 2.1 Estrutura de Arquivos

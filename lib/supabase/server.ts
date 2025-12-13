@@ -44,8 +44,13 @@ export async function createServerClient() {
  * Use this only for admin operations that need full access
  *
  * WARNING: Never expose this in client-side code!
+ * @warning Server-only. Do not import from client components or shared hooks.
  */
 export function createAdminClient() {
+  if (typeof window !== 'undefined') {
+    throw new Error('createAdminClient must only be used on the server (never in client bundles)')
+  }
+
   if (!supabaseServiceRoleKey) {
     throw new Error(
       'Missing SUPABASE_SERVICE_ROLE_KEY environment variable. ' +
@@ -102,5 +107,3 @@ export async function requireAuth(redirectTo?: string) {
   }
   return user
 }
-
-
