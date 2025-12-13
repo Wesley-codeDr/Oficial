@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
+import { logger } from '@/lib/logging'
 import { revalidatePath } from 'next/cache'
 
 export async function getSyndromeByCode(code: string) {
@@ -31,21 +32,23 @@ export async function saveAnamneseSession(data: {
     throw new Error('User not authenticated')
   }
 
-  // Check if user exists in our database, create if not
-  let dbUser = await prisma.user.findUnique({
-    where: { id: user.id },
-  })
-
-  if (!dbUser) {
-    dbUser = await prisma.user.create({
-      data: {
-        id: user.id,
-        email: user.email!,
-        fullName: user.user_metadata?.full_name || 'Usuario',
-        crmNumber: user.user_metadata?.crm_number || '000000',
-        crmState: user.user_metadata?.crm_state || 'SP',
-      },
-    })
+  // Ensure user exists in database with validated CRM data
+  // Only catch CRM validation errors, let database errors propagate
+  const { ensureDbUser, isCrmValidationError, CRM_PUBLIC_ERROR_MESSAGE } = await import('@/lib/auth/user-bootstrap')
+  try {
+    await ensureDbUser(user)
+  } catch (error) {
+    // Only handle CRM validation errors, re-throw others
+    if (isCrmValidationError(error)) {
+      logger.error('CRM validation failed while saving anamnese session', {
+        userId: user.id,
+        route: 'anamnese/save-session',
+        event: 'ensureDbUser',
+      }, error)
+      throw new Error(CRM_PUBLIC_ERROR_MESSAGE)
+    }
+    // Re-throw database or other unexpected errors
+    throw error
   }
 
   const session = await prisma.anamneseSession.create({
@@ -88,8 +91,17 @@ export async function markSessionAsCopied(sessionId: string) {
     throw new Error('User not authenticated')
   }
 
+  // First verify ownership, then update
+  const session = await prisma.anamneseSession.findUnique({
+    where: { id: sessionId },
+  })
+
+  if (!session || session.userId !== user.id) {
+    throw new Error('Session not found')
+  }
+
   await prisma.anamneseSession.update({
-    where: { id: sessionId, userId: user.id },
+    where: { id: sessionId },
     data: { wasCopied: true },
   })
 

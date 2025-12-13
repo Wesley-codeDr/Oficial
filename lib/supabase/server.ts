@@ -44,8 +44,13 @@ export async function createServerClient() {
  * Use this only for admin operations that need full access
  *
  * WARNING: Never expose this in client-side code!
+ * @warning Server-only. Do not import from client components or shared hooks.
  */
 export function createAdminClient() {
+  if (typeof window !== 'undefined') {
+    throw new Error('createAdminClient must only be used on the server (never in client bundles)')
+  }
+
   if (!supabaseServiceRoleKey) {
     throw new Error(
       'Missing SUPABASE_SERVICE_ROLE_KEY environment variable. ' +
@@ -86,14 +91,19 @@ export async function getSession() {
 }
 
 /**
- * Require authentication - throws redirect if not authenticated
+ * Require authentication - redirects to login if not authenticated
+ * 
+ * @param redirectTo - Optional path to redirect back to after login
+ * @returns The authenticated user (never returns if not authenticated, redirects instead)
  */
-export async function requireAuth() {
+export async function requireAuth(redirectTo?: string) {
   const user = await getUser()
   if (!user) {
-    throw new Error('UNAUTHORIZED')
+    const { redirect } = await import('next/navigation')
+    const loginUrl = redirectTo 
+      ? `/login?redirect=${encodeURIComponent(redirectTo)}`
+      : '/login'
+    redirect(loginUrl)
   }
   return user
 }
-
-

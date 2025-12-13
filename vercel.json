@@ -1,12 +1,10 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": "pnpm build",
   "devCommand": "pnpm dev",
   "installCommand": "pnpm install",
   "framework": "nextjs",
   "regions": ["gru1"],
-  "env": {
-    "PRISMA_GENERATE_DATAPROXY": "true"
-  },
   "functions": {
     "app/**/*.ts": {
       "maxDuration": 30
@@ -16,9 +14,5 @@
     }
   }
 }
-
-
-
-
 
 

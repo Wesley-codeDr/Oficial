@@ -15,7 +15,7 @@
 | Phase 1: Setup | ✅ Complete | Prisma schema, Supabase Auth, Design tokens |
 | Phase 2: UI | ✅ Complete | Dashboard layout, Medical components, Chat UI |
 | Phase 3: Anamnese | ✅ Complete | Text generator, Red flag detector, Session management |
-| Phase 4: Chat EBM | ✅ Complete | OpenAI integration, Streaming, Guardrails |
+| Phase 4: ChatWell | ✅ Complete | OpenAI integration, Streaming, Guardrails |
 | Phase 5: Testing | 🔄 In Progress | 55 unit tests passing, E2E setup complete |
 | Phase 6: Launch | ⏳ Pending | Documentation, Security review, Deploy |
 
@@ -75,7 +75,7 @@
 ├─────────────────────────────────────────────────────────────────────────┤
 │                                                                          │
 │  ┌────────────┐   ┌────────────┐   ┌────────────┐   ┌────────────┐     │
-│  │   Login    │   │  Dashboard │   │  Anamnese  │   │  Chat EBM  │     │
+│  │   Login    │   │  Dashboard │   │  Anamnese  │   │  ChatWell  │     │
 │  │   Page     │   │    Page    │   │   Page     │   │    Page    │     │
 │  └────────────┘   └────────────┘   └────────────┘   └────────────┘     │
 │         │                │                │                │            │
@@ -237,7 +237,7 @@
 
 ---
 
-### Phase 4: Chat EBM Integration
+### Phase 4: ChatWell Integration
 
 **Duration:** AI feature
 **Dependencies:** Phase 3

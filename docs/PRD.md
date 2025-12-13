@@ -38,7 +38,7 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
 * **Glassmorphism consistente:** uso pesado de superfícies em vidro (blur, transparência, camadas), sombras suaves, bordas arredondadas amplas e hierarquia visual clara.
 * **Tipografia:** SF Pro Display / SF Pro Text como referência de tipografia (ou equivalentes web), com escala, pesos e espaçamentos inspirados nas Human Interface Guidelines mais recentes.
 * **Paleta e luz:** cores neutras, discretas, com acentos em poucos tons fortes; foco em contraste, legibilidade e conforto em ambientes escuros de plantão.
-* **Motion & microinterações:** animações suaves, estilo Apple (suaves, físicas, sem exagero), para transições de cards, highlights de campos, feedback de geração de texto e abertura do Chat EBM.
+* **Motion & microinterações:** animações suaves, estilo Apple (suaves, físicas, sem exagero), para transições de cards, highlights de campos, feedback de geração de texto e abertura do ChatWell.
 
 ### 2.2 Layout Funcional
 
@@ -50,7 +50,7 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
 
   * Sugestões de hipóteses, condutas e exames.
   * Alertas de red flags.
-  * Acesso rápido ao Chat Médico EBM.
+  * Acesso rápido ao ChatWell.
 * **Feedback visual:**
 
   * Destaque de trechos alterados quando novos checkboxes são marcados.
@@ -65,7 +65,7 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
    * Visualiza a narrativa gerada em tempo real.
    * Copia/integra a nota no prontuário.
 
-2. **Fluxo de Chat Médico EBM:**
+2. **Fluxo de ChatWell:**
 
    * Envia anamnese + exame físico + sinais vitais.
    * Recebe hipóteses, exames e condutas com evidência.
@@ -142,7 +142,7 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
   * Condutas iniciais (fluido, antibioticoterapia, antiagregantes, trombólise conforme elegibilidade).
   * Escalas de risco (NEWS2, SOFA simplificado, etc.).
 
-### 3.5 Chat Médico – EBM (Pronto-Socorro)
+### 3.5 ChatWell – Assistente EBM (Pronto-Socorro)
 
 **Entradas:**
 
@@ -287,7 +287,7 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
 
 * Tempo médio de anamnese: < 90 segundos.
 * Cobertura de campos obrigatórios (anamnese + exame): ≥ 95% dos casos.
-* Respostas do Chat EBM com referência estruturada: ≥ 95%.
+* Respostas do ChatWell com referência estruturada: ≥ 95%.
 * Tempo para prescrição digital simples: ≤ 60 segundos.
 * Validação de XML TISS sem erros: ≥ 99% dos envios.
 * LME auto-preenchida com campos obrigatórios: ≥ 80%.
@@ -303,7 +303,7 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
 ### MVP (0–2 meses)
 
 * Split-screen com checkboxes inteligentes para 3 síndromes prioritárias (ex.: dor torácica, dispneia, abdome agudo) e motor de texto médico.
-* Chat Médico EBM v0 (respostas acionáveis + citações básicas internacionais e nacionais).
+* ChatWell v0 (respostas acionáveis + citações básicas internacionais e nacionais).
 * Catálogo inicial de fármacos (RENAME + principais da urgência/emergência).
 * Prescrição digital v0 (não controlados) com QR Code de verificação simples.
 * SADT v0: geração de PDF e XML mínimo TISS.
@@ -312,7 +312,7 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
 ### Versão 1.0 (3–4 meses)
 
 * Expansão dos protocolos de emergência (Sepse, SCA, AVE, trauma).
-* Chat Médico EBM v1 com PMID/DOI automáticos e preferência EBM local-first (PCDT/diretrizes brasileiras).
+* ChatWell v1 com PMID/DOI automáticos e preferência EBM local-first (PCDT/diretrizes brasileiras).
 * Prescrição digital v1 (incluindo controlados, antimicrobianos, psicotrópicos) com ICP-Brasil A1/A3.
 * SADT v1 com integração básica com operadoras.
 * LME v1 para top 20 PCDTs.
@@ -344,7 +344,7 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
 
   * Anamnese expressa estruturada.
   * Geração de narrativa médico‑legal robusta.
-  * Chat EBM com citações auditáveis.
+  * ChatWell com citações auditáveis.
   * Pipelines Brasil-ready: RENAME/SUS, TISS/TUSS, LME/PCDT, ICP-Brasil.
 * Foco radical na realidade de pronto-socorro e plantão brasileiro, não em modelos genéricos de prontuário.
 

@@ -322,7 +322,7 @@ enum OutputMode {
 
 ### 6. ChatConversation
 
-Conversa com o Chat EBM associada a uma sessão.
+Conversa com o ChatWell associada a uma sessão.
 
 ```prisma
 model ChatConversation {

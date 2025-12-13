@@ -1,22 +1,20 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/db/prisma'
-import { getUser } from '@/lib/supabase/server'
+import { withApiAuth } from '@/lib/api/auth'
+import { createApiError } from '@/lib/api/errors'
+import { logger } from '@/lib/logging'
 
 // GET /api/chat/conversations/[id] - Get conversation with messages
-export async function GET(
+export const GET = withApiAuth(async (
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+  { params }: { params: { id: string } },
+  user
+) => {
   try {
-    const user = await getUser()
+    const { id } = params
 
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const { id } = await params
-
-    const conversation = await prisma.chatConversation.findUnique({
+    // Use findFirst to support composite where clause
+    const conversation = await prisma.chatConversation.findFirst({
       where: { id, userId: user.id },
       include: {
         messages: {
@@ -40,43 +38,42 @@ export async function GET(
 
     if (!conversation) {
       return NextResponse.json(
-        { error: 'Conversation not found' },
+        createApiError('NOT_FOUND', 'Conversation not found'),
         { status: 404 }
       )
     }
 
     return NextResponse.json(conversation)
   } catch (error) {
-    console.error('Error fetching conversation:', error)
+    logger.error('Error fetching conversation', {
+      route: '/api/chat/conversations/[id]',
+      event: 'GET',
+      userId: user.id,
+    }, error)
     return NextResponse.json(
-      { error: 'Failed to fetch conversation' },
+      createApiError('INTERNAL_ERROR', 'Failed to fetch conversation'),
       { status: 500 }
     )
   }
-}
+})
 
 // DELETE /api/chat/conversations/[id] - Delete conversation
-export async function DELETE(
+export const DELETE = withApiAuth(async (
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+  { params }: { params: { id: string } },
+  user
+) => {
   try {
-    const user = await getUser()
+    const { id } = params
 
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
-
-    const { id } = await params
-
-    // Verify ownership
-    const conversation = await prisma.chatConversation.findUnique({
+    // Verify ownership using findFirst
+    const conversation = await prisma.chatConversation.findFirst({
       where: { id, userId: user.id },
     })
 
     if (!conversation) {
       return NextResponse.json(
-        { error: 'Conversation not found' },
+        createApiError('NOT_FOUND', 'Conversation not found'),
         { status: 404 }
       )
     }
@@ -97,10 +94,14 @@ export async function DELETE(
 
     return NextResponse.json({ success: true })
   } catch (error) {
-    console.error('Error deleting conversation:', error)
+    logger.error('Error deleting conversation', {
+      route: '/api/chat/conversations/[id]',
+      event: 'DELETE',
+      userId: user.id,
+    }, error)
     return NextResponse.json(
-      { error: 'Failed to delete conversation' },
+      createApiError('INTERNAL_ERROR', 'Failed to delete conversation'),
       { status: 500 }
     )
   }
-}
+})

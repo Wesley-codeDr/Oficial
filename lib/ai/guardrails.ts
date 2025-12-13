@@ -95,21 +95,61 @@ export function validateUserMessage(message: string): ValidationResult {
     errors.push('Mensagem muito curta. Por favor, seja mais específico.')
   }
 
-  // Check for potentially harmful requests
-  const harmfulPatterns = [
-    /como matar/i,
-    /veneno/i,
-    /suicid/i,
-    /overdose proposital/i,
-  ]
+  // Comprehensive safety patterns for harmful content
+  // Organized by category for maintainability
+  const harmfulPatterns = {
+    selfHarm: [
+      /como (me )?matar/i,
+      /como (me )?suicid/i,
+      /quero (me )?matar/i,
+      /quero (me )?suicid/i,
+      /vou (me )?matar/i,
+      /vou (me )?suicid/i,
+      /auto( |-)?les/i,
+      /cortar (os )?pulsos/i,
+      /enforcar/i,
+      /pular (de|do|da)/i,
+    ],
+    violence: [
+      /como matar (alguém|outra pessoa)/i,
+      /como assassinar/i,
+      /como torturar/i,
+      /como fazer mal/i,
+      /violência/i,
+      /agredir/i,
+    ],
+    substanceAbuse: [
+      /overdose proposital/i,
+      /overdose intencional/i,
+      /como usar drogas/i,
+      /como injetar/i,
+      /dose letal/i,
+    ],
+    medicalMisuse: [
+      /veneno/i,
+      /substância tóxica/i,
+      /medicamento em excesso/i,
+      /dose excessiva/i,
+    ],
+  }
 
-  for (const pattern of harmfulPatterns) {
-    if (pattern.test(message)) {
-      errors.push(
-        'Não é possível processar esta solicitação. Se você ou alguém está em crise, procure ajuda: CVV 188.'
-      )
-      break
+  // Check all pattern categories
+  for (const [category, patterns] of Object.entries(harmfulPatterns)) {
+    for (const pattern of patterns) {
+      if (pattern.test(message)) {
+        if (category === 'selfHarm') {
+          errors.push(
+            'Não é possível processar esta solicitação. Se você ou alguém está em crise, procure ajuda imediatamente: CVV 188 (24h) ou SAMU 192.'
+          )
+        } else {
+          errors.push(
+            'Não é possível processar esta solicitação. Por favor, reformule sua pergunta de forma apropriada para um contexto médico.'
+          )
+        }
+        break
+      }
     }
+    if (errors.length > 0) break // Stop checking after first match
   }
 
   return {

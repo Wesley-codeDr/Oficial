@@ -12,7 +12,7 @@ export default defineConfig({
     timeout: 10000,
   },
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     navigationTimeout: 30000,
@@ -38,7 +38,13 @@ export default defineConfig({
   ],
   webServer: {
     command: 'pnpm run dev',
-    url: 'http://localhost:3000',
+    url: process.env.PLAYWRIGHT_BASE_URL || 'http://localhost:3000',
+    env: {
+      MOCK_AI: process.env.MOCK_AI || 'true',
+      AI_PROVIDER: process.env.AI_PROVIDER || 'mock',
+      OPENAI_API_KEY: process.env.OPENAI_API_KEY || 'test-key',
+      RATE_LIMIT_FAIL_OPEN: process.env.RATE_LIMIT_FAIL_OPEN || 'false',
+    },
     reuseExistingServer: !process.env.CI,
   },
 })

@@ -10,7 +10,7 @@ WellWave é um sistema médico avançado para geração automática de anamneses
 
 - **Anamnese Digital**: Geração de texto médico a partir de checkboxes
 - **Detecção de Red Flags**: Alertas automáticos para sinais críticos
-- **Chat EBM**: Assistente de IA para consultas baseadas em evidências
+- **ChatWell**: Assistente de IA para consultas baseadas em evidências
 - **3 Síndromes Suportadas**: Dor Torácica, Dispneia, Abdome Agudo
 - **Modo Resumido/Detalhado**: Adapte o output ao seu workflow
 - **Histórico de Sessões**: Acesse anamneses anteriores
@@ -91,6 +91,9 @@ pnpm prisma migrate dev
 **⚠️ Importante:**
 - Use sempre `?pgbouncer=true&sslmode=require` na `DATABASE_URL` em produção
 - Nunca exponha `SUPABASE_SERVICE_ROLE_KEY` no client-side
+- `OPENAI_API_KEY` é validada em tempo de execução. Se estiver vazia, o ChatWell fica indisponível.
+- Use `MOCK_AI=true`/`AI_PROVIDER=mock` para testes ou CI sem chamar a OpenAI.
+- `RATE_LIMIT_FAIL_OPEN` deve ser configurada como `true` apenas se preferir disponibilidade ao invés de bloquear requisições quando o banco estiver fora.
 
 Para mais detalhes, consulte [`docs/DATABASE.md`](docs/DATABASE.md).
 
@@ -173,6 +176,19 @@ O agente irá:
 - Executar tarefas na ordem correta
 - Respeitar dependências e execução paralela
 - Seguir abordagem TDD quando definida
+
+## 🔒 Padrões de API e Logging
+
+- Rotas médicas sensíveis devem usar `withApiAuth` de `@/lib/api/auth` para garantir autenticação consistente:
+  ```ts
+  import { withApiAuth } from '@/lib/api/auth'
+
+  export const GET = withApiAuth(async (req, _ctx, user) => {
+    // lógica protegida
+  })
+  ```
+- Use o `logger` (`@/lib/logging`) em vez de `console.error` para registrar `userId`, `route` e `event`, facilitando a correlação em casos críticos.
+- Erros de CRM devem retornar a mensagem padronizada de validação e registrar o detalhe original apenas em logs.
 
 ## 📁 Estrutura do Projeto
 

@@ -1,9 +1,21 @@
+import { CheckboxCategory } from '@prisma/client'
 import { create } from 'zustand'
 import type {
   SyndromeWithCheckboxes,
   DetectedRedFlag,
   OutputMode,
 } from '@/types/medical'
+
+const INITIAL_CATEGORY_ORDER: CheckboxCategory[] = [
+  'QP',
+  'HDA',
+  'ANTECEDENTES',
+  'MEDICACOES',
+  'ALERGIAS',
+  'HABITOS',
+  'EXAME_FISICO',
+  'NEGATIVAS',
+]
 
 interface AnamneseState {
   // Current session state
@@ -14,6 +26,9 @@ interface AnamneseState {
   missingRequired: string[]
   outputMode: OutputMode
   sessionId: string | null
+  categoryOrder: CheckboxCategory[]
+  pastCategoryOrders: CheckboxCategory[][]
+  futureCategoryOrders: CheckboxCategory[][]
 
   // Actions
   selectSyndrome: (syndrome: SyndromeWithCheckboxes) => void
@@ -24,6 +39,9 @@ interface AnamneseState {
   setMissingRequired: (missing: string[]) => void
   setOutputMode: (mode: OutputMode) => void
   setSessionId: (id: string | null) => void
+  setCategoryOrder: (order: CheckboxCategory[]) => void
+  undoCategoryOrder: () => void
+  redoCategoryOrder: () => void
   clearSession: () => void
 }
 
@@ -35,6 +53,9 @@ export const useAnamneseStore = create<AnamneseState>((set) => ({
   missingRequired: [],
   outputMode: 'SUMMARY',
   sessionId: null,
+  categoryOrder: INITIAL_CATEGORY_ORDER,
+  pastCategoryOrders: [],
+  futureCategoryOrders: [],
 
   selectSyndrome: (syndrome) =>
     set({
@@ -44,6 +65,9 @@ export const useAnamneseStore = create<AnamneseState>((set) => ({
       redFlags: [],
       missingRequired: [],
       sessionId: null,
+      categoryOrder: INITIAL_CATEGORY_ORDER, // Reset order on new syndrome
+      pastCategoryOrders: [],
+      futureCategoryOrders: [],
     }),
 
   toggleCheckbox: (checkboxId) =>
@@ -69,6 +93,37 @@ export const useAnamneseStore = create<AnamneseState>((set) => ({
 
   setSessionId: (id) => set({ sessionId: id }),
 
+  setCategoryOrder: (order) =>
+    set((state) => ({
+      pastCategoryOrders: [...state.pastCategoryOrders, state.categoryOrder],
+      categoryOrder: order,
+      futureCategoryOrders: [], // Clear future on new action
+    })),
+
+  undoCategoryOrder: () =>
+    set((state) => {
+      if (state.pastCategoryOrders.length === 0) return {}
+      const previous = state.pastCategoryOrders[state.pastCategoryOrders.length - 1]
+      const newPast = state.pastCategoryOrders.slice(0, state.pastCategoryOrders.length - 1)
+      return {
+        pastCategoryOrders: newPast,
+        categoryOrder: previous,
+        futureCategoryOrders: [state.categoryOrder, ...state.futureCategoryOrders],
+      }
+    }),
+
+  redoCategoryOrder: () =>
+    set((state) => {
+      if (state.futureCategoryOrders.length === 0) return {}
+      const next = state.futureCategoryOrders[0]
+      const newFuture = state.futureCategoryOrders.slice(1)
+      return {
+        pastCategoryOrders: [...state.pastCategoryOrders, state.categoryOrder],
+        categoryOrder: next,
+        futureCategoryOrders: newFuture,
+      }
+    }),
+
   clearSession: () =>
     set({
       selectedSyndrome: null,
@@ -78,5 +133,8 @@ export const useAnamneseStore = create<AnamneseState>((set) => ({
       missingRequired: [],
       outputMode: 'SUMMARY',
       sessionId: null,
+      categoryOrder: INITIAL_CATEGORY_ORDER,
+      pastCategoryOrders: [],
+      futureCategoryOrders: [],
     }),
 }))
