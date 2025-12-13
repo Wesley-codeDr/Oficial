@@ -57,7 +57,10 @@
   "exclude": [
     "node_modules",
     ".next",
-    "out"
+    "out",
+    "**/*.stories.tsx",
+    "**/*.stories.ts",
+    "**/__stories__/**"
   ]
 }
 

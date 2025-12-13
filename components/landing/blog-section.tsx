@@ -177,7 +177,7 @@ export function BlogSection() {
               className="mt-6 rounded-full"
             >
               <Link href="#">
-                Ver todos os posts
+                Ler todos os posts
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
@@ -261,7 +261,7 @@ export function BlogSection() {
               className="mt-6 rounded-full"
             >
               <Link href="#">
-                Ver todos os artigos
+                Ler todos os artigos
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
             </Button>
@@ -271,7 +271,6 @@ export function BlogSection() {
     </section>
   )
 }
-
 
 
 

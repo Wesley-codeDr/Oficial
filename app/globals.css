@@ -2,63 +2,119 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Global Styles Modules
+   1) Core design tokens & typography scale
+   2) Base layout/backgrounds
+   3) Utilities & component surfaces
+   4) Direction-aware (RTL) utilities */
+
 @layer base {
+  /* ===== Core Design Tokens & Radii ===== */
   :root {
     /* Sidebar Layout - Single Source of Truth */
     --sidebar-w: 256px; /* Default: expanded (256px), collapsed: 88px */
 
-    /* Apple 2025 Light Theme - Liquid Glass Design */
-    --background: 0 0% 98%;
-    --foreground: 240 10% 3.9%;
+    /* ============================================
+       HEALTHCARE THEME - Liquid Glass Design
+       Psicologia das Cores na Saúde
+       ============================================ */
+    --background: 210 20% 98%;
+    --foreground: 222 47% 11%;
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 222 47% 11%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 211 100% 50%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 210 100% 40%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --secondary: 215 25% 27%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 174 84% 29%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 211 100% 50%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 210 100% 40%;
     --radius: 0.75rem;
-    --chart-1: 211 100% 50%;
-    --chart-2: 142 71% 45%;
-    --chart-3: 346 77% 50%;
-    --chart-4: 199 89% 48%;
-    --chart-5: 280 100% 70%;
 
-    /* iOS 18 / Apple 2025 Colors */
-    --ios-blue: 211 100% 50%;
-    --ios-green: 142 71% 45%;
-    --ios-red: 0 100% 59%;
-    --ios-orange: 28 100% 53%;
-    --ios-yellow: 45 100% 51%;
-    --ios-purple: 280 87% 65%;
-    --ios-pink: 349 100% 62%;
-    --ios-teal: 199 89% 70%;
-    --ios-indigo: 234 89% 74%;
-    --ios-mint: 168 71% 69%;
-    --ios-cyan: 189 76% 62%;
+    /* Chart Colors - Healthcare Palette */
+    --chart-1: 210 100% 40%;
+    --chart-2: 160 84% 39%;
+    --chart-3: 0 72% 51%;
+    --chart-4: 38 92% 50%;
+    --chart-5: 174 84% 29%;
 
-    /* Apple 2025 Liquid Glass Variables */
-    --glass-bg: rgba(255, 255, 255, 0.72);
-    --glass-bg-elevated: rgba(255, 255, 255, 0.85);
-    --glass-bg-inset: rgba(255, 255, 255, 0.40);
-    --glass-blur: blur(20px);
-    --glass-blur-heavy: blur(40px);
+    /* ============================================
+       HEALTHCARE COLOR SYSTEM (HSL)
+       ============================================ */
+    /* Primary - Azul Médico (Confiança) */
+    --healthcare-primary: 210 100% 40%;
+    --healthcare-primary-light: 210 79% 52%;
+    --healthcare-primary-dark: 210 100% 30%;
+
+    /* Secondary - Navy (Autoridade) */
+    --healthcare-secondary: 215 52% 25%;
+    --healthcare-secondary-light: 215 40% 31%;
+
+    /* Accent - Teal (Inovação) */
+    --healthcare-accent: 174 84% 29%;
+    --healthcare-accent-light: 174 72% 40%;
+
+    /* ============================================
+       CLINICAL URGENCY SYSTEM (HSL)
+       ============================================ */
+    /* Critical - Vermelho (Emergência) */
+    --clinical-critical: 0 72% 51%;
+    --clinical-critical-light: 0 93% 94%;
+    --clinical-critical-dark: 0 74% 42%;
+
+    /* Warning - Âmbar (Atenção) */
+    --clinical-warning: 38 92% 50%;
+    --clinical-warning-light: 48 96% 89%;
+    --clinical-warning-dark: 28 80% 52%;
+
+    /* Stable - Verde (Estável) */
+    --clinical-stable: 160 84% 39%;
+    --clinical-stable-light: 152 81% 91%;
+    --clinical-stable-dark: 162 94% 30%;
+
+    /* Info - Azul Primário */
+    --clinical-info: 210 100% 40%;
+    --clinical-info-light: 214 95% 93%;
+
+    /* iOS Aliases (compatibilidade) */
+    --ios-blue: 210 100% 40%;
+    --ios-green: 160 84% 39%;
+    --ios-red: 0 72% 51%;
+    --ios-orange: 38 92% 50%;
+    --ios-yellow: 48 96% 53%;
+    --ios-purple: 263 70% 58%;
+    --ios-pink: 339 90% 67%;
+    --ios-teal: 174 84% 29%;
+    --ios-indigo: 239 84% 67%;
+    --ios-mint: 160 84% 58%;
+    --ios-cyan: 188 94% 43%;
+
+    /* ============================================
+       HEALTHCARE LIQUID GLASS - Apple HIG
+       "Use color sparingly in Liquid Glass"
+       Bordas e shadows neutros, cor na camada de conteúdo
+       ============================================ */
+    --glass-bg: rgba(255, 255, 255, 0.82);
+    --glass-bg-elevated: rgba(255, 255, 255, 0.90);
+    --glass-bg-inset: rgba(255, 255, 255, 0.70);
+    --glass-blur: blur(16px);
+    --glass-blur-heavy: blur(24px);
     --glass-saturate: saturate(180%);
-    --glass-border: rgba(255, 255, 255, 0.18);
-    --glass-border-subtle: rgba(255, 255, 255, 0.08);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-    --glass-shadow-elevated: 0 20px 50px rgba(0, 0, 0, 0.12);
-    --glass-glow: 0 0 40px rgba(10, 132, 255, 0.15);
+    /* Apple HIG: Bordas neutras (sem tint de cor) */
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-border-subtle: rgba(0, 0, 0, 0.04);
+    /* Apple HIG: Shadows neutras */
+    --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+    --glass-shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --glass-glow: 0 0 40px rgba(0, 0, 0, 0.08);
 
     /* Squircle Radii - Apple Design Language */
     --radius-squircle-xs: 12px;
@@ -72,48 +128,276 @@
     --timing-apple: cubic-bezier(0.25, 0.1, 0.25, 1);
     --timing-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     --timing-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* ============================================
+       APPLE HIG SAFE AREAS & LAYOUT GUIDES
+       ============================================ */
+    /* Safe Area Insets - for notch, Dynamic Island, home indicator */
+    --safe-area-top: env(safe-area-inset-top, 0px);
+    --safe-area-right: env(safe-area-inset-right, 0px);
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-area-left: env(safe-area-inset-left, 0px);
+
+    /* Layout Guides - Apple HIG consistent margins */
+    --layout-margin-compact: 16px;
+    --layout-margin-regular: 20px;
+    --layout-margin-wide: 24px;
+
+    /* Content Insets (safe area + layout margin) */
+    --content-inset-top: calc(var(--safe-area-top) + var(--layout-margin-regular));
+    --content-inset-bottom: calc(var(--safe-area-bottom) + var(--layout-margin-regular));
+    --content-inset-horizontal: calc(max(var(--safe-area-left), var(--safe-area-right)) + var(--layout-margin-regular));
+
+    /* Touch Targets - Apple HIG minimum 44pt */
+    --touch-target-min: 44px;
+    --touch-target-spacing: 8px;
+    --visionos-button-spacing: 60px;
+
+    /* ============================================
+       APPLE HIG TYPOGRAPHY SYSTEM
+       iOS Text Styles with exact tracking values
+       ============================================ */
+
+    /* Typography Scale - Apple HIG iOS (Regular Size) */
+    --text-large-title: 34px;
+    --text-title1: 28px;
+    --text-title2: 22px;
+    --text-title3: 20px;
+    --text-headline: 17px;
+    --text-body: 17px;
+    --text-callout: 16px;
+    --text-subhead: 15px;
+    --text-footnote: 13px;
+    --text-caption1: 12px;
+    --text-caption2: 11px;
+
+    /* Leading (Line Height) - Apple HIG iOS */
+    --leading-large-title: 41px;
+    --leading-title1: 34px;
+    --leading-title2: 28px;
+    --leading-title3: 25px;
+    --leading-headline: 22px;
+    --leading-body: 22px;
+    --leading-callout: 21px;
+    --leading-subhead: 20px;
+    --leading-footnote: 18px;
+    --leading-caption1: 16px;
+    --leading-caption2: 13px;
+
+    /* Tracking (Letter Spacing) - Apple HIG exact values */
+    --tracking-large-title: 0.4px;
+    --tracking-title1: 0.38px;
+    --tracking-title2: -0.26px;
+    --tracking-title3: -0.45px;
+    --tracking-headline: -0.43px;
+    --tracking-body: -0.43px;
+    --tracking-callout: -0.31px;
+    --tracking-subhead: -0.23px;
+    --tracking-footnote: -0.08px;
+    --tracking-caption1: 0px;
+    --tracking-caption2: 0.06px;
+
+    /* ============================================
+       APPLE HIG SF SYMBOLS SYSTEM
+       Weights, scales, sizes, and opacities
+       ============================================ */
+
+    /* Symbol Weights (matching SF Pro font) */
+    --symbol-weight-ultralight: 0.75px;
+    --symbol-weight-thin: 1px;
+    --symbol-weight-light: 1.25px;
+    --symbol-weight-regular: 1.5px;
+    --symbol-weight-medium: 1.75px;
+    --symbol-weight-semibold: 2px;
+    --symbol-weight-bold: 2.25px;
+    --symbol-weight-heavy: 2.5px;
+    --symbol-weight-black: 3px;
+
+    /* Symbol Scales */
+    --symbol-scale-small: 0.85;
+    --symbol-scale-medium: 1;
+    --symbol-scale-large: 1.2;
+
+    /* Symbol Sizes */
+    --symbol-size-xs: 16px;
+    --symbol-size-sm: 20px;
+    --symbol-size-md: 24px;
+    --symbol-size-lg: 32px;
+    --symbol-size-xl: 40px;
+
+    /* Hierarchical Opacities */
+    --symbol-opacity-primary: 1;
+    --symbol-opacity-secondary: 0.68;
+    --symbol-opacity-tertiary: 0.33;
+
+    /* Variable Color */
+    --symbol-vc-active: hsl(var(--healthcare-primary));
+    --symbol-vc-inactive: hsl(var(--muted-foreground) / 0.3);
+
+    /* ============================================
+       LIQUID GLASS DESIGN SYSTEM
+       Apple 2025 Material Design
+       ============================================ */
+
+    /* Glass Material - Light Mode */
+    --glass-material-regular: rgba(255, 255, 255, 0.72);
+    --glass-material-clear: rgba(255, 255, 255, 0.25);
+    --glass-material-prominent: rgba(255, 255, 255, 0.88);
+    --glass-material-tinted: rgba(255, 255, 255, 0.65);
+
+    /* Glass Blur Levels */
+    --glass-blur-subtle: 12px;
+    --glass-blur-medium: 20px;
+    --glass-blur-strong: 40px;
+
+    /* Glass Saturation */
+    --glass-saturation-subtle: 120%;
+    --glass-saturation-medium: 180%;
+    --glass-saturation-strong: 200%;
+
+    /* Glass Border Opacity */
+    --glass-border-regular: rgba(255, 255, 255, 0.4);
+    --glass-border-subtle: rgba(255, 255, 255, 0.2);
+    --glass-border-prominent: rgba(255, 255, 255, 0.5);
+
+    /* Concentric Radius (hardware-influenced curvature) */
+    --radius-concentric: 16px;
+    --radius-concentric-sm: 12px;
+    --radius-concentric-lg: 20px;
+    --radius-concentric-xl: 24px;
+
+    /* Control Dimensions */
+    --control-height-sm: 32px;
+    --control-height-md: 40px;
+    --control-height-lg: 48px;
+    --control-height-xl: 56px;
+
+    /* List Row Heights (Liquid Glass updates) */
+    --list-row-compact: 44px;
+    --list-row-regular: 52px;
+    --list-row-large: 60px;
+
+    /* Section Radius (increased for Liquid Glass) */
+    --section-radius-md: 16px;
+    --section-radius-lg: 20px;
+    --section-radius-xl: 24px;
+
+    /* Tab Bar */
+    --tab-bar-height: 49px;
+    --tab-bar-height-minimized: 32px;
+    --tab-bar-radius: 24px;
+
+    /* Sidebar */
+    --sidebar-width: 280px;
+    --sidebar-width-compact: 72px;
+    --sidebar-radius: 24px;
+
+    /* Toolbar */
+    --toolbar-height: 44px;
+    --toolbar-item-height: 36px;
+    --toolbar-radius: 12px;
+
+    /* Sheet & Modal */
+    --sheet-radius: 24px;
+    --sheet-radius-large: 32px;
+    --sheet-inset: 12px;
+
+    /* Morph Animation */
+    --morph-duration: 300ms;
+    --morph-easing: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --fluid-easing: cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   .dark {
-    /* Apple 2025 Dark Theme - Deep & Elegant */
-    --background: 0 0% 7%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 211 100% 50%;
+    /* ============================================
+       HEALTHCARE DARK THEME - Liquid Glass
+       ============================================ */
+    --background: 222 47% 6%;
+    --foreground: 210 20% 98%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 20% 98%;
+    --popover: 222 47% 8%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 210 100% 50%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 174 72% 40%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62% 40%;
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 211 100% 50%;
-    --chart-1: 211 100% 50%;
-    --chart-2: 142 71% 45%;
-    --chart-3: 346 77% 50%;
-    --chart-4: 199 89% 48%;
-    --chart-5: 280 100% 70%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 210 100% 50%;
 
-    /* Apple 2025 Dark Liquid Glass */
-    --glass-bg: rgba(28, 28, 30, 0.72);
-    --glass-bg-elevated: rgba(44, 44, 46, 0.85);
-    --glass-bg-inset: rgba(0, 0, 0, 0.40);
+    /* Chart Colors - Healthcare Palette (Dark) */
+    --chart-1: 210 100% 50%;
+    --chart-2: 160 84% 45%;
+    --chart-3: 0 72% 55%;
+    --chart-4: 38 92% 55%;
+    --chart-5: 174 72% 40%;
+
+    /* Healthcare Colors (Dark Mode - more vibrant) */
+    --healthcare-primary: 210 100% 50%;
+    --healthcare-primary-light: 210 90% 60%;
+    --healthcare-primary-dark: 210 100% 40%;
+
+    --healthcare-secondary: 215 40% 35%;
+    --healthcare-secondary-light: 215 35% 45%;
+
+    --healthcare-accent: 174 72% 40%;
+    --healthcare-accent-light: 174 65% 50%;
+
+    /* Clinical Colors (Dark Mode) */
+    --clinical-critical: 0 72% 55%;
+    --clinical-critical-light: 0 50% 20%;
+    --clinical-critical-dark: 0 72% 45%;
+
+    --clinical-warning: 38 92% 55%;
+    --clinical-warning-light: 38 50% 20%;
+    --clinical-warning-dark: 38 80% 45%;
+
+    --clinical-stable: 160 84% 45%;
+    --clinical-stable-light: 160 50% 15%;
+    --clinical-stable-dark: 160 84% 35%;
+
+    --clinical-info: 210 100% 50%;
+    --clinical-info-light: 210 50% 15%;
+
+    /* iOS Aliases (Dark Mode) */
+    --ios-blue: 210 100% 50%;
+    --ios-green: 160 84% 45%;
+    --ios-red: 0 72% 55%;
+    --ios-orange: 38 92% 55%;
+    --ios-yellow: 48 96% 58%;
+    --ios-purple: 263 70% 65%;
+    --ios-pink: 339 90% 72%;
+    --ios-teal: 174 72% 40%;
+    --ios-indigo: 239 84% 72%;
+    --ios-mint: 160 84% 65%;
+    --ios-cyan: 188 94% 50%;
+
+    /* ============================================
+       HEALTHCARE LIQUID GLASS DARK - Apple HIG
+       "Use color sparingly in Liquid Glass"
+       ============================================ */
+    --glass-bg: rgba(15, 23, 42, 0.85);
+    --glass-bg-elevated: rgba(30, 41, 59, 0.90);
+    --glass-bg-inset: rgba(15, 23, 42, 0.75);
+    /* Apple HIG: Bordas neutras (sem tint de cor) */
     --glass-border: rgba(255, 255, 255, 0.10);
     --glass-border-subtle: rgba(255, 255, 255, 0.05);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.32);
-    --glass-shadow-elevated: 0 20px 50px rgba(0, 0, 0, 0.45);
-    --glass-glow: 0 0 40px rgba(10, 132, 255, 0.20);
+    /* Apple HIG: Shadows neutras */
+    --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+    --glass-shadow-elevated: 0 8px 32px rgba(0, 0, 0, 0.35);
+    --glass-glow: 0 0 40px rgba(0, 0, 0, 0.20);
   }
 }
 
 @layer base {
+  /* ===== Base Layout & Backgrounds ===== */
   * {
     @apply border-border;
   }
@@ -123,21 +407,22 @@
     font-feature-settings: "rlig" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* Apple-style gradient background */
+    /* Healthcare gradient background - Light Mode */
     background: linear-gradient(
       135deg,
-      hsl(var(--background)) 0%,
-      hsl(240 5% 96%) 50%,
-      hsl(var(--background)) 100%
+      hsl(210 20% 98%) 0%,
+      hsl(214 95% 97%) 50%,
+      hsl(174 50% 97%) 100%
     );
   }
 
   .dark body {
+    /* Healthcare gradient background - Dark Mode */
     background: linear-gradient(
       135deg,
-      hsl(var(--background)) 0%,
-      hsl(240 5% 10%) 50%,
-      hsl(var(--background)) 100%
+      hsl(222 47% 6%) 0%,
+      hsl(217 33% 10%) 50%,
+      hsl(222 47% 6%) 100%
     );
   }
 
@@ -145,14 +430,233 @@
     scroll-behavior: smooth;
   }
 
-  /* Apple-style selection */
+  /* Healthcare-style selection */
   ::selection {
-    background-color: hsl(var(--ios-blue) / 0.3);
+    background-color: hsl(var(--healthcare-primary) / 0.3);
     color: inherit;
   }
 }
 
 @layer utilities {
+  /* ===== Layout Spacing & Interaction Utilities ===== */
+  /* ======================================
+     APPLE HIG SAFE AREAS - Layout Utilities
+     ====================================== */
+
+  /* Safe Area Padding */
+  .safe-area-top { padding-top: var(--safe-area-top); }
+  .safe-area-bottom { padding-bottom: var(--safe-area-bottom); }
+  .safe-area-left { padding-left: var(--safe-area-left); }
+  .safe-area-right { padding-right: var(--safe-area-right); }
+  .safe-area-x {
+    padding-left: var(--safe-area-left);
+    padding-right: var(--safe-area-right);
+  }
+  .safe-area-y {
+    padding-top: var(--safe-area-top);
+    padding-bottom: var(--safe-area-bottom);
+  }
+  .safe-area-all {
+    padding-top: var(--safe-area-top);
+    padding-right: var(--safe-area-right);
+    padding-bottom: var(--safe-area-bottom);
+    padding-left: var(--safe-area-left);
+  }
+
+  /* Content Insets (safe area + layout margin) */
+  .content-inset-top { padding-top: var(--content-inset-top); }
+  .content-inset-bottom { padding-bottom: var(--content-inset-bottom); }
+  .content-inset-x {
+    padding-left: var(--content-inset-horizontal);
+    padding-right: var(--content-inset-horizontal);
+  }
+
+  /* Full Bleed with Safe Content - Apple HIG pattern */
+  .full-bleed-safe {
+    margin-left: calc(-1 * var(--safe-area-left));
+    margin-right: calc(-1 * var(--safe-area-right));
+    padding-left: var(--safe-area-left);
+    padding-right: var(--safe-area-right);
+  }
+
+  /* ======================================
+     APPLE HIG TOUCH TARGETS
+     ====================================== */
+
+  /* Minimum 44pt touch targets */
+  .touch-target {
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Touch target with appropriate spacing */
+  .touch-target-spaced {
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+    margin: calc(var(--touch-target-spacing) / 2);
+  }
+
+  /* Expand hit area without changing visual size */
+  .touch-hitarea {
+    position: relative;
+  }
+  .touch-hitarea::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: var(--touch-target-min);
+    min-height: var(--touch-target-min);
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Button group with visionOS spacing */
+  .button-group-vision {
+    display: flex;
+    gap: var(--visionos-button-spacing);
+  }
+
+  /* ======================================
+     APPLE HIG SIZE CLASSES
+     ====================================== */
+
+  /* Show only in compact size class (<768px) */
+  @media (max-width: 767px) {
+    .size-compact\:hidden { display: none; }
+    .size-compact\:block { display: block; }
+    .size-compact\:flex { display: flex; }
+    .size-compact\:inline { display: inline; }
+  }
+
+  /* Show only in regular size class (>=768px) */
+  @media (min-width: 768px) {
+    .size-regular\:hidden { display: none; }
+    .size-regular\:block { display: block; }
+    .size-regular\:flex { display: flex; }
+    .size-regular\:inline { display: inline; }
+  }
+
+  /* Adaptive typography - Apple Dynamic Type equivalent */
+  .text-adaptive-large-title {
+    font-size: clamp(28px, 5vw, 34px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+
+  .text-adaptive-title1 {
+    font-size: clamp(24px, 4.5vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+  }
+
+  .text-adaptive-title2 {
+    font-size: clamp(20px, 4vw, 22px);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+  }
+
+  .text-adaptive-body {
+    font-size: clamp(15px, 3.5vw, 17px);
+    line-height: 1.4;
+  }
+
+  /* ======================================
+     APPLE HIG SCROLL EDGE EFFECTS
+     ====================================== */
+
+  /* Scroll shadow gradient - appears when content scrolls under controls */
+  .scroll-edge-top {
+    position: relative;
+  }
+  .scroll-edge-top::before {
+    content: '';
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to bottom, var(--glass-border) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.2s ease, height 0.2s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .scroll-edge-top[data-scrolled="true"]::before {
+    opacity: 1;
+    height: 8px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 0%, transparent 100%);
+  }
+  .dark .scroll-edge-top[data-scrolled="true"]::before {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, transparent 100%);
+  }
+
+  /* Bottom edge for scrollable content */
+  .scroll-edge-bottom::after {
+    content: '';
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--glass-border);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+  .scroll-edge-bottom[data-can-scroll="true"]::after {
+    opacity: 1;
+  }
+
+  /* ======================================
+     APPLE HIG CONTENT GROUPING & SEPARATORS
+     ====================================== */
+
+  /* Inset separator (doesn't extend to edges) */
+  .separator-inset {
+    height: 1px;
+    background: var(--glass-border-subtle);
+    margin-left: var(--layout-margin-regular);
+    margin-right: var(--layout-margin-regular);
+  }
+
+  /* Full-width separator */
+  .separator-full {
+    height: 1px;
+    background: var(--glass-border);
+    width: 100%;
+  }
+
+  /* Content group container */
+  .content-group {
+    background: var(--glass-bg);
+    border-radius: var(--radius-squircle-md);
+    border: 1px solid var(--glass-border-subtle);
+  }
+
+  /* Section spacer - responsive */
+  .spacer-section {
+    height: 32px;
+  }
+  @media (min-width: 768px) {
+    .spacer-section {
+      height: 48px;
+    }
+  }
+
+  /* Negative space utility */
+  .spacer-sm { height: 8px; }
+  .spacer-md { height: 16px; }
+  .spacer-lg { height: 24px; }
+  .spacer-xl { height: 32px; }
+
+  /* ===== Component Surfaces & Materials ===== */
   /* ======================================
      LIQUID GLASS SYSTEM - Apple 2025
      ====================================== */
@@ -196,16 +700,16 @@
   .squircle-2xl { border-radius: var(--radius-squircle-2xl); }
 
   /* ======================================
-     TEXT EFFECTS
+     TEXT EFFECTS - Healthcare
      ====================================== */
 
   .text-gradient {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(
       135deg,
-      hsl(var(--ios-blue)) 0%,
-      hsl(var(--ios-purple)) 50%,
-      hsl(var(--ios-blue)) 100%
+      hsl(var(--healthcare-primary)) 0%,
+      hsl(var(--healthcare-accent)) 50%,
+      hsl(var(--healthcare-primary)) 100%
     );
     background-size: 200% auto;
   }
@@ -266,6 +770,7 @@
     transition: all 0.4s var(--timing-bounce);
   }
 
+  /* ===== Interaction & Motion Utilities ===== */
   /* ======================================
      HOVER EFFECTS
      ====================================== */
@@ -292,27 +797,385 @@
   }
 
   /* ======================================
-     VOLUMETRIC GLOW EFFECTS
+     VOLUMETRIC GLOW EFFECTS - Healthcare
      ====================================== */
 
   .glow-blue {
-    box-shadow: 0 0 40px rgba(10, 132, 255, 0.25);
+    box-shadow: 0 0 40px rgba(0, 102, 204, 0.25);
   }
 
   .glow-green {
-    box-shadow: 0 0 40px rgba(48, 209, 88, 0.25);
+    box-shadow: 0 0 40px rgba(5, 150, 105, 0.25);
   }
 
   .glow-red {
-    box-shadow: 0 0 40px rgba(255, 69, 58, 0.25);
+    box-shadow: 0 0 40px rgba(220, 38, 38, 0.25);
   }
 
   .glow-orange {
-    box-shadow: 0 0 40px rgba(255, 159, 10, 0.25);
+    box-shadow: 0 0 40px rgba(217, 119, 6, 0.25);
   }
 
   .glow-purple {
-    box-shadow: 0 0 40px rgba(191, 90, 242, 0.25);
+    box-shadow: 0 0 40px rgba(124, 58, 237, 0.25);
+  }
+
+  .glow-teal {
+    box-shadow: 0 0 40px rgba(13, 148, 136, 0.25);
+  }
+
+  /* Clinical Glow Effects */
+  .glow-critical {
+    box-shadow: 0 0 40px rgba(220, 38, 38, 0.25);
+  }
+
+  .glow-warning {
+    box-shadow: 0 0 40px rgba(217, 119, 6, 0.25);
+  }
+
+  .glow-stable {
+    box-shadow: 0 0 40px rgba(5, 150, 105, 0.25);
+  }
+
+  .glow-healthcare {
+    box-shadow: 0 0 40px rgba(0, 102, 204, 0.25);
+  }
+
+  /* ======================================
+     SIDEBAR - Apple HIG 2025
+     ====================================== */
+  
+  /* Apple HIG: Sidebar floats above content in Liquid Glass layer */
+  .sidebar-glass {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    /* Floating shadow for separation */
+    box-shadow: 
+      0 0 0 0.5px rgba(0, 0, 0, 0.04),
+      0 2px 8px rgba(0, 0, 0, 0.04),
+      0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+  
+  .dark .sidebar-glass {
+    background: rgba(28, 28, 30, 0.7);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 0 0 0.5px rgba(255, 255, 255, 0.05),
+      0 2px 8px rgba(0, 0, 0, 0.15),
+      0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+  
+  /* Sidebar nav item - Apple HIG active state */
+  .sidebar-nav-item-active {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  
+  .dark .sidebar-nav-item-active {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Sidebar section header - Apple HIG typography */
+  .sidebar-section-header {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .dark .sidebar-section-header {
+    color: rgba(255, 255, 255, 0.4);
+  }
+
+  /* ======================================
+     APPLE HIG MATERIALS SYSTEM
+
+     Two distinct layers:
+     1. Liquid Glass - Controls & Navigation (floats above content)
+     2. Standard Materials - Content Layer (backgrounds, cards)
+
+     "Don't use Liquid Glass in the content layer"
+     ====================================== */
+
+  /* ------------------------------------------
+     LIQUID GLASS - Controls & Navigation Layer
+     For: Sidebars, Tab bars, Toolbars, Modals, Popovers
+     ------------------------------------------ */
+
+  /* Regular variant - blurs background, maintains legibility */
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.72);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+      0 0 0 0.5px rgba(0, 0, 0, 0.03),
+      0 2px 8px rgba(0, 0, 0, 0.04),
+      0 8px 24px rgba(0, 0, 0, 0.06);
+  }
+
+  .dark .liquid-glass {
+    background: rgba(28, 28, 30, 0.72);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 0 0 0.5px rgba(255, 255, 255, 0.05),
+      0 2px 8px rgba(0, 0, 0, 0.15),
+      0 8px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Clear variant - highly translucent, for media backgrounds */
+  .liquid-glass-clear {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .liquid-glass-clear {
+    background: rgba(28, 28, 30, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Liquid Glass for interactive transient elements (sliders, toggles) */
+  .liquid-glass-interactive {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+  }
+
+  .dark .liquid-glass-interactive {
+    background: rgba(60, 60, 67, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* ------------------------------------------
+     STANDARD MATERIALS - Content Layer
+     For: App backgrounds, Cards, Content areas
+     ------------------------------------------ */
+
+  /* Ultra Thin - most translucent, light scheme */
+  .material-ultra-thin {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  .dark .material-ultra-thin {
+    background: rgba(28, 28, 30, 0.45);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  /* Thin - slightly more opaque */
+  .material-thin {
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .material-thin {
+    background: rgba(28, 28, 30, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Regular (Default) - balanced opacity */
+  .material-regular {
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .dark .material-regular {
+    background: rgba(28, 28, 30, 0.70);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Thick - most opaque, dark scheme */
+  .material-thick {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .material-thick {
+    background: rgba(28, 28, 30, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  /* ------------------------------------------
+     VIBRANCY SYSTEM - Labels & Fills
+     Use vibrant colors on top of materials
+     ------------------------------------------ */
+
+  /* Label Vibrancy - text hierarchy */
+  .vibrant-label {
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  .dark .vibrant-label {
+    color: rgba(255, 255, 255, 0.92);
+  }
+
+  .vibrant-label-secondary {
+    color: rgba(0, 0, 0, 0.60);
+  }
+
+  .dark .vibrant-label-secondary {
+    color: rgba(255, 255, 255, 0.70);
+  }
+
+  .vibrant-label-tertiary {
+    color: rgba(0, 0, 0, 0.40);
+  }
+
+  .dark .vibrant-label-tertiary {
+    color: rgba(255, 255, 255, 0.50);
+  }
+
+  .vibrant-label-quaternary {
+    color: rgba(0, 0, 0, 0.25);
+  }
+
+  .dark .vibrant-label-quaternary {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Fill Vibrancy - backgrounds for interactive elements */
+  .vibrant-fill {
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .dark .vibrant-fill {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .vibrant-fill-secondary {
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .vibrant-fill-secondary {
+    background: rgba(255, 255, 255, 0.10);
+  }
+
+  .vibrant-fill-tertiary {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
+  .dark .vibrant-fill-tertiary {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  /* Separator Vibrancy */
+  .vibrant-separator {
+    background: rgba(0, 0, 0, 0.12);
+    height: 1px;
+  }
+
+  .dark .vibrant-separator {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  /* ------------------------------------------
+     COMPONENT-SPECIFIC MATERIALS
+     Applied to common UI patterns
+     ------------------------------------------ */
+
+  /* Modal/Dialog - Liquid Glass Regular */
+  .modal-glass {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow:
+      0 0 0 0.5px rgba(0, 0, 0, 0.03),
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      0 24px 64px rgba(0, 0, 0, 0.08);
+  }
+
+  .dark .modal-glass {
+    background: rgba(44, 44, 46, 0.90);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 0 0 0.5px rgba(255, 255, 255, 0.05),
+      0 8px 32px rgba(0, 0, 0, 0.35),
+      0 24px 64px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Popover - Liquid Glass Regular */
+  .popover-glass {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow:
+      0 0 0 0.5px rgba(0, 0, 0, 0.04),
+      0 4px 16px rgba(0, 0, 0, 0.08),
+      0 12px 40px rgba(0, 0, 0, 0.06);
+  }
+
+  .dark .popover-glass {
+    background: rgba(44, 44, 46, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow:
+      0 0 0 0.5px rgba(255, 255, 255, 0.05),
+      0 4px 16px rgba(0, 0, 0, 0.25),
+      0 12px 40px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Card - Standard Material Regular */
+  .card-material {
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  .dark .card-material {
+    background: rgba(44, 44, 46, 0.65);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Toolbar - Liquid Glass Regular */
+  .toolbar-glass {
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .dark .toolbar-glass {
+    background: rgba(28, 28, 30, 0.75);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Tab Bar - Liquid Glass Regular */
+  .tabbar-glass {
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .dark .tabbar-glass {
+    background: rgba(28, 28, 30, 0.78);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   /* ======================================
@@ -532,89 +1395,258 @@
 }
 
 /* ======================================
-   APPLE 2025 TYPOGRAPHY SCALE
+   APPLE HIG TYPOGRAPHY SYSTEM
+   Using CSS variables with exact Apple HIG values
    ====================================== */
 
-/* Large Title - 34pt */
-.text-apple-largeTitle {
-  font-size: 34px;
+/* Large Title - 34pt (Regular weight) */
+.text-large-title {
+  font-size: var(--text-large-title);
+  line-height: var(--leading-large-title);
+  letter-spacing: var(--tracking-large-title);
+  font-weight: 400;
+}
+.text-large-title-emphasized {
+  font-size: var(--text-large-title);
+  line-height: var(--leading-large-title);
+  letter-spacing: var(--tracking-large-title);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
 }
 
-/* Title 1 - 28pt */
-.text-apple-title1 {
-  font-size: 28px;
+/* Title 1 - 28pt (Regular weight) */
+.text-title1 {
+  font-size: var(--text-title1);
+  line-height: var(--leading-title1);
+  letter-spacing: var(--tracking-title1);
+  font-weight: 400;
+}
+.text-title1-emphasized {
+  font-size: var(--text-title1);
+  line-height: var(--leading-title1);
+  letter-spacing: var(--tracking-title1);
+  font-weight: 700;
+}
+
+/* Title 2 - 22pt (Regular weight) */
+.text-title2 {
+  font-size: var(--text-title2);
+  line-height: var(--leading-title2);
+  letter-spacing: var(--tracking-title2);
+  font-weight: 400;
+}
+.text-title2-emphasized {
+  font-size: var(--text-title2);
+  line-height: var(--leading-title2);
+  letter-spacing: var(--tracking-title2);
+  font-weight: 700;
+}
+
+/* Title 3 - 20pt (Regular weight) */
+.text-title3 {
+  font-size: var(--text-title3);
+  line-height: var(--leading-title3);
+  letter-spacing: var(--tracking-title3);
+  font-weight: 400;
+}
+.text-title3-emphasized {
+  font-size: var(--text-title3);
+  line-height: var(--leading-title3);
+  letter-spacing: var(--tracking-title3);
   font-weight: 600;
-  letter-spacing: -0.015em;
-  line-height: 1.15;
 }
 
-/* Title 2 - 22pt */
-.text-apple-title2 {
-  font-size: 22px;
+/* Headline - 17pt (Semibold weight default) */
+.text-headline {
+  font-size: var(--text-headline);
+  line-height: var(--leading-headline);
+  letter-spacing: var(--tracking-headline);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
+}
+.text-headline-emphasized {
+  font-size: var(--text-headline);
+  line-height: var(--leading-headline);
+  letter-spacing: var(--tracking-headline);
+  font-weight: 700;
 }
 
-/* Title 3 - 20pt */
-.text-apple-title3 {
-  font-size: 20px;
+/* Body - 17pt (Regular weight) */
+.text-body {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
+  font-weight: 400;
+}
+.text-body-emphasized {
+  font-size: var(--text-body);
+  line-height: var(--leading-body);
+  letter-spacing: var(--tracking-body);
   font-weight: 600;
-  letter-spacing: -0.01em;
-  line-height: 1.25;
 }
 
-/* Headline - 17pt semibold */
-.text-apple-headline {
-  font-size: 17px;
+/* Callout - 16pt (Regular weight) */
+.text-callout {
+  font-size: var(--text-callout);
+  line-height: var(--leading-callout);
+  letter-spacing: var(--tracking-callout);
+  font-weight: 400;
+}
+.text-callout-emphasized {
+  font-size: var(--text-callout);
+  line-height: var(--leading-callout);
+  letter-spacing: var(--tracking-callout);
   font-weight: 600;
-  letter-spacing: -0.005em;
-  line-height: 1.3;
 }
 
-/* Body - 17pt */
-.text-apple-body {
-  font-size: 17px;
+/* Subhead - 15pt (Regular weight) */
+.text-subhead {
+  font-size: var(--text-subhead);
+  line-height: var(--leading-subhead);
+  letter-spacing: var(--tracking-subhead);
   font-weight: 400;
-  line-height: 1.4;
+}
+.text-subhead-emphasized {
+  font-size: var(--text-subhead);
+  line-height: var(--leading-subhead);
+  letter-spacing: var(--tracking-subhead);
+  font-weight: 600;
 }
 
-/* Callout - 16pt */
-.text-apple-callout {
-  font-size: 16px;
+/* Footnote - 13pt (Regular weight) */
+.text-footnote {
+  font-size: var(--text-footnote);
+  line-height: var(--leading-footnote);
+  letter-spacing: var(--tracking-footnote);
   font-weight: 400;
-  line-height: 1.35;
+}
+.text-footnote-emphasized {
+  font-size: var(--text-footnote);
+  line-height: var(--leading-footnote);
+  letter-spacing: var(--tracking-footnote);
+  font-weight: 600;
 }
 
-/* Subheadline - 15pt */
-.text-apple-subheadline {
-  font-size: 15px;
+/* Caption 1 - 12pt (Regular weight) */
+.text-caption1 {
+  font-size: var(--text-caption1);
+  line-height: var(--leading-caption1);
+  letter-spacing: var(--tracking-caption1);
   font-weight: 400;
-  line-height: 1.35;
+}
+.text-caption1-emphasized {
+  font-size: var(--text-caption1);
+  line-height: var(--leading-caption1);
+  letter-spacing: var(--tracking-caption1);
+  font-weight: 500;
 }
 
-/* Footnote - 13pt */
-.text-apple-footnote {
-  font-size: 13px;
+/* Caption 2 - 11pt (Regular weight) */
+.text-caption2 {
+  font-size: var(--text-caption2);
+  line-height: var(--leading-caption2);
+  letter-spacing: var(--tracking-caption2);
   font-weight: 400;
-  line-height: 1.4;
+}
+.text-caption2-emphasized {
+  font-size: var(--text-caption2);
+  line-height: var(--leading-caption2);
+  letter-spacing: var(--tracking-caption2);
+  font-weight: 500;
 }
 
-/* Caption 1 - 12pt */
-.text-apple-caption1 {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.35;
+/* Legacy aliases for backward compatibility */
+.text-apple-largeTitle { @apply text-large-title-emphasized; }
+.text-apple-title1 { @apply text-title1-emphasized; }
+.text-apple-title2 { @apply text-title2-emphasized; }
+.text-apple-title3 { @apply text-title3-emphasized; }
+.text-apple-headline { @apply text-headline; }
+.text-apple-body { @apply text-body; }
+.text-apple-callout { @apply text-callout; }
+.text-apple-subheadline { @apply text-subhead; }
+.text-apple-footnote { @apply text-footnote; }
+.text-apple-caption1 { @apply text-caption1; }
+.text-apple-caption2 { @apply text-caption2; }
+
+/* ======================================
+   APPLE HIG DYNAMIC TYPE
+   Responsive typography for compact size class
+   ====================================== */
+
+@media (max-width: 767px) {
+  :root {
+    /* Scaled down for compact size class */
+    --text-large-title: 28px;
+    --text-title1: 24px;
+    --text-title2: 20px;
+    --text-title3: 18px;
+    --text-headline: 16px;
+    --text-body: 16px;
+    --text-callout: 15px;
+    --text-subhead: 14px;
+    --text-footnote: 12px;
+    --text-caption1: 11px;
+    --text-caption2: 11px;
+
+    /* Adjusted leading for compact */
+    --leading-large-title: 34px;
+    --leading-title1: 30px;
+    --leading-title2: 26px;
+    --leading-title3: 23px;
+    --leading-headline: 21px;
+    --leading-body: 21px;
+    --leading-callout: 20px;
+    --leading-subhead: 19px;
+    --leading-footnote: 16px;
+    --leading-caption1: 14px;
+    --leading-caption2: 13px;
+  }
 }
 
-/* Caption 2 - 11pt */
-.text-apple-caption2 {
-  font-size: 11px;
-  font-weight: 400;
-  line-height: 1.3;
+/* Accessibility: Large Text Sizes */
+.text-accessibility-large {
+  --text-large-title: 44px;
+  --text-title1: 38px;
+  --text-title2: 34px;
+  --text-title3: 31px;
+  --text-headline: 28px;
+  --text-body: 28px;
+  --text-callout: 26px;
+  --text-subhead: 25px;
+  --text-footnote: 23px;
+  --text-caption1: 22px;
+  --text-caption2: 20px;
+
+  --leading-large-title: 52px;
+  --leading-title1: 46px;
+  --leading-title2: 41px;
+  --leading-title3: 38px;
+  --leading-headline: 34px;
+  --leading-body: 34px;
+  --leading-callout: 32px;
+  --leading-subhead: 31px;
+  --leading-footnote: 29px;
+  --leading-caption1: 28px;
+  --leading-caption2: 26px;
+}
+
+/* ======================================
+   APPLE HIG TEXT COLOR HIERARCHY
+   Use with typography classes
+   ====================================== */
+
+.text-primary {
+  color: hsl(var(--foreground));
+}
+
+.text-secondary {
+  color: hsl(var(--muted-foreground));
+}
+
+.text-tertiary {
+  color: hsl(var(--muted-foreground) / 0.7);
+}
+
+.text-quaternary {
+  color: hsl(var(--muted-foreground) / 0.5);
 }
 
 /* ======================================
@@ -658,4 +1690,704 @@
 nextjs-portal {
   left: unset !important;
   top: unset !important;
+}
+
+/* ======================================
+   APPLE HIG SF SYMBOLS SYSTEM
+   @see https://developer.apple.com/design/human-interface-guidelines/sf-symbols
+   ====================================== */
+
+/* ------------------------------------------
+   SYMBOL WEIGHTS - Stroke Width
+   ------------------------------------------ */
+
+.symbol-weight-ultralight { stroke-width: var(--symbol-weight-ultralight); }
+.symbol-weight-thin { stroke-width: var(--symbol-weight-thin); }
+.symbol-weight-light { stroke-width: var(--symbol-weight-light); }
+.symbol-weight-regular { stroke-width: var(--symbol-weight-regular); }
+.symbol-weight-medium { stroke-width: var(--symbol-weight-medium); }
+.symbol-weight-semibold { stroke-width: var(--symbol-weight-semibold); }
+.symbol-weight-bold { stroke-width: var(--symbol-weight-bold); }
+.symbol-weight-heavy { stroke-width: var(--symbol-weight-heavy); }
+.symbol-weight-black { stroke-width: var(--symbol-weight-black); }
+
+/* ------------------------------------------
+   SYMBOL SCALES - Relative Size
+   ------------------------------------------ */
+
+.symbol-scale-small { transform: scale(var(--symbol-scale-small)); }
+.symbol-scale-medium { transform: scale(var(--symbol-scale-medium)); }
+.symbol-scale-large { transform: scale(var(--symbol-scale-large)); }
+
+/* ------------------------------------------
+   RENDERING MODES
+   ------------------------------------------ */
+
+/* Monochrome - Single color to all layers */
+.symbol-monochrome {
+  color: var(--symbol-color, currentColor);
+}
+
+/* Hierarchical - One color with varying opacity per layer */
+.symbol-hierarchical {
+  color: var(--symbol-color, currentColor);
+}
+.symbol-hierarchical .symbol-layer-primary {
+  opacity: var(--symbol-opacity-primary);
+}
+.symbol-hierarchical .symbol-layer-secondary {
+  opacity: var(--symbol-opacity-secondary);
+}
+.symbol-hierarchical .symbol-layer-tertiary {
+  opacity: var(--symbol-opacity-tertiary);
+}
+
+/* Palette - 2-3 distinct colors per layer */
+.symbol-palette {
+  /* Uses CSS custom properties for colors */
+}
+.symbol-palette .symbol-layer-primary {
+  color: var(--symbol-color);
+}
+.symbol-palette .symbol-layer-secondary {
+  color: var(--symbol-secondary-color);
+}
+.symbol-palette .symbol-layer-tertiary {
+  color: var(--symbol-tertiary-color);
+}
+
+/* Multicolor - Semantic intrinsic colors */
+.symbol-multicolor {
+  /* Colors are inherent to the symbol design */
+}
+
+/* ------------------------------------------
+   ENCLOSURES
+   ------------------------------------------ */
+
+.symbol-enclosure-circle {
+  border-radius: 9999px;
+  padding: 0.35em;
+}
+
+.symbol-enclosure-square {
+  border-radius: var(--radius-squircle-sm);
+  padding: 0.3em;
+}
+
+.symbol-enclosure-rectangle {
+  border-radius: var(--radius-squircle-xs);
+  padding: 0.25em 0.4em;
+}
+
+.symbol-enclosure-badge {
+  border-radius: var(--radius-squircle-sm);
+  padding: 0.3em;
+}
+
+/* ------------------------------------------
+   SYMBOL FILL VARIANT
+   ------------------------------------------ */
+
+.symbol-fill {
+  fill: currentColor;
+  stroke: none;
+}
+
+/* ------------------------------------------
+   SLASH OVERLAY (Unavailable State)
+   ------------------------------------------ */
+
+.symbol-slash {
+  position: relative;
+}
+
+.symbol-slash-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* ------------------------------------------
+   VARIABLE COLOR ANIMATION
+   ------------------------------------------ */
+
+.symbol-variable-color {
+  --symbol-vc-value: 0;
+}
+
+.symbol-vc-layer {
+  transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.symbol-vc-layer.inactive {
+  color: var(--symbol-vc-inactive);
+  opacity: 0.4;
+}
+
+.symbol-vc-layer.active {
+  color: var(--symbol-vc-active);
+  opacity: 1;
+}
+
+/* Cumulative mode - layers fill sequentially */
+.symbol-vc-cumulative .symbol-vc-layer:nth-child(1) {
+  opacity: calc(var(--symbol-vc-value) >= 25 ? 1 : 0.4);
+}
+.symbol-vc-cumulative .symbol-vc-layer:nth-child(2) {
+  opacity: calc(var(--symbol-vc-value) >= 50 ? 1 : 0.4);
+}
+.symbol-vc-cumulative .symbol-vc-layer:nth-child(3) {
+  opacity: calc(var(--symbol-vc-value) >= 75 ? 1 : 0.4);
+}
+.symbol-vc-cumulative .symbol-vc-layer:nth-child(4) {
+  opacity: calc(var(--symbol-vc-value) >= 100 ? 1 : 0.4);
+}
+
+/* ------------------------------------------
+   SYMBOL ANIMATION UTILITIES
+   ------------------------------------------ */
+
+/* Bounce animation */
+@keyframes symbol-bounce {
+  0%, 100% { transform: translateY(0); }
+  25% { transform: translateY(-8px); }
+  50% { transform: translateY(0); }
+  75% { transform: translateY(-4px); }
+}
+
+.symbol-animate-bounce {
+  animation: symbol-bounce 0.6s var(--timing-bounce);
+}
+
+/* Pulse animation */
+@keyframes symbol-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.symbol-animate-pulse {
+  animation: symbol-pulse 1.5s ease-in-out infinite;
+}
+
+/* Wiggle animation */
+@keyframes symbol-wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  12.5% { transform: rotate(-12deg); }
+  25% { transform: rotate(12deg); }
+  37.5% { transform: rotate(-8deg); }
+  50% { transform: rotate(8deg); }
+  62.5% { transform: rotate(-4deg); }
+  75% { transform: rotate(4deg); }
+}
+
+.symbol-animate-wiggle {
+  animation: symbol-wiggle 0.5s ease;
+}
+
+/* Breathe animation */
+@keyframes symbol-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+.symbol-animate-breathe {
+  animation: symbol-breathe 2s ease-in-out infinite;
+}
+
+/* Rotate animation (for loading) */
+@keyframes symbol-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.symbol-animate-rotate {
+  animation: symbol-rotate 1s linear infinite;
+}
+
+/* Scale pop animation */
+@keyframes symbol-scale-pop {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.symbol-animate-scale {
+  animation: symbol-scale-pop 0.4s var(--timing-spring);
+}
+
+/* Appear animation */
+@keyframes symbol-appear {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.symbol-animate-appear {
+  animation: symbol-appear 0.3s var(--timing-spring);
+}
+
+/* Disappear animation */
+@keyframes symbol-disappear {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.symbol-animate-disappear {
+  animation: symbol-disappear 0.3s ease forwards;
+}
+
+/* ------------------------------------------
+   REDUCED MOTION SUPPORT
+   ------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  .symbol-animate-bounce,
+  .symbol-animate-pulse,
+  .symbol-animate-wiggle,
+  .symbol-animate-breathe,
+  .symbol-animate-rotate,
+  .symbol-animate-scale,
+  .symbol-animate-appear,
+  .symbol-animate-disappear {
+    animation: none !important;
+  }
+
+  .symbol-scale-small,
+  .symbol-scale-medium,
+  .symbol-scale-large {
+    transition: none !important;
+  }
+}
+
+/* ===== Direction-aware Utilities ===== */
+@layer utilities {
+
+/* ======================================
+   APPLE HIG RIGHT-TO-LEFT SUPPORT
+   @see https://developer.apple.com/design/human-interface-guidelines/right-to-left
+   
+   Key Principles:
+   1. Text alignment adjusts to match interface direction
+   2. Controls flip to show progress in reading direction
+   3. Interface icons adapt based on semantic meaning
+   4. Numbers maintain their order (never reversed)
+   5. Paragraphs align based on their language, not context
+   ====================================== */
+
+/* Base RTL/LTR Direction Classes */
+html[dir="rtl"] {
+  /* Apple HIG: Set base direction */
+  direction: rtl;
+  unicode-bidi: embed;
+}
+
+html[dir="ltr"] {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+/* ======================================
+   RTL TEXT ALIGNMENT - Apple HIG
+   "Adjust text alignment to match interface direction"
+   ====================================== */
+
+/* Direction-aware text alignment */
+.text-start {
+  text-align: start;
+}
+
+.text-end {
+  text-align: end;
+}
+
+/* RTL-specific overrides when direction is set */
+[dir="rtl"] .rtl\:text-right {
+  text-align: right;
+}
+
+[dir="rtl"] .rtl\:text-left {
+  text-align: left;
+}
+
+[dir="ltr"] .ltr\:text-left {
+  text-align: left;
+}
+
+[dir="ltr"] .ltr\:text-right {
+  text-align: right;
+}
+
+/* ======================================
+   RTL LAYOUT UTILITIES - Apple HIG
+   "Flip controls that show progress"
+   ====================================== */
+
+/* Logical margin/padding utilities */
+.ms-auto { margin-inline-start: auto; }
+.me-auto { margin-inline-end: auto; }
+.ps-auto { padding-inline-start: auto; }
+.pe-auto { padding-inline-end: auto; }
+
+/* Logical positioning */
+.start-0 { inset-inline-start: 0; }
+.end-0 { inset-inline-end: 0; }
+.start-auto { inset-inline-start: auto; }
+.end-auto { inset-inline-end: auto; }
+
+/* Flex direction for RTL */
+[dir="rtl"] .rtl\:flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .rtl\:flex-row {
+  flex-direction: row;
+}
+
+/* ======================================
+   RTL ICON FLIPPING - Apple HIG
+   "Flip interface icons that represent text or reading direction"
+   "Don't flip logos or universal signs and marks"
+   ====================================== */
+
+/* Class for directional icons that should flip */
+.rtl-flip {
+  /* No transform in LTR */
+}
+
+[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Icons that should flip in RTL context */
+[dir="rtl"] .icon-directional {
+  transform: scaleX(-1);
+}
+
+/* Icons that should NEVER flip (logos, checkmarks, etc.) */
+.icon-static {
+  transform: none !important;
+}
+
+/* Navigation arrows - flip in RTL */
+[dir="rtl"] .icon-navigation {
+  transform: scaleX(-1);
+}
+
+/* Progress indicators - flip in RTL */
+[dir="rtl"] .icon-progress {
+  transform: scaleX(-1);
+}
+
+/* Speaker/audio icons - flip in RTL (Apple HIG example) */
+[dir="rtl"] .icon-audio {
+  transform: scaleX(-1);
+}
+
+/* ======================================
+   RTL BORDER RADIUS - Apple HIG
+   Squircle corners need to adapt
+   ====================================== */
+
+/* Logical border radius */
+.rounded-s { border-start-start-radius: var(--radius); border-end-start-radius: var(--radius); }
+.rounded-e { border-start-end-radius: var(--radius); border-end-end-radius: var(--radius); }
+.rounded-ss { border-start-start-radius: var(--radius); }
+.rounded-se { border-start-end-radius: var(--radius); }
+.rounded-es { border-end-start-radius: var(--radius); }
+.rounded-ee { border-end-end-radius: var(--radius); }
+
+/* Squircle variants */
+.rounded-s-squircle-md { 
+  border-start-start-radius: var(--radius-squircle-md); 
+  border-end-start-radius: var(--radius-squircle-md); 
+}
+.rounded-e-squircle-md { 
+  border-start-end-radius: var(--radius-squircle-md); 
+  border-end-end-radius: var(--radius-squircle-md); 
+}
+
+/* ======================================
+   RTL SIDEBAR - Apple HIG
+   "Sidebars float above content"
+   ====================================== */
+
+/* Sidebar adapts to RTL */
+[dir="rtl"] .sidebar-rtl-aware {
+  left: auto;
+  right: 0;
+  border-radius: var(--radius-squircle-lg) 0 0 var(--radius-squircle-lg);
+  border-right: none;
+  border-left: 1px solid var(--glass-border);
+}
+
+/* ======================================
+   RTL PROGRESS CONTROLS - Apple HIG
+   "Flip controls that show progress from one value to another"
+   ====================================== */
+
+/* Progress bar direction */
+[dir="rtl"] .progress-bar {
+  direction: rtl;
+}
+
+/* Slider/range inputs */
+[dir="rtl"] input[type="range"].rtl-flip {
+  direction: rtl;
+}
+
+/* Rating controls */
+[dir="rtl"] .rating-control {
+  direction: rtl;
+}
+
+/* ======================================
+   RTL NUMBER HANDLING - Apple HIG
+   "Don't reverse the order of numerals in a specific number"
+   ====================================== */
+
+/* Phone numbers, credit cards, IDs - never reverse */
+.number-preserve {
+  direction: ltr;
+  unicode-bidi: embed;
+}
+
+/* Also works with inline embedding */
+.number-isolate {
+  unicode-bidi: isolate;
+}
+
+/* For displaying ordered sequences (1, 2, 3...) in RTL */
+.number-sequence {
+  unicode-bidi: bidi-override;
+  direction: rtl;
+}
+
+/* ======================================
+   RTL ANIMATIONS - Apple HIG
+   Slide animations should respect direction
+   ====================================== */
+
+@keyframes slide-in-from-start {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-from-end {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+[dir="rtl"] .animate-slide-in-from-start {
+  animation-name: slide-in-from-end;
+}
+
+[dir="rtl"] .animate-slide-in-from-end {
+  animation-name: slide-in-from-start;
+}
+
+.animate-slide-in-from-start {
+  animation: slide-in-from-start 0.3s var(--timing-apple) forwards;
+}
+
+.animate-slide-in-from-end {
+  animation: slide-in-from-end 0.3s var(--timing-apple) forwards;
+}
+
+/* ======================================
+   RTL LIST STYLES - Apple HIG
+   "Use a consistent alignment for all text items in a list"
+   ====================================== */
+
+[dir="rtl"] .list-rtl-aware {
+  padding-right: 1.5em;
+  padding-left: 0;
+}
+
+[dir="rtl"] .list-rtl-aware li::marker {
+  unicode-bidi: normal;
+}
+
+/* ======================================
+   RTL FORM INPUTS - Apple HIG
+   ====================================== */
+
+/* Input text direction based on content */
+.input-auto-dir {
+  /* Auto-detect direction based on first character */
+  direction: auto;
+}
+
+/* Force LTR for specific inputs (email, URLs, etc.) */
+.input-ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Input with icon - padding adjusts */
+[dir="rtl"] .input-with-start-icon {
+  padding-left: 0.75rem;
+  padding-right: 2.5rem;
+}
+
+[dir="rtl"] .input-with-end-icon {
+  padding-right: 0.75rem;
+  padding-left: 2.5rem;
+}
+
+/* ======================================
+   RTL TYPOGRAPHY BALANCING - Apple HIG
+   "Visually balance adjacent Latin and RTL scripts"
+   Arabic/Hebrew text ~2pt larger next to UPPERCASE Latin
+   ====================================== */
+
+.text-balanced-rtl {
+  /* Slightly increase size for Arabic/Hebrew */
+}
+
+[lang="ar"] .text-balanced-rtl,
+[lang="he"] .text-balanced-rtl {
+  font-size: calc(1em + 2px);
+}
+
+/* ======================================
+   RTL SCROLLBAR - Apple HIG
+   Scrollbar position follows direction
+   ====================================== */
+
+[dir="rtl"] .custom-scrollbar {
+  /* Scrollbar naturally moves to left in RTL */
+}
+
+/* ======================================
+   RTL TRANSITIONS - Apple HIG
+   "Use appropriate animations for RTL"
+   ====================================== */
+
+/* Transform origin for directional animations */
+[dir="rtl"] .origin-start {
+  transform-origin: right;
+}
+
+[dir="rtl"] .origin-end {
+  transform-origin: left;
+}
+
+.origin-start {
+  transform-origin: left;
+}
+
+.origin-end {
+  transform-origin: right;
+}
+
+/* ======================================
+   RTL DROPDOWN/POPOVER - Apple HIG
+   ====================================== */
+
+[dir="rtl"] .popover-start {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .popover-end {
+  right: auto;
+  left: 0;
+}
+
+/* ======================================
+   RTL TOOLTIP - Apple HIG
+   ====================================== */
+
+[dir="rtl"] .tooltip-arrow-start {
+  left: auto;
+  right: 1rem;
+}
+
+[dir="rtl"] .tooltip-arrow-end {
+  right: auto;
+  left: 1rem;
+}
+
+/* ======================================
+   RTL MODAL/DIALOG - Apple HIG
+   ====================================== */
+
+/* Close button position */
+[dir="rtl"] .modal-close-btn {
+  right: auto;
+  left: 1rem;
+}
+
+/* ======================================
+   RTL BREADCRUMB - Apple HIG
+   ====================================== */
+
+[dir="rtl"] .breadcrumb-separator {
+  transform: scaleX(-1);
+}
+
+/* ======================================
+   RTL ACCESSIBILITY
+   ====================================== */
+
+/* Screen reader only content respects direction */
+.sr-only-directional {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus visible respects direction */
+[dir="rtl"] .focus-visible-start:focus-visible {
+  outline-offset: 2px;
+}
+
+/* ======================================
+   RTL PRINT STYLES
+   ====================================== */
+
+@media print {
+  [dir="rtl"] {
+    direction: rtl;
+  }
+  
+  [dir="rtl"] .no-print-rtl {
+    display: none;
+  }
+}
 }

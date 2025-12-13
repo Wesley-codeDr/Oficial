@@ -92,7 +92,7 @@ export function LandingHeader() {
                 variant="ghost"
                 className="h-10 px-5 rounded-full font-semibold text-slate-700 dark:text-slate-200 hover:bg-black/[0.04] dark:hover:bg-white/[0.08]"
               >
-                <Link href="/login">Login</Link>
+                <Link href="/login">Entrar</Link>
               </Button>
               <Button
                 asChild
@@ -172,7 +172,7 @@ export function LandingHeader() {
                     variant="outline"
                     className="w-full h-12 rounded-full font-semibold"
                   >
-                    <Link href="/login">Login</Link>
+                    <Link href="/login">Entrar</Link>
                   </Button>
                   <Button
                     asChild
@@ -192,7 +192,6 @@ export function LandingHeader() {
     </>
   )
 }
-
 
 
 

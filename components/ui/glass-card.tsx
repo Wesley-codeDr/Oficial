@@ -9,14 +9,25 @@ import { appleSpring, snapTransition, glassHover, glassTap } from '@/lib/animati
 // TYPES
 // ============================================
 
-type GlassVariant = 'default' | 'elevated' | 'inset' | 'solid';
+// Apple HIG Materials:
+// - 'default/elevated/inset' = Standard Materials (content layer)
+// - 'liquid' = Liquid Glass (navigation/controls layer)
+type GlassVariant = 'default' | 'elevated' | 'inset' | 'solid' | 'liquid' | 'liquid-clear';
+type MaterialWeight = 'ultra-thin' | 'thin' | 'regular' | 'thick';
 type GlassBlur = 'light' | 'medium' | 'heavy';
-type GlassTint = 'neutral' | 'blue' | 'green' | 'red' | 'orange' | 'purple';
+type GlassTint = 'neutral' | 'blue' | 'green' | 'red' | 'orange' | 'purple' | 'teal' | 'healthcare' | 'critical' | 'warning' | 'stable';
 
 interface GlassCardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
   children: ReactNode;
   className?: string;
+  /**
+   * Apple HIG Material variant:
+   * - default/elevated/inset/solid: Standard Materials (content layer)
+   * - liquid/liquid-clear: Liquid Glass (controls layer - use sparingly!)
+   */
   variant?: GlassVariant;
+  /** Material weight for standard materials (ultraThin → thick) */
+  weight?: MaterialWeight;
   blur?: GlassBlur;
   tint?: GlassTint;
   hover?: boolean;
@@ -25,33 +36,35 @@ interface GlassCardProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
 }
 
 // ============================================
-// STYLES
+// STYLES - Apple HIG Materials System
 // ============================================
 
+// Standard Materials (Content Layer) - use for cards, backgrounds
 const variantStyles: Record<GlassVariant, string> = {
-  default: cn(
-    'bg-white/60 dark:bg-[#1c1c1e]/60',
-    'backdrop-blur-2xl backdrop-saturate-[180%]',
-    'border border-white/60 dark:border-white/10',
-    'shadow-[0_8px_32px_rgba(0,0,0,0.04)]'
-  ),
-  elevated: cn(
-    'bg-white/80 dark:bg-[#2c2c2e]/80',
-    'backdrop-blur-3xl backdrop-saturate-[180%]',
-    'border border-white/40 dark:border-white/5',
-    'shadow-[0_20px_50px_rgba(0,0,0,0.08)]'
-  ),
-  inset: cn(
-    'bg-white/40 dark:bg-white/5',
-    'backdrop-blur-xl backdrop-saturate-[150%]',
-    'border border-white/30 dark:border-white/5',
-    'shadow-[inset_0_2px_8px_rgba(0,0,0,0.04)]'
-  ),
+  // Standard Material - Regular (default for content)
+  default: 'card-material',
+  // Standard Material - Thick (elevated content)
+  elevated: 'material-thick',
+  // Standard Material - Ultra Thin (nested/inset elements)
+  inset: 'material-ultra-thin',
+  // Solid (no transparency)
   solid: cn(
     'bg-white dark:bg-[#1c1c1e]',
     'border border-slate-200/50 dark:border-white/10',
     'shadow-[0_4px_16px_rgba(0,0,0,0.06)]'
   ),
+  // Liquid Glass - Regular (for controls/navigation ONLY)
+  liquid: 'liquid-glass',
+  // Liquid Glass - Clear (for media backgrounds)
+  'liquid-clear': 'liquid-glass-clear',
+};
+
+// Material weight overrides
+const weightStyles: Record<MaterialWeight, string> = {
+  'ultra-thin': 'material-ultra-thin',
+  'thin': 'material-thin',
+  'regular': 'material-regular',
+  'thick': 'material-thick',
 };
 
 const blurStyles: Record<GlassBlur, string> = {
@@ -60,22 +73,43 @@ const blurStyles: Record<GlassBlur, string> = {
   heavy: 'backdrop-blur-3xl',
 };
 
+// Apple HIG: "Use color sparingly in Liquid Glass"
+// Tints coloridos APENAS para status clínicos
+// Outros tints são neutros - cor vai na camada de conteúdo
 const tintStyles: Record<GlassTint, string> = {
   neutral: '',
-  blue: 'bg-ios-blue/5 dark:bg-ios-blue/10',
-  green: 'bg-ios-green/5 dark:bg-ios-green/10',
-  red: 'bg-ios-red/5 dark:bg-ios-red/10',
-  orange: 'bg-ios-orange/5 dark:bg-ios-orange/10',
-  purple: 'bg-ios-purple/5 dark:bg-ios-purple/10',
+  // Apple HIG: Neutro - cor na camada de conteúdo, não no material
+  healthcare: '',
+  blue: '',
+  teal: '',
+  purple: '',
+  // Clinical Status - MANTER cor para indicadores de urgência
+  critical: 'bg-clinical-critical/5 dark:bg-clinical-critical/10',
+  warning: 'bg-clinical-warning/5 dark:bg-clinical-warning/10',
+  stable: 'bg-clinical-stable/5 dark:bg-clinical-stable/10',
+  // Legacy aliases (status clínicos)
+  green: 'bg-clinical-stable/5 dark:bg-clinical-stable/10',
+  red: 'bg-clinical-critical/5 dark:bg-clinical-critical/10',
+  orange: 'bg-clinical-warning/5 dark:bg-clinical-warning/10',
 };
 
+// Apple HIG: Glows coloridos apenas para status clínicos
+// Para outros elementos, glow neutro ou nenhum
 const glowStyles: Record<GlassTint, string> = {
   neutral: 'shadow-glass-lg',
-  blue: 'shadow-glow-blue',
+  // Apple HIG: Glow neutro para não-status
+  healthcare: 'shadow-glass-lg',
+  blue: 'shadow-glass-lg',
+  teal: 'shadow-glass-lg',
+  purple: 'shadow-glass-lg',
+  // Clinical Status - MANTER glow colorido para urgência
+  critical: 'shadow-glow-red',
+  warning: 'shadow-glow-orange',
+  stable: 'shadow-glow-green',
+  // Legacy aliases (status clínicos)
   green: 'shadow-glow-green',
   red: 'shadow-glow-red',
   orange: 'shadow-glow-orange',
-  purple: 'shadow-glow-purple',
 };
 
 const paddingStyles = {
@@ -95,6 +129,7 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
       children,
       className,
       variant = 'default',
+      weight,
       blur = 'medium',
       tint = 'neutral',
       hover = true,
@@ -104,19 +139,25 @@ export const GlassCard = forwardRef<HTMLDivElement, GlassCardProps>(
     },
     ref
   ) => {
+    // Determine if using Liquid Glass (controls layer) vs Standard Material (content layer)
+    const isLiquidGlass = variant === 'liquid' || variant === 'liquid-clear';
+
     return (
       <motion.div
         ref={ref}
         className={cn(
           // Base styles
           'rounded-[32px] transition-all duration-300',
-          // Variant
-          variantStyles[variant],
-          // Override blur if different from default
-          blur !== 'medium' && blurStyles[blur],
-          // Tint
+          // Apple HIG focus states for keyboard navigation
+          'focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-healthcare-primary/30',
+          'focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-neutral-900',
+          // Material variant (Apple HIG)
+          weight ? weightStyles[weight] : variantStyles[variant],
+          // Override blur for standard materials only (Liquid Glass has built-in blur)
+          !isLiquidGlass && blur !== 'medium' && blurStyles[blur],
+          // Tint (only for clinical status indicators)
           tint !== 'neutral' && tintStyles[tint],
-          // Glow effect
+          // Glow effect (only for clinical status)
           glow && glowStyles[tint],
           // Padding
           paddingStyles[padding],
@@ -175,7 +216,7 @@ export function MetricGlassCard({
   );
 }
 
-/** Card for Kanban columns */
+/** Card for Kanban columns - Apple HIG: Drop highlight sutil */
 export function KanbanColumnCard({
   children,
   className,
@@ -187,9 +228,10 @@ export function KanbanColumnCard({
       className={cn(
         'flex flex-col h-full min-w-[320px] rounded-[40px] p-2',
         'transition-all duration-500',
+        // Apple HIG: Cor na borda apenas, não no material
         isDropTarget
-          ? 'bg-ios-blue/10 dark:bg-ios-blue/20 border border-ios-blue/30 shadow-lg shadow-ios-blue/5 scale-[1.01]'
-          : 'bg-white/20 dark:bg-white/5 backdrop-blur-2xl border border-white/30 dark:border-white/5 shadow-sm',
+          ? 'bg-black/[0.02] dark:bg-white/[0.03] border-2 border-dashed border-healthcare-primary/40 shadow-md scale-[1.01]'
+          : 'bg-white/20 dark:bg-white/5 backdrop-blur-2xl border border-black/[0.06] dark:border-white/5 shadow-sm',
         className
       )}
       {...props}
@@ -199,7 +241,7 @@ export function KanbanColumnCard({
   );
 }
 
-/** Modal/Dialog glass container */
+/** Modal/Dialog - Liquid Glass (controls layer) */
 export function ModalGlassCard({
   children,
   className,
@@ -208,10 +250,9 @@ export function ModalGlassCard({
   return (
     <motion.div
       className={cn(
-        'bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl',
-        'rounded-[28px] shadow-2xl',
-        'border border-white/20 dark:border-white/10',
-        'ring-1 ring-black/5',
+        // Apple HIG: Modals use Liquid Glass
+        'modal-glass',
+        'rounded-[28px]',
         className
       )}
       initial={{ opacity: 0, scale: 0.95, y: 20 }}

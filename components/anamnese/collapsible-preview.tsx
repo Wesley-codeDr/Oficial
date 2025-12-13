@@ -14,6 +14,7 @@ import {
   Save,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 import { cn } from '@/lib/utils'
 import type { OutputMode } from '@/lib/anamnese/generate-narrative'
 
@@ -137,38 +138,32 @@ export function CollapsiblePreview({
 
           <div className="flex items-center gap-2">
             {/* Mode Toggle */}
-            <div className="flex bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onOutputModeChange('SUMMARY')
-                }}
-                className={cn(
-                  'px-2.5 py-1 rounded-md text-[11px] font-medium transition-all',
-                  outputMode === 'SUMMARY'
-                    ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                    : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-                )}
+            <ToggleGroup
+              type="single"
+              value={outputMode}
+              onValueChange={(value: OutputMode) => {
+                if (value) onOutputModeChange(value)
+              }}
+              className="bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <ToggleGroupItem
+                value="SUMMARY"
+                className="px-2.5 py-1 rounded-md text-[11px] font-medium"
+                aria-label="Modo Resumido"
               >
                 <List className="w-3 h-3 inline mr-1" />
                 Resumido
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onOutputModeChange('DETAILED')
-                }}
-                className={cn(
-                  'px-2.5 py-1 rounded-md text-[11px] font-medium transition-all',
-                  outputMode === 'DETAILED'
-                    ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm'
-                    : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
-                )}
+              </ToggleGroupItem>
+              <ToggleGroupItem
+                value="DETAILED"
+                className="px-2.5 py-1 rounded-md text-[11px] font-medium"
+                aria-label="Modo Detalhado"
               >
                 <FileText className="w-3 h-3 inline mr-1" />
                 Detalhado
-              </button>
-            </div>
+              </ToggleGroupItem>
+            </ToggleGroup>
 
             {/* Expand/Collapse */}
             <button className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">

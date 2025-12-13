@@ -198,7 +198,7 @@ export const subtleHover = {
 };
 
 // ============================================
-// DRAG ANIMATIONS
+// DRAG ANIMATIONS (Apple HIG 2025)
 // ============================================
 
 /** Kanban card drag animation */
@@ -219,6 +219,103 @@ export const dragVariants: Variants = {
     scale: 0.95,
     opacity: 0.4,
     filter: 'grayscale(100%) blur(1px)',
+    transition: snapTransition,
+  },
+};
+
+/**
+ * Drag elevation effect - Apple HIG style
+ * Item floats with elevated shadow during drag
+ */
+export const dragElevation: Variants = {
+  idle: {
+    scale: 1,
+    rotate: 0,
+    boxShadow: '0 4px 20px rgba(0,0,0,0.02)',
+  },
+  elevated: {
+    scale: 1.05,
+    rotate: 2,
+    boxShadow: '0 25px 50px -10px rgba(0,0,0,0.2), 0 15px 30px -5px rgba(0,0,0,0.1)',
+    transition: appleSpring,
+  },
+};
+
+/**
+ * Drop impact animation - Apple HIG style
+ * Spring animation when item lands
+ */
+export const dropImpact: Variants = {
+  dropping: {
+    scale: 1.05,
+    boxShadow: '0 20px 40px -5px rgba(0,0,0,0.15)',
+  },
+  landed: {
+    scale: [1.05, 0.98, 1],
+    boxShadow: [
+      '0 20px 40px -5px rgba(0,0,0,0.15)',
+      '0 5px 15px -3px rgba(0,0,0,0.08)',
+      '0 4px 20px rgba(0,0,0,0.02)',
+    ],
+    transition: {
+      type: 'spring',
+      stiffness: 400,
+      damping: 25,
+      duration: 0.3,
+    },
+  },
+};
+
+/**
+ * Magnetic snap transition - Apple HIG style
+ * Used when items snap to drop zones
+ */
+export const magneticSnap: Transition = {
+  type: 'spring',
+  stiffness: 500,
+  damping: 35,
+  mass: 0.8,
+};
+
+/**
+ * Drop zone highlight animation
+ */
+export const dropZoneHighlight: Variants = {
+  inactive: {
+    scale: 1,
+    backgroundColor: 'rgba(0, 122, 255, 0)',
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+  },
+  active: {
+    scale: 1.01,
+    backgroundColor: 'rgba(0, 122, 255, 0.08)',
+    borderColor: 'rgba(0, 122, 255, 0.3)',
+    transition: {
+      duration: 0.2,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+};
+
+/**
+ * Sortable item reorder animation
+ */
+export const sortableReorder: Variants = {
+  initial: {
+    opacity: 1,
+    scale: 1,
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.25,
+      ease: [0.25, 0.1, 0.25, 1],
+    },
+  },
+  exit: {
+    opacity: 0.4,
+    scale: 0.95,
     transition: snapTransition,
   },
 };

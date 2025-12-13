@@ -46,9 +46,10 @@ export function KanbanColumn({
     <div
       className={cn(
         'flex flex-col h-full min-w-[320px] w-full rounded-[40px] p-2 transition-all duration-500',
+        // Apple HIG: Drop highlight sutil - cor na borda, não no material
         isDropTarget
-          ? 'bg-ios-blue/10 dark:bg-ios-blue/20 border border-ios-blue/30 dark:border-ios-blue/30 shadow-lg shadow-ios-blue/5 scale-[1.01]'
-          : 'bg-white/20 dark:bg-white/5 backdrop-blur-2xl border border-white/30 dark:border-white/5 shadow-sm'
+          ? 'bg-black/[0.02] dark:bg-white/[0.03] border-2 border-dashed border-healthcare-primary/40 shadow-md scale-[1.01]'
+          : 'bg-white/20 dark:bg-white/5 backdrop-blur-2xl border border-black/[0.06] dark:border-white/5 shadow-sm'
       )}
       onDragOver={(e) => {
         e.preventDefault();
@@ -108,7 +109,7 @@ export function KanbanColumn({
           onClick={onNewTask}
           className="w-full py-4 rounded-[24px] border border-dashed border-slate-300/60 dark:border-white/10 text-slate-400 dark:text-slate-500 font-bold text-sm flex items-center justify-center gap-2 hover:bg-white/40 dark:hover:bg-white/5 transition-all group"
         >
-          <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:bg-ios-blue group-hover:text-white transition-colors">
+          <div className="w-6 h-6 rounded-full bg-neutral-200 dark:bg-neutral-700 flex items-center justify-center text-neutral-500 dark:text-neutral-400 group-hover:bg-healthcare-primary group-hover:text-white transition-colors">
             <Plus className="w-3.5 h-3.5" />
           </div>
           Novo Atendimento

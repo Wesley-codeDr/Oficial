@@ -17,10 +17,10 @@ interface KanbanCardProps {
 }
 
 const statusOptions: { id: KanbanStatus; label: string; color: string }[] = [
-  { id: 'exam', label: 'Aguardando Exame', color: 'text-blue-500' },
-  { id: 'wait', label: 'Aguardando Resultados', color: 'text-yellow-500' },
-  { id: 'reval', label: 'Reavaliação', color: 'text-orange-500' },
-  { id: 'done', label: 'Alta / Internação', color: 'text-emerald-500' },
+  { id: 'exam', label: 'Aguardando Exame', color: 'text-healthcare-primary' },
+  { id: 'wait', label: 'Aguardando Resultados', color: 'text-clinical-warning' },
+  { id: 'reval', label: 'Reavaliação', color: 'text-clinical-warning-dark' },
+  { id: 'done', label: 'Alta / Internação', color: 'text-clinical-stable' },
 ];
 
 export function KanbanCard({
@@ -65,7 +65,7 @@ export function KanbanCard({
         'cursor-grab active:cursor-grabbing',
         isCompact ? 'p-3' : 'p-5',
         isDragging
-          ? 'border-dashed border-ios-blue dark:border-ios-blue/50 bg-ios-blue/5 dark:bg-ios-blue/10'
+          ? 'border-dashed border-healthcare-primary dark:border-healthcare-primary/50 bg-healthcare-primary/5 dark:bg-healthcare-primary/10'
           : 'bg-white/60 dark:bg-white/5 backdrop-blur-xl border-white/60 dark:border-white/10 hover:bg-white/80 dark:hover:bg-white/10'
       )}
     >
@@ -98,22 +98,22 @@ export function KanbanCard({
           </div>
         </div>
 
-        {/* Acuity Indicator */}
+        {/* Acuity Indicator - Clinical Colors */}
         <div className="relative">
           <div
             className={cn(
-              'w-3 h-3 rounded-full shadow-sm ring-2 ring-white dark:ring-slate-700',
-              task.acuity === 'red' && 'bg-red-500',
-              task.acuity === 'orange' && 'bg-orange-500',
-              task.acuity === 'yellow' && 'bg-yellow-400',
-              task.acuity === 'green' && 'bg-green-500'
+              'w-3 h-3 rounded-full shadow-sm ring-2 ring-white dark:ring-neutral-700',
+              task.acuity === 'red' && 'bg-clinical-critical',
+              task.acuity === 'orange' && 'bg-clinical-warning',
+              task.acuity === 'yellow' && 'bg-clinical-warning-light',
+              task.acuity === 'green' && 'bg-clinical-stable'
             )}
           >
             {(task.acuity === 'red' || task.acuity === 'orange') && (
               <span
                 className={cn(
                   'absolute inset-0 rounded-full opacity-50 animate-ping',
-                  task.acuity === 'red' ? 'bg-red-500' : 'bg-orange-500'
+                  task.acuity === 'red' ? 'bg-clinical-critical' : 'bg-clinical-warning'
                 )}
               />
             )}
@@ -151,7 +151,7 @@ export function KanbanCard({
               e.stopPropagation();
               setIsMenuOpen(!isMenuOpen);
             }}
-            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-300 hover:text-ios-blue transition-colors"
+            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-neutral-300 hover:text-healthcare-primary transition-colors"
           >
             <ArrowRightLeft className="w-4 h-4" />
           </button>

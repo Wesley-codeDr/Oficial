@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import {
   Users,
@@ -19,9 +19,8 @@ import {
   Zap,
   HeartPulse,
 } from 'lucide-react';
-import { MetricCard, chartDataOrange, chartDataBlue, chartDataGreen, chartDataPurple } from '@/components/dashboard/cards';
-import { DraggableKpiCard } from '@/components/dashboard/cards/draggable-kpi-card';
-import { KanbanColumn } from '@/components/dashboard/kanban';
+import { MetricCard, chartDataOrange, chartDataBlue, chartDataGreen, chartDataPurple, KpiGrid } from '@/components/dashboard/cards';
+import { KanbanBoard } from '@/components/dashboard/kanban';
 import { DashboardSettingsModal } from '@/components/dashboard/dashboard-settings-modal';
 import { useDashboardPreferences } from '@/lib/contexts/dashboard-preferences';
 import { useSessions, Session } from '@/hooks/use-sessions';
@@ -80,15 +79,18 @@ const kanbanColumnsConfig: Record<KanbanStatus, { title: string; icon: typeof St
   done: { title: 'Alta / Internação', icon: FileCheck2 },
 };
 
+// Kanban column configuration with icons
+const kanbanColumnsArray: Array<{ id: KanbanStatus; title: string; icon: typeof Stethoscope }> = [
+  { id: 'exam', title: 'Aguardando Exame', icon: Stethoscope },
+  { id: 'wait', title: 'Aguardando Resultados', icon: Microscope },
+  { id: 'reval', title: 'Reavaliação Médica', icon: PlayCircle },
+  { id: 'done', title: 'Alta / Internação', icon: FileCheck2 },
+];
+
 export default function DashboardPage() {
   const { preferences, reorderKpiCards } = useDashboardPreferences();
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { sessions, isLoading } = useSessions({ autoFetch: true });
-  const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null);
-  const [dragOverColumn, setDragOverColumn] = useState<string | null>(null);
-  const [draggedKpiId, setDraggedKpiId] = useState<string | null>(null);
-  const [dragOverKpiId, setDragOverKpiId] = useState<string | null>(null);
-  const dragLeaveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Memoize session data key to detect changes (stable string comparison)
   const sessionsKey = useMemo(() => {
@@ -154,7 +156,7 @@ export default function DashboardPage() {
         value="08"
         sub="Alta Demanda"
         icon={AlertTriangle}
-        colorTheme="orange"
+        colorTheme="critical"
         trend="up"
         trendValue="12%"
         data={chartDataOrange}
@@ -168,7 +170,7 @@ export default function DashboardPage() {
         value="4.2"
         sub="Fluxo Intenso"
         icon={Zap}
-        colorTheme="blue"
+        colorTheme="healthcare"
         trend="down"
         trendValue="5%"
         data={chartDataBlue}
@@ -182,7 +184,7 @@ export default function DashboardPage() {
         value="03"
         sub="Pendentes"
         icon={CheckCircle2}
-        colorTheme="green"
+        colorTheme="warning"
         trend="up"
         trendValue="2%"
         data={chartDataGreen}
@@ -196,7 +198,7 @@ export default function DashboardPage() {
         value="08'"
         sub="Meta: < 10min"
         icon={HeartPulse}
-        colorTheme="purple"
+        colorTheme="stable"
         trend="down"
         trendValue="15%"
         data={chartDataPurple}
@@ -217,104 +219,23 @@ export default function DashboardPage() {
       .filter((item): item is { id: string; card: React.ReactElement } => item !== null);
   }, [preferences.kpiOrder, preferences.visibleKpiCards, kpiCardsMap]);
 
-  // Drag handlers
-  const handleDragStart = (e: React.DragEvent, taskId: string) => {
-    setTimeout(() => {
-      setDraggedTaskId(taskId);
-    }, 0);
-    e.dataTransfer.effectAllowed = 'move';
-  };
-
-  const handleDragEnd = () => {
-    setDraggedTaskId(null);
-    setDragOverColumn(null);
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e: React.DragEvent, newStatus: KanbanStatus) => {
-    e.preventDefault();
-    setDragOverColumn(null);
-    if (draggedTaskId) {
-      setTasks((prev) => prev.map((t) => (t.id === draggedTaskId ? { ...t, status: newStatus } : t)));
-      setDraggedTaskId(null);
-    }
-  };
-
-  const handleStatusChange = (taskId: string, newStatus: KanbanStatus) => {
+  // Kanban handlers (now using @dnd-kit via KanbanBoard)
+  const handleTaskMove = useCallback((taskId: string, newStatus: KanbanStatus) => {
     setTasks((prev) => prev.map((t) => (t.id === taskId ? { ...t, status: newStatus } : t)));
-  };
+  }, []);
 
-  // KPI Drag handlers
-  const handleKpiDragStart = (e: React.DragEvent, kpiId: string) => {
-    setDraggedKpiId(kpiId);
-    e.dataTransfer.effectAllowed = 'move';
-  };
+  /**
+   * Receives a full task list with ordering changed only inside a single status column.
+   * KanbanBoard guarantees status fidelity and only calls this for intra-column reorders.
+   */
+  const handleTaskReorder = useCallback((newTasks: KanbanTask[]) => {
+    setTasks(newTasks);
+  }, []);
 
-  const handleKpiDragEnd = () => {
-    // Clear any pending timeout when drag ends
-    if (dragLeaveTimeoutRef.current) {
-      clearTimeout(dragLeaveTimeoutRef.current);
-      dragLeaveTimeoutRef.current = null;
-    }
-    setDraggedKpiId(null);
-    setDragOverKpiId(null);
-  };
-
-  const handleKpiDragOver = (e: React.DragEvent, kpiId: string) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-    
-    // Clear any pending dragLeave timeout to prevent flicker
-    if (dragLeaveTimeoutRef.current) {
-      clearTimeout(dragLeaveTimeoutRef.current);
-      dragLeaveTimeoutRef.current = null;
-    }
-    
-    if (dragOverKpiId !== kpiId && draggedKpiId && draggedKpiId !== kpiId) {
-      setDragOverKpiId(kpiId);
-    }
-  };
-
-  const handleKpiDragLeave = () => {
-    // Clear dragOver state when leaving a card
-    // Small delay to prevent flickering when moving between cards
-    // Store timeout ID so it can be cancelled if entering another card
-    dragLeaveTimeoutRef.current = setTimeout(() => {
-      setDragOverKpiId(null);
-      dragLeaveTimeoutRef.current = null;
-    }, 100);
-  };
-
-  const handleKpiDrop = (e: React.DragEvent, targetKpiId: string) => {
-    e.preventDefault();
-    setDragOverKpiId(null);
-
-    if (!draggedKpiId || draggedKpiId === targetKpiId) {
-      setDraggedKpiId(null);
-      return;
-    }
-
-    // Reorder KPI cards
-    const currentOrder = [...preferences.kpiOrder];
-    const draggedIndex = currentOrder.indexOf(draggedKpiId);
-    const targetIndex = currentOrder.indexOf(targetKpiId);
-
-    if (draggedIndex === -1 || targetIndex === -1) {
-      setDraggedKpiId(null);
-      return;
-    }
-
-    // Remove dragged item and insert at target position
-    const newOrder = [...currentOrder];
-    newOrder.splice(draggedIndex, 1);
-    newOrder.splice(targetIndex, 0, draggedKpiId);
-
+  // KPI reorder handler (now using @dnd-kit via KpiGrid)
+  const handleKpiReorder = useCallback((newOrder: string[]) => {
     reorderKpiCards(newOrder);
-    setDraggedKpiId(null);
-  };
+  }, [reorderKpiCards]);
 
   const handleNewAttendance = () => {
     // Navigate to anamnese selection or create new attendance
@@ -377,24 +298,12 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* KPI Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
-          {renderableKpiCards.map(({ id, card }) => (
-            <DraggableKpiCard
-              key={id}
-              id={id}
-              isDragging={draggedKpiId === id}
-              isDragOver={dragOverKpiId === id}
-              onDragStart={handleKpiDragStart}
-              onDragEnd={handleKpiDragEnd}
-              onDragOver={(e) => handleKpiDragOver(e, id)}
-              onDragLeave={handleKpiDragLeave}
-              onDrop={(e) => handleKpiDrop(e, id)}
-            >
-              {card}
-            </DraggableKpiCard>
-          ))}
-        </div>
+        {/* KPI Grid - Now using @dnd-kit for Apple HIG compliance */}
+        <KpiGrid
+          items={renderableKpiCards}
+          onReorder={handleKpiReorder}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6"
+        />
       </div>
 
       {/* 2. Priority Insight Row */}
@@ -434,39 +343,20 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* 3. Kanban Board */}
+      {/* 3. Kanban Board - Now using @dnd-kit for Apple HIG compliance */}
       <div
         className={`flex-1 overflow-x-auto overflow-y-hidden min-h-0 ${preferences.density === 'compact' ? 'pb-4 mt-3' : 'pb-6 mt-6'}`}
       >
-        <div className="flex h-full gap-6 min-w-[1200px]">
-          {preferences.visibleKanbanColumns.map((colId) => {
-            const config = kanbanColumnsConfig[colId as KanbanStatus];
-            if (!config) return null;
-
-            return (
-              <KanbanColumn
-                key={colId}
-                id={colId as KanbanStatus}
-                title={config.title}
-                icon={config.icon}
-                tasks={tasks.filter((t) => t.status === colId)}
-                isDropTarget={dragOverColumn === colId}
-                draggedTaskId={draggedTaskId}
-                density={preferences.density}
-                onDragStart={handleDragStart}
-                onDragEnd={handleDragEnd}
-                onDragOver={(e: React.DragEvent) => {
-                  handleDragOver(e);
-                  if (dragOverColumn !== colId) setDragOverColumn(colId);
-                }}
-                onDragLeave={() => setDragOverColumn(null)}
-                onDrop={handleDrop}
-                onStatusChange={handleStatusChange}
-                onNewTask={handleNewAttendance}
-              />
-            );
-          })}
-        </div>
+        <KanbanBoard
+          tasks={tasks}
+          columns={kanbanColumnsArray.filter((col) =>
+            preferences.visibleKanbanColumns.includes(col.id)
+          )}
+          onTaskMove={handleTaskMove}
+          onTaskReorder={handleTaskReorder}
+          onNewTask={handleNewAttendance}
+          density={preferences.density}
+        />
       </div>
     </div>
   );

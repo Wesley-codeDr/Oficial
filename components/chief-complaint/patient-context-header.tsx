@@ -7,7 +7,7 @@
  * Displays avatar, category selector, gender, age, phone, allergies and status.
  */
 
-import { useState, useEffect, useRef } from 'react'
+import { useMemo, useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import {
@@ -65,24 +65,18 @@ export function PatientContextHeader({
   })
   const [newAllergy, setNewAllergy] = useState('')
   const [isAddingAllergy, setIsAddingAllergy] = useState(false)
-  const hasInitializedRef = useRef(false)
+  const hasLoadedFromStorageRef = useRef(false)
+  const lastSentContextRef = useRef<{ ageGroup: AgeTag; specialsKey: string } | null>(null)
 
   // Load from sessionStorage on mount
   useEffect(() => {
-    if (!context && !hasInitializedRef.current) {
+    if (!context && !hasLoadedFromStorageRef.current) {
       const stored = sessionStorage.getItem(STORAGE_KEY)
       if (stored) {
         try {
           const parsed = JSON.parse(stored) as ExtendedPatientContext
           setLocalContext(prev => ({ ...prev, ...parsed }))
-          hasInitializedRef.current = true
-          // Use queueMicrotask to defer state update until after render
-          queueMicrotask(() => {
-            onContextChange({
-              ageGroup: parsed.ageGroup,
-              specialConditions: parsed.specialConditions,
-            })
-          })
+          hasLoadedFromStorageRef.current = true
         } catch {
           // Ignore parse errors
         }
@@ -90,32 +84,40 @@ export function PatientContextHeader({
     }
   }, [context, onContextChange])
 
-  // Sync local state with prop
-  useEffect(() => {
-    if (context) {
-      setLocalContext(prev => ({
-        ...prev,
-        ageGroup: context.ageGroup,
-        specialConditions: context.specialConditions,
-      }))
-    }
-  }, [context])
-
   const updateContext = <K extends keyof ExtendedPatientContext>(
     field: K,
     value: ExtendedPatientContext[K]
   ) => {
     setLocalContext(prev => {
-      const updated = { ...prev, [field]: value }
-      // Save to session and notify parent
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(updated))
-      onContextChange({
-        ageGroup: updated.ageGroup,
-        specialConditions: updated.specialConditions,
-      })
-      return updated
+      return { ...prev, [field]: value }
     })
   }
+
+  // Persist all local context fields to session storage whenever they change
+  useEffect(() => {
+    sessionStorage.setItem(STORAGE_KEY, JSON.stringify(localContext))
+  }, [localContext])
+
+  const specialsKey = useMemo(
+    () => JSON.stringify(localContext.specialConditions || []),
+    [localContext.specialConditions]
+  )
+
+  // Notify parent when the core context used by flows changes (deduped to avoid loops)
+  useEffect(() => {
+    const nextKey = specialsKey
+    const nextAge = localContext.ageGroup
+    const prev = lastSentContextRef.current
+    if (prev && prev.ageGroup === nextAge && prev.specialsKey === nextKey) {
+      return
+    }
+
+    lastSentContextRef.current = { ageGroup: nextAge, specialsKey: nextKey }
+    onContextChange({
+      ageGroup: nextAge,
+      specialConditions: localContext.specialConditions || [],
+    })
+  }, [localContext.ageGroup, specialsKey, localContext.specialConditions, onContextChange])
 
   const handleAgeChange = (delta: number) => {
     const currentAge = parseInt(localContext.age || '0') || 0

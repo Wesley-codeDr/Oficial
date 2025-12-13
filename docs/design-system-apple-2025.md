@@ -1,6 +1,7 @@
 # Design System - Apple 2025 Style Guide
 
 > Referência de design para o ChatWell e componentes WellWave seguindo os princípios Apple Human Interface Guidelines 2025.
+> Complementos: janelas/multitarefa em `docs/design-system/windows-hig.md` e linguagem em `docs/design-system/writing-guidelines.md`.
 
 ---
 

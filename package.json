@@ -55,6 +55,9 @@
 	},
 	"dependencies": {
 		"@ai-sdk/openai": "^1.2.0",
+		"@dnd-kit/core": "^6.3.1",
+		"@dnd-kit/sortable": "^10.0.0",
+		"@dnd-kit/utilities": "^3.2.2",
 		"@hookform/resolvers": "^5.2.2",
 		"@prisma/adapter-pg": "^7.1.0",
 		"@prisma/client": "^7.1.0",
@@ -102,6 +105,7 @@
 		"react-dom": "^19.2.1",
 		"react-hook-form": "^7.68.0",
 		"react-markdown": "^9.0.1",
+		"react-resizable-panels": "^3.0.6",
 		"recharts": "^3.5.1",
 		"tailwind-merge": "^3.4.0",
 		"typescript": "^5.9.3",

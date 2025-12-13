@@ -40,7 +40,7 @@ export function AppShell({ children, showHeader = true, className }: AppShellPro
     <SidebarProvider>
       {/* Default gradient background using shared primitive */}
       <SharedLayoutBackground variant="default" />
-      
+
       {/* CSS Grid Layout using shared primitive */}
       <SharedLayoutGrid>
         {/* Sidebar Column using shared primitive */}
@@ -48,17 +48,24 @@ export function AppShell({ children, showHeader = true, className }: AppShellPro
           <Sidebar />
         </SharedSidebarColumn>
 
-        {/* Main Content Area */}
-        <div className="flex flex-col h-full min-w-0 w-full relative overflow-hidden z-0">
+        {/* Main Content Area - Apple HIG safe areas */}
+        <div className={cn(
+          'flex flex-col h-full min-w-0 w-full relative overflow-hidden z-0',
+          'safe-area-right' // iPad multitasking support
+        )}>
           {showHeader && (
-            <div className="px-6 pt-6 shrink-0 z-20">
+            <div className={cn(
+              'px-6 pt-6 shrink-0 z-20',
+              'safe-area-top' // Respect notch/Dynamic Island
+            )}>
               <Header patient={patient} setPatient={setPatient} />
             </div>
           )}
 
-          {/* Content */}
+          {/* Content - respects home indicator */}
           <main className={cn(
             'flex-1 overflow-hidden px-6 pb-6 relative',
+            'safe-area-bottom', // Respect home indicator
             className
           )}>
             {children}
@@ -92,7 +99,7 @@ export function AppShellWithPatient({ children, showHeader = true, className }: 
       <PatientContext.Provider value={{ patient, setPatient }}>
         {/* Default gradient background using shared primitive */}
         <SharedLayoutBackground variant="default" />
-        
+
         {/* CSS Grid Layout using shared primitive */}
         <SharedLayoutGrid>
           {/* Sidebar Column using shared primitive */}
@@ -100,17 +107,24 @@ export function AppShellWithPatient({ children, showHeader = true, className }: 
             <Sidebar />
           </SharedSidebarColumn>
 
-          {/* Main Content Area */}
-          <div className="flex flex-col h-full min-w-0 w-full relative overflow-hidden z-0">
+          {/* Main Content Area - Apple HIG safe areas */}
+          <div className={cn(
+            'flex flex-col h-full min-w-0 w-full relative overflow-hidden z-0',
+            'safe-area-right' // iPad multitasking support
+          )}>
             {showHeader && (
-              <div className="px-6 pt-6 shrink-0 z-20">
+              <div className={cn(
+                'px-6 pt-6 shrink-0 z-20',
+                'safe-area-top' // Respect notch/Dynamic Island
+              )}>
                 <Header patient={patient} setPatient={setPatient} />
               </div>
             )}
 
-            {/* Content */}
+            {/* Content - respects home indicator */}
             <main className={cn(
               'flex-1 overflow-hidden px-6 pb-6 relative',
+              'safe-area-bottom', // Respect home indicator
               className
             )}>
               {children}

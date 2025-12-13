@@ -28,22 +28,24 @@ export function ChatWellAvatar({
   isAnimating = false,
   className 
 }: ChatWellAvatarProps) {
+  // Apple HIG: Container neutro, cor apenas no ícone
   return (
     <motion.div
       className={cn(
         'relative flex items-center justify-center rounded-full',
-        'bg-gradient-to-br from-blue-500/20 via-cyan-500/20 to-teal-500/20',
-        'backdrop-blur-xl border border-white/20 dark:border-white/10',
-        'shadow-[0_8px_32px_rgba(10,132,255,0.15)]',
+        'bg-white/70 dark:bg-white/10',
+        'backdrop-blur-xl border border-black/[0.08] dark:border-white/10',
+        'shadow-sm',
         sizeClasses[size],
         className
       )}
       animate={isAnimating ? {
         scale: [1, 1.05, 1],
+        // Apple HIG: Shadow sutil durante animação
         boxShadow: [
-          '0 8px 32px rgba(10,132,255,0.15)',
-          '0 8px 40px rgba(10,132,255,0.35)',
-          '0 8px 32px rgba(10,132,255,0.15)',
+          '0 4px 16px rgba(0,0,0,0.08)',
+          '0 8px 24px rgba(0,0,0,0.12)',
+          '0 4px 16px rgba(0,0,0,0.08)',
         ]
       } : {}}
       transition={{
@@ -52,11 +54,11 @@ export function ChatWellAvatar({
         ease: 'easeInOut',
       }}
     >
-      {/* Inner glow ring */}
+      {/* Inner glow ring - Sutil */}
       <motion.div
         className={cn(
           'absolute inset-1 rounded-full',
-          'bg-gradient-to-br from-blue-400/30 to-cyan-400/30',
+          'bg-healthcare-primary/20 dark:bg-healthcare-primary/30',
           'blur-sm'
         )}
         animate={isAnimating ? {
@@ -68,15 +70,15 @@ export function ChatWellAvatar({
           ease: 'easeInOut',
         }}
       />
-      
-      {/* Animated rings */}
+
+      {/* Animated rings - Sutil */}
       {isAnimating && (
         <>
           <motion.div
-            className="absolute inset-0 rounded-full border border-blue-400/40"
+            className="absolute inset-0 rounded-full border border-healthcare-primary/30"
             animate={{
               scale: [1, 1.3, 1],
-              opacity: [0.4, 0, 0.4],
+              opacity: [0.3, 0, 0.3],
             }}
             transition={{
               duration: 2,
@@ -85,10 +87,10 @@ export function ChatWellAvatar({
             }}
           />
           <motion.div
-            className="absolute inset-0 rounded-full border border-cyan-400/30"
+            className="absolute inset-0 rounded-full border border-healthcare-primary/20"
             animate={{
               scale: [1, 1.5, 1],
-              opacity: [0.3, 0, 0.3],
+              opacity: [0.2, 0, 0.2],
             }}
             transition={{
               duration: 2,
@@ -99,9 +101,9 @@ export function ChatWellAvatar({
           />
         </>
       )}
-      
+
       {/* Medical cross icon */}
-      <div className={cn('relative z-10 text-blue-500 dark:text-blue-400', iconSizes[size])}>
+      <div className={cn('relative z-10 text-healthcare-primary dark:text-healthcare-primary-light', iconSizes[size])}>
         <svg viewBox="0 0 24 24" fill="none" className="w-full h-full">
           <motion.path
             d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"

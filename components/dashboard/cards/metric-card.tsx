@@ -11,7 +11,7 @@ import { appleSpring } from '@/lib/animations/presets';
 // TYPES
 // ============================================
 
-type ColorTheme = 'orange' | 'blue' | 'green' | 'purple' | 'red';
+type ColorTheme = 'orange' | 'blue' | 'green' | 'purple' | 'red' | 'healthcare' | 'teal' | 'critical' | 'warning' | 'stable';
 type TrendDirection = 'up' | 'down';
 type CardDensity = 'default' | 'compact';
 
@@ -41,50 +41,97 @@ const themeConfig: Record<ColorTheme, {
   trendColor: string;
   trendBg: string;
 }> = {
-  orange: {
-    stroke: '#F97316',
-    fillStart: '#F97316',
-    glow: 'from-orange-500/30 to-amber-500/30',
-    iconColor: 'text-orange-500',
-    iconBg: 'bg-orange-50 dark:bg-orange-500/20',
-    trendColor: 'text-orange-600 dark:text-orange-400',
-    trendBg: 'bg-orange-100/50 dark:bg-orange-500/10',
+  // Healthcare Primary Colors
+  healthcare: {
+    stroke: '#0066CC',
+    fillStart: '#0066CC',
+    glow: 'from-healthcare-primary/30 to-healthcare-accent/30',
+    iconColor: 'text-healthcare-primary',
+    iconBg: 'bg-clinical-info-light dark:bg-healthcare-primary/20',
+    trendColor: 'text-healthcare-primary dark:text-healthcare-primary-light',
+    trendBg: 'bg-clinical-info-light dark:bg-healthcare-primary/10',
   },
   blue: {
-    stroke: '#3B82F6',
-    fillStart: '#3B82F6',
-    glow: 'from-blue-500/30 to-cyan-500/30',
-    iconColor: 'text-blue-500',
-    iconBg: 'bg-blue-50 dark:bg-blue-500/20',
-    trendColor: 'text-blue-600 dark:text-blue-400',
-    trendBg: 'bg-blue-100/50 dark:bg-blue-500/10',
+    stroke: '#0066CC',
+    fillStart: '#0066CC',
+    glow: 'from-healthcare-primary/30 to-healthcare-accent/30',
+    iconColor: 'text-healthcare-primary',
+    iconBg: 'bg-clinical-info-light dark:bg-healthcare-primary/20',
+    trendColor: 'text-healthcare-primary dark:text-healthcare-primary-light',
+    trendBg: 'bg-clinical-info-light dark:bg-healthcare-primary/10',
+  },
+  teal: {
+    stroke: '#0D9488',
+    fillStart: '#0D9488',
+    glow: 'from-healthcare-accent/30 to-clinical-stable/30',
+    iconColor: 'text-healthcare-accent',
+    iconBg: 'bg-teal-50 dark:bg-healthcare-accent/20',
+    trendColor: 'text-healthcare-accent dark:text-healthcare-accent-light',
+    trendBg: 'bg-teal-100/50 dark:bg-healthcare-accent/10',
+  },
+  // Clinical Colors
+  critical: {
+    stroke: '#DC2626',
+    fillStart: '#DC2626',
+    glow: 'from-clinical-critical/30 to-red-500/30',
+    iconColor: 'text-clinical-critical',
+    iconBg: 'bg-clinical-critical-light dark:bg-clinical-critical/20',
+    trendColor: 'text-clinical-critical dark:text-clinical-critical',
+    trendBg: 'bg-clinical-critical-light dark:bg-clinical-critical/10',
+  },
+  red: {
+    stroke: '#DC2626',
+    fillStart: '#DC2626',
+    glow: 'from-clinical-critical/30 to-red-500/30',
+    iconColor: 'text-clinical-critical',
+    iconBg: 'bg-clinical-critical-light dark:bg-clinical-critical/20',
+    trendColor: 'text-clinical-critical dark:text-clinical-critical',
+    trendBg: 'bg-clinical-critical-light dark:bg-clinical-critical/10',
+  },
+  warning: {
+    stroke: '#D97706',
+    fillStart: '#D97706',
+    glow: 'from-clinical-warning/30 to-amber-500/30',
+    iconColor: 'text-clinical-warning',
+    iconBg: 'bg-clinical-warning-light dark:bg-clinical-warning/20',
+    trendColor: 'text-clinical-warning dark:text-clinical-warning',
+    trendBg: 'bg-clinical-warning-light dark:bg-clinical-warning/10',
+  },
+  orange: {
+    stroke: '#D97706',
+    fillStart: '#D97706',
+    glow: 'from-clinical-warning/30 to-amber-500/30',
+    iconColor: 'text-clinical-warning',
+    iconBg: 'bg-clinical-warning-light dark:bg-clinical-warning/20',
+    trendColor: 'text-clinical-warning dark:text-clinical-warning',
+    trendBg: 'bg-clinical-warning-light dark:bg-clinical-warning/10',
+  },
+  stable: {
+    stroke: '#059669',
+    fillStart: '#059669',
+    glow: 'from-clinical-stable/30 to-teal-500/30',
+    iconColor: 'text-clinical-stable',
+    iconBg: 'bg-clinical-stable-light dark:bg-clinical-stable/20',
+    trendColor: 'text-clinical-stable dark:text-clinical-stable',
+    trendBg: 'bg-clinical-stable-light dark:bg-clinical-stable/10',
   },
   green: {
-    stroke: '#10B981',
-    fillStart: '#10B981',
-    glow: 'from-emerald-500/30 to-teal-500/30',
-    iconColor: 'text-emerald-500',
-    iconBg: 'bg-emerald-50 dark:bg-emerald-500/20',
-    trendColor: 'text-emerald-600 dark:text-emerald-400',
-    trendBg: 'bg-emerald-100/50 dark:bg-emerald-500/10',
+    stroke: '#059669',
+    fillStart: '#059669',
+    glow: 'from-clinical-stable/30 to-teal-500/30',
+    iconColor: 'text-clinical-stable',
+    iconBg: 'bg-clinical-stable-light dark:bg-clinical-stable/20',
+    trendColor: 'text-clinical-stable dark:text-clinical-stable',
+    trendBg: 'bg-clinical-stable-light dark:bg-clinical-stable/10',
   },
   purple: {
-    stroke: '#8B5CF6',
-    fillStart: '#8B5CF6',
+    stroke: '#7C3AED',
+    fillStart: '#7C3AED',
     glow: 'from-violet-500/30 to-fuchsia-500/30',
     iconColor: 'text-violet-500',
     iconBg: 'bg-violet-50 dark:bg-violet-500/20',
     trendColor: 'text-violet-600 dark:text-violet-400',
     trendBg: 'bg-violet-100/50 dark:bg-violet-500/10',
-  },
-  red: {
-    stroke: '#EF4444',
-    fillStart: '#EF4444',
-    glow: 'from-red-500/30 to-rose-500/30',
-    iconColor: 'text-red-500',
-    iconBg: 'bg-red-50 dark:bg-red-500/20',
-    trendColor: 'text-red-600 dark:text-red-400',
-    trendBg: 'bg-red-100/50 dark:bg-red-500/10',
   },
 };
 

@@ -96,10 +96,11 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
             'relative flex items-center',
             'bg-white/60 dark:bg-[#1c1c1e]/60 backdrop-blur-xl',
             'border transition-all duration-300',
+            // Apple HIG: Focus ring funcional mas sutil
             isFocused
-              ? 'border-ios-blue/50 ring-2 ring-ios-blue/20 shadow-[0_0_20px_rgba(10,132,255,0.15)]'
-              : 'border-white/60 dark:border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.04)]',
-            error && 'border-ios-red/50 ring-2 ring-ios-red/20',
+              ? 'border-healthcare-primary/40 ring-2 ring-healthcare-primary/15 shadow-sm'
+              : 'border-black/[0.08] dark:border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.04)]',
+            error && 'border-clinical-critical/50 ring-2 ring-clinical-critical/20',
             disabled && 'opacity-50 cursor-not-allowed',
             sizeConfig.input,
             className
@@ -113,7 +114,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
           {leftIcon && (
             <span className={cn(
               'shrink-0 mr-3 text-slate-400',
-              isFocused && 'text-ios-blue'
+              isFocused && 'text-healthcare-primary'
             )}>
               {leftIcon}
             </span>
@@ -193,7 +194,7 @@ export const GlassInput = forwardRef<HTMLInputElement, GlassInputProps>(
               exit={{ opacity: 0, y: -4 }}
               className={cn(
                 'text-xs ml-1',
-                error ? 'text-ios-red' : 'text-slate-500'
+                error ? 'text-clinical-critical' : 'text-slate-500'
               )}
             >
               {error || hint}
@@ -276,10 +277,11 @@ export const GlassTextarea = forwardRef<HTMLTextAreaElement, GlassTextareaProps>
             'text-slate-800 dark:text-white font-medium',
             'placeholder:text-slate-400 dark:placeholder:text-slate-500',
             'outline-none resize-none',
+            // Apple HIG: Focus ring funcional mas sutil
             isFocused
-              ? 'border-ios-blue/50 ring-2 ring-ios-blue/20 shadow-[0_0_20px_rgba(10,132,255,0.15)]'
-              : 'border-white/60 dark:border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.04)]',
-            error && 'border-ios-red/50 ring-2 ring-ios-red/20',
+              ? 'border-healthcare-primary/40 ring-2 ring-healthcare-primary/15 shadow-sm'
+              : 'border-black/[0.08] dark:border-white/10 shadow-[0_4px_12px_rgba(0,0,0,0.04)]',
+            error && 'border-clinical-critical/50 ring-2 ring-clinical-critical/20',
             disabled && 'opacity-50 cursor-not-allowed',
             className
           )}
@@ -295,7 +297,7 @@ export const GlassTextarea = forwardRef<HTMLTextAreaElement, GlassTextareaProps>
               exit={{ opacity: 0, y: -4 }}
               className={cn(
                 'text-xs ml-1',
-                error ? 'text-ios-red' : 'text-slate-500'
+                error ? 'text-clinical-critical' : 'text-slate-500'
               )}
             >
               {error || hint}

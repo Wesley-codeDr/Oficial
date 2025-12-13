@@ -108,7 +108,7 @@ export function HeroSection() {
                 className="h-14 px-8 rounded-2xl text-base font-bold shadow-xl hover:shadow-2xl transition-all duration-300 bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:scale-[1.02]"
               >
                 <Link href="/dashboard">
-                  Ver Dashboard
+                  Acessar Dashboard
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Link>
               </Button>
@@ -118,7 +118,7 @@ export function HeroSection() {
                 size="lg"
                 className="h-14 px-8 rounded-2xl text-base font-bold border-slate-200 dark:border-slate-700 hover:bg-slate-100/50 dark:hover:bg-slate-800/50"
               >
-                <Link href="/login">Login</Link>
+                <Link href="/login">Entrar</Link>
               </Button>
             </motion.div>
 
@@ -264,7 +264,6 @@ export function HeroSection() {
     </section>
   )
 }
-
 
 
 

@@ -116,6 +116,241 @@
 
 ---
 
+## 🏥 Sistema de Cores Healthcare
+
+### Fundamento: Psicologia das Cores na Saúde
+
+A paleta de cores do WellWave foi desenvolvida com base em pesquisas sobre psicologia das cores em ambientes de saúde:
+
+| Cor | Hex | Uso | Fundamento Psicológico |
+|-----|-----|-----|------------------------|
+| **Azul Médico** | `#0066CC` | Primária/CTAs | Confiança, segurança, profissionalismo. Reduz ansiedade do paciente. |
+| **Azul Navy** | `#1E3A5F` | Textos/Headers | Autoridade, estabilidade. Fácil leitura prolongada. |
+| **Verde Saúde** | `#059669` | Sucesso/Estável | Esperança, vitalidade, renovação. Associado a "tudo bem". |
+| **Âmbar Atenção** | `#D97706` | Alertas médios | Cautela sem alarme. Pede atenção sem pânico. |
+| **Vermelho Crítico** | `#DC2626` | Red Flags | Urgência imediata. Ativa resposta de ação. |
+| **Teal Accent** | `#0D9488` | Destaques/Links | Inovação tecnológica. Diferencia de azul primário. |
+
+### Paleta Healthcare
+
+```css
+/* Cores Primárias */
+--healthcare-primary: #0066CC;      /* Azul Médico */
+--healthcare-primary-light: #3385D6;
+--healthcare-primary-dark: #004C99;
+
+--healthcare-secondary: #1E3A5F;    /* Navy */
+--healthcare-secondary-light: #2D4A6F;
+
+--healthcare-accent: #0D9488;       /* Teal */
+--healthcare-accent-light: #14B8A6;
+```
+
+### Sistema de Urgência Clínica
+
+```css
+/* Critical - Vermelho (Emergência) */
+--clinical-critical: #DC2626;
+--clinical-critical-light: #FEE2E2;  /* Background */
+--clinical-critical-dark: #B91C1C;
+
+/* Warning - Âmbar (Atenção) */
+--clinical-warning: #D97706;
+--clinical-warning-light: #FEF3C7;
+--clinical-warning-dark: #B45309;
+
+/* Stable - Verde (Estável) */
+--clinical-stable: #059669;
+--clinical-stable-light: #D1FAE5;
+--clinical-stable-dark: #047857;
+
+/* Info - Azul Primário */
+--clinical-info: #0066CC;
+--clinical-info-light: #DBEAFE;
+```
+
+### Uso em Componentes
+
+```tsx
+// Acuidade de Pacientes (Kanban)
+const acuityColors = {
+  critical: 'bg-clinical-critical',      // Emergência
+  warning: 'bg-clinical-warning',        // Atenção
+  stable: 'bg-clinical-stable',          // Estável
+  info: 'bg-healthcare-primary',         // Rotina
+}
+
+// Red Flags Alert
+<div className="bg-clinical-critical-light border-clinical-critical/50">
+  <AlertTriangle className="text-clinical-critical" />
+</div>
+
+// Botões Primários
+<Button className="bg-healthcare-primary hover:bg-healthcare-primary-dark">
+  Confirmar
+</Button>
+
+// Focus Rings
+<input className="focus-visible:ring-healthcare-primary/30" />
+```
+
+### Healthcare Liquid Glass - Apple HIG Principles
+
+> **Princípio Central**: "Use color sparingly in Liquid Glass. To reduce visual noise, limit the amount of color you apply to the material. Reserve color for elements that truly benefit from emphasis, such as status indicators or key actions."
+
+Implementação otimizada para ambientes clínicos (70-85% opacidade) com **bordas e shadows neutros**:
+
+```css
+/* Light Mode - Apple HIG: Neutro */
+--glass-bg: rgba(255, 255, 255, 0.82);
+--glass-bg-elevated: rgba(255, 255, 255, 0.90);
+--glass-blur: blur(16px);
+--glass-border: rgba(0, 0, 0, 0.08);       /* Neutro */
+--glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+
+/* Dark Mode - Apple HIG: Neutro */
+--glass-bg: rgba(15, 23, 42, 0.85);
+--glass-bg-elevated: rgba(30, 41, 59, 0.90);
+--glass-border: rgba(255, 255, 255, 0.10);
+```
+
+### Uso de Cor no Liquid Glass (Apple HIG)
+
+#### Onde USAR cor:
+- ✅ Status clínicos (vermelho/amarelo/verde) - indicadores de urgência
+- ✅ Botões primários de ação ("Confirmar", "Salvar", "Done")
+- ✅ Ícones funcionais (na camada de conteúdo)
+- ✅ Texto de destaque
+- ✅ Badges e indicadores de status
+- ✅ Focus rings (acessibilidade)
+
+#### Onde NÃO usar cor:
+- ❌ Background do material Liquid Glass (manter neutro)
+- ❌ Bordas de containers genéricos
+- ❌ Todos os botões (apenas os proeminentes)
+- ❌ Shadows do material glass
+- ❌ Containers de avatar (cor só no ícone)
+
+---
+
+## Apple HIG Materials System
+
+> **"Don't use Liquid Glass in the content layer. Liquid Glass works best when it provides a clear distinction between interactive elements and content."**
+
+### Dois Layers Distintos
+
+| Layer | Material | Uso |
+|-------|----------|-----|
+| **Controles/Navegação** | Liquid Glass | Sidebars, Tab bars, Toolbars, Modais, Popovers |
+| **Conteúdo** | Standard Materials | Cards, Backgrounds, Áreas de conteúdo |
+
+### Liquid Glass (Controls Layer)
+
+```css
+/* Regular - blurs background, maintains legibility */
+.liquid-glass { ... }
+
+/* Clear - highly translucent, for media backgrounds */
+.liquid-glass-clear { ... }
+
+/* Interactive - for transient elements (sliders, toggles) */
+.liquid-glass-interactive { ... }
+```
+
+**Quando usar:**
+- ✅ Sidebar, Tab bar, Toolbar
+- ✅ Modais e Popovers
+- ✅ Elementos de navegação que flutuam sobre o conteúdo
+
+**Quando NÃO usar:**
+- ❌ Cards de conteúdo
+- ❌ Backgrounds de áreas de conteúdo
+- ❌ Elementos que não são de navegação/controle
+
+### Standard Materials (Content Layer)
+
+```css
+/* Ultra Thin - mais translúcido */
+.material-ultra-thin { ... }
+
+/* Thin - levemente mais opaco */
+.material-thin { ... }
+
+/* Regular - opacidade balanceada (default) */
+.material-regular { ... }
+
+/* Thick - mais opaco */
+.material-thick { ... }
+```
+
+**Uso recomendado:**
+| Material | Recomendado para |
+|----------|------------------|
+| ultra-thin | Views full-screen, esquema claro |
+| thin | Overlays que obscurecem parcialmente |
+| regular | Cards, content areas (default) |
+| thick | Elementos que precisam de esquema escuro |
+
+### Sistema de Vibrancy
+
+Use cores vibrantes sobre materials para garantir legibilidade.
+
+#### Labels (texto)
+```css
+.vibrant-label           /* Primary - máximo contraste */
+.vibrant-label-secondary /* Body text */
+.vibrant-label-tertiary  /* Metadata, footnotes */
+.vibrant-label-quaternary /* Disabled, hints */
+```
+
+#### Fills (backgrounds interativos)
+```css
+.vibrant-fill           /* Primary fill */
+.vibrant-fill-secondary /* Secondary fill */
+.vibrant-fill-tertiary  /* Tertiary fill */
+```
+
+#### Separators
+```css
+.vibrant-separator /* Dividers */
+```
+
+### Classes de Componentes
+
+| Classe | Uso | Layer |
+|--------|-----|-------|
+| `.sidebar-glass` | Sidebar navigation | Liquid Glass |
+| `.modal-glass` | Modais/Dialogs | Liquid Glass |
+| `.popover-glass` | Popovers/Dropdowns | Liquid Glass |
+| `.toolbar-glass` | Toolbars | Liquid Glass |
+| `.tabbar-glass` | Tab bars | Liquid Glass |
+| `.card-material` | Cards de conteúdo | Standard Material |
+
+### Uso no GlassCard
+
+```tsx
+// Content layer (default) - Standard Material
+<GlassCard>Content</GlassCard>
+
+// Com peso específico
+<GlassCard weight="thin">Thin content</GlassCard>
+<GlassCard weight="thick">Elevated content</GlassCard>
+
+// Controls layer - Liquid Glass (use sparingly!)
+<GlassCard variant="liquid">Navigation element</GlassCard>
+
+// For media backgrounds
+<GlassCard variant="liquid-clear">Over video/images</GlassCard>
+```
+
+### Referências Científicas
+
+- **Azul**: Estudos mostram que ambientes azuis reduzem frequência cardíaca e pressão arterial (Küller et al., 2006)
+- **Verde**: Associado a recuperação e bem-estar em ambientes hospitalares (Ulrich, 1984)
+- **Vermelho**: Ativa sistema nervoso simpático - ideal para alertas críticos (Wilson, 1966)
+
+---
+
 ## 🧩 Padrões de Componentes
 
 ### Headers
@@ -290,6 +525,140 @@ hover:translateY(-2px) hover:shadow-lg
 
 ---
 
+## 📐 Apple HIG Layout System
+
+### Safe Areas
+
+O sistema de safe areas garante que o conteúdo respeite os limites físicos do dispositivo (notch, Dynamic Island, home indicator).
+
+```css
+/* CSS Variables disponíveis */
+--safe-area-top: env(safe-area-inset-top, 0px);
+--safe-area-right: env(safe-area-inset-right, 0px);
+--safe-area-bottom: env(safe-area-inset-bottom, 0px);
+--safe-area-left: env(safe-area-inset-left, 0px);
+
+/* Utility classes */
+.safe-area-top     /* padding-top: safe area */
+.safe-area-bottom  /* padding-bottom: safe area */
+.safe-area-left    /* padding-left: safe area */
+.safe-area-right   /* padding-right: safe area */
+.safe-area-x       /* left + right */
+.safe-area-y       /* top + bottom */
+.safe-area-all     /* todos os lados */
+```
+
+### Layout Guides (Margens Consistentes)
+
+```css
+--layout-margin-compact: 16px;  /* Mobile */
+--layout-margin-regular: 20px;  /* Tablet/Desktop */
+--layout-margin-wide: 24px;     /* Large screens */
+
+/* Content insets (safe area + margin) */
+--content-inset-top
+--content-inset-bottom
+--content-inset-horizontal
+```
+
+### Touch Targets (Apple HIG Minimum 44pt)
+
+```css
+--touch-target-min: 44px;
+--touch-target-spacing: 8px;
+
+/* Utility classes */
+.touch-target      /* min-width/height 44px, flex center */
+.touch-hitarea     /* Expand hit area via ::before */
+.min-h-touch       /* Tailwind: min-height: 44px */
+.min-w-touch       /* Tailwind: min-width: 44px */
+```
+
+### Size Classes
+
+Apple HIG define duas size classes principais:
+- **Compact**: < 768px (iPhone portrait, iPad split view)
+- **Regular**: >= 768px (iPad full, desktop)
+
+```tsx
+// Hook disponível
+import { useSizeClass } from '@/lib/hooks';
+
+const { isCompact, isRegular, horizontal } = useSizeClass();
+
+// CSS classes
+.size-compact:hidden  /* Esconde em compact */
+.size-regular:hidden  /* Esconde em regular */
+.size-compact:block   /* Mostra em compact */
+.size-regular:block   /* Mostra em regular */
+```
+
+### Scroll Edge Effects
+
+```tsx
+import { useScrollEdge, useScrollEdgeClass } from '@/lib/hooks';
+
+const scrollRef = useRef<HTMLDivElement>(null);
+const { isAtTop, canScroll } = useScrollEdge(scrollRef);
+const scrollAttrs = useScrollEdgeClass(scrollRef);
+
+<div
+  ref={scrollRef}
+  className="scroll-edge-top overflow-auto"
+  {...scrollAttrs}
+>
+  {/* Content */}
+</div>
+```
+
+### Content Grouping
+
+```css
+/* Separadores */
+.separator-inset   /* Linha com margens */
+.separator-full    /* Linha full width */
+
+/* Grupos de conteúdo */
+.content-group     /* Container com glass effect */
+
+/* Espaçamento */
+.spacer-section    /* 32px mobile, 48px desktop */
+.spacer-sm         /* 8px */
+.spacer-md         /* 16px */
+.spacer-lg         /* 24px */
+.spacer-xl         /* 32px */
+```
+
+### Componentes de Layout
+
+```tsx
+// SafeAreaProvider - Aplica safe areas
+import { SafeAreaProvider } from '@/components/layout/shared-layout';
+
+<SafeAreaProvider edges={['top', 'bottom']}>
+  <YourContent />
+</SafeAreaProvider>
+
+// ContentContainer - Conteúdo centralizado com max-width
+import { ContentContainer } from '@/components/layout/shared-layout';
+
+<ContentContainer maxWidth="md">  {/* 640px - padrão Apple */}
+  <YourContent />
+</ContentContainer>
+```
+
+### Adaptive Typography
+
+```css
+/* Tipografia que escala com viewport */
+.text-adaptive-large-title  /* clamp(28px, 5vw, 34px) */
+.text-adaptive-title1       /* clamp(24px, 4.5vw, 28px) */
+.text-adaptive-title2       /* clamp(20px, 4vw, 22px) */
+.text-adaptive-body         /* clamp(15px, 3.5vw, 17px) */
+```
+
+---
+
 ## 📋 Checklist de Revisão
 
 Antes de finalizar qualquer tela, verifique:
@@ -308,5 +677,6 @@ Antes de finalizar qualquer tela, verifique:
 ---
 
 **Última atualização**: Dezembro 2024
-**Baseado em**: Apple Human Interface Guidelines 2025
+**Baseado em**: Apple Human Interface Guidelines 2025, Psicologia das Cores na Saúde
+**Paleta**: Healthcare Liquid Glass (#0066CC Primary)
 
