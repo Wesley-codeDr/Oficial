@@ -83,7 +83,7 @@ export async function GET(request: NextRequest) {
         if (healthStatus.checks.memory.percentage > 90) {
           healthStatus.status = 'degraded'
         }
-      } catch (dbError) {
+      } catch (_dbError) {
         healthStatus.status = 'unhealthy'
         healthStatus.checks = {
           database: {

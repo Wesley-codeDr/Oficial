@@ -109,11 +109,11 @@ class RateLimiter {
       const oldestTimestamp = Math.min(...validTimestamps)
       const resetTime = oldestTimestamp + this.interval
 
-      throw {
-        limit,
-        remaining: 0,
-        reset: Math.ceil((resetTime - now) / 1000),
-      }
+      const error = new Error('Rate limit exceeded') as Error & RateLimitResult
+      error.limit = limit
+      error.remaining = 0
+      error.reset = Math.ceil((resetTime - now) / 1000)
+      throw error
     }
 
     // Add current timestamp
@@ -183,6 +183,21 @@ export const aiLimiter = rateLimit({
 })
 
 /**
+ * Type guard to check if error is a rate limit error
+ */
+function isRateLimitError(error: unknown): error is Error & RateLimitResult {
+  return (
+    error instanceof Error &&
+    'limit' in error &&
+    'remaining' in error &&
+    'reset' in error &&
+    typeof (error as { limit: unknown }).limit === 'number' &&
+    typeof (error as { remaining: unknown }).remaining === 'number' &&
+    typeof (error as { reset: unknown }).reset === 'number'
+  )
+}
+
+/**
  * Middleware helper to apply rate limiting to a route handler
  */
 export async function withRateLimit(
@@ -201,7 +216,13 @@ export async function withRateLimit(
     
     return null // No error, continue with request
   } catch (error: unknown) {
-    const result = error as RateLimitResult
+    // Verify error structure with type guard
+    if (!isRateLimitError(error)) {
+      // Re-throw if not a rate limit error
+      throw error
+    }
+    
+    const result = error
     
     // Return 429 response
     return new Response(

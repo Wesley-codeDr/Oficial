@@ -73,8 +73,12 @@ jobs:
 
       - name: Check coverage threshold
         run: |
-          COVERAGE=$(jq '.total.lines.pct' coverage/coverage-summary.json)
-          echo "Coverage: $COVERAGE%"
-          if (( $(echo "$COVERAGE < 70" | bc -l) )); then
-            echo "::warning::Coverage is below 70%"
-          fi
+          node -e "
+            const fs = require('fs');
+            const summary = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+            const coverage = summary.total.lines.pct;
+            console.log(\`Coverage: \${coverage}%\`);
+            if (coverage < 70) {
+              console.log('::warning::Coverage is below 70%');
+            }
+          "
