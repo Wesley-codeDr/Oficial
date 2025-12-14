@@ -1,8 +1,14 @@
 # WellWave - Sistema de Anamnese Digital para Emergências
 
-[![CI](https://github.com/wellwaveoficial/oficial/actions/workflows/ci.yml/badge.svg)](https://github.com/wellwaveoficial/oficial/actions/workflows/ci.yml)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
+[![CI](https://github.com/Wesley-codeDr/Oficial/actions/workflows/ci.yml/badge.svg)](https://github.com/Wesley-codeDr/Oficial/actions/workflows/ci.yml)
+[![Code Quality](https://github.com/Wesley-codeDr/Oficial/actions/workflows/code-quality.yml/badge.svg)](https://github.com/Wesley-codeDr/Oficial/actions/workflows/code-quality.yml)
+[![Security](https://github.com/Wesley-codeDr/Oficial/actions/workflows/security.yml/badge.svg)](https://github.com/Wesley-codeDr/Oficial/actions/workflows/security.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
+[![Prisma](https://img.shields.io/badge/Prisma-7.1-2D3748.svg)](https://www.prisma.io/)
+[![pnpm](https://img.shields.io/badge/pnpm-8.15-F69220.svg)](https://pnpm.io/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 WellWave é um sistema médico avançado para geração automática de anamneses (históricos médicos) em ambientes de pronto-socorro. O sistema transforma checkboxes simples em documentação clínica completa, juridicamente robusta e 100% compatível com as normas do Conselho Federal de Medicina (CFM).
 
