@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📖 Documentation
+    url: https://github.com/Wesley-codeDr/Oficial/blob/main/README.md
+    about: Check the README and documentation first
+  - name: 💬 Discussion
+    url: https://github.com/Wesley-codeDr/Oficial/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: 🔒 Security Issue
+    url: https://github.com/Wesley-codeDr/Oficial/blob/main/SECURITY.md
+    about: Report security vulnerabilities privately
