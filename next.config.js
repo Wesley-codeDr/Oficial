@@ -8,6 +8,8 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: false,
   },
+  // Enable standalone output for Docker
+  output: 'standalone',
   // Performance optimizations
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-icons'],
