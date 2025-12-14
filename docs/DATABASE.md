@@ -95,6 +95,8 @@ pnpm prisma db push
 5. Copie a **Connection String** (use a que tem **Connection Pooling**)
    - Deve incluir `?pgbouncer=true&sslmode=require`
 
+> Nota: rotinas administrativas (p.ex. scripts de manutenção ou jobs que ignoram RLS) dependem da `SUPABASE_SERVICE_ROLE_KEY`. Quando essa chave não está configurada, o `createAdminClient` retorna `null` e essas operações ficam desabilitadas, mas o restante do app segue funcionando normalmente.
+
 **Passo 2: Configurar .env para produção**
 
 ```bash

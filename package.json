@@ -30,6 +30,7 @@
 		"seed": "tsx prisma/seed.ts"
 	},
 	"devDependencies": {
+		"@letuscode/spec-kit": "^0.1.3",
 		"@next/bundle-analyzer": "^16.0.8",
 		"@playwright/test": "^1.49.0",
 		"@tanstack/react-query-devtools": "^5.91.1",

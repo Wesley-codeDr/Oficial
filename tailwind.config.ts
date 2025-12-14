@@ -372,6 +372,9 @@ const config: Config = {
      * @see https://developer.apple.com/design/human-interface-guidelines/right-to-left
      */
     plugin(function({ addUtilities, addVariant, matchUtilities, theme }) {
+      // Helper to safely get theme values
+      const t = (path: string): string => (theme(path) as string) ?? ''
+
       // Add RTL/LTR variants
       addVariant('rtl', '[dir="rtl"] &')
       addVariant('ltr', '[dir="ltr"] &')
@@ -382,55 +385,55 @@ const config: Config = {
       const logicalUtilities = {
         // Margin logical properties
         '.ms-0': { 'margin-inline-start': '0' },
-        '.ms-1': { 'margin-inline-start': theme('spacing.1') },
-        '.ms-2': { 'margin-inline-start': theme('spacing.2') },
-        '.ms-3': { 'margin-inline-start': theme('spacing.3') },
-        '.ms-4': { 'margin-inline-start': theme('spacing.4') },
-        '.ms-5': { 'margin-inline-start': theme('spacing.5') },
-        '.ms-6': { 'margin-inline-start': theme('spacing.6') },
-        '.ms-8': { 'margin-inline-start': theme('spacing.8') },
+        '.ms-1': { 'margin-inline-start': t('spacing.1') },
+        '.ms-2': { 'margin-inline-start': t('spacing.2') },
+        '.ms-3': { 'margin-inline-start': t('spacing.3') },
+        '.ms-4': { 'margin-inline-start': t('spacing.4') },
+        '.ms-5': { 'margin-inline-start': t('spacing.5') },
+        '.ms-6': { 'margin-inline-start': t('spacing.6') },
+        '.ms-8': { 'margin-inline-start': t('spacing.8') },
         '.ms-auto': { 'margin-inline-start': 'auto' },
-        
+
         '.me-0': { 'margin-inline-end': '0' },
-        '.me-1': { 'margin-inline-end': theme('spacing.1') },
-        '.me-2': { 'margin-inline-end': theme('spacing.2') },
-        '.me-3': { 'margin-inline-end': theme('spacing.3') },
-        '.me-4': { 'margin-inline-end': theme('spacing.4') },
-        '.me-5': { 'margin-inline-end': theme('spacing.5') },
-        '.me-6': { 'margin-inline-end': theme('spacing.6') },
-        '.me-8': { 'margin-inline-end': theme('spacing.8') },
+        '.me-1': { 'margin-inline-end': t('spacing.1') },
+        '.me-2': { 'margin-inline-end': t('spacing.2') },
+        '.me-3': { 'margin-inline-end': t('spacing.3') },
+        '.me-4': { 'margin-inline-end': t('spacing.4') },
+        '.me-5': { 'margin-inline-end': t('spacing.5') },
+        '.me-6': { 'margin-inline-end': t('spacing.6') },
+        '.me-8': { 'margin-inline-end': t('spacing.8') },
         '.me-auto': { 'margin-inline-end': 'auto' },
 
         // Padding logical properties
         '.ps-0': { 'padding-inline-start': '0' },
-        '.ps-1': { 'padding-inline-start': theme('spacing.1') },
-        '.ps-2': { 'padding-inline-start': theme('spacing.2') },
-        '.ps-3': { 'padding-inline-start': theme('spacing.3') },
-        '.ps-4': { 'padding-inline-start': theme('spacing.4') },
-        '.ps-5': { 'padding-inline-start': theme('spacing.5') },
-        '.ps-6': { 'padding-inline-start': theme('spacing.6') },
-        '.ps-8': { 'padding-inline-start': theme('spacing.8') },
-        
+        '.ps-1': { 'padding-inline-start': t('spacing.1') },
+        '.ps-2': { 'padding-inline-start': t('spacing.2') },
+        '.ps-3': { 'padding-inline-start': t('spacing.3') },
+        '.ps-4': { 'padding-inline-start': t('spacing.4') },
+        '.ps-5': { 'padding-inline-start': t('spacing.5') },
+        '.ps-6': { 'padding-inline-start': t('spacing.6') },
+        '.ps-8': { 'padding-inline-start': t('spacing.8') },
+
         '.pe-0': { 'padding-inline-end': '0' },
-        '.pe-1': { 'padding-inline-end': theme('spacing.1') },
-        '.pe-2': { 'padding-inline-end': theme('spacing.2') },
-        '.pe-3': { 'padding-inline-end': theme('spacing.3') },
-        '.pe-4': { 'padding-inline-end': theme('spacing.4') },
-        '.pe-5': { 'padding-inline-end': theme('spacing.5') },
-        '.pe-6': { 'padding-inline-end': theme('spacing.6') },
-        '.pe-8': { 'padding-inline-end': theme('spacing.8') },
+        '.pe-1': { 'padding-inline-end': t('spacing.1') },
+        '.pe-2': { 'padding-inline-end': t('spacing.2') },
+        '.pe-3': { 'padding-inline-end': t('spacing.3') },
+        '.pe-4': { 'padding-inline-end': t('spacing.4') },
+        '.pe-5': { 'padding-inline-end': t('spacing.5') },
+        '.pe-6': { 'padding-inline-end': t('spacing.6') },
+        '.pe-8': { 'padding-inline-end': t('spacing.8') },
 
         // Inset logical properties
         '.start-0': { 'inset-inline-start': '0' },
-        '.start-1': { 'inset-inline-start': theme('spacing.1') },
-        '.start-2': { 'inset-inline-start': theme('spacing.2') },
-        '.start-4': { 'inset-inline-start': theme('spacing.4') },
+        '.start-1': { 'inset-inline-start': t('spacing.1') },
+        '.start-2': { 'inset-inline-start': t('spacing.2') },
+        '.start-4': { 'inset-inline-start': t('spacing.4') },
         '.start-auto': { 'inset-inline-start': 'auto' },
-        
+
         '.end-0': { 'inset-inline-end': '0' },
-        '.end-1': { 'inset-inline-end': theme('spacing.1') },
-        '.end-2': { 'inset-inline-end': theme('spacing.2') },
-        '.end-4': { 'inset-inline-end': theme('spacing.4') },
+        '.end-1': { 'inset-inline-end': t('spacing.1') },
+        '.end-2': { 'inset-inline-end': t('spacing.2') },
+        '.end-4': { 'inset-inline-end': t('spacing.4') },
         '.end-auto': { 'inset-inline-end': 'auto' },
 
         // Text alignment logical properties
@@ -438,50 +441,50 @@ const config: Config = {
         '.text-end': { 'text-align': 'end' },
 
         // Border radius logical properties
-        '.rounded-s': { 
-          'border-start-start-radius': theme('borderRadius.DEFAULT'),
-          'border-end-start-radius': theme('borderRadius.DEFAULT')
+        '.rounded-s': {
+          'border-start-start-radius': t('borderRadius.DEFAULT'),
+          'border-end-start-radius': t('borderRadius.DEFAULT')
         },
-        '.rounded-e': { 
-          'border-start-end-radius': theme('borderRadius.DEFAULT'),
-          'border-end-end-radius': theme('borderRadius.DEFAULT')
+        '.rounded-e': {
+          'border-start-end-radius': t('borderRadius.DEFAULT'),
+          'border-end-end-radius': t('borderRadius.DEFAULT')
         },
-        '.rounded-ss': { 'border-start-start-radius': theme('borderRadius.DEFAULT') },
-        '.rounded-se': { 'border-start-end-radius': theme('borderRadius.DEFAULT') },
-        '.rounded-es': { 'border-end-start-radius': theme('borderRadius.DEFAULT') },
-        '.rounded-ee': { 'border-end-end-radius': theme('borderRadius.DEFAULT') },
+        '.rounded-ss': { 'border-start-start-radius': t('borderRadius.DEFAULT') },
+        '.rounded-se': { 'border-start-end-radius': t('borderRadius.DEFAULT') },
+        '.rounded-es': { 'border-end-start-radius': t('borderRadius.DEFAULT') },
+        '.rounded-ee': { 'border-end-end-radius': t('borderRadius.DEFAULT') },
 
-        '.rounded-s-lg': { 
-          'border-start-start-radius': theme('borderRadius.lg'),
-          'border-end-start-radius': theme('borderRadius.lg')
+        '.rounded-s-lg': {
+          'border-start-start-radius': t('borderRadius.lg'),
+          'border-end-start-radius': t('borderRadius.lg')
         },
-        '.rounded-e-lg': { 
-          'border-start-end-radius': theme('borderRadius.lg'),
-          'border-end-end-radius': theme('borderRadius.lg')
+        '.rounded-e-lg': {
+          'border-start-end-radius': t('borderRadius.lg'),
+          'border-end-end-radius': t('borderRadius.lg')
         },
-        '.rounded-s-xl': { 
-          'border-start-start-radius': theme('borderRadius.xl'),
-          'border-end-start-radius': theme('borderRadius.xl')
+        '.rounded-s-xl': {
+          'border-start-start-radius': t('borderRadius.xl'),
+          'border-end-start-radius': t('borderRadius.xl')
         },
-        '.rounded-e-xl': { 
-          'border-start-end-radius': theme('borderRadius.xl'),
-          'border-end-end-radius': theme('borderRadius.xl')
+        '.rounded-e-xl': {
+          'border-start-end-radius': t('borderRadius.xl'),
+          'border-end-end-radius': t('borderRadius.xl')
         },
-        '.rounded-s-2xl': { 
-          'border-start-start-radius': theme('borderRadius.2xl'),
-          'border-end-start-radius': theme('borderRadius.2xl')
+        '.rounded-s-2xl': {
+          'border-start-start-radius': t('borderRadius.2xl'),
+          'border-end-start-radius': t('borderRadius.2xl')
         },
-        '.rounded-e-2xl': { 
-          'border-start-end-radius': theme('borderRadius.2xl'),
-          'border-end-end-radius': theme('borderRadius.2xl')
+        '.rounded-e-2xl': {
+          'border-start-end-radius': t('borderRadius.2xl'),
+          'border-end-end-radius': t('borderRadius.2xl')
         },
-        '.rounded-s-3xl': { 
-          'border-start-start-radius': theme('borderRadius.3xl'),
-          'border-end-start-radius': theme('borderRadius.3xl')
+        '.rounded-s-3xl': {
+          'border-start-start-radius': t('borderRadius.3xl'),
+          'border-end-start-radius': t('borderRadius.3xl')
         },
-        '.rounded-e-3xl': { 
-          'border-start-end-radius': theme('borderRadius.3xl'),
-          'border-end-end-radius': theme('borderRadius.3xl')
+        '.rounded-e-3xl': {
+          'border-start-end-radius': t('borderRadius.3xl'),
+          'border-end-end-radius': t('borderRadius.3xl')
         },
 
         // Border logical properties
@@ -548,11 +551,11 @@ const config: Config = {
 
       // Space logical properties (gap-based spacing)
       const spaceUtilities = {
-        '.space-x-start-2 > :not([hidden]) ~ :not([hidden])': { 
-          'margin-inline-start': theme('spacing.2')
+        '.space-x-start-2 > :not([hidden]) ~ :not([hidden])': {
+          'margin-inline-start': t('spacing.2')
         },
-        '.space-x-end-2 > :not([hidden]) ~ :not([hidden])': { 
-          'margin-inline-end': theme('spacing.2')
+        '.space-x-end-2 > :not([hidden]) ~ :not([hidden])': {
+          'margin-inline-end': t('spacing.2')
         },
       }
 

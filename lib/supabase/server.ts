@@ -8,6 +8,7 @@
 import { createServerClient as createSupabaseServerClient, type CookieOptions } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { createClient } from '@supabase/supabase-js'
+import { logger } from '@/lib/logging'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -42,6 +43,8 @@ export async function createServerClient() {
 /**
  * Create an admin Supabase client that bypasses RLS
  * Use this only for admin operations that need full access
+ * Returns null when SUPABASE_SERVICE_ROLE_KEY is not configured so callers
+ * can handle admin-only flows gracefully instead of crashing at startup.
  *
  * WARNING: Never expose this in client-side code!
  * @warning Server-only. Do not import from client components or shared hooks.
@@ -52,10 +55,11 @@ export function createAdminClient() {
   }
 
   if (!supabaseServiceRoleKey) {
-    throw new Error(
-      'Missing SUPABASE_SERVICE_ROLE_KEY environment variable. ' +
-        'Get this from your Supabase dashboard: Settings > API > service_role key'
-    )
+    logger.error('Missing SUPABASE_SERVICE_ROLE_KEY for admin Supabase client', {
+      event: 'createAdminClient',
+      route: 'lib/supabase/server',
+    })
+    return null
   }
 
   return createClient(supabaseUrl, supabaseServiceRoleKey, {

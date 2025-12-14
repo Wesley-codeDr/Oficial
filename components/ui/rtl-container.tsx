@@ -85,8 +85,8 @@ export function LanguageText({
   const { isRTL: contextIsRTL } = useDirection()
   
   // Determine if text language is RTL
-  const isRTLLanguage = lang 
-    ? ['ar', 'he', 'fa', 'ur', 'yi', 'ps', 'sd', 'ckb', 'ug'].includes(lang.split('-')[0])
+  const isRTLLanguage = lang
+    ? ['ar', 'he', 'fa', 'ur', 'yi', 'ps', 'sd', 'ckb', 'ug'].includes(lang.split('-')[0] ?? '')
     : contextIsRTL
 
   // Apple HIG: Paragraphs align based on their language, not context
@@ -218,7 +218,7 @@ export function SidebarContent({
  * 
  * Apple HIG: Separators should flip in RTL.
  */
-interface RTLBreadcrumbProps extends React.HTMLAttributes<HTMLNavElement> {
+interface RTLBreadcrumbProps extends React.HTMLAttributes<HTMLElement> {
   children: React.ReactNode
   /** Custom separator */
   separator?: React.ReactNode
@@ -260,6 +260,7 @@ export function RTLBreadcrumb({
     </nav>
   )
 }
+
 
 
 

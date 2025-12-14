@@ -94,6 +94,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     checkedItems,
     outputMode,
     sessionId,
+    isDirty,
     categoryOrder,
     pastCategoryOrders,
     futureCategoryOrders,
@@ -102,6 +103,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     redoCategoryOrder,
     setOutputMode,
     setSessionId,
+    setIsDirty,
     toggleCheckbox,
     setGeneratedText,
     setRedFlags,
@@ -220,7 +222,6 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
   const handleToggle = (id: string) => {
     toggleCheckbox(id)
-    setSessionId(null) // Clear session when selection changes
   }
 
   const handleReset = () => {
@@ -253,6 +254,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
         })
 
         setSessionId(session.id)
+        setIsDirty(false)
 
         analytics.anamneseCompleted(syndrome.code, checkedItems.size, redFlags.length > 0, outputMode)
         analytics.sessionSaved(syndrome.code, session.id)
@@ -276,7 +278,14 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   }
 
   const handleCopy = () => {
-    if (sessionId) {
+    if (sessionId && isDirty) {
+      toast({
+        title: 'Texto com alterações não salvas',
+        description: 'Salve a anamnese para sincronizar o histórico antes de registrar esta cópia.',
+      })
+    }
+
+    if (sessionId && !isDirty) {
       analytics.anamnaseCopied(syndrome.code, sessionId)
 
       startTransition(async () => {
@@ -297,6 +306,13 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
         variant: 'destructive',
       })
       return
+    }
+
+    if (isDirty) {
+      toast({
+        title: 'Alterações não salvas',
+        description: 'O ChatWell usará a versão salva da anamnese. Salve para atualizar o contexto.',
+      })
     }
 
     startTransition(async () => {
@@ -371,7 +387,8 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             minSize={20}
             maxSize={30}
             collapsible
-            onCollapse={setIsSidebarCollapsed}
+            onCollapse={() => setIsSidebarCollapsed(true)}
+            onExpand={() => setIsSidebarCollapsed(false)}
             className={cn('flex flex-col h-full py-2', isSidebarCollapsed && 'items-center')}
           >
             {/* 1. SIDEBAR (Apple Settings Style) */}
@@ -528,6 +545,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           isSaving={isPending}
           canSave={checkedItems.size > 0}
           canOpenChat={!!sessionId}
+          hasUnsavedChanges={isDirty}
         />
       </div>
       <ClearSelectionDialog

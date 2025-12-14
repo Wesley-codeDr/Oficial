@@ -15,17 +15,14 @@ export const config = {
      * - api (API routes - handled separately)
      * - public files
      * 
-     * NOTE: API routes (/api/*) are excluded from middleware auth to allow
-     * flexible authentication strategies per endpoint. Each API route handler
-     * must enforce authentication individually using the shared helper:
-     * - Use `requireApiUser()` from `@/lib/api/auth` for consistent auth handling
-     * - Or use `getUser()` from `@/lib/supabase/server` and return 401 if null
-     * 
-     * This pattern ensures that:
-     * - Medical data endpoints (sessions, syndromes, chief-complaints, dashboard)
-     *   are consistently protected
-     * - Chat endpoints enforce auth before processing sensitive medical conversations
-     * - Future endpoints don't accidentally expose unauthenticated data
+     * NOTE: API routes (/api/*) are excluded from middleware auth so each handler
+     * can enforce auth in a single, consistent way. Do NOT implement ad-hoc auth
+     * checks inside routes; always use the shared helpers from `@/lib/api/auth`:
+     * - Wrap handlers with `withApiAuth(...)`
+     * - Or call `requireApiUser()` at the top of the handler
+     *
+     * All new and existing routes must follow this pattern to keep medical data
+     * and chat endpoints consistently protected and avoid future regressions.
      */
     '/((?!_next/static|_next/image|favicon.ico|api|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],

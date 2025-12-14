@@ -29,6 +29,7 @@ interface CollapsiblePreviewProps {
   isSaving: boolean
   canSave: boolean
   canOpenChat: boolean
+  hasUnsavedChanges?: boolean
   className?: string
 }
 
@@ -43,6 +44,7 @@ export function CollapsiblePreview({
   isSaving,
   canSave,
   canOpenChat,
+  hasUnsavedChanges = false,
   className,
 }: CollapsiblePreviewProps) {
   const [expanded, setExpanded] = useState(false)
@@ -222,67 +224,74 @@ export function CollapsiblePreview({
             </div>
 
             {/* Actions */}
-            <div className="flex items-center gap-2">
-              {/* Copy Button */}
-              <Button
-                variant={copied ? 'default' : 'outline'}
-                size="sm"
-                onClick={handleCopy}
-                disabled={isEmpty}
-                className={cn(
-                  'h-9 px-4 rounded-xl transition-all',
-                  copied && 'bg-green-600 hover:bg-green-600 text-white border-green-600'
-                )}
-              >
-                <AnimatePresence mode="wait">
-                  {copied ? (
-                    <motion.span
-                      key="copied"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      className="flex items-center gap-1.5"
-                    >
-                      <Check className="h-4 w-4" />
-                      Copiado
-                    </motion.span>
-                  ) : (
-                    <motion.span
-                      key="copy"
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      className="flex items-center gap-1.5"
-                    >
-                      <Copy className="h-4 w-4" />
-                      Copiar
-                    </motion.span>
+            <div className="flex items-center gap-3">
+              {hasUnsavedChanges && canOpenChat && (
+                <span className="text-[11px] text-amber-600 font-medium">
+                  Mudanças não salvas; o chat usará a última versão salva.
+                </span>
+              )}
+              <div className="flex items-center gap-2">
+                {/* Copy Button */}
+                <Button
+                  variant={copied ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={handleCopy}
+                  disabled={isEmpty}
+                  className={cn(
+                    'h-9 px-4 rounded-xl transition-all',
+                    copied && 'bg-green-600 hover:bg-green-600 text-white border-green-600'
                   )}
-                </AnimatePresence>
-              </Button>
+                >
+                  <AnimatePresence mode="wait">
+                    {copied ? (
+                      <motion.span
+                        key="copied"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="flex items-center gap-1.5"
+                      >
+                        <Check className="h-4 w-4" />
+                        Copiado
+                      </motion.span>
+                    ) : (
+                      <motion.span
+                        key="copy"
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        className="flex items-center gap-1.5"
+                      >
+                        <Copy className="h-4 w-4" />
+                        Copiar
+                      </motion.span>
+                    )}
+                  </AnimatePresence>
+                </Button>
 
-              {/* Save Button */}
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={onSave}
-                disabled={!canSave || isSaving}
-                className="h-9 px-4 rounded-xl"
-              >
-                <Save className="h-4 w-4 mr-1.5" />
-                {isSaving ? 'Salvando...' : 'Salvar'}
-              </Button>
+                {/* Save Button */}
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={onSave}
+                  disabled={!canSave || isSaving}
+                  className="h-9 px-4 rounded-xl"
+                >
+                  <Save className="h-4 w-4 mr-1.5" />
+                  {isSaving ? 'Salvando...' : 'Salvar'}
+                </Button>
 
-              {/* ChatWell Button */}
-              <Button
-                size="sm"
-                onClick={onOpenChat}
-                disabled={!canOpenChat}
-                className="h-9 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white border-0"
-              >
-                <MessageSquare className="h-4 w-4 mr-1.5" />
-                ChatWell
-              </Button>
+                {/* ChatWell Button */}
+                <Button
+                  size="sm"
+                  onClick={onOpenChat}
+                  disabled={!canOpenChat}
+                  className="h-9 px-4 rounded-xl bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-600 hover:to-indigo-700 text-white border-0"
+                >
+                  <MessageSquare className="h-4 w-4 mr-1.5" />
+                  ChatWell
+                </Button>
+              </div>
             </div>
           </div>
         </div>

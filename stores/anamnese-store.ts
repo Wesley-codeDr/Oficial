@@ -26,6 +26,7 @@ interface AnamneseState {
   missingRequired: string[]
   outputMode: OutputMode
   sessionId: string | null
+  isDirty: boolean
   categoryOrder: CheckboxCategory[]
   pastCategoryOrders: CheckboxCategory[][]
   futureCategoryOrders: CheckboxCategory[][]
@@ -39,6 +40,7 @@ interface AnamneseState {
   setMissingRequired: (missing: string[]) => void
   setOutputMode: (mode: OutputMode) => void
   setSessionId: (id: string | null) => void
+  setIsDirty: (dirty: boolean) => void
   setCategoryOrder: (order: CheckboxCategory[]) => void
   undoCategoryOrder: () => void
   redoCategoryOrder: () => void
@@ -53,6 +55,7 @@ export const useAnamneseStore = create<AnamneseState>((set) => ({
   missingRequired: [],
   outputMode: 'SUMMARY',
   sessionId: null,
+  isDirty: false,
   categoryOrder: INITIAL_CATEGORY_ORDER,
   pastCategoryOrders: [],
   futureCategoryOrders: [],
@@ -65,6 +68,7 @@ export const useAnamneseStore = create<AnamneseState>((set) => ({
       redFlags: [],
       missingRequired: [],
       sessionId: null,
+      isDirty: false,
       categoryOrder: INITIAL_CATEGORY_ORDER, // Reset order on new syndrome
       pastCategoryOrders: [],
       futureCategoryOrders: [],
@@ -78,7 +82,7 @@ export const useAnamneseStore = create<AnamneseState>((set) => ({
       } else {
         newChecked.add(checkboxId)
       }
-      return { checkedItems: newChecked }
+      return { checkedItems: newChecked, isDirty: true }
     }),
 
   setCheckedItems: (items) => set({ checkedItems: new Set(items) }),
@@ -92,6 +96,8 @@ export const useAnamneseStore = create<AnamneseState>((set) => ({
   setOutputMode: (mode) => set({ outputMode: mode }),
 
   setSessionId: (id) => set({ sessionId: id }),
+
+  setIsDirty: (dirty) => set({ isDirty: dirty }),
 
   setCategoryOrder: (order) =>
     set((state) => ({
@@ -133,6 +139,7 @@ export const useAnamneseStore = create<AnamneseState>((set) => ({
       missingRequired: [],
       outputMode: 'SUMMARY',
       sessionId: null,
+      isDirty: false,
       categoryOrder: INITIAL_CATEGORY_ORDER,
       pastCategoryOrders: [],
       futureCategoryOrders: [],

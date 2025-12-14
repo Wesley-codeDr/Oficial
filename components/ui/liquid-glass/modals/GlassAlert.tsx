@@ -141,6 +141,7 @@ export function GlassAlert({
         document.body.style.overflow = '';
       };
     }
+    return undefined;
   }, [isOpen]);
 
   const handleBackdropClick = () => {

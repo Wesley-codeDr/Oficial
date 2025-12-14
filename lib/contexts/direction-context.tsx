@@ -51,7 +51,7 @@ const DirectionContext = createContext<DirectionContextType | undefined>(undefin
  * Check if a language code is RTL
  */
 function isRTLLanguage(lang: string): boolean {
-  const baseLang = lang.split('-')[0].toLowerCase() as RTLLanguage
+  const baseLang = (lang.split('-')[0] ?? '').toLowerCase() as RTLLanguage
   return RTL_LANGUAGES.includes(baseLang)
 }
 
@@ -162,7 +162,7 @@ export function DirectionProvider({
     })
   }, [language])
 
-  const value = useMemo(() => ({
+  const value: DirectionContextType = useMemo(() => ({
     direction,
     isRTL,
     isLTR,
@@ -170,10 +170,10 @@ export function DirectionProvider({
     setDirection,
     setLanguage,
     toggleDirection,
-    startSide,
-    endSide,
-    inlineStart,
-    inlineEnd
+    startSide: startSide as 'left' | 'right',
+    endSide: endSide as 'left' | 'right',
+    inlineStart: inlineStart as 'left' | 'right',
+    inlineEnd: inlineEnd as 'left' | 'right'
   }), [
     direction,
     isRTL,
@@ -337,5 +337,6 @@ export function useDirectionalClasses() {
 }
 
 export { DirectionContext }
+
 
 

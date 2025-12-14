@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight, Play } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { AnimatedWord } from '@/components/ui/animated-word';
 import {
   fadeInUp,
   staggerContainer,
@@ -78,9 +79,7 @@ export function HeroSection() {
                 Anamnese digital
               </span>
               <br />
-              <span className="wordmark-wave-gradient animate-gradient">
-                inteligente
-              </span>
+              <AnimatedWord text="inteligente" />
               <br />
               <span className="text-slate-900 dark:text-white">
                 para emergências

@@ -14,6 +14,10 @@ import { RATE_LIMIT } from '@/lib/ai/guardrails'
 import { logger } from '@/lib/logging'
 import type { RateLimitEntry } from '@prisma/client'
 
+const GLOBAL_RATE_LIMIT_TTL_MS = 24 * 60 * 60 * 1000
+const GLOBAL_CLEANUP_INTERVAL_MS = 10 * 60 * 1000
+let lastGlobalCleanupRun = 0
+
 export interface RateLimitResult {
   allowed: boolean
   retryAfter?: number
@@ -49,6 +53,28 @@ export async function checkRateLimit(
           },
         },
       })
+    }
+
+    // Opportunistic global cleanup to remove abandoned entries while leveraging timestamp index
+    if (now - lastGlobalCleanupRun > GLOBAL_CLEANUP_INTERVAL_MS) {
+      const pruneBefore = new Date(now - GLOBAL_RATE_LIMIT_TTL_MS)
+      try {
+        await prisma.rateLimitEntry.deleteMany({
+          where: {
+            timestamp: {
+              lt: pruneBefore,
+            },
+          },
+        })
+      } catch (cleanupError) {
+        logger.error('Global rate limit cleanup failed', {
+          event: 'globalRateLimitPrune',
+          route: 'rate-limit',
+          pruneBefore: pruneBefore.toISOString(),
+        }, cleanupError)
+      } finally {
+        lastGlobalCleanupRun = now
+      }
     }
 
     // Get all entries for this user in the last hour

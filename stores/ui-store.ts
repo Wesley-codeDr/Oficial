@@ -6,12 +6,16 @@ interface UIState {
   sidebarOpen: boolean
   sidebarCollapsed: boolean
 
+  // Theme
+  theme: 'light' | 'dark' | 'system'
+
   // Toasts/notifications
   toasts: Toast[]
 
   // Actions
   toggleSidebar: () => void
   setSidebarCollapsed: (collapsed: boolean) => void
+  setTheme: (theme: 'light' | 'dark' | 'system') => void
   addToast: (toast: Omit<Toast, 'id'>) => void
   removeToast: (id: string) => void
   clearToasts: () => void
@@ -32,11 +36,14 @@ export const useUIStore = create<UIState>()(
     (set) => ({
       sidebarOpen: true,
       sidebarCollapsed: false,
+      theme: 'system',
       toasts: [],
 
       toggleSidebar: () => set((state) => ({ sidebarOpen: !state.sidebarOpen })),
 
       setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
+
+      setTheme: (theme) => set({ theme }),
 
       addToast: (toast) =>
         set((state) => ({
@@ -59,6 +66,7 @@ export const useUIStore = create<UIState>()(
     {
       name: 'wellwave-ui',
       partialize: (state) => ({
+        theme: state.theme,
         sidebarCollapsed: state.sidebarCollapsed,
       }),
     }

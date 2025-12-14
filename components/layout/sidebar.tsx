@@ -5,12 +5,14 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   PlusCircle, FolderClock, Settings,
-  Activity, PanelLeftClose, PanelLeftOpen, LayoutGrid,
-  LogOut, Calculator, ChevronDown
+  Activity, PanelLeftClose, LayoutGrid,
+  LogOut, Calculator, ChevronDown, Sun, Moon, Laptop
 } from 'lucide-react';
+import { useTheme } from 'next-themes';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { useSidebar, SIDEBAR_COLLAPSED_WIDTH, SIDEBAR_EXPANDED_WIDTH } from '@/lib/contexts/sidebar-context';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 // Custom ChatWell icon with "W" inside speech bubble
 const ChatWellIcon = ({ className, ...props }: React.SVGProps<SVGSVGElement>) => (
@@ -255,6 +257,50 @@ interface SidebarProps {
   userEmail?: string;
 }
 
+function ThemeSwitcher({ isCollapsed }: { isCollapsed: boolean }) {
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className="h-10 w-full" />;
+  }
+
+  return (
+    <div className={cn(
+      'flex items-center transition-all duration-300 p-1 rounded-xl',
+      isCollapsed ? 'w-auto justify-center' : 'w-full justify-between'
+    )}>
+      {!isCollapsed && (
+        <span className="text-[12px] font-medium text-slate-500 dark:text-slate-400 pl-2">
+          Aparência
+        </span>
+      )}
+      <ToggleGroup
+        type="single"
+        value={theme}
+        onValueChange={(value) => {
+          if (value) setTheme(value);
+        }}
+        className="bg-transparent gap-1"
+      >
+        <ToggleGroupItem value="light" aria-label="Tema claro" className="rounded-full size-8">
+          <Sun className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="dark" aria-label="Tema escuro" className="rounded-full size-8">
+          <Moon className="h-4 w-4" />
+        </ToggleGroupItem>
+        <ToggleGroupItem value="system" aria-label="Tema do sistema" className="rounded-full size-8">
+          <Laptop className="h-4 w-4" />
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </div>
+  );
+}
+
 export function Sidebar({
   menuGroups = {
     main: defaultMainItems,
@@ -446,6 +492,7 @@ export function Sidebar({
         'mt-auto px-2 pb-2 flex flex-col gap-2 transition-all duration-300',
         isCollapsed ? 'items-center px-1' : ''
       )}>
+        <ThemeSwitcher isCollapsed={isCollapsed} />
         
         {/* User Profile - Apple HIG list item style */}
         <div className={cn(

@@ -36,7 +36,7 @@ module.exports = withSentryConfig(
     // Always silent to avoid build failures when auth token is missing
     silent: true,
 
-    // Disable source map upload if no auth token
+    // Disable source map upload if SENTRY_AUTH_TOKEN is missing to avoid blocking builds
     sourcemaps: {
       disable: !process.env.SENTRY_AUTH_TOKEN,
     },

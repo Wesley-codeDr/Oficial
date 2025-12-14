@@ -747,11 +747,268 @@
     animation: gradient 4s ease infinite;
   }
 
-  /* Reduced motion: disable gradient animation for accessibility */
-  @media (prefers-reduced-motion: reduce) {
-    .animate-gradient {
-      animation: none;
+  /* ======================================
+     APPLE 2025 PREMIUM TYPOGRAPHY
+     "inteligente" - Glass Morphism Edition
+
+     Design Language:
+     - Apple Vision Pro aesthetics
+     - iOS 18 / visionOS inspired
+     - Glass morphism with depth
+     - Fluid, organic animations
+     - Premium gradient with shimmer
+     ====================================== */
+
+  /* ===== KEYFRAMES ===== */
+
+  /* Gradient wave - flows through the text */
+  @keyframes apple-gradient-wave {
+    0% {
+      background-position: 200% 50%;
     }
+    100% {
+      background-position: -200% 50%;
+    }
+  }
+
+  /* Subtle color pulse */
+  @keyframes apple-color-pulse {
+    0%, 100% {
+      filter: brightness(1) saturate(1);
+    }
+    50% {
+      filter: brightness(1.1) saturate(1.1);
+    }
+  }
+
+  /* Shimmer sweep effect */
+  @keyframes apple-shimmer {
+    0% {
+      transform: translateX(-100%) skewX(-15deg);
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.6;
+    }
+    100% {
+      transform: translateX(200%) skewX(-15deg);
+      opacity: 0;
+    }
+  }
+
+  /* Glow breathing effect */
+  @keyframes apple-glow-breathe {
+    0%, 100% {
+      opacity: 0;
+      filter: blur(20px);
+    }
+    50% {
+      opacity: 0.4;
+      filter: blur(30px);
+    }
+  }
+
+  /* ===== CONTAINER ===== */
+
+  .apple-word-container {
+    position: relative;
+    display: inline-block;
+    isolation: isolate;
+  }
+
+  /* ===== MAIN TEXT LAYER ===== */
+
+  .apple-word-text {
+    position: relative;
+    display: inline-flex;
+    z-index: 2;
+  }
+
+  /* Individual letter styling */
+  .apple-word-letter {
+    /* Premium gradient - Apple 2025 palette */
+    background: linear-gradient(
+      135deg,
+      #3b82f6 0%,      /* Blue 500 */
+      #6366f1 20%,     /* Indigo 500 */
+      #8b5cf6 40%,     /* Violet 500 */
+      #a855f7 50%,     /* Purple 500 */
+      #6366f1 60%,     /* Indigo 500 */
+      #06b6d4 80%,     /* Cyan 500 */
+      #3b82f6 100%     /* Blue 500 */
+    );
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Animations */
+    animation:
+      apple-gradient-wave 8s linear infinite,
+      apple-color-pulse 4s ease-in-out infinite;
+
+    /* Performance */
+    will-change: transform, opacity, filter;
+    backface-visibility: hidden;
+  }
+
+  /* Staggered wave effect for each letter */
+  .apple-word-letter:nth-child(1) { animation-delay: 0s, 0s; }
+  .apple-word-letter:nth-child(2) { animation-delay: -0.6s, 0.1s; }
+  .apple-word-letter:nth-child(3) { animation-delay: -1.2s, 0.2s; }
+  .apple-word-letter:nth-child(4) { animation-delay: -1.8s, 0.3s; }
+  .apple-word-letter:nth-child(5) { animation-delay: -2.4s, 0.4s; }
+  .apple-word-letter:nth-child(6) { animation-delay: -3.0s, 0.5s; }
+  .apple-word-letter:nth-child(7) { animation-delay: -3.6s, 0.6s; }
+  .apple-word-letter:nth-child(8) { animation-delay: -4.2s, 0.7s; }
+  .apple-word-letter:nth-child(9) { animation-delay: -4.8s, 0.8s; }
+  .apple-word-letter:nth-child(10) { animation-delay: -5.4s, 0.9s; }
+  .apple-word-letter:nth-child(11) { animation-delay: -6.0s, 1.0s; }
+
+  /* ===== SHIMMER OVERLAY ===== */
+
+  .apple-word-shimmer {
+    position: absolute;
+    inset: -10% -20%;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    animation: apple-shimmer 3s ease-in-out infinite;
+    animation-delay: 1s;
+    pointer-events: none;
+    z-index: 3;
+    mix-blend-mode: overlay;
+  }
+
+  /* ===== GLOW LAYER (Background blur) ===== */
+
+  .apple-word-glow {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+
+    /* Match gradient colors */
+    background: linear-gradient(
+      135deg,
+      #3b82f6,
+      #8b5cf6,
+      #06b6d4
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    /* Glow effect */
+    filter: blur(25px);
+    opacity: 0;
+    animation: apple-glow-breathe 4s ease-in-out infinite;
+    animation-delay: 1.2s;
+    pointer-events: none;
+  }
+
+  /* ===== STATIC VERSION (reduced motion) ===== */
+
+  .apple-word-static {
+    background: linear-gradient(
+      135deg,
+      #3b82f6 0%,
+      #8b5cf6 50%,
+      #06b6d4 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ===== DARK MODE ENHANCEMENTS ===== */
+
+  .dark .apple-word-letter {
+    background: linear-gradient(
+      135deg,
+      #60a5fa 0%,      /* Blue 400 */
+      #818cf8 20%,     /* Indigo 400 */
+      #a78bfa 40%,     /* Violet 400 */
+      #c084fc 50%,     /* Purple 400 */
+      #818cf8 60%,     /* Indigo 400 */
+      #22d3ee 80%,     /* Cyan 400 */
+      #60a5fa 100%     /* Blue 400 */
+    );
+    background-size: 400% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .dark .apple-word-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%
+    );
+  }
+
+  .dark .apple-word-glow {
+    background: linear-gradient(
+      135deg,
+      #60a5fa,
+      #a78bfa,
+      #22d3ee
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: blur(30px);
+  }
+
+  .dark .apple-word-static {
+    background: linear-gradient(
+      135deg,
+      #60a5fa 0%,
+      #a78bfa 50%,
+      #22d3ee 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* ===== ACCESSIBILITY ===== */
+
+  @media (prefers-reduced-motion: reduce) {
+    .apple-word-letter,
+    .apple-word-shimmer,
+    .apple-word-glow {
+      animation: none !important;
+    }
+
+    .apple-word-shimmer,
+    .apple-word-glow {
+      display: none;
+    }
+
+    .apple-word-letter {
+      background-position: 0% 50%;
+      filter: none;
+    }
+  }
+
+  /* ===== LEGACY COMPATIBILITY ===== */
+
+  .animated-word-gradient,
+  .animated-word-premium,
+  .animated-word-letter {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6, #06b6d4);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: apple-gradient-wave 8s linear infinite;
   }
 
   /* ======================================

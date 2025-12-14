@@ -35,6 +35,19 @@ export const POST = withApiAuth(async (
     // Validate user message
     const messageValidation = validateUserMessage(content)
     if (!messageValidation.isValid) {
+      await prisma.auditLog.create({
+        data: {
+          userId: user.id,
+          action: 'CHAT_GUARDRAIL_BLOCKED',
+          resourceType: 'ChatConversation',
+          resourceId: conversationId,
+          metadata: {
+            reason: 'INVALID_USER_MESSAGE',
+            errors: messageValidation.errors,
+          },
+        },
+      })
+
       const errorResponse = createValidationError(
         'Mensagem inválida',
         messageValidation.errors.map((e) => ({ message: e }))
@@ -99,62 +112,27 @@ export const POST = withApiAuth(async (
       isNegative: boolean
     }> = []
 
-    if (conversation.contextSnapshot) {
-      // Strict validation using Zod schema
-      const parseResult = safeParseContextSnapshot(conversation.contextSnapshot)
+    const hydrateContextFromSession = async () => {
+      if (!conversation.sessionId) return null
 
-      if (!parseResult.success) {
-        const error = parseResult.error
-        logger.error('Invalid contextSnapshot', {
-          conversationId,
-          userId: user.id,
-          route: '/api/chat/conversations/[id]/messages',
-          event: 'parseContextSnapshot',
-        }, error)
-        return NextResponse.json(
-          createApiError(
-            error?.code || 'INVALID_CONTEXT_SNAPSHOT',
-            error?.message || 'O contexto da conversa está em formato inválido. Por favor, crie uma nova conversa.'
-          ),
-          { status: 400 }
-        )
-      }
-
-      const typedSnapshot = parseResult.data!
-
-      // Map validated items to CheckboxCategory type
-      checkedItemsForValidation = typedSnapshot.checkedItems.map((item) => ({
-        id: item.id,
-        category: item.category,
-        displayText: item.displayText,
-        narrativeText: item.narrativeText,
-        isRedFlag: item.isRedFlag,
-        isNegative: item.isNegative,
-      }))
-
-      // Validate minimum data before proceeding
-      const dataValidation = validateMinimumData(checkedItemsForValidation)
-      if (!dataValidation.isValid) {
-        const errorResponse = createMinimumDataError(
-          dataValidation.errors,
-          dataValidation.warnings
-        )
-        return NextResponse.json(errorResponse, { status: 400 })
-      }
-
-      contextText = buildContext({
-        syndromeName: typedSnapshot.syndromeName,
-        syndromeDescription: typedSnapshot.syndromeDescription,
-        checkedItems: checkedItemsForValidation,
-        generatedText: typedSnapshot.generatedText || '',
-        redFlags: checkedItemsForValidation.filter((c) => c.isRedFlag),
-      })
-      redFlags = typedSnapshot.redFlags || []
-    } else if (conversation.sessionId) {
-      // If no snapshot but has session, build context from session
       const sessionContextResult = await buildContextFromSession(conversation.sessionId, user.id)
 
       if (!sessionContextResult.success) {
+        if (sessionContextResult.error.code === 'MINIMUM_DATA_REQUIRED') {
+          await prisma.auditLog.create({
+            data: {
+              userId: user.id,
+              action: 'CHAT_MINIMUM_DATA_FAILED',
+              resourceType: 'ChatConversation',
+              resourceId: conversationId,
+              metadata: {
+                errors: [sessionContextResult.error.message],
+                source: 'sessionFallback',
+              },
+            },
+          })
+        }
+
         logger.error('Failed to build context from session', {
           conversationId,
           sessionId: conversation.sessionId,
@@ -172,6 +150,83 @@ export const POST = withApiAuth(async (
       contextText = sessionContext.contextText
       redFlags = sessionContext.redFlags
       checkedItemsForValidation = sessionContext.checkedItems
+
+      return null
+    }
+
+    if (conversation.contextSnapshot) {
+      // Strict validation using Zod schema
+      const parseResult = safeParseContextSnapshot(conversation.contextSnapshot)
+
+      if (!parseResult.success) {
+        const error = parseResult.error
+        logger.error('Invalid contextSnapshot', {
+          conversationId,
+          userId: user.id,
+          route: '/api/chat/conversations/[id]/messages',
+          event: 'parseContextSnapshot',
+        }, error)
+        if (!conversation.sessionId) {
+          return NextResponse.json(
+            createApiError(
+              error?.code || 'INVALID_CONTEXT_SNAPSHOT',
+              error?.message || 'O contexto da conversa está em formato inválido. Por favor, crie uma nova conversa.'
+            ),
+            { status: 400 }
+          )
+        }
+
+        const sessionFallbackResponse = await hydrateContextFromSession()
+        if (sessionFallbackResponse) return sessionFallbackResponse
+      } else {
+        const typedSnapshot = parseResult.data!
+
+        // Map validated items to CheckboxCategory type
+        checkedItemsForValidation = typedSnapshot.checkedItems.map((item) => ({
+          id: item.id,
+          category: item.category,
+          displayText: item.displayText,
+          narrativeText: item.narrativeText,
+          isRedFlag: item.isRedFlag,
+          isNegative: item.isNegative,
+        }))
+
+        // Validate minimum data before proceeding
+        const dataValidation = validateMinimumData(checkedItemsForValidation)
+        if (!dataValidation.isValid) {
+          await prisma.auditLog.create({
+            data: {
+              userId: user.id,
+              action: 'CHAT_MINIMUM_DATA_FAILED',
+              resourceType: 'ChatConversation',
+              resourceId: conversationId,
+              metadata: {
+                errors: dataValidation.errors,
+                warnings: dataValidation.warnings,
+              },
+            },
+          })
+
+          const errorResponse = createMinimumDataError(
+            dataValidation.errors,
+            dataValidation.warnings
+          )
+          return NextResponse.json(errorResponse, { status: 400 })
+        }
+
+        contextText = buildContext({
+          syndromeName: typedSnapshot.syndromeName,
+          syndromeDescription: typedSnapshot.syndromeDescription,
+          checkedItems: checkedItemsForValidation,
+          generatedText: typedSnapshot.generatedText || '',
+          redFlags: checkedItemsForValidation.filter((c) => c.isRedFlag),
+        })
+        redFlags = typedSnapshot.redFlags || []
+      }
+    } else if (conversation.sessionId) {
+      // If no snapshot but has session, build context from session
+      const sessionFallbackResponse = await hydrateContextFromSession()
+      if (sessionFallbackResponse) return sessionFallbackResponse
     }
 
     // Build message history for context

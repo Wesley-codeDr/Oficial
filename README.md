@@ -6,6 +6,14 @@
 
 WellWave é um sistema médico avançado para geração automática de anamneses (históricos médicos) em ambientes de pronto-socorro. O sistema transforma checkboxes simples em documentação clínica completa, juridicamente robusta e 100% compatível com as normas do Conselho Federal de Medicina (CFM).
 
+# Spec-Kit Integration
+
+This project uses the Spec Kit VS Code extension for enhanced specifications and testing. To get started, ensure you have the extension installed in your VS Code environment:
+
+```bash
+code --install-extension hisn0w.spec-kit-vscode
+```
+
 ## Funcionalidades Principais
 
 - **Anamnese Digital**: Geração de texto médico a partir de checkboxes
