@@ -32,9 +32,9 @@
     --chart-5: 280 100% 70%;
     
     /* Apple-specific variables */
-    --blur: blur(20px);
+    --blur: blur(24px);
     --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-border: rgba(255, 255, 255, 0.22);
   }
 
   .dark {
@@ -115,5 +115,41 @@
   .hover-lift:hover {
     @apply scale-[1.02] shadow-lg;
   }
-}
 
+  /* Liquid glass sheen overlay */
+  .glass-sheen {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-sheen::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.32),
+      rgba(255, 255, 255, 0.12),
+      rgba(255, 255, 255, 0.24)
+    );
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .glass-sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.32), transparent 40%),
+      radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.12), transparent 36%);
+    opacity: 0.9;
+    pointer-events: none;
+  }
+
+  .glass-sheen > * {
+    position: relative;
+    z-index: 1;
+  }
+}
