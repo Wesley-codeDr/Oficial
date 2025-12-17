@@ -1,7 +1,9 @@
 'use client'
 
 import { QueryProvider } from './query-provider'
-import { ThemeProvider } from './theme-provider'
+import { ThemeProvider as NextThemeProvider } from './theme-provider'
+import { ThemeProvider as MedicalThemeProvider } from '@/contexts/ThemeContext'
+import { DashboardPreferencesProvider } from '@/contexts/DashboardPreferencesContext'
 
 interface ProvidersProps {
   children: React.ReactNode
@@ -9,9 +11,13 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <ThemeProvider>
-      <QueryProvider>{children}</QueryProvider>
-    </ThemeProvider>
+    <NextThemeProvider>
+      <MedicalThemeProvider>
+        <DashboardPreferencesProvider>
+          <QueryProvider>{children}</QueryProvider>
+        </DashboardPreferencesProvider>
+      </MedicalThemeProvider>
+    </NextThemeProvider>
   )
 }
 
