@@ -30,6 +30,7 @@ model User {
   sessions      AnamneseSession[]
   conversations ChatConversation[]
   auditLogs     AuditLog[]
+  complaintSearchLogs ComplaintSearchLog[]
 
   @@index([email])
   @@index([crmNumber, crmState])
@@ -236,4 +237,25 @@ model AuditLog {
   @@index([resourceType])
   @@index([createdAt])
   @@map("audit_logs")
+}
+
+// ============================================
+// COMPLAINT SEARCH LOG MODEL
+// ============================================
+// Logs complaint search queries and selections
+model ComplaintSearchLog {
+  id              String   @id @default(uuid())
+  userId          String?  @map("user_id")
+  searchTerm      String   @map("search_term")
+  resultCount     Int      @map("result_count")
+  selectedId      String?  @map("selected_id")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId])
+  @@index([searchTerm])
+  @@index([createdAt])
+  @@map("complaint_search_logs")
 }

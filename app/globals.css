@@ -1,7 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
+@config "../tailwind.config.ts";
+@import "tailwindcss";
 @layer base {
   :root {
     /* Apple 2025 Light Theme - Cores suaves e modernas */
@@ -109,7 +107,7 @@
   
   /* Hover scale effect */
   .hover-lift {
-    @apply transition-apple;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .hover-lift:hover {
