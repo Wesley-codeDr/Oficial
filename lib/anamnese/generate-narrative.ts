@@ -11,57 +11,66 @@ type CheckboxData = {
 
 type CategoryConfig = {
   title: string
-  prefix: string
+  summaryPrefix: string
+  detailPrefix: string
   separator: string
   suffix: string
 }
 
 const CATEGORY_CONFIG: Record<CheckboxCategory, CategoryConfig> = {
   QP: {
-    title: 'QUEIXA PRINCIPAL',
-    prefix: 'Paciente refere ',
+    title: 'Queixa principal',
+    summaryPrefix: 'Queixa principal: ',
+    detailPrefix: '',
     separator: ', ',
     suffix: '.',
   },
   HDA: {
-    title: 'HISTORIA DA DOENCA ATUAL',
-    prefix: '',
+    title: 'Historia da doenca atual',
+    summaryPrefix: 'Historia da doenca atual: ',
+    detailPrefix: '',
     separator: ', ',
     suffix: '.',
   },
   ANTECEDENTES: {
-    title: 'ANTECEDENTES PESSOAIS',
-    prefix: 'Refere ',
-    separator: '. ',
+    title: 'Antecedentes pessoais',
+    summaryPrefix: 'Antecedentes pessoais: ',
+    detailPrefix: '',
+    separator: ', ',
     suffix: '.',
   },
   MEDICACOES: {
-    title: 'MEDICACOES EM USO',
-    prefix: 'Faz uso de ',
+    title: 'Medicacoes em uso',
+    summaryPrefix: 'Medicacoes em uso: ',
+    detailPrefix: '',
     separator: ', ',
     suffix: '.',
   },
   ALERGIAS: {
-    title: 'ALERGIAS',
-    prefix: '',
+    title: 'Alergias',
+    summaryPrefix: 'Alergias: ',
+    detailPrefix: '',
     separator: ', ',
     suffix: '.',
   },
   HABITOS: {
-    title: 'HABITOS DE VIDA',
-    prefix: '',
-    separator: '. ',
+    title: 'Habitos de vida',
+    summaryPrefix: 'Habitos de vida: ',
+    detailPrefix: '',
+    separator: ', ',
     suffix: '.',
   },
   EXAME_FISICO: {
-    title: 'EXAME FISICO',
-    prefix: '',
-    separator: '. ',
+    title: 'Exame fisico',
+    summaryPrefix: 'Ao exame fisico: ',
+    detailPrefix: '',
+    separator: ', ',
     suffix: '.',
   },
   NEGATIVAS: {
-    title: 'NEGATIVAS PERTINENTES',
-    prefix: 'Nega ',
+    title: 'Negativas pertinentes',
+    summaryPrefix: 'Nega: ',
+    detailPrefix: 'Nega: ',
     separator: ', ',
     suffix: '.',
   },
@@ -110,14 +119,15 @@ export function generateNarrative(
     const narratives = checkboxes.map((cb) => cb.narrativeText)
 
     let sectionText: string
+    const prefix = mode === 'DETAILED' ? config.detailPrefix : config.summaryPrefix
 
     if (mode === 'DETAILED') {
       // Detailed mode: includes section headers
-      const content = config.prefix + narratives.join(config.separator) + config.suffix
+      const content = prefix + narratives.join(config.separator) + config.suffix
       sectionText = `**${config.title}:**\n${content}`
     } else {
       // Summary mode: more compact, no headers
-      sectionText = config.prefix + narratives.join(config.separator) + config.suffix
+      sectionText = prefix + narratives.join(config.separator) + config.suffix
     }
 
     sections.push(sectionText)
