@@ -10,6 +10,11 @@ export default function GlobalError({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+  const handleGoHome = () => {
+    const location = (globalThis as { location?: Location }).location;
+    location?.assign("/");
+  };
+
   useEffect(() => {
     Sentry.captureException(error);
     console.error("Global error:", error);
@@ -59,7 +64,7 @@ export default function GlobalError({
                 Tentar novamente
               </button>
               <button
-                onClick={() => (window.location.href = "/")}
+                onClick={handleGoHome}
                 className="rounded-xl border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600"
               >
                 Ir para o início

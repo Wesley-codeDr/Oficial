@@ -85,6 +85,15 @@ export default function Home() {
   const [targetSectionId, setTargetSectionId] = React.useState<string | null>(null);
   const [newSymptomName, setNewSymptomName] = React.useState('');
 
+  const copyBlockToClipboard = async (content: string, blockId: string) => {
+    const clipboard = (globalThis as { navigator?: Navigator }).navigator?.clipboard;
+    if (!clipboard?.writeText) return;
+
+    await clipboard.writeText(content);
+    setCopiedId(blockId);
+    globalThis.setTimeout?.(() => setCopiedId(null), 2000);
+  };
+
   // Calculate Active Red Flags based on current data
   const activeRedFlags = sections.flatMap(s => s.items).filter(i => {
     return i.isRedFlag && anamnesisData[i.id] === true;
@@ -269,13 +278,17 @@ export default function Home() {
   // Trigger Note Generation on Data Change
   React.useEffect(() => {
     if (viewMode === 'protocol') {
-        const timer = setTimeout(generateNote, 300);
-        return () => clearTimeout(timer);
+        const timer = globalThis.setTimeout?.(generateNote, 300);
+        return () => {
+          if (timer !== undefined) {
+            globalThis.clearTimeout?.(timer);
+          }
+        };
     }
   }, [generateNote, viewMode]);
 
   const handlePrint = () => {
-    window.print();
+    globalThis.print?.();
   };
 
   return (
@@ -412,7 +425,10 @@ export default function Home() {
                                             <span className={`text-[10px] font-bold uppercase tracking-widest ${block.iconName === 'siren' ? 'text-red-500' : 'text-slate-400'}`}>{block.title}</span>
                                          </div>
                                          <div className="flex opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button onClick={() => { navigator.clipboard.writeText(block.content); setCopiedId(block.id); setTimeout(() => setCopiedId(null), 2000); }} className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400">
+                                            <button
+                                              onClick={() => copyBlockToClipboard(block.content, block.id)}
+                                              className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg text-slate-400"
+                                            >
                                               {copiedId === block.id ? <Check className="w-3.5 h-3.5 text-green-500" /> : <Copy className="w-3.5 h-3.5" />}
                                             </button>
                                          </div>

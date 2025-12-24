@@ -1,10 +1,9 @@
-/* eslint-disable no-undef */
 import * as Sentry from '@sentry/nextjs'
 
 // Client-side only utilities for localStorage
-const getLocalStorage = (): typeof window.localStorage | null => {
-  if (typeof window === 'undefined') return null
-  return window.localStorage
+const getLocalStorage = (): Storage | null => {
+  const runtime = typeof globalThis !== 'undefined' ? (globalThis as { localStorage?: Storage }) : null
+  return runtime?.localStorage ?? null
 }
 
 // Event types for analytics tracking

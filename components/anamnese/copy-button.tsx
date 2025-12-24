@@ -17,9 +17,12 @@ export function CopyButton({ text, className }: CopyButtonProps) {
     if (!text) return
 
     try {
-      await navigator.clipboard.writeText(text)
+      const clipboard = (globalThis as { navigator?: Navigator }).navigator?.clipboard
+      if (!clipboard?.writeText) return
+
+      await clipboard.writeText(text)
       setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      globalThis.setTimeout?.(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Failed to copy:', err)
     }

@@ -127,19 +127,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   // Responsive: Auto-collapse on small screens
   useEffect(() => {
+    const runtime = globalThis as {
+      innerWidth?: number;
+      addEventListener?: (type: string, listener: () => void) => void;
+      removeEventListener?: (type: string, listener: () => void) => void;
+    };
+
     const handleResize = () => {
-      if (window.innerWidth < 1024) {
+      if ((runtime.innerWidth ?? 0) < 1024) {
         setIsCollapsed(true);
       } else {
         setIsCollapsed(false);
       }
     };
-    
+
     // Initial Check
-    if (window.innerWidth < 1024) setIsCollapsed(true);
-    
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    if ((runtime.innerWidth ?? 0) < 1024) setIsCollapsed(true);
+
+    runtime.addEventListener?.('resize', handleResize);
+    return () => runtime.removeEventListener?.('resize', handleResize);
   }, []);
 
   // Sync with parent view if provided

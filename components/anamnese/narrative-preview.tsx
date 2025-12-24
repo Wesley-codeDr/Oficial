@@ -27,10 +27,13 @@ export function NarrativePreview({
     if (!narrative) return
 
     try {
-      await navigator.clipboard.writeText(narrative)
+      const clipboard = (globalThis as { navigator?: Navigator }).navigator?.clipboard
+      if (!clipboard?.writeText) return
+
+      await clipboard.writeText(narrative)
       setCopied(true)
       onCopy()
-      setTimeout(() => setCopied(false), 2000)
+      globalThis.setTimeout?.(() => setCopied(false), 2000)
     } catch (err) {
       console.error('Failed to copy:', err)
     }

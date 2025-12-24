@@ -44,9 +44,9 @@ class RateLimiter {
     this.tokenCache = new Map()
 
     // Clean up old entries periodically
-    if (typeof window === 'undefined') {
+    if (typeof (globalThis as { window?: unknown }).window === 'undefined') {
       // Only run cleanup on server
-      setInterval(() => {
+      globalThis.setInterval?.(() => {
         const now = Date.now()
         for (const [key, timestamps] of this.tokenCache.entries()) {
           const validTimestamps = timestamps.filter(

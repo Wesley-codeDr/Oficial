@@ -1,0 +1,35 @@
+name: Spec Validation
+
+on:
+  pull_request:
+    paths:
+      - 'specs/**'
+      - 'docs/**'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'specs/**'
+      - 'docs/**'
+  workflow_dispatch:
+
+jobs:
+  validate-specs:
+    runs-on: ubuntu-latest
+    name: Validate Specs
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Make validation script executable
+        run: chmod +x scripts/validate-specs.sh
+
+      - name: Run spec validation
+        run: ./scripts/validate-specs.sh

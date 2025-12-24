@@ -15,6 +15,10 @@ interface ErrorBoundaryProps {
 
 export function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
   const pathname = usePathname()
+  const handleGoHome = () => {
+    const location = (globalThis as { location?: Location }).location
+    location?.assign('/')
+  }
 
   useEffect(() => {
     // Log error to Sentry
@@ -53,7 +57,7 @@ export function ErrorBoundary({ error, reset }: ErrorBoundaryProps) {
             Tentar novamente
           </Button>
           <Button
-            onClick={() => (window.location.href = '/')}
+            onClick={handleGoHome}
             variant="outline"
           >
             Voltar ao início

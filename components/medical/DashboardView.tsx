@@ -365,8 +365,8 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
 
   const handleDragStart = (e: React.DragEvent, taskId: string) => {
     // Delay setting state to avoid affecting the drag snapshot
-    setTimeout(() => {
-        setDraggedTaskId(taskId);
+    globalThis.setTimeout?.(() => {
+      setDraggedTaskId(taskId);
     }, 0);
     e.dataTransfer.effectAllowed = 'move';
   };

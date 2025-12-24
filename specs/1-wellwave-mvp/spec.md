@@ -29,6 +29,14 @@ WellWave é uma plataforma digital que converte seleções objetivas (checkboxes
 4. Destaca sinais de alarme para triagem de urgência
 5. Oferece assistente de IA para sugestões de diagnóstico e conduta baseadas em evidência
 
+## User Stories
+
+- **US-001:** Como médico emergencista, quero preencher checkboxes por síndrome para gerar uma anamnese completa em menos de 90 segundos.
+- **US-002:** Como médico, quero ver o texto gerado lado a lado com os checkboxes para acompanhar a narrativa em tempo real.
+- **US-003:** Como médico, quero copiar/exportar a nota gerada para integrar no prontuário do hospital.
+- **US-004:** Como médico, quero consultar um chat EBM com contexto da anamnese para receber hipóteses e condutas com evidência.
+- **US-005:** Como médico, quero autenticação segura para que minhas anamneses fiquem vinculadas ao meu perfil.
+
 ## User Personas
 
 ### Persona Principal: Dr. Carlos (Médico Emergencista)

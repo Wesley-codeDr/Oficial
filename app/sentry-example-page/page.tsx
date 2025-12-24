@@ -87,7 +87,9 @@ export default function SentryExamplePage() {
           span.setAttribute("metric", metric);
 
           // Simulate some work
-          await new Promise((resolve) => setTimeout(resolve, 500));
+          await new Promise((resolve) => {
+            globalThis.setTimeout?.(resolve, 500);
+          });
         }
       );
 

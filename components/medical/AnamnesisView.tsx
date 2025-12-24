@@ -251,7 +251,8 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
   }, [sections]);
 
   useEffect(() => {
-    const container = document.getElementById('form-container');
+    const doc = (globalThis as { document?: Document }).document;
+    const container = doc?.getElementById('form-container');
     if (!container) return;
 
     const handleScroll = () => {
@@ -264,10 +265,10 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
           return;
        }
 
-       let newActiveId = null;
+       let newActiveId: string | null = null;
 
        sections.forEach(section => {
-          const el = document.getElementById(`sec-${section.id}`);
+          const el = doc?.getElementById(`sec-${section.id}`);
           if (el) {
              const rect = el.getBoundingClientRect();
              const relativeTop = rect.top - containerRect.top;
@@ -292,8 +293,9 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
 
   const scrollToSection = (id: string, smoothScroll: boolean = true) => {
     setActiveSectionId(id);
-    const container = document.getElementById('form-container');
-    const el = document.getElementById(`sec-${id}`);
+    const doc = (globalThis as { document?: Document }).document;
+    const container = doc?.getElementById('form-container');
+    const el = doc?.getElementById(`sec-${id}`);
     
     if (container && el) {
        const elementRect = el.getBoundingClientRect();

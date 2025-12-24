@@ -6,6 +6,14 @@ Criação de um backend dedicado usando **NestJS** com **Fastify** como servidor
 
 O backend será desenvolvido como um serviço standalone que pode ser executado independentemente do frontend Next.js, permitindo escalabilidade e manutenção separadas.
 
+## Problem Statement
+
+O projeto precisa de uma camada de backend independente para escalar APIs, consolidar regras de negócio e reduzir acoplamento com o frontend. O modelo atual concentra responsabilidade em rotas do Next.js, o que limita governança de APIs, observabilidade e evolução para multi-serviço.
+
+## Solution Summary
+
+Implementar um serviço backend dedicado com NestJS + Fastify, integrado ao Prisma e Supabase, com padrões de autenticação, rate limiting, documentação OpenAPI e observabilidade via Sentry.
+
 ## Goals
 
 - Criar uma API backend robusta e escalável usando NestJS com Fastify
@@ -70,9 +78,7 @@ O backend será desenvolvido como um serviço standalone que pode ser executado 
 - [ ] Health check endpoints
 - [ ] Métricas de performance
 
-## Requirements
-
-### Functional Requirements
+## Functional Requirements
 
 1. **Configuração Base**
    - Backend NestJS inicializado com Fastify adapter
@@ -114,7 +120,7 @@ O backend será desenvolvido como um serviço standalone que pode ser executado 
    - Métricas de performance (tempo de resposta, uso de memória)
    - Request/Response logging com interceptor
 
-### Non-Functional Requirements
+## Non-Functional Requirements
 
 - **Performance**: 
   - Tempo de resposta < 200ms para 95% das requisições
@@ -195,6 +201,19 @@ O backend será desenvolvido como um serviço standalone que pode ser executado 
 - **typescript**: TypeScript
 - **ts-node**: Executar TypeScript diretamente
 - **tsconfig-paths**: Suporte a path aliases
+
+## Success Criteria
+
+- API operando com latencia p95 < 200ms em endpoints criticos.
+- Documentacao OpenAPI publicada e versionada.
+- Observabilidade ativa com alertas de erros e desempenho.
+
+## Risks and Mitigations
+
+- **Risco:** aumento de complexidade operacional.  
+  **Mitigacao:** scripts de deploy e monitoramento padrao.
+- **Risco:** duplicacao de regras entre frontend e backend.  
+  **Mitigacao:** consolidar regras criticas no backend e expor contratos claros.
 
 ## Out of Scope
 
