@@ -124,7 +124,9 @@ export default function LoginPage() {
             <span className="w-full border-t border-border/30" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-transparent px-3 text-muted-foreground/50">Acesse sua conta</span>
+            <span className="bg-white/70 dark:bg-slate-900/70 px-3 text-muted-foreground/60 backdrop-blur-sm rounded">
+              Acesse sua conta
+            </span>
           </div>
         </div>
         {/* Desktop vertical divider */}

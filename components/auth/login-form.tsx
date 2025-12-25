@@ -50,8 +50,24 @@ const inputStyles = [
   'focus:ring-2 focus:ring-primary/20 dark:focus:ring-primary/30',
   'focus:shadow-[0_0_20px_rgba(0,122,255,0.15)]',
   'dark:focus:shadow-[0_0_20px_rgba(0,122,255,0.25)]',
-  'hover:bg-white/50 dark:hover:bg-white/8',
-  'hover:border-white/60 dark:hover:border-white/15',
+  'hover:bg-white/50 dark:hover:bg-white/10',
+  'hover:border-white/60 dark:hover:border-white/20',
+].join(' ')
+
+// Enhanced button styles with gradient and lift effect
+const buttonStyles = [
+  'w-full h-[52px] rounded-xl',
+  'font-semibold text-[15px] tracking-tight',
+  'bg-gradient-to-r from-primary via-primary to-blue-600',
+  'hover:from-primary/95 hover:via-primary/95 hover:to-blue-600/95',
+  'shadow-lg shadow-primary/30',
+  'hover:shadow-xl hover:shadow-primary/40',
+  'hover:-translate-y-0.5',
+  'active:translate-y-0 active:shadow-md',
+  'transition-all duration-300 ease-out',
+  'disabled:opacity-60 disabled:cursor-not-allowed',
+  'disabled:hover:translate-y-0 disabled:hover:shadow-lg',
+  'group',
 ].join(' ')
 
 export function LoginForm() {
@@ -138,12 +154,7 @@ export function LoginForm() {
 
       {/* Submit Button with Enhanced Gradient and Lift Effect */}
       <motion.div variants={itemVariants} className="pt-3">
-        <Button
-          type="submit"
-          size="lg"
-          className="w-full h-[52px] rounded-xl font-semibold text-[15px] tracking-tight bg-gradient-to-r from-primary via-primary to-blue-600 hover:from-primary/95 hover:via-primary/95 hover:to-blue-600/95 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:-translate-y-0.5 active:translate-y-0 active:shadow-md transition-all duration-300 ease-out disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-lg"
-          disabled={isPending}
-        >
+        <Button type="submit" size="lg" className={buttonStyles} disabled={isPending}>
           {isPending ? (
             <span className="flex items-center justify-center gap-2">
               <Loader2 className="h-5 w-5 animate-spin" />
