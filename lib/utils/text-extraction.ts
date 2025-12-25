@@ -1,8 +1,9 @@
-import pdfParse from 'pdf-parse'
+import { PDFParse } from 'pdf-parse'
 
 export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
   try {
-    const data = await pdfParse(buffer)
+    const parser = new PDFParse({ data: buffer })
+    const data = await parser.getText()
     return data.text
   } catch (error) {
     console.error('Error extracting text from PDF:', error)
@@ -20,7 +21,7 @@ export async function extractTextFromTXT(buffer: Buffer): Promise<string> {
   }
 }
 
-export async function extractText(file: globalThis.File): Promise<string> {
+export async function extractText(file: File): Promise<string> {
   const buffer = Buffer.from(await file.arrayBuffer())
 
   if (file.type === 'application/pdf') {
