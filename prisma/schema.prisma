@@ -1,6 +1,3 @@
-// WellWave MVP - Prisma Schema
-// Based on: /specs/1-wellwave-mvp/data-model.md
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,63 +6,48 @@ datasource db {
   provider = "postgresql"
 }
 
-// ============================================
-// USER MODEL
-// ============================================
-// Represents a registered physician in the system
-// Linked to Supabase Auth via id
 model User {
-  id          String    @id @default(uuid())
-  email       String    @unique
-  fullName    String    @map("full_name")
-  crmNumber   String    @map("crm_number")
-  crmState    String    @map("crm_state") @db.Char(2)
-  specialty   String?
-  isActive    Boolean   @default(true) @map("is_active")
-  createdAt   DateTime  @default(now()) @map("created_at")
-  updatedAt   DateTime  @updatedAt @map("updated_at")
-  lastLoginAt DateTime? @map("last_login_at")
-
-  // Relations
-  sessions      AnamneseSession[]
-  conversations ChatConversation[]
-  auditLogs     AuditLog[]
-  complaintSearchLogs ComplaintSearchLog[]
+  id                       String                     @id @default(uuid())
+  email                    String                     @unique
+  fullName                 String                     @map("full_name")
+  crmNumber                String                     @map("crm_number")
+  crmState                 String                     @map("crm_state") @db.Char(2)
+  specialty                String?
+  isActive                 Boolean                    @default(true) @map("is_active")
+  createdAt                DateTime                   @default(now()) @map("created_at")
+  updatedAt                DateTime                   @updatedAt @map("updated_at")
+  lastLoginAt              DateTime?                  @map("last_login_at")
+  sessions                 AnamneseSession[]
+  auditLogs                AuditLog[]
+  conversations            ChatConversation[]
+  chief_complaint_sessions chief_complaint_sessions[]
+  complaintSearchLogs      ComplaintSearchLog[]
 
   @@index([email])
   @@index([crmNumber, crmState])
   @@map("users")
 }
 
-// ============================================
-// SYNDROME MODEL
-// ============================================
-// Clinical syndrome template with associated checkboxes
 model Syndrome {
-  id          String   @id @default(uuid())
-  name        String   @unique
-  code        String   @unique
-  description String?
-  icon        String?
-  orderIndex  Int      @map("order_index")
-  isActive    Boolean  @default(true) @map("is_active")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  checkboxes   Checkbox[]
-  redFlagRules RedFlagRule[]
-  sessions     AnamneseSession[]
+  id               String             @id @default(uuid())
+  name             String             @unique
+  code             String             @unique
+  description      String?
+  icon             String?
+  orderIndex       Int                @map("order_index")
+  isActive         Boolean            @default(true) @map("is_active")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+  sessions         AnamneseSession[]
+  checkboxes       Checkbox[]
+  chief_complaints chief_complaints[]
+  redFlagRules     RedFlagRule[]
 
   @@index([code])
   @@index([orderIndex])
   @@map("syndromes")
 }
 
-// ============================================
-// CHECKBOX MODEL
-// ============================================
-// Individual checkbox item associated with a syndrome
 model Checkbox {
   id            String           @id @default(uuid())
   syndromeId    String           @map("syndrome_id")
@@ -78,9 +60,7 @@ model Checkbox {
   orderIndex    Int              @map("order_index")
   createdAt     DateTime         @default(now()) @map("created_at")
   updatedAt     DateTime         @updatedAt @map("updated_at")
-
-  // Relations
-  syndrome Syndrome @relation(fields: [syndromeId], references: [id], onDelete: Cascade)
+  syndrome      Syndrome         @relation(fields: [syndromeId], references: [id], onDelete: Cascade)
 
   @@index([syndromeId])
   @@index([category])
@@ -88,23 +68,6 @@ model Checkbox {
   @@map("checkboxes")
 }
 
-enum CheckboxCategory {
-  QP           // Queixa Principal
-  HDA          // Historia da Doenca Atual
-  ANTECEDENTES // Antecedentes Pessoais
-  MEDICACOES   // Medicacoes em Uso
-  ALERGIAS     // Alergias
-  HABITOS      // Habitos
-  EXAME_FISICO // Exame Fisico
-  NEGATIVAS    // Negativas Importantes
-
-  @@map("checkbox_category")
-}
-
-// ============================================
-// RED FLAG RULE MODEL
-// ============================================
-// Rules for automatic detection of alarm signs
 model RedFlagRule {
   id            String          @id @default(uuid())
   syndromeId    String          @map("syndrome_id")
@@ -116,42 +79,27 @@ model RedFlagRule {
   isActive      Boolean         @default(true) @map("is_active")
   createdAt     DateTime        @default(now()) @map("created_at")
   updatedAt     DateTime        @updatedAt @map("updated_at")
-
-  // Relations
-  syndrome Syndrome @relation(fields: [syndromeId], references: [id], onDelete: Cascade)
+  syndrome      Syndrome        @relation(fields: [syndromeId], references: [id], onDelete: Cascade)
 
   @@index([syndromeId])
   @@map("red_flag_rules")
 }
 
-enum RedFlagSeverity {
-  WARNING
-  CRITICAL
-
-  @@map("red_flag_severity")
-}
-
-// ============================================
-// ANAMNESE SESSION MODEL
-// ============================================
-// Anamnesis filling session
 model AnamneseSession {
-  id               String     @id @default(uuid())
-  userId           String     @map("user_id")
-  syndromeId       String     @map("syndrome_id")
-  checkedItems     Json       @map("checked_items") // Array of checkbox IDs
-  generatedText    String?    @map("generated_text") @db.Text
-  outputMode       OutputMode @default(SUMMARY) @map("output_mode")
-  redFlagsDetected Json?      @map("red_flags_detected") // Array of RedFlagRule IDs
-  wasCopied        Boolean    @default(false) @map("was_copied")
-  startedAt        DateTime   @default(now()) @map("started_at")
-  completedAt      DateTime?  @map("completed_at")
-  createdAt        DateTime   @default(now()) @map("created_at")
-
-  // Relations
-  user         User              @relation(fields: [userId], references: [id], onDelete: Cascade)
-  syndrome     Syndrome          @relation(fields: [syndromeId], references: [id])
-  conversation ChatConversation?
+  id               String            @id @default(uuid())
+  userId           String            @map("user_id")
+  syndromeId       String            @map("syndrome_id")
+  checkedItems     Json              @map("checked_items")
+  generatedText    String?           @map("generated_text")
+  outputMode       OutputMode        @default(SUMMARY) @map("output_mode")
+  redFlagsDetected Json?             @map("red_flags_detected")
+  wasCopied        Boolean           @default(false) @map("was_copied")
+  startedAt        DateTime          @default(now()) @map("started_at")
+  completedAt      DateTime?         @map("completed_at")
+  createdAt        DateTime          @default(now()) @map("created_at")
+  syndrome         Syndrome          @relation(fields: [syndromeId], references: [id])
+  user             User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  conversation     ChatConversation?
 
   @@index([userId])
   @@index([syndromeId])
@@ -159,66 +107,36 @@ model AnamneseSession {
   @@map("anamnese_sessions")
 }
 
-enum OutputMode {
-  SUMMARY  // Modo resumido (PS)
-  DETAILED // Modo expandido (internacao)
-
-  @@map("output_mode")
-}
-
-// ============================================
-// CHAT CONVERSATION MODEL
-// ============================================
-// Conversation with EBM Chat associated with a session
 model ChatConversation {
-  id              String   @id @default(uuid())
-  sessionId       String?  @unique @map("session_id")
-  userId          String   @map("user_id")
-  contextSnapshot Json?    @map("context_snapshot") // Snapshot of anamnese at conversation start
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  session  AnamneseSession? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
-  user     User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  messages ChatMessage[]
+  id              String           @id @default(uuid())
+  sessionId       String?          @unique @map("session_id")
+  userId          String           @map("user_id")
+  contextSnapshot Json?            @map("context_snapshot")
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @updatedAt @map("updated_at")
+  session         AnamneseSession? @relation(fields: [sessionId], references: [id])
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages        ChatMessage[]
 
   @@index([userId])
   @@index([sessionId])
   @@map("chat_conversations")
 }
 
-// ============================================
-// CHAT MESSAGE MODEL
-// ============================================
-// Individual message in a chat conversation
 model ChatMessage {
-  id             String      @id @default(uuid())
-  conversationId String      @map("conversation_id")
+  id             String           @id @default(uuid())
+  conversationId String           @map("conversation_id")
   role           MessageRole
-  content        String      @db.Text
-  citations      Json?       // Array of citation objects
-  createdAt      DateTime    @default(now()) @map("created_at")
-
-  // Relations
-  conversation ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  content        String
+  citations      Json?
+  createdAt      DateTime         @default(now()) @map("created_at")
+  conversation   ChatConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
   @@index([conversationId])
   @@index([createdAt])
   @@map("chat_messages")
 }
 
-enum MessageRole {
-  USER
-  ASSISTANT
-
-  @@map("message_role")
-}
-
-// ============================================
-// AUDIT LOG MODEL
-// ============================================
-// Audit log for compliance
 model AuditLog {
   id           String   @id @default(uuid())
   userId       String?  @map("user_id")
@@ -228,9 +146,7 @@ model AuditLog {
   metadata     Json?
   ipAddress    String?  @map("ip_address")
   createdAt    DateTime @default(now()) @map("created_at")
-
-  // Relations
-  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  user         User?    @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@index([action])
@@ -239,19 +155,144 @@ model AuditLog {
   @@map("audit_logs")
 }
 
+model chief_complaint_groups {
+  id               String             @id
+  code             String             @unique
+  name_pt          String
+  name_en          String
+  description      String?
+  icon             String?
+  color            String?
+  order_index      Int
+  is_active        Boolean            @default(true)
+  created_at       DateTime           @default(now())
+  updated_at       DateTime
+  chief_complaints chief_complaints[]
+
+  @@index([code])
+  @@index([order_index])
+}
+
+model chief_complaint_sessions {
+  id                 String           @id
+  user_id            String
+  chief_complaint_id String
+  patient_context    Json
+  selected_flow      Json?
+  calculator_results Json?
+  generated_text     String?
+  red_flags_detected Json?
+  started_at         DateTime         @default(now())
+  completed_at       DateTime?
+  created_at         DateTime         @default(now())
+  chief_complaints   chief_complaints @relation(fields: [chief_complaint_id], references: [id])
+  users              User             @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([chief_complaint_id])
+  @@index([started_at])
+  @@index([user_id])
+}
+
+model chief_complaint_tags {
+  id               String           @id
+  complaint_id     String
+  category         tag_category
+  value            String
+  created_at       DateTime         @default(now())
+  chief_complaints chief_complaints @relation(fields: [complaint_id], references: [id], onDelete: Cascade)
+
+  @@unique([complaint_id, category, value])
+  @@index([category])
+  @@index([complaint_id])
+  @@index([value])
+}
+
+model chief_complaints {
+  id                       String                     @id
+  group_id                 String
+  code                     String                     @unique
+  name_pt                  String
+  name_en                  String?
+  definition               String?
+  synonyms                 String[]
+  icd10_codes              String[]
+  is_time_sensitive        Boolean                    @default(false)
+  is_high_acuity           Boolean                    @default(false)
+  requires_isolation       Boolean                    @default(false)
+  syndrome_id              String?
+  default_calculator_id    String?
+  clinical_flow            Json?
+  additional_data          Json?
+  order_index              Int
+  is_active                Boolean                    @default(true)
+  created_at               DateTime                   @default(now())
+  updated_at               DateTime
+  chief_complaint_sessions chief_complaint_sessions[]
+  chief_complaint_tags     chief_complaint_tags[]
+  chief_complaint_groups   chief_complaint_groups     @relation(fields: [group_id], references: [id])
+  syndromes                Syndrome?                  @relation(fields: [syndrome_id], references: [id])
+
+  @@index([code])
+  @@index([group_id])
+  @@index([is_high_acuity])
+  @@index([is_time_sensitive])
+  @@index([order_index])
+  @@index([syndrome_id])
+}
+
+enum CheckboxCategory {
+  QP
+  HDA
+  ANTECEDENTES
+  MEDICACOES
+  ALERGIAS
+  HABITOS
+  EXAME_FISICO
+  NEGATIVAS
+
+  @@map("checkbox_category")
+}
+
+enum RedFlagSeverity {
+  WARNING
+  CRITICAL
+
+  @@map("red_flag_severity")
+}
+
+enum OutputMode {
+  SUMMARY
+  DETAILED
+
+  @@map("output_mode")
+}
+
+enum MessageRole {
+  USER
+  ASSISTANT
+
+  @@map("message_role")
+}
+
+enum tag_category {
+  AGE
+  SYSTEM
+  SYNDROME
+  RISK
+  CONTEXT
+}
+
 // ============================================
 // COMPLAINT SEARCH LOG MODEL
 // ============================================
-// Logs complaint search queries and selections
 model ComplaintSearchLog {
-  id              String   @id @default(uuid())
-  userId          String?  @map("user_id")
-  searchTerm      String   @map("search_term")
-  resultCount     Int      @map("result_count")
-  selectedId      String?  @map("selected_id")
-  createdAt       DateTime @default(now()) @map("created_at")
+  id          String   @id @default(uuid())
+  userId      String?  @map("user_id")
+  searchTerm  String   @map("search_term")
+  resultCount Int      @map("result_count")
+  selectedId  String?  @map("selected_id")
+  createdAt   DateTime @default(now()) @map("created_at")
 
-  // Relations
   user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([userId])
@@ -265,47 +306,44 @@ model ComplaintSearchLog {
 // ============================================
 
 model SourceDocument {
-  id          String   @id @default(uuid())
-  title       String
-  type        String   // "PDF", "TXT", "URL"
-  url         String?  // File path or external URL
-  content     String   @db.Text // Raw extracted text
-  status      String   // "PENDING", "PROCESSED", "ERROR"
-  createdAt   DateTime @default(now()) @map("created_at")
+  id        String   @id @default(uuid())
+  title     String
+  type      String   // "PDF", "TXT", "URL"
+  url       String?  // File path or external URL
+  content   String   @db.Text // Raw extracted text
+  status    String   // "PENDING", "PROCESSED", "ERROR"
+  createdAt DateTime @default(now()) @map("created_at")
 
-  // Relations
   extractions ContentExtraction[]
 
   @@map("source_documents")
 }
 
 model ContentExtraction {
-  id               String         @id @default(uuid())
-  sourceDocumentId String         @map("source_document_id")
-  extractedData    Json           // Structured JSON from AI
-  status           String         // "REVIEW_NEEDED", "APPROVED", "REJECTED"
-  createdAt        DateTime       @default(now()) @map("created_at")
+  id               String   @id @default(uuid())
+  sourceDocumentId String   @map("source_document_id")
+  extractedData    Json     // Structured JSON from AI
+  status           String   // "REVIEW_NEEDED", "APPROVED", "REJECTED"
+  createdAt        DateTime @default(now()) @map("created_at")
 
-  // Relations
-  sourceDocument   SourceDocument @relation(fields: [sourceDocumentId], references: [id], onDelete: Cascade)
-  draftSyndrome    DraftSyndrome?
+  sourceDocument SourceDocument @relation(fields: [sourceDocumentId], references: [id], onDelete: Cascade)
+  draftSyndrome  DraftSyndrome?
 
   @@index([sourceDocumentId])
   @@map("content_extractions")
 }
 
 model DraftSyndrome {
-  id                  String            @id @default(uuid())
-  contentExtractionId String            @unique @map("content_extraction_id")
+  id                  String   @id @default(uuid())
+  contentExtractionId String   @unique @map("content_extraction_id")
   name                String
   description         String?
-  data                Json              // Full syndrome structure (checkboxes, red flags)
-  status              String            // "DRAFT", "PUBLISHED"
-  createdAt           DateTime          @default(now()) @map("created_at")
-  updatedAt           DateTime          @updatedAt @map("updated_at")
+  data                Json     // Full syndrome structure (checkboxes, red flags)
+  status              String   // "DRAFT", "PUBLISHED"
+  createdAt           DateTime @default(now()) @map("created_at")
+  updatedAt           DateTime @updatedAt @map("updated_at")
 
-  // Relations
-  contentExtraction   ContentExtraction @relation(fields: [contentExtractionId], references: [id], onDelete: Cascade)
+  contentExtraction ContentExtraction @relation(fields: [contentExtractionId], references: [id], onDelete: Cascade)
 
   @@map("draft_syndromes")
 }
