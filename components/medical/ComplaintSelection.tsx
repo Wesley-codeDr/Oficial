@@ -208,45 +208,88 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
           </div>
         </div>
 
-        {/* Simple Filters */}
-        <div className="mt-4 flex items-center gap-3 px-2">
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setFilters((prev) => ({ ...prev, riskLevel: undefined }))}
-              className="px-2 py-1 text-xs rounded-lg bg-slate-100 dark:bg-white/5 text-slate-600 dark:text-slate-300"
-            >
-              Todos
-            </button>
-            <button
-              type="button"
-              onClick={() => setFilters((prev) => ({ ...prev, riskLevel: ['high'] }))}
-              className="px-2 py-1 text-xs rounded-lg bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-300"
-            >
-              Alto risco
-            </button>
-            <button
-              type="button"
-              onClick={() => setFilters((prev) => ({ ...prev, riskLevel: ['medium'] }))}
-              className="px-2 py-1 text-xs rounded-lg bg-amber-100 dark:bg-amber-900/20 text-amber-700 dark:text-amber-300"
-            >
-              Médio
-            </button>
-            <button
-              type="button"
-              onClick={() => setFilters((prev) => ({ ...prev, riskLevel: ['low'] }))}
-              className="px-2 py-1 text-xs rounded-lg bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300"
-            >
-              Baixo
-            </button>
+        {/* Smart Filters - Adapted for Apple Glass */}
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-4 px-2">
+          <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-[24px] bg-white/40 dark:bg-black/20 backdrop-blur-xl border border-white/20 shadow-sm ring-1 ring-white/10">
+            {(
+              [
+                { label: 'Todos', value: undefined, color: 'slate' },
+                { label: 'Alto risco', value: 'high', color: 'red' },
+                { label: 'Médio', value: 'medium', color: 'amber' },
+                { label: 'Baixo', value: 'low', color: 'green' },
+              ] as const
+            ).map((item) => {
+              const isActive =
+                item.value === undefined
+                  ? !filters.riskLevel
+                  : filters.riskLevel?.includes(item.value)
+
+              const baseColors = {
+                slate:
+                  'hover:bg-slate-100 dark:hover:bg-white/10 text-slate-600 dark:text-slate-300',
+                red: 'hover:bg-red-50 dark:hover:bg-red-900/20 text-red-700 dark:text-red-300',
+                amber:
+                  'hover:bg-amber-50 dark:hover:bg-amber-900/20 text-amber-700 dark:text-amber-300',
+                green:
+                  'hover:bg-green-50 dark:hover:bg-green-900/20 text-green-700 dark:text-green-300',
+              }
+
+              const activeColors = {
+                slate:
+                  'bg-slate-200 dark:bg-white/20 text-slate-900 dark:text-white shadow-sm ring-1 ring-black/5 dark:ring-white/10',
+                red: 'bg-red-100 dark:bg-red-500/30 text-red-800 dark:text-red-100 shadow-sm ring-1 ring-red-500/20',
+                amber:
+                  'bg-amber-100 dark:bg-amber-500/30 text-amber-800 dark:text-amber-100 shadow-sm ring-1 ring-amber-500/20',
+                green:
+                  'bg-green-100 dark:bg-green-500/30 text-green-800 dark:text-green-100 shadow-sm ring-1 ring-green-500/20',
+              }
+
+              return (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      riskLevel: item.value ? [item.value] : undefined,
+                    }))
+                  }
+                  className={`
+                    px-4 py-2.5 rounded-[18px] text-sm font-bold transition-all duration-300
+                    hover:scale-105 active:scale-95
+                    ${
+                      isActive
+                        ? activeColors[item.color as keyof typeof activeColors]
+                        : baseColors[item.color as keyof typeof baseColors]
+                    }
+                  `}
+                >
+                  {item.label}
+                </button>
+              )
+            })}
           </div>
-          <label className="flex items-center gap-2 text-xs text-slate-600 dark:text-slate-300">
+
+          <label className="group flex items-center gap-3 px-5 py-2.5 rounded-[20px] bg-white/40 dark:bg-black/20 backdrop-blur-xl border border-white/20 hover:bg-white/60 dark:hover:bg-white/10 transition-all cursor-pointer select-none hover:scale-105 active:scale-95 shadow-sm ring-1 ring-white/10">
+            <div
+              className={`
+              w-5 h-5 rounded-md border-2 flex items-center justify-center transition-colors duration-300
+              ${
+                filters.onlyFastTrack
+                  ? 'bg-blue-500 border-blue-500 dark:bg-blue-400 dark:border-blue-400'
+                  : 'border-slate-400 dark:border-slate-500 group-hover:border-blue-400'
+              }
+            `}
+            >
+              {filters.onlyFastTrack && <Activity className="w-3 h-3 text-white" />}
+            </div>
             <input
               type="checkbox"
+              className="hidden"
               checked={Boolean(filters.onlyFastTrack)}
               onChange={(e) => setFilters((prev) => ({ ...prev, onlyFastTrack: e.target.checked }))}
             />
-            Fast track
+            <span className="text-sm font-bold text-slate-700 dark:text-slate-200">Fast track</span>
           </label>
         </div>
       </div>
@@ -262,7 +305,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
               {filteredComplaints.map((complaint) => (
                 <ComplaintCard
                   key={complaint.id}
-                  complaint={complaint}
+                  complaint={complaint as unknown as Complaint}
                   onClick={() => {
                     analytics.complaintSelection(complaint.id, searchTerm)
                     addToSearchHistory(searchTerm, filteredComplaints.length, complaint.id)
@@ -296,7 +339,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
               {groupComplaints.map((complaint) => (
                 <ComplaintCard
                   key={complaint.id}
-                  complaint={complaint}
+                  complaint={complaint as unknown as Complaint}
                   onClick={() => onSelect(complaint.id, complaint.group)}
                 />
               ))}
