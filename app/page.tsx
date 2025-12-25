@@ -8,6 +8,7 @@ import { ComplaintSelection } from '@/components/medical/ComplaintSelection'
 import { AnamnesisView } from '@/components/medical/AnamnesisView'
 import { AccessibilityGuide } from '@/components/medical/AccessibilityGuide'
 import { FlashAnamnesisFlow } from '@/components/medical/FlashAnamnesisFlow'
+import { ChatWell } from '@/components/medical/ChatWell'
 import { HeartScoreCalculator } from '@/components/medical/HeartScoreCalculator'
 import {
   Sparkles,
@@ -107,7 +108,7 @@ const BlockIcon = ({ name }: { name: NoteBlock['iconName'] }) => {
 export default function Home() {
   const { toast } = useToast()
   const [viewMode, setViewMode] = React.useState<
-    'dashboard' | 'selection' | 'protocol' | 'library' | 'accessibility' | 'flash'
+    'dashboard' | 'selection' | 'protocol' | 'library' | 'accessibility' | 'flash' | 'chat-well'
   >('dashboard')
   const [activeProtocolId, setActiveProtocolId] = React.useState<string | null>(null)
 
@@ -171,6 +172,7 @@ export default function Home() {
       dashboard: 'dashboard',
       acessibilidade: 'accessibility',
       flash: 'flash',
+      'chat-well': 'chat-well',
     }
     setViewMode(map[viewId] || 'dashboard')
   }
@@ -420,8 +422,17 @@ export default function Home() {
           </div>
         )}
 
+        {/* Chat Well - Standalone without Header */}
+        {viewMode === 'chat-well' && (
+          <div className="h-full overflow-hidden flex flex-col p-6">
+            <div className="h-full bg-white/40 dark:bg-slate-800/40 backdrop-blur-3xl backdrop-saturate-[180%] rounded-[36px] border border-white/60 dark:border-white/5 shadow-sm overflow-hidden animate-in fade-in zoom-in-[0.99] duration-300">
+              <ChatWell />
+            </div>
+          </div>
+        )}
+
         {/* Views with Header */}
-        {viewMode !== 'dashboard' && viewMode !== 'flash' && (
+        {viewMode !== 'dashboard' && viewMode !== 'flash' && viewMode !== 'chat-well' && (
           <div className="flex flex-col h-full overflow-hidden">
             {/* Header Area */}
             <div className="px-6 pt-6 shrink-0 z-20">

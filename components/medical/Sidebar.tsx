@@ -121,7 +121,7 @@ const defaultMainItems: SidebarItem[] = [
   { id: 'dashboard', label: 'Visão Geral', icon: LayoutGrid },
   { id: 'anamnese', label: 'Nova Anamnese', icon: FileText },
   { id: 'flash', label: 'Flash', icon: Zap },
-  { id: 'chat-ebm', label: 'Chat EBM', icon: MessageCircle },
+  { id: 'chat-well', label: 'Chat Well', icon: MessageCircle },
 ]
 
 const defaultRecordItems: SidebarItem[] = [
