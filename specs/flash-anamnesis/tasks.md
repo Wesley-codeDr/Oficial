@@ -24,6 +24,29 @@
   - [x] Update `FlashAnamnesisFlow.tsx` to render the new components based on `step`.
   - [x] Ensure state is passed correctly.
 
+- [x] **Implement `FlashPatientEntry` Enhancements** <!-- id: 7 -->
+  - [x] Add "Gestante" button with specific styling (glassmorphism, pink, icon).
+  - [x] Handle mutually exclusive logic for gender selection.
+  - [x] Update `FlashAnamnesisFlow` to handle `isPregnant` state.
+  - [x] Integrate with `flashTemplates.ts` (enforce 'F' gender, append status).
+
+- [x] **Refactor `FlashPatientEntry` UI** <!-- id: 8 -->
+  - [x] Remove top-level "Gestante" button from gender grid.
+  - [x] Implement conditional "Gestante" toggle that appears only when "Feminino" is selected.
+  - [x] Ensure "Masculino" selection clears `isPregnant` state.
+  - [x] Animate the appearance of the "Gestante" option.
+
+- [x] **Enhance `FlashForm` Duration Input** <!-- id: 9 -->
+  - [x] Replace text input for "Tempo de Sintomas" with a button grid.
+  - [x] Add common presets: "1 dia", "2 dias", "3 dias", "5 dias", "7 dias", "> 7 dias".
+  - [x] Allow manual override if needed (e.g., "Outro" button or double-click behavior, or just a small input below).
+
+- [x] **Implement Inline Editing in `FlashPreview`** <!-- id: 10 -->
+  - [x] Allow double-click to edit text content in `SectionCard`.
+  - [x] Show a textarea when in edit mode.
+  - [x] Auto-save on blur or specific "Save" button.
+  - [x] Ensure "Copy All" grabs the _edited_ content, not just the original.
+
 - [x] **Verify & Polish** <!-- id: 6 -->
   - [x] Check gender flexion in generated text.
   - [x] Verify animations between steps.

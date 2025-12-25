@@ -69,6 +69,7 @@ export interface FlashInput {
     sexo: 'M' | 'F'
     idade?: string
     unidade_idade?: 'anos' | 'meses' | 'dias'
+    gestante?: boolean
   }
   queixa_selecionada: string
   dados_variaveis: {
@@ -88,9 +89,22 @@ export interface FlashInput {
 export const generateFlashRecord = (input: FlashInput) => {
   const templateId = input.queixa_selecionada // Assuming mapped directly for now
   const templateData = flashTemplates[templateId] || flashTemplates['ivas'] // Fallback
+
+  if (!templateData) {
+    return {
+      queixa_principal: 'Erro: Template não encontrado',
+      exame_fisico: '',
+      hipotese_diagnostica: [],
+      conduta: '',
+      cid: '',
+      cid_descricao: '',
+    }
+  }
+
   const tmpl = templateData.template
   const vars = input.dados_variaveis
-  const gender = input.paciente.sexo
+  // Enforce female gender if pregnant
+  const gender = input.paciente.gestante ? 'F' : input.paciente.sexo
 
   // Gender Helper
   const g = (m: string, f: string) => (gender === 'M' ? m : f)

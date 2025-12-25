@@ -36,13 +36,15 @@ The solution leverages a template engine (`flashTemplates.ts`) that handles:
 
 **Como** médico plantonista
 **Quero** selecionar rapidamente se o paciente é adulto/criança e o sexo
-**Para que** o texto gerado tenha a concordância de gênero correta (flexão de gênero) e os templates sejam adequados.
+**Para que** o texto gerado tenha a concordância de gênero correta (flexão de gênero) e os templates sejam adequados (ex: alertas de gestação).
 
 **Critérios de Aceitação:**
 
 - [ ] Interface com botões grandes para Adulto/Pediátrico.
 - [ ] Seleção de sexo (M/F).
+- [ ] Ao selecionar "Feminino", exibir opção condicional para marcar "Gestante".
 - [ ] Transição suave para a próxima etapa.
+- [ ] Opção Gestante deve ser clara e de fácil acesso após selecionar Feminino.
 
 ### US-02: Template Selection
 
@@ -65,6 +67,8 @@ The solution leverages a template engine (`flashTemplates.ts`) that handles:
 
 - [ ] Formulário dinâmico baseado no template selecionado.
 - [ ] Campos para PA, FC, FR, SpO2, Temp, Glasgow, etc.
+- [ ] Seleção de "Tempo de Sintomas" via botões predefinidos (ex: 1 dia, 2 dias, 3 dias...) para agilidade.
+- [ ] Opção de inserir valor manual caso não esteja nos botões.
 
 ### US-04: Record Generation & Preview
 
@@ -77,6 +81,7 @@ The solution leverages a template engine (`flashTemplates.ts`) that handles:
 - [ ] Texto gerado contém 5 seções obrigatórias: Queixa Principal, Exame Físico, HD, Conduta, CID.
 - [ ] CID deve ser formatado sem pontos (ex: J00 e não J00.X se assim solicitado, ou padrão J00).
 - [ ] Flexão de gênero correta ("Orientado" vs "Orientada").
+- [ ] Permite edição inline do texto gerado ao dar duplo clique, para ajustes finos antes da cópia.
 
 ## Functional Requirements
 

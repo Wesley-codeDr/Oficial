@@ -45,14 +45,13 @@ export const FlashForm: React.FC<FlashFormProps> = ({ initialData, onSubmit, tem
           </h3>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <InputGroup
-              label="Tempo de Sintomas"
-              icon={<Clock className="w-4 h-4 text-blue-500" />}
-              value={formData.tempo_sintomas}
-              onChange={(v) => handleChange('tempo_sintomas', v)}
-              placeholder="ex: 3 dias"
-              autoFocus
-            />
+            <div className="sm:col-span-2 lg:col-span-4">
+              <DurationSelector
+                value={formData.tempo_sintomas}
+                onChange={(v) => handleChange('tempo_sintomas', v)}
+              />
+            </div>
+
             <InputGroup
               label="Temperatura (°C)"
               icon={<Thermometer className="w-4 h-4 text-red-500" />}
@@ -177,3 +176,71 @@ const InputGroup: React.FC<InputGroupProps> = ({
     />
   </div>
 )
+
+const DurationSelector: React.FC<{
+  value: string
+  onChange: (value: string) => void
+}> = ({ value, onChange }) => {
+  const presets = ['1 dia', '2 dias', '3 dias', '5 dias', '7 dias', '> 7 dias']
+  const [isCustom, setIsCustom] = useState(!presets.includes(value) && value !== '')
+
+  return (
+    <div className="space-y-3">
+      <label className="text-xs font-bold text-slate-500 dark:text-slate-400 ml-1 flex items-center gap-1">
+        <Clock className="w-4 h-4 text-blue-500" /> Tempo de Sintomas
+      </label>
+      <div className="flex flex-wrap gap-2">
+        {presets.map((preset) => (
+          <button
+            key={preset}
+            onClick={() => {
+              onChange(preset)
+              setIsCustom(false)
+            }}
+            className={`
+              preset-btn
+              px-4 py-2 rounded-xl text-sm font-bold transition-all border-2
+              ${
+                value === preset && !isCustom
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                  : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700'
+              }
+            `}
+          >
+            {preset}
+          </button>
+        ))}
+        <button
+          onClick={() => {
+            setIsCustom(true)
+            onChange('')
+          }}
+          className={`
+              preset-btn
+              px-4 py-2 rounded-xl text-sm font-bold transition-all border-2
+              ${
+                isCustom
+                  ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20'
+                  : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-700'
+              }
+            `}
+        >
+          Outro
+        </button>
+      </div>
+
+      {isCustom && (
+        <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+          <input
+            type="text"
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Digite o tempo (ex: 4 horas)"
+            className="w-full bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-white font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all placeholder:text-slate-300"
+            autoFocus
+          />
+        </div>
+      )}
+    </div>
+  )
+}

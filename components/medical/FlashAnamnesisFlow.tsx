@@ -35,8 +35,17 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
     centor_score: '',
   })
 
-  const handleIdentityComplete = (data: { category: 'adult' | 'pediatric'; gender: 'M' | 'F' }) => {
-    setPatient((prev) => ({ ...prev, category: data.category, gender: data.gender }))
+  const handleIdentityComplete = (data: {
+    category: 'adult' | 'pediatric'
+    gender: 'M' | 'F'
+    isPregnant: boolean
+  }) => {
+    setPatient((prev) => ({
+      ...prev,
+      category: data.category,
+      gender: data.gender,
+      isPregnant: data.isPregnant,
+    }))
     setStep('selection')
   }
 
@@ -56,6 +65,7 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
           sexo: patient.gender,
           idade: patient.age,
           unidade_idade: 'anos',
+          gestante: patient.isPregnant,
         },
         queixa_selecionada: selectedTemplateId,
         dados_variaveis: variables,
