@@ -93,8 +93,12 @@ export function LoginForm() {
             <AlertCircle className="h-5 w-5 text-red-500" />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium text-red-600 dark:text-red-400">Erro ao entrar</p>
-            <p className="text-sm text-red-600/80 dark:text-red-400/80 mt-0.5">{state.error}</p>
+            <p className="text-sm font-medium text-red-600 dark:text-red-400">
+              Erro ao entrar
+            </p>
+            <p className="text-sm text-red-600/80 dark:text-red-400/80 mt-0.5">
+              {state.error}
+            </p>
           </div>
         </motion.div>
       )}
@@ -123,10 +127,7 @@ export function LoginForm() {
       {/* Password Field */}
       <motion.div variants={itemVariants} className="space-y-2.5">
         <div className="flex items-center justify-between">
-          <Label
-            htmlFor="password"
-            className="text-sm font-semibold text-foreground/90 tracking-tight"
-          >
+          <Label htmlFor="password" className="text-sm font-semibold text-foreground/90 tracking-tight">
             Senha
           </Label>
           <Link
@@ -154,7 +155,12 @@ export function LoginForm() {
 
       {/* Submit Button with Enhanced Gradient and Lift Effect */}
       <motion.div variants={itemVariants} className="pt-3">
-        <Button type="submit" size="lg" className={buttonStyles} disabled={isPending}>
+        <Button
+          type="submit"
+          size="lg"
+          className={buttonStyles}
+          disabled={isPending}
+        >
           {isPending ? (
             <span className="flex items-center justify-center gap-2">
               <Loader2 className="h-5 w-5 animate-spin" />
@@ -170,7 +176,10 @@ export function LoginForm() {
       </motion.div>
 
       {/* Register Link */}
-      <motion.p variants={itemVariants} className="text-center text-sm text-muted-foreground pt-2">
+      <motion.p
+        variants={itemVariants}
+        className="text-center text-sm text-muted-foreground pt-2"
+      >
         Ainda não tem conta?{' '}
         <Link
           href="/register"

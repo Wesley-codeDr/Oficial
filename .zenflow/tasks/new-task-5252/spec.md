@@ -9,19 +9,16 @@ This is a straightforward enhancement task. The existing login page already has 
 ## Technical Context
 
 ### Language & Framework
-
 - **Next.js 16.0.10** with React 19
 - **TypeScript 5.9.3** (strict mode)
 - **Tailwind CSS 4.x** with PostCSS
 
 ### Key Dependencies
-
 - `framer-motion` - For animations and spring physics
 - `lucide-react` - For icons
 - `@supabase/ssr` - Authentication handling
 
 ### Design System
-
 - Apple Glass design language already implemented in `glassmorphism.css`
 - Design tokens defined in `lib/design/tokens.ts`
 - GlassCard component available for reuse
@@ -31,7 +28,6 @@ This is a straightforward enhancement task. The existing login page already has 
 ## Current State Analysis
 
 ### Existing Files
-
 - `/app/(auth)/layout.tsx` - Basic auth layout with glass container
 - `/app/(auth)/login/page.tsx` - Simple login page with heading and form
 - `/components/auth/login-form.tsx` - Form with email/password fields
@@ -39,7 +35,6 @@ This is a straightforward enhancement task. The existing login page already has 
 - `/components/ui/glass-card.tsx` - Reusable glass effect component
 
 ### Current Implementation Gaps
-
 1. **Layout is minimal** - No visual branding, no background effects
 2. **No gradient background** - Plain white background
 3. **No branding section** - Missing WellWave hero/branding area
@@ -51,9 +46,7 @@ This is a straightforward enhancement task. The existing login page already has 
 ## Implementation Approach
 
 ### Design Vision
-
 Create a **full-page login experience** inspired by Apple's glassmorphism aesthetic:
-
 - Gradient mesh background with subtle animated blobs
 - Split layout: branding left, login form right (or stacked on mobile)
 - Enhanced glass container with deeper blur and refined shadows
@@ -63,20 +56,17 @@ Create a **full-page login experience** inspired by Apple's glassmorphism aesthe
 ### Key Design Elements
 
 #### 1. Background Layer
-
 - Gradient mesh: soft blue-to-purple-to-teal gradients
 - Animated gradient blobs (subtle, slow-moving)
 - Full viewport height coverage
 
 #### 2. Branding Section
-
 - WellWave logo (Activity icon) with company name
 - Tagline: "Anamnese Inteligente para Médicos"
 - Subtle feature highlights (optional)
 - Professional, healthcare-focused messaging
 
 #### 3. Login Card
-
 - Large glass container with enhanced blur (24px+)
 - Refined border with higher opacity
 - Inner shadow for depth
@@ -85,7 +75,6 @@ Create a **full-page login experience** inspired by Apple's glassmorphism aesthe
 - Links: forgot password, register
 
 #### 4. Motion & Interactions
-
 - Staggered fade-in on page load
 - Input focus states with subtle glow
 - Button hover with lift effect
@@ -97,14 +86,13 @@ Create a **full-page login experience** inspired by Apple's glassmorphism aesthe
 
 ### Files to Modify
 
-| File                              | Change Type       | Description                                  |
-| --------------------------------- | ----------------- | -------------------------------------------- |
-| `/app/(auth)/layout.tsx`          | **Major Rewrite** | Add gradient background, blobs, split layout |
-| `/app/(auth)/login/page.tsx`      | **Enhance**       | Add branding section, enhance structure      |
+| File | Change Type | Description |
+|------|-------------|-------------|
+| `/app/(auth)/layout.tsx` | **Major Rewrite** | Add gradient background, blobs, split layout |
+| `/app/(auth)/login/page.tsx` | **Enhance** | Add branding section, enhance structure |
 | `/components/auth/login-form.tsx` | **Minor Enhance** | Apply glassmorphism classes to inputs/button |
 
 ### Files to Create
-
 None - we'll enhance existing files only.
 
 ---
@@ -112,7 +100,6 @@ None - we'll enhance existing files only.
 ## Verification Approach
 
 ### Visual Verification
-
 1. Page loads with gradient background and animated blobs
 2. Glass container has proper blur and transparency
 3. Branding section displays correctly on left/top
@@ -121,7 +108,6 @@ None - we'll enhance existing files only.
 6. Dark mode: glass adapts to dark theme
 
 ### Functional Verification
-
 1. Email/password inputs work correctly
 2. Form submission triggers auth action
 3. Error states display properly
@@ -129,7 +115,6 @@ None - we'll enhance existing files only.
 5. Links to register and forgot-password work
 
 ### Build Verification
-
 ```bash
 npm run build   # No TypeScript/build errors
 npm run lint    # No linting issues
@@ -140,16 +125,15 @@ npm run lint    # No linting issues
 ## Implementation Details
 
 ### Background Gradient Colors
-
 Using Apple-style soft gradients:
-
 ```css
 /* Primary gradient blobs */
---blob-1: #007aff (Apple blue) --blob-2: #5856d6 (Apple purple) --blob-3: #5ac8fa (Apple teal);
+--blob-1: #007AFF (Apple blue)
+--blob-2: #5856D6 (Apple purple)
+--blob-3: #5AC8FA (Apple teal)
 ```
 
 ### Glass Enhancement
-
 ```css
 /* Enhanced login glass card */
 backdrop-filter: blur(24px);
@@ -161,20 +145,19 @@ box-shadow:
 ```
 
 ### Framer Motion Animations
-
 ```tsx
 // Staggered entrance
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
+    transition: { staggerChildren: 0.1 }
+  }
 }
 
 const itemVariants = {
   hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
+  visible: { opacity: 1, y: 0 }
 }
 ```
 
@@ -182,16 +165,15 @@ const itemVariants = {
 
 ## Risk Assessment
 
-| Risk                          | Likelihood | Mitigation                     |
-| ----------------------------- | ---------- | ------------------------------ |
-| Backdrop-filter not supported | Low        | Fallback solid background      |
-| Animation performance         | Low        | Use GPU-accelerated transforms |
-| Dark mode issues              | Low        | Already has dark mode CSS vars |
+| Risk | Likelihood | Mitigation |
+|------|------------|------------|
+| Backdrop-filter not supported | Low | Fallback solid background |
+| Animation performance | Low | Use GPU-accelerated transforms |
+| Dark mode issues | Low | Already has dark mode CSS vars |
 
 ---
 
 ## Out of Scope
-
 - Authentication logic changes (already working)
 - New API endpoints
 - Database changes

@@ -1,7 +1,11 @@
 import { Activity } from 'lucide-react'
 import Link from 'next/link'
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+export default function AuthLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
       {/* Gradient Background with Animated Blobs */}
@@ -34,10 +38,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
 
       {/* Header - Minimal with subtle glass effect */}
       <header className="relative z-10 flex h-16 items-center justify-between px-6 backdrop-blur-sm bg-white/5 dark:bg-slate-900/5">
-        <Link
-          href="/"
-          className="flex items-center gap-2.5 transition-all duration-300 hover:opacity-80 hover:scale-[1.02]"
-        >
+        <Link href="/" className="flex items-center gap-2.5 transition-all duration-300 hover:opacity-80 hover:scale-[1.02]">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#007AFF] to-[#5856D6] shadow-lg">
             <Activity className="h-5 w-5 text-white" />
           </div>

@@ -1,7 +1,6 @@
 # Spec and build
 
 ## Configuration
-
 - **Artifacts Path**: {@artifacts_path} → `.zenflow/tasks/{task_id}`
 
 ---
@@ -9,7 +8,6 @@
 ## Agent Instructions
 
 Ask the user questions when anything is unclear or needs their input. This includes:
-
 - Ambiguous or incomplete requirements
 - Technical decisions that affect architecture or user experience
 - Trade-offs that require business context
@@ -21,7 +19,6 @@ Do not make assumptions on important decisions — get clarification first.
 ## Workflow Steps
 
 ### [x] Step: Technical Specification
-
 <!-- chat-id: fa79c131-894d-4a6e-9b92-1fa677d94c08 -->
 
 **Completed**: Technical specification saved to `spec.md`
@@ -33,13 +30,11 @@ Do not make assumptions on important decisions — get clarification first.
 ---
 
 ### [x] Step: Implement Auth Layout with Gradient Background
-
 <!-- chat-id: 8bba2aa6-8aff-4565-95b2-bc094669f40f -->
 
 **Completed**: Enhanced `/app/(auth)/layout.tsx` with Apple Glass design
 
 Changes implemented:
-
 1. ✅ Added gradient mesh background with soft blue-to-purple gradient
 2. ✅ Created 3 animated gradient blobs (blue, purple, teal) with staggered animation delays
 3. ✅ Added `animate-blob` keyframe animation to tailwind.config.ts
@@ -53,13 +48,11 @@ Changes implemented:
 ---
 
 ### [x] Step: Enhance Login Page with Branding Section
-
 <!-- chat-id: a97b102f-54ab-4985-bc8e-4398e945b390 -->
 
 **Completed**: Enhanced `/app/(auth)/login/page.tsx` with split layout and branding
 
 Changes implemented:
-
 1. ✅ Split layout structure (branding left, form right on desktop, stacked on mobile)
 2. ✅ Large gradient logo icon (20x20 with Activity icon)
 3. ✅ Company name with gradient text (blue-purple gradient)
@@ -75,13 +68,11 @@ Changes implemented:
 ---
 
 ### [x] Step: Enhance Login Form Styling
-
 <!-- chat-id: 2faedc39-3c35-4835-97b5-85b1a5886b76 -->
 
 **Completed**: Enhanced `/components/auth/login-form.tsx` with glass styling
 
 Changes implemented:
-
 1. ✅ Glass-styled inputs with backdrop-blur and semi-transparent backgrounds
 2. ✅ Icon color transition on focus (group-focus-within:text-primary)
 3. ✅ Larger input height (h-11) with rounded-xl borders
@@ -96,7 +87,6 @@ Changes implemented:
 ---
 
 ### [x] Step: Final Verification and Testing
-
 <!-- chat-id: 6b3143e9-3051-46a3-9f34-20fd8ebe7b14 -->
 
 **Completed**: All verifications passed

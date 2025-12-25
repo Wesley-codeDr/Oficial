@@ -5,6 +5,10 @@ export const metadata: Metadata = {
   description: 'Acesse sua conta WellWave para gerenciar anamneses médicas.',
 }
 
-export default function LoginLayout({ children }: { children: React.ReactNode }) {
+export default function LoginLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return children
 }

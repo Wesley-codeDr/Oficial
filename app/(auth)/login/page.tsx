@@ -64,7 +64,10 @@ export default function LoginPage() {
         </motion.div>
 
         {/* Company Name */}
-        <motion.h1 variants={itemVariants} className="mb-3 text-4xl font-bold tracking-tight">
+        <motion.h1
+          variants={itemVariants}
+          className="mb-3 text-4xl font-bold tracking-tight"
+        >
           <span className="bg-gradient-to-r from-[#007AFF] via-[#5856D6] to-[#007AFF] bg-clip-text text-transparent">
             WellWave
           </span>
@@ -79,7 +82,10 @@ export default function LoginPage() {
         </motion.p>
 
         {/* Feature Highlights - visible on larger screens */}
-        <motion.div variants={itemVariants} className="hidden w-full max-w-sm space-y-4 lg:block">
+        <motion.div
+          variants={itemVariants}
+          className="hidden w-full max-w-sm space-y-4 lg:block"
+        >
           {features.map((feature) => (
             <div
               key={feature.title}
