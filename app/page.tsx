@@ -425,7 +425,7 @@ export default function Home() {
         {/* Chat Well - Standalone without Header */}
         {viewMode === 'chat-well' && (
           <div className="h-full overflow-hidden flex flex-col p-6">
-            <div className="h-full bg-white/40 dark:bg-slate-800/40 backdrop-blur-3xl backdrop-saturate-[180%] rounded-[36px] border border-white/60 dark:border-white/5 shadow-sm overflow-hidden animate-in fade-in zoom-in-[0.99] duration-300">
+            <div className="h-full glass rounded-[36px] border border-white/60 dark:border-white/5 shadow-sm overflow-hidden animate-in fade-in zoom-in-[0.99] duration-300">
               <ChatWell />
             </div>
           </div>

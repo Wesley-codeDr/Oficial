@@ -70,7 +70,7 @@ export const ChatWell: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between mb-6 p-4 rounded-3xl bg-white/40 dark:bg-slate-900/40 backdrop-blur-2xl border border-white/30 dark:border-white/10 shadow-lg z-10"
+        className="flex items-center justify-between mb-6 p-4 rounded-3xl glass border border-white/30 dark:border-white/10 shadow-lg z-10"
       >
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30 text-white">
@@ -88,7 +88,10 @@ export const ChatWell: React.FC = () => {
             </div>
           </div>
         </div>
-        <button className="p-2 rounded-xl hover:bg-white/20 dark:hover:bg-white/5 transition-colors text-slate-500 dark:text-slate-400">
+        <button
+          aria-label="Mais opções do Chat Well"
+          className="p-2 rounded-xl hover:bg-white/20 dark:hover:bg-white/5 transition-colors text-slate-500 dark:text-slate-400"
+        >
           <MoreHorizontal className="w-6 h-6" />
         </button>
       </motion.div>
@@ -110,7 +113,7 @@ export const ChatWell: React.FC = () => {
                   ${
                     msg.sender === 'user'
                       ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-tr-sm shadow-blue-500/20'
-                      : 'bg-white/60 dark:bg-slate-800/60 backdrop-blur-md border border-white/40 dark:border-white/5 text-slate-800 dark:text-slate-100 rounded-tl-sm'
+                      : 'glass border border-white/40 dark:border-white/5 text-slate-800 dark:text-slate-100 rounded-tl-sm'
                   }
                 `}
               >
@@ -134,7 +137,12 @@ export const ChatWell: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="flex justify-start w-full"
           >
-            <div className="bg-white/40 dark:bg-slate-800/40 backdrop-blur-md border border-white/30 dark:border-white/5 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1">
+            <div
+              role="status"
+              aria-live="polite"
+              aria-label="Well está digitando"
+              className="glass border border-white/30 dark:border-white/5 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1"
+            >
               <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
               <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
               <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
@@ -149,9 +157,12 @@ export const ChatWell: React.FC = () => {
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="p-2 rounded-[24px] bg-white/70 dark:bg-slate-800/70 backdrop-blur-2xl border border-white/40 dark:border-white/10 shadow-2xl shadow-blue-900/5 flex items-end gap-2"
+          className="p-2 rounded-[24px] glass border border-white/40 dark:border-white/10 shadow-2xl shadow-blue-900/5 flex items-end gap-2"
         >
-          <button className="p-3 rounded-xl hover:bg-slate-200/50 dark:hover:bg-slate-700/50 text-slate-500 dark:text-slate-400 transition-colors shrink-0">
+          <button
+            aria-label="Anexar arquivo"
+            className="p-3 rounded-xl hover:bg-slate-200/50 dark:hover:bg-slate-700/50 text-slate-500 dark:text-slate-400 transition-colors shrink-0"
+          >
             <Paperclip className="w-5 h-5" />
           </button>
 
@@ -160,6 +171,7 @@ export const ChatWell: React.FC = () => {
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Digite sua mensagem para o Well..."
+            aria-label="Campo de mensagem"
             className="w-full bg-transparent border-none focus:ring-0 p-3 text-slate-800 dark:text-white placeholder:text-slate-400 resize-none max-h-32 min-h-[44px] custom-scrollbar"
             rows={1}
             style={{ height: 'auto' }}
@@ -181,6 +193,8 @@ export const ChatWell: React.FC = () => {
                   : 'bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed'
               }
             `}
+            aria-label="Enviar mensagem"
+            aria-disabled={!inputValue.trim()}
           >
             <Send className="w-5 h-5" />
           </button>
