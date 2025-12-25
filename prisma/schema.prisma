@@ -259,3 +259,53 @@ model ComplaintSearchLog {
   @@index([createdAt])
   @@map("complaint_search_logs")
 }
+
+// ============================================
+// CONTENT FEEDING SYSTEM MODELS
+// ============================================
+
+model SourceDocument {
+  id          String   @id @default(uuid())
+  title       String
+  type        String   // "PDF", "TXT", "URL"
+  url         String?  // File path or external URL
+  content     String   @db.Text // Raw extracted text
+  status      String   // "PENDING", "PROCESSED", "ERROR"
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  extractions ContentExtraction[]
+
+  @@map("source_documents")
+}
+
+model ContentExtraction {
+  id               String         @id @default(uuid())
+  sourceDocumentId String         @map("source_document_id")
+  extractedData    Json           // Structured JSON from AI
+  status           String         // "REVIEW_NEEDED", "APPROVED", "REJECTED"
+  createdAt        DateTime       @default(now()) @map("created_at")
+
+  // Relations
+  sourceDocument   SourceDocument @relation(fields: [sourceDocumentId], references: [id], onDelete: Cascade)
+  draftSyndrome    DraftSyndrome?
+
+  @@index([sourceDocumentId])
+  @@map("content_extractions")
+}
+
+model DraftSyndrome {
+  id                  String            @id @default(uuid())
+  contentExtractionId String            @unique @map("content_extraction_id")
+  name                String
+  description         String?
+  data                Json              // Full syndrome structure (checkboxes, red flags)
+  status              String            // "DRAFT", "PUBLISHED"
+  createdAt           DateTime          @default(now()) @map("created_at")
+  updatedAt           DateTime          @updatedAt @map("updated_at")
+
+  // Relations
+  contentExtraction   ContentExtraction @relation(fields: [contentExtractionId], references: [id], onDelete: Cascade)
+
+  @@map("draft_syndromes")
+}
