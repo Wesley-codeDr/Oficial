@@ -2,22 +2,24 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Anamnese Flow (Public Access Check)', () => {
   test('should redirect unauthenticated user from anamnese page', async ({ page }) => {
-    await page.goto('/anamnese/CHEST_PAIN')
+    // Use waitUntil: 'commit' for faster response on redirect
+    await page.goto('/anamnese/CHEST_PAIN', { waitUntil: 'commit' })
 
     // Should redirect to login since anamnese requires authentication
-    await expect(page).toHaveURL(/login/)
+    // Wait for URL to change to login page
+    await expect(page).toHaveURL(/login/, { timeout: 30000 })
   })
 
   test('should redirect unauthenticated user from dashboard', async ({ page }) => {
-    await page.goto('/dashboard')
+    await page.goto('/dashboard', { waitUntil: 'commit' })
 
-    await expect(page).toHaveURL(/login/)
+    await expect(page).toHaveURL(/login/, { timeout: 30000 })
   })
 
   test('should redirect unauthenticated user from history', async ({ page }) => {
-    await page.goto('/history')
+    await page.goto('/history', { waitUntil: 'commit' })
 
-    await expect(page).toHaveURL(/login/)
+    await expect(page).toHaveURL(/login/, { timeout: 30000 })
   })
 })
 

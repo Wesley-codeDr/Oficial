@@ -86,14 +86,31 @@ All features MUST have comprehensive tests appropriate to their risk level.
 
 ### 4. Documentation
 
-Documentation MUST be maintained alongside code.
+Documentation MUST be maintained alongside code following GitHub Spec-Kit standards.
 
+**Spec-Driven Documentation:**
+- All features MUST have `spec.md` before implementation
+- All features MUST have `plan.md` with architecture details
+- All features MUST have `tasks.md` with implementation breakdown
+- Research documents (`research.md`) for complex technical decisions
+- Data models (`data-model.md`) for database changes
+- API specifications (`contracts/api-spec.json`) for new endpoints
+
+**Code Documentation:**
 - API documentation via OpenAPI/Swagger, auto-generated from code
 - Component documentation via Storybook for UI components
 - Medical templates documented with CFM compliance notes
 - README files maintained for each major module
+- JSDoc comments for public APIs and complex functions
 
-**Rationale:** Healthcare audits require documentation trails. Self-documenting code is not sufficient.
+**Documentation Standards:**
+- Follow templates in `templates/` directory
+- Use Markdown format for all documentation
+- Include diagrams (Mermaid) for complex flows
+- Keep documentation updated with code changes
+- Validate documentation with `./scripts/validate-specs.sh`
+
+**Rationale:** Healthcare audits require documentation trails. Spec-Kit ensures consistency and completeness. Self-documenting code is not sufficient.
 
 ### 5. Security & Healthcare Compliance
 
@@ -298,6 +315,14 @@ The application MUST respect medical domain rules at all times.
 
 Before any PR can be merged, ALL of the following MUST pass:
 
+### Spec-Kit Compliance Checks
+- [ ] Specification exists (`spec.md`) and is approved
+- [ ] Implementation plan exists (`plan.md`) and is validated
+- [ ] Task breakdown exists (`tasks.md`) and is complete
+- [ ] Spec validation passes (`./scripts/validate-specs.sh`)
+- [ ] All required sections present in spec/plan/tasks
+- [ ] Documentation follows Spec-Kit templates
+
 ### Automated Checks
 - [ ] TypeScript compilation with zero errors
 - [ ] ESLint with zero warnings
@@ -311,7 +336,99 @@ Before any PR can be merged, ALL of the following MUST pass:
 - [ ] Code review by at least one team member
 - [ ] Medical content reviewed if templates changed
 - [ ] Design review if UI changed (Apple Design compliance)
-- [ ] Documentation updated
+- [ ] Documentation updated and follows Spec-Kit standards
+- [ ] Constitution compliance verified
+
+## Quality Metrics
+
+### Code Quality Metrics
+
+| Metric | Target | Measurement | Frequency |
+|--------|--------|-------------|-----------|
+| Test Coverage | ≥80% | `pnpm test:coverage` | Per PR |
+| TypeScript Errors | 0 | `pnpm typecheck` | Per PR |
+| ESLint Warnings | 0 | `pnpm lint` | Per PR |
+| Build Success | 100% | `pnpm build` | Per PR |
+| Bundle Size | <200KB | `pnpm build:analyze` | Per PR |
+| Security Vulnerabilities | 0 | `pnpm audit` | Weekly |
+
+### Documentation Quality Metrics
+
+| Metric | Target | Measurement | Frequency |
+|--------|--------|-------------|-----------|
+| Spec Coverage | 100% | All features have specs | Per feature |
+| Spec Compliance | 100% | `./scripts/validate-specs.sh` | Per PR |
+| API Documentation | 100% | OpenAPI coverage | Per PR |
+| README Completeness | 100% | All modules documented | Per PR |
+| Documentation Freshness | <30 days | Last updated date | Monthly |
+
+### Performance Metrics
+
+| Metric | Target | Measurement | Frequency |
+|--------|--------|-------------|-----------|
+| Initial Load | <2s | Lighthouse | Per PR |
+| Text Generation | <1.5s | API response time | Per PR |
+| Anamnese Flow | <90s | E2E test | Per PR |
+| Uptime | ≥99.9% | Monitoring | Continuous |
+| Error Rate | <0.1% | Sentry | Continuous |
+
+### Spec-Kit Compliance Metrics
+
+| Metric | Target | Measurement | Frequency |
+|--------|--------|-------------|-----------|
+| Spec Structure | 100% | Template compliance | Per PR |
+| Plan Completeness | 100% | Required sections | Per PR |
+| Tasks Organization | 100% | Dependencies mapped | Per PR |
+| Workflow Adherence | 100% | Spec → Plan → Tasks → Code | Per PR |
+
+## Documentation Standards
+
+### Spec-Kit Documentation Requirements
+
+**For Every Feature:**
+1. **spec.md** - Must include:
+   - Overview and problem statement
+   - User stories with acceptance criteria
+   - Functional and non-functional requirements
+   - Success criteria and metrics
+   - Risk assessment
+
+2. **plan.md** - Must include:
+   - Technology stack and rationale
+   - System architecture
+   - Data model design
+   - API design
+   - Implementation phases
+   - Testing strategy
+
+3. **tasks.md** - Must include:
+   - Tasks organized by user story
+   - Dependencies between tasks
+   - Parallel execution markers `[P]`
+   - File paths for implementation
+   - Estimated effort
+
+**Optional but Recommended:**
+- `research.md` - Technical research and decisions
+- `data-model.md` - Detailed data structures
+- `contracts/api-spec.json` - API contracts
+- `quickstart.md` - Development guide
+
+### Documentation Maintenance
+
+- Update specs when requirements change
+- Update plans when architecture changes
+- Update tasks when implementation approach changes
+- Archive completed specs using `./scripts/archive-spec.sh`
+- Keep CHANGELOG.md updated with major changes
+
+### Documentation Review Process
+
+1. **Spec Review**: Technical and business stakeholders
+2. **Plan Review**: Architecture team
+3. **Tasks Review**: Development team
+4. **Code Review**: Includes documentation review
+5. **Final Review**: Ensure docs match implementation
 
 ---
 

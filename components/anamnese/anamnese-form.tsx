@@ -13,6 +13,7 @@ import { generateNarrative, detectRedFlags, type OutputMode } from '@/lib/anamne
 import { saveAnamneseSession, markSessionAsCopied } from '@/lib/anamnese/actions'
 import { useToast } from '@/hooks/use-toast'
 import { analytics } from '@/lib/analytics'
+import { usePatientStore } from '@/stores/patient-store'
 
 type CheckboxData = {
   id: string
@@ -62,6 +63,21 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   const { toast } = useToast()
   const [isPending, startTransition] = useTransition()
 
+  // Get patient context from store
+  const gender = usePatientStore((state) => state.gender)
+  const isPediatric = usePatientStore((state) => state.isPediatric)
+  const painIntensity = usePatientStore((state) => state.painIntensity)
+  const evolutionType = usePatientStore((state) => state.evolutionType)
+  const onsetType = usePatientStore((state) => state.onsetType)
+
+  const patientContext = useMemo(() => ({
+    gender,
+    isPediatric,
+    painIntensity: painIntensity > 0 ? painIntensity : undefined,
+    evolutionType,
+    onsetType,
+  }), [gender, isPediatric, painIntensity, evolutionType, onsetType])
+
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [outputMode, setOutputMode] = useState<OutputMode>('SUMMARY')
   const [savedSessionId, setSavedSessionId] = useState<string | null>(null)
@@ -89,8 +105,8 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
   // Generate narrative
   const narrative = useMemo(() => {
-    return generateNarrative(selectedCheckboxes, outputMode)
-  }, [selectedCheckboxes, outputMode])
+    return generateNarrative(selectedCheckboxes, outputMode, patientContext)
+  }, [selectedCheckboxes, outputMode, patientContext])
 
   // Detect red flags
   const redFlags = useMemo(() => {

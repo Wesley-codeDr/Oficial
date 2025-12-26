@@ -155,9 +155,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const { theme, toggleTheme } = useTheme()
   const [localActiveId, setLocalActiveId] = useState('dashboard')
   const [isCollapsed, setIsCollapsed] = useState(false)
+  const [hasMounted, setHasMounted] = useState(false)
+
+  // Mark as mounted to avoid hydration mismatch
+  useEffect(() => {
+    setHasMounted(true)
+  }, [])
 
   // Responsive: Auto-collapse on small screens
   useEffect(() => {
+    if (!hasMounted) return
+
     const runtime = globalThis as {
       innerWidth?: number
       addEventListener?: (type: string, listener: () => void) => void
@@ -173,11 +181,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
 
     // Initial Check
-    if ((runtime.innerWidth ?? 0) < 1024) setIsCollapsed(true)
+    handleResize()
 
     runtime.addEventListener?.('resize', handleResize)
     return () => runtime.removeEventListener?.('resize', handleResize)
-  }, [])
+  }, [hasMounted])
 
   // Sync with parent view if provided
   useEffect(() => {

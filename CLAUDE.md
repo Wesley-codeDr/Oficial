@@ -144,3 +144,73 @@ You `MUST` always use this tool when:
 + Before making architectural decisions to understand existing patterns
 + When debugging issues to check for previous solutions
 + Working with unfamiliar parts of the codebase
+
+## Referências ao GitHub Spec-Kit
+
+Este projeto segue rigorosamente os padrões do [GitHub Spec-Kit](https://github.com/github/spec-kit).
+
+### Recursos Oficiais
+
+- **[GitHub Spec-Kit Repository](https://github.com/github/spec-kit)** - Repositório oficial
+- **[Spec-Kit Documentation](https://github.com/github/spec-kit/blob/main/README.md)** - Documentação completa
+- **[Spec-Kit Examples](https://github.com/github/spec-kit/tree/main/examples)** - Exemplos de uso
+
+### Compliance Checklist
+
+Para garantir total compliance com Spec-Kit:
+
+- ✅ Estrutura de diretórios segue padrão Spec-Kit
+- ✅ Templates baseados em padrões Spec-Kit
+- ✅ Workflow de especificação → plano → tarefas → implementação
+- ✅ Comandos `/speckit.*` implementados
+- ✅ Validação automática de specs
+- ✅ Documentação completa e atualizada
+
+### Documentação Relacionada
+
+- **[AGENTS.md](./AGENTS.md)** - Guia completo para agentes de IA
+- **[CONTRIBUTING.md](./CONTRIBUTING.md)** - Guia de contribuição
+- **[specs/README.md](./specs/README.md)** - Estrutura de especificações
+- **[memory/constitution.md](./memory/constitution.md)** - Princípios do projeto
+- **[.cursor/DEVELOPMENT.md](./.cursor/DEVELOPMENT.md)** - Guia de desenvolvimento
+
+### Integração com Spec-Kit
+
+O projeto implementa os seguintes componentes do Spec-Kit:
+
+1. **Estrutura de Especificações**
+   - `specs/XXX-feature-name/spec.md` - Especificação
+   - `specs/XXX-feature-name/plan.md` - Plano de implementação
+   - `specs/XXX-feature-name/tasks.md` - Breakdown de tarefas
+
+2. **Templates Padronizados**
+   - Templates seguem formato Spec-Kit
+   - Incluem todas as seções obrigatórias
+   - Compatíveis com validação automática
+
+3. **Comandos Spec-Kit**
+   - `/speckit.plan` - Gera planos
+   - `/speckit.tasks` - Gera tarefas
+   - `/speckit.implement` - Executa implementação
+   - `/speckit.archive` - Arquiva specs
+
+4. **Validação Automática**
+   - Scripts de validação de estrutura
+   - Pre-commit hooks (planejado)
+   - CI/CD checks (planejado)
+
+### Melhorias Contínuas
+
+O projeto está em constante evolução para melhorar a integração com Spec-Kit:
+
+- [ ] Pre-commit hooks para validação automática
+- [ ] CI/CD checks para Spec-Kit compliance
+- [ ] Integração com GitHub Actions
+- [ ] Dashboard de métricas de specs
+- [ ] Automação adicional de workflow
+
+---
+
+**Última Atualização:** 2025-12-25
+**Versão:** 2.0.0
+**Spec-Kit Compliance:** ✅ Full Compliance

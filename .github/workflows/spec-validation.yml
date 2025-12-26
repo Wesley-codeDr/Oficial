@@ -1,10 +1,13 @@
-name: Spec Validation
+name: Spec-Kit Validation
 
 on:
   pull_request:
     paths:
       - 'specs/**'
       - 'docs/**'
+      - 'templates/**'
+      - 'scripts/validate-specs.sh'
+      - '.github/workflows/spec-validation.yml'
   push:
     branches:
       - main
@@ -15,9 +18,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate-specs:
+  validate-spec-kit-compliance:
     runs-on: ubuntu-latest
-    name: Validate Specs
+    name: Validate Spec-Kit Compliance
 
     steps:
       - name: Checkout repository
@@ -31,5 +34,107 @@ jobs:
       - name: Make validation script executable
         run: chmod +x scripts/validate-specs.sh
 
-      - name: Run spec validation
-        run: ./scripts/validate-specs.sh
+      - name: Validate Spec Structure
+        run: |
+          echo "Validating Spec-Kit structure..."
+          ./scripts/validate-specs.sh --all || exit 1
+
+      - name: Check Required Files
+        run: |
+          echo "Checking required Spec-Kit files..."
+          
+          # Check constitution exists
+          if [ ! -f "memory/constitution.md" ]; then
+            echo "❌ Error: memory/constitution.md is missing"
+            exit 1
+          fi
+          
+          # Check templates exist
+          REQUIRED_TEMPLATES=(
+            "templates/spec-template.md"
+            "templates/plan-template.md"
+            "templates/tasks-template.md"
+          )
+          
+          for template in "${REQUIRED_TEMPLATES[@]}"; do
+            if [ ! -f "$template" ]; then
+              echo "❌ Error: Required template missing: $template"
+              exit 1
+            fi
+          done
+          
+          echo "✅ All required files present"
+
+      - name: Validate Spec Naming Convention
+        run: |
+          echo "Validating spec naming convention..."
+          
+          # Check that specs follow XXX-feature-name format
+          for spec_dir in specs/*/; do
+            if [ -d "$spec_dir" ]; then
+              spec_name=$(basename "$spec_dir")
+              if [[ ! "$spec_name" =~ ^[0-9]{3}-[a-z0-9-]+$ ]]; then
+                echo "❌ Error: Spec '$spec_name' does not follow naming convention (XXX-feature-name)"
+                exit 1
+              fi
+            fi
+          done
+          
+          echo "✅ All specs follow naming convention"
+
+      - name: Check Spec Completeness
+        run: |
+          echo "Checking spec completeness..."
+          
+          for spec_dir in specs/*/; do
+            if [ -d "$spec_dir" ]; then
+              spec_name=$(basename "$spec_dir")
+              
+              # Skip archived and templates
+              if [[ "$spec_name" == "archived" ]] || [[ "$spec_name" == "templates" ]]; then
+                continue
+              fi
+              
+              # Check required files
+              if [ ! -f "$spec_dir/spec.md" ]; then
+                echo "⚠️  Warning: $spec_name/spec.md is missing"
+              fi
+              
+              if [ ! -f "$spec_dir/plan.md" ]; then
+                echo "⚠️  Warning: $spec_name/plan.md is missing"
+              fi
+              
+              if [ ! -f "$spec_dir/tasks.md" ]; then
+                echo "⚠️  Warning: $spec_name/tasks.md is missing"
+              fi
+            fi
+          done
+          
+          echo "✅ Spec completeness check completed"
+
+      - name: Validate Template Compliance
+        run: |
+          echo "Validating template compliance..."
+          
+          # Check that templates contain Spec-Kit references
+          for template in templates/*.md; do
+            if [ -f "$template" ]; then
+              if ! grep -q "Spec-Kit" "$template" && ! grep -q "spec-kit" "$template"; then
+                echo "⚠️  Warning: Template $(basename $template) may not reference Spec-Kit"
+              fi
+            fi
+          done
+          
+          echo "✅ Template compliance check completed"
+
+      - name: Summary
+        run: |
+          echo "## Spec-Kit Validation Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Spec structure validated" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Required files checked" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Naming convention validated" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Spec completeness checked" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Template compliance validated" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** All Spec-Kit compliance checks passed! 🎉" >> $GITHUB_STEP_SUMMARY

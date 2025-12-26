@@ -266,84 +266,190 @@ export default function Home() {
       })
     }
 
-    // 2. Allergies Block
+    // 2. Allergies Block - Padrão texto corrido
+    let allergiesContent = ''
+    if (patient.allergies.length > 0) {
+      allergiesContent += `Refere alergia a ${patient.allergies.join(', ').toLowerCase()}. `
+    } else {
+      allergiesContent += 'Nega alergias medicamentosas conhecidas. '
+    }
+    if (patient.medications.length > 0) {
+      allergiesContent += `Em uso de ${patient.medications.join(', ')}.`
+    } else {
+      allergiesContent += 'Nega uso de medicações de uso contínuo.'
+    }
     blocks.push({
       id: 'allergies',
       title: 'Alergias & Medicações',
       iconName: 'alert',
-      content:
-        (patient.allergies.length > 0
-          ? `REFERE ALERGIA A: ${patient.allergies.join(', ')}.`
-          : 'Nega alergias.') +
-        (patient.medications.length > 0
-          ? `\nUso: ${patient.medications.join(', ')}.`
-          : '\nNega uso contínuo.'),
+      content: allergiesContent.trim(),
     })
 
     // 3. HDA (History of Present Illness) - SYNCHRONIZED
+    // Padrão de escrita corrida técnico-médica com proteção jurídica implícita
     const protocolName =
       complaintsData.complaints.find((c) => mapComplaintToProtocol(c.id) === activeProtocolId)
         ?.title || 'Atendimento Geral'
-    const patientDesc = `${patient.gender === 'M' ? 'Paciente masculino' : 'Paciente feminina'}, ${patient.age || '--'} anos.`
 
     const intensity = anamnesisData['meta_intensity'] || '0'
     const chronicity = anamnesisData['meta_chronicity'] || 'Agudo'
     const onset = anamnesisData['meta_onset'] || 'Súbito'
     const duration = anamnesisData['meta_duration'] || 'não especificado'
 
-    let hda = `${patientDesc} QP: ${protocolName}.\n`
-    hda += `Refere quadro ${chronicity.toLowerCase()} de início ${onset.toLowerCase()} há ${duration}. `
-    hda += `Intensidade da queixa: ${intensity}/10.`
+    // Mapeia intensidade para texto descritivo
+    const intensityNum = parseInt(intensity, 10)
+    const intensityText = intensityNum <= 3 ? 'leve' : intensityNum <= 6 ? 'moderada' : 'forte'
 
-    const positiveFindings: string[] = []
+    // Mapeia cronicidade para texto narrativo
+    const chronicityMap: Record<string, string> = {
+      'Agudo': 'aguda',
+      'Subagudo': 'subaguda',
+      'Crônico': 'crônica',
+    }
+    const chronicityText = chronicityMap[chronicity] || 'aguda'
+
+    // Mapeia início para texto narrativo
+    const onsetMap: Record<string, string> = {
+      'Súbito': 'súbito',
+      'Progressivo': 'progressivo',
+      'Insidioso': 'insidioso',
+    }
+    const onsetText = onsetMap[onset] || 'súbito'
+
+    // Texto corrido: Queixa Principal
+    let hda = `Paciente comparece ao serviço de emergência com queixa de ${protocolName.toLowerCase()}. `
+
+    // Texto corrido: Caracterização temporal e intensidade
+    hda += `Refere quadro de evolução ${chronicityText} e início ${onsetText}`
+    if (duration && duration !== 'não especificado') {
+      hda += ` há ${duration}`
+    }
+    hda += `, de ${intensityText} intensidade. `
+
+    // Coleta achados positivos separados por categoria
+    const sintomas: string[] = []
+    const localizacao: string[] = []
+    const caracteristicas: string[] = []
+
     sections.forEach((section) => {
       if (section.id !== 'meta_characterization' && section.id !== 'exame_fisico') {
         section.items.forEach((item) => {
           const val = anamnesisData[item.id]
+          const label = item.label.toLowerCase()
+
           if (item.type === 'boolean' && val === true) {
-            positiveFindings.push(item.label)
+            // Detecta tipo de achado pelo label
+            if (label.includes('local') || label.includes('epigástrio') || label.includes('hipocôndrio') || label.includes('fossa')) {
+              localizacao.push(label.replace('local da dor:', '').replace('local:', '').trim())
+            } else if (label.includes('tipo') || label.includes('irradiação') || label.includes('contínua') || label.includes('intermitente')) {
+              caracteristicas.push(label.replace('tipo', '').replace(':', '').trim())
+            } else {
+              sintomas.push(label)
+            }
           } else if (item.type === 'segment' && val && typeof val === 'string') {
-            positiveFindings.push(`${item.label}: ${val}`)
+            const valLower = val.toLowerCase()
+            if (label.includes('local')) {
+              localizacao.push(`em ${valLower}`)
+            } else if (label.includes('tipo')) {
+              caracteristicas.push(`tipo ${valLower}`)
+            } else if (label.includes('irradiação')) {
+              caracteristicas.push(`com irradiação para ${valLower}`)
+            } else {
+              caracteristicas.push(valLower)
+            }
           } else if (item.type === 'multiSelect' && Array.isArray(val) && val.length > 0) {
-            positiveFindings.push(`${item.label}: ${val.join(', ')}`)
+            val.forEach((v: string) => {
+              const vLower = v.toLowerCase()
+              if (label.includes('local')) {
+                localizacao.push(`em ${vLower}`)
+              } else {
+                caracteristicas.push(vLower)
+              }
+            })
           } else if (item.type === 'text' && val) {
-            positiveFindings.push(`${item.label}: ${val}`)
+            caracteristicas.push(`${label}: ${val}`)
           }
         })
       }
     })
 
-    if (positiveFindings.length > 0) {
-      hda += `\n\nCaracterização:\n- ${positiveFindings.join('\n- ')}.`
-    } else {
-      hda += `\n\nNega outros sintomas associados até o momento.`
+    // Monta texto corrido com achados
+    if (localizacao.length > 0 || caracteristicas.length > 0) {
+      const achadosList: string[] = []
+      if (localizacao.length > 0) {
+        achadosList.push(localizacao.join(' e '))
+      }
+      if (caracteristicas.length > 0) {
+        achadosList.push(caracteristicas.join(', '))
+      }
+      hda += `Apresenta dor ${achadosList.join(', ')}. `
     }
 
-    blocks.push({ id: 'hda', title: 'História da Doença Atual', iconName: 'heart', content: hda })
+    if (sintomas.length > 0) {
+      hda += `Refere ${sintomas.join(', ')}. `
+    }
 
-    // 4. Physical Exam
+    // Negativas se não houver achados
+    if (localizacao.length === 0 && caracteristicas.length === 0 && sintomas.length === 0) {
+      hda += `Nega outros sintomas associados até o momento.`
+    }
+
+    blocks.push({ id: 'hda', title: 'História da Doença Atual', iconName: 'heart', content: hda.trim() })
+
+    // 4. Physical Exam - Padrão: Apresenta (achados) / Evidencia (sinais objetivos)
     const efSection = sections.find((s) => s.id === 'exame_fisico')
-    const efFindings: string[] = []
+    const achadosClinicosEF: string[] = []
+    const sinaisObjetivosEF: string[] = []
+
+    // Lista de sinais objetivos que usam "Evidencia"
+    const sinaisObjetivos = [
+      'sinal de murphy', 'sinal de blumberg', 'sinal de rovsing', 'sinal de psoas',
+      'sinal de giordano', 'sinal de kernig', 'sinal de brudzinski', 'rigidez de nuca',
+      'déficit neurológico', 'abdome em tábua', 'descompressão brusca'
+    ]
 
     if (efSection) {
       efSection.items.forEach((item) => {
         const val = anamnesisData[item.id]
         if (val) {
+          const labelLower = item.label.toLowerCase()
+          let finding = ''
+
           if (item.type === 'boolean' && val === true) {
-            efFindings.push(item.label)
+            finding = labelLower
           } else if (item.type === 'multiSelect' && Array.isArray(val) && val.length > 0) {
-            efFindings.push(`${item.label}: ${val.join(', ')}`)
+            finding = `${labelLower}: ${val.join(', ').toLowerCase()}`
           } else if (val !== false && val !== '' && !Array.isArray(val)) {
-            efFindings.push(`${item.label}: ${val}`)
+            finding = `${labelLower}: ${String(val).toLowerCase()}`
+          }
+
+          if (finding) {
+            // Classifica como sinal objetivo ou achado clínico
+            const isSinalObjetivo = sinaisObjetivos.some(s => labelLower.includes(s))
+            if (isSinalObjetivo) {
+              sinaisObjetivosEF.push(finding)
+            } else {
+              achadosClinicosEF.push(finding)
+            }
           }
         }
       })
     }
+
+    // Monta texto corrido do exame físico
+    let efContent = ''
+    if (achadosClinicosEF.length > 0) {
+      efContent += `Apresenta ${achadosClinicosEF.join(', ')}. `
+    }
+    if (sinaisObjetivosEF.length > 0) {
+      efContent += `Evidencia ${sinaisObjetivosEF.join(', ')}.`
+    }
+
     blocks.push({
       id: 'exame_fisico',
       title: 'Exame Físico',
       iconName: 'stethoscope',
-      content: efFindings.join('. ') || 'Sem particularidades ao exame direcionado.',
+      content: efContent.trim() || 'Sem particularidades ao exame direcionado.',
     })
 
     // 5. Hypotheses

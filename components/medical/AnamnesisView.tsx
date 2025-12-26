@@ -1,13 +1,16 @@
 'use client'
 
 import * as React from 'react';
-import { useEffect, useState } from 'react';
-import { 
-  Search, Save, Check, AlertTriangle, 
+import { useEffect, useState, useMemo } from 'react';
+import {
+  Search, Save, Check, AlertTriangle,
   Activity, Thermometer, Stethoscope, FileText,
-  Plus, ChevronRight, Info
+  Plus, ChevronRight, Info, Calculator, BookOpen
 } from 'lucide-react';
 import { AnamnesisSection, Symptom, Patient } from '@/lib/types/medical';
+import { AutoRedFlagAlert } from './AutoRedFlagAlert';
+import { detectRedFlags, DetectionResult } from '@/lib/anamnese/red-flag-detector';
+import { getComplaintById, FormConfig, complaintToFormConfig } from '@/lib/anamnese/complaint-to-form';
 
 // --- VISUAL CONSTANTS ---
 const SECTION_ICONS: Record<string, any> = {
@@ -226,6 +229,96 @@ const TextItem: React.FC<TextItemProps> = ({ item, value, onChange }) => {
   );
 };
 
+// --- CALCULATOR CARD COMPONENT ---
+interface CalculatorCardProps {
+  name: string;
+  description: string;
+  onClick?: () => void;
+}
+
+const CalculatorCard: React.FC<CalculatorCardProps> = ({ name, description, onClick }) => (
+  <button
+    onClick={onClick}
+    className="flex items-center gap-3 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-2xl hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all group"
+  >
+    <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+      <Calculator className="w-5 h-5" />
+    </div>
+    <div className="text-left">
+      <p className="font-semibold text-blue-900 dark:text-blue-100 text-sm">{name}</p>
+      {description && <p className="text-xs text-blue-600 dark:text-blue-300">{description}</p>}
+    </div>
+    <ChevronRight className="w-4 h-4 text-blue-400 ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+  </button>
+);
+
+// --- CONDUCT PANEL COMPONENT ---
+interface ConductPanelProps {
+  content: string;
+  isExpanded: boolean;
+  onToggle: () => void;
+}
+
+const ConductPanel: React.FC<ConductPanelProps> = ({ content, isExpanded, onToggle }) => {
+  if (!content) return null;
+
+  // Parse markdown to simple HTML-like structure
+  const formatContent = (text: string) => {
+    return text
+      .split('\n')
+      .map((line, idx) => {
+        // Bold text
+        const formattedLine = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        // Numbered items
+        if (/^\d+\./.test(line)) {
+          return (
+            <div key={idx} className="flex gap-2 py-1">
+              <span className="text-blue-500 font-bold min-w-[24px]">{line.match(/^\d+/)?.[0]}.</span>
+              <span dangerouslySetInnerHTML={{ __html: formattedLine.replace(/^\d+\.\s*/, '') }} />
+            </div>
+          );
+        }
+        // Sub-items with dash
+        if (/^\s*-/.test(line)) {
+          return (
+            <div key={idx} className="flex gap-2 py-0.5 pl-6">
+              <span className="text-slate-400">•</span>
+              <span dangerouslySetInnerHTML={{ __html: formattedLine.replace(/^\s*-\s*/, '') }} />
+            </div>
+          );
+        }
+        return line.trim() ? <p key={idx} className="py-1" dangerouslySetInnerHTML={{ __html: formattedLine }} /> : null;
+      })
+      .filter(Boolean);
+  };
+
+  return (
+    <div className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 rounded-2xl overflow-hidden">
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-emerald-100/50 dark:hover:bg-emerald-900/30 transition-colors"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-emerald-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
+            <BookOpen className="w-5 h-5" />
+          </div>
+          <div className="text-left">
+            <p className="font-semibold text-emerald-900 dark:text-emerald-100 text-sm">Conduta Inicial</p>
+            <p className="text-xs text-emerald-600 dark:text-emerald-300">Protocolo de atendimento</p>
+          </div>
+        </div>
+        <ChevronRight className={`w-5 h-5 text-emerald-500 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} />
+      </button>
+
+      {isExpanded && (
+        <div className="px-4 pb-4 pt-2 text-sm text-emerald-900 dark:text-emerald-100 leading-relaxed">
+          {formatContent(content)}
+        </div>
+      )}
+    </div>
+  );
+};
+
 // --- MAIN COMPONENT ---
 
 interface AnamnesisViewProps {
@@ -234,19 +327,60 @@ interface AnamnesisViewProps {
   data: Record<string, any>;
   onDataChange: React.Dispatch<React.SetStateAction<Record<string, any>>>;
   onAddSymptom: (sectionId: string) => void;
+  complaintId?: string; // ID da queixa para carregar dados do Obsidian
+  onCalculatorClick?: (calculatorName: string) => void;
 }
 
-export const AnamnesisView: React.FC<AnamnesisViewProps> = ({ 
-    sections, 
-    data, 
+export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
+    sections,
+    data,
     onDataChange,
-    onAddSymptom
+    onAddSymptom,
+    complaintId,
+    onCalculatorClick
 }) => {
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
+  const [showConduct, setShowConduct] = useState(false);
+
+  // Carrega dados do Obsidian se complaintId fornecido
+  const complaintData = useMemo(() => {
+    if (!complaintId) return null;
+    return getComplaintById(complaintId);
+  }, [complaintId]);
+
+  const formConfig = useMemo(() => {
+    if (!complaintId) return null;
+    return complaintToFormConfig(complaintId);
+  }, [complaintId]);
+
+  // Detecta red flags baseado nas seleções atuais
+  const redFlagResult = useMemo((): DetectionResult => {
+    if (!complaintId) {
+      return { hasRedFlags: false, alerts: [], highestSeverity: 'none', requiresImmediateAction: false };
+    }
+
+    // Coleta sintomas selecionados do formulário
+    const selectedSymptoms: string[] = [];
+
+    sections.forEach(section => {
+      section.items.forEach(item => {
+        if (data[item.id] === true) {
+          selectedSymptoms.push(item.label);
+        }
+        // Multi-select values
+        if (Array.isArray(data[item.id])) {
+          selectedSymptoms.push(...data[item.id]);
+        }
+      });
+    });
+
+    return detectRedFlags(complaintId, selectedSymptoms);
+  }, [complaintId, data, sections]);
 
   useEffect(() => {
-    if (sections.length > 0 && !activeSectionId) {
-       setActiveSectionId(sections[0].id);
+    const firstSection = sections[0]
+    if (firstSection && !activeSectionId) {
+       setActiveSectionId(firstSection.id);
     }
   }, [sections]);
 
@@ -260,8 +394,9 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
        const triggerZone = 150; 
 
        const isBottom = Math.abs(container.scrollHeight - container.clientHeight - container.scrollTop) < 20;
-       if (isBottom && sections.length > 0) {
-          setActiveSectionId(sections[sections.length - 1].id);
+       const lastSection = sections[sections.length - 1]
+       if (isBottom && lastSection) {
+          setActiveSectionId(lastSection.id);
           return;
        }
 
@@ -333,9 +468,26 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
     }
   };
 
+  const extendedContent = complaintData?.extendedContent;
+  const calculators = formConfig?.calculators || [];
+  const initialConduct = extendedContent?.condutaInicial || '';
+
   return (
     <div className="flex h-full gap-5 animate-in fade-in zoom-in-95 duration-500">
-      
+
+      {/* 0. ALERT AREA - Fixed at top */}
+      {redFlagResult.hasRedFlags && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-full max-w-2xl px-4">
+          <AutoRedFlagAlert
+            result={redFlagResult}
+            onDismiss={() => {}}
+            onActionClick={(alert) => {
+              console.log('Action clicked:', alert);
+            }}
+          />
+        </div>
+      )}
+
       {/* 1. STICKY SIDEBAR (Refined Settings Style) */}
       <div className="w-64 shrink-0 flex flex-col h-full py-2">
          <div className="mb-4 px-2">
@@ -352,7 +504,8 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
          
          <div className="flex-1 overflow-y-auto custom-scrollbar space-y-1.5 pr-2 pb-4 px-1">
             {sections.map(section => {
-               const Icon = SECTION_ICONS[section.id] || SECTION_ICONS[section.id.split('_')[0]] || Activity;
+               const sectionPrefix = section.id.split('_')[0] ?? section.id
+               const Icon = SECTION_ICONS[section.id] || SECTION_ICONS[sectionPrefix] || Activity;
                const isActive = activeSectionId === section.id;
                const hasRedFlag = section.items.some(i => i.isRedFlag && data[i.id] === true);
 
@@ -396,7 +549,8 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
       >
          <div className="space-y-6 pt-2 pb-24 max-w-5xl mx-auto">
             {sections.map((section) => {
-               const Icon = SECTION_ICONS[section.id] || SECTION_ICONS[section.id.split('_')[0]] || Activity;
+               const sectionPrefix = section.id.split('_')[0] ?? section.id
+               const Icon = SECTION_ICONS[section.id] || SECTION_ICONS[sectionPrefix] || Activity;
 
                return (
                   <div key={section.id} id={`sec-${section.id}`} className="scroll-mt-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -407,8 +561,8 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                             </div>
                             <h2 className="text-[19px] font-bold text-slate-900 dark:text-white tracking-tight leading-none">{section.title}</h2>
                         </div>
-                        
-                        <button 
+
+                        <button
                             onClick={() => onAddSymptom(section.id)}
                             className="w-7 h-7 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-blue-500 transition-colors"
                         >
@@ -431,6 +585,38 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                   </div>
                );
             })}
+
+            {/* 3. CALCULATORS & CONDUCT FROM OBSIDIAN */}
+            {(calculators.length > 0 || initialConduct) && (
+              <div className="space-y-4 pt-6 border-t border-slate-200 dark:border-slate-700">
+                <h3 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">
+                  Ferramentas & Protocolos
+                </h3>
+
+                {/* Conduct Panel */}
+                {initialConduct && (
+                  <ConductPanel
+                    content={initialConduct}
+                    isExpanded={showConduct}
+                    onToggle={() => setShowConduct(!showConduct)}
+                  />
+                )}
+
+                {/* Calculators Grid */}
+                {calculators.length > 0 && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {calculators.map((calc) => (
+                      <CalculatorCard
+                        key={calc.id}
+                        name={calc.name}
+                        description={calc.description}
+                        onClick={() => onCalculatorClick?.(calc.name)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
          </div>
       </div>
 

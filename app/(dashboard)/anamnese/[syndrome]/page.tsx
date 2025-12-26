@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
-import { AnamneseForm } from '@/components/anamnese/anamnese-form'
+import { AnamnesePageWrapper } from '@/components/anamnese/anamnese-page-wrapper'
 import { getSyndromeByCode } from '@/lib/anamnese/actions'
 
 interface AnamnesePageProps {
@@ -48,8 +48,8 @@ export default async function AnamnesePage({ params }: AnamnesePageProps) {
         </div>
       </div>
 
-      {/* Form */}
-      <AnamneseForm syndrome={syndrome} />
+      {/* Form with Patient Context Modal */}
+      <AnamnesePageWrapper syndrome={syndrome} />
     </div>
   )
 }

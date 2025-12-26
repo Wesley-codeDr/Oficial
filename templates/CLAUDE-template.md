@@ -1,41 +1,133 @@
-# Claude Configuration
+# Claude Configuration - {{PROJECT_NAME}}
 
-This file contains instructions and context for Claude when working on this project.
+Este arquivo contém instruções e contexto para o Claude ao trabalhar neste projeto.
 
-## Project Context
+## Contexto do Projeto
 
-[Describe your project here - what it does, its purpose, and key context]
+Este projeto utiliza **Spec-Driven Development** com o GitHub Spec-Kit. Todas as features devem seguir o workflow de especificação → plano → tarefas → implementação.
 
-## Development Guidelines
+## Diretrizes de Desenvolvimento
 
-### Code Style
-- [Specify coding standards, formatting rules, etc.]
+### Workflow de Spec-Driven Development
 
-### Architecture Patterns
-- [Describe architectural patterns used in the project]
+Quando trabalhar em novas features:
 
-### Testing Approach
-- [Describe testing strategy and requirements]
+1. **Especificação** (`specs/[feature-name]/spec.md`)
+   - Comece sempre com uma especificação detalhada
+   - Inclua user stories, requisitos funcionais e não-funcionais
+   - Defina métricas de sucesso
 
-### Dependencies
-- [List key dependencies and their purposes]
+2. **Plano** (`specs/[feature-name]/plan.md`)
+   - Use `/speckit.plan` para gerar o plano de implementação
+   - O plano deve incluir arquitetura, stack tecnológica, modelo de dados, design de API
 
-## Workflow
+3. **Tarefas** (`specs/[feature-name]/tasks.md`)
+   - Use `/speckit.tasks` para gerar o breakdown de tarefas
+   - Tarefas devem incluir dependências e marcadores de execução paralela
 
-When working on new features:
-1. Start with a specification in `specs/[feature-name]/spec.md`
-2. Create an implementation plan in `specs/[feature-name]/plan.md`
-3. Break down into tasks in `specs/[feature-name]/tasks.md`
-4. Implement following the tasks
-5. Test and document
+4. **Implementação**
+   - Use `/speckit.implement` para executar a implementação
+   - Siga as tarefas na ordem correta
+   - Respeite dependências
 
-## Commands
+### Princípios do Projeto
 
-- `/speckit.plan` - Generate implementation plan from specification
-- `/speckit.tasks` - Generate task breakdown from plan
-- `/speckit.implement` - Execute implementation following tasks
+Siga sempre a `memory/constitution.md` que define:
+- Spec-Driven Development como metodologia principal
+- Padrões de qualidade de código
+- Abordagem de testes
+- Requisitos de documentação
+- Considerações de segurança e performance
 
-## Notes
+### Estrutura de Código
 
-[Add any project-specific notes or reminders for Claude]
+- Código deve ser legível, manutenível e bem documentado
+- Siga as melhores práticas da linguagem/framework escolhido
+- Use nomes descritivos e código auto-documentado
+- Documente APIs e componentes principais
+
+### Testes
+
+- Escreva testes apropriados para todas as features
+- Use TDD quando especificado no plano
+- Mantenha cobertura de testes razoável
+- Testes devem ser executáveis e claros
+
+## Comandos do Spec-Kit
+
+### `/speckit.plan`
+Gera ou atualiza o plano de implementação (`plan.md`) baseado na especificação (`spec.md`).
+
+**Uso:**
+```
+/speckit.plan
+
+Vamos usar [tecnologia/stack] para implementar esta feature.
+[Detalhes adicionais sobre escolhas técnicas]
+```
+
+### `/speckit.tasks`
+Gera o breakdown de tarefas (`tasks.md`) baseado no plano (`plan.md`).
+
+**Uso:**
+```
+/speckit.tasks
+```
+
+### `/speckit.implement`
+Executa a implementação seguindo as tarefas definidas em `tasks.md`.
+
+**Uso:**
+```
+/speckit.implement
+```
+
+**O que faz:**
+- Valida que constitution, spec, plan e tasks existem
+- Executa tarefas na ordem correta
+- Respeita dependências entre tarefas
+- Executa tarefas paralelas quando marcadas com `[P]`
+- Segue abordagem TDD quando definida
+
+## Templates Disponíveis
+
+- `templates/spec-template.md` - Template para especificações
+- `templates/plan-template.md` - Template para planos
+- `templates/tasks-template.md` - Template para tarefas
+- `templates/CLAUDE-template.md` - Template de configuração Claude
+
+## Scripts Úteis
+
+- `scripts/setup-plan.sh [feature-name]` - Cria estrutura para nova feature
+- `scripts/check-prerequisites.sh` - Verifica pré-requisitos do projeto
+
+## Notas Importantes
+
+- **Sempre** comece com uma especificação antes de implementar
+- **Sempre** siga a constitution.md
+- **Sempre** valide o plano antes de implementar
+- **Sempre** teste e documente adequadamente
+- Não pule etapas do workflow - especificação → plano → tarefas → implementação
+
+## Quando Usar Cada Comando
+
+- **Nova feature**: Use `setup-plan.sh` para criar estrutura, depois edite `spec.md`
+- **Após escrever spec**: Use `/speckit.plan` para gerar plano
+- **Após aprovar plano**: Use `/speckit.tasks` para gerar tarefas
+- **Pronto para implementar**: Use `/speckit.implement` para executar
+
+## Validação
+
+Antes de implementar, certifique-se de que:
+- ✅ `memory/constitution.md` existe e está atualizado
+- ✅ `specs/[feature-name]/spec.md` está completo e aprovado
+- ✅ `specs/[feature-name]/plan.md` existe e está validado
+- ✅ `specs/[feature-name]/tasks.md` existe e está completo
+
+## Referências
+
+- [GitHub Spec-Kit](https://github.com/github/spec-kit)
+- [Spec-Kit Documentation](https://github.com/github/spec-kit/blob/main/README.md)
+- [Project Constitution](../memory/constitution.md)
+- [Development Guide](../.cursor/DEVELOPMENT.md)
 

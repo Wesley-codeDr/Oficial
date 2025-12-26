@@ -44,14 +44,14 @@ export const FlashPreview: React.FC<FlashPreviewProps> = ({ record, onReset }) =
     globalThis.setTimeout(() => setCopiedSection(null), 2000)
   }
 
-  const fullText = `
-QP: ${formatText(editableRecord.queixa_principal)}
+  // Texto completo em formato corrido para prontuário
+  const fullText = `${formatText(editableRecord.queixa_principal)}
 
-EF: ${formatText(editableRecord.exame_fisico)}
+${formatText(editableRecord.exame_fisico)}
 
-HD: ${formatText(editableRecord.hipotese_diagnostica)}
+Hipótese diagnóstica: ${formatText(editableRecord.hipotese_diagnostica)}.
 
-CD: ${formatText(editableRecord.conduta)}
+Conduta: ${formatText(editableRecord.conduta)}.
 
 CID: ${editableRecord.cid} - ${editableRecord.cid_descricao}
   `.trim()

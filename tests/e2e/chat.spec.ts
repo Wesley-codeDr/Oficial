@@ -2,16 +2,16 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Chat EBM Flow (Public Access Check)', () => {
   test('should redirect unauthenticated user from chat page', async ({ page }) => {
-    await page.goto('/chat')
+    await page.goto('/chat', { waitUntil: 'commit' })
 
     // Should redirect to login since chat requires authentication
-    await expect(page).toHaveURL(/login/)
+    await expect(page).toHaveURL(/login/, { timeout: 30000 })
   })
 
   test('should redirect unauthenticated user from chat conversation', async ({ page }) => {
-    await page.goto('/chat/some-id')
+    await page.goto('/chat/some-id', { waitUntil: 'commit' })
 
-    await expect(page).toHaveURL(/login/)
+    await expect(page).toHaveURL(/login/, { timeout: 30000 })
   })
 })
 

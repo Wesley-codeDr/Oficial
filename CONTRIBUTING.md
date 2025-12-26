@@ -56,26 +56,47 @@ Visit http://localhost:3000 to see the application running.
 
 ## 📋 Development Workflow
 
-### Spec-Driven Development
+### Spec-Driven Development with GitHub Spec-Kit
 
-This project follows **Spec-Driven Development**. All features must follow this workflow:
+This project follows **Spec-Driven Development** using the [GitHub Spec-Kit](https://github.com/github/spec-kit) standards. All features must follow this workflow:
+
+> **⚠️ IMPORTANT:** No code should be written without an approved specification.
 
 1. **Create Specification** (`spec.md`)
+   - Use `./scripts/setup-plan.sh [feature-name]` to create structure
    - Define user stories, requirements, and constraints
    - Get approval before implementation
+   - See `templates/spec-template.md` for guidance
 
 2. **Generate Implementation Plan** (`plan.md`)
-   - Use `/speckit.plan` command
+   - Use `/speckit.plan` command in Cursor/Claude
    - Define architecture and tech stack
+   - Include data models and API design
+   - See `templates/plan-template.md` for guidance
 
 3. **Create Task Breakdown** (`tasks.md`)
-   - Use `/speckit.tasks` command
+   - Use `/speckit.tasks` command in Cursor/Claude
    - Organize tasks with dependencies
+   - Mark parallel tasks with `[P]`
+   - See `templates/tasks-template.md` for guidance
 
 4. **Implement** 
+   - Use `/speckit.implement` command in Cursor/Claude
    - Follow the tasks in order
+   - Respect dependencies between tasks
    - Write tests alongside code (TDD when appropriate)
    - Keep commits focused and descriptive
+
+### Spec-Kit Commands
+
+When working with Cursor or Claude Code, use these commands:
+
+- **`/speckit.plan`** - Generate implementation plan from specification
+- **`/speckit.tasks`** - Generate task breakdown from plan
+- **`/speckit.implement`** - Execute implementation following tasks
+- **`/speckit.archive`** - Archive completed specification
+
+See [AGENTS.md](./AGENTS.md) for detailed instructions on using Spec-Kit commands.
 
 ### Branch Naming Convention
 
@@ -244,10 +265,17 @@ When changing the database schema:
 ### Spec Documentation
 
 When adding features:
-1. Create spec in `specs/[feature-name]/spec.md`
-2. Generate plan with `/speckit.plan`
-3. Generate tasks with `/speckit.tasks`
-4. Update constitution.md if adding new principles
+1. Create spec structure: `./scripts/setup-plan.sh [feature-name]`
+2. Edit `specs/XXX-[feature-name]/spec.md` with requirements
+3. Generate plan with `/speckit.plan` (creates `plan.md`)
+4. Generate tasks with `/speckit.tasks` (creates `tasks.md`)
+5. Implement with `/speckit.implement` (follows `tasks.md`)
+6. Update constitution.md if adding new principles
+
+**Naming Convention:** Features use numeric prefix (001-, 002-, etc.)
+Example: `specs/001-wellwave-mvp/`, `specs/002-user-authentication/`
+
+See [specs/README.md](./specs/README.md) for complete structure guidelines.
 
 ## 🔍 Pull Request Process
 
