@@ -55,7 +55,9 @@ DELETE /api/resource/:id      - Delete resource
 ### Request/Response Examples
 [Include examples]
 
-## Implementation Phases
+## Implementation Plan
+
+### Implementation Phases
 
 ### Phase 1: Foundation
 - [ ] Task 1

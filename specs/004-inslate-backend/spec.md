@@ -78,7 +78,9 @@ Implementar um serviço backend dedicado com NestJS + Fastify, integrado ao Pris
 - [ ] Health check endpoints
 - [ ] Métricas de performance
 
-## Functional Requirements
+## Requirements
+
+### Functional Requirements
 
 1. **Configuração Base**
    - Backend NestJS inicializado com Fastify adapter

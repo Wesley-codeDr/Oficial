@@ -161,7 +161,9 @@ WellWave é uma plataforma digital que converte seleções objetivas (checkboxes
 - Achados de exame físico integrados na narrativa
 - Red flags respiratórios destacados
 
-## Functional Requirements
+## Requirements
+
+### Functional Requirements
 
 ### FR-001: Sistema de Checkboxes Inteligentes
 

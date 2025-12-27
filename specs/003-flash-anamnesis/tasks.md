@@ -1,6 +1,12 @@
 # Implementation Tasks: Flash Anamnesis
 
-- [x] **Fix Linter Errors in `app/page.tsx`** <!-- id: 1 -->
+## Dependencies
+
+- No external dependencies
+
+## Tasks
+
+### Task 1: Fix Linter Errors in `app/page.tsx`** <!-- id: 1 -->
   - [x] Resolve `alert` usage (replace with Toast or console).
   - [x] Resolve `Navigator` type error or undefined variable.
   - [x] Ensure `FlashAnamnesisFlow` is correctly imported and used.

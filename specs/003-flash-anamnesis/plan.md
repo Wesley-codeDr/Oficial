@@ -7,7 +7,9 @@
 - **Data Logic:** `lib/data/flashTemplates.ts` handles template storage and text generation logic.
 - **Routing:** Controlled by `viewMode` state in `app/page.tsx`.
 
-## Tech Stack
+## Technology Stack
+
+### Tech Stack
 
 - **Framework:** Next.js 14 (App Router).
 - **Styling:** Tailwind CSS + Framer Motion (animations).
@@ -36,7 +38,9 @@ interface FlashState {
 }
 ```
 
-## Steps to Implement
+## Implementation Plan
+
+### Steps to Implement
 
 1.  **Refine `FlashAnamnesisFlow.tsx`**: Ensure it handles all steps correctly.
 2.  **Implement `FlashTemplateSelection.tsx`**: Create component to list templates from `flashTemplates.ts`.

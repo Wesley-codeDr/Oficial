@@ -134,6 +134,11 @@ if [ "$VALIDATE_ALL" = true ]; then
     
     for spec_dir in "$specs_dir"/*/; do
         if [ -d "$spec_dir" ]; then
+            # Skip special directories
+            spec_name=$(basename "$spec_dir")
+            if [ "$spec_name" = "archived" ] || [ "$spec_name" = "templates" ]; then
+                continue
+            fi
             ((total_specs++))
             if validate_spec "$spec_dir"; then
                 ((valid_specs++))
@@ -181,6 +186,11 @@ else
     
     for spec_dir in "$specs_dir"/*/; do
         if [ -d "$spec_dir" ]; then
+            # Skip special directories
+            spec_name=$(basename "$spec_dir")
+            if [ "$spec_name" = "archived" ] || [ "$spec_name" = "templates" ]; then
+                continue
+            fi
             validate_spec "$spec_dir"
         fi
     done

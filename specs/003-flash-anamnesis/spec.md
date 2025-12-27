@@ -83,7 +83,9 @@ The solution leverages a template engine (`flashTemplates.ts`) that handles:
 - [ ] Flexão de gênero correta ("Orientado" vs "Orientada").
 - [ ] Permite edição inline do texto gerado ao dar duplo clique, para ajustes finos antes da cópia.
 
-## Functional Requirements
+## Requirements
+
+### Functional Requirements
 
 ### FR-01: Template Engine
 

@@ -23,6 +23,8 @@
 
 ## Technical Context
 
+## Technology Stack
+
 ### Technology Stack (from Constitution)
 
 | Layer | Technology | Version |
@@ -118,7 +120,9 @@
 
 ---
 
-## Implementation Phases
+## Implementation Plan
+
+### Implementation Phases
 
 ### Phase 1: Project Setup & Infrastructure
 

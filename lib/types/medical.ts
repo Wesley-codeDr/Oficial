@@ -13,6 +13,49 @@ export interface Symptom {
   placeholder?: string
 }
 
+// Categorias de checkboxes para anamnese
+export type CheckboxCategory =
+  | 'QP'
+  | 'HDA'
+  | 'ANTECEDENTES'
+  | 'MEDICACOES'
+  | 'ALERGIAS'
+  | 'HABITOS'
+  | 'EXAME_FISICO'
+  | 'NEGATIVAS'
+
+// Mapeamento de checkboxes prioritários por categoria
+export interface PriorityCheckboxMapping {
+  QP?: string[]
+  HDA?: string[]
+  ANTECEDENTES?: string[]
+  MEDICACOES?: string[]
+  ALERGIAS?: string[]
+  HABITOS?: string[]
+  EXAME_FISICO?: string[]
+  NEGATIVAS?: string[]
+}
+
+// Conteúdo estendido de uma queixa
+export interface ComplaintExtendedContent {
+  redFlags: string[]
+  diagnosticoDiferencial: string[]
+  condutaInicial: string
+  calculadoras: string[]
+  rawMarkdown?: string
+}
+
+// Grupo de queixas
+export interface ComplaintGroup {
+  code: string
+  label: string
+  description: string
+  icon: string
+  color: string
+  sortOrder: number
+  recommendedFor: string[]
+}
+
 export interface Complaint {
   id: string
   group: string
@@ -32,6 +75,8 @@ export interface Complaint {
   commonMisconceptions?: string[]
   icd10Codes?: string[]
   searchWeight?: number
+  extendedContent?: ComplaintExtendedContent
+  priorityCheckboxes?: PriorityCheckboxMapping
 }
 
 export interface ComplaintFilters {

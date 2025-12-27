@@ -76,7 +76,9 @@ WellWave é uma plataforma digital que converte seleções objetivas (checkboxes
 - [ ] Sessão segura com timeout configurável
 - [ ] Logout manual disponível
 
-## Functional Requirements
+## Requirements
+
+### Functional Requirements
 
 ### FR-001: Sistema de Checkboxes Inteligentes
 - Organização por síndromes: dor torácica, dispneia, abdome agudo

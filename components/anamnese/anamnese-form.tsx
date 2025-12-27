@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useTransition } from 'react'
+import { useState, useMemo, useTransition, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckboxCategory } from '@prisma/client'
 import { Save, RotateCcw, FileText, List, MessageSquare } from 'lucide-react'
@@ -9,11 +9,14 @@ import { Button } from '@/components/ui/button'
 import { CheckboxGroup } from './checkbox-group'
 import { NarrativePreview } from './narrative-preview'
 import { RedFlagAlert } from './red-flag-alert'
+import { ComplaintSelector } from './complaint-selector'
+import { PriorityCheckboxPanel } from './priority-checkbox-panel'
 import { generateNarrative, detectRedFlags, type OutputMode } from '@/lib/anamnese/generate-narrative'
 import { saveAnamneseSession, markSessionAsCopied } from '@/lib/anamnese/actions'
 import { useToast } from '@/hooks/use-toast'
 import { analytics } from '@/lib/analytics'
 import { usePatientStore } from '@/stores/patient-store'
+import type { CheckboxCategory as CheckboxCategoryType } from '@/lib/types/medical'
 
 type CheckboxData = {
   id: string
@@ -82,6 +85,10 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   const [outputMode, setOutputMode] = useState<OutputMode>('SUMMARY')
   const [savedSessionId, setSavedSessionId] = useState<string | null>(null)
 
+  // State for complaint selector and priority checkboxes
+  const [selectedComplaintId, setSelectedComplaintId] = useState<string | null>(null)
+  const [prioritySelectedCheckboxes, setPrioritySelectedCheckboxes] = useState<Set<string>>(new Set())
+
   // Group checkboxes by category
   const groupedCheckboxes = useMemo(() => {
     const groups: Record<CheckboxCategory, CheckboxData[]> = {} as Record<
@@ -130,7 +137,37 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   const handleReset = () => {
     setSelectedIds(new Set())
     setSavedSessionId(null)
+    setSelectedComplaintId(null)
+    setPrioritySelectedCheckboxes(new Set())
   }
+
+  // Handlers for complaint selector
+  const handleComplaintSelect = useCallback((complaintId: string) => {
+    setSelectedComplaintId(complaintId)
+    // Clear priority checkboxes when changing complaint
+    setPrioritySelectedCheckboxes(new Set())
+    // Track analytics
+    analytics.complaintSelection(complaintId, '')
+  }, [])
+
+  const handleComplaintClear = useCallback(() => {
+    setSelectedComplaintId(null)
+    setPrioritySelectedCheckboxes(new Set())
+  }, [])
+
+  // Handler for priority checkboxes
+  const handlePriorityToggle = useCallback((label: string, category: CheckboxCategoryType) => {
+    const key = `${category}:${label}`
+    setPrioritySelectedCheckboxes(prev => {
+      const next = new Set(prev)
+      if (next.has(key)) {
+        next.delete(key)
+      } else {
+        next.add(key)
+      }
+      return next
+    })
+  }, [])
 
   const handleSave = () => {
     if (selectedIds.size === 0) {
@@ -235,6 +272,22 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     <div className="grid gap-6 lg:grid-cols-[1fr,400px]">
       {/* Left Panel - Checkboxes */}
       <div className="space-y-6">
+        {/* Complaint Selector - NEW */}
+        <ComplaintSelector
+          selectedComplaintId={selectedComplaintId}
+          onComplaintSelect={handleComplaintSelect}
+          onClear={handleComplaintClear}
+        />
+
+        {/* Priority Checkboxes Panel - Shows when complaint is selected */}
+        {selectedComplaintId && (
+          <PriorityCheckboxPanel
+            complaintId={selectedComplaintId}
+            selectedCheckboxes={prioritySelectedCheckboxes}
+            onToggle={handlePriorityToggle}
+          />
+        )}
+
         {/* Mode Toggle */}
         <div className="flex items-center gap-2">
           <Button

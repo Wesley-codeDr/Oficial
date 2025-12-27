@@ -2,7 +2,13 @@
 
 This document contains the detailed task breakdown for implementing [Feature Name].
 
-## Task Organization
+## Dependencies
+
+- See Dependencies Graph section below for task dependencies
+
+## Tasks
+
+### Task Organization
 
 Tasks are organized by user story and implementation phase. Tasks marked with `[P]` can be executed in parallel.
 
