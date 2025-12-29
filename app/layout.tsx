@@ -53,6 +53,7 @@ export default function RootLayout({
     <html lang="pt-BR" suppressHydrationWarning>
       <body
         className={`${inter.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
+        suppressHydrationWarning
       >
         <Providers>
           {children}

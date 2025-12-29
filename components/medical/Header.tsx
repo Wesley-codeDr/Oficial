@@ -128,29 +128,33 @@ export const Header: React.FC<HeaderProps> = ({ patient, setPatient }) => {
              <div className="flex items-center gap-4 ml-1">
                  
                  {/* iOS Style Age Stepper */}
-                 <div className="flex flex-col gap-0.5">
-                     <span className="text-[9px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider ml-1">Idade</span>
-                     <div className="flex items-center bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700/80 p-0.5 shadow-sm group-focus-within:border-blue-500/50 transition-colors">
+                 <div className="flex flex-col justify-center">
+                     <div className="flex items-center bg-slate-50 dark:bg-slate-800/80 rounded-xl border border-slate-200/80 dark:border-slate-700/80 p-0.5 shadow-sm group-focus-within:border-blue-500/50 transition-colors h-[34px]">
                         <button 
                            onClick={() => handleAgeChange(-1)}
-                           className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all active:scale-90 shadow-none hover:shadow-sm"
+                           className="w-7 h-full flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-slate-700 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all active:scale-90 shadow-none hover:shadow-sm"
                         >
-                           <Minus className="w-3.5 h-3.5 stroke-[2.5px]" />
+                           <Minus className="w-3 h-3 stroke-[2.5px]" />
                         </button>
                         
-                        <input 
-                           type="number" 
-                           value={patient.age}
-                           onChange={(e) => updatePatient('age', e.target.value)}
-                           className="w-10 bg-transparent text-center font-bold text-slate-800 dark:text-white text-sm focus:outline-none appearance-none [&::-webkit-inner-spin-button]:appearance-none m-0"
-                           placeholder="0"
-                        />
+                        <div className="flex items-baseline gap-0.5 px-1">
+                           <input 
+                              type="number" 
+                              value={patient.age}
+                              onChange={(e) => updatePatient('age', e.target.value)}
+                              className="w-7 bg-transparent text-right font-bold text-slate-800 dark:text-white text-sm focus:outline-none appearance-none [&::-webkit-inner-spin-button]:appearance-none m-0"
+                              placeholder="0"
+                           />
+                           <span className="text-[10px] font-semibold text-slate-400 dark:text-slate-500">
+                              anos
+                           </span>
+                        </div>
 
                         <button 
                            onClick={() => handleAgeChange(1)}
-                           className="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-slate-700 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all active:scale-90 shadow-none hover:shadow-sm"
+                           className="w-7 h-full flex items-center justify-center rounded-lg hover:bg-white dark:hover:bg-slate-700 text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all active:scale-90 shadow-none hover:shadow-sm"
                         >
-                           <Plus className="w-3.5 h-3.5 stroke-[2.5px]" />
+                           <Plus className="w-3 h-3 stroke-[2.5px]" />
                         </button>
                      </div>
                  </div>
