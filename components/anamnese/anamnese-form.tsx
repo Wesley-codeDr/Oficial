@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo, useTransition, useCallback } from 'react'
+import { useState, useMemo, useTransition, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckboxCategory } from '@prisma/client'
 import { Save, RotateCcw, FileText, List, MessageSquare } from 'lucide-react'
@@ -155,9 +155,26 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     setPrioritySelectedCheckboxes(new Set())
   }, [])
 
+  // Helper function to find checkbox ID by label and category
+  const findCheckboxIdByLabel = useCallback((category: CheckboxCategory, label: string): string | null => {
+    const checkbox = syndrome.checkboxes.find(
+      cb => cb.category === category && cb.displayText === label
+    )
+    return checkbox?.id || null
+  }, [syndrome.checkboxes])
+
   // Handler for priority checkboxes
   const handlePriorityToggle = useCallback((label: string, category: CheckboxCategoryType) => {
     const key = `${category}:${label}`
+    const checkboxId = findCheckboxIdByLabel(category, label)
+
+    // Se não encontrar o checkbox, logar e retornar
+    if (!checkboxId) {
+      console.warn(`Checkbox not found: ${category} - ${label}`)
+      return
+    }
+
+    // Atualizar estado visual do painel prioritário
     setPrioritySelectedCheckboxes(prev => {
       const next = new Set(prev)
       if (next.has(key)) {
@@ -167,7 +184,56 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
       }
       return next
     })
-  }, [])
+
+    // CRÍTICO: Sincronizar com selectedIds para gerar narrativa
+    setSelectedIds(prev => {
+      const next = new Set(prev)
+      if (next.has(checkboxId)) {
+        next.delete(checkboxId)
+      } else {
+        next.add(checkboxId)
+      }
+      return next
+    })
+
+    // Reset saved session when changing selection
+    setSavedSessionId(null)
+  }, [findCheckboxIdByLabel])
+
+  // Sincronizar prioritySelectedCheckboxes quando selectedIds muda (sincronização reversa)
+  useEffect(() => {
+    if (!selectedComplaintId) return // Só sincroniza se houver queixa selecionada
+
+    setPrioritySelectedCheckboxes(prev => {
+      const next = new Set(prev)
+      let changed = false
+
+      // Para cada ID selecionado, adicionar ao set prioritário se não existir
+      selectedIds.forEach(id => {
+        const checkbox = syndrome.checkboxes.find(cb => cb.id === id)
+        if (checkbox) {
+          const key = `${checkbox.category}:${checkbox.displayText}`
+          if (!next.has(key)) {
+            next.add(key)
+            changed = true
+          }
+        }
+      })
+
+      // Remover do set prioritário se não estiver em selectedIds
+      Array.from(next).forEach(key => {
+        const [category, ...labelParts] = key.split(':')
+        const label = labelParts.join(':')
+        const checkboxId = findCheckboxIdByLabel(category as CheckboxCategory, label)
+        if (checkboxId && !selectedIds.has(checkboxId)) {
+          next.delete(key)
+          changed = true
+        }
+      })
+
+      return changed ? next : prev
+    })
+  }, [selectedIds, syndrome.checkboxes, findCheckboxIdByLabel, selectedComplaintId])
 
   const handleSave = () => {
     if (selectedIds.size === 0) {
