@@ -8,8 +8,6 @@ import {
   FolderClock,
   Settings,
   Activity,
-  PanelLeftClose,
-  PanelLeftOpen,
   LayoutGrid,
   LogOut,
   Sun,
@@ -200,15 +198,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
     if (onNavigate) onNavigate(id)
   }
 
+  // Prevent hydration mismatch by only animating after mount
+  const asideProps = hasMounted
+    ? {
+        initial: { x: '-100%' },
+        animate: { x: 0 },
+        transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] },
+      }
+    : {}
+
   return (
     <motion.aside
-      initial={{ x: '-100%' }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
+      {...asideProps}
       className={`
-        ${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'} 
+        ${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'}
         h-[calc(100vh-1rem)] liquid-glass-material !bg-white/10 dark:!bg-black/20
-        flex flex-col shrink-0 !border-white/20 dark:!border-white/10 
+        flex flex-col shrink-0 !border-white/20 dark:!border-white/10
         shadow-2xl rounded-[32px] my-2 ml-2
         transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] z-40 relative
       `}

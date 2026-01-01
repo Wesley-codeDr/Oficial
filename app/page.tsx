@@ -36,6 +36,7 @@ import {
   Biohazard,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Patient, AnamnesisSection, NoteBlock, KanbanTask, KanbanStatus } from '@/lib/types/medical'
 import { complaintsData } from '@/lib/data/complaintsData'
 import {
@@ -140,7 +141,8 @@ export default function Home() {
   const [isFlowMenuOpen, setIsFlowMenuOpen] = React.useState(false)
   const [isAddModalOpen, setIsAddModalOpen] = React.useState(false)
   const [targetSectionId, setTargetSectionId] = React.useState<string | null>(null)
-  const [newSymptomName, setNewSymptomName] = React.useState('')
+  const [manualNoteEdits, setManualNoteEdits] = React.useState<Record<string, string>>({})
+  const [editingNoteBlockId, setEditingNoteBlockId] = React.useState<string | null>(null)
 
   const copyBlockToClipboard = async (content: string, blockId: string) => {
     const clipboard = (globalThis as any).navigator?.clipboard
@@ -179,8 +181,16 @@ export default function Home() {
     setViewMode(map[viewId] || 'dashboard')
   }
 
-  const handleSetFlow = (status: KanbanStatus | 'ambulatorio') => {
-    const finalStatus: KanbanStatus = status === 'ambulatorio' ? 'done' : status
+  const handleSetFlow = (status: string) => {
+    const statusMap: Record<string, KanbanStatus> = {
+      'ambulatorial': 'done',
+      'observação': 'wait',
+      'internação': 'wait',
+      'uti': 'reval',
+      'emergência': 'exam'
+    }
+    
+    const finalStatus: KanbanStatus = statusMap[status.toLowerCase()] || 'wait'
     const newTask: KanbanTask = {
       id: Date.now().toString(),
       patientName: patient.category === 'pediatric' ? 'Ped. Anônimo' : 'Paciente Anon.',
@@ -193,7 +203,7 @@ export default function Home() {
     }
     setTasks((prev) => [...prev, newTask])
     setIsFlowMenuOpen(false)
-    if (status === 'ambulatorio' || status === 'done') setViewMode('dashboard')
+    if (finalStatus === 'done') setViewMode('dashboard')
   }
 
   const handleOpenAddModal = (sectionId: string) => {
@@ -298,49 +308,53 @@ export default function Home() {
     const onset = anamnesisData['meta_onset'] || 'Súbito'
     const duration = anamnesisData['meta_duration'] || 'não especificado'
 
-    // Mapeia intensidade para texto descritivo
+    // Mapeia intensidade para texto descritivo profissional
     const intensityNum = parseInt(intensity, 10)
-    const intensityText = intensityNum <= 3 ? 'leve' : intensityNum <= 6 ? 'moderada' : 'forte'
+    let intensityText = 'de intensidade não mensurada'
+    if (intensityNum > 0) {
+      if (intensityNum <= 3) intensityText = 'de leve intensidade'
+      else if (intensityNum <= 6) intensityText = 'de moderada intensidade'
+      else if (intensityNum <= 8) intensityText = 'de forte intensidade'
+      else intensityText = 'de severa intensidade'
+    }
 
-    // Mapeia cronicidade para texto narrativo
+    // Mapeia cronicidade para texto narrativo técnico
     const chronicityMap: Record<string, string> = {
-      'Agudo': 'aguda',
-      'Subagudo': 'subaguda',
-      'Crônico': 'crônica',
+      'Agudo': 'caráter agudo',
+      'Subagudo': 'caráter subagudo',
+      'Crônico': 'caráter crônico',
     }
-    const chronicityText = chronicityMap[chronicity] || 'aguda'
+    const chronicityText = chronicityMap[chronicity] || 'caráter agudo'
 
-    // Mapeia início para texto narrativo
+    // Mapeia início para texto narrativo técnico
     const onsetMap: Record<string, string> = {
-      'Súbito': 'súbito',
-      'Progressivo': 'progressivo',
-      'Insidioso': 'insidioso',
+      'Súbito': 'instalação súbita',
+      'Progressivo': 'instalação progressiva',
+      'Insidioso': 'instalação insidiosa',
     }
-    const onsetText = onsetMap[onset] || 'súbito'
+    const onsetText = onsetMap[onset] || 'instalação súbita'
 
-    // Texto corrido: Queixa Principal
-    let hda = `Paciente comparece ao serviço de emergência com queixa de ${protocolName.toLowerCase()}. `
-
-    // Texto corrido: Caracterização temporal e intensidade
-    hda += `Refere quadro de evolução ${chronicityText} e início ${onsetText}`
+    // Texto corrido: Queixa Principal e HDA
+    let hda = `Paciente admitido na unidade de emergência apresentando ${protocolName.toLowerCase()}. `
+    hda += `Refere sintomatologia de ${chronicityText} e ${onsetText}`
     if (duration && duration !== 'não especificado') {
-      hda += ` há ${duration}`
+      hda += ` com tempo de evolução de aproximadamente ${duration}`
     }
-    hda += `, de ${intensityText} intensidade. `
+    hda += `, referida como ${intensityText}. `
 
-    // Coleta achados positivos separados por categoria
+    // Coleta achados positivos separados por categoria com terminologia médica
     const sintomas: string[] = []
     const localizacao: string[] = []
     const caracteristicas: string[] = []
 
     sections.forEach((section) => {
-      if (section.id !== 'meta_characterization' && section.id !== 'exame_fisico') {
+      // Ignora metadados e exame físico no bloco da HDA
+      if (section.id !== 'meta_characterization' && section.id !== 'exame_fisico' && section.id !== 'general') {
         section.items.forEach((item) => {
           const val = anamnesisData[item.id]
           const label = item.label.toLowerCase()
 
           if (item.type === 'boolean' && val === true) {
-            // Detecta tipo de achado pelo label
             if (label.includes('local') || label.includes('epigástrio') || label.includes('hipocôndrio') || label.includes('fossa')) {
               localizacao.push(label.replace('local da dor:', '').replace('local:', '').trim())
             } else if (label.includes('tipo') || label.includes('irradiação') || label.includes('contínua') || label.includes('intermitente')) {
@@ -348,16 +362,16 @@ export default function Home() {
             } else {
               sintomas.push(label)
             }
-          } else if (item.type === 'segment' && val && typeof val === 'string') {
+          } else if (item.type === 'segment' && val && typeof val === 'string' && val !== 'Não' && val !== 'Ausente') {
             const valLower = val.toLowerCase()
             if (label.includes('local')) {
               localizacao.push(`em ${valLower}`)
             } else if (label.includes('tipo')) {
-              caracteristicas.push(`tipo ${valLower}`)
+              caracteristicas.push(`descrita como ${valLower}`)
             } else if (label.includes('irradiação')) {
               caracteristicas.push(`com irradiação para ${valLower}`)
             } else {
-              caracteristicas.push(valLower)
+              caracteristicas.push(`${label}: ${valLower}`)
             }
           } else if (item.type === 'multiSelect' && Array.isArray(val) && val.length > 0) {
             val.forEach((v: string) => {
@@ -368,32 +382,45 @@ export default function Home() {
                 caracteristicas.push(vLower)
               }
             })
-          } else if (item.type === 'text' && val) {
+          } else if (item.type === 'text' && val && val.trim() !== '') {
             caracteristicas.push(`${label}: ${val}`)
           }
         })
       }
     })
 
-    // Monta texto corrido com achados
-    if (localizacao.length > 0 || caracteristicas.length > 0) {
-      const achadosList: string[] = []
-      if (localizacao.length > 0) {
-        achadosList.push(localizacao.join(' e '))
-      }
-      if (caracteristicas.length > 0) {
-        achadosList.push(caracteristicas.join(', '))
-      }
-      hda += `Apresenta dor ${achadosList.join(', ')}. `
+    // Monta narrativa médica estruturada
+    if (localizacao.length > 0) {
+      hda += `Localiza o quadro álgico principalmente ${localizacao.join(' e ')}. `
+    }
+    
+    if (caracteristicas.length > 0) {
+      hda += `A dor é ${caracteristicas.join(', ')}. `
     }
 
     if (sintomas.length > 0) {
-      hda += `Refere ${sintomas.join(', ')}. `
+      hda += `Associa ao quadro ${sintomas.join(', ')}. `
     }
 
-    // Negativas se não houver achados
-    if (localizacao.length === 0 && caracteristicas.length === 0 && sintomas.length === 0) {
-      hda += `Nega outros sintomas associados até o momento.`
+    // Negativas pertinentes automáticas baseadas no protocolo
+    const sintomasNegativos: string[] = []
+    sections.forEach((section) => {
+      if (section.id !== 'meta_characterization' && section.id !== 'exame_fisico') {
+        section.items.forEach((item) => {
+          if (item.type === 'boolean' && anamnesisData[item.id] === false) {
+             // Só adiciona negativas se forem importantes (ex: náuseas, vômitos, dispneia)
+             if (/náusea|vômito|dispneia|sudorese|desmaio|síncope/i.test(item.label)) {
+                sintomasNegativos.push(item.label.toLowerCase())
+             }
+          }
+        })
+      }
+    })
+
+    if (sintomasNegativos.length > 0) {
+      hda += `Nega ${sintomasNegativos.join(', ')}.`
+    } else {
+      hda += `Nega demais sintomas associados ou intercorrências até o presente momento.`
     }
 
     blocks.push({ id: 'hda', title: 'História da Doença Atual', iconName: 'heart', content: hda.trim() })
@@ -407,13 +434,13 @@ export default function Home() {
     const sinaisObjetivos = [
       'sinal de murphy', 'sinal de blumberg', 'sinal de rovsing', 'sinal de psoas',
       'sinal de giordano', 'sinal de kernig', 'sinal de brudzinski', 'rigidez de nuca',
-      'déficit neurológico', 'abdome em tábua', 'descompressão brusca'
+      'déficit neurológico', 'abdome em tábua', 'descompressão brusca', 'crepitações', 'sibilos'
     ]
 
     if (efSection) {
       efSection.items.forEach((item) => {
         const val = anamnesisData[item.id]
-        if (val) {
+        if (val !== undefined && val !== null && val !== '') {
           const labelLower = item.label.toLowerCase()
           let finding = ''
 
@@ -421,12 +448,13 @@ export default function Home() {
             finding = labelLower
           } else if (item.type === 'multiSelect' && Array.isArray(val) && val.length > 0) {
             finding = `${labelLower}: ${val.join(', ').toLowerCase()}`
-          } else if (val !== false && val !== '' && !Array.isArray(val)) {
+          } else if (item.type === 'segment' && val !== 'Normal' && val !== 'Ausente' && val !== 'Não') {
+            finding = `${labelLower}: ${String(val).toLowerCase()}`
+          } else if (item.type === 'text' && val) {
             finding = `${labelLower}: ${String(val).toLowerCase()}`
           }
 
           if (finding) {
-            // Classifica como sinal objetivo ou achado clínico
             const isSinalObjetivo = sinaisObjetivos.some(s => labelLower.includes(s))
             if (isSinalObjetivo) {
               sinaisObjetivosEF.push(finding)
@@ -438,20 +466,24 @@ export default function Home() {
       })
     }
 
-    // Monta texto corrido do exame físico
-    let efContent = ''
-    if (achadosClinicosEF.length > 0) {
-      efContent += `Apresenta ${achadosClinicosEF.join(', ')}. `
-    }
-    if (sinaisObjetivosEF.length > 0) {
-      efContent += `Evidencia ${sinaisObjetivosEF.join(', ')}.`
+    // Monta texto corrido do exame físico profissional
+    let efContent = 'Ao exame físico segmentar e direcionado, '
+    if (achadosClinicosEF.length > 0 || sinaisObjetivosEF.length > 0) {
+      if (achadosClinicosEF.length > 0) {
+        efContent += `apresenta ${achadosClinicosEF.join(', ')}. `
+      }
+      if (sinaisObjetivosEF.length > 0) {
+        efContent += `À ectoscopia/manobras especiais, evidencia ${sinaisObjetivosEF.join(', ')}.`
+      }
+    } else {
+      efContent += 'não se observa alterações clínicas significativas ou sinais de instabilidade no momento.'
     }
 
     blocks.push({
       id: 'exame_fisico',
       title: 'Exame Físico',
       iconName: 'stethoscope',
-      content: efContent.trim() || 'Sem particularidades ao exame direcionado.',
+      content: efContent.trim(),
     })
 
     // 5. Hypotheses
@@ -478,8 +510,16 @@ export default function Home() {
     })
     blocks.push({ id: 'sources', title: 'Referências', iconName: 'list', content: '' })
 
-    setNoteBlocks(blocks)
-  }, [anamnesisData, patient, activeProtocolId, sections, editingBlockId, activeRedFlags])
+    // Apply manual edits if they exist
+    const finalBlocks = blocks.map(block => {
+      if (manualNoteEdits[block.id]) {
+        return { ...block, content: manualNoteEdits[block.id] }
+      }
+      return block
+    })
+
+    setNoteBlocks(finalBlocks)
+  }, [anamnesisData, patient, activeProtocolId, sections, editingBlockId, activeRedFlags, manualNoteEdits])
 
   // Trigger Note Generation on Data Change
   React.useEffect(() => {
@@ -635,42 +675,170 @@ export default function Home() {
                         />
                      </div>
                   </div>
-                  <div className="hidden xl:flex w-[400px] shrink-0 flex-col h-full overflow-hidden liquid-glass-material rounded-2xl">
-                    <div className="px-6 py-5 border-b border-slate-100/50 dark:border-slate-700/50 flex justify-between items-center bg-transparent shrink-0">
-                      <div className="flex items-center gap-2.5">
-                        <div className="p-1.5 bg-purple-500/10 rounded-lg">
-                          <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                   <div className="hidden xl:flex w-[400px] shrink-0 flex-col h-full overflow-hidden liquid-glass-material !bg-white/10 dark:!bg-black/20 border-l border-white/20 dark:border-white/10 shadow-2xl rounded-[32px]">
+                    <div className="px-6 py-8 border-b border-white/20 dark:border-white/10 flex justify-between items-center bg-transparent shrink-0">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-[14px] bg-gradient-to-br from-purple-500/80 to-indigo-600/80 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
+                          <Sparkles className="w-5 h-5 stroke-[2px]" />
                         </div>
-                        <h3 className="font-bold text-sm text-slate-800 dark:text-white tracking-wide">
-                          Nota Inteligente
-                        </h3>
+                        <div>
+                          <h3 className="font-bold text-[16px] text-slate-800 dark:text-white tracking-tight leading-none">
+                            Nota Inteligente
+                          </h3>
+                          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.1em] mt-1.5 opacity-80">
+                            Processamento Real-time
+                          </p>
+                        </div>
                       </div>
-                      <div className="flex gap-1">
-                        <Button variant="ghost" size="icon" onClick={() => setIsUppercaseMode(!isUppercaseMode)} title="Maiúsculas">
-                           <CaseUpper className="w-4 h-4" />
+                      <div className="flex gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={() => setIsUppercaseMode(!isUppercaseMode)} 
+                          title="Maiúsculas"
+                          className="w-10 h-10 rounded-xl hover:bg-white/20 dark:hover:bg-white/5 transition-all"
+                        >
+                           <CaseUpper className={`w-4 h-4 ${isUppercaseMode ? 'text-blue-500' : ''}`} />
                         </Button>
-                        <Button variant="ghost" size="icon" onClick={handlePrint} title="Imprimir">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          onClick={handlePrint} 
+                          title="Imprimir"
+                          className="w-10 h-10 rounded-xl hover:bg-white/20 dark:hover:bg-white/5 transition-all"
+                        >
                            <Printer className="w-4 h-4" />
                         </Button>
                       </div>
                     </div>
-                    <div className="flex-1 p-6 space-y-4 overflow-y-auto custom-scrollbar bg-transparent">
-                       {noteBlocks.map((block) => (
-                         <div key={block.id} className="group rounded-2xl border p-4 transition-all bg-white/80 dark:bg-slate-800/80 backdrop-blur-md border-slate-100 dark:border-slate-700/50">
-                           {/* ... content of note blocks ... */}
-                         </div>
-                       ))}
-                    </div>
-                    <div className="p-5 border-t border-slate-100/50 dark:border-slate-700/50 bg-transparent relative z-10">
+
+                    <div className="flex-1 p-6 space-y-5 overflow-y-auto custom-scrollbar bg-transparent">
+                        <AnimatePresence mode="popLayout">
+                        {noteBlocks.map((block) => (
+                          <motion.div 
+                            key={block.id} 
+                            layout
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            onDoubleClick={() => setEditingNoteBlockId(block.id)}
+                            className={`
+                              group relative rounded-[24px] border p-5 transition-all duration-300
+                              bg-white/40 dark:bg-white/5 backdrop-blur-md border-white/40 dark:border-white/10 
+                              hover:shadow-xl hover:bg-white/60 dark:hover:bg-white/10 hover:scale-[1.01]
+                              ${editingNoteBlockId === block.id ? 'ring-2 ring-blue-500/50 bg-white/80 dark:bg-white/10 z-20' : ''}
+                            `}
+                          >
+                            <div className="flex justify-between items-start mb-3">
+                              <div className="flex items-center gap-2.5">
+                                <div className={`p-1.5 rounded-lg ${block.id === 'safety_check' ? 'bg-rose-500/20 text-rose-500' : 'bg-slate-100 dark:bg-white/5 text-slate-400'}`}>
+                                  <BlockIcon name={block.iconName} />
+                                </div>
+                                <span className={`text-[11px] font-bold uppercase tracking-widest ${block.id === 'safety_check' ? 'text-rose-500' : 'text-slate-400 dark:text-slate-500'}`}>
+                                  {block.title}
+                                </span>
+                              </div>
+                              <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
+                                {editingNoteBlockId === block.id ? (
+                                  <button 
+                                    onClick={() => setEditingNoteBlockId(null)}
+                                    className="p-2 rounded-xl bg-blue-500 text-white shadow-lg shadow-blue-500/30 transition-all"
+                                    title="Salvar"
+                                  >
+                                    <Check className="w-4 h-4" />
+                                  </button>
+                                ) : (
+                                  <button 
+                                    onClick={() => copyBlockToClipboard(block.content, block.id)}
+                                    className="p-2 rounded-xl hover:bg-blue-500/10 hover:text-blue-500 text-slate-400 transition-all"
+                                    title="Copiar bloco"
+                                  >
+                                    {copiedId === block.id ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                            
+                            {editingNoteBlockId === block.id ? (
+                              <textarea
+                                autoFocus
+                                value={manualNoteEdits[block.id] !== undefined ? manualNoteEdits[block.id] : block.content}
+                                onChange={(e) => setManualNoteEdits(prev => ({ ...prev, [block.id]: e.target.value }))}
+                                onBlur={() => setEditingNoteBlockId(null)}
+                                className="w-full bg-transparent border-0 focus:ring-0 p-0 text-[15px] leading-relaxed font-medium text-slate-800 dark:text-white resize-none min-h-[100px] outline-none"
+                                placeholder="Edite o texto aqui..."
+                              />
+                            ) : (
+                              <p className={`
+                                text-[15px] leading-relaxed transition-all tracking-tight select-text
+                                ${isUppercaseMode ? 'uppercase' : ''}
+                                ${block.id === 'safety_check' ? 'text-rose-600 dark:text-rose-400 font-bold' : 'text-slate-700 dark:text-slate-200 font-medium'}
+                              `}>
+                                {block.content.split(/(\*\*.+?\*\*)/g).map((part, i) => {
+                                  if (part.startsWith('**') && part.endsWith('**')) {
+                                    return <strong key={part + i}>{part.slice(2, -2)}</strong>
+                                  }
+                                  return part
+                                })}
+                              </p>
+                            )}
+
+                            {block.alerts && block.alerts.length > 0 && (
+                              <div className="mt-4 flex flex-wrap gap-2">
+                                {block.alerts.map((alert, i) => (
+                                  <motion.span 
+                                    key={i}
+                                    initial={{ scale: 0.9 }}
+                                    animate={{ scale: 1 }}
+                                    className="px-3 py-1 rounded-full bg-rose-500/10 text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider border border-rose-500/20 shadow-sm"
+                                  >
+                                    {alert}
+                                  </motion.span>
+                                ))}
+                              </div>
+                            )}
+                          </motion.div>
+                        ))}
+                        </AnimatePresence>
+
+                        {noteBlocks.length === 0 && (
+                          <div className="h-full flex flex-col items-center justify-center text-center p-10 space-y-6">
+                            <div className="w-20 h-20 rounded-[28px] bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-300 dark:text-slate-600 border border-slate-200/50 dark:border-white/5 shadow-inner">
+                              <FileText className="w-10 h-10" />
+                            </div>
+                            <div className="max-w-[200px]">
+                              <p className="text-slate-400 dark:text-slate-500 font-semibold text-[15px] leading-tight italic">
+                                Preencha o atendimento para gerar a nota automática
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                     </div>
+
+                    <div className="p-6 border-t border-white/20 dark:border-white/10 bg-transparent relative z-10">
                       <div className="relative">
-                        <Button onClick={() => setIsFlowMenuOpen(!isFlowMenuOpen)} size="lg" className="w-full group">
-                           <GitBranch className="w-5 h-5 mr-2 transition-transform duration-500 group-hover:rotate-180" />
+                        <Button 
+                          onClick={() => setIsFlowMenuOpen(!isFlowMenuOpen)} 
+                          size="lg" 
+                          className="w-full h-14 rounded-[20px] bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-xl shadow-blue-500/25 group border-0 text-[16px] font-bold"
+                        >
+                           <GitBranch className="w-5 h-5 mr-3 transition-transform duration-700 group-hover:rotate-180" />
                            Definir Fluxo
                         </Button>
                         {isFlowMenuOpen && (
-                          <div className="absolute bottom-full left-0 right-0 z-20 mb-3 w-full animate-in fade-in slide-in-from-bottom-2 duration-200">
-                            <div className="p-2 liquid-glass-material rounded-2xl">
-                              {/* ... options ... */}
+                          <div className="absolute bottom-full left-0 right-0 z-20 mb-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-300 ease-out">
+                            <div className="p-2 liquid-glass-material !bg-white/80 dark:!bg-black/60 backdrop-blur-2xl rounded-[28px] border border-white/40 dark:border-white/10 shadow-2xl">
+                               <div className="grid grid-cols-1 gap-1">
+                                  {['Ambulatorial', 'Observação', 'Internação', 'UTI', 'Emergência'].map((status) => (
+                                    <button
+                                      key={status}
+                                      onClick={() => handleSetFlow(status.toLowerCase() as any)}
+                                      className="px-4 py-3.5 rounded-[18px] text-[14px] font-bold text-left hover:bg-blue-500/10 hover:text-blue-500 dark:hover:bg-white/10 dark:hover:text-white transition-all transition-colors"
+                                    >
+                                      {status}
+                                    </button>
+                                  ))}
+                               </div>
                             </div>
                           </div>
                         )}

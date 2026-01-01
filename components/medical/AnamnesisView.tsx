@@ -5,8 +5,9 @@ import { useEffect, useState, useMemo } from 'react';
 import {
   Search, Save, Check, AlertTriangle,
   Activity, Thermometer, Stethoscope, FileText,
-  Plus, ChevronRight, Info, Calculator, BookOpen
+  Plus, ChevronRight, Info, Calculator, BookOpen, X
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { AnamnesisSection, Symptom, Patient } from '@/lib/types/medical';
 import { AutoRedFlagAlert } from './AutoRedFlagAlert';
 import { detectRedFlags, DetectionResult } from '@/lib/anamnese/red-flag-detector';
@@ -319,6 +320,68 @@ const ConductPanel: React.FC<ConductPanelProps> = ({ content, isExpanded, onTogg
   );
 };
 
+// 6. Floating Calculator Card (For Red Flags)
+interface FloatingCalculatorCardProps {
+  calculators: { id: string; name: string; description: string }[];
+  onClick: (name: string) => void;
+  onDismiss: () => void;
+}
+
+const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calculators, onClick, onDismiss }) => {
+  if (calculators.length === 0) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 50, scale: 0.9 }}
+      animate={{ opacity: 1, x: 0, scale: 1 }}
+      exit={{ opacity: 0, x: 50, scale: 0.9 }}
+      className="fixed bottom-24 right-8 z-[100] w-[320px]"
+    >
+      <div className="liquid-glass-material !bg-white/70 dark:!bg-black/60 backdrop-blur-2xl rounded-[32px] border border-white/40 dark:border-white/10 shadow-2xl p-5 overflow-hidden group">
+        <div className="flex justify-between items-start mb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+              <Calculator className="w-5 h-5" />
+            </div>
+            <div>
+              <h4 className="text-[14px] font-bold text-slate-800 dark:text-white leading-tight">Sugestão Técnica</h4>
+              <p className="text-[10px] font-bold text-blue-500 uppercase tracking-wider mt-0.5">Estratificação de Risco</p>
+            </div>
+          </div>
+          <button 
+            onClick={onDismiss}
+            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+
+        <div className="space-y-2">
+          {calculators.map((calc) => (
+            <button
+              key={calc.id}
+              onClick={() => onClick(calc.name)}
+              className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-blue-500/5 hover:bg-blue-500/10 border border-blue-500/10 transition-all text-left group/btn"
+            >
+              <div className="min-w-0 pr-4">
+                <p className="text-[13px] font-bold text-slate-700 dark:text-slate-200 truncate">{calc.name}</p>
+                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5 truncate">{calc.description}</p>
+              </div>
+              <ChevronRight className="w-4 h-4 text-blue-500 transition-transform group-hover/btn:translate-x-1" />
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-4 pt-3 border-t border-slate-200/50 dark:border-white/5">
+          <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed italic">
+            Baseado nos sinais de alerta detectados durante a anamnese.
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 // --- MAIN COMPONENT ---
 
 interface AnamnesisViewProps {
@@ -341,6 +404,7 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
 }) => {
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
   const [showConduct, setShowConduct] = useState(false);
+  const [isCalculatorDismissed, setIsCalculatorDismissed] = useState(false);
 
   // Carrega dados do Obsidian se complaintId fornecido
   const complaintData = useMemo(() => {
@@ -472,8 +536,21 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
   const calculators = formConfig?.calculators || [];
   const initialConduct = extendedContent?.condutaInicial || '';
 
+  // Show floating card if red flag is detected and there are relevant calculators
+  const showFloatingCalculators = redFlagResult.hasRedFlags && calculators.length > 0 && !isCalculatorDismissed;
+
   return (
     <div className="flex h-full gap-5 animate-in fade-in zoom-in-95 duration-500">
+      
+      <AnimatePresence>
+        {showFloatingCalculators && (
+          <FloatingCalculatorCard 
+            calculators={calculators}
+            onClick={(name) => onCalculatorClick?.(name)}
+            onDismiss={() => setIsCalculatorDismissed(true)}
+          />
+        )}
+      </AnimatePresence>
 
       {/* 0. ALERT AREA - Fixed at top */}
       {redFlagResult.hasRedFlags && (
