@@ -48,6 +48,8 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollap
       <motion.button
         onClick={onClick}
         title={isCollapsed ? label : undefined}
+        aria-label={label}
+        aria-current={isActive ? 'page' : undefined}
         className={`
           relative flex items-center transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] outline-none
           ${isCollapsed ? 'justify-center w-[60px] h-[60px]' : 'w-full px-4 py-3'}
@@ -276,9 +278,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Navigation Groups */}
-      <nav className={`flex-1 overflow-y-auto space-y-10 py-6 custom-scrollbar relative z-10 transition-all duration-500 ${isCollapsed ? 'px-0' : 'px-4'}`}>
+      <nav
+        className={`flex-1 overflow-y-auto space-y-10 py-6 custom-scrollbar relative z-10 transition-all duration-500 ${isCollapsed ? 'px-0' : 'px-4'}`}
+        role="navigation"
+        aria-label="Navegação principal"
+      >
         {/* Main Group */}
-        <ul className="space-y-1">
+        <ul className="space-y-1" role="list">
           {menuGroups.main.map((item) => (
             <NavItem
               key={item.id}
@@ -295,7 +301,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           className={`h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent ${isCollapsed ? 'mx-2' : 'mx-6'}`}
         ></div>
 
-        <ul className="space-y-1">
+        <ul className="space-y-1" role="list" aria-label="Registros">
           {menuGroups.records.map((item) => (
             <NavItem
               key={item.id}
@@ -310,9 +316,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
         <div
           className={`h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent ${isCollapsed ? 'mx-2' : 'mx-6'}`}
+          role="separator"
         ></div>
 
-        <ul className="space-y-1">
+        <ul className="space-y-1" role="list" aria-label="Sistema">
           {menuGroups.system.map((item) => (
             <NavItem
               key={item.id}
@@ -361,6 +368,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   }
                `}
             title={theme === 'dark' ? 'Mudar para Claro' : 'Mudar para Escuro'}
+            aria-label={`Mudar para tema ${theme === 'dark' ? 'claro' : 'escuro'}`}
+            aria-pressed={theme === 'dark'}
+            role="switch"
           >
             {/* The Thumb (Knob) */}
             {/* Size 22px is ~61% of Track Height (36px) - Perfect Apple Proportions */}

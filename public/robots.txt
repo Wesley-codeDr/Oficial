@@ -1,0 +1,85 @@
+# WellWave - Medical Anamnesis System
+# Robots.txt - Search Engine Crawling Guidelines
+
+# Allow all crawlers to access public pages
+User-agent: *
+Allow: /
+
+# Block access to API routes (backend only)
+Disallow: /api/
+
+# Block access to admin routes (requires authentication)
+Disallow: /admin/
+
+# Block access to protected dashboard routes
+Disallow: /(dashboard)/
+Disallow: /dashboard/
+Disallow: /anamnese/
+Disallow: /chat/
+Disallow: /history/
+
+# Block access to authentication pages (no need to index)
+Disallow: /login
+Disallow: /register
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /auth/
+
+# Block access to monitoring/debugging endpoints
+Disallow: /monitoring
+Disallow: /_next/
+Disallow: /_vercel/
+
+# Sitemap location
+Sitemap: https://wellwave.com.br/sitemap.xml
+
+# ============================================
+# Specific Bot Instructions
+# ============================================
+
+# Google Bot
+User-agent: Googlebot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /(dashboard)/
+Disallow: /auth/
+
+# Bing Bot
+User-agent: Bingbot
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /(dashboard)/
+Disallow: /auth/
+
+# Block AI scrapers and content harvesters
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+# ============================================
+# Notes:
+# - This file prevents search engines from indexing
+#   private/authenticated areas of the application
+# - Medical data and patient information are never
+#   publicly accessible or indexed
+# - Update Sitemap URL when deploying to production
+# ============================================

@@ -2,7 +2,18 @@
 
 import { createServerClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
+import { headers } from 'next/headers'
 import { z } from 'zod'
+import { authLimiter } from '@/lib/rate-limit'
+
+// Strong password schema
+const passwordSchema = z
+  .string()
+  .min(12, 'Senha deve ter no mínimo 12 caracteres')
+  .regex(/[A-Z]/, 'Deve conter ao menos uma letra maiúscula')
+  .regex(/[a-z]/, 'Deve conter ao menos uma letra minúscula')
+  .regex(/[0-9]/, 'Deve conter ao menos um número')
+  .regex(/[^A-Za-z0-9]/, 'Deve conter ao menos um caractere especial (!@#$%^&*)')
 
 const loginSchema = z.object({
   email: z.string().email('Email inválido'),
@@ -11,7 +22,7 @@ const loginSchema = z.object({
 
 const registerSchema = z.object({
   email: z.string().email('Email inválido'),
-  password: z.string().min(6, 'Senha deve ter pelo menos 6 caracteres'),
+  password: passwordSchema,
   fullName: z.string().min(3, 'Nome completo obrigatório'),
   crmNumber: z.string().min(4, 'CRM obrigatório'),
   crmState: z.string().length(2, 'UF do CRM deve ter 2 caracteres'),
@@ -23,6 +34,19 @@ export type AuthState = {
 }
 
 export async function login(_prevState: AuthState, formData: FormData): Promise<AuthState> {
+  // Rate limiting check
+  try {
+    const headersList = await headers()
+    const mockRequest = new Request('http://localhost', {
+      headers: headersList,
+    })
+    await authLimiter.check(mockRequest, 5) // 5 tentativas por minuto
+  } catch (rateLimitError) {
+    return {
+      error: 'Muitas tentativas de login. Aguarde alguns minutos antes de tentar novamente.'
+    }
+  }
+
   const rawData = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -48,6 +72,19 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
 }
 
 export async function register(_prevState: AuthState, formData: FormData): Promise<AuthState> {
+  // Rate limiting check
+  try {
+    const headersList = await headers()
+    const mockRequest = new Request('http://localhost', {
+      headers: headersList,
+    })
+    await authLimiter.check(mockRequest, 3) // 3 tentativas por minuto (mais restritivo)
+  } catch (rateLimitError) {
+    return {
+      error: 'Muitas tentativas de registro. Aguarde alguns minutos antes de tentar novamente.'
+    }
+  }
+
   const rawData = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -92,6 +129,19 @@ export async function logout() {
 }
 
 export async function forgotPassword(_prevState: AuthState, formData: FormData): Promise<AuthState> {
+  // Rate limiting check
+  try {
+    const headersList = await headers()
+    const mockRequest = new Request('http://localhost', {
+      headers: headersList,
+    })
+    await authLimiter.check(mockRequest, 3) // 3 tentativas por minuto
+  } catch (rateLimitError) {
+    return {
+      error: 'Muitas tentativas. Aguarde alguns minutos antes de tentar novamente.'
+    }
+  }
+
   const email = formData.get('email') as string
 
   if (!email || !z.string().email().safeParse(email).success) {
@@ -105,7 +155,8 @@ export async function forgotPassword(_prevState: AuthState, formData: FormData):
   })
 
   if (error) {
-    return { error: 'Erro ao enviar email. Tente novamente.' }
+    // Não revela se o email existe ou não (segurança)
+    return { success: true }
   }
 
   return { success: true }

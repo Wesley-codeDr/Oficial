@@ -82,6 +82,8 @@ model RedFlagRule {
   syndrome      Syndrome        @relation(fields: [syndromeId], references: [id], onDelete: Cascade)
 
   @@index([syndromeId])
+  @@index([isActive]) // NOVO - para filtrar apenas regras ativas
+  @@index([syndromeId, isActive]) // NOVO - compound index para buscar regras ativas de uma síndrome
   @@map("red_flag_rules")
 }
 
@@ -104,6 +106,8 @@ model AnamneseSession {
   @@index([userId])
   @@index([syndromeId])
   @@index([startedAt])
+  @@index([createdAt]) // NOVO - para ordenação temporal e queries recentes
+  @@index([userId, createdAt]) // NOVO - compound index para busca de sessões por usuário ordenadas por data
   @@map("anamnese_sessions")
 }
 
@@ -120,6 +124,9 @@ model ChatConversation {
 
   @@index([userId])
   @@index([sessionId])
+  @@index([createdAt]) // NOVO - para ordenação temporal
+  @@index([updatedAt]) // NOVO - para buscar conversas recentes
+  @@index([userId, updatedAt]) // NOVO - compound index para listar conversas do usuário ordenadas
   @@map("chat_conversations")
 }
 
