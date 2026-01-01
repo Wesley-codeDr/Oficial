@@ -289,3 +289,311 @@ export function generateMarkdownContent(complaint: ParsedComplaint): string {
 
   return sections.join('\n');
 }
+
+// ============================================================================
+// Funções de Parsing EBM (Evidence-Based Medicine)
+// ============================================================================
+
+import type {
+  RedFlag,
+  MedicationRecommendation,
+  EBMCitation,
+  DifferentialDiagnosis,
+  RedFlagSeverity,
+  MedicationRoute,
+  EvidenceLevel,
+  EBMSource,
+  DiagnosisProbability,
+} from '../../../lib/types/medical';
+
+/**
+ * Parseia Red Flags estruturados com severidade
+ *
+ * Formato esperado:
+ * ## Red Flags 🚩
+ *
+ * ### Críticos (Risco de Morte Imediato)
+ * - [ ] [Descrição]
+ *   - **Ação**: [Ação imediata]
+ *   - **Fonte**: [[referência]]
+ */
+export function parseRedFlagsStructured(content: string): RedFlag[] {
+  const redFlags: RedFlag[] = [];
+
+  // Extrai seção de Red Flags
+  const redFlagSection = content.match(/## Red Flags[\s\S]*?(?=\n##\s|$)/);
+  if (!redFlagSection) return redFlags;
+
+  const section = redFlagSection[0];
+
+  // Parseia seções por severidade
+  const severityMap: Record<string, RedFlagSeverity> = {
+    'Críticos': 'critical',
+    'Alertas': 'warning',
+    'Atenção': 'caution',
+  };
+
+  Object.entries(severityMap).forEach(([keyword, severity]) => {
+    const severityRegex = new RegExp(`### ${keyword}[\\s\\S]*?(?=\\n###|\\n##|$)`);
+    const severityMatch = section.match(severityRegex);
+
+    if (severityMatch) {
+      const severityContent = severityMatch[0];
+
+      // Extrai checkboxes com detalhes
+      const lines = severityContent.split('\n');
+      let i = 0;
+
+      while (i < lines.length) {
+        const line = lines[i];
+
+        if (line.trim().startsWith('- [ ]')) {
+          const description = line.replace('- [ ]', '').trim();
+          let immediateAction = 'Avaliar imediatamente';
+          let timeToAction: number | undefined;
+
+          // Procura por linhas de detalhes
+          i++;
+          while (i < lines.length && lines[i].trim().startsWith('-')) {
+            const detailLine = lines[i].trim();
+
+            // Extrai ação
+            const actionMatch = detailLine.match(/\*\*Ação\*\*:\s*(.+)/);
+            if (actionMatch) {
+              immediateAction = actionMatch[1].trim();
+
+              // Extrai tempo da ação (ex: <10min)
+              const timeMatch = immediateAction.match(/<(\d+)min/);
+              if (timeMatch) {
+                timeToAction = parseInt(timeMatch[1]);
+              }
+            }
+
+            i++;
+          }
+
+          redFlags.push({
+            description,
+            severity,
+            clinicalSignificance: `Red flag de severidade ${severity}`,
+            immediateAction,
+            timeToAction,
+          });
+
+          continue;
+        }
+
+        i++;
+      }
+    }
+  });
+
+  return redFlags;
+}
+
+/**
+ * Parseia Medicações estruturadas com doses e flags SUS/RENAME
+ *
+ * Formato esperado:
+ * ## Medicações
+ *
+ * #### Nome Genérico
+ * - **Dose**: 300mg VO
+ * - **SUS**: ✅ Sim (RENAME Lista A)
+ * - **Evidência**: Nível A
+ * - **Referência**: [[link]]
+ */
+export function parseMedicationsTable(content: string): MedicationRecommendation[] {
+  const medications: MedicationRecommendation[] = [];
+
+  // Extrai seção de Medicações
+  const medSection = content.match(/## Medicações[\s\S]*?(?=\n##\s|$)/);
+  if (!medSection) return medications;
+
+  const section = medSection[0];
+
+  // Parseia cada medicação (#### Nome)
+  const medRegex = /####\s+(.+?)\n([\s\S]*?)(?=\n####|\n##|$)/g;
+  let match;
+
+  while ((match = medRegex.exec(section)) !== null) {
+    const genericName = match[1].trim();
+    const details = match[2];
+
+    // Extrai dose
+    const doseMatch = details.match(/\*\*Dose\*\*:\s*(.+?)(?=\n|$)/m);
+    const doseString = doseMatch ? doseMatch[1].trim() : '';
+
+    // Parse dose e via
+    const routeMatch = doseString.match(/(VO|IV|IM|SC|Inalatório|Tópico|SL|Retal|Nasal|Ocular)/);
+    const route = (routeMatch ? routeMatch[1] : 'VO') as MedicationRoute;
+    const dose = doseString.replace(route, '').trim();
+
+    // Extrai frequência (se houver)
+    const freqMatch = details.match(/\*\*Frequência\*\*:\s*(.+?)(?=\n|$)/m);
+    const frequency = freqMatch ? freqMatch[1].trim() : '1x/dia';
+
+    // Extrai SUS
+    const susMatch = details.match(/\*\*SUS\*\*:\s*(✅|❌)\s*(Sim|Não)/);
+    const susAvailable = susMatch ? susMatch[1] === '✅' : false;
+
+    // Extrai RENAME
+    const renameMatch = details.match(/RENAME Lista ([ABC])/);
+    const renameList = renameMatch ? renameMatch[1] as 'A' | 'B' | 'C' : undefined;
+    const renameCompatible = !!renameList;
+
+    // Extrai evidência
+    const evidenceMatch = details.match(/\*\*Evidência\*\*:\s*Nível ([ABCD])/);
+    const evidenceLevel = evidenceMatch ? evidenceMatch[1] as EvidenceLevel : undefined;
+
+    medications.push({
+      genericName,
+      dose,
+      route,
+      frequency,
+      susAvailable,
+      renameCompatible,
+      renameList,
+      evidenceLevel,
+    });
+  }
+
+  return medications;
+}
+
+/**
+ * Parseia Citações EBM
+ *
+ * Formato esperado:
+ * ## Referências EBM
+ *
+ * ### UpToDate
+ * 1. [[uptodate-titulo]]
+ *    - PMID: 12345678
+ *    - Evidence: A
+ */
+export function parseEBMCitations(content: string): EBMCitation[] {
+  const citations: EBMCitation[] = [];
+
+  // Extrai seção de Referências EBM
+  const refSection = content.match(/## Referências EBM[\s\S]*?(?=\n##\s|$)/);
+  if (!refSection) return citations;
+
+  const section = refSection[0];
+
+  // Detecta fonte (UpToDate, DynaMed, Diretrizes Brasileiras)
+  const sourceMap: Record<string, EBMSource> = {
+    'UpToDate': 'uptodate',
+    'DynaMed': 'dynamed',
+    'Diretrizes Brasileiras': 'brazilian-guideline',
+    'SBC': 'sbc',
+    'SBPT': 'sbpt',
+  };
+
+  Object.entries(sourceMap).forEach(([keyword, source]) => {
+    const sourceRegex = new RegExp(`### ${keyword}[\\s\\S]*?(?=\\n###|\\n##|$)`);
+    const sourceMatch = section.match(sourceRegex);
+
+    if (sourceMatch) {
+      const sourceContent = sourceMatch[0];
+
+      // Extrai citações (numeradas com [[]])
+      const citationRegex = /\d+\.\s*\[\[(.+?)\]\]([\s\S]*?)(?=\n\d+\.|\n###|\n##|$)/g;
+      let match;
+
+      while ((match = citationRegex.exec(sourceContent)) !== null) {
+        const title = match[1].trim();
+        const details = match[2] || '';
+
+        // Extrai PMID
+        const pmidMatch = details.match(/PMID:\s*(\d{8})/);
+        const pmid = pmidMatch ? pmidMatch[1] : undefined;
+
+        // Extrai DOI
+        const doiMatch = details.match(/DOI:\s*(10\.\S+)/);
+        const doi = doiMatch ? doiMatch[1] : undefined;
+
+        // Extrai Evidence level
+        const evidenceMatch = details.match(/Evidence:\s*([ABCD])/);
+        const evidenceLevel = evidenceMatch ? evidenceMatch[1] as EvidenceLevel : undefined;
+
+        // Extrai URL
+        const urlMatch = details.match(/URL:\s*(.+?)(?=\n|$)/);
+        const url = urlMatch ? urlMatch[1].trim() : undefined;
+
+        citations.push({
+          source,
+          title,
+          pmid,
+          doi,
+          url,
+          evidenceLevel,
+          lastAccessed: new Date().toISOString(),
+        });
+      }
+    }
+  });
+
+  return citations;
+}
+
+/**
+ * Parseia Tabela de Diagnóstico Diferencial
+ *
+ * Formato esperado:
+ * ## Diagnóstico Diferencial
+ *
+ * | Condição | ICD-10 | Probabilidade | Características | Referência |
+ * |----------|--------|---------------|-----------------|------------|
+ * | IAM | I21.9 | Alta | Dor típica, troponina+ | [[ref]] |
+ */
+export function parseDifferentialDiagnosisTable(content: string): DifferentialDiagnosis[] {
+  const diagnoses: DifferentialDiagnosis[] = [];
+
+  // Extrai seção de Diagnóstico Diferencial
+  const ddSection = content.match(/## Diagnóstico Diferencial.*?(?=##|$)/s);
+  if (!ddSection) return diagnoses;
+
+  const section = ddSection[0];
+
+  // Extrai tabela markdown
+  const tableRegex = /\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|(.+?)\|/g;
+  let match;
+  let isHeader = true;
+
+  while ((match = tableRegex.exec(section)) !== null) {
+    // Pula header e separator
+    if (isHeader) {
+      isHeader = false;
+      continue;
+    }
+
+    const condition = match[1].trim();
+    const icd10 = match[2].trim();
+    const probabilityText = match[3].trim().toLowerCase();
+    const characteristics = match[4].trim();
+
+    // Skip separator row
+    if (condition.includes('---')) continue;
+
+    // Map probabilidade
+    let probability: DiagnosisProbability = 'medium';
+    if (probabilityText.includes('alta') || probabilityText.includes('high')) {
+      probability = 'high';
+    } else if (probabilityText.includes('baixa') || probabilityText.includes('low')) {
+      probability = 'low';
+    }
+
+    // Parse características
+    const keyFeatures = characteristics.split(',').map(f => f.trim());
+
+    diagnoses.push({
+      condition,
+      icd10: icd10 !== '-' ? icd10 : undefined,
+      probability,
+      keyFeatures,
+    });
+  }
+
+  return diagnoses;
+}

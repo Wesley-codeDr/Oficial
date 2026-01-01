@@ -49,6 +49,83 @@ export const SYNC_CONFIG = {
     commonMisconceptions: 'commonMisconceptions',
     lastSync: 'lastSync',
   } as Record<string, string>,
+
+  // ========== CONFIGURAÇÃO EBM (Evidence-Based Medicine) ==========
+
+  ebm: {
+    // Pasta de referências EBM no Obsidian
+    referencesFolder: '03-Referencias-MBE',
+
+    // Arquivo de medicações RENAME
+    medicationsFile: 'Medicacoes/RENAME-Index.md',
+
+    // Campos obrigatórios EBM no frontmatter
+    requiredEBMFields: ['ebm_version', 'last_ebm_review'],
+
+    // Validar compatibilidade SUS
+    validateSUS: true,
+
+    // Validar compatibilidade RENAME
+    validateRENAME: true,
+
+    // Fontes de citação aceitas
+    citationSources: [
+      'uptodate',
+      'dynamed',
+      'brazilian-guideline',
+      'cochrane',
+      'pubmed',
+      'sbim',
+      'sbc',
+      'sbpt',
+      'amb',
+      'ms',
+    ] as const,
+
+    // Níveis de evidência aceitos (Oxford CEBM)
+    evidenceLevels: ['A', 'B', 'C', 'D'] as const,
+
+    // Vias de administração aceitas
+    medicationRoutes: [
+      'VO',
+      'IV',
+      'IM',
+      'SC',
+      'Inalatório',
+      'Tópico',
+      'SL',
+      'Retal',
+      'Nasal',
+      'Ocular',
+    ] as const,
+
+    // Listas RENAME
+    renameLists: ['A', 'B', 'C'] as const,
+
+    // Severidades de red flags
+    redFlagSeverities: ['critical', 'warning', 'caution'] as const,
+
+    // Probabilidades de diagnóstico diferencial
+    diagnosisProbabilities: ['high', 'medium', 'low'] as const,
+  },
+
+  // Mapeamento de campos EBM frontmatter → TypeScript
+  ebmFieldMapping: {
+    // Frontmatter → TypeScript (extendedContent)
+    ebm_version: 'ebmVersion',
+    last_ebm_review: 'lastEBMReview',
+    evidence_quality: 'evidenceQuality',
+    uptodate_reviewed: 'uptodateReviewed',
+    dynamed_reviewed: 'dynamedReviewed',
+    brazilian_guidelines: 'brazilianGuidelines',
+    sus_protocol_compatible: 'susProtocolCompatible',
+    rename_medications_only: 'renameMedicationsOnly',
+    sus_guidelines: 'susGuidelines',
+    brazilian_epidemiology: 'brazilianEpidemiology',
+    brazilian_adaptations: 'brazilianAdaptations',
+    sus_diagnostic_availability: 'susDiagnosticAvailability',
+    sus_referral_pathway: 'susReferralPathway',
+  } as Record<string, string>,
 };
 
 // Paths absolutos calculados
@@ -57,6 +134,29 @@ export const PATHS = {
   queixas: path.join(SYNC_CONFIG.obsidianVault, SYNC_CONFIG.queixasFolder),
   protocolos: path.join(SYNC_CONFIG.obsidianVault, SYNC_CONFIG.protocolosFolder),
   complaintsData: path.resolve(process.cwd(), SYNC_CONFIG.complaintsDataPath),
+
+  // Paths EBM
+  ebmReferences: path.join(SYNC_CONFIG.obsidianVault, SYNC_CONFIG.ebm.referencesFolder),
+  ebmMedications: path.join(
+    SYNC_CONFIG.obsidianVault,
+    SYNC_CONFIG.ebm.referencesFolder,
+    SYNC_CONFIG.ebm.medicationsFile
+  ),
+  ebmUpToDate: path.join(
+    SYNC_CONFIG.obsidianVault,
+    SYNC_CONFIG.ebm.referencesFolder,
+    'UpToDate'
+  ),
+  ebmDynaMed: path.join(
+    SYNC_CONFIG.obsidianVault,
+    SYNC_CONFIG.ebm.referencesFolder,
+    'DynaMed'
+  ),
+  ebmBrazilianGuidelines: path.join(
+    SYNC_CONFIG.obsidianVault,
+    SYNC_CONFIG.ebm.referencesFolder,
+    'Diretrizes-Brasileiras'
+  ),
 };
 
 // Grupos válidos
