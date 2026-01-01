@@ -276,10 +276,11 @@ Seções adicionadas:
 ## 🔄 Próximos Passos Recomendados
 
 ### Alta Prioridade
+
+- [ ] **Executar migração Prisma** - Ver [`MIGRATION_GUIDE.md`](./MIGRATION_GUIDE.md)
 - [ ] Criar imagens OpenGraph (`og-image.png` 1200x630px)
 - [ ] Criar Twitter Card image (`twitter-image.png` 1200x600px)
 - [ ] Criar favicons completos (16x16, 32x32, 180x180)
-- [ ] Executar migração Prisma para aplicar indexes
 
 ### Média Prioridade
 - [ ] Criar testes de autenticação (Vitest)
