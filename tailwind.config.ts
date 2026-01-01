@@ -55,8 +55,11 @@ const config: Config = {
           '4': 'hsl(var(--chart-4))',
           '5': 'hsl(var(--chart-5))',
         },
-        // Medical-specific colors
+        // Medical-specific colors (WellWave Palette)
         medical: {
+          primary: '#004e92', // Deep Ocean Blue
+          secondary: '#00c6ff', // Cyan/Teal
+          accent: '#eef2f3', // Soft Light Blue
           redFlag: '#FF3B30',
           warning: '#FF9500',
           safe: '#34C759',
@@ -72,11 +75,18 @@ const config: Config = {
           pink: '#FF2D55',
           teal: '#5AC8FA',
         },
+        // Glass effect specific colors
+        glass: {
+          background: 'rgba(0, 78, 146, 0.15)', // Tinted with medical-primary
+          border: 'rgba(255, 255, 255, 0.2)',
+          highlight: 'rgba(255, 255, 255, 0.05)',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        '3xl': '1.5rem', // For the glass card
       },
       animation: {
         // Animações suaves estilo Apple
@@ -133,6 +143,7 @@ const config: Config = {
       },
       backdropBlur: {
         xs: '2px',
+        xl: '20px', 
       },
       transitionTimingFunction: {
         apple: 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -143,7 +154,7 @@ const config: Config = {
         apple: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         'apple-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         'apple-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+        glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37), 0 25px 50px -12px rgba(0, 0, 0, 0.25)', // Enhanced glass shadow
       },
     },
   },

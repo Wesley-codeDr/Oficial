@@ -1,10 +1,13 @@
 @config "../tailwind.config.ts";
 @import "tailwindcss";
+
 @layer base {
   :root {
-    /* Apple 2025 Light Theme - Cores suaves e modernas */
+    /* Apple 2025 Light Theme */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
+    --background-start-rgb: 249, 250, 251;
+    --background-end-rgb: 255, 255, 255;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
@@ -23,22 +26,20 @@
     --input: 240 5.9% 90%;
     --ring: 221 83% 53%;
     --radius: 0.75rem;
-    --chart-1: 221 83% 53%;
-    --chart-2: 142 76% 36%;
-    --chart-3: 346 77% 50%;
-    --chart-4: 199 89% 48%;
-    --chart-5: 280 100% 70%;
-    
-    /* Apple-specific variables */
-    --blur: blur(20px);
-    --glass-bg: rgba(255, 255, 255, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.18);
+
+    /* === Liquid Glass Material - Light === */
+    --liquid-glass-bg: rgba(0, 78, 146, 0.15); /* Tinted Deep Ocean */
+    --liquid-glass-border: rgba(255, 255, 255, 0.2);
+    --liquid-glass-blur: 24px;
+    --liquid-glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1), 0 25px 50px -12px rgba(0, 78, 146, 0.1);
   }
 
   .dark {
-    /* Apple 2025 Dark Theme - Profundo e elegante */
+    /* Apple 2025 Dark Theme */
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
+    --background-start-rgb: 2, 6, 23; /* Darker Slate */
+    --background-end-rgb: 0, 78, 146; /* Deep Blue base */
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
@@ -56,16 +57,18 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 221 83% 53%;
-    --chart-1: 221 83% 53%;
-    --chart-2: 142 76% 36%;
-    --chart-3: 346 77% 50%;
-    --chart-4: 199 89% 48%;
-    --chart-5: 280 100% 70%;
-    
-    /* Apple-specific dark variables */
-    --glass-bg: rgba(0, 0, 0, 0.4);
-    --glass-border: rgba(255, 255, 255, 0.1);
+
+    /* === Liquid Glass Material - Dark === */
+    --liquid-glass-bg: rgba(0, 20, 40, 0.4);
+    --liquid-glass-border: rgba(255, 255, 255, 0.1);
+    --liquid-glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
   }
+}
+
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 @layer base {
@@ -74,44 +77,102 @@
   }
   
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    @apply text-foreground font-sans;
+    /* Professional Medical Gradient: Deep Ocean Blue -> Cyan/Teal -> Soft Light */
+    background: linear-gradient(
+      135deg,
+      #004e92 0%,
+      #00c6ff 50%,
+      #eef2f3 100%
+    );
+    background-size: 400% 400%;
+    animation: gradient-flow 20s ease infinite;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    letter-spacing: -0.01em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight font-bold;
+    letter-spacing: -0.025em;
   }
   
-  /* Smooth scrolling */
   html {
     scroll-behavior: smooth;
   }
 }
 
 @layer utilities {
-  /* Glass morphism effect - estilo Apple */
-  .glass {
-    background: var(--glass-bg);
-    backdrop-filter: var(--blur);
-    -webkit-backdrop-filter: var(--blur);
-    border: 1px solid var(--glass-border);
+  /* === Liquid Glass Material - The One Source of Truth === */
+  .liquid-glass-material {
+    position: relative;
+    background-color: var(--liquid-glass-bg);
+    -webkit-backdrop-filter: blur(var(--liquid-glass-blur));
+    backdrop-filter: blur(var(--liquid-glass-blur));
+    border: 1px solid var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-shadow);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+    border-radius: 1.5rem; /* 3xl standard */
+  }
+
+  .liquid-glass-material:hover {
+     border-color: rgba(255, 255, 255, 0.4);
+     box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 20px rgba(0, 198, 255, 0.2);
+  }
+
+  /* Apple-style text animation (Memória Gemini) */
+  .text-apple-gradient {
+    background: linear-gradient(90deg, #e5e7eb, #9ca3af, #e5e7eb);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-move 8s linear infinite;
+  }
+
+  /* Liquid Title Style */
+  .text-liquid-title {
+    @apply tracking-tighter font-bold bg-clip-text text-transparent bg-gradient-to-br from-white via-white/90 to-blue-200/50;
+    background-clip: text;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  }
+
+  /* Reveal Animation Utility */
+  .animate-liquid-reveal {
+    animation: liquid-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  @keyframes liquid-reveal {
+    0% { opacity: 0; filter: blur(8px); transform: translateY(4px); }
+    100% { opacity: 1; filter: blur(0px); transform: translateY(0); }
+  }
+
+  @keyframes gradient-move {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
   }
   
   /* Text gradient - estilo Apple */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-blue-400 to-indigo-500;
+    background-clip: text;
   }
   
   /* Smooth transitions */
   .transition-apple {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   /* Hover scale effect */
   .hover-lift {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
   
   .hover-lift:hover {
-    @apply scale-[1.02] shadow-lg;
+    @apply scale-[1.02] shadow-xl;
+    transform: translateY(-2px);
   }
 }
 

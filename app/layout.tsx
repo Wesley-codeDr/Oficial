@@ -3,7 +3,6 @@ import { Inter } from 'next/font/google'
 import { Providers } from '@/components/providers'
 import { Toaster } from '@/components/ui/toaster'
 import './globals.css'
-import './glassmorphism.css'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -52,7 +51,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body
-        className={`${inter.variable} font-sans antialiased min-h-screen bg-background text-foreground`}
+        className={`${inter.variable} font-sans antialiased min-h-screen`}
         suppressHydrationWarning
       >
         <Providers>

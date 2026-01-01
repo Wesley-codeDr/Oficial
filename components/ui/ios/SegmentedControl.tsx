@@ -27,7 +27,9 @@ export function SegmentedControl({ options, value, onChange }: SegmentedControlP
                 ? 'bg-white dark:bg-black text-black dark:text-white shadow-sm'
                 : 'text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.6)] hover:bg-white/60 dark:hover:bg-black/40')
             }
-            aria-pressed={selected}
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore - ARIA spec requires string "true"/"false", not boolean
+            aria-pressed={selected ? "true" : "false"}
           >
             {opt.label}
           </button>

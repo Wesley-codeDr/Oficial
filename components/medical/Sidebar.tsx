@@ -44,40 +44,38 @@ interface NavItemProps {
 
 const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollapsed, onClick }) => {
   return (
-    <li className="relative group/item">
-      <button
+    <li className="relative group/item flex justify-center">
+      <motion.button
         onClick={onClick}
         title={isCollapsed ? label : undefined}
         className={`
           relative flex items-center transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] outline-none
-          ${isCollapsed ? 'justify-center w-[56px] h-[56px] mx-auto' : 'w-full px-3 py-3'}
+          ${isCollapsed ? 'justify-center w-[60px] h-[60px]' : 'w-full px-4 py-3'}
         `}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
       >
-        {/* Background Layer - Glassmorphism */}
-        <div
+        {/* Background Layer - Liquid Glass Hover/Active */}
+        <motion.div
           className={`
-           absolute inset-0 rounded-[20px] transition-all duration-500 ease-out
-           ${
-             isActive
-               ? 'bg-white/80 dark:bg-white/10 backdrop-blur-xl shadow-[0_4px_20px_-2px_rgba(0,0,0,0.1)] border border-white/50 dark:border-white/10'
-               : 'bg-transparent hover:bg-white/40 dark:hover:bg-white/5 border border-transparent hover:border-white/20 dark:hover:border-white/5'
-           }
-        `}
+            absolute inset-0 rounded-[20px] transition-all duration-500
+            ${isActive 
+              ? 'bg-white/15 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-sm' 
+              : 'bg-transparent group-hover/item:bg-white/5 dark:group-hover/item:bg-white/5'}
+          `}
         />
 
         {/* Icon Container */}
-        <div
-          className={`
-           relative z-10 flex items-center justify-center transition-all duration-500
-           ${isActive ? 'scale-110' : 'group-hover/item:scale-110'}
-        `}
+        <motion.div
+          className={`relative z-10 flex items-center justify-center transition-all duration-500 ${isCollapsed ? 'w-full' : ''}`}
+          animate={{ scale: isActive ? 1.05 : 1 }}
         >
           <div
             className={`
-              flex items-center justify-center w-8 h-8 rounded-[12px] transition-all duration-500
+              flex items-center justify-center w-10 h-10 rounded-[14px] transition-all duration-500
               ${
                 isActive
-                  ? 'bg-gradient-to-br from-blue-500 to-indigo-600 shadow-lg shadow-blue-500/30 text-white'
+                  ? 'bg-gradient-to-br from-blue-500/80 to-indigo-600/80 shadow-lg shadow-blue-500/20 text-white'
                   : 'text-slate-500 dark:text-slate-400 group-hover/item:text-slate-700 dark:group-hover/item:text-slate-200'
               }
            `}
@@ -89,29 +87,28 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollap
                `}
             />
           </div>
-        </div>
+        </motion.div>
 
         {/* Label */}
-        <div
-          className={`
-            flex items-center overflow-hidden whitespace-nowrap transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]
-            ${isCollapsed ? 'w-0 opacity-0' : 'w-auto opacity-100 ml-3'}
-          `}
+        <motion.div
+          className="flex items-center overflow-hidden whitespace-nowrap"
+          animate={{ width: isCollapsed ? 0 : 'auto', opacity: isCollapsed ? 0 : 1, marginLeft: isCollapsed ? 0 : 12 }}
+          transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
         >
           <span
             className={`
-              text-[15px] tracking-tight relative z-10 transition-colors duration-300
+              text-[14px] tracking-tight relative z-10 transition-colors duration-300
               ${
                 isActive
                   ? 'font-semibold text-slate-900 dark:text-white'
-                  : 'font-medium text-slate-600 dark:text-slate-400 group-hover/item:text-slate-900 dark:group-hover/item:text-slate-100'
+                  : 'font-medium text-slate-500 dark:text-slate-400 group-hover/item:text-slate-900 dark:group-hover/item:text-slate-100'
               }
             `}
           >
             {label}
           </span>
-        </div>
-      </button>
+        </motion.div>
+      </motion.button>
     </li>
   )
 }
@@ -202,129 +199,47 @@ export const Sidebar: React.FC<SidebarProps> = ({
   }
 
   return (
-    <aside
+    <motion.aside
+      initial={{ x: '-100%' }}
+      animate={{ x: 0 }}
+      transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
       className={`
         ${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'} 
-        h-full bg-white/40 dark:bg-[#1c1c1e]/60 backdrop-blur-3xl backdrop-saturate-[180%]
-        flex flex-col shrink-0 border-r border-white/20 dark:border-white/10 
-        shadow-[inset_-1px_0_0_rgba(255,255,255,0.1)]
-        rounded-r-[40px] my-2 ml-2
+        h-[calc(100vh-1rem)] liquid-glass-material !bg-white/10 dark:!bg-black/20
+        flex flex-col shrink-0 !border-white/20 dark:!border-white/10 
+        shadow-2xl rounded-[32px] my-2 ml-2
         transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] z-40 relative
       `}
     >
-      {/* Toggle Button (Floating) */}
-      <button
-        onClick={() => setIsCollapsed(!isCollapsed)}
-        className={`
-           absolute -right-3 top-12 w-7 h-7 
-           bg-white/80 dark:bg-slate-700/80 backdrop-blur-md 
-           rounded-full border border-white/50 dark:border-white/10 
-           shadow-[0_4px_12px_rgba(0,0,0,0.1)] 
-           flex items-center justify-center 
-           text-slate-500 hover:text-blue-600 dark:text-slate-300 dark:hover:text-blue-400 
-           transition-all duration-300 z-50 hidden lg:flex 
-           hover:scale-110 active:scale-95 group
-         `}
-      >
-        <div className="transition-transform duration-500 group-hover:rotate-180">
-          {isCollapsed ? (
-            <PanelLeftOpen className="w-3.5 h-3.5 stroke-[2px]" />
-          ) : (
-            <PanelLeftClose className="w-3.5 h-3.5 stroke-[2px]" />
-          )}
-        </div>
-      </button>
 
       {/* Brand Section - Apple 2025 Style */}
       <div
-        className={`h-32 flex items-center ${isCollapsed ? 'justify-center' : 'justify-center lg:justify-start lg:pl-8'} transition-all duration-700`}
-        onClick={() => handleNavigation('dashboard')}
+        className={`h-32 flex items-center transition-all duration-700 cursor-pointer group/brand ${isCollapsed ? 'justify-center w-full' : 'justify-start pl-8'}`}
+        onClick={() => {
+          setIsCollapsed(!isCollapsed)
+          handleNavigation('dashboard')
+        }}
       >
         {/* Adjusted GAP to 4 (16px) for better spacing */}
-        <div className="flex items-center gap-4 select-none cursor-pointer group">
+        <div className={`flex items-center select-none group transition-all duration-500 ${isCollapsed ? 'gap-0' : 'gap-4'}`}>
           {/* LOGO CONTAINER GLASS */}
           <motion.div
-            className="relative flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/30 rounded-2xl shadow-sm p-3 dark:bg-white/5 dark:border-white/10 shrink-0 overflow-visible"
-            animate={{ x: [0, 4, 0] }}
+            className={`
+              relative flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/30 rounded-[20px] shadow-sm dark:bg-white/5 dark:border-white/10 shrink-0 overflow-hidden group-hover/brand:bg-white/30 dark:group-hover/brand:bg-white/10 transition-all duration-500
+              ${isCollapsed ? 'w-[60px] h-[60px]' : 'w-14 h-14'}
+            `}
+            animate={{ y: [0, -2, 0] }}
             transition={{
-              duration: 8,
+              duration: 4,
               repeat: Infinity,
-              ease: 'easeOut',
+              ease: 'easeInOut',
             }}
           >
-            {/* WAVE W SYMBOL - VISION OS STYLE */}
-            {/* Increased Size to 26px */}
-            <svg
-              viewBox="0 0 100 100"
-              className="w-[26px] h-[26px] drop-shadow-md overflow-visible"
-            >
-              <defs>
-                <linearGradient id="visionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" stopColor="#38bdf8" />
-                  <stop offset="50%" stopColor="#818cf8" />
-                  <stop offset="100%" stopColor="#3b82f6" />
-                </linearGradient>
-
-                <linearGradient id="shimmerGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="white" stopOpacity="0" />
-                  <stop offset="50%" stopColor="white" stopOpacity="0.5" />
-                  <stop offset="100%" stopColor="white" stopOpacity="0" />
-                </linearGradient>
-
-                <filter id="soft-glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                  <feComposite in="coloredBlur" in2="SourceGraphic" operator="over" />
-                </filter>
-              </defs>
-
-              {/* BACK LAYER - GLOW */}
-              <motion.path
-                d="M 15 38 C 26 88, 42 58, 50 48 C 58 58, 74 88, 85 38"
-                fill="none"
-                stroke="url(#visionGradient)"
-                strokeWidth="12"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                opacity="0.25"
-                filter="url(#soft-glow)"
-              />
-
-              {/* MAIN STROKE */}
-              <motion.path
-                d="M 15 38 C 26 88, 42 58, 50 48 C 58 58, 74 88, 85 38"
-                fill="none"
-                stroke="url(#visionGradient)"
-                strokeWidth="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
-                transition={{
-                  duration: 2,
-                  ease: 'easeOut',
-                  delay: 0.1,
-                }}
-              />
-
-              {/* SHIMMER OVERLAY */}
-              <motion.path
-                d="M 15 38 C 26 88, 42 58, 50 48 C 58 58, 74 88, 85 38"
-                fill="none"
-                stroke="url(#shimmerGradient)"
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeDasharray="20 100"
-                animate={{ strokeDashoffset: [120, -120] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  repeatDelay: 1,
-                }}
-                style={{ mixBlendMode: 'overlay' }}
-              />
-            </svg>
+            <img 
+              src="/logo-wellwave.png" 
+              alt="WellWave Logo"
+              className="w-10 h-10 object-contain relative z-10"
+            />
           </motion.div>
 
           <div
@@ -361,7 +276,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       {/* Navigation Groups */}
-      <nav className="flex-1 px-4 overflow-y-auto space-y-6 py-2 custom-scrollbar relative z-10">
+      <nav className={`flex-1 overflow-y-auto space-y-10 py-6 custom-scrollbar relative z-10 transition-all duration-500 ${isCollapsed ? 'px-0' : 'px-4'}`}>
         {/* Main Group */}
         <ul className="space-y-1">
           {menuGroups.main.map((item) => (
@@ -413,7 +328,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Footer Area with NEW APPLE SWITCH and Profile */}
       <div
-        className={`mt-auto mb-4 px-4 flex flex-col gap-4 transition-all duration-300 ${isCollapsed ? 'items-center px-2' : ''}`}
+        className={`mt-auto mb-6 flex flex-col gap-6 transition-all duration-500 ${isCollapsed ? 'items-center px-0' : 'px-4'}`}
       >
         {/* VisionOS 2025 Toggle Switch */}
         <div
@@ -486,23 +401,23 @@ export const Sidebar: React.FC<SidebarProps> = ({
         {/* User Profile */}
         <div
           className={`
-          flex items-center rounded-[24px] transition-all duration-300 group w-full
+          flex items-center rounded-[24px] transition-all duration-500 group w-full
           ${
             isCollapsed
-              ? 'justify-center p-2 bg-transparent hover:bg-white/50 dark:hover:bg-white/5'
-              : 'p-3 bg-white/50 dark:bg-white/5 border border-white/40 dark:border-white/5 hover:bg-white/80 dark:hover:bg-white/10 shadow-sm cursor-pointer'
+              ? 'justify-center p-2 bg-transparent hover:bg-white/10 dark:hover:bg-white/5'
+              : 'p-3 bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/5 hover:bg-white/20 dark:hover:bg-white/10 shadow-sm cursor-pointer'
           }
         `}
         >
           <div className="relative shrink-0">
-            <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-2 ring-white dark:ring-slate-800 shadow-md">
+            <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-1 ring-white/30 dark:ring-white/10 shadow-md">
               <img
                 src="https://picsum.photos/200"
                 alt="User"
                 className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity"
               />
             </div>
-            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white dark:border-slate-900 rounded-full"></div>
+            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white/80 dark:border-slate-900 rounded-full"></div>
           </div>
 
           <div
@@ -523,6 +438,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
           )}
         </div>
       </div>
-    </aside>
+    </motion.aside>
   )
 }
