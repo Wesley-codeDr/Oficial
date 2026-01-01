@@ -30,6 +30,7 @@ export interface GlassActionButtonProps
   size?: ButtonSize;
   disabled?: boolean;
   loading?: boolean;
+  selected?: boolean;
   icon?: React.ReactNode;
   iconPosition?: "left" | "right";
   fullWidth?: boolean;
@@ -66,6 +67,7 @@ export const GlassActionButton = React.forwardRef<
       size = "md",
       disabled = false,
       loading = false,
+      selected = false,
       icon,
       iconPosition = "left",
       fullWidth = false,
@@ -92,7 +94,7 @@ export const GlassActionButton = React.forwardRef<
     };
 
     const sizes: Record<ButtonSize, string> = {
-      sm: "px-3 py-1.5 text-xs rounded-xl min-h-[32px]",
+      sm: "glass-btn-small nav-btn",
       md: "px-4 sm:px-5 py-2 sm:py-2.5 text-sm rounded-2xl min-h-[40px]",
       lg: "px-6 sm:px-8 py-3 sm:py-3.5 text-base rounded-3xl min-h-[48px]",
     };
@@ -108,9 +110,12 @@ export const GlassActionButton = React.forwardRef<
         whileTap={isDisabled ? {} : { scale: 0.98 }}
         className={cn(
           "relative flex items-center justify-center gap-2",
-          "font-semibold backdrop-blur-xl border transition-all duration-300",
+          "font-semibold backdrop-blur-xl transition-all duration-300",
+          size === "sm" ? "" : "border",
           variants[variant],
           sizes[size],
+          size === "sm" && variant === "primary" && "glass-btn-small-primary",
+          selected && "selected",
           "shadow-lg shadow-black/5",
           // Focus visible (WCAG 2.1)
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
@@ -127,6 +132,11 @@ export const GlassActionButton = React.forwardRef<
         {!loading && icon && iconPosition === "left" && icon}
         {children}
         {!loading && icon && iconPosition === "right" && icon}
+        
+        {/* Apple Shine Effect Overlay */}
+        {size === "sm" && !isDisabled && (
+          <div className="absolute inset-0 bg-transparent pointer-events-none opacity-0 hover:opacity-100 transition-opacity duration-500 bg-gradient-to-tr from-white/10 to-transparent" />
+        )}
       </motion.button>
     );
   }
@@ -165,8 +175,8 @@ export const GlassActionButtonGroup = ({
     <div
       role="group"
       className={cn(
-        "flex items-center gap-1 p-1.5 rounded-[22px]",
-        "bg-slate-200/40 dark:bg-slate-900/40 backdrop-blur-xl",
+        "flex items-center gap-2 p-1.5 rounded-2xl",
+        "bg-slate-200/50 dark:bg-slate-800/50 backdrop-blur-xl",
         "border border-white/20 dark:border-white/10",
         "shadow-lg shadow-black/5",
         orientation === "vertical" && "flex-col",
@@ -175,13 +185,13 @@ export const GlassActionButtonGroup = ({
       )}
     >
       {React.Children.map(children, (child, index) => (
-        <React.Fragment>
+        <React.Fragment key={index}>
           {child}
           {index < React.Children.count(children) - 1 && (
             <div
               className={cn(
-                "bg-slate-300/50 dark:bg-slate-700/50",
-                orientation === "horizontal" ? "w-px h-6 mx-1" : "h-px w-full my-1"
+                "bg-slate-300 dark:bg-slate-700",
+                orientation === "horizontal" ? "w-px h-8 mx-1" : "h-px w-full my-1"
               )}
             />
           )}

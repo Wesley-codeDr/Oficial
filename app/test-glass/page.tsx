@@ -119,7 +119,7 @@ export default function TestGlassPage() {
               Action Button Group - Padrão
             </h2>
             <GlassActionButtonGroup>
-              <GlassActionButton size="sm" icon={<Type className="w-4 h-4" />}>
+              <GlassActionButton size="sm" selected icon={<Type className="w-4 h-4" />}>
                 CAIXA ALTA
               </GlassActionButton>
 
