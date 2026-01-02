@@ -558,7 +558,7 @@ export default function Home() {
 
       <main className="flex-1 flex flex-col h-full min-w-0 relative z-0 p-4">
         {viewMode === 'dashboard' && (
-          <GlassPanel className="h-full overflow-hidden flex flex-col" style={{ borderRadius: '32px' }}>
+          <GlassPanel className="h-full overflow-hidden flex flex-col" style={{ borderRadius: '24px' }}>
             <DashboardView
               tasks={tasks}
               setTasks={setTasks}
@@ -574,7 +574,7 @@ export default function Home() {
         )}
 
         {viewMode === 'flash' && (
-          <GlassPanel className="h-full overflow-hidden flex flex-col p-6" style={{ borderRadius: '32px' }}>
+          <GlassPanel className="h-full overflow-hidden flex flex-col p-6" style={{ borderRadius: '24px' }}>
             <FlashAnamnesisFlow
               patient={patient}
               setPatient={setPatient}
@@ -584,13 +584,13 @@ export default function Home() {
         )}
 
         {viewMode === 'chat-well' && (
-          <GlassPanel className="h-full overflow-hidden p-6" style={{ borderRadius: '32px' }}>
+          <GlassPanel className="h-full overflow-hidden p-6" style={{ borderRadius: '24px' }}>
             <ChatWell />
           </GlassPanel>
         )}
 
         {viewMode !== 'dashboard' && viewMode !== 'flash' && viewMode !== 'chat-well' && (
-          <GlassPanel className="flex flex-col h-full overflow-hidden" style={{ borderRadius: '32px' }}>
+          <GlassPanel className="flex flex-col h-full overflow-hidden" style={{ borderRadius: '24px' }}>
             <div className="px-6 pt-6 shrink-0 z-20">
               <Header patient={patient} setPatient={setPatient} />
             </div>

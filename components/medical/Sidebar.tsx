@@ -68,22 +68,22 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollap
         {/* Icon Container */}
         <motion.div
           className={`relative z-10 flex items-center justify-center transition-all duration-500 ${isCollapsed ? 'w-full' : ''}`}
-          animate={{ scale: isActive ? 1.05 : 1 }}
+          animate={{ scale: isActive ? 1.1 : 1 }}
         >
           <div
             className={`
               flex items-center justify-center w-10 h-10 rounded-[14px] transition-all duration-500
               ${
                 isActive
-                  ? 'bg-gradient-to-br from-blue-500/80 to-indigo-600/80 shadow-lg shadow-blue-500/20 text-white'
-                  : 'text-slate-500 dark:text-slate-400 group-hover/item:text-slate-700 dark:group-hover/item:text-slate-200'
+                  ? 'bg-primary/20 backdrop-blur-md shadow-lg shadow-primary/20 text-primary border border-primary/20'
+                  : 'text-slate-500 dark:text-slate-400 group-hover/item:text-primary'
               }
            `}
           >
             <Icon
               className={`
-                 w-5 h-5 transition-all duration-500
-                 ${isActive ? 'stroke-[2px]' : 'stroke-[1.5px]'}
+                 w-5 h-5 transition-all duration-500 icon-volumetric
+                 ${isActive ? 'stroke-[2.2px] fill-current/10 icon-glow-blue' : 'stroke-[1.8px]'}
                `}
             />
           </div>
@@ -212,10 +212,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {...asideProps}
       className={`
         ${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'}
-        h-[calc(100vh-1rem)] liquid-glass-material !bg-white/10 dark:!bg-black/20
-        flex flex-col shrink-0 !border-white/20 dark:!border-white/10
-        shadow-2xl rounded-[32px] my-2 ml-2
-        transition-all duration-[600ms] ease-[cubic-bezier(0.19,1,0.22,1)] z-40 relative
+        h-[calc(100vh-1rem)] liquid-glass-material glass-texture
+        flex flex-col shrink-0
+        my-2 ml-2 rounded-[32px]
+        transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-40 relative
+        hover:shadow-2xl hover:shadow-blue-500/5
       `}
     >
 

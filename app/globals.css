@@ -4,15 +4,13 @@
 @layer base {
   :root {
     /* Apple 2025 Light Theme */
-    --background: 0 0% 100%;
+    --background: 220 20% 97%;
     --foreground: 240 10% 3.9%;
-    --background-start-rgb: 249, 250, 251;
-    --background-end-rgb: 255, 255, 255;
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 3.9%;
-    --primary: 221 83% 53%;
+    --primary: 211 100% 50%; /* WellBlue (System Apple Blue) */
     --primary-foreground: 0 0% 100%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
@@ -24,27 +22,29 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 221 83% 53%;
-    --radius: 0.75rem;
+    --ring: 211 100% 50%;
+    --radius: 1.5rem;
 
-    /* === Liquid Glass Material - Light === */
-    --liquid-glass-bg: rgba(0, 78, 146, 0.15); /* Tinted Deep Ocean */
-    --liquid-glass-border: rgba(255, 255, 255, 0.2);
-    --liquid-glass-blur: 24px;
-    --liquid-glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1), 0 25px 50px -12px rgba(0, 78, 146, 0.1);
+    /* === Liquid Glass 2025 Material - Light === */
+    --liquid-glass-bg: rgba(255, 255, 255, 0.5);
+    --liquid-glass-border: rgba(255, 255, 255, 0.7);
+    --liquid-glass-blur: 50px;
+    --liquid-glass-saturate: 180%;
+    --liquid-glass-shadow: 
+      0 10px 40px -10px rgba(0, 78, 146, 0.08),
+      0 0 0 1px rgba(255, 255, 255, 0.6) inset,
+      0 20px 40px rgba(0, 0, 0, 0.04);
   }
 
   .dark {
-    /* Apple 2025 Dark Theme */
+    /* Apple 2025 Dark Theme - Deep Space */
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
-    --background-start-rgb: 2, 6, 23; /* Darker Slate */
-    --background-end-rgb: 0, 78, 146; /* Deep Blue base */
     --card: 240 10% 3.9%;
     --card-foreground: 0 0% 98%;
     --popover: 240 10% 3.9%;
     --popover-foreground: 0 0% 98%;
-    --primary: 221 83% 53%;
+    --primary: 210 100% 52%; /* Vibrant Apple Dark Blue */
     --primary-foreground: 0 0% 100%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
@@ -56,12 +56,17 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --ring: 221 83% 53%;
+    --ring: 210 100% 52%;
 
-    /* === Liquid Glass Material - Dark === */
-    --liquid-glass-bg: rgba(0, 20, 40, 0.4);
+    /* === Liquid Glass 2025 Material - Dark === */
+    --liquid-glass-bg: rgba(15, 15, 20, 0.45); 
     --liquid-glass-border: rgba(255, 255, 255, 0.1);
-    --liquid-glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    --liquid-glass-blur: 60px;
+    --liquid-glass-saturate: 200%;
+    --liquid-glass-shadow: 
+      0 25px 60px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(255, 255, 255, 0.12) inset,
+      0 0 30px rgba(0, 122, 255, 0.1);
   }
 }
 
@@ -78,19 +83,20 @@
   
   body {
     @apply text-foreground font-sans;
-    /* Professional Medical Gradient: Deep Ocean Blue -> Cyan/Teal -> Soft Light */
-    background: linear-gradient(
-      135deg,
-      #004e92 0%,
-      #00c6ff 50%,
-      #eef2f3 100%
-    );
+    /* Apple 2025 Deep Mesh Gradient: Deep Ocean -> Vibrant Cyan -> Liquid Softness */
+    background: 
+      radial-gradient(at 0% 0%, rgba(0, 78, 146, 0.15) 0px, transparent 50%),
+      radial-gradient(at 50% 0%, rgba(0, 198, 255, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(238, 242, 243, 0.8) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, rgba(0, 198, 255, 0.05) 0px, transparent 50%),
+      linear-gradient(135deg, #004e92 0%, #00c6ff 50%, #eef2f3 100%);
+    background-attachment: fixed;
     background-size: 400% 400%;
     animation: gradient-flow 20s ease infinite;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.02em;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -108,18 +114,81 @@
   .liquid-glass-material {
     position: relative;
     background-color: var(--liquid-glass-bg);
-    -webkit-backdrop-filter: blur(var(--liquid-glass-blur));
-    backdrop-filter: blur(var(--liquid-glass-blur));
+    -webkit-backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
+    backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
     border: 1px solid var(--liquid-glass-border);
     box-shadow: var(--liquid-glass-shadow);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Apple-standard 'expo-out' */
     z-index: 1;
-    border-radius: 1.5rem; /* 3xl standard */
+    border-radius: 32px;
+    overflow: hidden; /* Contain the shimmer */
+  }
+
+  /* Specular Highlight Overlay (Brilliance) */
+  .liquid-glass-material::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      135deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.0) 40%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.0) 60%,
+      transparent 100%
+    );
+    background-size: 200% 200%;
+    background-position: -100% -100%;
+    transition: background-position 0.8s ease-out;
+    z-index: -1;
+  }
+
+  .liquid-glass-material:hover::before {
+    background-position: 100% 100%;
   }
 
   .liquid-glass-material:hover {
-     border-color: rgba(255, 255, 255, 0.4);
-     box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 0 20px rgba(0, 198, 255, 0.2);
+     background-color: rgba(255, 255, 255, 0.55);
+     border-color: rgba(255, 255, 255, 0.9);
+     transform: scale(1.02) translateY(-4px);
+     box-shadow: 
+        0 40px 80px -15px rgba(0,0,0,0.12), 
+        0 0 0 1px rgba(255,255,255,0.8) inset,
+        0 0 40px rgba(255, 255, 255, 0.3);
+  }
+
+  .dark .liquid-glass-material:hover {
+     background-color: rgba(60, 60, 70, 0.55);
+     border-color: rgba(255, 255, 255, 0.35);
+     box-shadow: 
+        0 40px 80px -15px rgba(0,0,0,0.6), 
+        0 0 0 1px rgba(255,255,255,0.2) inset,
+        0 0 50px rgba(0, 122, 255, 0.2);
+  }
+
+  /* Volumetric Brilliance (Pulse) */
+  .pulse-brilliance {
+    animation: brilliance-glow 4s ease-in-out infinite;
+  }
+
+  @keyframes brilliance-glow {
+    0%, 100% { opacity: 0.5; filter: saturate(100%) brightness(100%); }
+    50% { opacity: 0.8; filter: saturate(150%) brightness(120%); scale: 1.05; }
+  }
+
+  /* Frosted Texture Overlay */
+  .glass-texture {
+    position: relative;
+  }
+  .glass-texture::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   }
 
   /* Apple-style text animation (Memória Gemini) */
@@ -132,21 +201,21 @@
     animation: gradient-move 8s linear infinite;
   }
 
-  /* Liquid Title Style */
+  /* Liquid Title Style - Refined for Health */
   .text-liquid-title {
-    @apply tracking-tighter font-bold bg-clip-text text-transparent bg-gradient-to-br from-white via-white/90 to-blue-200/50;
-    background-clip: text;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+    @apply tracking-tighter font-extrabold bg-clip-text text-transparent bg-gradient-to-br from-white via-blue-50 to-blue-200/50;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    letter-spacing: -0.05em;
   }
 
   /* Reveal Animation Utility */
   .animate-liquid-reveal {
-    animation: liquid-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation: liquid-reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   @keyframes liquid-reveal {
-    0% { opacity: 0; filter: blur(8px); transform: translateY(4px); }
-    100% { opacity: 1; filter: blur(0px); transform: translateY(0); }
+    0% { opacity: 0; filter: blur(12px); transform: translateY(8px) scale(0.98); }
+    100% { opacity: 1; filter: blur(0px); transform: translateY(0) scale(1); }
   }
 
   @keyframes gradient-move {
@@ -154,35 +223,28 @@
     100% { background-position: 200% 50%; }
   }
   
-  /* Text gradient - estilo Apple */
+  /* Text gradient - estilo Apple Professional */
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-blue-400 to-indigo-500;
-    background-clip: text;
   }
   
-  /* Smooth transitions */
-  .transition-apple {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-  
-  /* Hover scale effect */
+  /* Hover lift refined with spring */
   .hover-lift {
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
   
   .hover-lift:hover {
-    @apply scale-[1.02] shadow-xl;
-    transform: translateY(-2px);
+    @apply scale-[1.03] -translate-y-1 shadow-2xl;
   }
 
   /* === Glass Nav Buttons (Apple Glass Style) === */
   .nav-btn {
-    @apply flex items-center justify-center gap-2 font-medium transition-all duration-300;
+    @apply flex items-center justify-center gap-2 font-semibold transition-all duration-300;
   }
 
   .glass-btn-small {
     @apply px-4 py-2 text-sm rounded-xl border border-white/20 dark:border-white/10 
-           hover:bg-white/10 dark:hover:bg-white/5 active:scale-95 transition-all duration-200;
+           hover:bg-white/10 dark:hover:bg-white/5 active:scale-95 transition-all duration-300;
   }
 
   .glass-btn-small-primary {
@@ -191,7 +253,7 @@
   }
 
   .glass-btn-small.selected {
-    @apply bg-white/20 dark:bg-white/10 border-white/40 dark:border-white/20 shadow-inner;
+    @apply bg-white/30 dark:bg-white/15 border-white/50 dark:border-white/20 shadow-inner;
   }
 }
 

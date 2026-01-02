@@ -93,15 +93,21 @@ function extractSection(content: string, sectionTitle: string): string[] {
 
 /**
  * Extrai conteúdo de uma seção como texto (não lista)
+ * Suporta seções com ou sem emojis (ex: "## 🚩 Red Flags" ou "## Red Flags")
  */
 function extractSectionText(content: string, sectionTitle: string): string {
-  const regex = new RegExp(`## ${sectionTitle}[\\s\\S]*?(?=##|$)`, 'i');
+  // Remove emojis do sectionTitle para busca flexível
+  const cleanTitle = sectionTitle.replace(/[\u{1F000}-\u{1F9FF}]|[\u{2600}-\u{26FF}]/gu, '').trim();
+
+  // Busca com ou sem emoji (usando escape de caracteres especiais do regex)
+  const escapedTitle = cleanTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const regex = new RegExp(`##\\s*[^\\n]*${escapedTitle}[\\s\\S]*?(?=\\n##\\s|$)`, 'i');
   const match = content.match(regex);
 
   if (!match) return '';
 
   return match[0]
-    .replace(new RegExp(`## ${sectionTitle}`, 'i'), '')
+    .replace(/##\s*[^\n]+/, '') // Remove header line
     .trim();
 }
 
@@ -127,10 +133,41 @@ export function parseMarkdownFile(filePath: string): ParsedComplaint | null {
     }
 
     // Extrai seções do Markdown
-    const redFlags = extractSection(content, 'Red Flags');
-    const diagnosticoDiferencial = extractSection(content, 'Diagnóstico Diferencial');
-    const condutaInicial = extractSectionText(content, 'Conduta Inicial');
-    const calculadoras = extractSection(content, 'Calculadoras Recomendadas');
+    // Detecta se é arquivo EBM v2.0 (verifica frontmatter ebm_version)
+    // ebm_version pode ser string "2.0" ou number 2.0
+    const isEBMv2 = frontmatter.ebm_version === '2.0' || frontmatter.ebm_version === 2.0;
+
+    let redFlags: string[] = [];
+    let diagnosticoDiferencial: string[] = [];
+    let condutaInicial = '';
+    let calculadoras: string[] = [];
+    let redFlagsEBM: RedFlag[] | undefined;
+    let medicationsEBM: MedicationRecommendation[] | undefined;
+    let citationsEBM: EBMCitation[] | undefined;
+    let ddEBM: DifferentialDiagnosis[] | undefined;
+    let acaoImediata = '';
+
+    if (isEBMv2) {
+      // Usar funções EBM avançadas
+      redFlagsEBM = parseRedFlagsStructured(content);
+      medicationsEBM = parseMedicationsTable(content);
+      citationsEBM = parseEBMCitations(content);
+      ddEBM = parseDifferentialDiagnosisTable(content);
+
+      // Extrair seção ⚡ AÇÃO IMEDIATA
+      acaoImediata = extractSectionText(content, 'AÇÃO IMEDIATA');
+
+      // Fallback para arrays simples (para compatibilidade)
+      redFlags = redFlagsEBM.map(rf => rf.description);
+      diagnosticoDiferencial = ddEBM?.map(dd => dd.condition) || [];
+    } else {
+      // Arquivos antigos (sem EBM v2.0)
+      redFlags = extractSection(content, 'Red Flags');
+      diagnosticoDiferencial = extractSection(content, 'Diagnóstico Diferencial');
+      condutaInicial = extractSectionText(content, 'Conduta Inicial');
+      calculadoras = extractSection(content, 'Calculadoras Recomendadas');
+    }
+
     const sintomasRelacionados = extractSection(content, 'Sintomas Relacionados');
     const referencias = extractSection(content, 'Referências');
 
@@ -157,6 +194,7 @@ export function parseMarkdownFile(filePath: string): ParsedComplaint | null {
       syncSource: 'obsidian',
 
       extendedContent: {
+        // Campos básicos (compatibilidade)
         redFlags,
         diagnosticoDiferencial,
         condutaInicial,
@@ -164,6 +202,15 @@ export function parseMarkdownFile(filePath: string): ParsedComplaint | null {
         sintomasRelacionados,
         referencias,
         rawMarkdown: content,
+
+        // Campos EBM v2.0 (se disponível)
+        ...(isEBMv2 && {
+          redFlagsStructured: redFlagsEBM,
+          medications: medicationsEBM,
+          ebmCitations: citationsEBM,
+          differentialDiagnosisTable: ddEBM,
+          acaoImediata,
+        }),
       },
 
       filePath,

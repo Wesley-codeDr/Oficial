@@ -22,12 +22,11 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
           damping: 30 
         }}
         className={cn(
-          "rounded-3xl p-5 shadow-glass overflow-hidden",
-          "bg-glass-background backdrop-blur-xl border border-glass-border",
-          "text-white font-sans",
-          // Enhanced interactive styles
-          "hover:shadow-apple-xl hover:border-white/30 hover:bg-glass-background/80",
-          "transition-colors duration-300",
+          "rounded-3xl p-6 overflow-hidden liquid-glass-material",
+          // Text styles
+          "text-slate-800 dark:text-white font-sans",
+          // Interactive states handled by liquid-glass-material generally, but we can add specifics
+          "hover:border-white/40 dark:hover:border-white/20",
           className
         )}
         {...props}

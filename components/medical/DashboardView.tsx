@@ -89,16 +89,22 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
   const isCompact = density === 'compact';
 
   return (
-    <div className={`relative overflow-hidden rounded-[32px] p-0 flex flex-col justify-between group transition-all duration-500 hover:scale-[1.02] bg-white/60 dark:bg-[#1c1c1e]/60 backdrop-blur-3xl border border-white/60 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)] ring-1 ring-white/40 dark:ring-white/5 ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}>
+    <div className={`relative overflow-hidden p-0 flex flex-col justify-between group transition-all duration-[800ms] hover:scale-[1.03] liquid-glass-material glass-texture ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}>
       
-      {/* Volumetric Glow */}
+      {/* Dynamic Brilliance Layer */}
+      <div className={`absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none`} />
       <div className={`absolute -top-20 -right-20 w-60 h-60 bg-gradient-to-br ${theme.glow} opacity-20 blur-[70px] rounded-full pointer-events-none group-hover:opacity-40 transition-opacity duration-700`} />
 
       {/* Content Container */}
       <div className={`relative z-20 flex flex-col h-full pointer-events-none ${isCompact ? 'p-4' : 'p-6'}`}>
          <div className="flex justify-between items-start mb-2 pointer-events-auto">
             <div className={`rounded-[20px] ${theme.iconBg} backdrop-blur-md flex items-center justify-center shadow-sm border border-white/40 dark:border-white/5 ${theme.iconColor} ${isCompact ? 'w-10 h-10' : 'w-12 h-12'}`}>
-               <Icon className={`${isCompact ? 'w-5 h-5' : 'w-6 h-6'} stroke-[2.5px]`} />
+               <Icon className={`${isCompact ? 'w-5 h-5' : 'w-6 h-6'} stroke-[2.2px] icon-volumetric fill-current/10 ${
+                 colorTheme === 'orange' ? 'icon-glow-orange' : 
+                 colorTheme === 'blue' ? 'icon-glow-blue' : 
+                 colorTheme === 'green' ? 'icon-glow-emerald' : 
+                 colorTheme === 'purple' ? 'icon-glow-rose' : ''
+               }`} />
             </div>
             
             <div className={`px-3 py-1.5 rounded-full text-[11px] font-bold backdrop-blur-md border border-white/20 flex items-center gap-1 ${theme.trendBg} ${theme.trendColor}`}>
@@ -112,7 +118,7 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
                 {title}
              </p>
              <div className="flex items-baseline gap-2">
-                <h3 className={`${isCompact ? 'text-[32px]' : 'text-[42px]'} font-bold text-slate-800 dark:text-white tracking-tight leading-none filter drop-shadow-sm`}>{value}</h3>
+                <h3 className={`${isCompact ? 'text-[32px]' : 'text-[42px]'} font-extralight text-slate-800 dark:text-white tracking-tight leading-none filter drop-shadow-sm`}>{value}</h3>
              </div>
              {!isCompact && <p className="text-sm font-semibold text-slate-400 dark:text-slate-500 mt-0.5">{sub}</p>}
          </div>
@@ -127,6 +133,10 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
                      <stop offset="0%" stopColor={theme.fillStart} stopOpacity={0.25} />
                      <stop offset="90%" stopColor={theme.fillStart} stopOpacity={0.0} />
                   </linearGradient>
+                  <filter id="lineGlow" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
                </defs>
                <Tooltip content={<CustomChartTooltip />} cursor={false} />
                <Area 
@@ -135,6 +145,7 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
                  stroke={theme.stroke} 
                  strokeWidth={3}
                  fill={`url(#${gradId})`} 
+                 filter="url(#lineGlow)"
                  animationDuration={1500}
                  isAnimationActive={true}
                  activeDot={{ r: 6, strokeWidth: 0, fill: theme.stroke, stroke: '#fff' }}
@@ -178,17 +189,25 @@ const KanbanCard = ({ task, onDragStart, onDragEnd, onStatusChange, isDragging, 
        } : {}}
        whileTap={{ scale: 0.98 }}
        transition={{ type: "spring", stiffness: 400, damping: 25 }}
-       className={`group relative w-full rounded-[24px] 
-         border shadow-[0_4px_20px_rgba(0,0,0,0.02)]
-         transition-colors duration-300
+       className={`group relative w-full 
+         transition-all duration-500
          cursor-grab active:cursor-grabbing
          ${isCompact ? 'p-3' : 'p-5'}
+         liquid-glass-material glass-texture
          ${isDragging 
-            ? 'border-dashed border-blue-400 dark:border-blue-500/50 bg-blue-50/30 dark:bg-blue-900/10' 
-            : 'bg-white/60 dark:bg-white/5 backdrop-blur-xl border-white/60 dark:border-white/10 hover:bg-white/80 dark:hover:bg-white/10'
+            ? '!bg-blue-50/30 dark:!bg-blue-900/10 !border-dashed !border-blue-400 dark:!border-blue-500/50' 
+            : 'hover:bg-white/50 dark:hover:bg-white/10'
          }
        `}
     >
+       {/* Status Border Glow */}
+       <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-[24px] ${
+          task.acuity === 'red' ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.5)]' : 
+          task.acuity === 'orange' ? 'bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.5)]' : 
+          task.acuity === 'yellow' ? 'bg-yellow-400 shadow-[0_0_12px_rgba(250,204,21,0.5)]' : 
+          'bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.5)]'
+       }`} />
+      
        {/* Identity Header */}
        <div className={`flex items-center justify-between ${isCompact ? 'mb-2' : 'mb-4'}`}>
           <div className="flex items-center gap-3">
@@ -245,9 +264,9 @@ const KanbanCard = ({ task, onDragStart, onDragEnd, onStatusChange, isDragging, 
           <div className="relative">
               <button 
                 onClick={(e) => { e.stopPropagation(); setIsMenuOpen(!isMenuOpen); }}
-                className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-300 hover:text-blue-500 transition-colors"
+                className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/10 text-slate-300 hover:text-primary transition-colors"
               >
-                <ArrowRightLeft className="w-4 h-4" />
+                <ArrowRightLeft className="w-4 h-4 stroke-[2px] icon-volumetric" />
               </button>
 
               {isMenuOpen && (
@@ -277,10 +296,10 @@ const KanbanColumn = ({
   
   return (
     <div 
-        className={`flex flex-col h-full min-w-[320px] w-full rounded-[40px] p-2 transition-all duration-500
+        className={`flex flex-col h-full min-w-[320px] w-full p-2 transition-all duration-500 liquid-glass-material
         ${isDropTarget 
-            ? 'bg-blue-50/60 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-500/30 shadow-lg shadow-blue-500/5 scale-[1.01]' 
-            : 'bg-white/20 dark:bg-white/5 backdrop-blur-2xl border border-white/30 dark:border-white/5 shadow-sm'}
+            ? '!bg-blue-50/60 dark:!bg-blue-900/20 !border-blue-200 dark:!border-blue-500/30 scale-[1.01]' 
+            : '!bg-white/10 dark:!bg-white/5 !border-white/20 dark:!border-white/5'}
         `}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
@@ -290,7 +309,7 @@ const KanbanColumn = ({
        <div className={`flex items-center justify-between ${isCompact ? 'px-4 py-3' : 'px-5 py-5'}`}>
           <div className="flex items-center gap-3">
              <div className={`rounded-2xl bg-white/50 dark:bg-white/10 shadow-sm border border-white/20 text-slate-500 dark:text-slate-400 ${isCompact ? 'p-2' : 'p-2.5'}`}>
-               <Icon className="w-5 h-5" />
+               <Icon className="w-5 h-5 stroke-[2px] icon-volumetric fill-current/10" />
              </div>
              <h4 className="text-[16px] font-bold text-slate-800 dark:text-slate-100 tracking-tight">
                {title}
@@ -452,21 +471,24 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
        </div>
 
-       {/* 2. Priority Insight Row (Refined) */}
+        {/* 2. Priority Insight Row (Refined) */}
        {preferences.showAlertRow && (
            <div className={`px-4 shrink-0 flex items-center justify-between animate-in fade-in slide-in-from-bottom-2 duration-1000 delay-200 ${preferences.density === 'compact' ? 'mt-3 mb-2' : 'mt-6 mb-4'}`}>
                <div className="flex items-center gap-5">
-                  <div className="flex items-center gap-2 bg-white/50 dark:bg-white/5 px-4 py-2 rounded-full border border-white/40 dark:border-white/5 backdrop-blur-md shadow-sm">
+                  <div className="flex items-center gap-2 bg-white/50 dark:bg-white/5 px-4 py-2 rounded-full border border-white/40 dark:border-white/5 backdrop-blur-md shadow-sm glass-texture">
                      <Sun className="w-5 h-5 text-amber-500" />
                      <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{greeting}</span>
                   </div>
                   <div className="h-6 w-px bg-slate-200 dark:bg-white/10" />
                   <div className="flex items-center gap-2.5">
-                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 to-amber-500 flex items-center justify-center shadow-lg shadow-orange-500/20">
+                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 via-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20 pulse-brilliance">
                         <Sparkles className="w-4 h-4 text-white" />
                      </div>
                      <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
-                        <strong className="text-slate-900 dark:text-white">Atenção:</strong> 1 paciente aguarda reavaliação prioritária.
+                        <strong className="text-slate-900 dark:text-white flex items-center gap-1.5">
+                          <Zap className="w-3.5 h-3.5 text-blue-500 fill-blue-500/20" />
+                          Insight:
+                        </strong> 1 paciente aguarda reavaliação prioritária.
                      </p>
                   </div>
                </div>
