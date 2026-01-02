@@ -11,6 +11,7 @@ export interface Symptom {
   max?: number
   step?: number
   placeholder?: string
+  triggersCalculator?: string // ID of the calculator (e.g., 'heart', 'curb65')
 }
 
 // Categorias de checkboxes para anamnese

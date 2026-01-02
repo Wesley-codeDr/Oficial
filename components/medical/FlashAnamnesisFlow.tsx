@@ -40,12 +40,18 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
     category: 'adult' | 'pediatric'
     gender: 'M' | 'F'
     isPregnant: boolean
+    age?: number
+    phone?: string
+    allergies?: string
   }) => {
     setPatient((prev) => ({
       ...prev,
       category: data.category,
       gender: data.gender,
       isPregnant: data.isPregnant,
+      age: data.age?.toString() || prev.age,
+      phoneNumber: data.phone || prev.phoneNumber,
+      allergies: data.allergies ? [data.allergies] : prev.allergies
     }))
     setStep('selection')
   }

@@ -116,9 +116,9 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollap
 // --- Default Configuration ---
 const defaultMainItems: SidebarItem[] = [
   { id: 'dashboard', label: 'Visão Geral', icon: LayoutGrid },
-  { id: 'anamnese', label: 'Nova Anamnese', icon: FileText },
+  { id: 'anamnese', label: 'Well Anamnese', icon: FileText },
   { id: 'flash', label: 'Flash', icon: Zap },
-  { id: 'chat-well', label: 'Chat Well', icon: MessageCircle },
+  { id: 'chat-well', label: 'ChatWW', icon: MessageCircle },
 ]
 
 const defaultRecordItems: SidebarItem[] = [
@@ -199,17 +199,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   }
 
   // Prevent hydration mismatch by only animating after mount
-  const asideProps = hasMounted
-    ? {
-        initial: { x: '-100%' },
-        animate: { x: 0 },
-        transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] },
-      }
-    : {}
+  const asideAnimation = {
+    initial: { x: -20, opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] }
+  }
 
   return (
-    <motion.aside
-      {...asideProps}
+    <aside
       className={`
         ${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'}
         h-[calc(100vh-1rem)] liquid-glass-material glass-texture
@@ -219,6 +216,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
         hover:shadow-2xl hover:shadow-blue-500/5
       `}
     >
+      <motion.div 
+         className="w-full h-full flex flex-col"
+         initial={hasMounted ? asideAnimation.initial : false}
+         animate={hasMounted ? asideAnimation.animate : false}
+         transition={asideAnimation.transition}
+      >
 
       {/* Brand Section - Apple 2025 Style */}
       <div
@@ -452,8 +455,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <LogOut className="w-4 h-4 text-slate-400 hover:text-red-500 transition-colors" />
             </div>
           )}
-        </div>
       </div>
-    </motion.aside>
+      </div>
+    </motion.div>
+  </aside>
   )
 }

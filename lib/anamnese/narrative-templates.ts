@@ -390,6 +390,7 @@ export function genderAdjective(word: string, gender: 'M' | 'F'): string {
   if (GENDER_MAP[lowerWord]) {
     // Preserva capitalização original
     const result = GENDER_MAP[lowerWord]
+    if (!word[0]) return result
     return word[0] === word[0].toUpperCase()
       ? result.charAt(0).toUpperCase() + result.slice(1)
       : result
@@ -428,7 +429,10 @@ export type Gender = 'M' | 'F'
 
 export interface PatientContext {
   gender: Gender
-  isPediatric: boolean  // idade < 6 anos
+  isPediatric: boolean
+  age?: string
+  phoneNumber?: string
+  allergies?: string
   painIntensity?: number // 0-10
   evolutionType?: 'agudo' | 'subagudo' | 'crônico'
   onsetType?: 'súbito' | 'progressivo' | 'insidioso'
@@ -1563,11 +1567,6 @@ export const COMPLETE_NARRATIVES: Record<string, {
   },
   'Urina turva ou com odor forte': {
     narrative: 'urina turva ou com odor fétido',
-    category: 'HDA',
-    verb: 'SINTOMAS_RELATADOS',
-  },
-  'Taquipneia': {
-    narrative: 'taquipneia',
     category: 'HDA',
     verb: 'SINTOMAS_RELATADOS',
   },

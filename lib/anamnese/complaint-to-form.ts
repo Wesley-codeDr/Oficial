@@ -24,6 +24,7 @@ export interface FormItem {
   isRequired: boolean
   tooltip?: string
   options?: { value: string; label: string }[]
+  triggersCalculator?: string
 }
 
 export interface FormConfig {
@@ -100,13 +101,27 @@ export function complaintToFormConfig(complaintId: string): FormConfig | null {
       title: 'Sintomas Associados',
       type: 'checkbox',
       order: 2,
-      items: (complaint.relatedSymptoms || []).map((symptom, idx) => ({
-        id: `symptom_${idx}`,
-        label: symptom,
-        narrativeText: symptom,
-        isRedFlag: false,
-        isRequired: false
-      }))
+      items: (complaint.relatedSymptoms || []).map((symptom, idx) => {
+        let triggersCalculator: string | undefined = undefined;
+        const sLower = symptom.toLowerCase();
+        
+        // Mapeamento de gatilhos contextuais
+        if (sLower.includes('dor típica') || sLower.includes('angina') || sLower.includes('peito')) {
+          if (complaintId.includes('CHEST_PAIN')) triggersCalculator = 'heart';
+        }
+        if (sLower.includes('falta de ar') || sLower.includes('dispneia')) {
+          triggersCalculator = 'curb65'; // Exemplo para pneumonia/DPOC
+        }
+
+        return {
+          id: `symptom_${idx}`,
+          label: symptom,
+          narrativeText: symptom,
+          isRedFlag: false,
+          isRequired: false,
+          triggersCalculator
+        };
+      })
     },
 
     // Seção: Red Flags (Checkboxes com destaque)
@@ -115,14 +130,25 @@ export function complaintToFormConfig(complaintId: string): FormConfig | null {
       title: 'Sinais de Alarme',
       type: 'checkbox',
       order: 3,
-      items: (extended.redFlags || []).map((rf, idx) => ({
-        id: `redflag_${idx}`,
-        label: rf,
-        narrativeText: `⚠️ ${rf}`,
-        isRedFlag: true,
-        isRequired: false,
-        tooltip: 'Sinal de alarme - requer atenção imediata'
-      }))
+      items: (extended.redFlags || []).map((rf, idx) => {
+        let triggersCalculator: string | undefined = undefined;
+        const rfLower = rf.toLowerCase();
+        
+        // Mapeamento de gatilhos contextuais para Red Flags
+        if (rfLower.includes('dor típica') || (rfLower.includes('peito') && complaintId.includes('CHEST'))) {
+          triggersCalculator = 'heart';
+        }
+
+        return {
+          id: `redflag_${idx}`,
+          label: rf,
+          narrativeText: `⚠️ ${rf}`,
+          isRedFlag: true,
+          isRequired: false,
+          tooltip: 'Sinal de alarme - requer atenção imediata',
+          triggersCalculator
+        };
+      })
     },
 
     // Seção: Diagnóstico Diferencial (Info/Referência)

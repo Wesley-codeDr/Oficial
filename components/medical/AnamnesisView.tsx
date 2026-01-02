@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { useEffect, useState, useMemo } from 'react';
 import {
-  Search, Save, Check, AlertTriangle,
+  Search, Check, AlertTriangle,
   Activity, Thermometer, Stethoscope, FileText,
   Plus, ChevronRight, Info, Calculator, BookOpen, X
 } from 'lucide-react';
@@ -11,7 +11,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { AnamnesisSection, Symptom, Patient } from '@/lib/types/medical';
 import { AutoRedFlagAlert } from './AutoRedFlagAlert';
 import { detectRedFlags, DetectionResult } from '@/lib/anamnese/red-flag-detector';
-import { getComplaintById, FormConfig, complaintToFormConfig } from '@/lib/anamnese/complaint-to-form';
+import { getComplaintById, complaintToFormConfig } from '@/lib/anamnese/complaint-to-form';
+import { CalculatorTriggerButton } from './CalculatorTriggerButton';
+import { InlineCalculatorPanel } from './InlineCalculatorPanel';
 
 // --- VISUAL CONSTANTS ---
 const SECTION_ICONS: Record<string, any> = {
@@ -395,6 +397,7 @@ interface AnamnesisViewProps {
 }
 
 export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
+    patient,
     sections,
     data,
     onDataChange,
@@ -405,6 +408,8 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
   const [showConduct, setShowConduct] = useState(false);
   const [isCalculatorDismissed, setIsCalculatorDismissed] = useState(false);
+  const [openCalculatorId, setOpenCalculatorId] = useState<string | null>(null);
+  const [isCalculatorPanelOpen, setIsCalculatorPanelOpen] = useState(false);
 
   // Carrega dados do Obsidian se complaintId fornecido
   const complaintData = useMemo(() => {
@@ -449,7 +454,7 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
   }, [sections]);
 
   useEffect(() => {
-    const doc = (globalThis as { document?: Document }).document;
+    const doc = (globalThis as any).document;
     const container = doc?.getElementById('form-container');
     if (!container) return;
 
@@ -492,7 +497,7 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
 
   const scrollToSection = (id: string, smoothScroll: boolean = true) => {
     setActiveSectionId(id);
-    const doc = (globalThis as { document?: Document }).document;
+    const doc = (globalThis as any).document;
     const container = doc?.getElementById('form-container');
     const el = doc?.getElementById(`sec-${id}`);
     
@@ -523,7 +528,21 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
     );
 
     switch(item.type) {
-        case 'boolean': return <CheckboxItem key={item.id} item={item} value={safeValue as boolean} onChange={(v) => handleInputChange(item.id, v)} />;
+        case 'boolean': 
+            return (
+                <div key={item.id} className="flex items-center">
+                    <CheckboxItem item={item} value={safeValue as boolean} onChange={(v) => handleInputChange(item.id, v)} />
+                    {item.triggersCalculator && safeValue === true && (
+                        <CalculatorTriggerButton 
+                            label={item.triggersCalculator === 'heart' ? 'HEART' : item.triggersCalculator.toUpperCase()}
+                            onClick={() => {
+                                setOpenCalculatorId(item.triggersCalculator!);
+                                setIsCalculatorPanelOpen(true);
+                            }}
+                        />
+                    )}
+                </div>
+            );
         case 'segment': return <SegmentedItem key={item.id} item={item} value={safeValue as string} onChange={(v) => handleInputChange(item.id, v)} />;
         case 'multiSelect': return <MultiSelectItem key={item.id} item={item} value={safeValue as string[]} onChange={(v) => handleInputChange(item.id, v)} />;
         case 'range': return <RangeItem key={item.id} item={item} value={safeValue as string} onChange={(v) => handleInputChange(item.id, v)} />;
@@ -536,12 +555,28 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
   const calculators = formConfig?.calculators || [];
   const initialConduct = extendedContent?.condutaInicial || '';
 
+  // Antecedentes for calculators
+  const antecedentesItems = useMemo(() => {
+    return sections.find(s => s.id === 'antecedentes' || s.id.startsWith('antecedentes'))?.items.map(item => ({
+        ...item,
+        checked: data[item.id] === true
+    })) || [];
+  }, [sections, data]);
+
   // Show floating card if red flag is detected and there are relevant calculators
   const showFloatingCalculators = redFlagResult.hasRedFlags && calculators.length > 0 && !isCalculatorDismissed;
 
   return (
     <div className="flex h-full gap-5 animate-in fade-in zoom-in-95 duration-500">
       
+      <InlineCalculatorPanel 
+        isOpen={isCalculatorPanelOpen}
+        onClose={() => setIsCalculatorPanelOpen(false)}
+        calculatorId={openCalculatorId || ''}
+        patient={patient || { id: 'anonymous', age: '0', gender: 'M', category: 'adult', isPregnant: false, phoneNumber: '', allergies: [], medications: [], entryTime: '2025-01-01T00:00:00.000Z', status: 'waiting' }}
+        antecedentesItems={antecedentesItems}
+      />
+
       <AnimatePresence>
         {showFloatingCalculators && (
           <FloatingCalculatorCard 

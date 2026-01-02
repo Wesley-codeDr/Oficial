@@ -1,5 +1,140 @@
-@config "../tailwind.config.ts";
 @import "tailwindcss";
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Medical-specific colors (WellWave Palette) */
+  --color-medical-primary: #004e92;
+  --color-medical-secondary: #00c6ff;
+  --color-medical-accent: #eef2f3;
+  --color-medical-redFlag: #FF3B30;
+  --color-medical-warning: #FF9500;
+  --color-medical-safe: #34C759;
+  --color-medical-info: #5AC8FA;
+
+  /* Apple accent colors */
+  --color-apple-blue: #007AFF;
+  --color-apple-green: #34C759;
+  --color-apple-orange: #FF9500;
+  --color-apple-red: #FF3B30;
+  --color-apple-purple: #AF52DE;
+  --color-apple-pink: #FF2D55;
+  --color-apple-teal: #5AC8FA;
+
+  /* Glass effect specific colors */
+  --color-glass-background: rgba(0, 78, 146, 0.15);
+  --color-glass-border: rgba(255, 255, 255, 0.2);
+  --color-glass-highlight: rgba(255, 255, 255, 0.05);
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-3xl: 1.5rem;
+
+  /* Custom Animations */
+  --animate-shimmer: shimmer 2s linear infinite;
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes shimmer {
+    from { background-position: -1000px 0; }
+    to { background-position: 1000px 0; }
+  }
+  @keyframes accordion-down {
+    from { height: 0; }
+    to { height: var(--radix-accordion-content-height); }
+  }
+  @keyframes accordion-up {
+    from { height: var(--radix-accordion-content-height); }
+    to { height: 0; }
+  }
+}
+
+/* === Tailwind v4 Utility Definitions === */
+
+@utility liquid-glass-material {
+  position: relative;
+  background-color: var(--liquid-glass-bg);
+  -webkit-backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
+  backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
+  border: 1px solid var(--liquid-glass-border);
+  box-shadow: var(--liquid-glass-shadow);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 1;
+  border-radius: 32px;
+  overflow: hidden;
+}
+
+@utility nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  transition-property: all;
+  transition-duration: 300ms;
+}
+
+@utility glass-btn-small {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  border-radius: 0.75rem;
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.2);
+  transition-property: all;
+  transition-duration: 300ms;
+}
+
+@utility glass-btn-small-primary {
+  background-color: rgba(59, 130, 246, 0.1);
+  color: rgb(37, 99, 235);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+@utility patient-id-capsule {
+  position: relative;
+  background-color: var(--liquid-glass-bg);
+  backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
+  border: 1px solid var(--liquid-glass-border);
+  box-shadow: var(--liquid-glass-shadow);
+  z-index: 1;
+  overflow: hidden;
+  padding: 2rem;
+  border-radius: 32px;
+  transition: all 0.5s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
 
 @layer base {
   :root {
@@ -110,20 +245,6 @@
 }
 
 @layer utilities {
-  /* === Liquid Glass Material - The One Source of Truth === */
-  .liquid-glass-material {
-    position: relative;
-    background-color: var(--liquid-glass-bg);
-    -webkit-backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
-    backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
-    border: 1px solid var(--liquid-glass-border);
-    box-shadow: var(--liquid-glass-shadow);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Apple-standard 'expo-out' */
-    z-index: 1;
-    border-radius: 32px;
-    overflow: hidden; /* Contain the shimmer */
-  }
-
   /* Specular Highlight Overlay (Brilliance) */
   .liquid-glass-material::before {
     content: '';
@@ -203,7 +324,7 @@
 
   /* Liquid Title Style - Refined for Health */
   .text-liquid-title {
-    @apply tracking-tighter font-extrabold bg-clip-text text-transparent bg-gradient-to-br from-white via-blue-50 to-blue-200/50;
+    @apply tracking-tighter font-extrabold bg-clip-text text-transparent bg-linear-to-br from-white via-blue-50 to-blue-200/50;
     filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
     letter-spacing: -0.05em;
   }
@@ -225,7 +346,7 @@
   
   /* Text gradient - estilo Apple Professional */
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary via-blue-400 to-indigo-500;
+    @apply bg-clip-text text-transparent bg-linear-to-r from-primary via-blue-400 to-indigo-500;
   }
   
   /* Hover lift refined with spring */
@@ -237,23 +358,26 @@
     @apply scale-[1.03] -translate-y-1 shadow-2xl;
   }
 
-  /* === Glass Nav Buttons (Apple Glass Style) === */
-  .nav-btn {
-    @apply flex items-center justify-center gap-2 font-semibold transition-all duration-300;
+  .age-input-glass {
+    @apply bg-white/10 dark:bg-white/5 backdrop-blur-xl border border-white/20 dark:border-white/10;
+    @apply rounded-2xl px-4 py-3 text-lg font-bold text-slate-800 dark:text-white;
+    @apply focus:ring-2 focus:ring-blue-500/30 focus:border-blue-500/50 outline-none;
+    @apply transition-all duration-300;
   }
 
-  .glass-btn-small {
-    @apply px-4 py-2 text-sm rounded-xl border border-white/20 dark:border-white/10 
-           hover:bg-white/10 dark:hover:bg-white/5 active:scale-95 transition-all duration-300;
+  .age-chip {
+    @apply px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest;
+    @apply bg-white/10 dark:bg-white/5 border border-white/20 dark:border-white/10;
+    @apply text-slate-500 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10;
+    @apply transition-all duration-200 cursor-pointer;
   }
 
-  .glass-btn-small-primary {
-    @apply bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/30 
-           hover:bg-blue-500/20 dark:bg-blue-500/15;
+  .age-chip.selected {
+    @apply bg-blue-500/20 border-blue-500/40 text-blue-600 dark:text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.2)];
   }
 
-  .glass-btn-small.selected {
-    @apply bg-white/30 dark:bg-white/15 border-white/50 dark:border-white/20 shadow-inner;
+  .gestante-toggle-glass {
+    @apply flex items-center justify-between p-5 rounded-[28px] border transition-all duration-300;
   }
 }
 

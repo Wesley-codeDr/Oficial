@@ -11,6 +11,8 @@ import { AccessibilityGuide } from '@/components/medical/AccessibilityGuide'
 import { FlashAnamnesisFlow } from '@/components/medical/FlashAnamnesisFlow'
 import { ChatWell } from '@/components/medical/ChatWell'
 import { GlassPanel } from '@/components/glass/GlassPanel'
+import { AnamnesisWorkspace } from '@/components/medical/AnamnesisWorkspace'
+import { SmartNotePanel } from '@/components/medical/SmartNotePanel'
 import { HeartScoreCalculator } from '@/components/medical/HeartScoreCalculator'
 import {
   Sparkles,
@@ -34,6 +36,7 @@ import {
   HeartPulse,
   Wind,
   Biohazard,
+  MessageSquare,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -130,9 +133,17 @@ export default function Home() {
     phoneNumber: '',
     allergies: ['Dipirona', 'Sulfa'],
     medications: ['Sildenafil', 'Losartana', 'Aspirina'],
-    entryTime: new Date(Date.now() - 1000 * 60 * 42).toISOString(),
+    entryTime: '2025-01-01T00:00:00.000Z', // Static placeholder for initial render
     status: 'in_progress',
   })
+
+  // Standardize dynamic patient data after mount to avoid hydration mismatch
+  React.useEffect(() => {
+    setPatient(prev => ({
+      ...prev,
+      entryTime: new Date(Date.now() - 1000 * 60 * 42).toISOString()
+    }))
+  }, [])
 
   const [copiedId, setCopiedId] = React.useState<string | null>(null)
   const [isUppercaseMode, setIsUppercaseMode] = React.useState(false)
@@ -143,6 +154,36 @@ export default function Home() {
   const [targetSectionId, setTargetSectionId] = React.useState<string | null>(null)
   const [manualNoteEdits, setManualNoteEdits] = React.useState<Record<string, string>>({})
   const [editingNoteBlockId, setEditingNoteBlockId] = React.useState<string | null>(null)
+  const [newSymptomName, setNewSymptomName] = React.useState('')
+  const [activeTool, setActiveTool] = React.useState<'chat' | 'calculators' | null>(null)
+
+  const handleApplyScore = (scoreResult: string) => {
+    // Basic logic to append to "conduta" block or create if missing
+    // For now, simpler approach: append to manualNoteEdits of 'conduta' block if it exists
+    const condutaBlock = noteBlocks.find(b => b.id === 'conduta')
+    if (condutaBlock) {
+      const currentContent = manualNoteEdits['conduta'] || condutaBlock.content
+      const newContent = currentContent + '\n\n' + scoreResult
+      setManualNoteEdits(prev => ({ ...prev, conduta: newContent }))
+      toast({
+        title: "Score Aplicado",
+        description: "O resultado foi adicionado à conduta.",
+      })
+    } else {
+       toast({
+        title: "Bloco de Conduta não encontrado",
+        description: "Adicione um bloco de conduta para aplicar o score.",
+        variant: "destructive"
+      })
+    }
+  }
+
+  // Check if current protocol has calculators
+  const hasCalculators = React.useMemo(() => {
+    if (!activeProtocolId) return false
+    const calcs = getCalculatorsForGroup(activeProtocolId)
+    return !!calcs
+  }, [activeProtocolId])
 
   const copyBlockToClipboard = async (content: string, blockId: string) => {
     const clipboard = (globalThis as any).navigator?.clipboard
@@ -553,7 +594,7 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="flex h-screen w-full overflow-hidden">
+    <div className="flex h-screen w-full overflow-hidden" suppressHydrationWarning={true}>
       <Sidebar currentView={viewMode} onNavigate={handleSidebarNavigation} />
 
       <main className="flex-1 flex flex-col h-full min-w-0 relative z-0 p-4">
@@ -657,194 +698,128 @@ export default function Home() {
               {viewMode === 'accessibility' && <AccessibilityGuide />}
 
               {viewMode === 'protocol' && (
-                <div className="h-full flex gap-6 overflow-hidden">
-                  <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
-                     <div className="shrink-0 flex items-center gap-2 px-6 pt-5 pb-2">
-                        <Button variant="secondary" size="sm" onClick={() => setViewMode('selection')}>
-                           <ArrowLeft className="w-4 h-4 mr-2" />
-                           Voltar
-                        </Button>
-                     </div>
-                     <div className="flex-1 overflow-hidden px-4">
-                        <AnamnesisView
-                           patient={patient}
-                           sections={sections}
-                           data={anamnesisData}
-                           onDataChange={setAnamnesisData}
-                           onAddSymptom={handleOpenAddModal}
-                        />
-                     </div>
-                  </div>
-                   <div className="hidden xl:flex w-[400px] shrink-0 flex-col h-full overflow-hidden liquid-glass-material !bg-white/10 dark:!bg-black/20 border-l border-white/20 dark:border-white/10 shadow-2xl rounded-[32px]">
-                    <div className="px-6 py-8 border-b border-white/20 dark:border-white/10 flex justify-between items-center bg-transparent shrink-0">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-[14px] bg-gradient-to-br from-purple-500/80 to-indigo-600/80 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
-                          <Sparkles className="w-5 h-5 stroke-[2px]" />
-                        </div>
-                        <div>
-                          <h3 className="font-bold text-[16px] text-slate-800 dark:text-white tracking-tight leading-none">
-                            Nota Inteligente
-                          </h3>
-                          <p className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-[0.1em] mt-1.5 opacity-80">
-                            Processamento Real-time
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex gap-2">
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => setIsUppercaseMode(!isUppercaseMode)} 
-                          title="Maiúsculas"
-                          className="w-10 h-10 rounded-xl hover:bg-white/20 dark:hover:bg-white/5 transition-all"
-                        >
-                           <CaseUpper className={`w-4 h-4 ${isUppercaseMode ? 'text-blue-500' : ''}`} />
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={handlePrint} 
-                          title="Imprimir"
-                          className="w-10 h-10 rounded-xl hover:bg-white/20 dark:hover:bg-white/5 transition-all"
-                        >
-                           <Printer className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </div>
+                <div className="h-full w-full overflow-hidden">
 
-                    <div className="flex-1 p-6 space-y-5 overflow-y-auto custom-scrollbar bg-transparent">
-                        <AnimatePresence mode="popLayout">
-                        {noteBlocks.map((block) => (
-                          <motion.div 
-                            key={block.id} 
-                            layout
-                            initial={{ opacity: 0, y: 15 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            onDoubleClick={() => setEditingNoteBlockId(block.id)}
-                            className={`
-                              group relative rounded-[24px] border p-5 transition-all duration-300
-                              bg-white/40 dark:bg-white/5 backdrop-blur-md border-white/40 dark:border-white/10 
-                              hover:shadow-xl hover:bg-white/60 dark:hover:bg-white/10 hover:scale-[1.01]
-                              ${editingNoteBlockId === block.id ? 'ring-2 ring-blue-500/50 bg-white/80 dark:bg-white/10 z-20' : ''}
-                            `}
-                          >
-                            <div className="flex justify-between items-start mb-3">
-                              <div className="flex items-center gap-2.5">
-                                <div className={`p-1.5 rounded-lg ${block.id === 'safety_check' ? 'bg-rose-500/20 text-rose-500' : 'bg-slate-100 dark:bg-white/5 text-slate-400'}`}>
-                                  <BlockIcon name={block.iconName} />
-                                </div>
-                                <span className={`text-[11px] font-bold uppercase tracking-widest ${block.id === 'safety_check' ? 'text-rose-500' : 'text-slate-400 dark:text-slate-500'}`}>
-                                  {block.title}
-                                </span>
-                              </div>
-                              <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-all duration-200">
-                                {editingNoteBlockId === block.id ? (
-                                  <button 
-                                    onClick={() => setEditingNoteBlockId(null)}
-                                    className="p-2 rounded-xl bg-blue-500 text-white shadow-lg shadow-blue-500/30 transition-all"
-                                    title="Salvar"
-                                  >
-                                    <Check className="w-4 h-4" />
-                                  </button>
-                                ) : (
-                                  <button 
-                                    onClick={() => copyBlockToClipboard(block.content, block.id)}
-                                    className="p-2 rounded-xl hover:bg-blue-500/10 hover:text-blue-500 text-slate-400 transition-all"
-                                    title="Copiar bloco"
-                                  >
-                                    {copiedId === block.id ? <Check className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
-                                  </button>
-                                )}
-                              </div>
-                            </div>
-                            
-                            {editingNoteBlockId === block.id ? (
-                              <textarea
-                                autoFocus
-                                value={manualNoteEdits[block.id] !== undefined ? manualNoteEdits[block.id] : block.content}
-                                onChange={(e) => setManualNoteEdits(prev => ({ ...prev, [block.id]: e.target.value }))}
-                                onBlur={() => setEditingNoteBlockId(null)}
-                                className="w-full bg-transparent border-0 focus:ring-0 p-0 text-[15px] leading-relaxed font-medium text-slate-800 dark:text-white resize-none min-h-[100px] outline-none"
-                                placeholder="Edite o texto aqui..."
+
+  // ... (inside return)
+
+              {viewMode === 'protocol' && (
+                <div className="h-full w-full overflow-hidden">
+                   <AnamnesisWorkspace 
+                      activeTool={activeTool}
+                      onActiveToolChange={setActiveTool}
+                      leftContent={
+                        <div className="flex flex-col h-full bg-transparent">
+                           <div className="shrink-0 flex items-center gap-2 px-6 pt-5 pb-2">
+                              <Button variant="secondary" size="sm" onClick={() => setViewMode('selection')}>
+                                 <ArrowLeft className="w-4 h-4 mr-2" />
+                                 Voltar
+                              </Button>
+                           </div>
+                           <div className="flex-1 overflow-hidden px-4">
+                              <AnamnesisView
+                                 patient={patient}
+                                 sections={sections}
+                                 data={anamnesisData}
+                                 onDataChange={setAnamnesisData}
+                                 onAddSymptom={handleOpenAddModal}
                               />
-                            ) : (
-                              <p className={`
-                                text-[15px] leading-relaxed transition-all tracking-tight select-text
-                                ${isUppercaseMode ? 'uppercase' : ''}
-                                ${block.id === 'safety_check' ? 'text-rose-600 dark:text-rose-400 font-bold' : 'text-slate-700 dark:text-slate-200 font-medium'}
-                              `}>
-                                {block.content.split(/(\*\*.+?\*\*)/g).map((part, i) => {
-                                  if (part.startsWith('**') && part.endsWith('**')) {
-                                    return <strong key={part + i}>{part.slice(2, -2)}</strong>
-                                  }
-                                  return part
-                                })}
-                              </p>
-                            )}
+                           </div>
+                        </div>
+                      }
+                      rightContent={
+                        <SmartNotePanel 
+                           noteBlocks={noteBlocks}
+                           isUppercaseMode={isUppercaseMode}
+                           setIsUppercaseMode={setIsUppercaseMode}
+                           onPrint={handlePrint}
+                           editingBlockId={editingNoteBlockId}
+                           setEditingBlockId={setEditingNoteBlockId}
+                           manualEdits={manualNoteEdits}
+                           setManualEdits={setManualNoteEdits}
+                           copyBlock={copyBlockToClipboard}
+                           copiedId={copiedId}
+                           footer={
+                              <div className="flex items-center gap-2 w-full h-14">
+                                {/* Chat Button */}
+                                <button
+                                  onClick={() => setActiveTool(activeTool === 'chat' ? null : 'chat')}
+                                  className={`
+                                    h-14 w-14 rounded-[20px] flex items-center justify-center transition-all duration-300
+                                    ${activeTool === 'chat' 
+                                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40 scale-105' 
+                                      : 'bg-white/10 dark:bg-black/30 text-slate-500 hover:bg-white/20 hover:scale-105 border border-white/10'}
+                                  `}
+                                  title="ChatWW"
+                                >
+                                  <MessageSquare className="w-6 h-6" />
+                                </button>
 
-                            {block.alerts && block.alerts.length > 0 && (
-                              <div className="mt-4 flex flex-wrap gap-2">
-                                {block.alerts.map((alert, i) => (
-                                  <motion.span 
-                                    key={i}
-                                    initial={{ scale: 0.9 }}
-                                    animate={{ scale: 1 }}
-                                    className="px-3 py-1 rounded-full bg-rose-500/10 text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider border border-rose-500/20 shadow-sm"
+                                {/* Score Button with Alert */}
+                                <div className="relative">
+                                  <button
+                                    onClick={() => setActiveTool(activeTool === 'calculators' ? null : 'calculators')}
+                                    className={`
+                                      h-14 w-14 rounded-[20px] flex items-center justify-center transition-all duration-300 relative
+                                      ${activeTool === 'calculators' 
+                                        ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 scale-105' 
+                                        : 'bg-white/10 dark:bg-black/30 text-slate-500 hover:bg-white/20 hover:scale-105 border border-white/10'}
+                                    `}
+                                    title="Scores Clínicos"
                                   >
-                                    {alert}
-                                  </motion.span>
-                                ))}
+                                    <Calculator className="w-6 h-6" />
+                                    {/* Alert Indicator */}
+                                    {hasCalculators && !activeTool && (
+                                      <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full border border-white dark:border-slate-900 animate-pulse shadow-sm" />
+                                    )}
+                                  </button>
+                                </div>
+
+                                {/* Definir Fluxo Button (Expanded) */}
+                                <div className="relative flex-1">
+                                  <Button 
+                                    onClick={() => setIsFlowMenuOpen(!isFlowMenuOpen)} 
+                                    size="lg" 
+                                    className="w-full h-14 rounded-[20px] bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-xl shadow-blue-500/25 group border-0 text-[16px] font-bold"
+                                  >
+                                     <GitBranch className="w-5 h-5 mr-3 transition-transform duration-700 group-hover:rotate-180" />
+                                     Definir Fluxo
+                                  </Button>
+                                  {isFlowMenuOpen && (
+                                    <div className="absolute bottom-full left-0 right-0 z-20 mb-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-300 ease-out">
+                                      <div className="p-2 liquid-glass-material !bg-white/80 dark:!bg-black/60 backdrop-blur-2xl rounded-[28px] border border-white/40 dark:border-white/10 shadow-2xl">
+                                         <div className="grid grid-cols-1 gap-1">
+                                            {['Ambulatorial', 'Observação', 'Internação', 'UTI', 'Emergência'].map((status) => (
+                                              <button
+                                                key={status}
+                                                onClick={() => handleSetFlow(status.toLowerCase() as any)}
+                                                className="px-4 py-3.5 rounded-[18px] text-[14px] font-bold text-left hover:bg-blue-500/10 hover:text-blue-500 dark:hover:bg-white/10 dark:hover:text-white transition-all transition-colors"
+                                              >
+                                                {status}
+                                              </button>
+                                            ))}
+                                         </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
                               </div>
-                            )}
-                          </motion.div>
-                        ))}
-                        </AnimatePresence>
-
-                        {noteBlocks.length === 0 && (
-                          <div className="h-full flex flex-col items-center justify-center text-center p-10 space-y-6">
-                            <div className="w-20 h-20 rounded-[28px] bg-slate-100 dark:bg-white/5 flex items-center justify-center text-slate-300 dark:text-slate-600 border border-slate-200/50 dark:border-white/5 shadow-inner">
-                              <FileText className="w-10 h-10" />
-                            </div>
-                            <div className="max-w-[200px]">
-                              <p className="text-slate-400 dark:text-slate-500 font-semibold text-[15px] leading-tight italic">
-                                Preencha o atendimento para gerar a nota automática
-                              </p>
-                            </div>
-                          </div>
-                        )}
-                     </div>
-
-                    <div className="p-6 border-t border-white/20 dark:border-white/10 bg-transparent relative z-10">
-                      <div className="relative">
-                        <Button 
-                          onClick={() => setIsFlowMenuOpen(!isFlowMenuOpen)} 
-                          size="lg" 
-                          className="w-full h-14 rounded-[20px] bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-xl shadow-blue-500/25 group border-0 text-[16px] font-bold"
-                        >
-                           <GitBranch className="w-5 h-5 mr-3 transition-transform duration-700 group-hover:rotate-180" />
-                           Definir Fluxo
-                        </Button>
-                        {isFlowMenuOpen && (
-                          <div className="absolute bottom-full left-0 right-0 z-20 mb-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-300 ease-out">
-                            <div className="p-2 liquid-glass-material !bg-white/80 dark:!bg-black/60 backdrop-blur-2xl rounded-[28px] border border-white/40 dark:border-white/10 shadow-2xl">
-                               <div className="grid grid-cols-1 gap-1">
-                                  {['Ambulatorial', 'Observação', 'Internação', 'UTI', 'Emergência'].map((status) => (
-                                    <button
-                                      key={status}
-                                      onClick={() => handleSetFlow(status.toLowerCase() as any)}
-                                      className="px-4 py-3.5 rounded-[18px] text-[14px] font-bold text-left hover:bg-blue-500/10 hover:text-blue-500 dark:hover:bg-white/10 dark:hover:text-white transition-all transition-colors"
-                                    >
-                                      {status}
-                                    </button>
-                                  ))}
-                               </div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+                           }
+                        />
+                      }
+                      sidebarContent={{
+                        chat: <ChatWell />,
+                        calculators: <HeartScoreCalculator 
+                          isOpen={true} // Controlled by AnamnesisWorkspace overlay
+                          onClose={() => setActiveTool(null)}
+                          patient={patient}
+                          onApply={handleApplyScore}
+                          // Note: In real app, props for antecedents would pass here
+                        />
+                      }}
+                   />
+                </div>
+              )}
                 </div>
               )}
             </div>

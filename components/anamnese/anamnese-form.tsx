@@ -4,8 +4,8 @@ import { useState, useMemo, useTransition, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckboxCategory } from '@prisma/client'
 import { Save, RotateCcw, FileText, List, MessageSquare } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
+import { motion, AnimatePresence } from 'framer-motion'
+import { cn } from '@/lib/utils'
 import { CheckboxGroup } from './checkbox-group'
 import { NarrativePreview } from './narrative-preview'
 import { RedFlagAlert } from './red-flag-alert'
@@ -275,7 +275,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           title: 'Anamnese salva!',
           description: 'A anamnese foi salva no seu historico.',
         })
-      } catch (error) {
+      } catch (_error) {
         toast({
           title: 'Erro ao salvar',
           description: 'Ocorreu um erro ao salvar a anamnese. Tente novamente.',
@@ -293,7 +293,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
       startTransition(async () => {
         try {
           await markSessionAsCopied(savedSessionId)
-        } catch (error) {
+        } catch (_error) {
           // Silent fail - not critical
         }
       })
@@ -324,7 +324,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
         const conversation = await response.json()
         router.push(`/chat/${conversation.id}`)
-      } catch (error) {
+      } catch (_error) {
         toast({
           title: 'Erro ao abrir chat',
           description: 'Nao foi possivel iniciar o chat. Tente novamente.',
@@ -335,50 +335,74 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr,400px]">
+    <div className="grid gap-8 lg:grid-cols-[1fr,450px]">
       {/* Left Panel - Checkboxes */}
-      <div className="space-y-6">
-        {/* Complaint Selector - NEW */}
-        <ComplaintSelector
-          selectedComplaintId={selectedComplaintId}
-          onComplaintSelect={handleComplaintSelect}
-          onClear={handleComplaintClear}
-        />
-
-        {/* Priority Checkboxes Panel - Shows when complaint is selected */}
-        {selectedComplaintId && (
-          <PriorityCheckboxPanel
-            complaintId={selectedComplaintId}
-            selectedCheckboxes={prioritySelectedCheckboxes}
-            onToggle={handlePriorityToggle}
+      <div className="space-y-8">
+        
+        {/* Complaint Selector */}
+        <div className="liquid-glass-material rounded-[32px] p-6 border border-white/20 dark:border-white/5 shadow-xl">
+          <ComplaintSelector
+            selectedComplaintId={selectedComplaintId}
+            onComplaintSelect={handleComplaintSelect}
+            onClear={handleComplaintClear}
           />
+        </div>
+
+        {/* Priority Checkboxes Panel */}
+        {selectedComplaintId && (
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="liquid-glass-material rounded-[32px] p-6 border border-white/20 dark:border-white/5 shadow-xl"
+          >
+            <PriorityCheckboxPanel
+              complaintId={selectedComplaintId}
+              selectedCheckboxes={prioritySelectedCheckboxes}
+              onToggle={handlePriorityToggle}
+            />
+          </motion.div>
         )}
 
-        {/* Mode Toggle */}
-        <div className="flex items-center gap-2">
-          <Button
-            variant={outputMode === 'SUMMARY' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setOutputMode('SUMMARY')}
-          >
-            <List className="mr-2 h-4 w-4" />
-            Resumido (PS)
-          </Button>
-          <Button
-            variant={outputMode === 'DETAILED' ? 'default' : 'outline'}
-            size="sm"
-            onClick={() => setOutputMode('DETAILED')}
-          >
-            <FileText className="mr-2 h-4 w-4" />
-            Detalhado
-          </Button>
+        {/* Mode Toggle and Main Controls */}
+        <div className="flex flex-wrap items-center justify-between gap-4 px-2">
+          <div className="flex items-center gap-2 p-1.5 bg-white/10 dark:bg-white/5 rounded-2xl border border-white/20">
+            <button
+              onClick={() => setOutputMode('SUMMARY')}
+              className={cn(
+                'flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all',
+                outputMode === 'SUMMARY' 
+                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20' 
+                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/5'
+              )}
+            >
+              <List className="h-3.5 w-3.5" />
+              Resumido
+            </button>
+            <button
+              onClick={() => setOutputMode('DETAILED')}
+              className={cn(
+                'flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all',
+                outputMode === 'DETAILED' 
+                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20' 
+                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/5'
+              )}
+            >
+              <FileText className="h-3.5 w-3.5" />
+              Detalhado
+            </button>
+          </div>
+
+          <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 bg-slate-100 dark:bg-white/5 px-4 py-2 rounded-full">
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            {selectedIds.size} Iten{selectedIds.size !== 1 ? 's' : ''} Selecionado{selectedIds.size !== 1 ? 's' : ''}
+          </div>
         </div>
 
         {/* Red Flag Alert */}
         <RedFlagAlert redFlags={redFlags} />
 
         {/* Checkbox Groups */}
-        <div className="space-y-8">
+        <div className="space-y-10 px-1">
           {CATEGORY_ORDER.map((category) => (
             <CheckboxGroup
               key={category}
@@ -390,42 +414,53 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           ))}
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-3 border-t pt-6">
-          <Button
-            variant="outline"
+        {/* Sticky Action Footer for Mobile/Small Screens */}
+        <div className="flex flex-wrap items-center gap-4 border-t border-white/10 pt-8 pb-12">
+          <button
             onClick={handleReset}
             disabled={selectedIds.size === 0}
+            className="glass-btn-small flex items-center gap-2"
           >
-            <RotateCcw className="mr-2 h-4 w-4" />
+            <RotateCcw className="h-3.5 w-3.5" />
             Limpar
-          </Button>
-          <Button onClick={handleSave} disabled={isPending || selectedIds.size === 0}>
-            <Save className="mr-2 h-4 w-4" />
-            {isPending ? 'Salvando...' : 'Salvar'}
-          </Button>
-          <Button
-            variant="secondary"
+          </button>
+          
+          <button 
+            onClick={handleSave} 
+            disabled={isPending || selectedIds.size === 0}
+            className={cn(
+              'px-8 py-3.5 rounded-[20px] font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 flex items-center gap-3',
+              isPending || selectedIds.size === 0
+                ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
+                : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:scale-105 shadow-xl shadow-blue-500/10 active:scale-95'
+            )}
+          >
+            {isPending ? (
+              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            ) : (
+              <Save className="h-4 w-4" />
+            )}
+            {isPending ? 'Gravando...' : 'Finalizar Log'}
+          </button>
+
+          <button
             onClick={handleOpenChat}
             disabled={isPending || !savedSessionId}
+            className="glass-btn-small flex items-center gap-2"
           >
-            <MessageSquare className="mr-2 h-4 w-4" />
-            Chat EBM
-          </Button>
-          <div className="ml-auto text-sm text-muted-foreground">
-            {selectedIds.size} item{selectedIds.size !== 1 ? 's' : ''} selecionado
-            {selectedIds.size !== 1 ? 's' : ''}
-          </div>
+            <MessageSquare className="h-3.5 w-3.5 text-blue-500" />
+            <span>Consultar EBM</span>
+          </button>
         </div>
       </div>
 
       {/* Right Panel - Preview */}
-      <div className="lg:sticky lg:top-24 lg:h-[calc(100vh-120px)]">
+      <div className="lg:sticky lg:top-8 lg:self-start">
         <NarrativePreview
           narrative={narrative}
           redFlagCount={redFlags.length}
           onCopy={handleCopy}
-          className="h-full"
+          className="h-full min-h-[500px]"
         />
       </div>
     </div>

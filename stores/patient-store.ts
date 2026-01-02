@@ -1,6 +1,5 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
-import type { PatientContext } from '@/lib/anamnese/narrative-templates'
 
 type EvolutionType = 'agudo' | 'subagudo' | 'crônico'
 type OnsetType = 'súbito' | 'progressivo' | 'insidioso'
@@ -9,6 +8,9 @@ interface PatientState {
   // Estado do contexto do paciente
   gender: 'M' | 'F'
   isPediatric: boolean
+  age: string
+  phoneNumber: string
+  allergies: string
   painIntensity: number
   evolutionType: EvolutionType | undefined
   onsetType: OnsetType | undefined
@@ -17,11 +19,14 @@ interface PatientState {
   // Ações
   setGender: (gender: 'M' | 'F') => void
   setIsPediatric: (isPediatric: boolean) => void
+  setAge: (age: string) => void
+  setPhoneNumber: (phone: string) => void
+  setAllergies: (allergies: string) => void
   setPainIntensity: (intensity: number) => void
   setEvolutionType: (type: EvolutionType | undefined) => void
   setOnsetType: (type: OnsetType | undefined) => void
-  setContext: (context: Partial<PatientContext>) => void
-  getContext: () => PatientContext
+  setContext: (context: Partial<PatientState>) => void
+  getContext: () => Partial<PatientState>
   reset: () => void
   markContextSet: () => void
 }
@@ -29,6 +34,9 @@ interface PatientState {
 const initialState = {
   gender: 'M' as const,
   isPediatric: false,
+  age: '',
+  phoneNumber: '',
+  allergies: '',
   painIntensity: 0,
   evolutionType: undefined as EvolutionType | undefined,
   onsetType: undefined as OnsetType | undefined,
@@ -44,6 +52,12 @@ export const usePatientStore = create<PatientState>()(
 
       setIsPediatric: (isPediatric) => set({ isPediatric }),
 
+      setAge: (age) => set({ age }),
+
+      setPhoneNumber: (phoneNumber) => set({ phoneNumber }),
+
+      setAllergies: (allergies) => set({ allergies }),
+
       setPainIntensity: (painIntensity) => set({ painIntensity }),
 
       setEvolutionType: (evolutionType) => set({ evolutionType }),
@@ -57,11 +71,14 @@ export const usePatientStore = create<PatientState>()(
           isContextSet: true,
         })),
 
-      getContext: (): PatientContext => {
+      getContext: () => {
         const state = get()
         return {
           gender: state.gender,
           isPediatric: state.isPediatric,
+          age: state.age,
+          phoneNumber: state.phoneNumber,
+          allergies: state.allergies,
           painIntensity: state.painIntensity > 0 ? state.painIntensity : undefined,
           evolutionType: state.evolutionType,
           onsetType: state.onsetType,

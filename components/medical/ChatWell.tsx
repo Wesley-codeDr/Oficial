@@ -13,7 +13,7 @@ export const ChatWell: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Olá! Sou o Well, seu assistente médico inteligente. Como posso ajudar você hoje?',
+      text: 'Olá! Sou o ChatWW, seu assistente médico inteligente. Como posso ajudar você hoje?',
       sender: 'bot',
       timestamp: new Date(),
     },
@@ -48,7 +48,7 @@ export const ChatWell: React.FC = () => {
     globalThis.setTimeout(() => {
       const botResponse: Message = {
         id: (Date.now() + 1).toString(),
-        text: 'Entendido. Estou analisando sua solicitação com base nos protocolos clínicos mais recentes. Um momento, por favor.',
+        text: 'Entendido. Estou analisando sua solicitação com base nos protocolos clínicos mais recentes e no contexto atual do paciente. Um momento, por favor.',
         sender: 'bot',
         timestamp: new Date(),
       }
@@ -65,63 +65,38 @@ export const ChatWell: React.FC = () => {
   }
 
   return (
-    <div className="h-full flex flex-col p-4 md:p-6 overflow-hidden max-w-5xl mx-auto w-full">
-      {/* HEADER */}
-      <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex items-center justify-between mb-6 p-4 rounded-3xl glass border border-white/30 dark:border-white/10 shadow-lg z-10"
-      >
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/30 text-white">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <div>
-            <h1 className="text-xl font-bold text-slate-800 dark:text-white tracking-tight">
-              Chat Well
-            </h1>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                Online • IA Médica Avançada
-              </span>
-            </div>
-          </div>
-        </div>
-        <button
-          aria-label="Mais opções do Chat Well"
-          className="p-2 rounded-xl hover:bg-white/20 dark:hover:bg-white/5 transition-colors text-slate-500 dark:text-slate-400"
-        >
-          <MoreHorizontal className="w-6 h-6" />
-        </button>
-      </motion.div>
-
+    <div className="h-full flex flex-col overflow-hidden w-full relative">
       {/* MESSAGES AREA */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar space-y-6 pr-2 pb-4">
+      <div className="flex-1 overflow-y-auto custom-scrollbar space-y-6 px-2 py-4">
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <motion.div
               key={msg.id}
-              initial={{ opacity: 0, y: 20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.3 }}
+              initial={{ opacity: 0, scale: 0.9, y: 10, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ type: 'spring', damping: 20, stiffness: 150 }}
               className={`flex w-full ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
                 className={`
-                  relative max-w-[80%] md:max-w-[70%] p-5 rounded-3xl shadow-sm
+                  relative max-w-[85%] p-4 rounded-[28px] shadow-lg transition-all duration-300
                   ${
                     msg.sender === 'user'
-                      ? 'bg-gradient-to-br from-blue-600 to-indigo-600 text-white rounded-tr-sm shadow-blue-500/20'
-                      : 'glass border border-white/40 dark:border-white/5 text-slate-800 dark:text-slate-100 rounded-tl-sm'
+                      ? 'bg-linear-to-br from-blue-600 to-indigo-600 text-white rounded-tr-sm shadow-blue-500/20'
+                      : 'liquid-glass-material !bg-white/40 dark:!bg-white/5 border-white/40 dark:border-white/10 text-slate-800 dark:text-slate-100 rounded-tl-sm glass-texture'
                   }
                 `}
               >
-                <p className="text-[15px] leading-relaxed whitespace-pre-wrap">{msg.text}</p>
+                {/* Subtle highlight for bot messages */}
+                {msg.sender === 'bot' && (
+                  <div className="absolute inset-0 rounded-[28px] border border-white/30 pointer-events-none" />
+                )}
+                
+                <p className="text-[14px] leading-relaxed font-medium whitespace-pre-wrap">{msg.text}</p>
                 <span
                   className={`
-                    text-[10px] font-medium mt-2 block opacity-70
-                    ${msg.sender === 'user' ? 'text-blue-100' : 'text-slate-400'}
+                    text-[9px] font-black mt-2 block uppercase tracking-widest opacity-60
+                    ${msg.sender === 'user' ? 'text-blue-100' : 'text-slate-500'}
                   `}
                 >
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -133,19 +108,16 @@ export const ChatWell: React.FC = () => {
 
         {isTyping && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
             className="flex justify-start w-full"
           >
             <div
-              role="status"
-              aria-live="polite"
-              aria-label="Well está digitando"
-              className="glass border border-white/30 dark:border-white/5 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1"
+              className="liquid-glass-material !bg-white/30 dark:!bg-white/5 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1.5"
             >
-              <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
-              <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
-              <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
+              <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
+              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+              <span className="w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce" />
             </div>
           </motion.div>
         )}
@@ -153,15 +125,14 @@ export const ChatWell: React.FC = () => {
       </div>
 
       {/* INPUT AREA */}
-      <div className="mt-4 relative z-20">
+      <div className="p-4 pt-2 relative z-20">
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="p-2 rounded-[24px] glass border border-white/40 dark:border-white/10 shadow-2xl shadow-blue-900/5 flex items-end gap-2"
+          className="p-2 rounded-[32px] liquid-glass-material !bg-white/40 dark:!bg-black/30 backdrop-blur-3xl border-white/40 dark:border-white/10 shadow-2xl flex items-end gap-2 group focus-within:ring-2 focus-within:ring-blue-500/30 transition-all duration-500"
         >
           <button
-            aria-label="Anexar arquivo"
-            className="p-3 rounded-xl hover:bg-slate-200/50 dark:hover:bg-slate-700/50 text-slate-500 dark:text-slate-400 transition-colors shrink-0"
+            className="p-3.5 rounded-2xl hover:bg-blue-500/10 text-slate-500 dark:text-slate-400 transition-all duration-300 shrink-0 hover:scale-110 active:scale-95"
           >
             <Paperclip className="w-5 h-5" />
           </button>
@@ -170,9 +141,8 @@ export const ChatWell: React.FC = () => {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Digite sua mensagem para o Well..."
-            aria-label="Campo de mensagem"
-            className="w-full bg-transparent border-none focus:ring-0 p-3 text-slate-800 dark:text-white placeholder:text-slate-400 resize-none max-h-32 min-h-[44px] custom-scrollbar"
+            placeholder="Perguntar ao ChatWW..."
+            className="w-full bg-transparent border-none focus:ring-0 p-3.5 text-slate-800 dark:text-white placeholder:text-slate-500 font-medium resize-none max-h-32 min-h-[48px] custom-scrollbar text-[14px]"
             rows={1}
             style={{ height: 'auto' }}
             onInput={(e) => {
@@ -186,24 +156,21 @@ export const ChatWell: React.FC = () => {
             onClick={handleSend}
             disabled={!inputValue.trim()}
             className={`
-              p-3 rounded-xl transition-all duration-300 shrink-0
+              p-3.5 rounded-2xl transition-all duration-500 shrink-0
               ${
                 inputValue.trim()
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 hover:scale-105'
-                  : 'bg-slate-200 dark:bg-slate-700 text-slate-400 cursor-not-allowed'
+                  ? 'bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/40 hover:scale-110 active:scale-90 scale-105'
+                  : 'bg-slate-200 dark:bg-white/5 text-slate-400 cursor-not-allowed'
               }
             `}
-            aria-label="Enviar mensagem"
-            aria-disabled={!inputValue.trim()}
           >
             <Send className="w-5 h-5" />
           </button>
         </motion.div>
-        <div className="text-center mt-2">
-          <p className="text-[10px] text-slate-400 dark:text-slate-500">
-            O Well pode cometer erros. Considere verificar informações importantes.
-          </p>
-        </div>
+        
+        <p className="text-[9px] text-center mt-3 text-slate-400 font-black uppercase tracking-widest opacity-60">
+          IA MÉDICA DE ALTA FIDELIDADE • APPLE VISION PROTOCOL
+        </p>
       </div>
     </div>
   )
