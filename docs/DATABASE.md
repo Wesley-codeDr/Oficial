@@ -1,13 +1,19 @@
 # Configuração do Banco de Dados
 
-Este projeto usa **PostgreSQL** como banco de dados, **Prisma** como ORM e **Supabase** para serviços adicionais (autenticação, storage, real-time).
+> **Versão**: 2.0
+> **Última Atualização**: Janeiro 2026
+> **Prisma Version**: 6.19+ (downgrade de v7 para estabilidade)
+
+Este projeto usa **PostgreSQL 16** como banco de dados, **Prisma 6.19+** como ORM e **Supabase** para serviços adicionais (autenticação, storage, real-time).
 
 ## Arquitetura
 
-O projeto utiliza uma abordagem híbrida:
+O projeto utiliza uma abordagem híbrida otimizada para Vercel:
 
-- **Prisma**: Para queries complexas, migrations, type-safety do schema e acesso direto ao PostgreSQL
-- **Supabase**: Para autenticação, storage de arquivos, real-time subscriptions, Edge Functions e Row Level Security (RLS)
+- **Prisma 6.19+**: Para queries complexas, migrations, type-safety do schema e acesso direto ao PostgreSQL
+  - Downgrade de v7 para v6.19+ devido a problemas de estabilidade no deployment
+  - Connection pooling obrigatório via PgBouncer em produção
+- **Supabase**: Para autenticação (JWT), storage de arquivos, real-time subscriptions e Row Level Security (RLS)
 
 Ambos utilizam a mesma instância PostgreSQL do Supabase em produção, permitindo flexibilidade na escolha da ferramenta certa para cada tarefa.
 
@@ -154,19 +160,22 @@ NODE_ENV="production"
 
 ```bash
 # Gerar cliente Prisma
-pnpm prisma generate
+pnpm db:generate              # ou: pnpm prisma generate
 
-# Criar nova migration
-pnpm prisma migrate dev --name nome_da_migration
+# Criar nova migration (desenvolvimento)
+pnpm db:migrate               # ou: pnpm prisma migrate dev --name nome_da_migration
 
-# Aplicar migrations pendentes
-pnpm prisma migrate deploy
+# Aplicar migrations pendentes (produção)
+pnpm db:migrate:deploy        # ou: pnpm prisma migrate deploy
 
 # Aplicar schema diretamente (sem migrations)
-pnpm prisma db push
+pnpm db:push                  # ou: pnpm prisma db push
 
 # Abrir Prisma Studio (interface visual)
-pnpm prisma studio
+pnpm db:studio                # ou: pnpm prisma studio
+
+# Seed do banco de dados
+pnpm db:seed                  # ou: pnpm prisma db seed
 
 # Resetar banco de dados (CUIDADO: apaga todos os dados)
 pnpm prisma migrate reset
@@ -174,6 +183,12 @@ pnpm prisma migrate reset
 # Ver status das migrations
 pnpm prisma migrate status
 ```
+
+**Nota sobre Prisma 6.19+:**
+
+- O projeto usa Prisma 6.19+ (não v7) para maior estabilidade no Vercel
+- Prisma Accelerate foi desabilitado devido a problemas de conexão
+- PgBouncer é obrigatório em produção (`?pgbouncer=true`)
 
 ## Schema do Banco de Dados
 

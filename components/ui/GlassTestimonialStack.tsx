@@ -4,6 +4,7 @@ import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence, PanInfo } from 'framer-motion';
 import { Quote, Star } from 'lucide-react';
 import { applePhysics, spatialDepth } from '@/lib/design-system/animation-tokens';
+import { useIsMobile } from '../../src/hooks/useMediaQuery';
 
 // --- Interfaces ---
 export interface Testimonial {
@@ -64,17 +65,19 @@ const cardVariants = {
 };
 
 // --- Component ---
-export const GlassTestimonialStack: React.FC<GlassTestimonialStackProps> = ({ 
+export const GlassTestimonialStack: React.FC<GlassTestimonialStackProps> = ({
   testimonials,
-  className = "" 
+  className = ""
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0); // -1 for left, 1 for right
+  const isMobile = useIsMobile();
 
   const totalCards = testimonials.length;
 
   const handleDragEnd = useCallback((event: React.MouseEvent | React.TouchEvent | React.PointerEvent | globalThis.MouseEvent | globalThis.TouchEvent | globalThis.PointerEvent, info: PanInfo) => {
-    const threshold = 50;
+    // Touch-friendly threshold - easier swipe on mobile
+    const threshold = isMobile ? 30 : 50;
     if (info.offset.x > threshold) {
       setDirection(1);
       setActiveIndex((prev) => (prev - 1 + totalCards) % totalCards);
@@ -82,7 +85,7 @@ export const GlassTestimonialStack: React.FC<GlassTestimonialStackProps> = ({
       setDirection(-1);
       setActiveIndex((prev) => (prev + 1) % totalCards);
     }
-  }, [totalCards]);
+  }, [totalCards, isMobile]);
 
   const getDisplayIndex = (offset: number) => {
     return (activeIndex + offset + totalCards) % totalCards;
@@ -111,7 +114,7 @@ export const GlassTestimonialStack: React.FC<GlassTestimonialStackProps> = ({
   if (!activeCard) return null;
 
   return (
-    <div className={`relative w-full max-w-lg mx-auto h-[400px] flex items-center justify-center perspective-1000 ${className}`}>
+    <div className={`relative w-full max-w-lg mx-auto min-h-[350px] xs:min-h-[380px] sm:min-h-[400px] lg:min-h-[450px] flex items-center justify-center perspective-1000 ${className}`}>
         {/* Background Ambient Glows */}
         <div className="absolute inset-0 z-0 pointer-events-none">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-blue-500/10 rounded-full blur-[80px] animate-pulse-slow" />
@@ -155,48 +158,48 @@ export const GlassTestimonialStack: React.FC<GlassTestimonialStackProps> = ({
                   style={{ touchAction: 'none', cursor: 'grab' }}
                   whileTap={{ cursor: 'grabbing' }}
                >
-                   <div className="mx-auto w-[90%] md:w-full max-w-md">
-                      <div className="group relative rounded-[40px] liquid-glass-material liquid-sheen bg-white/60! dark:bg-slate-900/60! backdrop-blur-[50px] border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-500 glass-texture">
-                         
+                   <div className="mx-auto w-[95%] xs:w-[92%] sm:w-[90%] md:w-[85%] lg:w-full max-w-md">
+                      <div className="group relative rounded-[32px] xs:rounded-[36px] sm:rounded-[40px] liquid-glass-material liquid-sheen bg-white/60! dark:bg-slate-900/60! backdrop-blur-[50px] border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-500 glass-texture">
+
                          {/* Specular Gradient Overlay (Shine) */}
                          <div className="absolute inset-0 bg-linear-to-tr from-white/30 via-transparent to-transparent opacity-50 pointer-events-none" />
-                         
-                         <div className="p-8 relative z-10">
+
+                         <div className="p-4 xs:p-5 sm:p-6 md:p-8 relative z-10">
                             {/* Header: User Info & Quote Icon */}
-                            <div className="flex items-start justify-between mb-6">
-                               <div className="flex items-center gap-4">
-                                  <div 
-                                    className="w-14 h-14 rounded-2xl flex items-center justify-center text-white font-bold text-xl shadow-lg border border-white/20"
+                            <div className="flex items-start justify-between mb-4 xs:mb-5 sm:mb-6">
+                               <div className="flex items-center gap-2.5 xs:gap-3 sm:gap-4">
+                                  <div
+                                    className="w-12 h-12 xs:w-13 xs:h-13 sm:w-14 sm:h-14 rounded-xl xs:rounded-2xl flex items-center justify-center text-white font-bold text-responsive-lg shadow-lg border border-white/20"
                                     style={{ background: activeCard.avatarGradient || 'linear-gradient(135deg, #3b82f6, #8b5cf6)' }}
                                   >
                                      {activeCard.initials}
                                   </div>
                                   <div>
-                                     <h3 className="text-lg font-black text-slate-900 dark:text-white leading-tight">{activeCard.name}</h3>
-                                     <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-0.5">{activeCard.role}</p>
+                                     <h3 className="text-responsive-lg font-black text-slate-900 dark:text-white leading-tight">{activeCard.name}</h3>
+                                     <p className="text-responsive-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mt-0.5">{activeCard.role}</p>
                                   </div>
                                </div>
-                               <div className="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
-                                  <Quote className="w-5 h-5 fill-current opacity-50" />
+                               <div className="w-8 h-8 xs:w-9 xs:h-9 sm:w-10 sm:h-10 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500">
+                                  <Quote className="w-4 h-4 xs:w-4.5 xs:h-4.5 sm:w-5 sm:h-5 fill-current opacity-50" />
                                </div>
                             </div>
 
                             {/* Quote Body */}
-                            <div className="mb-8 relative">
-                               <p className="text-[17px] leading-relaxed font-medium text-slate-700 dark:text-slate-200">
+                            <div className="mb-6 xs:mb-7 sm:mb-8 relative">
+                               <p className="text-responsive-base leading-relaxed font-medium text-slate-700 dark:text-slate-200">
                                   "{activeCard.quote}"
                                </p>
                             </div>
 
                             {/* Footer: Tags & Rating */}
-                            <div className="flex items-center justify-between pt-6 border-t border-white/20 dark:border-white/5">
-                               <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3 xs:gap-2 pt-4 xs:pt-5 sm:pt-6 border-t border-white/20 dark:border-white/5">
+                               <div className="flex flex-wrap gap-1.5 xs:gap-2">
                                   {activeCard.tags?.map((tag, i) => (
-                                     <span 
-                                      key={i} 
-                                      className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border backdrop-blur-md ${
-                                        tag.type === 'featured' 
-                                        ? 'bg-blue-500/10 border-blue-500/20 text-blue-600 dark:text-blue-400' 
+                                     <span
+                                      key={i}
+                                      className={`px-2 xs:px-2.5 sm:px-3 py-0.5 xs:py-1 rounded-full text-responsive-xs font-black uppercase tracking-widest border backdrop-blur-md ${
+                                        tag.type === 'featured'
+                                        ? 'bg-blue-500/10 border-blue-500/20 text-blue-600 dark:text-blue-400'
                                         : 'bg-slate-100/50 dark:bg-slate-800/50 border-slate-200/50 dark:border-slate-700/50 text-slate-600 dark:text-slate-400'
                                       }`}
                                      >
@@ -213,14 +216,14 @@ export const GlassTestimonialStack: React.FC<GlassTestimonialStackProps> = ({
             </AnimatePresence>
 
             {/* Pagination Static Visuals */}
-            <div className="absolute -bottom-10 left-0 right-0 flex justify-center gap-3">
+            <div className="absolute bottom-4 xs:bottom-2 sm:-bottom-10 left-0 right-0 flex justify-center gap-2 xs:gap-2.5 sm:gap-3">
                {testimonials.map((_, idx) => (
-                  <div 
+                  <div
                     key={idx}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                       idx === activeIndex 
-                       ? 'w-8 bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]' 
-                       : 'w-1.5 bg-slate-300 dark:bg-slate-700'
+                    className={`h-1 xs:h-1.5 rounded-full transition-all duration-300 ${
+                       idx === activeIndex
+                       ? 'w-6 xs:w-7 sm:w-8 bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]'
+                       : 'w-1 xs:w-1.5 bg-slate-300 dark:bg-slate-700'
                     }`}
                   />
                ))}
@@ -239,20 +242,20 @@ const GlassCard = ({ position }: { position: 'middle' | 'back' }) => {
         animate={position}
         className="absolute w-full pointer-events-none"
       >
-         <div className="mx-auto w-[90%] md:w-full max-w-md opacity-40 grayscale-50 blur-[2px]">
-             <div className="rounded-[40px] liquid-glass-material bg-white/30! dark:bg-slate-900/30! backdrop-blur-[30px] border-white/10 shadow-none overflow-hidden h-[300px] flex flex-col p-8 glass-texture">
+         <div className="mx-auto w-[95%] xs:w-[92%] sm:w-[90%] md:w-[85%] lg:w-full max-w-md opacity-40 grayscale-50 blur-[2px]">
+             <div className="rounded-[32px] xs:rounded-[36px] sm:rounded-[40px] liquid-glass-material bg-white/30! dark:bg-slate-900/30! backdrop-blur-[30px] border-white/10 shadow-none overflow-hidden min-h-[280px] xs:min-h-[300px] sm:min-h-[320px] flex flex-col p-4 xs:p-5 sm:p-6 md:p-8 glass-texture">
                  {/* Skeleton-like structure for depth context */}
-                 <div className="flex items-center gap-4 mb-6 opacity-50">
-                    <div className="w-14 h-14 rounded-2xl bg-white/20" />
+                 <div className="flex items-center gap-3 xs:gap-4 mb-4 xs:mb-5 sm:mb-6 opacity-50">
+                    <div className="w-12 h-12 xs:w-13 xs:h-13 sm:w-14 sm:h-14 rounded-2xl bg-white/20" />
                     <div className="space-y-2">
-                       <div className="w-32 h-4 rounded-full bg-white/20" />
-                       <div className="w-20 h-2 rounded-full bg-white/10" />
+                       <div className="w-24 xs:w-28 sm:w-32 h-3 xs:h-3.5 sm:h-4 rounded-full bg-white/20" />
+                       <div className="w-16 xs:w-18 sm:w-20 h-1.5 xs:h-2 rounded-full bg-white/10" />
                     </div>
                  </div>
-                 <div className="space-y-3 opacity-30">
-                    <div className="w-full h-3 rounded-full bg-white/20" />
-                    <div className="w-full h-3 rounded-full bg-white/20" />
-                    <div className="w-2/3 h-3 rounded-full bg-white/20" />
+                 <div className="space-y-2 xs:space-y-2.5 sm:space-y-3 opacity-30">
+                    <div className="w-full h-2.5 xs:h-3 rounded-full bg-white/20" />
+                    <div className="w-full h-2.5 xs:h-3 rounded-full bg-white/20" />
+                    <div className="w-2/3 h-2.5 xs:h-3 rounded-full bg-white/20" />
                  </div>
              </div>
          </div>

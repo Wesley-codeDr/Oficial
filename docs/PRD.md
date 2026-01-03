@@ -209,23 +209,26 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
 
 * **Frontend:**
 
-  * Next.js (sempre na versão estável mais recente – ex.: 15.x+ conforme o tempo), com App Router.
-  * React (última versão estável).
-  * Tailwind CSS (última versão estável) + shadcn/ui como base de componentes.
+  * Next.js 16+ (App Router) - sempre na versão estável mais recente.
+  * React 19+ (última versão estável).
+  * TypeScript 5.9+ (strict mode).
+  * Tailwind CSS 4+ + shadcn/ui como base de componentes.
   * Radix UI como primitives de acessibilidade.
   * Framer Motion para animações suaves, esteticamente alinhadas ao Apple Design Language 2025.
   * Design system próprio inspirado 1:1 no Apple Design Language 2025 (tokens de cor, tipografia, radius, sombras, motion).
 
 * **Backend:**
 
-  * NestJS (última LTS/estável) + Fastify como adapter HTTP.
-  * Node.js em versão LTS mais recente suportada pela Vercel.
+  * Next.js API Routes (serverless, otimizado para Vercel).
+  * Node.js versão LTS mais recente suportada pela Vercel.
+  * **Nota arquitetural**: O projeto usa Next.js API Routes ao invés de NestJS/Fastify para simplificação da arquitetura e melhor integração com Vercel Edge Functions.
 
 * **Banco de Dados e Persistência:**
 
   * PostgreSQL como banco principal, provisionado via **Supabase** (cluster gerenciado com pooling compatível com serverless/Vercel).
-  * **Prisma ORM** para modelagem de schema, migrações e tipagem forte end-to-end.
+  * **Prisma ORM 6+** para modelagem de schema, migrações e tipagem forte end-to-end.
   * Supabase Storage (S3-like) para PDFs de receitas, SADT, LME e anexos clínicos.
+  * **Nota**: Projeto mantido em Prisma 6.x para estabilidade de deployment após downgrade planejado do Prisma 7.
 
 * **Autenticação e Autorização:**
 
@@ -239,12 +242,12 @@ Criar a plataforma de anamnese digital mais rápida, segura e inteligente do mer
 
 * **Infraestrutura e DevOps:**
 
-  * **Vercel** para deploy do frontend e edge functions.
-  * **Supabase** como backend gerenciado (Postgres, Auth, Storage, Functions quando necessário).
-  * **GitHub** como VCS, com GitHub Actions para CI/CD (lint, testes, build e deploy automatizado para Vercel/Supabase).
-  * Storage S3‑compatível (via Supabase Storage; futuramente R2/S3 se necessário) para documentos.
-  * Observabilidade com **Sentry** (front e back) + logs estruturados.
-  * Padrão: manter todos os componentes de stack (Next.js, React, NestJS, Prisma, Tailwind etc.) sempre na **versão estável mais recente**, com política explícita de revisão periódica de dependências.
+  * **Vercel** para deploy do frontend, API Routes e edge functions.
+  * **Supabase** como backend gerenciado (Postgres, Auth, Storage).
+  * **GitHub** como VCS, com GitHub Actions para CI/CD (lint, testes, build e deploy automatizado para Vercel).
+  * Storage S3‑compatível (via Supabase Storage) para documentos médicos, PDFs, receitas.
+  * Observabilidade com **Sentry** (monitoring) + logs estruturados.
+  * Padrão: manter componentes de stack (Next.js, React, Prisma, Tailwind) sempre na **versão estável mais recente**, com política explícita de revisão periódica de dependências.
 
 ### 4.2 Segurança e Compliance
 

@@ -29,14 +29,15 @@
 
 | Layer | Technology | Version |
 |-------|------------|---------|
-| Frontend | Next.js (App Router) | 15.x+ |
-| UI | React + Tailwind + shadcn/ui | Latest |
+| Frontend | Next.js (App Router) | 16.1+ |
+| UI | React 19 + TypeScript 5.9 | 19.2+ / 5.9+ |
+| Styling | Tailwind CSS 4 + shadcn/ui | 4.x+ |
 | Components | Radix UI | Latest |
 | Animations | Framer Motion | Latest |
 | State | Zustand + TanStack Query | Latest |
-| Backend | Next.js API Routes | 15.x+ |
+| Backend | Next.js API Routes (Serverless) | 16.1+ |
 | Database | PostgreSQL via Supabase | Latest |
-| ORM | Prisma | Latest |
+| ORM | Prisma | 6.19+ |
 | Auth | Supabase Auth | Latest |
 | AI | OpenAI + Vercel AI SDK | Latest |
 | Observability | Sentry | Latest |

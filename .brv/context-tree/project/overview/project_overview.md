@@ -1,0 +1,2 @@
+
+A comprehensive audit of 114 markdown files has been completed, unifying the project's documented standards. The official tech stack is Next.js 16.1+, React 19.2+, Prisma 6.19+, and Tailwind 4.x. The project structure is confirmed to be root-level `app/`, `components/`, and `lib/` directories, with `src/` being legacy. Configuration files for AI tools across 8 directories (e.g., .cursor/, .github/) have been standardized.

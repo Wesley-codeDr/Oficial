@@ -9,6 +9,14 @@ const config: Config = {
     './src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    screens: {
+      'xs': '320px',   // iPhone SE 1st gen, extreme small phones
+      'sm': '640px',   // Mobile landscape
+      'md': '768px',   // Tablet portrait
+      'lg': '1024px',  // Desktop / tablet landscape
+      'xl': '1280px',  // Large desktop
+      '2xl': '1536px', // Extra large desktop
+    },
     extend: {
       fontFamily: {
         sans: ['SF Pro Display', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
@@ -27,6 +35,17 @@ const config: Config = {
         'apple-display': '-0.04em',
         'apple-label': '0.1em',
         'apple-caps': '0.2em',
+      },
+      fontSize: {
+        // Responsive typography with fluid scaling using clamp()
+        'responsive-xs': ['clamp(0.625rem, 0.5rem + 0.5vw, 0.75rem)', { lineHeight: '1.5' }],
+        'responsive-sm': ['clamp(0.75rem, 0.625rem + 0.5vw, 0.875rem)', { lineHeight: '1.5' }],
+        'responsive-base': ['clamp(0.875rem, 0.75rem + 0.5vw, 1rem)', { lineHeight: '1.6' }],
+        'responsive-lg': ['clamp(1rem, 0.875rem + 0.5vw, 1.125rem)', { lineHeight: '1.6' }],
+        'responsive-xl': ['clamp(1.125rem, 1rem + 0.5vw, 1.25rem)', { lineHeight: '1.4' }],
+        'responsive-2xl': ['clamp(1.25rem, 1.125rem + 0.5vw, 1.5rem)', { lineHeight: '1.3' }],
+        'responsive-3xl': ['clamp(1.5rem, 1.25rem + 1vw, 1.875rem)', { lineHeight: '1.2' }],
+        'responsive-4xl': ['clamp(1.875rem, 1.5rem + 1.5vw, 2.25rem)', { lineHeight: '1.1' }],
       },
       colors: {
         background: 'hsl(var(--background))',

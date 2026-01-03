@@ -1,10 +1,18 @@
 # GitHub Actions Workflows
 
-Esta pasta contém os workflows do GitHub Actions para CI/CD do projeto.
+Esta pasta contém os workflows do GitHub Actions para CI/CD do projeto WellWave.
+
+## Stack Tecnológica
+
+- **Frontend**: Next.js 16.1+, React 19.2+, TypeScript 5.x
+- **Database**: PostgreSQL (Supabase) com Prisma ORM 6.19+
+- **Package Manager**: pnpm
+- **Testing**: Vitest, Playwright
+- **Deployment**: Vercel
 
 ## 📁 Estrutura
 
-```
+```bash
 .github/
 ├── workflows/
 │   ├── ci.yml              # CI básico (lint, typecheck, build)
@@ -12,6 +20,8 @@ Esta pasta contém os workflows do GitHub Actions para CI/CD do projeto.
 │   ├── prisma-migrate.yml  # Validação de migrations do Prisma
 │   ├── security.yml        # Auditoria de segurança
 │   └── release.yml         # Criação de releases
+├── ISSUE_TEMPLATE/         # Templates de issues
+├── PULL_REQUEST_TEMPLATE.md # Template de PR
 └── README.md               # Este arquivo
 ```
 
@@ -84,6 +94,30 @@ Os workflows trabalham em conjunto com:
 - **Vercel**: Deploy automático após merge
 - **Sentry**: Monitoramento de erros
 - **Prisma**: Validação de schema e migrations
+
+## Comandos Úteis
+
+```bash
+# Validar workflows localmente
+act -l                    # Lista workflows
+
+# Executar CI localmente
+pnpm lint                 # ESLint
+pnpm typecheck            # TypeScript
+pnpm build                # Build Next.js
+pnpm db:generate          # Gera Prisma Client
+
+# Executar testes
+pnpm test                 # Vitest
+pnpm test:e2e             # Playwright
+```
+
+---
+
+**Última atualização**: Janeiro 2026
+**Stack**: Next.js 16.1+ | React 19.2+ | TypeScript 5.x | Prisma 6.19+ | PostgreSQL
+**Package Manager**: pnpm
+**CI/CD**: GitHub Actions + Vercel
 
 
 

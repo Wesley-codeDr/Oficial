@@ -222,9 +222,10 @@ The application MUST respect medical domain rules at all times.
 ### Frontend
 | Component | Technology | Version Policy |
 |-----------|------------|----------------|
-| Framework | Next.js (App Router) | Latest stable (15.x+) |
-| UI Library | React | Latest stable |
-| Styling | Tailwind CSS + shadcn/ui | Latest stable |
+| Framework | Next.js (App Router) | 16.1+ (Latest stable) |
+| UI Library | React | 19.2+ (Latest stable) |
+| Language | TypeScript | 5.9+ (strict mode) |
+| Styling | Tailwind CSS + shadcn/ui | 4.x+ (Latest stable) |
 | Components | Radix UI | Latest stable |
 | Animations | Framer Motion | Latest stable |
 | State | Zustand + TanStack Query | Latest stable |
@@ -233,9 +234,9 @@ The application MUST respect medical domain rules at all times.
 ### Backend
 | Component | Technology | Version Policy |
 |-----------|------------|----------------|
-| Framework | NestJS + Fastify | Latest LTS |
+| API | Next.js API Routes | Serverless (Vercel) |
 | Runtime | Node.js | Latest LTS (Vercel-compatible) |
-| ORM | Prisma | Latest stable |
+| ORM | Prisma | 6.19+ (Stable deployment) |
 | Database | PostgreSQL | Via Supabase |
 
 ### Infrastructure
@@ -275,39 +276,53 @@ The application MUST respect medical domain rules at all times.
 
 ## Project Structure
 
-```
+```text
 .
-├── app/                      # Next.js App Router
-│   ├── (auth)/              # Public routes (login)
-│   ├── (dashboard)/         # Protected routes
-│   │   ├── anamnese/        # Anamnesis generator
-│   │   ├── chat/            # EBM Chat
-│   │   └── history/         # History
-│   └── api/                 # API routes
-├── components/
-│   ├── ui/                  # shadcn/ui components
-│   ├── medical/             # Medical domain components
-│   └── layout/              # Layout components
-├── lib/
-│   ├── ai/                  # LLM integration
-│   ├── db/                  # Prisma client
-│   ├── templates/           # Medical templates
-│   └── utils/               # Helpers
-├── stores/                  # Zustand stores
-├── hooks/                   # Custom hooks
-├── types/                   # TypeScript types
+├── app/                         # Next.js 16 App Router (raiz)
+│   ├── (auth)/                  # Public routes (login, signup)
+│   ├── (dashboard)/             # Protected routes
+│   │   ├── anamnese/           # Anamnesis generator
+│   │   ├── chat/               # EBM Chat
+│   │   └── history/            # Session history
+│   ├── api/                     # API Routes (serverless)
+│   ├── layout.tsx               # Root layout
+│   └── page.tsx                 # Home page
+├── components/                  # React components (raiz)
+│   ├── ui/                     # shadcn/ui base components
+│   ├── medical/                # Medical domain components
+│   └── layout/                 # Layout components
+├── lib/                        # Libraries & utilities (raiz)
+│   ├── ai/                     # LLM integration
+│   ├── db/                     # Prisma client
+│   ├── templates/              # Medical templates
+│   └── utils/                  # Helper functions
+├── stores/                     # Zustand state management
+├── hooks/                      # Custom React hooks
+├── types/                      # TypeScript type definitions
+├── prisma/
+│   ├── schema.prisma          # Database schema
+│   └── seed.ts                # Data seeding
 ├── memory/
-│   └── constitution.md      # This file
-├── specs/
+│   └── constitution.md         # This file
+├── specs/                      # Spec-Kit specifications
 │   └── [feature-name]/
-│       ├── spec.md
-│       ├── plan.md
-│       ├── tasks.md
-│       └── contracts/
-├── docs/
-│   └── PRD.md              # Product Requirements Document
-└── README.md
+│       ├── spec.md            # Feature specification
+│       ├── plan.md            # Implementation plan
+│       ├── tasks.md           # Task breakdown
+│       └── contracts/         # API contracts (optional)
+├── docs/                       # Technical documentation
+│   ├── PRD.md                 # Product Requirements
+│   ├── ARCHITECTURE.md        # System architecture
+│   ├── DATABASE.md            # Database documentation
+│   └── VERCEL.md              # Deployment guide
+├── templates/                  # Spec-Kit templates
+├── scripts/                    # Automation scripts
+├── CLAUDE.md                   # AI assistant configuration
+├── README.md                   # Project overview
+└── package.json                # Dependencies & scripts
 ```
+
+**Note**: The `src/` directory exists but contains only legacy components. The main structure uses `app/`, `components/`, and `lib/` at the project root, following Next.js 16 App Router conventions.
 
 ---
 

@@ -4,10 +4,10 @@
 [![Code Quality](https://github.com/Wesley-codeDr/Oficial/actions/workflows/code-quality.yml/badge.svg)](https://github.com/Wesley-codeDr/Oficial/actions/workflows/code-quality.yml)
 [![Security](https://github.com/Wesley-codeDr/Oficial/actions/workflows/security.yml/badge.svg)](https://github.com/Wesley-codeDr/Oficial/actions/workflows/security.yml)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue.svg)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-16-black.svg)](https://nextjs.org/)
-[![React](https://img.shields.io/badge/React-19-61dafb.svg)](https://react.dev/)
-[![Prisma](https://img.shields.io/badge/Prisma-7.1-2D3748.svg)](https://www.prisma.io/)
-[![pnpm](https://img.shields.io/badge/pnpm-8.15-F69220.svg)](https://pnpm.io/)
+[![Next.js](https://img.shields.io/badge/Next.js-16.1-black.svg)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.2-61dafb.svg)](https://react.dev/)
+[![Prisma](https://img.shields.io/badge/Prisma-6.19-2D3748.svg)](https://www.prisma.io/)
+[![pnpm](https://img.shields.io/badge/pnpm-9.0-F69220.svg)](https://pnpm.io/)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 WellWave é um sistema médico avançado para geração automática de anamneses (históricos médicos) em ambientes de pronto-socorro. O sistema transforma checkboxes simples em documentação clínica completa, juridicamente robusta e 100% compatível com as normas do Conselho Federal de Medicina (CFM).
@@ -23,12 +23,14 @@ WellWave é um sistema médico avançado para geração automática de anamneses
 
 ## Tech Stack
 
-- **Frontend**: Next.js 15 (App Router), TypeScript, Tailwind CSS, shadcn/ui
-- **Backend**: Next.js API Routes, Prisma ORM, PostgreSQL
+- **Frontend**: Next.js 16 (App Router), React 19, TypeScript 5.9, Tailwind CSS 4, shadcn/ui
+- **Backend**: Next.js API Routes
+- **Database**: PostgreSQL (Supabase) + Prisma ORM 6
 - **Auth**: Supabase Auth
 - **AI**: Vercel AI SDK + OpenAI GPT-4
+- **State Management**: Zustand + TanStack Query
 - **Monitoring**: Sentry
-- **Testing**: Vitest (55 unit tests), Playwright (E2E)
+- **Testing**: Vitest (unit tests), Playwright (E2E)
 
 ---
 
@@ -184,41 +186,60 @@ O agente irá:
 
 ```
 .
+├── app/                         # Next.js 16 App Router (raiz)
+│   ├── (auth)/                 # Rotas públicas (login, signup)
+│   ├── (dashboard)/            # Rotas protegidas (dashboard)
+│   │   ├── anamnese/          # Gerador de anamnese
+│   │   ├── chat/              # Chat EBM
+│   │   └── history/           # Histórico de sessões
+│   ├── api/                    # API Routes
+│   ├── layout.tsx              # Layout raiz
+│   └── page.tsx                # Página inicial
+├── components/                  # Componentes React (raiz)
+│   ├── ui/                     # shadcn/ui components
+│   ├── medical/                # Componentes médicos
+│   └── layout/                 # Componentes de layout
+├── lib/                        # Bibliotecas e utilitários (raiz)
+│   ├── ai/                     # Integração LLM
+│   ├── db/                     # Prisma client
+│   ├── templates/              # Templates médicos
+│   └── utils/                  # Helpers
+├── stores/                     # Zustand state management
+├── hooks/                      # Custom React hooks
+├── types/                      # TypeScript types
 ├── memory/
-│   └── constitution.md          # Princípios e regras do projeto
-├── specs/
+│   └── constitution.md         # Princípios e regras do projeto
+├── specs/                      # Especificações Spec-Kit
 │   └── [feature-name]/
-│       ├── spec.md              # Especificação da feature
-│       ├── plan.md               # Plano de implementação
-│       ├── tasks.md              # Breakdown de tarefas
-│       ├── research.md           # Pesquisa técnica (opcional)
-│       ├── data-model.md         # Modelo de dados (opcional)
-│       └── contracts/
-│           ├── api-spec.json     # Contratos de API (opcional)
-│           └── signalr-spec.md   # Contratos SignalR (opcional)
-├── scripts/
-│   ├── check-prerequisites.sh   # Verifica pré-requisitos
-│   ├── setup-plan.sh            # Cria nova feature
-│   ├── setup-database.sh        # Configura banco de dados e Supabase
-│   ├── docker-db.sh             # Gerencia banco local Docker
-│   ├── create-new-feature.sh    # Alias para setup-plan.sh
-│   └── common.sh                # Funções utilitárias
+│       ├── spec.md             # Especificação da feature
+│       ├── plan.md             # Plano de implementação
+│       ├── tasks.md            # Breakdown de tarefas
+│       ├── research.md         # Pesquisa técnica (opcional)
+│       ├── data-model.md       # Modelo de dados (opcional)
+│       └── contracts/          # Contratos de API (opcional)
+├── scripts/                    # Scripts de automação
+│   ├── check-prerequisites.sh  # Verifica pré-requisitos
+│   ├── setup-plan.sh          # Cria nova feature
+│   ├── setup-database.sh      # Configura banco de dados
+│   └── docker-db.sh           # Gerencia banco local Docker
 ├── prisma/
-│   └── schema.prisma            # Schema do banco de dados
-├── docker-compose.yml           # Configuração Docker para desenvolvimento
-├── env.template                  # Template de variáveis de ambiente
-├── .env                          # Variáveis de ambiente (não versionado)
-└── docs/
-    └── DATABASE.md               # Documentação completa do banco de dados
-├── templates/
-│   ├── CLAUDE-template.md       # Template de configuração Claude
-│   ├── spec-template.md         # Template de especificação
-│   ├── plan-template.md         # Template de plano
-│   └── tasks-template.md        # Template de tarefas
-├── CLAUDE.md                     # Configuração do Claude para este projeto
-├── AGENTS.md                     # Configuração de agentes
-└── README.md                     # Este arquivo
+│   ├── schema.prisma          # Schema do banco de dados
+│   └── seed.ts                # Seed de dados
+├── docs/                       # Documentação técnica
+│   ├── PRD.md                 # Product Requirements Document
+│   ├── ARCHITECTURE.md        # Arquitetura do sistema
+│   ├── DATABASE.md            # Documentação do banco
+│   └── VERCEL.md              # Guia de deploy
+├── templates/                  # Templates Spec-Kit
+│   ├── spec-template.md       # Template de especificação
+│   ├── plan-template.md       # Template de plano
+│   └── tasks-template.md      # Template de tarefas
+├── CLAUDE.md                   # Configuração do Claude
+├── README.md                   # Este arquivo
+└── package.json                # Dependências e scripts
 ```
+
+**Nota**: O diretório `src/` existe mas contém apenas alguns componentes legados. A estrutura principal está em `app/`, `components/` e `lib/` na raiz do projeto.
 
 ## 🎯 Comandos Disponíveis
 

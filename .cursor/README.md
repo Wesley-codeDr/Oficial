@@ -2,6 +2,27 @@
 
 Este diretório contém as regras que o Cursor seguirá ao trabalhar neste projeto.
 
+## Stack Tecnológica
+
+- **Frontend**: Next.js 16.1+, React 19.2+, TypeScript 5.x
+- **Database**: PostgreSQL (Supabase) com Prisma ORM 6.19+
+- **UI**: Tailwind CSS 4.x, Radix UI, Framer Motion
+- **State**: Zustand, React Query v5
+- **Validation**: Zod 4.x, React Hook Form
+- **Testing**: Vitest, Playwright
+
+## Estrutura do Projeto
+
+```bash
+Oficial/
+├── app/              # Next.js 16 App Router (não src/)
+├── components/       # React components
+├── lib/             # Business logic e utilities
+├── prisma/          # Prisma schema e migrations
+├── public/          # Static assets
+└── specs/           # Feature specifications
+```
+
 ## Arquivo Principal
 
 - `.cursorrules` - Regras principais do projeto (na raiz)
@@ -97,3 +118,8 @@ Se existe:
 - Use os templates para criar specs rapidamente
 - O tempo investido em spec economiza tempo depois
 
+---
+
+**Última atualização**: Janeiro 2026
+**Stack**: Next.js 16.1+ | React 19.2+ | TypeScript 5.x | Prisma 6.19+ | PostgreSQL
+**Estrutura**: app/ (App Router) | components/ | lib/ | prisma/

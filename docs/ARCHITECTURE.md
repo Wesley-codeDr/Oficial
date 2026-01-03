@@ -1,15 +1,19 @@
 # Architecture Documentation
 
+> **Versão**: 2.0
+> **Última Atualização**: Janeiro 2026
+> **Status**: Produção Ativa
+
 ## Overview
 
-WellWave is a medical anamnesis system built with a modern web stack, designed for emergency department physicians to quickly generate comprehensive medical documentation.
+WellWave/Oficial é um sistema médico de geração de anamneses para ambientes de pronto-socorro, construído com stack moderna e otimizado para deployment no Vercel com Supabase.
 
 ## System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                         Client Layer                             │
-│  (Next.js 15 App Router + React 19 + TypeScript)                │
+│  (Next.js 16.1+ App Router + React 19.2+ + TypeScript 5.x)     │
 │                                                                   │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
 │  │   UI Layer   │  │  State Mgmt  │  │   Routing    │          │
@@ -23,7 +27,7 @@ WellWave is a medical anamnesis system built with a modern web stack, designed f
 │                                                                   │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐          │
 │  │  API Routes  │  │ Server Actions│  │  Middleware  │          │
-│  │   /api/*     │  │               │  │    (Auth)    │          │
+│  │   app/api/*  │  │               │  │    (Auth)    │          │
 │  └──────────────┘  └──────────────┘  └──────────────┘          │
 └─────────────────────────────────────────────────────────────────┘
                               │
@@ -52,10 +56,10 @@ WellWave is a medical anamnesis system built with a modern web stack, designed f
 ┌─────────────────────────────────────────────────────────────────┐
 │               Database (PostgreSQL 16 + Supabase)                │
 │                                                                   │
-│  - User data (physicians)                                        │
+│  - Patient data                                                  │
+│  - Anamneses (structured + narrative)                           │
 │  - Clinical syndromes                                            │
 │  - Checkbox templates                                            │
-│  - Anamnesis sessions                                            │
 │  - Red flag rules                                                │
 │  - Chat conversations                                            │
 │  - Audit logs                                                    │
@@ -65,36 +69,72 @@ WellWave is a medical anamnesis system built with a modern web stack, designed f
 ## Technology Stack
 
 ### Frontend
-- **Framework**: Next.js 15 (App Router, React Server Components)
-- **UI Library**: React 19
-- **Language**: TypeScript 5.9+
-- **Styling**: Tailwind CSS 3.4+ with custom configuration
+
+- **Framework**: Next.js 16.1+ (App Router, React Server Components)
+- **UI Library**: React 19.2+
+- **Language**: TypeScript 5.x (strict mode)
+- **Styling**: Tailwind CSS 4.x com configuração customizada
 - **UI Components**: shadcn/ui (Radix UI primitives)
 - **Animations**: Framer Motion
-- **State Management**: Zustand (client state), React Query (server state)
+- **State Management**: Zustand (client state), TanStack Query v5 (server state)
 - **Forms**: React Hook Form + Zod validation
+- **Icons**: Lucide React
 
 ### Backend
-- **Runtime**: Node.js 18+
-- **Framework**: Next.js API Routes & Server Actions
-- **ORM**: Prisma 7.1
-- **Database**: PostgreSQL 16 (via Supabase)
-- **Authentication**: Supabase Auth (JWT-based)
+
+- **Runtime**: Node.js 20+ (LTS)
+- **Framework**: Next.js API Routes & Server Actions (serverless)
+- **ORM**: Prisma 6.19+ (downgrade de v7 para estabilidade)
+- **Database**: PostgreSQL 16 (Supabase managed)
+- **Authentication**: Supabase Auth (JWT-based) + NextAuth.js v4
 - **AI Integration**: Vercel AI SDK + OpenAI GPT-4
 
 ### DevOps & Monitoring
-- **Hosting**: Vercel (with CDN and edge functions)
-- **Database Hosting**: Supabase (managed PostgreSQL)
-- **Error Tracking**: Sentry
+
+- **Hosting**: Vercel (CDN, edge functions, region: gru1)
+- **Database**: Supabase (managed PostgreSQL com PgBouncer)
+- **Error Tracking**: Sentry 10
 - **CI/CD**: GitHub Actions
-- **Container**: Docker (development environment)
-- **Package Manager**: pnpm 8+
+- **Container**: Docker (desenvolvimento local)
+- **Package Manager**: pnpm 9+
 
 ### Testing
+
 - **Unit Tests**: Vitest
 - **E2E Tests**: Playwright
 - **Type Checking**: TypeScript strict mode
 - **Linting**: ESLint + Prettier
+
+## Estrutura de Projeto Real
+
+```bash
+Oficial/
+├── app/                    # Next.js 16 App Router
+│   ├── (auth)/            # Rotas de autenticação
+│   ├── (dashboard)/       # Rotas autenticadas
+│   ├── api/               # API Routes (serverless)
+│   └── layout.tsx         # Layout raiz
+│
+├── components/            # React components
+│   ├── ui/               # Componentes base (shadcn/ui)
+│   ├── medical/          # Componentes médicos
+│   └── features/         # Features complexas
+│
+├── lib/                  # Business logic
+│   ├── supabase/        # Cliente Supabase
+│   ├── medical/         # Lógica médica
+│   └── utils/           # Utilities
+│
+├── prisma/              # Prisma ORM
+│   ├── schema.prisma    # Database schema
+│   └── migrations/      # Database migrations
+│
+├── public/              # Static assets
+├── styles/              # Global styles
+└── docs/                # Documentation
+```
+
+**IMPORTANTE**: O projeto NÃO usa NestJS, Fastify ou outras estruturas backend separadas. Tudo é Next.js serverless.
 
 ## Data Model
 
@@ -270,13 +310,57 @@ For detailed schema, see `prisma/schema.prisma`.
 ## Development Workflow
 
 ### Local Development
+
 1. Clone repository
 2. Install dependencies (`pnpm install`)
 3. Setup environment (`.env`)
-4. Start database (`docker-compose up`)
-5. Run migrations (`pnpm prisma migrate dev`)
-6. Seed database (`pnpm db:seed`)
-7. Start dev server (`pnpm dev`)
+4. Start database (`./scripts/docker-db.sh start`)
+5. Generate Prisma client (`pnpm db:generate`)
+6. Run migrations (`pnpm db:migrate`)
+7. Seed database (`pnpm db:seed`)
+8. Start dev server (`pnpm dev`)
+
+### Comandos Disponíveis
+
+**Desenvolvimento:**
+
+```bash
+pnpm dev                    # Next.js dev server com Turbo
+pnpm build                  # Build de produção
+pnpm build:analyze          # Build com análise de bundle
+pnpm start                  # Servidor de produção
+```
+
+**Qualidade de Código:**
+
+```bash
+pnpm lint                   # ESLint
+pnpm lint:fix               # ESLint com auto-fix
+pnpm typecheck              # TypeScript type checking
+pnpm format                 # Prettier format
+pnpm format:check           # Prettier check
+```
+
+**Testes:**
+
+```bash
+pnpm test                   # Vitest (unit tests)
+pnpm test:ui                # Vitest UI
+pnpm test:coverage          # Coverage report
+pnpm test:e2e               # Playwright (E2E)
+pnpm test:e2e:ui            # Playwright UI
+```
+
+**Database (Prisma):**
+
+```bash
+pnpm db:generate            # Gera Prisma Client
+pnpm db:push                # Push schema (sem migration)
+pnpm db:migrate             # Cria e aplica migration
+pnpm db:migrate:deploy      # Aplica migrations (produção)
+pnpm db:seed                # Popula banco com seeds
+pnpm db:studio              # Prisma Studio (GUI)
+```
 
 ### Feature Development
 1. Write specification (`specs/[feature]/spec.md`)

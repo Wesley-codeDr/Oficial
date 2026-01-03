@@ -1,4 +1,28 @@
-# Guia de Desenvolvimento - Wavewell Oficial
+# Guia de Desenvolvimento - WellWave Oficial
+
+## Stack Tecnológica Atual
+
+- **Frontend**: Next.js 16.1+, React 19.2+, TypeScript 5.x
+- **Database**: PostgreSQL (Supabase) com Prisma ORM 6.19+
+- **UI**: Tailwind CSS 4.x, Radix UI, Framer Motion
+- **State Management**: Zustand, React Query v5
+- **Validation**: Zod 4.x, React Hook Form
+- **Testing**: Vitest, Playwright
+- **Package Manager**: pnpm
+
+## Estrutura do Projeto
+
+```bash
+Oficial/
+├── app/              # Next.js 16 App Router (não src/app/)
+├── components/       # React components
+├── lib/             # Business logic e utilities
+├── prisma/          # Prisma schema e migrations
+├── public/          # Static assets
+└── specs/           # Feature specifications
+```
+
+**IMPORTANTE**: O projeto usa `app/` na raiz, NÃO `src/app/`.
 
 ## 🚨 Regra de Ouro
 
@@ -92,13 +116,34 @@ Este projeto usa **pnpm**. Sempre use pnpm para:
 
 ## 📁 Estrutura de Arquivos
 
-```
+```bash
 specs/
 └── [feature-name]/
     ├── spec.md        # ⚠️ OBRIGATÓRIO
     ├── plan.md        # ⚠️ OBRIGATÓRIO
     ├── tasks.md       # ⚠️ OBRIGATÓRIO
     └── contracts/     # Opcional
+
+app/                   # Next.js 16 App Router
+├── (auth)/           # Rotas de autenticação
+├── (dashboard)/      # Rotas protegidas
+├── api/              # API routes
+├── layout.tsx        # Root layout
+└── page.tsx          # Home page
+
+components/           # React components
+├── ui/              # Shadcn/ui components
+└── ...              # Feature components
+
+lib/                 # Business logic
+├── db/              # Database utilities
+├── utils/           # Helper functions
+└── ...              # Domain logic
+
+prisma/              # Database
+├── schema.prisma    # Database schema
+├── migrations/      # Migration history
+└── seed.ts          # Seed data
 ```
 
 ## ⚠️ O Que NÃO Fazer
@@ -156,4 +201,39 @@ specs/
 - `CLAUDE.md` - Configuração do Claude
 - `.cursorrules` - Regras do Cursor
 - `README.md` - Documentação geral
+- `package.json` - Dependências e scripts
 
+## Scripts Disponíveis
+
+```bash
+# Desenvolvimento
+pnpm dev              # Inicia dev server com Turbo
+pnpm build            # Build de produção
+pnpm start            # Inicia servidor de produção
+pnpm lint             # Executa ESLint
+pnpm typecheck        # Verifica tipos TypeScript
+
+# Database (Prisma)
+pnpm db:generate      # Gera Prisma Client
+pnpm db:push          # Push schema para database
+pnpm db:migrate       # Cria e executa migration
+pnpm db:studio        # Abre Prisma Studio
+pnpm db:reset         # Reset completo do database
+
+# Testes
+pnpm test             # Executa testes unitários (Vitest)
+pnpm test:e2e         # Executa testes E2E (Playwright)
+pnpm test:coverage    # Coverage report
+
+# Sync (Obsidian)
+pnpm sync:pull        # Obsidian → TypeScript
+pnpm sync:push        # TypeScript → Obsidian
+pnpm sync:validate    # Valida sincronização
+```
+
+---
+
+**Última atualização**: Janeiro 2026
+**Stack**: Next.js 16.1+ | React 19.2+ | TypeScript 5.x | Prisma 6.19+ | PostgreSQL
+**Package Manager**: pnpm
+**Estrutura**: app/ (App Router) | components/ | lib/ | prisma/

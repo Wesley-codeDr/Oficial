@@ -2,6 +2,16 @@
 
 Este diretório contém a configuração para o VS Code DevContainer, que fornece um ambiente de desenvolvimento consistente e isolado.
 
+## Stack Tecnológica
+
+- **Frontend**: Next.js 16.1+, React 19.2+, TypeScript 5.x
+- **Database**: PostgreSQL 16 (Supabase) com Prisma ORM 6.19+
+- **UI**: Tailwind CSS 4.x, Radix UI, Framer Motion
+- **State**: Zustand, React Query v5
+- **Validation**: Zod 4.x, React Hook Form
+- **Testing**: Vitest, Playwright
+- **Package Manager**: pnpm
+
 ## Como Usar
 
 ### Pré-requisitos
@@ -219,9 +229,47 @@ Para customizar o DevContainer:
 - ✅ Fácil de replicar e resetar
 - ✅ Todas as ferramentas pré-configuradas
 
+## Estrutura do Projeto
+
+```bash
+Oficial/
+├── app/              # Next.js 16 App Router (NÃO src/)
+├── components/       # React components
+├── lib/             # Business logic e utilities
+├── prisma/          # Prisma schema e migrations (6.19+)
+└── specs/           # Feature specifications
+```
+
+**IMPORTANTE**: O projeto usa `app/` diretamente na raiz, NÃO `src/app/`.
+
+## Comandos Principais
+
+```bash
+# Development
+pnpm dev              # Dev server com Turbo
+pnpm build            # Production build
+pnpm typecheck        # Type checking
+
+# Database (Prisma 6.19+)
+pnpm db:generate      # Generate Prisma Client
+pnpm db:push          # Push schema
+pnpm db:migrate       # Run migrations
+pnpm db:studio        # Open Prisma Studio
+pnpm db:reset         # Reset database
+
+# Testing
+pnpm test             # Vitest unit tests
+pnpm test:e2e         # Playwright E2E tests
+```
+
 ## Recursos
 
 - [VS Code Dev Containers Documentation](https://code.visualstudio.com/docs/devcontainers/containers)
 - [Docker Documentation](https://docs.docker.com/)
 - [Dev Containers Features](https://github.com/devcontainers/features)
 
+---
+
+**Última atualização**: Janeiro 2026
+**Stack**: Next.js 16.1+ | React 19.2+ | TypeScript 5.x | Prisma 6.19+
+**Estrutura**: app/ (App Router) | components/ | lib/ | prisma/

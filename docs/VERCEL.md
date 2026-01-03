@@ -1,6 +1,10 @@
 # Configuração do Vercel
 
-Este documento descreve como configurar e fazer deploy do projeto Wavewell Oficial no Vercel.
+> **Versão**: 2.0
+> **Última Atualização**: Janeiro 2026
+> **Status**: Produção Ativa
+
+Este documento descreve como configurar e fazer deploy do projeto WellWave/Oficial no Vercel.
 
 ## 📋 Pré-requisitos
 
@@ -255,5 +259,16 @@ Se encontrar problemas:
 
 ---
 
-**Última atualização**: Configurado para Next.js 16, React 19, Prisma 7, Sentry 10
+**Stack Atual**:
+
+- Next.js 16.1+
+- React 19.2+
+- Prisma 6.19+ (downgrade de v7 para estabilidade)
+- Sentry 10
+- Node.js 20+
+- pnpm 9+
+
+**Região**: gru1 (São Paulo, Brasil) - Configurado no `vercel.json`
+
+**IMPORTANTE**: Sempre use PgBouncer (`?pgbouncer=true&sslmode=require`) na `DATABASE_URL` em produção.
 
