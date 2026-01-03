@@ -84,7 +84,7 @@ export default async function ChatListPage() {
                 Inicie uma nova conversa para tirar duvidas clinicas.
               </p>
             </div>
-            <NewChatButton variant="default" />
+            <NewChatButton variant="primary" />
           </div>
         </GlassCard>
       ) : (

@@ -1,5 +1,8 @@
 "use client"
 
+import * as React from "react"
+import { motion, HTMLMotionProps } from "framer-motion"
+import { cn } from "@/lib/utils"
 import { applePhysics } from "@/lib/design-system/animation-tokens"
 
 interface GlassCardProps extends HTMLMotionProps<"div"> {

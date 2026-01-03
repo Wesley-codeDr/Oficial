@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useCallback } from 'react'
-import { useChat as useAIChat } from 'ai/react'
+import { useChat as useAIChat } from '@ai-sdk/react'
 import { analytics } from '@/lib/analytics'
 
 type Message = {
