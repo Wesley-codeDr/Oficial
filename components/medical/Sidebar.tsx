@@ -208,7 +208,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside
       suppressHydrationWarning={true}
-      className={`${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'} h-[calc(100vh-1rem)] liquid-glass-material glass-texture flex flex-col shrink-0 my-2 ml-2 rounded-[32px] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-40 relative hover:shadow-2xl hover:shadow-blue-500/5`}
+      className={`${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'} h-[calc(100vh-1rem)] liquid-glass-material flex flex-col shrink-0 my-2 ml-2 rounded-[32px] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-40 relative hover:shadow-2xl hover:shadow-blue-500/5`}
     >
       <motion.div 
          className="w-full h-full flex flex-col"

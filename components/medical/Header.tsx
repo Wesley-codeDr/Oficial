@@ -55,7 +55,7 @@ export const Header: React.FC<HeaderProps> = ({ patient, setPatient }) => {
       <motion.div 
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative w-full liquid-glass-material glass-texture bg-white/40 dark:bg-black/30 p-1 rounded-[40px] shadow-2xl border border-white/50 dark:border-white/10 overflow-hidden"
+        className="relative w-full liquid-glass-material bg-white/40 dark:bg-black/30 p-1 rounded-[40px] shadow-2xl border border-white/50 dark:border-white/10 overflow-hidden"
       >
         {/* Main Header Bar - Unified Summary */}
         <div 

@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react'
 import { flashTemplates, FlashTemplate } from '@/lib/data/flashTemplates'
+import { motion } from 'framer-motion'
+import { applePhysics } from '@/lib/design-system/animation-tokens'
 import {
   ArrowRight,
   Stethoscope,
@@ -18,7 +20,6 @@ interface FlashTemplateSelectionProps {
   onSelect: (templateId: string) => void
 }
 
-// Configuração de categorias com ícones e cores
 const categoryConfig: Record<
   string,
   { label: string; icon: React.ElementType; color: string; bgColor: string }
@@ -79,7 +80,6 @@ const categoryConfig: Record<
   },
 }
 
-// Ordem de exibição das categorias (por prevalência)
 const categoryOrder = [
   'respiratorio',
   'gastrointestinal',
@@ -93,10 +93,8 @@ const categoryOrder = [
 ]
 
 export const FlashTemplateSelection: React.FC<FlashTemplateSelectionProps> = ({ onSelect }) => {
-  // Agrupa templates por categoria
   const templatesByCategory = useMemo(() => {
     const grouped: Record<string, FlashTemplate[]> = {}
-
     Object.values(flashTemplates).forEach((template) => {
       const cat = template.categoria
       if (!grouped[cat]) {
@@ -104,28 +102,30 @@ export const FlashTemplateSelection: React.FC<FlashTemplateSelectionProps> = ({ 
       }
       grouped[cat].push(template)
     })
-
     return grouped
   }, [])
 
-  // Ordena categorias conforme ordem definida
   const sortedCategories = useMemo(() => {
     return categoryOrder.filter((cat) => templatesByCategory[cat]?.length > 0)
   }, [templatesByCategory])
 
   return (
-    <div className="h-full flex flex-col p-6 md:p-8 overflow-y-auto custom-scrollbar">
-      <div className="text-center space-y-2 mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-800 dark:text-white tracking-tight">
+    <div className="h-full flex flex-col p-6 md:p-10 overflow-y-auto custom-scrollbar">
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center space-y-2 mb-12"
+      >
+        <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tighter">
           Selecione a Queixa
         </h2>
-        <p className="text-slate-500 dark:text-slate-400 text-base md:text-lg">
-          {Object.keys(flashTemplates).length} modelos disponíveis organizados por categoria
+        <p className="text-[11px] text-blue-500 font-black uppercase tracking-[0.3em] opacity-80">
+          {Object.keys(flashTemplates).length} Modelos Inteligentes • Liquid Pick
         </p>
-      </div>
+      </motion.div>
 
-      <div className="space-y-8 max-w-6xl mx-auto w-full">
-        {sortedCategories.map((categoryKey) => {
+      <div className="space-y-12 max-w-6xl mx-auto w-full">
+        {sortedCategories.map((categoryKey, catIdx) => {
           const config = categoryConfig[categoryKey] || {
             label: categoryKey,
             icon: Stethoscope,
@@ -136,57 +136,72 @@ export const FlashTemplateSelection: React.FC<FlashTemplateSelectionProps> = ({ 
           const templates = templatesByCategory[categoryKey]
 
           return (
-            <section key={categoryKey}>
-              {/* Header da categoria */}
-              <div className="flex items-center gap-3 mb-4">
-                <div className={`p-2 rounded-xl ${config.bgColor.split(' ')[0]} ${config.color}`}>
-                  <Icon className="w-5 h-5" />
+            <motion.section 
+              key={categoryKey}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: catIdx * 0.1, ...applePhysics.soft }}
+            >
+              <div className="flex items-center gap-3 mb-6 px-2">
+                <div className={`p-2.5 rounded-xl ${config.bgColor.split(' ')[0]} ${config.color} shadow-sm border border-white/20`}>
+                  <Icon className="w-5 h-5 stroke-[2.5px]" />
                 </div>
-                <h3 className="text-lg font-bold text-slate-700 dark:text-slate-200">
+                <h3 className="text-lg font-black text-slate-800 dark:text-slate-100 uppercase tracking-tight">
                   {config.label}
                 </h3>
-                <span className="ml-auto text-sm text-slate-400 dark:text-slate-500">
+                <div className="h-px flex-1 bg-linear-to-r from-slate-200 dark:from-white/10 to-transparent ml-2" />
+                <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest bg-slate-100 dark:bg-white/5 px-3 py-1 rounded-full">
                   {templates.length} {templates.length === 1 ? 'modelo' : 'modelos'}
                 </span>
               </div>
 
-              {/* Grid de templates */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {templates.map((template) => (
-                  <button
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {templates.map((template, tIdx) => (
+                  <motion.button
                     key={template.id}
+                    layoutId={template.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    whileHover={{ 
+                      scale: 1.025,
+                      translateY: -5,
+                      boxShadow: "0 20px 40px rgba(0,0,0,0.12)"
+                    }}
+                    whileTap={applePhysics.haptic}
+                    transition={{ ...applePhysics.glass, delay: (catIdx * 0.1) + (tIdx * 0.05) }}
                     onClick={() => onSelect(template.id)}
-                    className="group relative flex flex-col p-5 rounded-[20px] bg-white/40 dark:bg-slate-800/40 border border-white/50 dark:border-white/5 hover:bg-white/60 dark:hover:bg-slate-800/60 transition-all duration-300 hover:scale-[1.02] hover:shadow-xl text-left"
+                    className="group relative flex flex-col p-6 rounded-[32px] liquid-glass-material text-left overflow-hidden"
                   >
-                    <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-start justify-between mb-4">
                       <div
-                        className={`p-2.5 rounded-xl ${config.bgColor} ${config.color} group-hover:text-white transition-colors duration-300`}
+                        className={`p-3 rounded-2xl ${config.bgColor} ${config.color} group-hover:text-white transition-all duration-500 shadow-sm border border-white/20`}
                       >
-                        <Icon className="w-5 h-5" />
+                        <Icon className="w-6 h-6 stroke-[2px]" />
                       </div>
-                      <div className="px-2 py-1 rounded-lg bg-slate-100 dark:bg-slate-700 text-[9px] font-bold text-slate-500 dark:text-slate-300 uppercase tracking-wider">
+                      <div className="px-3 py-1 rounded-full bg-slate-900/5 dark:bg-white/10 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border border-white/20">
                         {template.template.cid}
                       </div>
                     </div>
 
-                    <h4 className="text-base font-bold text-slate-800 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight">
+                    <h4 className="text-lg font-black text-slate-900 dark:text-white mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors leading-tight tracking-tight">
                       {template.nome}
                     </h4>
 
-                    <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 mb-3">
+                    <p className="text-xs font-medium text-slate-500 dark:text-slate-400 line-clamp-2 mb-4 leading-relaxed">
                       {template.template.hipotese_diagnostica[0]}
                     </p>
 
-                    <div className="mt-auto flex items-center text-xs font-bold text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-opacity translate-x-[-10px] group-hover:translate-x-0 duration-300">
-                      Selecionar <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    <div className="mt-auto flex items-center text-[10px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-400 opacity-0 group-hover:opacity-100 transition-all translate-x-[-10px] group-hover:translate-x-0 duration-500">
+                      Selecionar Modelo <ArrowRight className="w-4 h-4 ml-2 stroke-[3px]" />
                     </div>
-                  </button>
+                  </motion.button>
                 ))}
               </div>
-            </section>
+            </motion.section>
           )
         })}
       </div>
     </div>
   )
 }
+

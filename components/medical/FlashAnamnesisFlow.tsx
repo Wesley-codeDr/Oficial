@@ -10,6 +10,7 @@ import { ArrowLeft, Sparkles, MessageSquare, Calculator, User, Baby } from 'luci
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChatWell } from './ChatWell'
 import { HeartScoreCalculator } from './HeartScoreCalculator'
+import { applePhysics } from '@/lib/design-system/animation-tokens'
 
 interface FlashAnamnesisFlowProps {
   onExit: () => void
@@ -99,14 +100,14 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
   const currentIndex = steps.indexOf(step);
 
   return (
-    <div className="h-full flex flex-col bg-white/20 dark:bg-slate-900/40 backdrop-blur-3xl rounded-[40px] border border-white/40 dark:border-white/5 shadow-2xl overflow-hidden relative glass-texture">
-      <div className="absolute inset-0 border border-white/10 rounded-[40px] pointer-events-none rim-highlight z-50" />
+    <div className="h-full flex flex-col glass-elevated rounded-[40px] border border-white/40 dark:border-white/5 shadow-2xl overflow-hidden relative">
+      <div className="absolute inset-0 pointer-events-none z-50 rounded-[40px] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.2)]" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-linear-to-b from-blue-500/5 to-transparent pointer-events-none" />
       
       {/* Continuous Progress Bar */}
-      <div className="absolute top-0 left-0 right-0 h-1 z-50 flex gap-0.5 px-6 pt-4">
+      <div className="absolute top-0 left-0 right-0 h-1.5 z-50 flex gap-1 px-8 pt-5">
         {steps.map((s, i) => (
-          <div key={s} className="flex-1 h-1.5 rounded-full bg-slate-200/50 dark:bg-white/5 overflow-hidden">
+          <div key={s} className="flex-1 h-1 rounded-full bg-slate-200/30 dark:bg-white/10 overflow-hidden relative border border-white/5">
             <motion.div 
               initial={false}
               animate={{ 
@@ -114,8 +115,8 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
                 opacity: i <= currentIndex ? 1 : 0.3,
                 backgroundColor: i === currentIndex ? '#3b82f6' : i < currentIndex ? '#10b981' : '#cbd5e1'
               }}
-              className="h-full rounded-full"
-              transition={{ duration: 0.8, ease: "circOut" }}
+              className="h-full rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"
+              transition={{ ...applePhysics.layout, duration: 0.8 }}
             />
           </div>
         ))}

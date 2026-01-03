@@ -87,7 +87,7 @@ export const HeartScoreCalculator: React.FC<HeartScoreCalculatorProps> = ({
       className={cn(
         "flex flex-col h-full overflow-hidden relative font-sans text-white",
         mode === 'modal' 
-          ? 'bg-black/25 backdrop-blur-2xl w-full max-w-lg rounded-[40px] shadow-2xl border border-white/10 max-h-[90vh] glass-texture ring-1 ring-white/10' 
+          ? 'glass-elevated w-full max-w-lg rounded-[40px] max-h-[90vh]' 
           : 'bg-transparent w-full'
       )}
     >

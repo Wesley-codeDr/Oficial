@@ -13,6 +13,14 @@ export const applePhysics = {
     damping: 32,
     mass: 1
   },
+
+  // Liquid Glass Specific - "Heavy/Premium" feel
+  glass: {
+    type: "spring",
+    stiffness: 300,
+    damping: 30, // Slightly more "drift" to feel the weight
+    mass: 1.1    // Slightly heavier
+  },
   
   // Para elementos maiores entrando na tela ou modais (sensação mais macia)
   soft: {

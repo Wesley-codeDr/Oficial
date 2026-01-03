@@ -105,7 +105,7 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
 
   return (
     <div 
-      className={`relative overflow-hidden p-0 flex flex-col justify-between group transition-all duration-[800ms] hover:scale-[1.03] liquid-glass-material glass-texture glass-sheen rim-highlight ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}
+      className={`relative overflow-hidden p-0 flex flex-col justify-between group transition-all duration-[800ms] hover:scale-[1.03] liquid-glass-material ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}
       style={{ '--shadow-color': theme.shadow } as React.CSSProperties}
     >
       
@@ -210,7 +210,7 @@ const KanbanCard: React.FC<{
          transition-all duration-500
          cursor-grab active:cursor-grabbing
          p-5 rounded-[28px] border border-white/30 dark:border-white/10
-         liquid-glass-material glass-texture glass-sheen rim-highlight
+         liquid-glass-material
          ${isDragging 
             ? 'bg-blue-50/40! dark:bg-blue-900/15! border-dashed! border-blue-400 dark:border-blue-500/50' 
             : 'hover:bg-white/60 dark:hover:bg-white/15'

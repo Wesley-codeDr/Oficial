@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { User, Baby, Check, ChevronRight, Calculator, ShieldAlert, Phone as PhoneIcon, LucideIcon, Info, Smile, Accessibility } from 'lucide-react'
+import { User, Baby, Check, ChevronRight, UserCircle, ShieldAlert, Phone as PhoneIcon, LucideIcon, Info, Smile, Accessibility } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { applePhysics } from '@/lib/design-system/animation-tokens'
 
 interface SelectionPillProps {
   isActive: boolean
@@ -37,7 +38,9 @@ const SelectionPill: React.FC<SelectionPillProps> = ({ isActive, onClick, icon: 
   const styles = colorMap[color];
 
   return (
-    <button
+    <motion.button
+      whileTap={applePhysics.haptic}
+      transition={applePhysics.glass}
       onClick={onClick}
       className={`
         relative flex flex-col items-center justify-center gap-4 p-8 rounded-[40px] outline-none
@@ -77,12 +80,12 @@ const SelectionPill: React.FC<SelectionPillProps> = ({ isActive, onClick, icon: 
           className={`absolute top-5 right-5 w-7 h-7 rounded-full flex items-center justify-center text-white shadow-lg z-20 ${styles.iconBox}`}
           initial={{ scale: 0, rotate: -45 }}
           animate={{ scale: 1, rotate: 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+          transition={applePhysics.default}
         >
           <Check className="w-4 h-4 stroke-[4px]" />
         </motion.div>
       )}
-    </button>
+    </motion.button>
   )
 }
 
@@ -102,10 +105,7 @@ export const FlashPatientEntry: React.FC<FlashPatientEntryProps> = ({ onComplete
 
   const handleComplete = () => {
     if (gender && category) {
-      // Map to internal pediatric/adult for the rest of the app
       const finalCategory = (category === 'lactente' || category === 'crianca') ? 'pediatric' : 'adult'
-      
-      // Map approximate ages for clinical logic
       const ageMap = {
         lactente: 1,
         crianca: 8,
@@ -134,11 +134,10 @@ export const FlashPatientEntry: React.FC<FlashPatientEntryProps> = ({ onComplete
   return (
     <div className="h-full flex flex-col items-center justify-center p-4 sm:p-8">
       <motion.div 
-        initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
-        animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-        className="max-w-xl w-full liquid-glass-material patient-id-capsule space-y-8"
+        initial={applePhysics.blur.initial}
+        animate={applePhysics.blur.animate}
+        className="max-w-xl w-full liquid-glass-material p-8 space-y-8 shadow-2xl"
       >
-        
         {/* Header Section */}
         <div className="text-center space-y-1">
           <h2 className="text-3xl font-black tracking-tighter text-slate-900 dark:text-white">
@@ -150,7 +149,6 @@ export const FlashPatientEntry: React.FC<FlashPatientEntryProps> = ({ onComplete
         </div>
 
         <div className="space-y-8">
-          
           {/* 1. Sexo Biológico */}
           <div className="space-y-4">
              <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em] ml-2 text-center">1. Sexo Biológico</p>
@@ -160,14 +158,14 @@ export const FlashPatientEntry: React.FC<FlashPatientEntryProps> = ({ onComplete
                   onClick={() => handleGenderSelect('M')}
                   label="Homem"
                   color="blue"
-                  icon={User}
+                  icon={UserCircle}
                 />
                 <SelectionPill 
                   isActive={gender === 'F'} 
                   onClick={() => handleGenderSelect('F')}
                   label="Mulher"
                   color="rose"
-                  icon={User}
+                  icon={UserCircle}
                 />
              </div>
           </div>
@@ -202,7 +200,7 @@ export const FlashPatientEntry: React.FC<FlashPatientEntryProps> = ({ onComplete
                       onClick={() => setCategory('adulto')}
                       label="Adulto"
                       color="indigo"
-                      icon={User}
+                      icon={UserCircle}
                     />
                     <SelectionPill 
                       isActive={category === 'idoso'} 
@@ -213,36 +211,41 @@ export const FlashPatientEntry: React.FC<FlashPatientEntryProps> = ({ onComplete
                     />
                  </div>
 
-                 {/* 3. Gestante - Only if Female + Adult/Idoso (Safety check) */}
+                 {/* 3. Gestante */}
                  {gender === 'F' && (category === 'adulto' || category === 'idoso') && (
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95, filter: 'blur(4px)' }}
                         animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                         className="pt-4"
                     >
-                        <button
+                        <motion.button
+                        whileTap={applePhysics.haptic}
                         onClick={() => setIsPregnant(!isPregnant)}
                         className={`
-                            w-full gestante-toggle-glass
+                            w-full flex items-center justify-between p-5 rounded-[28px] border transition-all duration-500
                             ${isPregnant 
-                            ? 'bg-rose-500/10 border-rose-500/30' 
+                            ? 'bg-rose-500/10 border-rose-500/30 shadow-[0_10px_30px_rgba(244,63,94,0.1)]' 
                             : 'bg-white/5 border-white/10 hover:bg-white/10'
                             }
                         `}
                         >
                         <div className="flex items-center gap-3">
-                            <div className={`p-2.5 rounded-2xl ${isPregnant ? 'bg-rose-500 text-white' : 'bg-slate-200 dark:bg-slate-800 text-slate-400'}`}>
+                            <div className={`p-2.5 rounded-2xl transition-colors duration-500 ${isPregnant ? 'bg-rose-500 text-white shadow-lg shadow-rose-500/30' : 'bg-slate-200 dark:bg-slate-800 text-slate-400'}`}>
                             <Baby className="w-5 h-5" />
                             </div>
                             <div className="text-left">
                             <p className={`text-[10px] font-black uppercase tracking-widest ${isPregnant ? 'text-rose-500' : 'text-slate-500'}`}>Condição Particular</p>
-                            <h4 className={`text-sm font-black ${isPregnant ? 'text-rose-600 dark:text-rose-300' : 'text-slate-700 dark:text-slate-300'}`}>Gestante</h4>
+                            <h4 className={`text-sm font-black transition-colors duration-500 ${isPregnant ? 'text-rose-600 dark:text-rose-300' : 'text-slate-700 dark:text-slate-300'}`}>Gestante</h4>
                             </div>
                         </div>
-                        <div className={`w-12 h-6 rounded-full p-1 transition-colors duration-300 ${isPregnant ? 'bg-rose-500' : 'bg-slate-300 dark:bg-slate-700'}`}>
-                            <div className={`w-4 h-4 bg-white rounded-full transition-transform duration-300 ${isPregnant ? 'translate-x-6' : 'translate-x-0'}`} />
+                        <div className={`w-12 h-6 rounded-full p-1 transition-colors duration-500 ${isPregnant ? 'bg-rose-500' : 'bg-slate-300 dark:bg-slate-700'}`}>
+                            <motion.div 
+                                animate={{ x: isPregnant ? 24 : 0 }}
+                                transition={applePhysics.default}
+                                className="w-4 h-4 bg-white rounded-full shadow-sm" 
+                            />
                         </div>
-                        </button>
+                        </motion.button>
                     </motion.div>
                 )}
               </motion.div>
@@ -252,21 +255,21 @@ export const FlashPatientEntry: React.FC<FlashPatientEntryProps> = ({ onComplete
 
         {/* Action Button */}
         <div className="pt-4">
-          <button
-            onClick={handleComplete}
-            disabled={!isReady}
+          <motion.button
+            whileTap={applePhysics.haptic}
+            onClick={isReady ? handleComplete : undefined}
             className={`
                w-full group relative flex items-center justify-center gap-3 py-5 rounded-[32px] text-base font-black uppercase tracking-widest
                transition-all duration-500 shadow-xl
                ${!isReady 
-                 ? 'bg-slate-100 dark:bg-slate-800/50 text-slate-400 cursor-not-allowed' 
+                 ? 'bg-slate-100 dark:bg-slate-800/50 text-slate-400 cursor-not-allowed opacity-50' 
                  : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:scale-[1.02] shadow-blue-500/20 active:scale-95'
                }
             `}
           >
             <span>Gerar Anamnese</span>
             <ChevronRight className={`w-5 h-5 transition-transform duration-300 ${isReady ? 'group-hover:translate-x-1' : ''}`} />
-          </button>
+          </motion.button>
           
           <div className="mt-4 flex items-center justify-center gap-2 opacity-40 text-center">
                <Info className="w-3 h-3" />
@@ -277,4 +280,5 @@ export const FlashPatientEntry: React.FC<FlashPatientEntryProps> = ({ onComplete
     </div>
   )
 }
+
 
