@@ -56,3 +56,5 @@ temp/
 # Auto Claude data directory
 .auto-claude/
 tsconfig.tsbuildinfo
+.vercel
+.env*.local

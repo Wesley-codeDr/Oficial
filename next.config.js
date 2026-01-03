@@ -71,9 +71,15 @@ const nextConfig = {
 // Apply bundle analyzer
 let config = withBundleAnalyzer(nextConfig);
 
+// Temporarily disable Sentry for deployment - TODO: Fix Sentry authentication
 // Injected content via Sentry wizard below
-const { withSentryConfig } = require("@sentry/nextjs");
+// const { withSentryConfig } = require("@sentry/nextjs");
 
+// Export config without Sentry for now
+module.exports = config;
+
+/*
+// Re-enable this when Sentry is properly configured
 module.exports = withSentryConfig(
   config,
   {
@@ -112,3 +118,4 @@ module.exports = withSentryConfig(
     },
   }
 );
+*/
