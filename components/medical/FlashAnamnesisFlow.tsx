@@ -6,13 +6,16 @@ import { FlashPreview } from './FlashPreview'
 import { AnamnesisWorkspace } from './AnamnesisWorkspace'
 import { Patient } from '@/lib/types/medical'
 import { generateFlashRecord, FlashInput } from '@/lib/data/flashTemplates'
-import { ArrowLeft, Sparkles, Send, Activity, Brain } from 'lucide-react'
+import { ArrowLeft, Sparkles, MessageSquare, Calculator, User, Baby } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ChatWell } from './ChatWell'
+import { HeartScoreCalculator } from './HeartScoreCalculator'
 
 interface FlashAnamnesisFlowProps {
   onExit: () => void
   patient: Patient
   setPatient: React.Dispatch<React.SetStateAction<Patient>>
+  onApplyScore?: (scoreResult: string) => void
 }
 
 type Step = 'identity' | 'selection' | 'workspace'
@@ -21,6 +24,7 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
   onExit,
   patient,
   setPatient,
+  onApplyScore
 }) => {
   const [step, setStep] = useState<Step>('identity')
   const [selectedTemplateId, setSelectedTemplateId] = useState<string | null>(null)
@@ -35,6 +39,18 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
     glasgow: '15',
     centor_score: '',
   })
+
+  const [activeTool, setActiveTool] = useState<'chat' | 'calculators' | null>(null)
+
+  const handleApplyScoreInternal = (scoreResult: string) => {
+    // Append score to the current variables or handle as a separate field if applicable
+    // In Flash flow, we might want to append to a general 'observacoes' field if exists
+    // For now, potentially pass it up if onApplyScore is provided
+    if (onApplyScore) {
+      onApplyScore(scoreResult)
+    }
+    setActiveTool(null)
+  }
 
   const handleIdentityComplete = (data: {
     category: 'adult' | 'pediatric'
@@ -83,7 +99,8 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
   const currentIndex = steps.indexOf(step);
 
   return (
-    <div className="h-full flex flex-col bg-white/20 dark:bg-slate-900/40 backdrop-blur-3xl rounded-[40px] border border-white/40 dark:border-white/5 shadow-2xl overflow-hidden relative">
+    <div className="h-full flex flex-col bg-white/20 dark:bg-slate-900/40 backdrop-blur-3xl rounded-[40px] border border-white/40 dark:border-white/5 shadow-2xl overflow-hidden relative glass-texture">
+      <div className="absolute inset-0 border border-white/10 rounded-[40px] pointer-events-none rim-highlight z-50" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-1/2 bg-linear-to-b from-blue-500/5 to-transparent pointer-events-none" />
       
       {/* Continuous Progress Bar */}
@@ -126,11 +143,25 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
               <span className="font-black text-[11px] uppercase tracking-widest text-slate-400 group-hover:text-slate-600 dark:group-hover:text-slate-200 transition-colors">Voltar</span>
             </button>
             
-            <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20">
-               <Sparkles className="w-3.5 h-3.5 text-blue-500" />
-               <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
-                  Fase: {step === 'workspace' ? 'Documentação' : 'Triagem'}
-               </span>
+            <div className="flex items-center gap-4">
+              {/* Contextual Patient Info - REPLICADO DO HEADER */}
+              <div className="flex items-center gap-3 px-4 py-1.5 rounded-full bg-slate-900/5 dark:bg-white/5 border border-white/20">
+                <div className="w-6 h-6 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500">
+                  {patient.category === 'pediatric' ? <Baby className="w-4 h-4" /> : <User className="w-4 h-4" />}
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">{patient.age || '--'} ANOS</span>
+                  <div className="w-px h-3 bg-white/20" />
+                  <span className={`text-[10px] font-black uppercase ${patient.gender === 'F' ? 'text-pink-500' : 'text-blue-500'}`}>{patient.gender === 'F' ? 'FEM' : 'MASC'}</span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20">
+                 <Sparkles className="w-3.5 h-3.5 text-blue-500" />
+                 <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest">
+                    Fase: {step === 'workspace' ? 'Documentação' : 'Triagem'}
+                 </span>
+              </div>
             </div>
           </motion.div>
         )}
@@ -149,26 +180,82 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
             {step === 'identity' && <FlashPatientEntry onComplete={handleIdentityComplete} />}
             {step === 'selection' && <FlashTemplateSelection onSelect={handleTemplateSelect} />}
             {step === 'workspace' && selectedTemplateId && generatedRecord && (
-              <AnamnesisWorkspace
-                leftContent={
-                  <FlashForm
-                    initialData={variables}
-                    onUpdate={handleFormUpdate}
-                    templateId={selectedTemplateId}
-                    onSubmit={onExit}
-                  />
-                }
-                rightContent={
-                  <FlashPreview 
-                    record={generatedRecord} 
-                    onReset={onExit} 
-                  />
-                }
-                sidebarContent={{
-                  chat: <ChatAssistant />,
-                  calculators: <RiskCalculators />
-                }}
-              />
+              <div className="h-full relative overflow-hidden">
+                <AnamnesisWorkspace
+                  activeTool={activeTool}
+                  onActiveToolChange={setActiveTool}
+                  leftContent={
+                    <FlashForm
+                      initialData={variables}
+                      onUpdate={handleFormUpdate}
+                      templateId={selectedTemplateId}
+                      onSubmit={onExit}
+                    />
+                  }
+                  rightContent={
+                    <div className="h-full flex flex-col relative">
+                      <div className="flex-1 overflow-hidden">
+                        <FlashPreview 
+                          record={generatedRecord} 
+                          onReset={onExit} 
+                        />
+                      </div>
+
+                      {/* Floating Tools Toolbar (VisionOS Style) - REPLICADO DA ANAMNESE */}
+                      <div className="absolute bottom-10 left-0 right-0 flex justify-center pointer-events-none z-50">
+                        <div className="flex items-center gap-1.5 p-1.5 liquid-glass-material bg-white/40! dark:bg-black/40! backdrop-blur-3xl rounded-[26px] border border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] pointer-events-auto group/toolbar">
+                            {/* Chat Button */}
+                            <button
+                              onClick={() => setActiveTool(activeTool === 'chat' ? null : 'chat')}
+                              className={`
+                                h-12 px-5 rounded-[20px] flex items-center gap-2.5 transition-all duration-500 relative overflow-hidden group/btn
+                                ${activeTool === 'chat' 
+                                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40 scale-105' 
+                                  : 'bg-transparent text-slate-500 hover:bg-white/20 hover:text-slate-900 dark:hover:text-white'}
+                              `}
+                            >
+                              <MessageSquare className={`w-5 h-5 transition-transform duration-500 ${activeTool === 'chat' ? 'scale-110' : 'group-hover/btn:rotate-12'}`} />
+                              <span className="text-[12px] font-black uppercase tracking-widest">ChatWW</span>
+                              {activeTool === 'chat' && (
+                                <div className="absolute inset-0 bg-linear-to-tr from-white/10 to-transparent pointer-events-none animate-in fade-in duration-300" />
+                              )}
+                            </button>
+
+                            <div className="w-px h-6 bg-white/10 mx-0.5" />
+
+                            {/* Score Button */}
+                            <button
+                              onClick={() => setActiveTool(activeTool === 'calculators' ? null : 'calculators')}
+                              className={`
+                                h-12 px-5 rounded-[20px] flex items-center gap-2.5 transition-all duration-500 relative overflow-hidden group/btn
+                                ${activeTool === 'calculators' 
+                                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 scale-105' 
+                                  : 'bg-transparent text-slate-500 hover:bg-white/20 hover:text-slate-900 dark:hover:text-white'}
+                              `}
+                            >
+                              <Calculator className={`w-5 h-5 transition-transform duration-500 ${activeTool === 'calculators' ? 'scale-110' : 'group-hover/btn:rotate-12'}`} />
+                              <span className="text-[12px] font-black uppercase tracking-widest">Scores</span>
+                              {activeTool === 'calculators' && (
+                                <div className="absolute inset-0 bg-linear-to-tr from-white/10 to-transparent pointer-events-none animate-in fade-in duration-300" />
+                              )}
+                            </button>
+                        </div>
+                      </div>
+                    </div>
+                  }
+                  sidebarContent={{
+                    chat: <ChatWell />,
+                    calculators: (
+                      <HeartScoreCalculator 
+                        isOpen={true}
+                        onClose={() => setActiveTool(null)}
+                        patient={patient}
+                        onApply={handleApplyScoreInternal}
+                      />
+                    )
+                  }}
+                />
+              </div>
             )}
           </motion.div>
         </AnimatePresence>
@@ -177,64 +264,3 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
   )
 }
 
-// Sidebar Components
-const ChatAssistant: React.FC = () => (
-  <div className="h-full flex flex-col gap-6">
-    <div className="flex-1 space-y-6">
-      <div className="bg-blue-500/5 dark:bg-blue-500/10 p-5 rounded-[32px] rounded-tl-none border border-blue-500/20 shadow-sm">
-        <p className="text-xs font-bold text-slate-700 dark:text-slate-100 leading-relaxed">
-          Olá! Estou analisando os dados do paciente. Alguma dúvida sobre a conduta para este caso de <span className="text-blue-500 font-black italic">faringoamigdalite</span>?
-        </p>
-      </div>
-      <div className="bg-white/10 dark:bg-white/5 backdrop-blur-md p-5 rounded-[32px] rounded-tr-none ml-auto max-w-[85%] border border-white/20 shadow-sm shrink-0">
-        <p className="text-xs font-bold text-slate-600 dark:text-slate-300">
-           Quais as contraindicações para corticóide neste paciente?
-        </p>
-      </div>
-    </div>
-    <div className="relative mt-auto pb-4">
-      <input 
-        type="text" 
-        placeholder="Perguntar à IA..."
-        className="w-full bg-white/40 dark:bg-black/40 backdrop-blur-2xl border border-white/50 dark:border-white/10 rounded-[24px] py-4 pl-5 pr-14 text-sm font-bold focus:ring-4 focus:ring-blue-500/20 focus:outline-none transition-all placeholder:text-slate-400"
-      />
-      <button className="absolute right-2 top-2 w-11 h-11 bg-blue-600 text-white rounded-[18px] flex items-center justify-center shadow-xl shadow-blue-500/30 hover:scale-105 active:scale-95 transition-all">
-        <Send className="w-5 h-5" />
-      </button>
-    </div>
-  </div>
-)
-
-const RiskCalculators: React.FC = () => (
-  <div className="space-y-5">
-    <CalculatorCard 
-      icon={<Activity className="w-4 h-4" />}
-      title="Centor Score (Modificado)"
-      score="3 Pontos"
-      risk="Risco: 28-35% de Strep A"
-      color="text-amber-500"
-    />
-    <CalculatorCard 
-      icon={<Brain className="w-4 h-4" />}
-      title="qSOFA"
-      score="0"
-      risk="Baixo risco de sepse"
-      color="text-emerald-500"
-    />
-  </div>
-)
-
-const CalculatorCard: React.FC<{ icon: React.ReactNode; title: string, score: string, risk: string, color: string }> = ({ icon, title, score, risk, color }) => (
-  <div className="p-6 rounded-[32px] bg-white/20 dark:bg-white/5 border border-white/50 dark:border-white/10 shadow-lg backdrop-blur-md hover:bg-white/40 dark:hover:bg-white/10 transition-all cursor-pointer group">
-    <div className="flex items-center gap-4 mb-3">
-      <div className={`w-10 h-10 rounded-xl bg-slate-100/50 dark:bg-black/20 flex items-center justify-center ${color} shadow-inner`}>
-        {icon}
-      </div>
-      <h4 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">{title}</h4>
-    </div>
-    <div className="flex items-end justify-between">
-      <div className="text-3xl font-black text-slate-800 dark:text-white tracking-tighter">{score}</div>
-      <div className={`text-[9px] font-black uppercase tracking-widest px-2 py-1 rounded-full bg-white/50 dark:bg-black/30 border border-white/20 ${color}`}>{risk}</div>
-    </div>
-  </div>
-)

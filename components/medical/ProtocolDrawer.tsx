@@ -79,7 +79,7 @@ export function ProtocolDrawer({ complaint, isOpen, onClose }: ProtocolDrawerPro
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent 
         side="right" 
-        className="w-full sm:max-w-3xl p-0 border-l border-white/20 dark:border-white/10 bg-white/60 dark:bg-black/40 backdrop-blur-3xl shadow-2xl"
+        className="w-full sm:max-w-3xl p-0 border-l border-white/20 dark:border-white/10 liquid-glass-material backdrop-blur-3xl shadow-2xl glass-texture"
       >
         <div className="h-full flex flex-col">
           <SheetHeader className="p-8 pb-6 border-b border-white/20 dark:border-white/10 shrink-0">
@@ -150,7 +150,7 @@ export function ProtocolDrawer({ complaint, isOpen, onClose }: ProtocolDrawerPro
                     {/* Red Flags */}
                     {sections.redFlags && (
                       <AccordionItem value="red-flags" className="border-none">
-                        <AccordionTrigger className="liquid-glass-material hover:no-underline px-6 py-4 rounded-[24px]">
+                        <AccordionTrigger className="liquid-glass-material hover:no-underline px-6 py-4 rounded-[24px] glass-texture rim-highlight">
                           <div className="flex items-center gap-3">
                             <span className="text-2xl">🚩</span>
                             <span className="text-base font-black tracking-tight text-slate-700 dark:text-slate-200">Red Flags (Alerta)</span>
@@ -248,7 +248,7 @@ export function ProtocolDrawer({ complaint, isOpen, onClose }: ProtocolDrawerPro
           )}
 
           {/* Bottom Action */}
-          <div className="p-8 border-t border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/20 backdrop-blur-xl shrink-0">
+          <div className="p-8 border-t border-white/20 dark:border-white/10 liquid-glass-material !bg-white/40 dark:!bg-black/20 backdrop-blur-xl shrink-0 glass-texture">
              <button
                onClick={() => {
                  onClose()

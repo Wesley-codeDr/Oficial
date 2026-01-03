@@ -72,7 +72,7 @@ CID: ${editableRecord.cid} - ${editableRecord.cid_descricao}
           </div>
         </div>
 
-        <div className="flex items-center gap-2 p-1.5 bg-white/40 dark:bg-black/20 backdrop-blur-xl border border-white/50 dark:border-white/10 rounded-2xl shadow-sm">
+        <div className="flex items-center gap-2 p-1.5 liquid-glass-material backdrop-blur-3xl border border-white/50 dark:border-white/10 rounded-2xl shadow-sm glass-texture rim-highlight">
           <button
             onClick={() => setIsUppercaseMode(!isUppercaseMode)}
             className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${

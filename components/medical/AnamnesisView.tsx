@@ -5,10 +5,17 @@ import { useEffect, useState, useMemo } from 'react';
 import {
   Search, Check, AlertTriangle,
   Activity, Thermometer, Stethoscope, FileText,
-  Plus, ChevronRight, Info, Calculator, BookOpen, X
+  Plus, ChevronRight, Calculator, BookOpen, X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AnamnesisSection, Symptom, Patient } from '@/lib/types/medical';
+import { 
+  GlassSegmented, 
+  GlassMultiSelect, 
+  GlassRange, 
+  GlassInput,
+  GlassCheckbox
+} from './glass-inputs';
 import { AutoRedFlagAlert } from './AutoRedFlagAlert';
 import { detectRedFlags, DetectionResult } from '@/lib/anamnese/red-flag-detector';
 import { getComplaintById, complaintToFormConfig } from '@/lib/anamnese/complaint-to-form';
@@ -34,203 +41,7 @@ const RISK_FACTOR_TOOLTIPS: Record<string, string> = {
   'obesidade': 'Sobrecarga cardíaca e associação com síndrome metabólica.'
 };
 
-// --- SUB-COMPONENTS (Apple Style) ---
-
-// 1. Checkbox Row (Card List Style)
-interface CheckboxItemProps { item: Symptom; value: boolean; onChange: (val: boolean) => void; }
-const CheckboxItem: React.FC<CheckboxItemProps> = ({ item, value, onChange }) => {
-  const tooltipText = RISK_FACTOR_TOOLTIPS[item.id];
-
-  return (
-    <button 
-      onClick={() => onChange(!value)}
-      className={`
-        group w-full flex items-center justify-between px-5 py-4 first:rounded-t-3xl last:rounded-b-3xl border-b border-slate-100 dark:border-white/5 last:border-0 transition-all duration-200
-        ${value ? 'bg-slate-50/50 dark:bg-white/5' : 'bg-transparent hover:bg-slate-50/80 dark:hover:bg-white/5'}
-      `}
-    >
-      <div className="flex items-center gap-4">
-        {/* Custom Radio/Check Circle */}
-        <div className={`
-           w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 border-[1.5px]
-           ${value 
-             ? (item.isRedFlag ? 'bg-red-500 border-red-500 shadow-sm' : 'bg-blue-500 border-blue-500 shadow-sm')
-             : 'bg-transparent border-slate-300 dark:border-slate-600 group-hover:border-blue-400 dark:group-hover:border-blue-400'
-           }
-        `}>
-           <Check className={`w-3.5 h-3.5 text-white stroke-[3.5px] transition-transform duration-200 ${value ? 'scale-100' : 'scale-0'}`} />
-        </div>
-        
-        <div className="flex items-center gap-2">
-          <span className={`text-[15px] text-left tracking-tight ${value ? 'text-slate-900 dark:text-white font-semibold' : 'text-slate-600 dark:text-slate-300 font-medium'}`}>
-            {item.label}
-          </span>
-          
-          {tooltipText && (
-            <div 
-              className="group/tooltip relative flex items-center justify-center p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
-              onClick={(e) => e.stopPropagation()}
-            >
-               <Info className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500 hover:text-blue-500 dark:hover:text-blue-400" />
-               
-               {/* Tooltip Content */}
-               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-48 p-2.5 bg-slate-800 dark:bg-white text-white dark:text-slate-900 text-[11px] font-medium leading-relaxed rounded-xl shadow-xl opacity-0 group-hover/tooltip:opacity-100 transition-all duration-200 pointer-events-none z-50 transform scale-95 group-hover/tooltip:scale-100 origin-bottom text-center">
-                  {tooltipText}
-                  {/* Triangle Arrow */}
-                  <div className="absolute left-1/2 top-full -translate-x-1/2 -mt-[1px] border-4 border-transparent border-t-slate-800 dark:border-t-white"></div>
-               </div>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {item.isRedFlag && value && (
-        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-[10px] font-bold text-red-600 dark:text-red-400 uppercase tracking-wide animate-in fade-in zoom-in">
-           <AlertTriangle className="w-3 h-3" />
-           Alerta
-        </div>
-      )}
-    </button>
-  );
-};
-
-// 2. Segmented Control (iOS Native Style)
-interface SegmentedItemProps { item: Symptom; value: string; onChange: (val: string) => void; }
-const SegmentedItem: React.FC<SegmentedItemProps> = ({ item, value, onChange }) => {
-  return (
-    <div className="px-5 py-4 border-b border-slate-100 dark:border-white/5 first:rounded-t-3xl last:rounded-b-3xl last:border-0">
-       <div className="mb-3">
-         <span className="text-[13px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide ml-1">{item.label}</span>
-       </div>
-       <div className="flex bg-slate-100 dark:bg-black/40 p-1 rounded-2xl relative z-0">
-          {item.options?.map(opt => {
-             const isActive = value === opt;
-             return (
-                <button
-                  key={opt}
-                  onClick={() => onChange(opt)}
-                  className={`
-                    flex-1 py-2 rounded-xl text-[13px] font-semibold transition-all duration-300 relative z-10
-                    ${isActive 
-                      ? 'text-slate-900 dark:text-white shadow-[0_2px_8px_rgba(0,0,0,0.08)] dark:shadow-none bg-white dark:bg-slate-700' 
-                      : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200'
-                    }
-                  `}
-                >
-                  {opt}
-                </button>
-             );
-          })}
-       </div>
-    </div>
-  );
-};
-
-// 3. Multi Select Chips (Pills)
-interface MultiSelectItemProps { item: Symptom; value: string[]; onChange: (val: string[]) => void; }
-const MultiSelectItem: React.FC<MultiSelectItemProps> = ({ item, value, onChange }) => {
-  const currentValues = Array.isArray(value) ? value : [];
-
-  const toggleOption = (opt: string) => {
-    if (currentValues.includes(opt)) {
-      onChange(currentValues.filter(v => v !== opt));
-    } else {
-      onChange([...currentValues, opt]);
-    }
-  };
-
-  return (
-    <div className="px-5 py-4 border-b border-slate-100 dark:border-white/5 first:rounded-t-3xl last:rounded-b-3xl last:border-0">
-       <div className="mb-3">
-         <span className="text-[13px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide ml-1">{item.label}</span>
-       </div>
-       <div className="flex flex-wrap gap-2.5">
-          {item.options?.map(opt => {
-             const isSelected = currentValues.includes(opt);
-             return (
-                <button
-                  key={opt}
-                  onClick={() => toggleOption(opt)}
-                  className={`
-                    px-4 py-2 rounded-full text-[13px] font-semibold transition-all duration-200 border
-                    ${isSelected 
-                      ? 'bg-blue-500 text-white border-blue-500 shadow-md shadow-blue-500/20' 
-                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700'
-                    }
-                  `}
-                >
-                  {opt}
-                </button>
-             );
-          })}
-       </div>
-    </div>
-  );
-};
-
-// 4. Range Slider (Apple Health Style)
-interface RangeItemProps { item: Symptom; value: string; onChange: (val: string) => void; }
-const RangeItem: React.FC<RangeItemProps> = ({ item, value, onChange }) => {
-  const numVal = parseInt(value) || 0;
-  const percentage = ((numVal - (item.min || 0)) / ((item.max || 10) - (item.min || 0))) * 100;
-  
-  return (
-    <div className="px-6 py-5 border-b border-slate-100 dark:border-white/5 first:rounded-t-3xl last:rounded-b-3xl last:border-0">
-       <div className="flex justify-between items-center mb-5">
-         <span className="text-[13px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide">{item.label}</span>
-         <div className="px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-700 dark:text-white min-w-[3rem] text-center shadow-sm">
-            {value}
-         </div>
-       </div>
-       <div className="relative h-5 flex items-center group cursor-pointer">
-          {/* Thick Track */}
-          <div className="absolute w-full h-4 bg-slate-100 dark:bg-black/50 rounded-full overflow-hidden shadow-inner border border-transparent dark:border-white/5">
-             <div 
-               className="h-full bg-gradient-to-r from-sky-400 to-indigo-500 transition-all duration-150 ease-out" 
-               style={{ width: `${percentage}%` }}
-             />
-          </div>
-          <input 
-            type="range"
-            min={item.min} max={item.max} step={item.step}
-            value={numVal}
-            onChange={(e) => onChange(e.target.value)}
-            className="absolute w-full h-full opacity-0 cursor-pointer z-20"
-          />
-          {/* Large Thumb */}
-          <div 
-             className="absolute h-8 w-8 bg-white dark:bg-slate-200 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.15)] border border-slate-100/50 pointer-events-none transition-transform group-hover:scale-105 duration-200 z-10 flex items-center justify-center"
-             style={{ left: `calc(${percentage}% - 16px)` }}
-          >
-             <div className="w-2 h-2 rounded-full bg-slate-300 dark:bg-slate-500"></div>
-          </div>
-       </div>
-       <div className="flex justify-between mt-3 px-1">
-          <span className="text-[10px] font-bold text-slate-300 dark:text-slate-600">{item.min}</span>
-          <span className="text-[10px] font-bold text-slate-300 dark:text-slate-600">{item.max}</span>
-       </div>
-    </div>
-  );
-};
-
-// 5. Input Text (Clean)
-interface TextItemProps { item: Symptom; value: string; onChange: (val: string) => void; }
-const TextItem: React.FC<TextItemProps> = ({ item, value, onChange }) => {
-  return (
-     <div className="px-5 py-4 border-b border-slate-100 dark:border-white/5 first:rounded-t-3xl last:rounded-b-3xl last:border-0">
-        <label className="block text-[13px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-2.5 ml-1">
-           {item.label}
-        </label>
-        <input 
-           type="text"
-           value={value || ''}
-           onChange={(e) => onChange(e.target.value)}
-           placeholder={item.placeholder || 'Digite aqui...'}
-           className="w-full bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 text-[15px] font-medium text-slate-800 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all shadow-sm"
-        />
-     </div>
-  );
-};
+// --- SUB-COMPONENTS REMOVED (Replaced by Glass Inputs) ---
 
 // --- CALCULATOR CARD COMPONENT ---
 interface CalculatorCardProps {
@@ -322,63 +133,97 @@ const ConductPanel: React.FC<ConductPanelProps> = ({ content, isExpanded, onTogg
   );
 };
 
-// 6. Floating Calculator Card (For Red Flags)
+// 6. Floating Calculator Card (Ultra-FID Liquid Bubble)
 interface FloatingCalculatorCardProps {
   calculators: { id: string; name: string; description: string }[];
   onClick: (name: string) => void;
   onDismiss: () => void;
+  severity?: 'critical' | 'warning' | 'info';
 }
 
-const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calculators, onClick, onDismiss }) => {
+const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calculators, onClick, onDismiss, severity = 'info' }) => {
   if (calculators.length === 0) return null;
+
+  const getSeverityStyles = () => {
+    switch(severity) {
+      case 'critical': return 'from-rose-500/80 to-rose-700/80 shadow-rose-500/30 border-rose-400/30';
+      case 'warning': return 'from-amber-500/80 to-orange-600/80 shadow-amber-500/30 border-amber-400/30';
+      default: return 'from-blue-500/80 to-indigo-600/80 shadow-blue-500/30 border-blue-400/30';
+    }
+  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 50, scale: 0.9 }}
-      animate={{ opacity: 1, x: 0, scale: 1 }}
-      exit={{ opacity: 0, x: 50, scale: 0.9 }}
-      className="fixed bottom-24 right-8 z-[100] w-[320px]"
+      initial={{ opacity: 0, y: 40, scale: 0.8, filter: 'blur(20px)' }}
+      animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
+      exit={{ opacity: 0, y: 40, scale: 0.8, filter: 'blur(20px)' }}
+      whileHover={{ y: -5, scale: 1.02 }}
+      className="fixed bottom-28 right-10 z-[100] w-[340px]"
     >
-      <div className="liquid-glass-material !bg-white/70 dark:!bg-black/60 backdrop-blur-2xl rounded-[32px] border border-white/40 dark:border-white/10 shadow-2xl p-5 overflow-hidden group">
-        <div className="flex justify-between items-start mb-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-              <Calculator className="w-5 h-5" />
-            </div>
-            <div>
-              <h4 className="text-[14px] font-bold text-slate-800 dark:text-white leading-tight">Sugestão Técnica</h4>
-              <p className="text-[10px] font-bold text-blue-500 uppercase tracking-wider mt-0.5">Estratificação de Risco</p>
-            </div>
-          </div>
-          <button 
-            onClick={onDismiss}
-            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-white/5 text-slate-400 transition-colors"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
+      <div className={`
+        relative overflow-hidden rounded-[42px] backdrop-blur-3xl border shadow-3xl p-6 group
+        ${getSeverityStyles()}
+      `}>
+        {/* Animated Mesh Gradient Background (Inside) */}
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            rotate: [0, 90, 0],
+            opacity: [0.3, 0.5, 0.3]
+          }}
+          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
+          className="absolute -inset-20 bg-[conic-gradient(from_0deg,transparent_0deg,rgba(255,255,255,0.2)_180deg,transparent_360deg)] pointer-events-none"
+        />
 
-        <div className="space-y-2">
-          {calculators.map((calc) => (
-            <button
-              key={calc.id}
-              onClick={() => onClick(calc.name)}
-              className="w-full flex items-center justify-between p-3.5 rounded-2xl bg-blue-500/5 hover:bg-blue-500/10 border border-blue-500/10 transition-all text-left group/btn"
-            >
-              <div className="min-w-0 pr-4">
-                <p className="text-[13px] font-bold text-slate-700 dark:text-slate-200 truncate">{calc.name}</p>
-                <p className="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5 truncate">{calc.description}</p>
+        <div className="relative z-10">
+          <div className="flex justify-between items-start mb-5">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-[20px] bg-white/20 backdrop-blur-md flex items-center justify-center text-white shadow-lg rim-highlight">
+                <Calculator className="w-6 h-6 stroke-[2.5px]" />
               </div>
-              <ChevronRight className="w-4 h-4 text-blue-500 transition-transform group-hover/btn:translate-x-1" />
+              <div>
+                <h4 className="text-[15px] font-[900] text-white leading-tight tracking-tight">Análise Inteligente</h4>
+                <p className="text-[10px] font-[900] text-white/70 uppercase tracking-[0.2em] mt-1 opacity-80">Recomendação Clínica</p>
+              </div>
+            </div>
+            <button 
+              onClick={onDismiss}
+              className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition-all duration-500"
+            >
+              <X className="w-4 h-4 stroke-[3px]" />
             </button>
-          ))}
+          </div>
+
+          <div className="space-y-3">
+            {calculators.map((calc) => (
+              <motion.button
+                key={calc.id}
+                whileHover={{ x: 6, backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
+                whileTap={{ scale: 0.97 }}
+                onClick={() => onClick(calc.name)}
+                className="w-full flex items-center justify-between p-4 rounded-[24px] bg-white/10 border border-white/20 transition-all duration-700 text-left group/btn rim-highlight"
+              >
+                <div className="min-w-0 pr-4">
+                  <p className="text-[14px] font-apple-black text-white truncate">{calc.name}</p>
+                  <p className="text-[11px] font-[600] text-white/60 mt-1 truncate">{calc.description}</p>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-transform group-hover/btn:scale-110 group-hover/btn:translate-x-1">
+                   <ChevronRight className="w-4 h-4 text-white" />
+                </div>
+              </motion.button>
+            ))}
+          </div>
+
+          <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-2.5">
+             <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+             <p className="text-[10.5px] text-white/50 font-[700] leading-relaxed italic tracking-tight">
+               Escore sugerido via detecção semântica.
+             </p>
+          </div>
         </div>
 
-        <div className="mt-4 pt-3 border-t border-slate-200/50 dark:border-white/5">
-          <p className="text-[10px] text-slate-400 dark:text-slate-500 font-medium leading-relaxed italic">
-            Baseado nos sinais de alerta detectados durante a anamnese.
-          </p>
-        </div>
+        {/* Outer Specular Highlight */}
+        <div className="absolute inset-0 pointer-events-none border border-white/30 rounded-[42px] mix-blend-overlay" />
       </div>
     </motion.div>
   );
@@ -460,7 +305,7 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
 
     const handleScroll = () => {
        const containerRect = container.getBoundingClientRect();
-       const triggerZone = 150; 
+       const triggerZone = 150;
 
        const isBottom = Math.abs(container.scrollHeight - container.clientHeight - container.scrollTop) < 20;
        const lastSection = sections[sections.length - 1]
@@ -491,23 +336,23 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
     return () => container.removeEventListener('scroll', handleScroll);
   }, [sections]);
 
-  const handleInputChange = (id: string, value: any) => {
+  const handleInputChange = React.useCallback((id: string, value: any) => {
     onDataChange(prev => ({ ...prev, [id]: value }));
-  };
+  }, [onDataChange]);
 
   const scrollToSection = (id: string, smoothScroll: boolean = true) => {
     setActiveSectionId(id);
     const doc = (globalThis as any).document;
     const container = doc?.getElementById('form-container');
     const el = doc?.getElementById(`sec-${id}`);
-    
+
     if (container && el) {
        const elementRect = el.getBoundingClientRect();
        const containerRect = container.getBoundingClientRect();
        const offsetTop = elementRect.top - containerRect.top;
        const currentScroll = container.scrollTop;
-       const headerOffset = 24; 
-       
+       const headerOffset = 24;
+
        const targetPos = currentScroll + offsetTop - headerOffset;
 
        container.scrollTo({
@@ -522,18 +367,23 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
     const safeValue = rawVal !== undefined ? rawVal : (
         item.type === 'boolean' ? false :
         item.type === 'range' ? (item.min?.toString() || '0') :
-        item.type === 'segment' ? (item.options?.[0] || '') : 
+        item.type === 'segment' ? (item.options?.[0] || '') :
         item.type === 'multiSelect' ? [] :
         ''
     );
 
     switch(item.type) {
-        case 'boolean': 
+        case 'boolean':
             return (
                 <div key={item.id} className="flex items-center">
-                    <CheckboxItem item={item} value={safeValue as boolean} onChange={(v) => handleInputChange(item.id, v)} />
+                    <GlassCheckbox
+                      item={item}
+                      value={safeValue as boolean}
+                      onChange={(v) => handleInputChange(item.id, v)}
+                      tooltipText={RISK_FACTOR_TOOLTIPS[item.id]}
+                    />
                     {item.triggersCalculator && safeValue === true && (
-                        <CalculatorTriggerButton 
+                        <CalculatorTriggerButton
                             label={item.triggersCalculator === 'heart' ? 'HEART' : item.triggersCalculator.toUpperCase()}
                             onClick={() => {
                                 setOpenCalculatorId(item.triggersCalculator!);
@@ -543,10 +393,42 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                     )}
                 </div>
             );
-        case 'segment': return <SegmentedItem key={item.id} item={item} value={safeValue as string} onChange={(v) => handleInputChange(item.id, v)} />;
-        case 'multiSelect': return <MultiSelectItem key={item.id} item={item} value={safeValue as string[]} onChange={(v) => handleInputChange(item.id, v)} />;
-        case 'range': return <RangeItem key={item.id} item={item} value={safeValue as string} onChange={(v) => handleInputChange(item.id, v)} />;
-        case 'text': return <TextItem key={item.id} item={item} value={safeValue as string} onChange={(v) => handleInputChange(item.id, v)} />;
+        case 'segment':
+          return (
+            <GlassSegmented
+              key={item.id}
+              item={item}
+              value={safeValue as string}
+              onChange={(v) => handleInputChange(item.id, v)}
+            />
+          );
+        case 'multiSelect':
+          return (
+            <GlassMultiSelect
+              key={item.id}
+              item={item}
+              value={safeValue as string[]}
+              onChange={(v) => handleInputChange(item.id, v)}
+            />
+          );
+        case 'range':
+          return (
+            <GlassRange
+              key={item.id}
+              item={item}
+              value={safeValue as string}
+              onChange={(v) => handleInputChange(item.id, v)}
+            />
+          );
+        case 'text':
+          return (
+            <GlassInput
+              key={item.id}
+              item={item}
+              value={safeValue as string}
+              onChange={(v) => handleInputChange(item.id, v)}
+            />
+          );
         default: return null;
     }
   };
@@ -568,8 +450,8 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
 
   return (
     <div className="flex h-full gap-5 animate-in fade-in zoom-in-95 duration-500">
-      
-      <InlineCalculatorPanel 
+
+      <InlineCalculatorPanel
         isOpen={isCalculatorPanelOpen}
         onClose={() => setIsCalculatorPanelOpen(false)}
         calculatorId={openCalculatorId || ''}
@@ -579,10 +461,11 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
 
       <AnimatePresence>
         {showFloatingCalculators && (
-          <FloatingCalculatorCard 
+          <FloatingCalculatorCard
             calculators={calculators}
             onClick={(name) => onCalculatorClick?.(name)}
             onDismiss={() => setIsCalculatorDismissed(true)}
+            severity={redFlagResult.requiresImmediateAction ? 'critical' : (redFlagResult.highestSeverity === 'high' ? 'warning' : 'info')}
           />
         )}
       </AnimatePresence>
@@ -600,21 +483,21 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
         </div>
       )}
 
-      {/* 1. STICKY SIDEBAR (Refined Settings Style) */}
-      <div className="w-64 shrink-0 flex flex-col h-full py-2">
-         <div className="mb-4 px-2">
-            <h3 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-3 pl-2">Roteiro</h3>
+      {/* 1. STICKY SIDEBAR (Ultra-FID Apple 2025) */}
+      <div className="w-80 shrink-0 flex flex-col h-full py-6 pl-4">
+         <div className="mb-8 px-4">
+            <h3 className="text-[10px] font-apple-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em] mb-5 pl-1.5 opacity-60">Roteiro Clínico</h3>
             <div className="relative group">
-                <Search className="absolute left-3.5 top-2.5 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
-                <input 
-                  type="text" 
-                  placeholder="Filtrar..." 
-                  className="w-full bg-white/60 dark:bg-slate-800/60 border border-slate-200/50 dark:border-white/5 rounded-2xl py-2 pl-10 pr-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:bg-white dark:focus:bg-slate-800 transition-all backdrop-blur-sm dark:text-white" 
+                <Search className="absolute left-4.5 top-3.5 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-all duration-500 pointer-events-none z-10" />
+                <input
+                  type="text"
+                  placeholder="Pesquisar..."
+                  className="w-full bg-black/5 dark:bg-white/[0.03] border border-white/10 rounded-[22px] py-3.5 pl-12 pr-5 text-[13px] font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white dark:focus:bg-white/[0.05] transition-all backdrop-blur-3xl dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 shadow-inner rim-highlight"
                 />
             </div>
          </div>
-         
-         <div className="flex-1 overflow-y-auto custom-scrollbar space-y-1.5 pr-2 pb-4 px-1">
+
+         <div className="flex-1 overflow-y-auto custom-scrollbar space-y-2.5 pr-4 pb-10 px-1 scroll-smooth">
             {sections.map(section => {
                const sectionPrefix = section.id.split('_')[0] ?? section.id
                const Icon = SECTION_ICONS[section.id] || SECTION_ICONS[sectionPrefix] || Activity;
@@ -622,86 +505,142 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                const hasRedFlag = section.items.some(i => i.isRedFlag && data[i.id] === true);
 
                return (
-                  <button
+                  <motion.button
                     key={section.id}
+                    whileHover={{ x: 4, scale: 1.01 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => scrollToSection(section.id, true)}
                     className={`
-                      w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl transition-all duration-300 group relative
-                      ${isActive 
-                        ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 shadow-lg shadow-slate-900/20 dark:shadow-white/10 scale-[1.02]' 
-                        : 'text-slate-500 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-white/5 hover:text-slate-700 dark:hover:text-slate-200'
+                      w-full flex items-center justify-between px-4 py-3 rounded-[16px] group relative overflow-hidden
+                      ${isActive
+                        ? 'text-white dark:text-slate-900 font-semibold'
+                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium'
                       }
                     `}
                   >
-                     <div className="flex items-center gap-3 min-w-0">
-                        <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'stroke-[2.5px]' : 'stroke-[1.5px]'}`} />
-                        <span className={`text-[13px] truncate tracking-tight ${isActive ? 'font-bold' : 'font-medium'}`}>{section.title}</span>
+                     {/* Liquid Morphing Background */}
+                     <AnimatePresence>
+                       {isActive && (
+                         <motion.div
+                           layoutId="active-section"
+                           initial={{ opacity: 0 }}
+                           animate={{ opacity: 1 }}
+                           exit={{ opacity: 0 }}
+                           className="absolute inset-0 z-0 bg-linear-to-br from-blue-600 via-indigo-600 to-blue-700 dark:from-white dark:via-blue-50 dark:to-slate-100 shadow-xl shadow-blue-600/15 dark:shadow-white/5 rounded-[16px]"
+                           transition={{ type: 'spring', damping: 25, stiffness: 200, mass: 1 }}
+                         >
+                           {/* Specular Rim Glow */}
+                           <div className="absolute inset-0 border-t border-white/30 dark:border-black/5 pointer-events-none" />
+                         </motion.div>
+                       )}
+                     </AnimatePresence>
+
+                     <div className="flex items-center gap-4 min-w-0 relative z-10">
+                        <div className={`
+                          w-8.5 h-8.5 rounded-[13px] flex items-center justify-center transition-colors duration-300
+                          ${isActive ? 'bg-white/20 dark:bg-black/10' : 'bg-black/5 dark:bg-white/5 group-hover:bg-blue-500/10'}
+                        `}>
+                          <Icon className={`w-[17px] h-[17px] shrink-0 transition-transform duration-300 ${isActive ? 'stroke-[2.5px] scale-105' : 'stroke-[1.8px] opacity-60 group-hover:opacity-100'}`} />
+                        </div>
+                        <span className={`text-[13px] truncate tracking-tight uppercase font-apple-black transition-transform duration-300 ${isActive ? 'translate-x-0.5' : ''}`}>
+                          {section.title}
+                        </span>
                      </div>
-                     
-                     {hasRedFlag && (
-                        <div className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-red-400' : 'bg-red-500'} animate-pulse`} />
-                     )}
-                  </button>
+
+                     <div className="relative z-10 flex items-center gap-2">
+                       {hasRedFlag && (
+                          <motion.div
+                            animate={{
+                              scale: [1, 1.3, 1],
+                              opacity: [0.7, 1, 0.7]
+                            }}
+                            transition={{ repeat: Infinity, duration: 2 }}
+                            className={`w-2 h-2 rounded-full ${isActive ? 'bg-white shadow-[0_0_8px_white]' : 'bg-rose-500'} shadow-md`}
+                          />
+                       )}
+                       {isActive && (
+                         <motion.div
+                           initial={{ opacity: 0, x: -3 }}
+                           animate={{ opacity: 0.5, x: 0 }}
+                         >
+                            <ChevronRight className="w-3.5 h-3.5 stroke-[3px]" />
+                         </motion.div>
+                       )}
+                     </div>
+                  </motion.button>
                );
             })}
          </div>
 
-         <div className="mt-auto pt-4 px-2">
-             <button className="w-full py-3.5 btn-vision text-white font-semibold text-[15px] flex items-center justify-center gap-2 tracking-wide rounded-[20px] bg-gradient-to-r from-sky-500 to-indigo-600">
-                <Check className="w-4 h-4 stroke-[3px]" />
-                Finalizar Atendimento
-             </button>
+         <div className="mt-auto pt-6 px-4">
+             <motion.button
+               whileHover={{ scale: 1.02, translateY: -2 }}
+               whileTap={{ scale: 0.97 }}
+               className="w-full h-14 rounded-apple-cta bg-linear-to-br from-blue-600 via-indigo-600 to-blue-700 text-white font-apple-black text-[14px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 shadow-[0_15px_35px_rgba(37,99,235,0.2)] border border-white/20 relative overflow-hidden group rim-highlight"
+             >
+                <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <Check className="w-4.5 h-4.5 stroke-[4px]" />
+                Finalizar
+             </motion.button>
          </div>
       </div>
 
       {/* 2. MAIN FORM AREA (Sheet Style) */}
-      <div 
+      <div
          id="form-container"
          className="flex-1 h-full overflow-y-auto custom-scrollbar scroll-smooth pr-2 pb-20 mask-image-b-gradient"
       >
          <div className="space-y-6 pt-2 pb-24 max-w-5xl mx-auto">
-            {sections.map((section) => {
+            {sections.map((section, idx) => {
                const sectionPrefix = section.id.split('_')[0] ?? section.id
                const Icon = SECTION_ICONS[section.id] || SECTION_ICONS[sectionPrefix] || Activity;
 
                return (
-                  <div key={section.id} id={`sec-${section.id}`} className="scroll-mt-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                     <div className="flex items-center justify-between mb-3 px-1">
-                        <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-500 dark:text-slate-400">
-                                <Icon className="w-4 h-4" />
-                            </div>
-                            <h2 className="text-[19px] font-bold text-slate-900 dark:text-white tracking-tight leading-none">{section.title}</h2>
-                        </div>
+                   <div key={section.id} id={`sec-${section.id}`} className="scroll-mt-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
+                      <div className="flex items-center justify-between mb-5 px-2">
+                         <div className="flex items-center gap-4">
+                             <div className="w-10 h-10 rounded-2xl bg-black/5 dark:bg-white/[0.05] border border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 shadow-sm backdrop-blur-md">
+                                 <Icon className="w-5 h-5 opacity-70" />
+                             </div>
+                             <div className="flex flex-col">
+                                <h2 className="text-[22px] font-black text-slate-900 dark:text-white tracking-tight leading-tight">{section.title}</h2>
+                                <p className="text-[10px] font-apple-black text-blue-500 uppercase tracking-[0.2em] mt-1 opacity-80">Sessão {idx + 1}</p>
+                             </div>
+                         </div>
 
-                        <button
-                            onClick={() => onAddSymptom(section.id)}
-                            className="w-7 h-7 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center justify-center text-slate-400 hover:text-blue-500 transition-colors"
-                        >
-                            <Plus className="w-4 h-4" />
-                        </button>
-                     </div>
+                         <motion.button
+                             whileHover={{ scale: 1.1, rotate: 90 }}
+                             whileTap={{ scale: 0.9 }}
+                             onClick={() => onAddSymptom(section.id)}
+                             className="w-10 h-10 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/20 dark:border-white/10 flex items-center justify-center text-slate-400 hover:text-blue-500 transition-all shadow-sm backdrop-blur-sm group"
+                         >
+                             <Plus className="w-5 h-5 transition-transform" />
+                         </motion.button>
+                      </div>
 
-                     <div className="bg-white/80 dark:bg-[#1c1c1e]/60 backdrop-blur-xl rounded-[32px] border border-white/60 dark:border-white/5 shadow-[0_18px_45px_rgba(15,23,42,0.05)] overflow-hidden">
-                        {section.items.map((item) => (
-                           <div key={item.id}>
-                              {renderItem(item)}
-                           </div>
-                        ))}
-                        {section.items.length === 0 && (
-                            <div className="p-8 text-center text-slate-400 italic text-sm">
-                                Nenhum item nesta seção.
+                      <div className="liquid-glass-material !bg-white/70 dark:!bg-[#1c1c1e]/40 backdrop-blur-3xl rounded-[40px] border border-white/60 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.06)] overflow-hidden relative group/card">
+                         {/* Rim Light / Glow Effect */}
+                         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+
+                         {section.items.map((item) => (
+                            <div key={item.id}>
+                               {renderItem(item)}
                             </div>
-                        )}
-                     </div>
-                  </div>
+                         ))}
+                         {section.items.length === 0 && (
+                             <div className="p-12 text-center text-slate-400 italic font-bold text-sm opacity-50">
+                                 Nenhum item disponível nesta seção.
+                             </div>
+                         )}
+                      </div>
+                   </div>
                );
             })}
 
             {/* 3. CALCULATORS & CONDUCT FROM OBSIDIAN */}
             {(calculators.length > 0 || initialConduct) && (
               <div className="space-y-4 pt-6 border-t border-slate-200 dark:border-slate-700">
-                <h3 className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">
+                <h3 className="text-[11px] font-apple-black text-slate-400 dark:text-slate-500 uppercase tracking-widest px-1">
                   Ferramentas & Protocolos
                 </h3>
 

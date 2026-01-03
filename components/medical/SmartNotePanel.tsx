@@ -84,7 +84,7 @@ export const SmartNotePanel: React.FC<SmartNotePanelProps> = ({
       </div>
 
       {/* Content */}
-      <div className="flex-1 p-6 space-y-5 overflow-y-auto custom-scrollbar bg-transparent">
+      <div className="flex-1 p-6 pb-28 space-y-5 overflow-y-auto custom-scrollbar bg-transparent">
         <AnimatePresence mode="popLayout">
           {noteBlocks.map((block) => (
             <motion.div 

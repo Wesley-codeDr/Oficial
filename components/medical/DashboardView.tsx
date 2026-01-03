@@ -3,11 +3,26 @@
 import * as React from 'react';
 import { useState, useMemo } from 'react';
 import { 
-  Users, Clock, AlertTriangle, TrendingUp, MoreHorizontal, 
-  Plus, CheckCircle2, PlayCircle, Stethoscope, Microscope, 
-  FileCheck2, Timer, Activity, GripVertical, Settings2, X, Eye, EyeOff,
-  Sun, Moon, Sparkles, ArrowUpRight, BarChart3, ArrowRightLeft, Check,
-  HeartPulse, ChevronDown, Filter, Zap
+  AlertTriangle,
+  ArrowRightLeft,
+  ArrowUpRight, 
+  CheckCircle2,
+  Clock,
+  FileCheck2,
+  Filter, 
+  HeartPulse,
+  Microscope,
+  MoreHorizontal, 
+  PlayCircle,
+  Plus, 
+  Settings2,
+  Sparkles,
+  Stethoscope,
+  Sun,
+  Zap,
+  Users,
+  Timer,
+  Activity
 } from 'lucide-react';
 import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
 import { motion } from 'framer-motion';
@@ -34,8 +49,8 @@ const chartDataPurple = [
 const CustomChartTooltip = ({ active, payload }: any) => {
    if (active && payload && payload.length) {
       return (
-         <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl px-3 py-2 rounded-xl border border-white/50 dark:border-white/10 shadow-xl transform -translate-y-2">
-            <p className="text-lg font-bold text-slate-800 dark:text-white leading-none">
+         <div className="liquid-glass-material !bg-white/80 dark:!bg-slate-900/80 backdrop-blur-3xl px-3 py-2 rounded-xl border border-white/50 dark:border-white/10 shadow-xl transform -translate-y-2 glass-texture rim-highlight">
+            <p className="text-lg font-black text-slate-800 dark:text-white leading-none">
                {payload[0].value}
             </p>
          </div>
@@ -89,38 +104,36 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
   const isCompact = density === 'compact';
 
   return (
-    <div className={`relative overflow-hidden p-0 flex flex-col justify-between group transition-all duration-[800ms] hover:scale-[1.03] liquid-glass-material glass-texture ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}>
+    <div 
+      className={`relative overflow-hidden p-0 flex flex-col justify-between group transition-all duration-[800ms] hover:scale-[1.03] liquid-glass-material glass-texture glass-sheen rim-highlight ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}
+      style={{ '--shadow-color': theme.shadow } as React.CSSProperties}
+    >
       
       {/* Dynamic Brilliance Layer */}
-      <div className={`absolute inset-0 bg-gradient-to-tr from-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none`} />
-      <div className={`absolute -top-20 -right-20 w-60 h-60 bg-gradient-to-br ${theme.glow} opacity-20 blur-[70px] rounded-full pointer-events-none group-hover:opacity-40 transition-opacity duration-700`} />
+      <div className={`absolute inset-0 bg-linear-to-tr from-white/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none`} />
+      <div className={`absolute -top-20 -right-20 w-60 h-60 bg-linear-to-br ${theme.glow} opacity-20 blur-[70px] rounded-full pointer-events-none group-hover:opacity-45 transition-opacity duration-700`} />
 
       {/* Content Container */}
       <div className={`relative z-20 flex flex-col h-full pointer-events-none ${isCompact ? 'p-4' : 'p-6'}`}>
-         <div className="flex justify-between items-start mb-2 pointer-events-auto">
-            <div className={`rounded-[20px] ${theme.iconBg} backdrop-blur-md flex items-center justify-center shadow-sm border border-white/40 dark:border-white/5 ${theme.iconColor} ${isCompact ? 'w-10 h-10' : 'w-12 h-12'}`}>
-               <Icon className={`${isCompact ? 'w-5 h-5' : 'w-6 h-6'} stroke-[2.2px] icon-volumetric fill-current/10 ${
-                 colorTheme === 'orange' ? 'icon-glow-orange' : 
-                 colorTheme === 'blue' ? 'icon-glow-blue' : 
-                 colorTheme === 'green' ? 'icon-glow-emerald' : 
-                 colorTheme === 'purple' ? 'icon-glow-rose' : ''
-               }`} />
+         <div className="flex items-center justify-between pointer-events-auto">
+            <div className={`w-10 h-10 rounded-2xl ${theme.iconBg} flex items-center justify-center shadow-inner transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}>
+               <Icon className={`w-5 h-5 ${theme.iconColor} filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]`} />
             </div>
             
-            <div className={`px-3 py-1.5 rounded-full text-[11px] font-bold backdrop-blur-md border border-white/20 flex items-center gap-1 ${theme.trendBg} ${theme.trendColor}`}>
-               {trend === 'up' ? <ArrowUpRight className="w-3 h-3" /> : <ArrowUpRight className="w-3 h-3 rotate-90" />}
-               {trendValue}
+            <div className={`px-3 py-1.5 rounded-full text-[11px] font-apple-semibold backdrop-blur-md border border-white/25 flex items-center gap-1.5 ${theme.trendBg} ${theme.trendColor} rim-highlight shadow-sm`}>
+               {trend === 'up' ? <ArrowUpRight className="w-3 h-3 stroke-[3px]" /> : <ArrowUpRight className="w-3 h-3 rotate-90 stroke-[3px]" />}
+               <span className="tracking-wide">{trendValue}</span>
             </div>
          </div>
 
-         <div className={`pointer-events-auto ${isCompact ? 'mt-auto' : 'mt-4'}`}>
-             <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-0.5">
+         <div className={`pointer-events-auto ${isCompact ? 'mt-auto' : 'mt-5'}`}>
+             <p className="text-[12px] font-apple-semibold text-slate-500 dark:text-slate-400 uppercase tracking-apple-label mb-1 opacity-80">
                 {title}
              </p>
              <div className="flex items-baseline gap-2">
-                <h3 className={`${isCompact ? 'text-[32px]' : 'text-[42px]'} font-extralight text-slate-800 dark:text-white tracking-tight leading-none filter drop-shadow-sm`}>{value}</h3>
+                <h3 className={`${isCompact ? 'text-[34px]' : 'text-[44px]'} font-apple-thin text-slate-800 dark:text-white tracking-apple-display leading-none filter drop-shadow-md`}>{value}</h3>
              </div>
-             {!isCompact && <p className="text-sm font-semibold text-slate-400 dark:text-slate-500 mt-0.5">{sub}</p>}
+             {!isCompact && <p className="text-sm font-apple-medium text-slate-400 dark:text-slate-500 mt-1.5 tracking-tight">{sub}</p>}
          </div>
       </div>
 
@@ -159,7 +172,14 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
 
 // --- Kanban Components ---
 
-const KanbanCard = ({ task, onDragStart, onDragEnd, onStatusChange, isDragging, density }: any) => {
+const KanbanCard: React.FC<{ 
+  task: KanbanTask; 
+  onDragStart: (e: React.DragEvent, id: string) => void;
+  onDragEnd: (e: React.DragEvent) => void;
+  onStatusChange: (taskId: string, newStatus: string) => void;
+  isDragging: boolean;
+  density?: 'compact' | 'comfortable';
+}> = ({ task, onDragStart, onDragEnd, onStatusChange, isDragging, density = 'comfortable' }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isCompact = density === 'compact';
 
@@ -171,69 +191,66 @@ const KanbanCard = ({ task, onDragStart, onDragEnd, onStatusChange, isDragging, 
   ];
 
   return (
-    <motion.div 
+    <motion.div
        layout
        draggable="true"
        onDragStart={(e) => onDragStart(e, task.id)}
        onDragEnd={onDragEnd}
-       initial={{ opacity: 0, scale: 0.95, y: 10 }}
-       animate={isDragging 
-         ? { opacity: 0.4, scale: 0.95, filter: "grayscale(100%) blur(1px)" } 
-         : { opacity: 1, scale: 1, y: 0, filter: "grayscale(0%) blur(0px)" }
-       }
+       initial={{ opacity: 0, scale: 0.95 }}
+       animate={{ opacity: 1, scale: 1 }}
        exit={{ opacity: 0, scale: 0.95 }}
        whileHover={!isDragging ? { 
          scale: 1.03, 
          y: -5,
-         boxShadow: "0 20px 40px -5px rgba(0,0,0,0.1), 0 10px 20px -5px rgba(0,0,0,0.04)"
+         boxShadow: "0 25px 55px -12px rgba(0,0,0,0.15)"
        } : {}}
        whileTap={{ scale: 0.98 }}
-       transition={{ type: "spring", stiffness: 400, damping: 25 }}
+       transition={{ type: "spring", stiffness: 450, damping: 32 }}
        className={`group relative w-full 
          transition-all duration-500
          cursor-grab active:cursor-grabbing
-         ${isCompact ? 'p-3' : 'p-5'}
-         liquid-glass-material glass-texture
+         p-5 rounded-[28px] border border-white/30 dark:border-white/10
+         liquid-glass-material glass-texture glass-sheen rim-highlight
          ${isDragging 
-            ? '!bg-blue-50/30 dark:!bg-blue-900/10 !border-dashed !border-blue-400 dark:!border-blue-500/50' 
-            : 'hover:bg-white/50 dark:hover:bg-white/10'
+            ? 'bg-blue-50/40! dark:bg-blue-900/15! border-dashed! border-blue-400 dark:border-blue-500/50' 
+            : 'hover:bg-white/60 dark:hover:bg-white/15'
          }
        `}
     >
-       {/* Status Border Glow */}
-       <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-[24px] ${
-          task.acuity === 'red' ? 'bg-red-500 shadow-[0_0_12px_rgba(239,68,68,0.5)]' : 
-          task.acuity === 'orange' ? 'bg-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.5)]' : 
-          task.acuity === 'yellow' ? 'bg-yellow-400 shadow-[0_0_12px_rgba(250,204,21,0.5)]' : 
-          'bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.5)]'
+       {/* Acuity Left Bar - Volumetric */}
+       <div className={`absolute left-0 top-0 bottom-0 w-1.5 rounded-l-[28px] saturate-200 ${
+          task.acuity === 'red' ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 
+          task.acuity === 'orange' ? 'bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]' : 
+          task.acuity === 'yellow' ? 'bg-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.5)]' : 
+          'bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.5)]'
        }`} />
       
        {/* Identity Header */}
-       <div className={`flex items-center justify-between ${isCompact ? 'mb-2' : 'mb-4'}`}>
+       <div className={`flex items-start justify-between ${isCompact ? 'mb-2' : 'mb-3.5'}`}>
           <div className="flex items-center gap-3">
              <div className={`
-                rounded-full flex items-center justify-center text-sm font-bold shadow-sm ring-2 ring-white dark:ring-white/5
-                ${isCompact ? 'w-8 h-8 text-xs' : 'w-10 h-10'}
+                rounded-full flex items-center justify-center text-xs font-apple-black shadow-inner ring-1 ring-white/30
+                ${isCompact ? 'w-8.5 h-8.5' : 'w-10.5 h-10.5'}
                 ${task.gender === 'F' 
-                   ? 'bg-gradient-to-br from-pink-100 to-rose-100 text-pink-600 dark:from-pink-900/40 dark:to-rose-900/40 dark:text-pink-300' 
-                   : 'bg-gradient-to-br from-blue-100 to-indigo-100 text-blue-600 dark:from-blue-900/40 dark:to-indigo-900/40 dark:text-blue-300'
+                   ? 'bg-linear-to-br from-pink-500/25 to-rose-500/15 text-pink-600 dark:text-pink-300 border border-pink-500/25' 
+                   : 'bg-linear-to-br from-blue-500/25 to-indigo-500/15 text-blue-600 dark:text-blue-300 border border-blue-500/25'
                 }
              `}>
                 {task.patientName.substring(0, 2).toUpperCase()}
              </div>
              <div>
-                <h5 className={`font-bold ${isCompact ? 'text-xs' : 'text-[15px]'} text-slate-800 dark:text-slate-100 leading-tight`}>
+                <h5 className={`font-apple-semibold tracking-apple-tight ${isCompact ? 'text-[12px]' : 'text-[15px]'} text-slate-800 dark:text-white leading-tight`}>
                    {task.patientName}
                 </h5>
-                <p className="text-[11px] font-semibold text-slate-400 dark:text-slate-500 mt-0.5 flex items-center gap-1.5">
-                   {task.age} • {task.gender === 'F' ? 'Fem' : 'Mas'}
+                <p className="text-[10px] font-apple-bold text-slate-400 dark:text-slate-500 mt-0.5 flex items-center gap-1.5 uppercase tracking-apple-caps opacity-90">
+                   {task.age} ANOS • {task.gender === 'F' ? 'Fem' : 'Mas'}
                 </p>
              </div>
           </div>
           
-          {/* Acuity Indicator */}
+          {/* Acuity Indicator - Glowing Ping */}
           <div className="relative">
-             <div className={`w-3 h-3 rounded-full shadow-sm ring-2 ring-white dark:ring-slate-700
+             <div className={`w-3 h-3 rounded-full shadow-md ring-2 ring-white/60 dark:ring-white/15
                 ${task.acuity === 'red' ? 'bg-red-500' : 
                   task.acuity === 'orange' ? 'bg-orange-500' : 
                   task.acuity === 'yellow' ? 'bg-yellow-400' : 'bg-green-500'
@@ -248,8 +265,8 @@ const KanbanCard = ({ task, onDragStart, onDragEnd, onStatusChange, isDragging, 
        </div>
 
        {/* Complaint & Info */}
-       <div className={`${isCompact ? 'mb-2' : 'mb-3'}`}>
-          <p className={`${isCompact ? 'text-xs' : 'text-sm'} font-bold text-slate-700 dark:text-slate-200 leading-relaxed`}>
+       <div className={`${isCompact ? 'mb-2.5' : 'mb-4'}`}>
+          <p className={`${isCompact ? 'text-[12px]' : 'text-[14px]'} font-apple-semibold text-slate-600 dark:text-slate-200 leading-relaxed tracking-apple-tight opacity-90`}>
              {task.complaint}
           </p>
        </div>

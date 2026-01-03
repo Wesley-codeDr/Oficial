@@ -236,7 +236,7 @@ export const FlashPatientEntry: React.FC<FlashPatientEntryProps> = ({ onComplete
                             </div>
                             <div className="text-left">
                             <p className={`text-[10px] font-black uppercase tracking-widest ${isPregnant ? 'text-rose-500' : 'text-slate-500'}`}>Condição Particular</p>
-                            <h4 className={`text-sm font-bold ${isPregnant ? 'text-rose-600 dark:text-rose-300' : 'text-slate-700 dark:text-slate-300'}`}>Gestante</h4>
+                            <h4 className={`text-sm font-black ${isPregnant ? 'text-rose-600 dark:text-rose-300' : 'text-slate-700 dark:text-slate-300'}`}>Gestante</h4>
                             </div>
                         </div>
                         <div className={`w-12 h-6 rounded-full p-1 transition-colors duration-300 ${isPregnant ? 'bg-rose-500' : 'bg-slate-300 dark:bg-slate-700'}`}>

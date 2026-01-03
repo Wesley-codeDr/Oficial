@@ -171,7 +171,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
           {selectedGroupCode && !searchTerm && (
             <button
               onClick={handleBack}
-              className="w-12 h-12 rounded-2xl bg-white/40 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10 hover:bg-white/60 text-slate-500 dark:text-slate-400 transition-all shadow-sm hover:scale-105 active:scale-95 flex items-center justify-center shrink-0"
+              className="w-12 h-12 rounded-2xl liquid-glass-material backdrop-blur-3xl border border-white/40 dark:border-white/10 hover:bg-white/60 text-slate-500 dark:text-slate-400 transition-all shadow-sm hover:scale-105 active:scale-95 flex items-center justify-center shrink-0 glass-texture rim-highlight"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
@@ -203,7 +203,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
                   initial={{ opacity: 0, y: 10, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                  className="absolute mt-4 left-4 right-4 bg-white/95 dark:bg-slate-900/95 backdrop-blur-3xl border border-white/40 dark:border-white/10 rounded-[28px] shadow-2xl z-40 overflow-hidden py-2"
+                  className="absolute mt-4 left-4 right-4 liquid-glass-material backdrop-blur-4xl border border-white/40 dark:border-white/10 rounded-[28px] shadow-2xl z-40 overflow-hidden py-2 glass-texture rim-highlight"
                 >
                   {suggestions.map((s) => (
                     <button

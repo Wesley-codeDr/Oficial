@@ -594,7 +594,46 @@ export default function Home() {
   }, [])
 
   return (
-    <div className="flex h-screen w-full overflow-hidden" suppressHydrationWarning={true}>
+    <div className="flex h-screen w-full bg-[#fbfbfd] dark:bg-[#000000] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 relative overflow-hidden" suppressHydrationWarning={true}>
+      {/* 
+        ULTRA-FIDELITY LIQUID BACKGROUND (Apple 2025)
+        Multi-layered mesh gradients with organic morphing
+      */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        {/* Primary Ambient Layer */}
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            x: [0, 50, 0],
+            y: [0, -30, 0]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] bg-blue-400/10 dark:bg-blue-600/5 blur-[120px] rounded-full"
+        />
+        {/* Secondary Warm Layer */}
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.3, 1],
+            x: [0, -40, 0],
+            y: [0, 60, 0]
+          }}
+          transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+          className="absolute top-[20%] -right-[10%] w-[60%] h-[60%] bg-indigo-400/10 dark:bg-indigo-600/5 blur-[140px] rounded-full"
+        />
+        {/* Tertiary Liquid Bloom */}
+        <motion.div 
+          animate={{ 
+            rotate: [0, 360],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+          className="absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] bg-blue-300/10 dark:bg-blue-500/5 blur-[160px] rounded-full"
+        />
+        
+        {/* Noise Grain - Tactile Texture */}
+        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+      </div>
+
       <Sidebar currentView={viewMode} onNavigate={handleSidebarNavigation} />
 
       <main className="flex-1 flex flex-col h-full min-w-0 relative z-0 p-4">
@@ -620,6 +659,7 @@ export default function Home() {
               patient={patient}
               setPatient={setPatient}
               onExit={() => setViewMode('dashboard')}
+              onApplyScore={handleApplyScore}
             />
           </GlassPanel>
         )}
@@ -699,12 +739,6 @@ export default function Home() {
 
               {viewMode === 'protocol' && (
                 <div className="h-full w-full overflow-hidden">
-
-
-  // ... (inside return)
-
-              {viewMode === 'protocol' && (
-                <div className="h-full w-full overflow-hidden">
                    <AnamnesisWorkspace 
                       activeTool={activeTool}
                       onActiveToolChange={setActiveTool}
@@ -740,60 +774,78 @@ export default function Home() {
                            copyBlock={copyBlockToClipboard}
                            copiedId={copiedId}
                            footer={
-                              <div className="flex items-center gap-2 w-full h-14">
-                                {/* Chat Button */}
-                                <button
-                                  onClick={() => setActiveTool(activeTool === 'chat' ? null : 'chat')}
-                                  className={`
-                                    h-14 w-14 rounded-[20px] flex items-center justify-center transition-all duration-300
-                                    ${activeTool === 'chat' 
-                                      ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40 scale-105' 
-                                      : 'bg-white/10 dark:bg-black/30 text-slate-500 hover:bg-white/20 hover:scale-105 border border-white/10'}
-                                  `}
-                                  title="ChatWW"
-                                >
-                                  <MessageSquare className="w-6 h-6" />
-                                </button>
+                              <div className="flex flex-col gap-4 w-full relative">
+                                {/* Floating Tools Toolbar (VisionOS Style) */}
+                                <div className="absolute bottom-full left-0 right-0 mb-4 flex justify-center pointer-events-none">
+                                   <div className="flex items-center gap-1.5 p-1.5 liquid-glass-material bg-white/40! dark:bg-black/40! backdrop-blur-3xl rounded-[26px] border border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] pointer-events-auto group/toolbar">
+                                      {/* Chat Button */}
+                                      <button
+                                        onClick={() => setActiveTool(activeTool === 'chat' ? null : 'chat')}
+                                        className={`
+                                          h-12 px-5 rounded-[20px] flex items-center gap-2.5 transition-all duration-500 relative overflow-hidden group/btn
+                                          ${activeTool === 'chat' 
+                                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40 scale-105' 
+                                            : 'bg-transparent text-slate-500 hover:bg-white/20 hover:text-slate-900 dark:hover:text-white'}
+                                        `}
+                                      >
+                                        <MessageSquare className={`w-5 h-5 transition-transform duration-500 ${activeTool === 'chat' ? 'scale-110' : 'group-hover/btn:rotate-12'}`} />
+                                        <span className="text-[12px] font-black uppercase tracking-widest">ChatWW</span>
+                                        {activeTool === 'chat' && (
+                                           <div className="absolute inset-0 bg-linear-to-tr from-white/10 to-transparent pointer-events-none animate-in fade-in duration-300" />
+                                        )}
+                                      </button>
 
-                                {/* Score Button with Alert */}
-                                <div className="relative">
-                                  <button
-                                    onClick={() => setActiveTool(activeTool === 'calculators' ? null : 'calculators')}
-                                    className={`
-                                      h-14 w-14 rounded-[20px] flex items-center justify-center transition-all duration-300 relative
-                                      ${activeTool === 'calculators' 
-                                        ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 scale-105' 
-                                        : 'bg-white/10 dark:bg-black/30 text-slate-500 hover:bg-white/20 hover:scale-105 border border-white/10'}
-                                    `}
-                                    title="Scores Clínicos"
-                                  >
-                                    <Calculator className="w-6 h-6" />
-                                    {/* Alert Indicator */}
-                                    {hasCalculators && !activeTool && (
-                                      <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-rose-500 rounded-full border border-white dark:border-slate-900 animate-pulse shadow-sm" />
-                                    )}
-                                  </button>
+                                      <div className="w-px h-6 bg-white/10 mx-0.5" />
+
+                                      {/* Score Button with Alert */}
+                                      <button
+                                        onClick={() => setActiveTool(activeTool === 'calculators' ? null : 'calculators')}
+                                        className={`
+                                          h-12 px-5 rounded-[20px] flex items-center gap-2.5 transition-all duration-500 relative
+                                          ${activeTool === 'calculators' 
+                                            ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 scale-105' 
+                                            : 'bg-transparent text-slate-500 hover:bg-white/20 hover:text-slate-900 dark:hover:text-white'}
+                                        `}
+                                      >
+                                        <div className="relative">
+                                           <Calculator className={`w-5 h-5 transition-transform duration-500 ${activeTool === 'calculators' ? 'scale-110' : 'group-hover/btn:rotate-12'}`} />
+                                           {hasCalculators && !activeTool && (
+                                             <span className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900 animate-pulse shadow-sm" />
+                                           )}
+                                        </div>
+                                        <span className="text-[12px] font-black uppercase tracking-widest">Scores</span>
+                                        {activeTool === 'calculators' && (
+                                           <div className="absolute inset-0 bg-linear-to-tr from-white/10 to-transparent pointer-events-none animate-in fade-in duration-300" />
+                                        )}
+                                      </button>
+                                   </div>
                                 </div>
 
-                                {/* Definir Fluxo Button (Expanded) */}
+                                {/* Definir Fluxo Button (Primary Action) */}
                                 <div className="relative flex-1">
-                                  <Button 
+                                  <button 
                                     onClick={() => setIsFlowMenuOpen(!isFlowMenuOpen)} 
-                                    size="lg" 
-                                    className="w-full h-14 rounded-[20px] bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 shadow-xl shadow-blue-500/25 group border-0 text-[16px] font-bold"
+                                    className="w-full h-16 rounded-[24px] bg-linear-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-200 text-white dark:text-slate-900 transition-all duration-500 shadow-2xl shadow-blue-500/10 group border-0 text-[16px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 flex items-center justify-center relative overflow-hidden"
                                   >
-                                     <GitBranch className="w-5 h-5 mr-3 transition-transform duration-700 group-hover:rotate-180" />
-                                     Definir Fluxo
-                                  </Button>
+                                     <div className="absolute inset-0 bg-linear-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                     <div className="relative z-10 flex items-center">
+                                        <GitBranch className="w-5 h-5 mr-3 transition-transform duration-700 group-hover:rotate-180" />
+                                        Definir Fluxo
+                                     </div>
+                                  </button>
+                                  
                                   {isFlowMenuOpen && (
-                                    <div className="absolute bottom-full left-0 right-0 z-20 mb-4 w-full animate-in fade-in slide-in-from-bottom-4 duration-300 ease-out">
-                                      <div className="p-2 liquid-glass-material !bg-white/80 dark:!bg-black/60 backdrop-blur-2xl rounded-[28px] border border-white/40 dark:border-white/10 shadow-2xl">
-                                         <div className="grid grid-cols-1 gap-1">
+                                    <div className="absolute bottom-full left-0 right-0 z-20 mb-6 w-full animate-in fade-in slide-in-from-bottom-4 duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                                      <div className="p-3 liquid-glass-material bg-white/80! dark:bg-black/70! backdrop-blur-3xl rounded-[32px] border border-white/40 dark:border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.3)]">
+                                         <div className="grid grid-cols-2 gap-2">
                                             {['Ambulatorial', 'Observação', 'Internação', 'UTI', 'Emergência'].map((status) => (
                                               <button
                                                 key={status}
                                                 onClick={() => handleSetFlow(status.toLowerCase() as any)}
-                                                className="px-4 py-3.5 rounded-[18px] text-[14px] font-bold text-left hover:bg-blue-500/10 hover:text-blue-500 dark:hover:bg-white/10 dark:hover:text-white transition-all transition-colors"
+                                                className={`
+                                                  px-4 py-4 rounded-[20px] text-[12px] font-black uppercase tracking-widest text-left transition-all duration-300
+                                                  ${status === 'Emergência' ? 'bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white col-span-2' : 'hover:bg-blue-500/10 hover:text-blue-500'}
+                                                `}
                                               >
                                                 {status}
                                               </button>
@@ -818,8 +870,6 @@ export default function Home() {
                         />
                       }}
                    />
-                </div>
-              )}
                 </div>
               )}
             </div>

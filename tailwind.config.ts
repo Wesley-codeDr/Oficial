@@ -11,8 +11,22 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        sans: ['SF Pro Display', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         mono: ['SF Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+      },
+      fontWeight: {
+        'apple-thin': '100',
+        'apple-normal': '400',
+        'apple-medium': '500',
+        'apple-semibold': '600',
+        'apple-bold': '700',
+        'apple-black': '900',
+      },
+      letterSpacing: {
+        'apple-tight': '-0.025em',
+        'apple-display': '-0.04em',
+        'apple-label': '0.1em',
+        'apple-caps': '0.2em',
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -65,19 +79,20 @@ const config: Config = {
           safe: '#34C759',
           info: '#5AC8FA',
         },
-        // Apple accent colors
+        // Apple accent colors - Native Pro Standards
         apple: {
-          blue: '#007AFF',
-          green: '#34C759',
-          orange: '#FF9500',
-          red: '#FF3B30',
-          purple: '#AF52DE',
-          pink: '#FF2D55',
-          teal: '#5AC8FA',
+          blue: '#0A84FF',
+          green: '#30D158',
+          orange: '#FF9F0A',
+          red: '#FF453A',
+          purple: '#BF5AF2',
+          pink: '#FF375F',
+          teal: '#64D2FF',
+          gray: '#8E8E93',
         },
         // Glass effect specific colors
         glass: {
-          background: 'rgba(0, 78, 146, 0.15)', // Tinted with medical-primary
+          background: 'rgba(255, 255, 255, 0.45)',
           border: 'rgba(255, 255, 255, 0.2)',
           highlight: 'rgba(255, 255, 255, 0.05)',
         },
@@ -86,7 +101,12 @@ const config: Config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-        '3xl': '1.5rem', // For the glass card
+        'apple-cta': '16px', // Standard for Apple Buttons
+        'apple-card': '32px', // Standard for Apple Cards
+        'apple-input': '22px', // Standard for iOS Inputs
+        '3xl': '1.5rem', 
+        '4xl': '2rem', 
+        '5xl': '2.75rem', 
       },
       animation: {
         // Animações suaves estilo Apple
@@ -153,7 +173,11 @@ const config: Config = {
       },
       backdropBlur: {
         xs: '2px',
-        xl: '20px', 
+        xl: '20px',
+        '2xl': '40px',
+        '3xl': '50px',
+        '4xl': '60px',
+        '5xl': '80px', // For ultra-low focus depth
       },
       transitionTimingFunction: {
         apple: 'cubic-bezier(0.4, 0, 0.2, 1)',
