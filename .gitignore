@@ -13,7 +13,7 @@
 Thumbs.db
 
 # IDE
-.vscode/
+# .vscode/ - Now tracked for team workspace settings
 .idea/
 *.swp
 *.swo

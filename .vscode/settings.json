@@ -1,0 +1,36 @@
+{
+  // Prisma Extension Settings
+  // Use local Prisma installation (v6.19.1) instead of global
+  "prisma.prismaPath": "./node_modules/.bin/prisma",
+
+  // Disable Prisma format on save to avoid conflicts
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma",
+    "editor.formatOnSave": false
+  },
+
+  // TypeScript settings
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // Editor settings for consistency
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+
+  // Files to exclude from explorer
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/.vercel": true
+  },
+
+  // Search settings
+  "search.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/pnpm-lock.yaml": true,
+    "**/.vercel": true
+  }
+}
