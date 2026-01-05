@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Copy, Check, AlertTriangle, FileText, Maximize2, Minimize2, Sparkles } from 'lucide-react'
-import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface NarrativePreviewProps {
@@ -26,7 +25,7 @@ export function NarrativePreview({
     if (!narrative) return
 
     try {
-      const clipboard = (globalThis as { navigator?: Navigator }).navigator?.clipboard
+      const clipboard = globalThis?.navigator?.clipboard
       if (!clipboard?.writeText) return
 
       await clipboard.writeText(narrative)
@@ -106,7 +105,7 @@ export function NarrativePreview({
               className="px-8 py-3 bg-rose-500/10 border-b border-rose-500/20 flex items-center gap-3 overflow-hidden"
             >
               <AlertTriangle className="h-4 w-4 text-rose-500" />
-              <span className="text-[10px] font-black uppercase tracking-[0.1em] text-rose-600 dark:text-rose-400">
+              <span className="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-400">
                 Atenção: {redFlagCount} Red Flag{redFlagCount > 1 ? 's' : ''} detectada{redFlagCount > 1 ? 's' : ''}
               </span>
             </motion.div>

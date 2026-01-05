@@ -1,8 +1,9 @@
 {
   "mcpServers": {
     "obsidian": {
-      "command": "npx",
+      "command": "pnpm",
       "args": [
+        "dlx",
         "@mauricio.wolff/mcp-obsidian@latest",
         "/Users/wesleywillian/Library/Mobile Documents/iCloud~md~obsidian/Documents/CODE/WesleyWillianCode"
       ]

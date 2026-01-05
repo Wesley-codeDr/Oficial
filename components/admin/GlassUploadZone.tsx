@@ -7,7 +7,10 @@ import { cn } from '@/lib/utils'
 import { uploadDocument } from '@/app/actions/import-actions'
 import { useRouter } from 'next/navigation'
 
+type ExtractionMode = 'syndrome' | 'guideline'
+
 export function GlassUploadZone() {
+  const [mode, setMode] = useState<ExtractionMode>('syndrome')
   const [isDragging, setIsDragging] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadStatus, setUploadStatus] = useState<'idle' | 'success' | 'error'>('idle')
@@ -47,7 +50,7 @@ export function GlassUploadZone() {
     const formData = new globalThis.FormData()
     formData.append('file', file)
 
-    const result = await uploadDocument(formData)
+    const result = await uploadDocument(formData, mode)
 
     setIsUploading(false)
 
@@ -61,20 +64,54 @@ export function GlassUploadZone() {
   }
 
   return (
-    <motion.div
-      className={cn(
-        'relative overflow-hidden rounded-3xl border-2 border-dashed transition-all duration-300',
-        isDragging
-          ? 'border-primary-blue bg-blue-50/10 scale-[1.02]'
-          : 'border-white/40 hover:border-white/60 bg-white/5',
-        'backdrop-blur-md'
-      )}
-      onDragOver={handleDragOver}
-      onDragLeave={handleDragLeave}
-      onDrop={handleDrop}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-    >
+    <div className="space-y-4">
+      {/* Mode Selector */}
+      <div className="flex gap-3 rounded-2xl bg-white/10 p-2 backdrop-blur-md">
+        <button
+          onClick={() => setMode('syndrome')}
+          className={cn(
+            'flex-1 rounded-xl px-6 py-3 text-sm font-medium transition-all duration-200',
+            mode === 'syndrome'
+              ? 'bg-white text-slate-800 shadow-lg'
+              : 'text-slate-600 hover:bg-white/20 hover:text-slate-700'
+          )}
+        >
+          <div className="flex flex-col items-center gap-1">
+            <span>Syndrome Extraction</span>
+            <span className="text-xs opacity-70">Standard medical protocol</span>
+          </div>
+        </button>
+        <button
+          onClick={() => setMode('guideline')}
+          className={cn(
+            'flex-1 rounded-xl px-6 py-3 text-sm font-medium transition-all duration-200',
+            mode === 'guideline'
+              ? 'bg-gradient-to-r from-primary-blue to-blue-600 text-white shadow-lg'
+              : 'text-slate-600 hover:bg-white/20 hover:text-slate-700'
+          )}
+        >
+          <div className="flex flex-col items-center gap-1">
+            <span>Brazilian Guideline (Flash + Anamnese)</span>
+            <span className="text-xs opacity-70">Dual template generation</span>
+          </div>
+        </button>
+      </div>
+
+      {/* Upload Zone */}
+      <motion.div
+        className={cn(
+          'relative overflow-hidden rounded-3xl border-2 border-dashed transition-all duration-300',
+          isDragging
+            ? 'border-primary-blue bg-blue-50/10 scale-[1.02]'
+            : 'border-white/40 hover:border-white/60 bg-white/5',
+          'backdrop-blur-md'
+        )}
+        onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
+        onDrop={handleDrop}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
       <input
         type="file"
         ref={fileInputRef}
@@ -129,9 +166,15 @@ export function GlassUploadZone() {
                 <Upload className="h-12 w-12 text-slate-600" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-slate-800">Arraste seu documento aqui</h3>
+                <h3 className="text-xl font-semibold text-slate-800">
+                  {mode === 'guideline'
+                    ? 'Arraste sua diretriz médica brasileira aqui'
+                    : 'Arraste seu documento aqui'}
+                </h3>
                 <p className="mt-2 text-slate-500">
-                  Suporta PDF e TXT (Protocolos, Diretrizes, Artigos)
+                  {mode === 'guideline'
+                    ? 'SBC, SBPT, AMB, Ministério da Saúde (PDF ou TXT)'
+                    : 'Suporta PDF e TXT (Protocolos, Diretrizes, Artigos)'}
                 </p>
               </div>
               <button
@@ -144,7 +187,19 @@ export function GlassUploadZone() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Mode Info Badge */}
+        {mode === 'guideline' && uploadStatus === 'idle' && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mt-4 rounded-xl bg-blue-50/50 px-4 py-3 text-xs text-slate-600 backdrop-blur-sm"
+          >
+            <strong>Guideline Mode:</strong> Generates Flash template (2-3 min) + Anamnese Well checkboxes (30-50 items) from Brazilian medical guidelines.
+          </motion.div>
+        )}
       </div>
     </motion.div>
+    </div>
   )
 }

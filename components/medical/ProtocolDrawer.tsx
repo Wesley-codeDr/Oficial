@@ -4,6 +4,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sh
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
+import { Activity } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -126,7 +127,7 @@ export function ProtocolDrawer({ complaint, isOpen, onClose }: ProtocolDrawerPro
                 <div className="grid grid-cols-1 gap-6">
                   {/* Seção Ação Imediata - DESTAQUE TOTAL */}
                   {sections.acaoImediata && (
-                    <div className="liquid-glass-material !bg-amber-500/10 dark:!bg-amber-500/5 !border-amber-500/30 p-8 rounded-[32px] shadow-amber-500/10 relative overflow-hidden group">
+                    <div className="liquid-glass-material bg-amber-500/10! dark:bg-amber-500/5! border-amber-500/30! p-8 rounded-[32px] shadow-amber-500/10 relative overflow-hidden group">
                       <div className="absolute top-0 right-0 p-4 opacity-20 group-hover:scale-110 transition-transform">
                          <span className="text-6xl italic font-black">10'</span>
                       </div>
@@ -248,7 +249,7 @@ export function ProtocolDrawer({ complaint, isOpen, onClose }: ProtocolDrawerPro
           )}
 
           {/* Bottom Action */}
-          <div className="p-8 border-t border-white/20 dark:border-white/10 liquid-glass-material !bg-white/40 dark:!bg-black/20 backdrop-blur-xl shrink-0 glass-texture">
+          <div className="p-8 border-t border-white/20 dark:border-white/10 liquid-glass-material bg-white/40! dark:bg-black/20! backdrop-blur-xl shrink-0 glass-texture">
              <button
                onClick={() => {
                  onClose()

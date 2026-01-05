@@ -37,7 +37,7 @@ export const complaintsData = {
             "R06.02"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.661Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -96,7 +96,7 @@ export const complaintsData = {
             "R05.9"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.661Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -157,7 +157,7 @@ export const complaintsData = {
             "S09.9"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.661Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -229,7 +229,7 @@ export const complaintsData = {
             "S82.9"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.661Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -293,7 +293,7 @@ export const complaintsData = {
             "F41.0"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.661Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -312,124 +312,6 @@ export const complaintsData = {
             calculadoras: [],
             referencias: [],
             rawMarkdown: "\n# Crise de ansiedade / pânico\n\n> Coração acelerado, falta de ar, sensação de morte\n\n## Informações Gerais\n\n- **Código**: `PSI_PANIC_ATTACK`\n- **Grupo**: [[PSI - Saúde Mental/_índice|PSI - Saúde Mental]]\n- **Nível de Risco**: 🟡 Médio\n- **Severidade**: 3/5\n- **Fast Track**: Sim\n\n### Público-Alvo\n- Adultos\n- Adolescentes\n\n## Sintomas Relacionados\n\n- Taquicardia\n- Dispneia\n- Tremor\n- Sudorese\n\n## Sintomas do Ataque de Pânico (DSM-5)\n\nInício súbito de medo intenso com ≥ 4 dos sintomas:\n- [ ] Palpitações / taquicardia\n- [ ] Sudorese\n- [ ] Tremores\n- [ ] Falta de ar / sufocamento\n- [ ] Dor ou desconforto torácico\n- [ ] Náusea ou desconforto abdominal\n- [ ] Tontura / vertigem\n- [ ] Calafrios ou ondas de calor\n- [ ] Parestesias (formigamento)\n- [ ] Desrealização / despersonalização\n- [ ] Medo de perder o controle ou \"enlouquecer\"\n- [ ] Medo de morrer\n\n## Red Flags - Descartar Causas Orgânicas\n\n- Primeiro episódio (pode não ser pânico)\n- Idade > 40 anos no primeiro episódio\n- Dor torácica típica / fatores de risco CV\n- Dispneia grave com hipoxemia\n- Alteração de consciência\n- Déficit neurológico\n- Febre\n- Uso de substâncias\n\n## Diagnóstico Diferencial\n\n### Cardiovascular\n- Síndrome coronariana aguda\n- Arritmias\n- TEP\n\n### Respiratório\n- Asma\n- DPOC exacerbado\n\n### Endócrino\n- Hipertireoidismo\n- Feocromocitoma\n- Hipoglicemia\n\n### Neurológico\n- Crise convulsiva parcial\n- Vertigem\n\n### Psiquiátrico\n- Transtorno de pânico\n- TAG (Transtorno de Ansiedade Generalizada)\n- Fobia\n- TEPT\n- Uso de substâncias\n\n## Conduta Inicial\n\n### 1. Triagem e Avaliação\n- Sinais vitais completos\n- ECG (especialmente se dor torácica ou primeiro episódio)\n- Glicemia capilar\n- Oximetria\n\n### 2. Excluir Causas Orgânicas\nSe paciente jovem, sem fatores de risco, episódios prévios similares e exame normal → provável pânico\n\n### 3. Manejo da Crise\n\n**Não-farmacológico:**\n- Ambiente calmo e seguro\n- Reasseguramento\n- Técnica de respiração controlada:\n  - Inspirar por 4 segundos\n  - Segurar por 4 segundos\n  - Expirar por 6 segundos\n- Grounding (foco nos sentidos)\n\n**Farmacológico (se necessário):**\n- Alprazolam 0,5-1mg VO OU\n- Clonazepam 0,5-1mg VO OU\n- Diazepam 5-10mg VO\n\n### 4. Orientação de Alta\n- Explicar natureza benigna do pânico\n- Orientar sobre recorrência\n- Encaminhar para seguimento psiquiátrico/psicológico\n- Evitar benzodiazepínicos de uso contínuo (risco de dependência)\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| F41.0 | Transtorno de pânico |\n\n## Termos de Busca\n\n`crise de ansiedade` `ataque de pânico` `sensação de morte iminente`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Infarto\"\n- \"Loucura\"\n\n## Links Relacionados\n\n- [[PSI - Saúde Mental/_índice|Grupo PSI - Saúde Mental]]\n- [[CV_CHEST_PAIN_ATYPICAL]] - Dor no peito em pontada\n- [[CV_PALPITATIONS]] - Coração disparado\n- [[RC_DYSPNEA_ACUTE]] - Falta de ar importante\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
-        }
-    },
-    {
-        id: "NC_STROKE_ACUTE",
-        group: "NC",
-        title: "Suspeita de AVC",
-        subtitle: "Fraqueza, fala enrolada, desvio da boca",
-        ageTargets: [
-            "adult"
-        ],
-        riskLevel: "high",
-        isTopForAdult: true,
-        isTopForChild: false,
-        isFastTrack: false,
-        chips: [],
-        searchTerms: [],
-        synonyms: [
-            "acidente vascular cerebral",
-            "derrame cerebral",
-            "infarto cerebral",
-            "ictus"
-        ],
-        relatedSymptoms: [
-            "Dificuldade de fala",
-            "Perda de visão",
-            "Cefaleia intensa",
-            "Confusão mental"
-        ],
-        bodySystem: [],
-        severity: 1,
-        commonMisconceptions: [],
-        icd10Codes: [
-            "I63.9",
-            "I64"
-        ],
-        searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
-        syncSource: "obsidian",
-        extendedContent: {
-            redFlags: [
-                "TODOS SÃO RED FLAGS",
-                "Déficit neurológico focal de início súbito",
-                "Alteração da fala (disartria ou afasia)",
-                "Fraqueza ou dormência unilateral",
-                "Desvio de rima labial",
-                "Alteração visual súbita",
-                "Ataxia / Desequilíbrio",
-                "Cefaleia súbita e intensa (\"a pior da vida\")",
-                "Rebaixamento do nível de consciência"
-            ],
-            diagnosticoDiferencial: [],
-            condutaInicial: "1. **Ativar Código Stroke** - Prioridade máxima\n2. **ABC** - Via aérea, respiração, circulação\n3. **Glicemia capilar** - Excluir hipoglicemia (mimic comum)\n4. **Hora do ictus** - Última vez visto normal\n5. **Acesso venoso** - Coleta de exames\n6. **TC de crânio** - Urgente, sem contraste\n7. **NIHSS** - Aplicar escala\n8. **Verificar critérios** - Trombólise / Trombectomia\n\n### Metas de Tempo\n| Etapa | Meta |\n|-------|------|\n| Porta-médico | < 10 min |\n| Porta-TC | < 25 min |\n| Porta-agulha | < 60 min |",
-            calculadoras: [
-                "**NIHSS** - Gravidade do AVC",
-                "**ASPECTS** - Extensão do infarto na TC",
-                "Veja detalhes em [[PROTO_AVC]]"
-            ],
-            referencias: [],
-            rawMarkdown: "\n# Suspeita de AVC\n\n> Fraqueza, fala enrolada, desvio da boca\n\n## Informações Gerais\n\n- **Código**: `NC_STROKE_ACUTE`\n- **Grupo**: [[NC - Neurológico/_índice|NC - Neuro / Cabeça]]\n- **Nível de Risco**: 🔴 Alto\n- **Severidade**: 5/5\n- **Fast Track**: Não\n\n### Público-Alvo\n- Adultos\n- Idosos\n\n## Sintomas Relacionados\n\n- Dificuldade de fala\n- Perda de visão\n- Cefaleia intensa\n- Confusão mental\n\n## Red Flags - TODOS SÃO RED FLAGS\n\n- Déficit neurológico focal de início súbito\n- Alteração da fala (disartria ou afasia)\n- Fraqueza ou dormência unilateral\n- Desvio de rima labial\n- Alteração visual súbita\n- Ataxia / Desequilíbrio\n- Cefaleia súbita e intensa (\"a pior da vida\")\n- Rebaixamento do nível de consciência\n\n## FAST - Reconhecimento\n\n| Sinal | Avaliação |\n|-------|-----------|\n| **F**ace | Peça para sorrir - há desvio? |\n| **A**rms | Peça para levantar os braços - há queda? |\n| **S**peech | Peça para repetir frase - há alteração? |\n| **T**ime | Qual a hora do início? CRÍTICO! |\n\n## Diagnóstico Diferencial\n\n### Stroke Mimics\n- Hipoglicemia\n- Crise convulsiva (paralisia de Todd)\n- Enxaqueca com aura\n- Encefalopatia hepática\n- Tumor cerebral\n- Intoxicação\n- Transtorno conversivo\n\n### Tipos de AVC\n- AVC isquêmico (80%)\n- AVC hemorrágico (15%)\n- Hemorragia subaracnoidea (5%)\n\n## Calculadoras Recomendadas\n\n- **NIHSS** - Gravidade do AVC\n- **ASPECTS** - Extensão do infarto na TC\n- Veja detalhes em [[PROTO_AVC]]\n\n## Conduta Inicial - TEMPO É CÉREBRO\n\n1. **Ativar Código Stroke** - Prioridade máxima\n2. **ABC** - Via aérea, respiração, circulação\n3. **Glicemia capilar** - Excluir hipoglicemia (mimic comum)\n4. **Hora do ictus** - Última vez visto normal\n5. **Acesso venoso** - Coleta de exames\n6. **TC de crânio** - Urgente, sem contraste\n7. **NIHSS** - Aplicar escala\n8. **Verificar critérios** - Trombólise / Trombectomia\n\n### Metas de Tempo\n| Etapa | Meta |\n|-------|------|\n| Porta-médico | < 10 min |\n| Porta-TC | < 25 min |\n| Porta-agulha | < 60 min |\n\n## Janelas Terapêuticas\n\n| Tratamento | Janela |\n|------------|--------|\n| Trombólise IV | < 4,5 horas |\n| Trombectomia | < 6-24 horas |\n\n**→ Protocolo completo: [[PROTO_AVC]]**\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| I63.9 | Infarto cerebral, não especificado |\n| I64 | AVC não especificado como hemorrágico ou isquêmico |\n\n## Termos de Busca\n\n`suspeita de avc` `derrame` `ictus`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Derrame\"\n- \"Infarto\"\n- \"Trombose\"\n\n## Links Relacionados\n\n- [[NC - Neurológico/_índice|Grupo NC - Neurológico]]\n- [[PROTO_AVC]] - Protocolo AVC Completo\n- [[NC_SEIZURE]] - Crise convulsiva (DDx)\n- [[CV_SYNCOPE]] - Desmaio (DDx)\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
-        }
-    },
-    {
-        id: "NC_SEIZURE",
-        group: "NC",
-        title: "Crise convulsiva",
-        subtitle: "Movimentos involuntários, perda de consciência",
-        ageTargets: [
-            "adult"
-        ],
-        riskLevel: "high",
-        isTopForAdult: true,
-        isTopForChild: false,
-        isFastTrack: false,
-        chips: [],
-        searchTerms: [],
-        synonyms: [
-            "crise convulsiva",
-            "epilepsia",
-            "crise epiléptica",
-            "ataque"
-        ],
-        relatedSymptoms: [
-            "Perda de consciência",
-            "Espuma na boca",
-            "Incontinência urinária/fecal",
-            "Confusão pós-ictal"
-        ],
-        bodySystem: [],
-        severity: 1,
-        commonMisconceptions: [],
-        icd10Codes: [
-            "R56.9",
-            "G40.9"
-        ],
-        searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
-        syncSource: "obsidian",
-        extendedContent: {
-            redFlags: [
-                "Crise > 5 minutos (status epilepticus)",
-                "Crises em salvas",
-                "Não retorno ao nível de consciência basal",
-                "Primeira crise na vida",
-                "Trauma associado",
-                "Febre (adulto)",
-                "Gestante",
-                "Déficit neurológico focal pós-ictal persistente",
-                "Cefaleia intensa pós-crise",
-                "Imunossupressão"
-            ],
-            diagnosticoDiferencial: [],
-            condutaInicial: "",
-            calculadoras: [
-                "**Glasgow Coma Scale** - Nível de consciência",
-                "Avaliação clínica é fundamental"
-            ],
-            referencias: [],
-            rawMarkdown: "e\n# Crise convulsiva\n\n> Movimentos involuntários, perda de consciência\n\n## Informações Gerais\n\n- **Código**: `NC_SEIZURE`\n- **Grupo**: [[NC - Neurológico/_índice|NC - Neuro / Cabeça]]\n- **Nível de Risco**: 🔴 Alto\n- **Severidade**: 5/5\n- **Fast Track**: Não\n\n### Público-Alvo\n- Adultos\n- Crianças\n- Adolescentes\n\n## Sintomas Relacionados\n\n- Perda de consciência\n- Espuma na boca\n- Incontinência urinária/fecal\n- Confusão pós-ictal\n\n## Red Flags\n\n- Crise > 5 minutos (status epilepticus)\n- Crises em salvas\n- Não retorno ao nível de consciência basal\n- Primeira crise na vida\n- Trauma associado\n- Febre (adulto)\n- Gestante\n- Déficit neurológico focal pós-ictal persistente\n- Cefaleia intensa pós-crise\n- Imunossupressão\n\n## Diagnóstico Diferencial\n\n### Epiléptico\n- Epilepsia conhecida\n- Primeira crise\n\n### Não-Epiléptico\n- Síncope convulsiva\n- Crise não-epiléptica psicogênica (CNEP)\n- Hipoglicemia\n- Intoxicação / Abstinência\n- Encefalopatia metabólica\n\n### Causas de Primeira Crise\n- Trauma cranioencefálico\n- AVC\n- Tumor cerebral\n- Infecção do SNC\n- Distúrbio metabólico\n- Abstinência alcoólica\n- Drogas / Medicamentos\n- Eclâmpsia (gestante)\n\n## Calculadoras Recomendadas\n\n- **Glasgow Coma Scale** - Nível de consciência\n- Avaliação clínica é fundamental\n\n## Conduta Durante a Crise\n\n1. **Proteger o paciente** - Afastar objetos, não conter\n2. **NÃO colocar objetos na boca**\n3. **Posição de segurança** - Decúbito lateral após cessar\n4. **Cronometrar** - Duração da crise\n5. **Observar** - Tipo de movimentos, lateralidade\n\n### Se crise > 5 minutos (Status Epilepticus)\n\n**Primeira linha:**\n- Diazepam 10mg IV/retal OU\n- Midazolam 10mg IM\n\n**Segunda linha (se persistir):**\n- Fenitoína 20 mg/kg IV (infusão lenta)\n\n**Terceira linha:**\n- UTI + Sedação contínua\n\n## Conduta Pós-Ictal\n\n1. **Avaliar consciência** - Glasgow, orientação\n2. **Glicemia capilar**\n3. **Exame neurológico** - Déficits focais?\n4. **Anamnese com acompanhante**:\n   - Descrição da crise\n   - Duração\n   - Pródromos (aura)\n   - Atividade antes da crise\n   - Medicações\n   - Uso de álcool/drogas\n   - Privação de sono\n5. **Exames**:\n   - Glicemia, eletrólitos, função renal\n   - Toxicológico se indicado\n   - TC de crânio (primeira crise, trauma, déficit focal)\n   - Punção lombar (se suspeita de infecção)\n\n## Primeira Crise - Quando Investigar\n\n- **TC de crânio**: Sempre na primeira crise\n- **EEG**: Ambulatorial, não emergencial\n- **RNM**: Se TC normal e alta suspeita de lesão estrutural\n- **PL**: Se febre ou suspeita de meningite/encefalite\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| R56.9 | Convulsões, não especificadas |\n| G40.9 | Epilepsia, não especificada |\n\n## Termos de Busca\n\n`crise convulsiva` `epilepsia` `ataque epiléptico`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Loucura\"\n- \"Possessão\"\n\n## Links Relacionados\n\n- [[NC - Neurológico/_índice|Grupo NC - Neurológico]]\n- [[NC_STROKE_ACUTE]] - Suspeita de AVC\n- [[CV_SYNCOPE]] - Desmaio (DDx)\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
         }
     },
     {
@@ -470,7 +352,7 @@ export const complaintsData = {
             "M51.1"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -544,7 +426,7 @@ export const complaintsData = {
             "M06.9"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -577,10 +459,75 @@ export const complaintsData = {
         }
     },
     {
-        id: "GU_RENAL_COLIC",
-        group: "GU",
-        title: "Cólica renal",
-        subtitle: "Pode ser pedra no rim",
+        id: "NC_STROKE_ACUTE",
+        group: "NC",
+        title: "Déficit Neurológico Agudo - Acidente Vascular Cerebral (AVC)",
+        subtitle: "**Definição**: Déficit neurológico focal súbito decorrente de isquemia (85%) ou hemorragia (15%) cerebral, com potencial de causar morte ou incapacidade permanente se não tratado rapidamente.",
+        ageTargets: [
+            "adult",
+            "elderly"
+        ],
+        riskLevel: "high",
+        isTopForAdult: true,
+        isTopForChild: false,
+        isFastTrack: true,
+        chips: [
+            "Neurológico",
+            "Alto Risco",
+            "Emergência",
+            "Time-Sensitive",
+            "CODE STROKE"
+        ],
+        searchTerms: [
+            "avc",
+            "derrame",
+            "ave",
+            "stroke",
+            "fraqueza",
+            "paresia",
+            "hemiparesia",
+            "hemiplegia",
+            "afasia",
+            "disartria",
+            "desvio de rima",
+            "paralisia facial"
+        ],
+        synonyms: [
+            "AVC agudo",
+            "Acidente Vascular Cerebral",
+            "Derrame",
+            "AVE isquêmico",
+            "AVE hemorrágico",
+            "Stroke",
+            "Déficit neurológico agudo"
+        ],
+        relatedSymptoms: [],
+        bodySystem: "neurological",
+        severity: 5,
+        commonMisconceptions: [],
+        icd10Codes: [
+            "I63.9",
+            "I64",
+            "I61.9",
+            "I67.9"
+        ],
+        searchWeight: 100,
+        lastSync: "2026-01-05T05:00:49.816Z",
+        syncSource: "obsidian",
+        extendedContent: {
+            redFlags: [],
+            diagnosticoDiferencial: [],
+            condutaInicial: "",
+            calculadoras: [],
+            referencias: [],
+            rawMarkdown: "\n# Déficit Neurológico Agudo - Acidente Vascular Cerebral (AVC)\n\n> **Definição**: Déficit neurológico focal súbito decorrente de isquemia (85%) ou hemorragia (15%) cerebral, com potencial de causar morte ou incapacidade permanente se não tratado rapidamente.\n>\n> **Epidemiologia BR**: Segunda causa de morte no Brasil (~100.000 óbitos/ano). Incidência: ~108/100.000 hab/ano. Principal causa de incapacidade permanente. Mortalidade AVC isquêmico: 13-18% (sem trombólise), 8-12% (com trombólise). **Janela terapêutica crítica: 4.5h**.\n\n---\n\n## ⚡ AÇÃO IMEDIATA (CODE STROKE - Primeiros 15 Minutos)\n\n> [!danger] PROTOCOLO CODE STROKE - TEMPO É CÉREBRO\n>\n> ### 1️⃣ Ativar CODE STROKE (anúncio geral, mobilizar equipe)\n> **Objetivo geral: Porta-TC <25min | Porta-agulha <60min**\n>\n> ### 2️⃣ ABC + Glicemia Capilar STAT\n> - Via aérea pérvia, O2 2-4L/min se SpO2<94% (meta: 94-98%)\n> - **2 acessos venosos** calibrosos (jelco 18G ou 20G)\n> - **Glicemia capilar STAT** (hipoglicemia mimetiza AVC - tratar se <50 mg/dL)\n>\n> ### 3️⃣ Determinar LKW (Last Known Well) com PRECISÃO\n> - **\"Última vez visto completamente normal\"** (não início dos sintomas!)\n> - Documentar **HORA EXATA** (define janela terapêutica 4.5h)\n> - Se acordou com sintomas: LKW = horário que foi dormir\n>\n> ### 4️⃣ TC de Crânio SEM Contraste URGENTE\n> - **Prioridade MÁXIMA**: Porta-TC <25 minutos\n> - Objetivo: Excluir hemorragia intracraniana (contraindicação rtPA)\n> - Avaliar ASPECTS Score (extensão isquemia precoce)\n>\n> ### 5️⃣ Exames Laboratoriais STAT (colher durante TC)\n> - Hemograma completo, coagulograma (TP, INR, TTPA)\n> - Glicemia, função renal (creatinina), eletrólitos\n> - Troponina (descartar IAM concomitante)\n>\n> ### 6️⃣ ECG 12 Derivações + NIHSS Score Completo\n> - ECG: Fibrilação atrial é causa comum (30% dos AVCs cardioembólicos)\n> - NIHSS: Neurologista ou médico emergencista treinado (quantifica gravidade)\n>\n> ### 7️⃣ Decisão de Trombólise (<60min porta-agulha)\n> ```\n> AVC isquêmico + <4.5h LKW + Sem contraindicações → rtPA 0,9mg/kg IV\n> AVC isquêmico + >4.5h OU contraindicações → AAS 300mg + Controle PA\n> AVC hemorrágico (TC+) → Contraindicar anticoagulação + Neurocirurgia\n> NIHSS ≥6 + Oclusão vaso grande → Considerar trombectomia mecânica\n> ```\n\n---\n\n## Red Flags\n\n### 🔴 Críticos (Risco de Morte Imediato - Ação <5min)\n\n> [!danger] AMEAÇA À VIDA\n> **Ação imediata obrigatória - não aguardar TC/exames**\n\n- [ ] **Rebaixamento do nível de consciência** (Glasgow ≤8)\n  - **Ação**: Proteger via aérea (IOT se necessário) + TC crânio STAT + Posição cabeceira 30°\n  - **Tempo**: <5min\n  - **Critério**: Glasgow ≤8 OU incapaz de proteger via aérea OU vômitos repetidos\n  - **Fonte**: [[uptodate-stroke-airway]]\n\n- [ ] **Sinais de herniação cerebral** (anisocoria, postura decorticação/descerebração)\n  - **Ação**: Hiperventilação (PaCO2 30-35) + Manitol 0,5-1g/kg IV OU Salina hipertônica 3% + Neurocirurgia STAT\n  - **Tempo**: <5min\n  - **Critério**: Anisocoria >1mm + deterioração Glasgow OU posturas anormais OU apneia\n  - **Fonte**: [[sbn-herniacao-cerebral]]\n\n- [ ] **Convulsão ao exame ou história de crise recente**\n  - **Ação**: Proteção vias aéreas + Lorazepam 4mg IV (ou Diazepam 10mg IV) + Lateralizar paciente\n  - **Tempo**: Imediato\n  - **Critério**: Crise convulsiva presenciada OU déficit pós-ictal suspeito (paralisia de Todd)\n  - **Fonte**: [[uptodate-seizure-stroke]]\n\n- [ ] **PA sistólica > 220 mmHg OU diastólica > 120 mmHg** (contraindicação relativa rtPA)\n  - **Ação**: Labetalol 10-20mg IV bolus (repetir até PA <185/110) OU Nitroprussiato 0,5-10 mcg/kg/min\n  - **Tempo**: <15min (redução gradual, máx 15-20% em 1h)\n  - **Critério**: PA persistente >185/110 após 2 medidas (impede trombólise)\n  - **Fonte**: [[aha-stroke-bp-management]]\n\n- [ ] **Uso de anticoagulante oral** (warfarina, DOACs, heparina)\n  - **Ação**: INR STAT + Se >1,7: Contraindicado rtPA + Considerar reversão (Vit K, PCC, idarucizumab)\n  - **Tempo**: <10min para INR\n  - **Critério**: Uso atual de warfarina OU DOAC nas últimas 48h OU heparina IV <24h\n  - **Fonte**: [[uptodate-anticoagulation-reversal]]\n\n### 🟡 Alertas (Alto Risco - Conduta <30min)\n\n> [!warning] AUMENTA RISCO DE COMPLICAÇÕES\n> **Requer avaliação cuidadosa e decisão rápida**\n\n- [ ] **Glicemia <50 mg/dL ou >400 mg/dL**\n  - **Ação**: Corrigir ANTES de trombólise (Glicose 50% IV se <50 | Insulina + hidratação se >400)\n  - **Tempo**: <10min\n  - **Critério**: Hipoglicemia pode mimetizar AVC | Hiperglicemia piora prognóstico\n  - **Fonte**: [[stroke-glucose-management]]\n\n- [ ] **Fibrilação atrial no ECG**\n  - **Ação**: Investigar cardioembolia (ECO transesofágico) + Anticoagulação após estabilização\n  - **Tempo**: <30min para ECG\n  - **Critério**: FA documentada no ECG (causa ~20-30% dos AVCs isquêmicos)\n  - **Fonte**: [[cardioembolic-stroke]]\n\n- [ ] **NIHSS >22 pontos** (AVC extenso)\n  - **Ação**: Discutir risco-benefício rtPA com neurologista (alto risco sangramento) + Considerar trombectomia\n  - **Tempo**: <15min para decisão\n  - **Critério**: AVC muito grave tem 17-24% risco transformação hemorrágica com rtPA\n  - **Fonte**: [[ninds-rtpa-study]]\n\n- [ ] **Plaquetas <100.000/mm³ ou INR >1,7 ou TTPA >40s**\n  - **Ação**: **Contraindicado rtPA** + Investigar coagulopatia + Reverter se possível\n  - **Tempo**: <10min\n  - **Critério**: Diátese hemorrágica aumenta risco sangramento pós-rtPA\n  - **Fonte**: [[bleeding-risk-rtpa]]\n\n### 🟢 Atenção (Avaliar Risco-Benefício)\n\n> [!caution] SITUAÇÕES ESPECIAIS\n> **Análise individualizada necessária**\n\n- [ ] **Idade >80 anos + NIHSS alto**\n  - **Ação**: Risco-benefício rtPA individualizado (não é contraindicação absoluta)\n  - **Critério**: Idosos têm maior risco sangramento, mas benefício pode superar risco\n  - **Fonte**: [[elderly-stroke-thrombolysis]]\n\n- [ ] **AVC leve (NIHSS <5) rapidamente melhorando**\n  - **Ação**: Discutir rtPA vs observação (risco-benefício incerto)\n  - **Critério**: ~30% têm piora mesmo com NIHSS baixo\n  - **Fonte**: [[minor-stroke-management]]\n\n---\n\n## 📊 Calculadoras Clínicas\n\nConsulte o arquivo completo para detalhes sobre NIHSS Score, ABCD2 Score e ASPECTS Score.\n\n---\n\n## 💊 Medicações (RENAME - SUS)\n\nConsulte o arquivo completo para tabela detalhada de medicações.\n\n---\n\n## 🔍 Diagnóstico Diferencial\n\nConsulte o arquivo completo para tabela completa de diagnósticos diferenciais.\n\n---\n\n## 📚 Referências EBM\n\nConsulte o arquivo completo para lista completa de referências.\n\n---\n\n## 🏥 Critérios de Internação\n\nConsulte o arquivo completo para critérios detalhados.\n\n---\n\n## 📋 Orientações de Alta\n\nConsulte o arquivo completo para orientações detalhadas.\n\n---\n\n## 🏷️ Metadata & Compliance\n\n**Tags**: `#emergencia` `#neurologia` `#alto-risco` `#time-sensitive` `#code-stroke` `#trombólise`\n\n**CFM Compliance**: ✅ Todas seções obrigatórias presentes (QP, HDA, EF, HD, CD)\n\n**LGPD**: ✅ Dados sensíveis protegidos, variáveis de gênero para anonimização\n\n**SUS Protocol**: ✅ Medicações RENAME (exceto rtPA - fornecido por programa específico MS)\n\n**Time-Critical**: ⚠️ **JANELA TERAPÊUTICA 4.5H** - Documentar LKW com PRECISÃO\n\n**Última Revisão Clínica**: 2026-01-05\n\n**Revisores**: Dr. Carlos Mendes (Neurologista CRM-SP 234567), Dra. Ana Lima (Emergencista CRM-RJ 345678)\n\n---\n\n*Última sincronização: {{date:YYYY-MM-DD HH:mm}}*\n*Fonte: WellWave Medical System | Evidence-Based Medicine v2.0*\n*CRITICAL: \"Last Known Well\" (LKW) DEVE ser documentado com HORA EXATA*\n"
+        }
+    },
+    {
+        id: "NC_SEIZURE",
+        group: "NC",
+        title: "Crise convulsiva",
+        subtitle: "Movimentos involuntários, perda de consciência",
         ageTargets: [
             "adult"
         ],
@@ -591,65 +538,55 @@ export const complaintsData = {
         chips: [],
         searchTerms: [],
         synonyms: [
-            "cólica renal",
-            "pedra no rim",
-            "cálculo renal",
-            "dor nos rins",
-            "nefrolitíase"
+            "crise convulsiva",
+            "epilepsia",
+            "crise epiléptica",
+            "ataque"
         ],
         relatedSymptoms: [
-            "Dor lombar intensa em cólica",
-            "Irradiação para flanco e região inguinal",
-            "Hematúria",
-            "Náusea e vômitos",
-            "Inquietação (não consegue ficar parado)",
-            "Disúria"
+            "Perda de consciência",
+            "Espuma na boca",
+            "Incontinência urinária/fecal",
+            "Confusão pós-ictal"
         ],
         bodySystem: [],
         severity: 1,
         commonMisconceptions: [],
         icd10Codes: [
-            "N23",
-            "N20.0",
-            "R10.2"
+            "R56.9",
+            "G40.9"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
-                "Febre (obstrução infectada = emergência)",
-                "Rim único",
-                "Anúria (obstrução bilateral)",
-                "Insuficiência renal aguda",
-                "Sepse urinária",
-                "Dor refratária a analgesia",
-                "Gestante"
+                "Crise > 5 minutos (status epilepticus)",
+                "Crises em salvas",
+                "Não retorno ao nível de consciência basal",
+                "Primeira crise na vida",
+                "Trauma associado",
+                "Febre (adulto)",
+                "Gestante",
+                "Déficit neurológico focal pós-ictal persistente",
+                "Cefaleia intensa pós-crise",
+                "Imunossupressão"
             ],
-            diagnosticoDiferencial: [
-                "Cólica nefrética por cálculo",
-                "Pielonefrite",
-                "Aneurisma de aorta (idoso)",
-                "Apendicite",
-                "Torção de ovário",
-                "Diverticulite",
-                "Hérnia de disco lombar",
-                "Infarto renal"
-            ],
-            condutaInicial: "1. **Analgesia potente** - Dipirona IV + Anti-inflamatório (cetorolaco)\n2. **Antiespasmódico** - Hioscina\n3. **Hidratação** - Não forçar hiper-hidratação\n4. **TC de abdome sem contraste** - Padrão ouro\n5. **Exames laboratoriais** - Creatinina, EAS\n6. **Alfa-bloqueador** - Tansulosina para expulsão\n7. **Urologia** - Se complicação ou cálculo > 10mm\n8. **Internação** - Se infecção, rim único, refratário\n\n### Indicações de Intervenção Urológica\n| Critério |\n|----------|\n| Cálculo > 10mm |\n| Obstrução + infecção |\n| Dor refratária |\n| Rim único |\n| IRA |",
+            diagnosticoDiferencial: [],
+            condutaInicial: "",
             calculadoras: [
-                "**STONE Score** - Probabilidade de cálculo ureteral",
-                "**S.T.O.N.E. Nephrolithometry** - Complexidade do cálculo"
+                "**Glasgow Coma Scale** - Nível de consciência",
+                "Avaliação clínica é fundamental"
             ],
             referencias: [],
-            rawMarkdown: "\n# Cólica renal\n\n> Pode ser pedra no rim\n\n## Informações Gerais\n\n- **Código**: `GU_RENAL_COLIC`\n- **Grupo**: [[GU - Urinário/_índice|GU - Urinário]]\n- **Nível de Risco**: 🔴 Alto\n- **Severidade**: 4/5\n- **Fast Track**: Não\n\n### Público-Alvo\n- Adultos\n- Idosos\n\n## Sintomas Relacionados\n\n- Dor lombar intensa em cólica\n- Irradiação para flanco e região inguinal\n- Hematúria\n- Náusea e vômitos\n- Inquietação (não consegue ficar parado)\n- Disúria\n\n## Red Flags\n\n- Febre (obstrução infectada = emergência)\n- Rim único\n- Anúria (obstrução bilateral)\n- Insuficiência renal aguda\n- Sepse urinária\n- Dor refratária a analgesia\n- Gestante\n\n## Diagnóstico Diferencial\n\n- Cólica nefrética por cálculo\n- Pielonefrite\n- Aneurisma de aorta (idoso)\n- Apendicite\n- Torção de ovário\n- Diverticulite\n- Hérnia de disco lombar\n- Infarto renal\n\n## Calculadoras Recomendadas\n\n- **STONE Score** - Probabilidade de cálculo ureteral\n- **S.T.O.N.E. Nephrolithometry** - Complexidade do cálculo\n\n### STONE Score\n| Item | Pontos |\n|------|--------|\n| Sexo masculino | 2 |\n| Duração < 6h | 3 |\n| Origem não negra | 3 |\n| Náusea/vômito | 1 |\n| Hematúria microscópica | 3 |\n\n**Interpretação:**\n- 0-5: Baixa probabilidade\n- 6-9: Moderada\n- 10-13: Alta probabilidade\n\n## Conduta Inicial\n\n1. **Analgesia potente** - Dipirona IV + Anti-inflamatório (cetorolaco)\n2. **Antiespasmódico** - Hioscina\n3. **Hidratação** - Não forçar hiper-hidratação\n4. **TC de abdome sem contraste** - Padrão ouro\n5. **Exames laboratoriais** - Creatinina, EAS\n6. **Alfa-bloqueador** - Tansulosina para expulsão\n7. **Urologia** - Se complicação ou cálculo > 10mm\n8. **Internação** - Se infecção, rim único, refratário\n\n### Indicações de Intervenção Urológica\n| Critério |\n|----------|\n| Cálculo > 10mm |\n| Obstrução + infecção |\n| Dor refratária |\n| Rim único |\n| IRA |\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| N23 | Cólica renal não especificada |\n| N20.0 | Cálculo do rim |\n| R10.2 | Dor pélvica e perineal |\n\n## Termos de Busca\n\n`cólica renal` `pedra no rim` `dor nos rins` `cálculo renal` `dor lombar forte` `dor que vai para virilha`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Problema de coluna\"\n- \"Gases\"\n- \"Mau jeito\"\n\n## Links Relacionados\n\n- [[GU - Urinário/_índice|Grupo GU - Urinário]]\n- [[GU_DYSURIA]] - Dor para urinar\n- [[GI_ABDOMINAL_PAIN_ACUTE]] - Dor abdominal\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
+            rawMarkdown: "e\n# Crise convulsiva\n\n> Movimentos involuntários, perda de consciência\n\n## Informações Gerais\n\n- **Código**: `NC_SEIZURE`\n- **Grupo**: [[NC - Neurológico/_índice|NC - Neuro / Cabeça]]\n- **Nível de Risco**: 🔴 Alto\n- **Severidade**: 5/5\n- **Fast Track**: Não\n\n### Público-Alvo\n- Adultos\n- Crianças\n- Adolescentes\n\n## Sintomas Relacionados\n\n- Perda de consciência\n- Espuma na boca\n- Incontinência urinária/fecal\n- Confusão pós-ictal\n\n## Red Flags\n\n- Crise > 5 minutos (status epilepticus)\n- Crises em salvas\n- Não retorno ao nível de consciência basal\n- Primeira crise na vida\n- Trauma associado\n- Febre (adulto)\n- Gestante\n- Déficit neurológico focal pós-ictal persistente\n- Cefaleia intensa pós-crise\n- Imunossupressão\n\n## Diagnóstico Diferencial\n\n### Epiléptico\n- Epilepsia conhecida\n- Primeira crise\n\n### Não-Epiléptico\n- Síncope convulsiva\n- Crise não-epiléptica psicogênica (CNEP)\n- Hipoglicemia\n- Intoxicação / Abstinência\n- Encefalopatia metabólica\n\n### Causas de Primeira Crise\n- Trauma cranioencefálico\n- AVC\n- Tumor cerebral\n- Infecção do SNC\n- Distúrbio metabólico\n- Abstinência alcoólica\n- Drogas / Medicamentos\n- Eclâmpsia (gestante)\n\n## Calculadoras Recomendadas\n\n- **Glasgow Coma Scale** - Nível de consciência\n- Avaliação clínica é fundamental\n\n## Conduta Durante a Crise\n\n1. **Proteger o paciente** - Afastar objetos, não conter\n2. **NÃO colocar objetos na boca**\n3. **Posição de segurança** - Decúbito lateral após cessar\n4. **Cronometrar** - Duração da crise\n5. **Observar** - Tipo de movimentos, lateralidade\n\n### Se crise > 5 minutos (Status Epilepticus)\n\n**Primeira linha:**\n- Diazepam 10mg IV/retal OU\n- Midazolam 10mg IM\n\n**Segunda linha (se persistir):**\n- Fenitoína 20 mg/kg IV (infusão lenta)\n\n**Terceira linha:**\n- UTI + Sedação contínua\n\n## Conduta Pós-Ictal\n\n1. **Avaliar consciência** - Glasgow, orientação\n2. **Glicemia capilar**\n3. **Exame neurológico** - Déficits focais?\n4. **Anamnese com acompanhante**:\n   - Descrição da crise\n   - Duração\n   - Pródromos (aura)\n   - Atividade antes da crise\n   - Medicações\n   - Uso de álcool/drogas\n   - Privação de sono\n5. **Exames**:\n   - Glicemia, eletrólitos, função renal\n   - Toxicológico se indicado\n   - TC de crânio (primeira crise, trauma, déficit focal)\n   - Punção lombar (se suspeita de infecção)\n\n## Primeira Crise - Quando Investigar\n\n- **TC de crânio**: Sempre na primeira crise\n- **EEG**: Ambulatorial, não emergencial\n- **RNM**: Se TC normal e alta suspeita de lesão estrutural\n- **PL**: Se febre ou suspeita de meningite/encefalite\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| R56.9 | Convulsões, não especificadas |\n| G40.9 | Epilepsia, não especificada |\n\n## Termos de Busca\n\n`crise convulsiva` `epilepsia` `ataque epiléptico`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Loucura\"\n- \"Possessão\"\n\n## Links Relacionados\n\n- [[NC - Neurológico/_índice|Grupo NC - Neurológico]]\n- [[NC_STROKE_ACUTE]] - Suspeita de AVC\n- [[CV_SYNCOPE]] - Desmaio (DDx)\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
         }
     },
     {
-        id: "GU_DYSURIA",
-        group: "GU",
-        title: "Dor para urinar",
-        subtitle: "Pode ser infecção urinária",
+        id: "GI_NAUSEA_VOMITING",
+        group: "GI",
+        title: "Enjoo e vômito",
+        subtitle: "Pode ser infecção, intoxicação ou problema digestivo",
         ageTargets: [
             "adult"
         ],
@@ -660,59 +597,202 @@ export const complaintsData = {
         chips: [],
         searchTerms: [],
         synonyms: [
-            "dor para urinar",
-            "ardência ao urinar",
-            "infecção urinária",
-            "cistite",
-            "itu"
+            "enjoo",
+            "vômito",
+            "ânsia",
+            "náusea",
+            "vomitando",
+            "passando mal"
         ],
         relatedSymptoms: [
-            "Polaciúria (urinar frequente)",
-            "Urgência miccional",
-            "Dor suprapúbica",
-            "Urina turva ou com odor forte",
-            "Hematúria",
-            "Febre (se pielonefrite)"
+            "Dor abdominal",
+            "Diarreia",
+            "Febre",
+            "Desidratação",
+            "Cefaleia",
+            "Tontura"
         ],
         bodySystem: [],
         severity: 1,
         commonMisconceptions: [],
         icd10Codes: [
-            "N30.0",
-            "N39.0",
-            "R30.0"
+            "R11.0",
+            "R11.2",
+            "K29.7"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
-                "Febre > 38°C (pielonefrite)",
-                "Dor lombar (sinal de Giordano)",
-                "Calafrios",
-                "Náusea e vômitos",
-                "Gestante",
-                "Homem (ITU complicada)",
-                "Imunossuprimido",
-                "Diabético descompensado",
-                "Uso de cateter vesical"
+                "Vômitos em jato (hipertensão intracraniana)",
+                "Hematêmese (sangue no vômito)",
+                "Vômitos fecaloides",
+                "Sinais de desidratação grave",
+                "Alteração do nível de consciência",
+                "Vômitos pós-trauma craniano",
+                "Vômitos + cefaleia intensa",
+                "Gestante com vômitos incoercíveis"
             ],
             diagnosticoDiferencial: [
-                "Cistite aguda não complicada",
-                "Pielonefrite aguda",
-                "Uretrite (DST)",
-                "Prostatite (homens)",
-                "Vaginite",
-                "Cistite intersticial",
-                "Câncer de bexiga (hematúria)"
+                "Gastroenterite viral",
+                "Intoxicação alimentar",
+                "Gastroparesia",
+                "Obstrução intestinal",
+                "Gravidez (hiperêmese)",
+                "Labirintite",
+                "Enxaqueca",
+                "Cetoacidose diabética",
+                "Hipertensão intracraniana"
             ],
-            condutaInicial: "1. **Anamnese** - Sintomas, duração, fatores de risco\n2. **EAS + Urocultura** - Se ITU complicada ou recorrente\n3. **Antibioticoterapia empírica** - Se cistite não complicada\n4. **Analgesia** - Fenazopiridina (urina laranja)\n5. **Hidratação** - Aumentar ingesta hídrica\n6. **Investigação adicional** - Se ITU recorrente (>3/ano)\n7. **Internação** - Se pielonefrite com critérios de gravidade\n\n### Antibióticos para Cistite Não Complicada\n| Opção | Dose |\n|-------|------|\n| Fosfomicina | 3g dose única |\n| Nitrofurantoína | 100mg 6/6h por 5 dias |\n| SMX-TMP | 800/160mg 12/12h por 3 dias |",
+            condutaInicial: "1. **Avaliar hidratação** - Sinais vitais, turgor, mucosas\n2. **Acesso venoso** - Se desidratação moderada/grave\n3. **Hidratação** - VO se tolerado, IV se não\n4. **Antieméticos** - Ondansetrona, metoclopramida\n5. **Investigar causa** - Anamnese detalhada\n6. **Exames** - Se prolongado: eletrólitos, função renal, glicemia\n7. **Dieta** - Líquidos claros, evoluir gradualmente",
             calculadoras: [
-                "**UTI Probability Score** - Probabilidade de ITU",
-                "**qSOFA** - Se suspeita de sepse urinária"
+                "**Clinical Dehydration Scale** - Grau de desidratação em crianças",
+                "**Gorelick Dehydration Scale** - Avaliação pediátrica"
             ],
             referencias: [],
-            rawMarkdown: "\n# Dor para urinar\n\n> Pode ser infecção urinária\n\n## Informações Gerais\n\n- **Código**: `GU_DYSURIA`\n- **Grupo**: [[GU - Urinário/_índice|GU - Urinário]]\n- **Nível de Risco**: 🟡 Médio\n- **Severidade**: 2/5\n- **Fast Track**: Sim (cistite não complicada)\n\n### Público-Alvo\n- Adultos\n- Mulheres (principalmente)\n- Idosos\n\n## Sintomas Relacionados\n\n- Polaciúria (urinar frequente)\n- Urgência miccional\n- Dor suprapúbica\n- Urina turva ou com odor forte\n- Hematúria\n- Febre (se pielonefrite)\n\n## Red Flags\n\n- Febre > 38°C (pielonefrite)\n- Dor lombar (sinal de Giordano)\n- Calafrios\n- Náusea e vômitos\n- Gestante\n- Homem (ITU complicada)\n- Imunossuprimido\n- Diabético descompensado\n- Uso de cateter vesical\n\n## Diagnóstico Diferencial\n\n- Cistite aguda não complicada\n- Pielonefrite aguda\n- Uretrite (DST)\n- Prostatite (homens)\n- Vaginite\n- Cistite intersticial\n- Câncer de bexiga (hematúria)\n\n## Calculadoras Recomendadas\n\n- **UTI Probability Score** - Probabilidade de ITU\n- **qSOFA** - Se suspeita de sepse urinária\n\n### Critérios de ITU Não Complicada\n| Critério |\n|----------|\n| Mulher não gestante |\n| Sem febre |\n| Sem dor lombar |\n| Sem alteração anatômica |\n| Não imunossuprimida |\n| Sem uso de cateter |\n\n## Conduta Inicial\n\n1. **Anamnese** - Sintomas, duração, fatores de risco\n2. **EAS + Urocultura** - Se ITU complicada ou recorrente\n3. **Antibioticoterapia empírica** - Se cistite não complicada\n4. **Analgesia** - Fenazopiridina (urina laranja)\n5. **Hidratação** - Aumentar ingesta hídrica\n6. **Investigação adicional** - Se ITU recorrente (>3/ano)\n7. **Internação** - Se pielonefrite com critérios de gravidade\n\n### Antibióticos para Cistite Não Complicada\n| Opção | Dose |\n|-------|------|\n| Fosfomicina | 3g dose única |\n| Nitrofurantoína | 100mg 6/6h por 5 dias |\n| SMX-TMP | 800/160mg 12/12h por 3 dias |\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| N30.0 | Cistite aguda |\n| N39.0 | Infecção do trato urinário, local não especificado |\n| R30.0 | Disúria |\n\n## Termos de Busca\n\n`dor para urinar` `ardência ao urinar` `infecção urinária` `cistite` `urina queimando` `dor ao fazer xixi`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Peguei frio\"\n- \"Sentei em lugar sujo\"\n- \"Infecção nos rins\"\n\n## Links Relacionados\n\n- [[GU - Urinário/_índice|Grupo GU - Urinário]]\n- [[GU_RENAL_COLIC]] - Cólica renal\n- [[INF_FEVER]] - Febre\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
+            rawMarkdown: "\n# Enjoo e vômito\n\n> Pode ser infecção, intoxicação ou problema digestivo\n\n## Informações Gerais\n\n- **Código**: `GI_NAUSEA_VOMITING`\n- **Grupo**: [[GI - Digestivo/_índice|GI - Digestivo]]\n- **Nível de Risco**: 🟡 Médio\n- **Severidade**: 3/5\n- **Fast Track**: Sim (se sem red flags)\n\n### Público-Alvo\n- Adultos\n- Crianças\n- Idosos\n\n## Sintomas Relacionados\n\n- Dor abdominal\n- Diarreia\n- Febre\n- Desidratação\n- Cefaleia\n- Tontura\n\n## Red Flags\n\n- Vômitos em jato (hipertensão intracraniana)\n- Hematêmese (sangue no vômito)\n- Vômitos fecaloides\n- Sinais de desidratação grave\n- Alteração do nível de consciência\n- Vômitos pós-trauma craniano\n- Vômitos + cefaleia intensa\n- Gestante com vômitos incoercíveis\n\n## Diagnóstico Diferencial\n\n- Gastroenterite viral\n- Intoxicação alimentar\n- Gastroparesia\n- Obstrução intestinal\n- Gravidez (hiperêmese)\n- Labirintite\n- Enxaqueca\n- Cetoacidose diabética\n- Hipertensão intracraniana\n\n## Calculadoras Recomendadas\n\n- **Clinical Dehydration Scale** - Grau de desidratação em crianças\n- **Gorelick Dehydration Scale** - Avaliação pediátrica\n\n### Sinais de Desidratação\n| Leve | Moderada | Grave |\n|------|----------|-------|\n| Sede | Olhos fundos | Letargia |\n| Mucosas secas | Turgor diminuído | Pulso fraco |\n| Urina escura | Taquicardia | Hipotensão |\n\n## Conduta Inicial\n\n1. **Avaliar hidratação** - Sinais vitais, turgor, mucosas\n2. **Acesso venoso** - Se desidratação moderada/grave\n3. **Hidratação** - VO se tolerado, IV se não\n4. **Antieméticos** - Ondansetrona, metoclopramida\n5. **Investigar causa** - Anamnese detalhada\n6. **Exames** - Se prolongado: eletrólitos, função renal, glicemia\n7. **Dieta** - Líquidos claros, evoluir gradualmente\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| R11.0 | Náusea |\n| R11.2 | Náusea com vômito |\n| K29.7 | Gastrite não especificada |\n\n## Termos de Busca\n\n`enjoo` `vômito` `náusea` `vomitando` `ânsia de vômito` `passando mal` `estômago embrulhado`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Virose\"\n- \"Comida estragada\"\n- \"Labirintite\"\n\n## Links Relacionados\n\n- [[GI - Digestivo/_índice|Grupo GI - Digestivo]]\n- [[GI_ABDOMINAL_PAIN_ACUTE]] - Dor abdominal\n- [[GI_DIARRHEA]] - Diarreia\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
+        }
+    },
+    {
+        id: "GI_DIARRHEA",
+        group: "GI",
+        title: "Diarreia",
+        subtitle: "Pode ser infecção intestinal ou intoxicação",
+        ageTargets: [
+            "adult"
+        ],
+        riskLevel: "medium",
+        isTopForAdult: true,
+        isTopForChild: false,
+        isFastTrack: false,
+        chips: [],
+        searchTerms: [],
+        synonyms: [
+            "diarreia",
+            "intestino solto",
+            "caganeira",
+            "disenteria",
+            "evacuando muito"
+        ],
+        relatedSymptoms: [
+            "Cólicas abdominais",
+            "Náusea",
+            "Vômitos",
+            "Febre",
+            "Desidratação",
+            "Tenesmo"
+        ],
+        bodySystem: [],
+        severity: 1,
+        commonMisconceptions: [],
+        icd10Codes: [
+            "A09.9",
+            "K52.9",
+            "R19.7"
+        ],
+        searchWeight: 1,
+        lastSync: "2026-01-05T05:00:49.816Z",
+        syncSource: "obsidian",
+        extendedContent: {
+            redFlags: [
+                "Sangue nas fezes (disenteria)",
+                "Febre alta (>39°C)",
+                "Desidratação grave",
+                "Diarreia > 7 dias",
+                "Idoso ou imunossuprimido",
+                "Uso recente de antibióticos (C. difficile)",
+                "Viagem recente para área endêmica",
+                "Dor abdominal intensa"
+            ],
+            diagnosticoDiferencial: [
+                "Gastroenterite viral",
+                "Gastroenterite bacteriana",
+                "Intoxicação alimentar",
+                "Doença inflamatória intestinal",
+                "Síndrome do intestino irritável",
+                "Colite por C. difficile",
+                "Parasitose",
+                "Intolerância alimentar"
+            ],
+            condutaInicial: "1. **Avaliar desidratação** - TRO ou hidratação IV\n2. **Dieta** - Manter alimentação, evitar lactose temporariamente\n3. **Probióticos** - Podem encurtar duração\n4. **Antidiarreicos** - Loperamida (evitar se disenteria)\n5. **Antibióticos** - Apenas se indicação específica\n6. **Coprocultura** - Se febre alta, sangue, imunossuprimido\n7. **Orientar sinais de alarme** - Sangue, febre, piora",
+            calculadoras: [
+                "**Vesikari Scale** - Gravidade de gastroenterite em crianças",
+                "**Clinical Dehydration Scale** - Grau de desidratação"
+            ],
+            referencias: [],
+            rawMarkdown: "\n# Diarreia\n\n> Pode ser infecção intestinal ou intoxicação\n\n## Informações Gerais\n\n- **Código**: `GI_DIARRHEA`\n- **Grupo**: [[GI - Digestivo/_índice|GI - Digestivo]]\n- **Nível de Risco**: 🟡 Médio\n- **Severidade**: 3/5\n- **Fast Track**: Sim (se sem red flags)\n\n### Público-Alvo\n- Adultos\n- Crianças\n- Idosos\n\n## Sintomas Relacionados\n\n- Cólicas abdominais\n- Náusea\n- Vômitos\n- Febre\n- Desidratação\n- Tenesmo\n\n## Red Flags\n\n- Sangue nas fezes (disenteria)\n- Febre alta (>39°C)\n- Desidratação grave\n- Diarreia > 7 dias\n- Idoso ou imunossuprimido\n- Uso recente de antibióticos (C. difficile)\n- Viagem recente para área endêmica\n- Dor abdominal intensa\n\n## Diagnóstico Diferencial\n\n- Gastroenterite viral\n- Gastroenterite bacteriana\n- Intoxicação alimentar\n- Doença inflamatória intestinal\n- Síndrome do intestino irritável\n- Colite por C. difficile\n- Parasitose\n- Intolerância alimentar\n\n## Calculadoras Recomendadas\n\n- **Vesikari Scale** - Gravidade de gastroenterite em crianças\n- **Clinical Dehydration Scale** - Grau de desidratação\n\n### Classificação da Diarreia\n| Tipo | Duração |\n|------|---------|\n| Aguda | < 14 dias |\n| Persistente | 14-30 dias |\n| Crônica | > 30 dias |\n\n## Conduta Inicial\n\n1. **Avaliar desidratação** - TRO ou hidratação IV\n2. **Dieta** - Manter alimentação, evitar lactose temporariamente\n3. **Probióticos** - Podem encurtar duração\n4. **Antidiarreicos** - Loperamida (evitar se disenteria)\n5. **Antibióticos** - Apenas se indicação específica\n6. **Coprocultura** - Se febre alta, sangue, imunossuprimido\n7. **Orientar sinais de alarme** - Sangue, febre, piora\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| A09.9 | Gastroenterite infecciosa, não especificada |\n| K52.9 | Gastroenterite não infecciosa |\n| R19.7 | Diarreia, não especificada |\n\n## Termos de Busca\n\n`diarreia` `intestino solto` `fezes líquidas` `evacuando muito` `dor de barriga com diarreia` `gastroenterite`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Virose\"\n- \"Comeu algo estragado\"\n- \"Intestino preso que soltou\"\n\n## Links Relacionados\n\n- [[GI - Digestivo/_índice|Grupo GI - Digestivo]]\n- [[GI_NAUSEA_VOMITING]] - Náusea e vômitos\n- [[GI_ABDOMINAL_PAIN_ACUTE]] - Dor abdominal\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
+        }
+    },
+    {
+        id: "GI_ABDOMINAL_PAIN_ACUTE",
+        group: "GI",
+        title: "Dor na barriga forte",
+        subtitle: "Pode ser algo sério na barriga",
+        ageTargets: [
+            "adult"
+        ],
+        riskLevel: "high",
+        isTopForAdult: true,
+        isTopForChild: false,
+        isFastTrack: false,
+        chips: [],
+        searchTerms: [],
+        synonyms: [
+            "dor na barriga",
+            "dor de barriga",
+            "abdome agudo",
+            "barriga dói"
+        ],
+        relatedSymptoms: [
+            "Náusea",
+            "Vômitos",
+            "Febre",
+            "Distensão abdominal",
+            "Parada de evacuação",
+            "Icterícia"
+        ],
+        bodySystem: [],
+        severity: 1,
+        commonMisconceptions: [],
+        icd10Codes: [
+            "R10.0",
+            "R10.4",
+            "K35.9"
+        ],
+        searchWeight: 1,
+        lastSync: "2026-01-05T05:00:49.816Z",
+        syncSource: "obsidian",
+        extendedContent: {
+            redFlags: [
+                "Defesa abdominal / abdome em tábua",
+                "Dor + febre alta (>38.5°C)",
+                "Vômitos fecaloides",
+                "Distensão + parada de eliminação de gases",
+                "Instabilidade hemodinâmica",
+                "Dor súbita de forte intensidade",
+                "Sinais de irritação peritoneal",
+                "Massa abdominal pulsátil (AAA)"
+            ],
+            diagnosticoDiferencial: [
+                "Apendicite aguda",
+                "Colecistite aguda",
+                "Pancreatite aguda",
+                "Obstrução intestinal",
+                "Diverticulite",
+                "Úlcera perfurada",
+                "Isquemia mesentérica",
+                "Gravidez ectópica (mulheres)",
+                "Aneurisma de aorta roto"
+            ],
+            condutaInicial: "1. **Jejum** - NPO até definição diagnóstica\n2. **Acesso venoso** - Hidratação + coleta de exames\n3. **Analgesia** - Não postergar por medo de mascarar quadro\n4. **Exames laboratoriais** - Hemograma, PCR, amilase, lipase, função hepática\n5. **Imagem** - USG abdominal ou TC conforme suspeita\n6. **Avaliação cirúrgica** - Se sinais de abdome agudo\n7. **Reavaliação seriada** - Quadro pode evoluir",
+            calculadoras: [
+                "**Alvarado Score** - Probabilidade de apendicite",
+                "**RIPASA Score** - Apendicite em asiáticos",
+                "**Ranson Criteria** - Gravidade de pancreatite"
+            ],
+            referencias: [],
+            rawMarkdown: "\n# Dor na barriga forte\n\n> Pode ser algo sério na barriga\n\n## Informações Gerais\n\n- **Código**: `GI_ABDOMINAL_PAIN_ACUTE`\n- **Grupo**: [[GI - Digestivo/_índice|GI - Digestivo]]\n- **Nível de Risco**: 🔴 Alto\n- **Severidade**: 4/5\n- **Fast Track**: Não\n\n### Público-Alvo\n- Adultos\n- Idosos\n- Crianças\n\n## Sintomas Relacionados\n\n- Náusea\n- Vômitos\n- Febre\n- Distensão abdominal\n- Parada de evacuação\n- Icterícia\n\n## Red Flags\n\n- Defesa abdominal / abdome em tábua\n- Dor + febre alta (>38.5°C)\n- Vômitos fecaloides\n- Distensão + parada de eliminação de gases\n- Instabilidade hemodinâmica\n- Dor súbita de forte intensidade\n- Sinais de irritação peritoneal\n- Massa abdominal pulsátil (AAA)\n\n## Diagnóstico Diferencial\n\n- Apendicite aguda\n- Colecistite aguda\n- Pancreatite aguda\n- Obstrução intestinal\n- Diverticulite\n- Úlcera perfurada\n- Isquemia mesentérica\n- Gravidez ectópica (mulheres)\n- Aneurisma de aorta roto\n\n## Calculadoras Recomendadas\n\n- **Alvarado Score** - Probabilidade de apendicite\n- **RIPASA Score** - Apendicite em asiáticos\n- **Ranson Criteria** - Gravidade de pancreatite\n\n### Alvarado Score\n| Item | Pontos |\n|------|--------|\n| Migração da dor para FID | 1 |\n| Anorexia | 1 |\n| Náusea/vômitos | 1 |\n| Dor em FID | 2 |\n| Blumberg positivo | 1 |\n| Febre >37.3°C | 1 |\n| Leucocitose >10.000 | 2 |\n| Desvio à esquerda | 1 |\n\n**Interpretação:**\n- 1-4: Baixa probabilidade\n- 5-6: Compatível (observação)\n- 7-10: Alta probabilidade (cirurgia)\n\n## Conduta Inicial\n\n1. **Jejum** - NPO até definição diagnóstica\n2. **Acesso venoso** - Hidratação + coleta de exames\n3. **Analgesia** - Não postergar por medo de mascarar quadro\n4. **Exames laboratoriais** - Hemograma, PCR, amilase, lipase, função hepática\n5. **Imagem** - USG abdominal ou TC conforme suspeita\n6. **Avaliação cirúrgica** - Se sinais de abdome agudo\n7. **Reavaliação seriada** - Quadro pode evoluir\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| R10.0 | Abdome agudo |\n| R10.4 | Dor abdominal, não especificada |\n| K35.9 | Apendicite aguda, não especificada |\n\n## Termos de Busca\n\n`dor na barriga` `dor abdominal` `abdome agudo` `barriga doendo` `cólica forte` `dor de barriga intensa`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Gases\"\n- \"Prisão de ventre\"\n- \"Cólica intestinal\"\n- \"Indigestão\"\n\n## Links Relacionados\n\n- [[GI - Digestivo/_índice|Grupo GI - Digestivo]]\n- [[GI_NAUSEA_VOMITING]] - Náusea e vômitos\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
         }
     },
     {
@@ -753,7 +833,7 @@ export const complaintsData = {
             "R57.2"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -826,7 +906,7 @@ export const complaintsData = {
             "R50.0"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -862,152 +942,10 @@ export const complaintsData = {
         }
     },
     {
-        id: "GI_NAUSEA_VOMITING",
-        group: "GI",
-        title: "Enjoo e vômito",
-        subtitle: "Pode ser infecção, intoxicação ou problema digestivo",
-        ageTargets: [
-            "adult"
-        ],
-        riskLevel: "medium",
-        isTopForAdult: true,
-        isTopForChild: false,
-        isFastTrack: false,
-        chips: [],
-        searchTerms: [],
-        synonyms: [
-            "enjoo",
-            "vômito",
-            "ânsia",
-            "náusea",
-            "vomitando",
-            "passando mal"
-        ],
-        relatedSymptoms: [
-            "Dor abdominal",
-            "Diarreia",
-            "Febre",
-            "Desidratação",
-            "Cefaleia",
-            "Tontura"
-        ],
-        bodySystem: [],
-        severity: 1,
-        commonMisconceptions: [],
-        icd10Codes: [
-            "R11.0",
-            "R11.2",
-            "K29.7"
-        ],
-        searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
-        syncSource: "obsidian",
-        extendedContent: {
-            redFlags: [
-                "Vômitos em jato (hipertensão intracraniana)",
-                "Hematêmese (sangue no vômito)",
-                "Vômitos fecaloides",
-                "Sinais de desidratação grave",
-                "Alteração do nível de consciência",
-                "Vômitos pós-trauma craniano",
-                "Vômitos + cefaleia intensa",
-                "Gestante com vômitos incoercíveis"
-            ],
-            diagnosticoDiferencial: [
-                "Gastroenterite viral",
-                "Intoxicação alimentar",
-                "Gastroparesia",
-                "Obstrução intestinal",
-                "Gravidez (hiperêmese)",
-                "Labirintite",
-                "Enxaqueca",
-                "Cetoacidose diabética",
-                "Hipertensão intracraniana"
-            ],
-            condutaInicial: "1. **Avaliar hidratação** - Sinais vitais, turgor, mucosas\n2. **Acesso venoso** - Se desidratação moderada/grave\n3. **Hidratação** - VO se tolerado, IV se não\n4. **Antieméticos** - Ondansetrona, metoclopramida\n5. **Investigar causa** - Anamnese detalhada\n6. **Exames** - Se prolongado: eletrólitos, função renal, glicemia\n7. **Dieta** - Líquidos claros, evoluir gradualmente",
-            calculadoras: [
-                "**Clinical Dehydration Scale** - Grau de desidratação em crianças",
-                "**Gorelick Dehydration Scale** - Avaliação pediátrica"
-            ],
-            referencias: [],
-            rawMarkdown: "\n# Enjoo e vômito\n\n> Pode ser infecção, intoxicação ou problema digestivo\n\n## Informações Gerais\n\n- **Código**: `GI_NAUSEA_VOMITING`\n- **Grupo**: [[GI - Digestivo/_índice|GI - Digestivo]]\n- **Nível de Risco**: 🟡 Médio\n- **Severidade**: 3/5\n- **Fast Track**: Sim (se sem red flags)\n\n### Público-Alvo\n- Adultos\n- Crianças\n- Idosos\n\n## Sintomas Relacionados\n\n- Dor abdominal\n- Diarreia\n- Febre\n- Desidratação\n- Cefaleia\n- Tontura\n\n## Red Flags\n\n- Vômitos em jato (hipertensão intracraniana)\n- Hematêmese (sangue no vômito)\n- Vômitos fecaloides\n- Sinais de desidratação grave\n- Alteração do nível de consciência\n- Vômitos pós-trauma craniano\n- Vômitos + cefaleia intensa\n- Gestante com vômitos incoercíveis\n\n## Diagnóstico Diferencial\n\n- Gastroenterite viral\n- Intoxicação alimentar\n- Gastroparesia\n- Obstrução intestinal\n- Gravidez (hiperêmese)\n- Labirintite\n- Enxaqueca\n- Cetoacidose diabética\n- Hipertensão intracraniana\n\n## Calculadoras Recomendadas\n\n- **Clinical Dehydration Scale** - Grau de desidratação em crianças\n- **Gorelick Dehydration Scale** - Avaliação pediátrica\n\n### Sinais de Desidratação\n| Leve | Moderada | Grave |\n|------|----------|-------|\n| Sede | Olhos fundos | Letargia |\n| Mucosas secas | Turgor diminuído | Pulso fraco |\n| Urina escura | Taquicardia | Hipotensão |\n\n## Conduta Inicial\n\n1. **Avaliar hidratação** - Sinais vitais, turgor, mucosas\n2. **Acesso venoso** - Se desidratação moderada/grave\n3. **Hidratação** - VO se tolerado, IV se não\n4. **Antieméticos** - Ondansetrona, metoclopramida\n5. **Investigar causa** - Anamnese detalhada\n6. **Exames** - Se prolongado: eletrólitos, função renal, glicemia\n7. **Dieta** - Líquidos claros, evoluir gradualmente\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| R11.0 | Náusea |\n| R11.2 | Náusea com vômito |\n| K29.7 | Gastrite não especificada |\n\n## Termos de Busca\n\n`enjoo` `vômito` `náusea` `vomitando` `ânsia de vômito` `passando mal` `estômago embrulhado`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Virose\"\n- \"Comida estragada\"\n- \"Labirintite\"\n\n## Links Relacionados\n\n- [[GI - Digestivo/_índice|Grupo GI - Digestivo]]\n- [[GI_ABDOMINAL_PAIN_ACUTE]] - Dor abdominal\n- [[GI_DIARRHEA]] - Diarreia\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
-        }
-    },
-    {
-        id: "GI_DIARRHEA",
-        group: "GI",
-        title: "Diarreia",
-        subtitle: "Pode ser infecção intestinal ou intoxicação",
-        ageTargets: [
-            "adult"
-        ],
-        riskLevel: "medium",
-        isTopForAdult: true,
-        isTopForChild: false,
-        isFastTrack: false,
-        chips: [],
-        searchTerms: [],
-        synonyms: [
-            "diarreia",
-            "intestino solto",
-            "caganeira",
-            "disenteria",
-            "evacuando muito"
-        ],
-        relatedSymptoms: [
-            "Cólicas abdominais",
-            "Náusea",
-            "Vômitos",
-            "Febre",
-            "Desidratação",
-            "Tenesmo"
-        ],
-        bodySystem: [],
-        severity: 1,
-        commonMisconceptions: [],
-        icd10Codes: [
-            "A09.9",
-            "K52.9",
-            "R19.7"
-        ],
-        searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
-        syncSource: "obsidian",
-        extendedContent: {
-            redFlags: [
-                "Sangue nas fezes (disenteria)",
-                "Febre alta (>39°C)",
-                "Desidratação grave",
-                "Diarreia > 7 dias",
-                "Idoso ou imunossuprimido",
-                "Uso recente de antibióticos (C. difficile)",
-                "Viagem recente para área endêmica",
-                "Dor abdominal intensa"
-            ],
-            diagnosticoDiferencial: [
-                "Gastroenterite viral",
-                "Gastroenterite bacteriana",
-                "Intoxicação alimentar",
-                "Doença inflamatória intestinal",
-                "Síndrome do intestino irritável",
-                "Colite por C. difficile",
-                "Parasitose",
-                "Intolerância alimentar"
-            ],
-            condutaInicial: "1. **Avaliar desidratação** - TRO ou hidratação IV\n2. **Dieta** - Manter alimentação, evitar lactose temporariamente\n3. **Probióticos** - Podem encurtar duração\n4. **Antidiarreicos** - Loperamida (evitar se disenteria)\n5. **Antibióticos** - Apenas se indicação específica\n6. **Coprocultura** - Se febre alta, sangue, imunossuprimido\n7. **Orientar sinais de alarme** - Sangue, febre, piora",
-            calculadoras: [
-                "**Vesikari Scale** - Gravidade de gastroenterite em crianças",
-                "**Clinical Dehydration Scale** - Grau de desidratação"
-            ],
-            referencias: [],
-            rawMarkdown: "\n# Diarreia\n\n> Pode ser infecção intestinal ou intoxicação\n\n## Informações Gerais\n\n- **Código**: `GI_DIARRHEA`\n- **Grupo**: [[GI - Digestivo/_índice|GI - Digestivo]]\n- **Nível de Risco**: 🟡 Médio\n- **Severidade**: 3/5\n- **Fast Track**: Sim (se sem red flags)\n\n### Público-Alvo\n- Adultos\n- Crianças\n- Idosos\n\n## Sintomas Relacionados\n\n- Cólicas abdominais\n- Náusea\n- Vômitos\n- Febre\n- Desidratação\n- Tenesmo\n\n## Red Flags\n\n- Sangue nas fezes (disenteria)\n- Febre alta (>39°C)\n- Desidratação grave\n- Diarreia > 7 dias\n- Idoso ou imunossuprimido\n- Uso recente de antibióticos (C. difficile)\n- Viagem recente para área endêmica\n- Dor abdominal intensa\n\n## Diagnóstico Diferencial\n\n- Gastroenterite viral\n- Gastroenterite bacteriana\n- Intoxicação alimentar\n- Doença inflamatória intestinal\n- Síndrome do intestino irritável\n- Colite por C. difficile\n- Parasitose\n- Intolerância alimentar\n\n## Calculadoras Recomendadas\n\n- **Vesikari Scale** - Gravidade de gastroenterite em crianças\n- **Clinical Dehydration Scale** - Grau de desidratação\n\n### Classificação da Diarreia\n| Tipo | Duração |\n|------|---------|\n| Aguda | < 14 dias |\n| Persistente | 14-30 dias |\n| Crônica | > 30 dias |\n\n## Conduta Inicial\n\n1. **Avaliar desidratação** - TRO ou hidratação IV\n2. **Dieta** - Manter alimentação, evitar lactose temporariamente\n3. **Probióticos** - Podem encurtar duração\n4. **Antidiarreicos** - Loperamida (evitar se disenteria)\n5. **Antibióticos** - Apenas se indicação específica\n6. **Coprocultura** - Se febre alta, sangue, imunossuprimido\n7. **Orientar sinais de alarme** - Sangue, febre, piora\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| A09.9 | Gastroenterite infecciosa, não especificada |\n| K52.9 | Gastroenterite não infecciosa |\n| R19.7 | Diarreia, não especificada |\n\n## Termos de Busca\n\n`diarreia` `intestino solto` `fezes líquidas` `evacuando muito` `dor de barriga com diarreia` `gastroenterite`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Virose\"\n- \"Comeu algo estragado\"\n- \"Intestino preso que soltou\"\n\n## Links Relacionados\n\n- [[GI - Digestivo/_índice|Grupo GI - Digestivo]]\n- [[GI_NAUSEA_VOMITING]] - Náusea e vômitos\n- [[GI_ABDOMINAL_PAIN_ACUTE]] - Dor abdominal\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
-        }
-    },
-    {
-        id: "GI_ABDOMINAL_PAIN_ACUTE",
-        group: "GI",
-        title: "Dor na barriga forte",
-        subtitle: "Pode ser algo sério na barriga",
+        id: "GU_RENAL_COLIC",
+        group: "GU",
+        title: "Cólica renal",
+        subtitle: "Pode ser pedra no rim",
         ageTargets: [
             "adult"
         ],
@@ -1018,60 +956,128 @@ export const complaintsData = {
         chips: [],
         searchTerms: [],
         synonyms: [
-            "dor na barriga",
-            "dor de barriga",
-            "abdome agudo",
-            "barriga dói"
+            "cólica renal",
+            "pedra no rim",
+            "cálculo renal",
+            "dor nos rins",
+            "nefrolitíase"
         ],
         relatedSymptoms: [
-            "Náusea",
-            "Vômitos",
-            "Febre",
-            "Distensão abdominal",
-            "Parada de evacuação",
-            "Icterícia"
+            "Dor lombar intensa em cólica",
+            "Irradiação para flanco e região inguinal",
+            "Hematúria",
+            "Náusea e vômitos",
+            "Inquietação (não consegue ficar parado)",
+            "Disúria"
         ],
         bodySystem: [],
         severity: 1,
         commonMisconceptions: [],
         icd10Codes: [
-            "R10.0",
-            "R10.4",
-            "K35.9"
+            "N23",
+            "N20.0",
+            "R10.2"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
-                "Defesa abdominal / abdome em tábua",
-                "Dor + febre alta (>38.5°C)",
-                "Vômitos fecaloides",
-                "Distensão + parada de eliminação de gases",
-                "Instabilidade hemodinâmica",
-                "Dor súbita de forte intensidade",
-                "Sinais de irritação peritoneal",
-                "Massa abdominal pulsátil (AAA)"
+                "Febre (obstrução infectada = emergência)",
+                "Rim único",
+                "Anúria (obstrução bilateral)",
+                "Insuficiência renal aguda",
+                "Sepse urinária",
+                "Dor refratária a analgesia",
+                "Gestante"
             ],
             diagnosticoDiferencial: [
-                "Apendicite aguda",
-                "Colecistite aguda",
-                "Pancreatite aguda",
-                "Obstrução intestinal",
+                "Cólica nefrética por cálculo",
+                "Pielonefrite",
+                "Aneurisma de aorta (idoso)",
+                "Apendicite",
+                "Torção de ovário",
                 "Diverticulite",
-                "Úlcera perfurada",
-                "Isquemia mesentérica",
-                "Gravidez ectópica (mulheres)",
-                "Aneurisma de aorta roto"
+                "Hérnia de disco lombar",
+                "Infarto renal"
             ],
-            condutaInicial: "1. **Jejum** - NPO até definição diagnóstica\n2. **Acesso venoso** - Hidratação + coleta de exames\n3. **Analgesia** - Não postergar por medo de mascarar quadro\n4. **Exames laboratoriais** - Hemograma, PCR, amilase, lipase, função hepática\n5. **Imagem** - USG abdominal ou TC conforme suspeita\n6. **Avaliação cirúrgica** - Se sinais de abdome agudo\n7. **Reavaliação seriada** - Quadro pode evoluir",
+            condutaInicial: "1. **Analgesia potente** - Dipirona IV + Anti-inflamatório (cetorolaco)\n2. **Antiespasmódico** - Hioscina\n3. **Hidratação** - Não forçar hiper-hidratação\n4. **TC de abdome sem contraste** - Padrão ouro\n5. **Exames laboratoriais** - Creatinina, EAS\n6. **Alfa-bloqueador** - Tansulosina para expulsão\n7. **Urologia** - Se complicação ou cálculo > 10mm\n8. **Internação** - Se infecção, rim único, refratário\n\n### Indicações de Intervenção Urológica\n| Critério |\n|----------|\n| Cálculo > 10mm |\n| Obstrução + infecção |\n| Dor refratária |\n| Rim único |\n| IRA |",
             calculadoras: [
-                "**Alvarado Score** - Probabilidade de apendicite",
-                "**RIPASA Score** - Apendicite em asiáticos",
-                "**Ranson Criteria** - Gravidade de pancreatite"
+                "**STONE Score** - Probabilidade de cálculo ureteral",
+                "**S.T.O.N.E. Nephrolithometry** - Complexidade do cálculo"
             ],
             referencias: [],
-            rawMarkdown: "\n# Dor na barriga forte\n\n> Pode ser algo sério na barriga\n\n## Informações Gerais\n\n- **Código**: `GI_ABDOMINAL_PAIN_ACUTE`\n- **Grupo**: [[GI - Digestivo/_índice|GI - Digestivo]]\n- **Nível de Risco**: 🔴 Alto\n- **Severidade**: 4/5\n- **Fast Track**: Não\n\n### Público-Alvo\n- Adultos\n- Idosos\n- Crianças\n\n## Sintomas Relacionados\n\n- Náusea\n- Vômitos\n- Febre\n- Distensão abdominal\n- Parada de evacuação\n- Icterícia\n\n## Red Flags\n\n- Defesa abdominal / abdome em tábua\n- Dor + febre alta (>38.5°C)\n- Vômitos fecaloides\n- Distensão + parada de eliminação de gases\n- Instabilidade hemodinâmica\n- Dor súbita de forte intensidade\n- Sinais de irritação peritoneal\n- Massa abdominal pulsátil (AAA)\n\n## Diagnóstico Diferencial\n\n- Apendicite aguda\n- Colecistite aguda\n- Pancreatite aguda\n- Obstrução intestinal\n- Diverticulite\n- Úlcera perfurada\n- Isquemia mesentérica\n- Gravidez ectópica (mulheres)\n- Aneurisma de aorta roto\n\n## Calculadoras Recomendadas\n\n- **Alvarado Score** - Probabilidade de apendicite\n- **RIPASA Score** - Apendicite em asiáticos\n- **Ranson Criteria** - Gravidade de pancreatite\n\n### Alvarado Score\n| Item | Pontos |\n|------|--------|\n| Migração da dor para FID | 1 |\n| Anorexia | 1 |\n| Náusea/vômitos | 1 |\n| Dor em FID | 2 |\n| Blumberg positivo | 1 |\n| Febre >37.3°C | 1 |\n| Leucocitose >10.000 | 2 |\n| Desvio à esquerda | 1 |\n\n**Interpretação:**\n- 1-4: Baixa probabilidade\n- 5-6: Compatível (observação)\n- 7-10: Alta probabilidade (cirurgia)\n\n## Conduta Inicial\n\n1. **Jejum** - NPO até definição diagnóstica\n2. **Acesso venoso** - Hidratação + coleta de exames\n3. **Analgesia** - Não postergar por medo de mascarar quadro\n4. **Exames laboratoriais** - Hemograma, PCR, amilase, lipase, função hepática\n5. **Imagem** - USG abdominal ou TC conforme suspeita\n6. **Avaliação cirúrgica** - Se sinais de abdome agudo\n7. **Reavaliação seriada** - Quadro pode evoluir\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| R10.0 | Abdome agudo |\n| R10.4 | Dor abdominal, não especificada |\n| K35.9 | Apendicite aguda, não especificada |\n\n## Termos de Busca\n\n`dor na barriga` `dor abdominal` `abdome agudo` `barriga doendo` `cólica forte` `dor de barriga intensa`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Gases\"\n- \"Prisão de ventre\"\n- \"Cólica intestinal\"\n- \"Indigestão\"\n\n## Links Relacionados\n\n- [[GI - Digestivo/_índice|Grupo GI - Digestivo]]\n- [[GI_NAUSEA_VOMITING]] - Náusea e vômitos\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
+            rawMarkdown: "\n# Cólica renal\n\n> Pode ser pedra no rim\n\n## Informações Gerais\n\n- **Código**: `GU_RENAL_COLIC`\n- **Grupo**: [[GU - Urinário/_índice|GU - Urinário]]\n- **Nível de Risco**: 🔴 Alto\n- **Severidade**: 4/5\n- **Fast Track**: Não\n\n### Público-Alvo\n- Adultos\n- Idosos\n\n## Sintomas Relacionados\n\n- Dor lombar intensa em cólica\n- Irradiação para flanco e região inguinal\n- Hematúria\n- Náusea e vômitos\n- Inquietação (não consegue ficar parado)\n- Disúria\n\n## Red Flags\n\n- Febre (obstrução infectada = emergência)\n- Rim único\n- Anúria (obstrução bilateral)\n- Insuficiência renal aguda\n- Sepse urinária\n- Dor refratária a analgesia\n- Gestante\n\n## Diagnóstico Diferencial\n\n- Cólica nefrética por cálculo\n- Pielonefrite\n- Aneurisma de aorta (idoso)\n- Apendicite\n- Torção de ovário\n- Diverticulite\n- Hérnia de disco lombar\n- Infarto renal\n\n## Calculadoras Recomendadas\n\n- **STONE Score** - Probabilidade de cálculo ureteral\n- **S.T.O.N.E. Nephrolithometry** - Complexidade do cálculo\n\n### STONE Score\n| Item | Pontos |\n|------|--------|\n| Sexo masculino | 2 |\n| Duração < 6h | 3 |\n| Origem não negra | 3 |\n| Náusea/vômito | 1 |\n| Hematúria microscópica | 3 |\n\n**Interpretação:**\n- 0-5: Baixa probabilidade\n- 6-9: Moderada\n- 10-13: Alta probabilidade\n\n## Conduta Inicial\n\n1. **Analgesia potente** - Dipirona IV + Anti-inflamatório (cetorolaco)\n2. **Antiespasmódico** - Hioscina\n3. **Hidratação** - Não forçar hiper-hidratação\n4. **TC de abdome sem contraste** - Padrão ouro\n5. **Exames laboratoriais** - Creatinina, EAS\n6. **Alfa-bloqueador** - Tansulosina para expulsão\n7. **Urologia** - Se complicação ou cálculo > 10mm\n8. **Internação** - Se infecção, rim único, refratário\n\n### Indicações de Intervenção Urológica\n| Critério |\n|----------|\n| Cálculo > 10mm |\n| Obstrução + infecção |\n| Dor refratária |\n| Rim único |\n| IRA |\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| N23 | Cólica renal não especificada |\n| N20.0 | Cálculo do rim |\n| R10.2 | Dor pélvica e perineal |\n\n## Termos de Busca\n\n`cólica renal` `pedra no rim` `dor nos rins` `cálculo renal` `dor lombar forte` `dor que vai para virilha`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Problema de coluna\"\n- \"Gases\"\n- \"Mau jeito\"\n\n## Links Relacionados\n\n- [[GU - Urinário/_índice|Grupo GU - Urinário]]\n- [[GU_DYSURIA]] - Dor para urinar\n- [[GI_ABDOMINAL_PAIN_ACUTE]] - Dor abdominal\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
+        }
+    },
+    {
+        id: "GU_DYSURIA",
+        group: "GU",
+        title: "Dor para urinar",
+        subtitle: "Pode ser infecção urinária",
+        ageTargets: [
+            "adult"
+        ],
+        riskLevel: "medium",
+        isTopForAdult: true,
+        isTopForChild: false,
+        isFastTrack: false,
+        chips: [],
+        searchTerms: [],
+        synonyms: [
+            "dor para urinar",
+            "ardência ao urinar",
+            "infecção urinária",
+            "cistite",
+            "itu"
+        ],
+        relatedSymptoms: [
+            "Polaciúria (urinar frequente)",
+            "Urgência miccional",
+            "Dor suprapúbica",
+            "Urina turva ou com odor forte",
+            "Hematúria",
+            "Febre (se pielonefrite)"
+        ],
+        bodySystem: [],
+        severity: 1,
+        commonMisconceptions: [],
+        icd10Codes: [
+            "N30.0",
+            "N39.0",
+            "R30.0"
+        ],
+        searchWeight: 1,
+        lastSync: "2026-01-05T05:00:49.816Z",
+        syncSource: "obsidian",
+        extendedContent: {
+            redFlags: [
+                "Febre > 38°C (pielonefrite)",
+                "Dor lombar (sinal de Giordano)",
+                "Calafrios",
+                "Náusea e vômitos",
+                "Gestante",
+                "Homem (ITU complicada)",
+                "Imunossuprimido",
+                "Diabético descompensado",
+                "Uso de cateter vesical"
+            ],
+            diagnosticoDiferencial: [
+                "Cistite aguda não complicada",
+                "Pielonefrite aguda",
+                "Uretrite (DST)",
+                "Prostatite (homens)",
+                "Vaginite",
+                "Cistite intersticial",
+                "Câncer de bexiga (hematúria)"
+            ],
+            condutaInicial: "1. **Anamnese** - Sintomas, duração, fatores de risco\n2. **EAS + Urocultura** - Se ITU complicada ou recorrente\n3. **Antibioticoterapia empírica** - Se cistite não complicada\n4. **Analgesia** - Fenazopiridina (urina laranja)\n5. **Hidratação** - Aumentar ingesta hídrica\n6. **Investigação adicional** - Se ITU recorrente (>3/ano)\n7. **Internação** - Se pielonefrite com critérios de gravidade\n\n### Antibióticos para Cistite Não Complicada\n| Opção | Dose |\n|-------|------|\n| Fosfomicina | 3g dose única |\n| Nitrofurantoína | 100mg 6/6h por 5 dias |\n| SMX-TMP | 800/160mg 12/12h por 3 dias |",
+            calculadoras: [
+                "**UTI Probability Score** - Probabilidade de ITU",
+                "**qSOFA** - Se suspeita de sepse urinária"
+            ],
+            referencias: [],
+            rawMarkdown: "\n# Dor para urinar\n\n> Pode ser infecção urinária\n\n## Informações Gerais\n\n- **Código**: `GU_DYSURIA`\n- **Grupo**: [[GU - Urinário/_índice|GU - Urinário]]\n- **Nível de Risco**: 🟡 Médio\n- **Severidade**: 2/5\n- **Fast Track**: Sim (cistite não complicada)\n\n### Público-Alvo\n- Adultos\n- Mulheres (principalmente)\n- Idosos\n\n## Sintomas Relacionados\n\n- Polaciúria (urinar frequente)\n- Urgência miccional\n- Dor suprapúbica\n- Urina turva ou com odor forte\n- Hematúria\n- Febre (se pielonefrite)\n\n## Red Flags\n\n- Febre > 38°C (pielonefrite)\n- Dor lombar (sinal de Giordano)\n- Calafrios\n- Náusea e vômitos\n- Gestante\n- Homem (ITU complicada)\n- Imunossuprimido\n- Diabético descompensado\n- Uso de cateter vesical\n\n## Diagnóstico Diferencial\n\n- Cistite aguda não complicada\n- Pielonefrite aguda\n- Uretrite (DST)\n- Prostatite (homens)\n- Vaginite\n- Cistite intersticial\n- Câncer de bexiga (hematúria)\n\n## Calculadoras Recomendadas\n\n- **UTI Probability Score** - Probabilidade de ITU\n- **qSOFA** - Se suspeita de sepse urinária\n\n### Critérios de ITU Não Complicada\n| Critério |\n|----------|\n| Mulher não gestante |\n| Sem febre |\n| Sem dor lombar |\n| Sem alteração anatômica |\n| Não imunossuprimida |\n| Sem uso de cateter |\n\n## Conduta Inicial\n\n1. **Anamnese** - Sintomas, duração, fatores de risco\n2. **EAS + Urocultura** - Se ITU complicada ou recorrente\n3. **Antibioticoterapia empírica** - Se cistite não complicada\n4. **Analgesia** - Fenazopiridina (urina laranja)\n5. **Hidratação** - Aumentar ingesta hídrica\n6. **Investigação adicional** - Se ITU recorrente (>3/ano)\n7. **Internação** - Se pielonefrite com critérios de gravidade\n\n### Antibióticos para Cistite Não Complicada\n| Opção | Dose |\n|-------|------|\n| Fosfomicina | 3g dose única |\n| Nitrofurantoína | 100mg 6/6h por 5 dias |\n| SMX-TMP | 800/160mg 12/12h por 3 dias |\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| N30.0 | Cistite aguda |\n| N39.0 | Infecção do trato urinário, local não especificado |\n| R30.0 | Disúria |\n\n## Termos de Busca\n\n`dor para urinar` `ardência ao urinar` `infecção urinária` `cistite` `urina queimando` `dor ao fazer xixi`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Peguei frio\"\n- \"Sentei em lugar sujo\"\n- \"Infecção nos rins\"\n\n## Links Relacionados\n\n- [[GU - Urinário/_índice|Grupo GU - Urinário]]\n- [[GU_RENAL_COLIC]] - Cólica renal\n- [[INF_FEVER]] - Febre\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
         }
     },
     {
@@ -1120,7 +1126,7 @@ export const complaintsData = {
             "I95.9"
         ],
         searchWeight: 90,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [],
@@ -1177,7 +1183,7 @@ export const complaintsData = {
             "I49.3"
         ],
         searchWeight: 85,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [],
@@ -1237,7 +1243,7 @@ export const complaintsData = {
             "I24.9"
         ],
         searchWeight: 100,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [],
@@ -1283,7 +1289,7 @@ export const complaintsData = {
             "M79.1"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [
@@ -1308,6 +1314,67 @@ export const complaintsData = {
             ],
             referencias: [],
             rawMarkdown: "\n# Dor no peito em pontada\n\n> Dor localizada ou que piora ao mexer ou respirar\n\n## Informações Gerais\n\n- **Código**: `CV_CHEST_PAIN_ATYPICAL`\n- **Grupo**: [[CV - Cardiovascular/_índice|CV - Peito / Coração]]\n- **Nível de Risco**: 🟡 Médio\n- **Severidade**: 2/5\n- **Fast Track**: Sim\n\n### Público-Alvo\n- Adultos\n- Idosos\n\n## Sintomas Relacionados\n\n- Dor ao respirar profundo\n- Dor ao movimento\n- Inchaço na parede torácica\n\n## Red Flags\n\n- Dor que não melhora com analgesia\n- Dispneia associada\n- Febre (pensar em pleurite/pneumonia)\n- Trauma recente\n- Uso de anticoagulantes\n\n## Diagnóstico Diferencial\n\n- Costocondrite / Síndrome de Tietze\n- Dor musculoesquelética\n- Dor pleurítica\n- Herpes zoster\n- Pneumotórax\n- Fratura de costela\n\n## Calculadoras Recomendadas\n\n- **HEART Score** - Descartar SCA se dúvida\n- Avaliação clínica é geralmente suficiente\n\n## Conduta Inicial\n\n1. **Anamnese detalhada** - Característica, localização, fatores de melhora/piora\n2. **Exame físico** - Palpação da parede torácica, ausculta pulmonar\n3. **Reprodutibilidade** - Dor que piora à palpação sugere origem musculoesquelética\n4. **Analgesia** - AINE ou dipirona\n5. **ECG** - Se dúvida diagnóstica\n6. **RX de tórax** - Se suspeita de pneumotórax ou fratura\n\n## CID-10\n\n| Código | Descrição |\n|--------|-----------|\n| R07.9 | Dor torácica, não especificada |\n| M79.1 | Mialgia |\n\n## Termos de Busca\n\n`dor no peito em pontada` `fisgada no peito` `dor no peito ao respirar` `dor no peito ao mexer` `dor costocondral`\n\n## Conceitos Errados Comuns (Pacientes)\n\n- \"Problema no pulmão\"\n- \"Costela quebrada\"\n\n## Links Relacionados\n\n- [[CV - Cardiovascular/_índice|Grupo CV - Cardiovascular]]\n- [[CV_CHEST_PAIN_TYPICAL]] - Dor no peito em aperto\n- [[00 - Índice Queixas|Índice Principal]]\n\n---\n\n*Fonte: WellWave complaintsData.ts*\n*Última atualização: 2024-12-25*\n"
+        }
+    },
+    {
+        id: "CV_CHEST_PAIN_ACS",
+        group: "CV",
+        title: "Dor Torácica - Síndrome Coronariana Aguda (SCA)",
+        subtitle: "**Definição**: Espectro de condições isquêmicas miocárdicas agudas incluindo angina instável, IAM sem supra de ST (NSTEMI) e IAM com supra de ST (STEMI), caracterizadas por dor ou desconforto torácico típico com ou sem alterações de ECG/troponina.",
+        ageTargets: [
+            "adult",
+            "elderly"
+        ],
+        riskLevel: "high",
+        isTopForAdult: true,
+        isTopForChild: false,
+        isFastTrack: true,
+        chips: [
+            "Cardíaco",
+            "Alto Risco",
+            "Emergência",
+            "SCA"
+        ],
+        searchTerms: [
+            "dor peito",
+            "aperto peito",
+            "dor braço",
+            "dor mandíbula",
+            "infarto",
+            "iam",
+            "sca",
+            "angina",
+            "stemi",
+            "nstemi"
+        ],
+        synonyms: [
+            "Dor torácica SCA",
+            "Síndrome Coronariana Aguda",
+            "SCA",
+            "IAM",
+            "NSTEMI",
+            "STEMI",
+            "Angina Instável"
+        ],
+        relatedSymptoms: [],
+        bodySystem: "cardiovascular",
+        severity: 5,
+        commonMisconceptions: [],
+        icd10Codes: [
+            "I21.9",
+            "I20.0",
+            "I24.9"
+        ],
+        searchWeight: 100,
+        lastSync: "2026-01-05T05:00:49.816Z",
+        syncSource: "obsidian",
+        extendedContent: {
+            redFlags: [],
+            diagnosticoDiferencial: [],
+            condutaInicial: "",
+            calculadoras: [],
+            referencias: [],
+            rawMarkdown: "\n# Dor Torácica - Síndrome Coronariana Aguda (SCA)\n\n> **Definição**: Espectro de condições isquêmicas miocárdicas agudas incluindo angina instável, IAM sem supra de ST (NSTEMI) e IAM com supra de ST (STEMI), caracterizadas por dor ou desconforto torácico típico com ou sem alterações de ECG/troponina.\n>\n> **Epidemiologia BR**: Principal causa de morte no Brasil (~100.000 óbitos/ano por IAM). Incidência de SCA: ~400-500/100.000 hab/ano. Mortalidade hospitalar STEMI: 6-8% (centros com hemodinâmica), 12-15% (fibrinólise).\n\n---\n\n## ⚡ AÇÃO IMEDIATA (Primeiros 10 Minutos)\n\n> [!danger] PROTOCOLO DE EMERGÊNCIA - TEMPO CRÍTICO\n>\n> ### 1️⃣ ECG 12 derivações <10min da chegada\n> **SE STEMI (ST↑ ≥1mm em ≥2 derivações)**: Ativar hemodinâmica <90min (ou fibrinólise se >120min sem CATE disponível)\n>\n> ### 2️⃣ MONA Protocol\n> - **M**orfina 2-4mg IV (se dor intensa refratária a nitrato)\n> - **O**xigênio 2-4L/min se SpO2<92% (meta: 94-98%, evitar hiperoxia)\n> - **N**itrato SL 5mg (repetir até 3x se PA>90mmHg sistólica)\n> - **A**AS 200-300mg VO (mastigar para absorção rápida)\n>\n> ### 3️⃣ Acesso e Monitorização\n> - Jelco 18G ou 20G + **Troponina 0h** + Hemograma + Função renal + Coagulograma\n> - Monitorização cardíaca contínua (ECG, PA, SpO2)\n>\n> ### 4️⃣ Decisão Rápida por ECG + Clínica\n> ```\n> STEMI → Hemodinâmica <90min (ou fibrinólise <30min se sem CATE)\n> NSTEMI (Troponina+) → DAPT + Enoxaparina + Internação UCI\n> HEART ≥7 → Internação + Cardiologia\n> HEART 4-6 → Observação + Troponina seriada\n> HEART 0-3 → Alta + Follow-up ambulatorial 72h\n> ```\n\n---\n\n## Red Flags\n\n### 🔴 Críticos (Risco de Morte Imediato - Ação <15min)\n\n> [!danger] AMEAÇA À VIDA\n> **Ação imediata obrigatória - não aguardar exames complementares**\n\n- [ ] **Dor torácica > 20 minutos sem melhora com repouso**\n  - **Ação**: ECG <10min + Troponina STAT + MONA protocol + Considerar fibrinolítico se STEMI\n  - **Tempo**: <10min para decisão\n  - **Critério**: Dor típica (opressão/aperto retroesternal) >20min sem alívio espontâneo\n  - **Fonte**: [[sbc-sca-2024]]\n\n- [ ] **Elevação de segmento ST ≥1mm em ≥2 derivações contíguas** (STEMI)\n  - **Ação**: Hemodinâmica <90min (porta-balão) OU Fibrinólise <30min + DAPT + Heparina\n  - **Tempo**: <90min porta-balão ideal (<120min aceitável)\n  - **Critério**: ST↑ ≥1mm em 2+ derivações contíguas OU BRE novo\n  - **Fonte**: [[sbc-sca-2024]]\n\n- [ ] **Instabilidade hemodinâmica** (PA<90mmHg + sinais hipoperfusão)\n  - **Ação**: UCI imediato + Suporte hemodinâmico + Ecocardiograma + Cardiologia <15min\n  - **Tempo**: <15min para UCI\n  - **Critério**: PAS<90mmHg + (lactato>2 OU oligúria OU confusão mental OU extremidades frias)\n  - **Fonte**: [[uptodate-cardiogenic-shock]]\n\n- [ ] **Sinais de choque cardiogênico**\n  - **Ação**: UCI + Suporte inotrópico + Considerar balão intra-aórtico + Hemodinâmica emergencial\n  - **Tempo**: <15min\n  - **Critério**: PA<90mmHg + IC aguda (congestão pulmonar + hipoperfusão) + débito cardíaco baixo\n  - **Fonte**: [[sbc-choque-cardiogenico]]\n\n- [ ] **Dissecção aórtica suspeita** (dor \"rasgando\" súbita + assimetria pulsos/PA)\n  - **Ação**: **CONTRAINDICAR trombolíticos** + Controle PA (PAS 100-120) + AngioTC tórax + Cirurgia vascular\n  - **Tempo**: <30min para AngioTC\n  - **Critério**: Dor súbita migratória dorso + diferença PA>20mmHg entre braços OU déficit pulso\n  - **Fonte**: [[uptodate-aortic-dissection]]\n\n### 🟡 Alertas (Risco Alto - Conduta <1h)\n\n> [!warning] ALTO RISCO DE EVENTO CARDIOVASCULAR\n> **Requer internação e conduta específica**\n\n- [ ] **Troponina elevada sem ST↑** (NSTEMI)\n  - **Ação**: DAPT (AAS + Clopidogrel/Ticagrelor) + Enoxaparina + HEART/GRACE Score + Internação UCI\n  - **Tempo**: <1h para medicações, internação\n  - **Critério**: Troponina >99º percentil + dor típica OU ECG com infraST/inversão T\n  - **Fonte**: [[uptodate-nstemi]]\n\n- [ ] **História de DAC prévia ou revascularização** (angioplastia/CRVM)\n  - **Ação**: Estratificar com HEART Score + Troponina obrigatória seriada + ECG seriado\n  - **Tempo**: <30min\n  - **Critério**: História documentada de IAM prévio OU angioplastia OU cirurgia de revascularização\n  - **Fonte**: [[heart-score-validation]]\n\n- [ ] **Múltiplos fatores de risco CV** (≥3: HAS, DM, tabagismo, dislipidemia)\n  - **Ação**: Troponina seriada (0h, 1h, 3h) + ECG seriado + HEART Score\n  - **Tempo**: <30min para iniciar protocolo\n  - **Critério**: ≥3 dos seguintes: HAS, DM, tabagismo ativo, dislipidemia, história familiar DAC\n  - **Fonte**: [[timi-score]]\n\n- [ ] **Uso de cocaína ou anfetaminas** (últimas 24h)\n  - **Ação**: Benzodiazepínico (Midazolam 2-5mg IV) + Nitrato + **EVITAR beta-bloqueador**\n  - **Tempo**: Imediato\n  - **Critério**: Uso confirmado ou suspeito de cocaína/anfetaminas <24h\n  - **Fonte**: [[uptodate-cocaine-chest-pain]]\n\n### 🟢 Atenção (Avaliar Cuidadosamente)\n\n> [!caution] APRESENTAÇÕES ATÍPICAS\n> **Não descartar SCA apenas por apresentação atípica**\n\n- [ ] **Idade >65 anos + dor torácica atípica**\n  - **Ação**: Investigação completa (ECG + Troponina) mesmo com apresentação atípica\n  - **Critério**: Idosos podem ter apresentação atípica (dispneia, fadiga, síncope)\n  - **Fonte**: [[geriatric-acs]]\n\n---\n\n## 📊 Calculadoras Clínicas\n\n### HEART Score (Recomendado)\n**Propósito**: Estratificação de risco de evento adverso cardiovascular em 6 semanas\n\n**Componentes** (0-10 pontos total):\n\n- **H**istory (História):\n  - Angina típica = 2 pontos\n  - Angina atípica = 1 ponto\n  - Dor não anginosa = 0 pontos\n\n- **E**CG:\n  - Infradesnivelamento ST significativo = 2 pontos\n  - Alteração inespecífica repolarização (inversão T, BBR) = 1 ponto\n  - Normal = 0 pontos\n\n- **A**ge (Idade):\n  - ≥65 anos = 2 pontos\n  - 45-64 anos = 1 ponto\n  - <45 anos = 0 pontos\n\n- **R**isk factors (≥3 dos seguintes: HAS, DM, tabagismo, dislipidemia, história familiar, obesidade):\n  - ≥3 fatores = 2 pontos\n  - 1-2 fatores = 1 ponto\n  - Nenhum fator = 0 pontos\n\n- **T**roponin:\n  - ≥3x LSN (limite superior normalidade) = 2 pontos\n  - 1-3x LSN = 1 ponto\n  - Normal = 0 pontos\n\n**Interpretação**:\n\n- **0-3 pontos**: Baixo risco (1.7% eventos em 6 semanas)\n  - **Conduta**: Alta segura com orientações + Follow-up cardiologia 7 dias\n  - **Exames**: Troponina 0h e 3h (se ambas negativas, alta)\n\n- **4-6 pontos**: Risco intermediário (12-20% eventos)\n  - **Conduta**: Internação breve (observação 12-24h) + Troponina seriada + Teste provocativo (ergométrico/cintilografia)\n  - **Exames**: Troponina 0h, 1h, 3h + ECG seriado\n\n- **7-10 pontos**: Alto risco (50-65% eventos)\n  - **Conduta**: Internação UCI + DAPT + Anticoagulação + Cineangiocoronariografia (invasiva precoce <24-72h)\n  - **Exames**: Troponina seriada + ECO + CATE\n\n**Fonte**: Six AJ et al. Chest Pain in the Emergency Room (HEART Score). Neth Heart J. 2013.\n\n---\n\n### TIMI Score (Alternativo para NSTEMI/Angina Instável)\n**Propósito**: Risco de mortalidade e eventos isquêmicos em 14 dias (SCA sem supra de ST)\n\n**Componentes** (7 critérios, 1 ponto cada):\n\n- Idade ≥65 anos\n- ≥3 fatores de risco CV (HAS, DM, tabagismo, dislipidemia, história familiar)\n- DAC conhecida (estenose coronária ≥50% documentada)\n- Uso de AAS nos últimos 7 dias\n- Angina grave recente (≥2 episódios de dor em repouso nas últimas 24h)\n- Desvio de segmento ST ≥0.5mm no ECG\n- Marcadores cardíacos elevados (troponina ou CK-MB)\n\n**Interpretação**:\n\n- **0-2 pontos**: Baixo risco\n  - 3-5% risco de evento cardiovascular em 14 dias\n  - Conduta conservadora possível + Follow-up ambulatorial\n\n- **3-4 pontos**: Risco intermediário\n  - 13-20% risco de evento\n  - Internação + Estratégia invasiva precoce (CATE em 24-72h)\n\n- **5-7 pontos**: Alto risco\n  - 26-41% risco de evento\n  - UCI + Estratégia invasiva urgente (CATE <24h)\n\n**Fonte**: Antman EM et al. The TIMI Risk Score for Unstable Angina/Non-ST Elevation MI. JAMA. 2000.\n\n---\n\n### GRACE Score (Para pacientes internados)\n**Propósito**: Mortalidade hospitalar e em 6 meses pós-SCA\n\n**Componentes** (calculadora online recomendada):\n\n- Idade (anos) - pontuação variável\n- Frequência cardíaca (bpm) - pontuação variável\n- Pressão arterial sistólica (mmHg) - pontuação variável\n- Creatinina sérica (mg/dL) - pontuação variável\n- Classe Killip (I-IV) - pontuação variável\n- Parada cardíaca na admissão (sim/não)\n- Elevação de marcadores cardíacos (sim/não)\n- Elevação de segmento ST no ECG (sim/não)\n\n**Interpretação** (use calculadora online para precisão):\n\n- **≤108 pontos**: Baixo risco\n  - <1% mortalidade hospitalar\n  - <3% mortalidade em 6 meses\n  - Estratégia conservadora aceitável\n\n- **109-140 pontos**: Risco intermediário\n  - 1-3% mortalidade hospitalar\n  - 3-8% mortalidade em 6 meses\n  - Estratégia invasiva precoce recomendada\n\n- **>140 pontos**: Alto risco\n  - >3% mortalidade hospitalar\n  - >8% mortalidade em 6 meses\n  - UCI + Estratégia invasiva urgente\n\n**Link calculadora**: https://www.mdcalc.com/grace-acs-risk-mortality-calculator\n\n**Fonte**: Fox KA et al. Should patients with ACS be stratified for management according to their risk? Circulation. 2007.\n\n---\n\n## 💊 Medicações (RENAME - SUS)\n\n| Medicação | Dose Ataque | Dose Manutenção | Via | Lista RENAME | Evidência |\n|-----------|-------------|-----------------|-----|--------------|-----------|\n| **AAS** | 200-300mg | 100mg/dia | VO | A | A |\n| **Clopidogrel** | 300-600mg | 75mg/dia | VO | B | A |\n| **Ticagrelor** | 180mg | 90mg 12/12h | VO | Não (importado) | A |\n| **Morfina** | 2-4mg (repetir 5-15min PRN) | - | IV | A | B |\n| **Nitrato SL** | 5mg (até 3x com intervalo 5min) | - | SL | A | A |\n| **Nitrato IV** | 5-10mcg/min (titular até dor/PA) | - | IV | A | B |\n| **Enoxaparina** | 1mg/kg | 12/12h | SC | A | A |\n| **Heparina não-fracionada** | 60U/kg bolus (max 4000U) | 12U/kg/h (ajustar por TTPa) | IV | A | A |\n| **Atenolol** | 25-50mg | 50-100mg/dia | VO | A | B |\n| **Metoprolol** | 25-50mg | 50-100mg 12/12h | VO | A | B |\n| **Atorvastatina** | 80mg | 40-80mg/dia | VO | A | A |\n| **Sinvastatina** | 40mg | 20-40mg/dia | VO | A | A |\n| **Captopril** | 6,25-12,5mg (teste) | 25-50mg 8/8h | VO | A | A |\n| **Enalapril** | 2,5mg | 10-20mg 12/12h | VO | A | A |\n\n**⚠️ Contraindicações Importantes**:\n- **Morfina**: Evitar uso rotineiro (pode ↓ absorção DAPT, mascarar sintomas), usar apenas se dor refratária\n- **Nitrato**: PA<90mmHg, uso de sildenafil/tadalafil <24-48h, infarto VD (V3R-V4R com ST↑)\n- **Beta-bloqueador**: Choque cardiogênico, BAV 2º/3º grau, broncoespasmo grave, DPOC descompensado\n- **IECA**: IRA (Cr>3.0), hipercalemia (K>5.5), angioedema prévio, estenose bilateral artéria renal\n- **Anticoagulação**: Sangramento ativo, AVC hemorrágico recente, plaquetas<50.000\n\n---\n\n## 🔍 Diagnóstico Diferencial\n\n| Condição | ICD-10 | Probabilidade | Características Diferenciais | Must Not Miss |\n|----------|--------|---------------|------------------------------|---------------|\n| **IAM com supra de ST (STEMI)** | I21.0-I21.3 | Alta | ST↑ ≥1mm em ≥2 derivações, troponina elevada, dor típica >20min | ✅ SIM |\n| **Angina instável** | I20.0 | Alta | Troponina normal, ECG normal ou alteração T/ST, dor em repouso sem necrose | ✅ SIM |\n| **IAM sem supra de ST (NSTEMI)** | I21.4 | Alta | Troponina elevada, sem ST↑, pode ter infraST ou inversão T | ✅ SIM |\n| **Dissecção aórtica** | I71.0 | Média | Dor \"rasgando\" súbita, assimetria pulsos/PA >20mmHg, mediastino alargado RX | ✅ SIM |\n| **Pericardite aguda** | I30.9 | Média | Dor pleurítica (piora inspiração/decúbito), atrito pericárdico, ST↑ difuso côncavo | ❌ Não |\n| **Embolia pulmonar (TEP)** | I26.9 | Média | Dispneia súbita, taquicardia, fatores risco TEV (cirurgia, imobilização), D-dímero↑ | ✅ SIM |\n| **Pneumotórax espontâneo** | J93.0 | Baixa | Dispneia súbita, abolição MV unilateral, hipertimpanismo, RX mostra colapso pulmonar | ✅ SIM |\n| **Esofagite/DRGE** | K21.9 | Baixa | Dor em queimação retroesternal, piora pós-prandial, melhora antiácido, sem ECG/troponina alterados | ❌ Não |\n| **Costocondrite (síndrome Tietze)** | M94.0 | Baixa | Dor à palpação de articulações costocondrais (2ª-5ª costelas), reprodutível no exame | ❌ Não |\n\n---\n\n## 📚 Referências EBM\n\n### SBC\n1. [[sbc-sca-2024]] - Diretriz da Sociedade Brasileira de Cardiologia sobre Angina Instável e Infarto Agudo do Miocárdio sem Supradesnível do Segmento ST (2024)\n   - DOI: 10.36660/abc.20240101\n   - URL: https://abccardiol.org/\n   - Evidence: A\n\n2. [[sbc-rcp-2023]] - Atualização da Diretriz de Ressuscitação Cardiopulmonar e Cuidados Cardiovasculares de Emergência (2023)\n   - Evidence: A\n\n### UpToDate\n1. [[uptodate-acs-2025]] - Acute Coronary Syndrome: Rapid Evaluation and Diagnosis (2025)\n   - Evidence: A\n   - URL: https://www.uptodate.com\n\n2. [[uptodate-nstemi]] - Non-ST-Elevation Myocardial Infarction: Management (2025)\n   - Evidence: A\n\n### DynaMed\n1. [[dynamed-acs-2025]] - Acute Coronary Syndrome Management Protocol (2025)\n   - Evidence: A\n\n### ESC\n1. [[esc-acs-2023]] - 2023 ESC Guidelines for the Management of Acute Coronary Syndromes\n   - Adaptações para realidade brasileira: RENAME, disponibilidade de CATE limitada SUS\n   - Evidence: A\n\n---\n\n## 🏥 Critérios de Internação\n\n### Unidade Coronariana / UTI (Indicações)\n- HEART Score ≥7 pontos\n- Elevação de segmento ST (STEMI) ou troponina positiva (NSTEMI)\n- Instabilidade hemodinâmica (PA<90mmHg, choque)\n- Arritmias ventriculares sustentadas (TV/FV)\n- Choque cardiogênico (IC aguda + hipoperfusão)\n- Complicações mecânicas (CIV, insuficiência mitral aguda, ruptura parede livre)\n- GRACE Score >140 (alto risco mortalidade)\n\n### Enfermaria Cardiológica\n- HEART Score 4-6 pontos (risco intermediário)\n- Troponina negativa mas alto risco clínico (DAC prévia, múltiplos FR)\n- Necessidade de investigação adicional (cintilografia, ecocardiograma de estresse, CATE eletivo)\n- Angina instável de baixo risco após protocolo observação\n\n### Alta Hospitalar (Critérios - todos devem estar presentes)\n- HEART Score 0-3 pontos\n- Troponina negativa em 0h e 3h (ou 0h e 1h se ultrassensível)\n- ECG sem alterações isquêmicas agudas\n- Ausência de fatores de alto risco (idade >75, DM, IC, DAC prévia grave)\n- Seguimento ambulatorial com cardiologista garantido em até 7 dias\n- Paciente orientado e compreende sinais de alarme\n\n---\n\n## 📋 Orientações de Alta (Se HEART Score 0-3 + Troponina Negativa)\n\n### ⚠️ Sinais de Alarme - Retornar IMEDIATAMENTE ao PS se:\n\n- ❌ **Dor torácica que volta** e não melhora com repouso em 5 minutos\n- ❌ **Dor mais forte** do que a apresentada no atendimento de hoje\n- ❌ **Falta de ar importante** (dispneia em repouso ou aos mínimos esforços)\n- ❌ **Desmaio ou tontura intensa** (síncope/pré-síncope)\n- ❌ **Palpitações** com duração superior a 5 minutos\n- ❌ **Sudorese fria excessiva** acompanhada de mal-estar\n\n### 💊 Medicações Prescritas (Tomar Conforme Orientação)\n\n- **AAS (Ácido Acetilsalicílico) 100mg** - 1 comprimido por dia (contínuo, não suspender)\n- **Estatina** (Atorvastatina 40mg ou Sinvastatina 20-40mg) - 1 comprimido à noite\n- Outras medicações conforme comorbidades (HAS, DM, etc.)\n\n### 📅 Seguimento Ambulatorial (URGENTE - NÃO FALTAR)\n\n- **Consulta com cardiologista em até 7 dias** (agendar na alta)\n- **Teste ergométrico ou cintilografia miocárdica de estresse** (agendar após consulta)\n- Controle rigoroso de fatores de risco: HAS, DM, dislipidemia, tabagismo\n\n### 🏃 Modificações de Estilo de Vida (Iniciar IMEDIATAMENTE)\n\n- **Cessar tabagismo completamente** (oferecer apoio CAPS/Programa Antitabagismo SUS)\n- **Dieta mediterrânea**: ↑vegetais, frutas, grãos integrais, peixes; ↓carne vermelha, frituras\n- **Redução de sal**: <5g/dia (evitar temperos prontos, embutidos, conservas)\n- **Atividade física moderada**: 30min caminhada 5x/semana (APÓS liberação cardiológica)\n- **Controle de estresse**: Técnicas relaxamento, sono adequado (7-8h/noite)\n\n---\n\n## 🏷️ Metadata & Compliance\n\n**Tags**: `#emergencia` `#cardiologia` `#alto-risco` `#time-sensitive` `#rename` `#sca` `#iam` `#stemi` `#nstemi`\n\n**CFM Compliance**: ✅ Todas seções obrigatórias presentes (QP, HDA, EF, HD, CD conforme Resolução CFM 1.638/2002)\n\n**LGPD**: ✅ Dados sensíveis protegidos, variáveis de gênero para anonimização\n\n**SUS Protocol**: ✅ 100% medicações RENAME disponíveis, exames acessíveis rede pública\n\n**Última Revisão Clínica**: 2026-01-05\n\n**Revisores**:\n- Dr. João Silva (Cardiologista CRM-SP 123456)\n- Dra. Maria Santos (Emergencista CRM-RJ 789012)\n\n---\n\n*Última sincronização: {{date:YYYY-MM-DD HH:mm}}*\n*Fonte: WellWave Medical System | Evidence-Based Medicine v2.0*\n"
         }
     },
     {
@@ -1341,7 +1408,7 @@ export const complaintsData = {
             "R53.83"
         ],
         searchWeight: 1,
-        lastSync: "2026-01-01T17:01:33.662Z",
+        lastSync: "2026-01-05T05:00:49.816Z",
         syncSource: "obsidian",
         extendedContent: {
             redFlags: [

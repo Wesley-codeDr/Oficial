@@ -1,4 +1,4 @@
-import { Activity, LogOut, User, Settings, History, MessageSquare, FileText } from 'lucide-react'
+import { Activity, LogOut, User, Settings, History, MessageSquare, FileText, Monitor } from 'lucide-react'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { getUser } from '@/lib/supabase/server'
@@ -46,6 +46,13 @@ export default async function DashboardLayout({
               EBM Chat
             </Link>
           </Button>
+          <Button variant="ghost" size="sm" asChild>
+            <Link href="http://localhost:54593/" target="_blank">
+              <Monitor className="mr-2 h-4 w-4" />
+              Control
+            </Link>
+          </Button>
+
         </nav>
 
         <div className="flex items-center gap-4">

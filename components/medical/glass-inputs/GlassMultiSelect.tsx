@@ -24,7 +24,7 @@ export const GlassMultiSelect: React.FC<GlassMultiSelectProps> = ({ item, value,
   };
 
   return (
-    <div className="px-7 py-7 border-b border-white/[0.04] first:rounded-t-[32px] last:rounded-b-[32px] last:border-0 relative overflow-hidden glass-texture">
+    <div className="px-7 py-7 border-b border-white/4 first:rounded-t-[32px] last:rounded-b-[32px] last:border-0 relative overflow-hidden glass-texture">
        <div className="mb-4 px-1 relative z-10">
          <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest opacity-60">
            {item.label}

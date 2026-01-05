@@ -6,7 +6,6 @@ import { Bot, User, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { ChatInput as ClaudeChatInput } from '@/components/chat/chat-input'
 import { GlassContainer } from '@/components/ui/glass-container'
-import type { ChatPayload } from '@/types/chat-input'
 import { springConfig } from '@/lib/animations'
 
 // ===== TYPES =====
@@ -117,7 +116,7 @@ function MessageBubble({ message }: MessageBubbleProps) {
           'w-8 h-8 rounded-full flex items-center justify-center shrink-0',
           isUser
             ? 'bg-blue-500 text-white'
-            : 'bg-gradient-to-br from-violet-500 to-purple-600 text-white'
+            : 'bg-linear-to-br from-violet-500 to-purple-600 text-white'
         )}
       >
         {isUser ? (
@@ -199,24 +198,27 @@ function MessageBubble({ message }: MessageBubbleProps) {
 export function ChatWellDemo() {
   const [messages, setMessages] = useState<Message[]>([])
   const [isTyping, setIsTyping] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [inputValue, setInputValue] = useState('')
+  const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
   // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, isTyping])
 
-  const handleSendMessage = useCallback((payload: ChatPayload) => {
+  const handleSendMessage = useCallback((e: React.FormEvent) => {
+    e.preventDefault()
+    if (!inputValue.trim()) return
+
     // Add user message
     const userMessage: Message = {
       id: `msg_${Date.now()}`,
       role: 'user',
-      content: payload.message || '[Conteúdo anexado]',
+      content: inputValue,
       timestamp: new Date(),
-      attachmentsCount: payload.attachments.length,
-      snippetsCount: payload.snippets.length,
     }
     setMessages((prev) => [...prev, userMessage])
+    setInputValue('')
 
     // Simulate typing
     setIsTyping(true)
@@ -225,36 +227,35 @@ export function ChatWellDemo() {
     setTimeout(() => {
       setIsTyping(false)
 
-      const modelName =
-        payload.model === 'anamnese'
-          ? 'Anamnese AI'
-          : payload.model === 'diagnostico'
-            ? 'Diagnóstico AI'
-            : payload.model === 'conduta'
-              ? 'Conduta AI'
-              : 'Prescrição AI'
+      const lowerContent = inputValue.toLowerCase()
+      let responseKey = 'anamnese'
+      if (lowerContent.includes('diagnos') || lowerContent.includes('diferencial')) {
+        responseKey = 'diagnostico'
+      } else if (lowerContent.includes('conduta') || lowerContent.includes('tratamento')) {
+        responseKey = 'conduta'
+      } else if (lowerContent.includes('prescri') || lowerContent.includes('receita')) {
+        responseKey = 'prescricao'
+      }
 
-      const responseContent =
-        DEMO_RESPONSES[payload.model] ??
-        'Resposta do assistente médico...'
+      const responseContent = DEMO_RESPONSES[responseKey] ?? 'Resposta do assistente médico...'
 
       const assistantMessage: Message = {
         id: `msg_${Date.now()}_assistant`,
         role: 'assistant',
         content: responseContent,
-        model: modelName,
+        model: responseKey.charAt(0).toUpperCase() + responseKey.slice(1) + ' AI',
         timestamp: new Date(),
       }
       setMessages((prev) => [...prev, assistantMessage])
     }, 1500)
-  }, [])
+  }, [inputValue])
 
   return (
     <div className="flex flex-col h-[calc(100vh-8rem)] max-w-4xl mx-auto">
       {/* Header */}
       <div className="text-center py-6">
         <div className="inline-flex items-center gap-2 mb-2">
-          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-500 to-violet-600 flex items-center justify-center">
+          <div className="w-10 h-10 rounded-2xl bg-linear-to-br from-blue-500 to-violet-600 flex items-center justify-center">
             <Bot className="w-5 h-5 text-white" />
           </div>
           <h1 className="text-2xl font-bold text-slate-800 dark:text-white">
@@ -276,7 +277,7 @@ export function ChatWellDemo() {
           {/* Empty state */}
           {messages.length === 0 && !isTyping && (
             <div className="h-full flex flex-col items-center justify-center text-center py-12">
-              <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-blue-500/20 to-violet-500/20 flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-3xl bg-linear-to-br from-blue-500/20 to-violet-500/20 flex items-center justify-center mb-4">
                 <Sparkles className="w-8 h-8 text-blue-500" />
               </div>
               <h2 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">
@@ -305,7 +306,7 @@ export function ChatWellDemo() {
                 exit={{ opacity: 0, y: -10 }}
                 className="flex gap-3"
               >
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-linear-to-br from-violet-500 to-purple-600 flex items-center justify-center">
                   <Bot className="w-4 h-4 text-white" />
                 </div>
                 <div className="bg-white/60 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/10 rounded-2xl px-4 py-3">
@@ -332,7 +333,10 @@ export function ChatWellDemo() {
       {/* Input area */}
       <div className="py-4">
         <ClaudeChatInput
-          onSendMessage={handleSendMessage}
+          value={inputValue}
+          onChange={setInputValue}
+          onSubmit={handleSendMessage}
+          isLoading={isTyping}
           placeholder="Descreva a queixa, contexto clínico e o que você precisa."
         />
       </div>

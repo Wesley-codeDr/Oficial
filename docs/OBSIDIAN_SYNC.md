@@ -267,7 +267,7 @@ mcp_obsidian_search_notes --query "WellWave"
 Em caso de problemas:
 1. Verificar `Sync-Status.md` no Obsidian
 2. Validar MCP em `.cursor/mcp.json`
-3. Testar conexão: `npx @mauricio.wolff/mcp-obsidian@latest --help`
+3. Testar conexão: `pnpm dlx @mauricio.wolff/mcp-obsidian@latest --help`
 
 ---
 

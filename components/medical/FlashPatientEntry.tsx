@@ -53,7 +53,7 @@ const SelectionPill: React.FC<SelectionPillProps> = ({ isActive, onClick, icon: 
       `}
     >
       {/* Dynamic Glow Layer */}
-      <div className={`absolute -inset-px rounded-[40px] bg-gradient-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-500 ${isActive ? 'opacity-100' : ''}`} />
+      <div className={`absolute -inset-px rounded-[40px] bg-linear-to-br from-white/20 to-transparent opacity-0 transition-opacity duration-500 ${isActive ? 'opacity-100' : ''}`} />
       
       {Icon && (
         <div className={`

@@ -78,6 +78,74 @@ export interface Complaint {
   searchWeight?: number
   extendedContent?: ComplaintExtendedContent
   priorityCheckboxes?: PriorityCheckboxMapping
+
+  // NEW: Flash Template for rapid emergency documentation (2-3 min)
+  flashTemplate?: {
+    qp: string // Queixa Principal - pre-filled text with variables
+    hda: string // História da Doença Atual - symptom characteristics
+    ef: string // Exame Físico - essential findings with vital signs
+    hd: string // Hipótese Diagnóstica - specific diagnosis
+    conduta: string // Conduta - numbered action steps
+    acaoImediata: string // Immediate action protocol (first 10 minutes)
+    tempoEstimado: number // Estimated completion time in minutes
+  }
+
+  // NEW: Anamnese Well checkboxes for detailed documentation (5-10 min)
+  anamneseCheckboxes?: Array<{
+    category: CheckboxCategory // QP, HDA, ANTECEDENTES, etc.
+    displayText: string // Text displayed next to checkbox
+    narrativeText: string // Text inserted into narrative when checked
+    section: 'FLASH' | 'DETAILED' | 'BOTH' // Where this checkbox appears
+    isRequired: boolean // Required for CFM compliance
+    isRedFlag: boolean // Indicates warning sign/red flag
+  }>
+
+  // NEW: Extended red flags with immediate action guidance
+  redFlagsExtended?: Array<{
+    description: string // Description of the red flag sign/symptom
+    severity: 'critical' | 'warning' | 'caution' // Severity level
+    immediateAction: string // Immediate action to take
+    timeToAction?: number // Time window for action (minutes)
+  }>
+
+  // NEW: SUS/RENAME medications
+  medicationsRENAME?: Array<{
+    genericName: string // Generic medication name (DCB)
+    dose: string // Dosage and frequency
+    route: 'VO' | 'IV' | 'IM' | 'SC' | 'Inalatório' | 'SL' | 'Tópico' | 'Retal' | 'Nasal' | 'Ocular'
+    susAvailable: boolean // Available in SUS
+    renameList?: 'A' | 'B' | 'C' // RENAME list classification
+    evidenceLevel: EvidenceLevel // Evidence level (A, B, C, D)
+    commercialName?: string // Commercial name (optional reference)
+    warnings?: string[] // Special considerations or warnings
+  }>
+
+  // NEW: Clinical calculators/scores
+  clinicalCalculators?: Array<{
+    name: string // Calculator name (e.g., HEART Score, CURB-65)
+    purpose: string // Purpose/indication for using this calculator
+    evidenceLevel: EvidenceLevel // Evidence level supporting this tool
+    url?: string // Link to MDCalc or other calculator tool
+  }>
+
+  // NEW: Differential diagnoses
+  differentialDiagnoses?: Array<{
+    condition: string // Condition name
+    icd10: string // ICD-10 code
+    probability: 'high' | 'medium' | 'low' // Probability level
+    keyFeatures: string[] // Key clinical features
+    mustNotMiss?: boolean // Whether this is a must-not-miss diagnosis
+  }>
+
+  // NEW: EBM references (extends existing EBMCitation type)
+  ebmReferences?: Array<{
+    source: EBMSource // Source of the reference
+    title: string // Title of the guideline/article
+    year: number // Publication year
+    url?: string // URL to the reference
+    doi?: string // DOI or PMID
+    evidenceQuality?: 'high' | 'moderate' | 'low' | 'very_low' // Evidence quality rating
+  }>
 }
 
 export interface ComplaintFilters {

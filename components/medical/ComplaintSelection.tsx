@@ -25,6 +25,7 @@ import {
   BookOpen,
   ChevronRight,
   Zap,
+  Check,
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { complaintsData } from '@/lib/data/complaintsData'
@@ -35,7 +36,7 @@ import {
 } from '@/lib/services/complaintSearchService'
 import { getComplaintById } from '@/lib/data/searchIndex'
 import { analytics, addToSearchHistory } from '@/lib/analytics/events'
-import { Patient, Complaint } from '@/lib/types/medical'
+import { Patient, Complaint, ComplaintGroup } from '@/lib/types/medical'
 import { ProtocolDrawer } from './ProtocolDrawer'
 
 interface ComplaintSelectionProps {
@@ -105,17 +106,19 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
         : 'adult'
 
   const groups = useMemo(() => {
-    return [...complaintsData.groups].sort((a, b) => {
-      const aRec = a.recommendedFor.includes(targetCategory)
-      const bRec = b.recommendedFor.includes(targetCategory)
+    const typedGroups = complaintsData.groups as ComplaintGroup[]
+    return [...typedGroups].sort((a, b) => {
+      const aRec = a.recommendedFor?.includes(targetCategory) ?? false
+      const bRec = b.recommendedFor?.includes(targetCategory) ?? false
       if (aRec && !bRec) return -1
       if (!aRec && bRec) return 1
-      return a.sortOrder - b.sortOrder
+      return (a.sortOrder ?? 0) - (b.sortOrder ?? 0)
     })
   }, [targetCategory])
 
   const activeGroup = useMemo(() => {
-    return complaintsData.groups.find((g) => g.code === selectedGroupCode)
+    const typedGroups = complaintsData.groups as ComplaintGroup[]
+    return typedGroups.find((g) => g.code === selectedGroupCode)
   }, [selectedGroupCode])
 
   const groupComplaints = useMemo(() => {
@@ -384,7 +387,7 @@ const ComplaintCard: React.FC<ComplaintCardProps> = ({ complaint, onClick, onVie
       className={`
           relative flex flex-col p-5 rounded-[28px] cursor-pointer transition-all duration-400 border border-white/50 dark:border-white/10
           ${styleVariant === 'premium' 
-            ? 'bg-gradient-to-br from-blue-500/5 via-white/40 to-white/40 dark:from-blue-500/10 dark:via-black/20 dark:to-black/20 ring-1 ring-blue-500/10' 
+            ? 'bg-linear-to-br from-blue-500/5 via-white/40 to-white/40 dark:from-blue-500/10 dark:via-black/20 dark:to-black/20 ring-1 ring-blue-500/10' 
             : 'bg-white/40 dark:bg-black/20 backdrop-blur-xl'
           }
           ${isHighRisk ? 'ring-2 ring-red-500/20 border-red-500/30' : 'hover:shadow-lg hover:shadow-blue-500/5'}

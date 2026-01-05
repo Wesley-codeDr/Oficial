@@ -23,7 +23,7 @@ import { CalculatorTriggerButton } from './CalculatorTriggerButton';
 import { InlineCalculatorPanel } from './InlineCalculatorPanel';
 
 // --- VISUAL CONSTANTS ---
-const SECTION_ICONS: Record<string, any> = {
+const SECTION_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   'queixa': FileText,
   'hda': Activity,
   'antecedentes': AlertTriangle,
@@ -158,7 +158,7 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
       animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
       exit={{ opacity: 0, y: 40, scale: 0.8, filter: 'blur(20px)' }}
       whileHover={{ y: -5, scale: 1.02 }}
-      className="fixed bottom-28 right-10 z-[100] w-[340px]"
+      className="fixed bottom-28 right-10 z-100 w-[340px]"
     >
       <div className={`
         relative overflow-hidden rounded-[42px] backdrop-blur-3xl border shadow-3xl p-6 group
@@ -182,8 +182,8 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
                 <Calculator className="w-6 h-6 stroke-[2.5px]" />
               </div>
               <div>
-                <h4 className="text-[15px] font-[900] text-white leading-tight tracking-tight">Análise Inteligente</h4>
-                <p className="text-[10px] font-[900] text-white/70 uppercase tracking-[0.2em] mt-1 opacity-80">Recomendação Clínica</p>
+                <h4 className="text-[15px] font-black text-white leading-tight tracking-tight">Análise Inteligente</h4>
+                <p className="text-[10px] font-black text-white/70 uppercase tracking-[0.2em] mt-1 opacity-80">Recomendação Clínica</p>
               </div>
             </div>
             <button 
@@ -205,7 +205,7 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
               >
                 <div className="min-w-0 pr-4">
                   <p className="text-[14px] font-apple-black text-white truncate">{calc.name}</p>
-                  <p className="text-[11px] font-[600] text-white/60 mt-1 truncate">{calc.description}</p>
+                  <p className="text-[11px] font-semibold text-white/60 mt-1 truncate">{calc.description}</p>
                 </div>
                 <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-transform group-hover/btn:scale-110 group-hover/btn:translate-x-1">
                    <ChevronRight className="w-4 h-4 text-white" />
@@ -216,7 +216,7 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
 
           <div className="mt-5 pt-4 border-t border-white/10 flex items-center gap-2.5">
              <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-             <p className="text-[10.5px] text-white/50 font-[700] leading-relaxed italic tracking-tight">
+             <p className="text-[10.5px] text-white/50 font-bold leading-relaxed italic tracking-tight">
                Escore sugerido via detecção semântica.
              </p>
           </div>
@@ -231,11 +231,14 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
 
 // --- MAIN COMPONENT ---
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnamnesisData = Record<string, any>;
+
 interface AnamnesisViewProps {
   patient?: Patient;
   sections: AnamnesisSection[];
-  data: Record<string, any>;
-  onDataChange: React.Dispatch<React.SetStateAction<Record<string, any>>>;
+  data: AnamnesisData;
+  onDataChange: React.Dispatch<React.SetStateAction<AnamnesisData>>;
   onAddSymptom: (sectionId: string) => void;
   complaintId?: string; // ID da queixa para carregar dados do Obsidian
   onCalculatorClick?: (calculatorName: string) => void;
@@ -296,10 +299,12 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
     if (firstSection && !activeSectionId) {
        setActiveSectionId(firstSection.id);
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sections]);
 
   useEffect(() => {
-    const doc = (globalThis as any).document;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const doc = (globalThis as any)?.document;
     const container = doc?.getElementById('form-container');
     if (!container) return;
 
@@ -336,12 +341,14 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
     return () => container.removeEventListener('scroll', handleScroll);
   }, [sections]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleInputChange = React.useCallback((id: string, value: any) => {
     onDataChange(prev => ({ ...prev, [id]: value }));
   }, [onDataChange]);
 
   const scrollToSection = (id: string, smoothScroll: boolean = true) => {
     setActiveSectionId(id);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const doc = (globalThis as any).document;
     const container = doc?.getElementById('form-container');
     const el = doc?.getElementById(`sec-${id}`);
@@ -465,7 +472,7 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
             calculators={calculators}
             onClick={(name) => onCalculatorClick?.(name)}
             onDismiss={() => setIsCalculatorDismissed(true)}
-            severity={redFlagResult.requiresImmediateAction ? 'critical' : (redFlagResult.highestSeverity === 'high' ? 'warning' : 'info')}
+            severity={redFlagResult.requiresImmediateAction ? 'critical' : (redFlagResult.highestSeverity === 'critical' || redFlagResult.highestSeverity === 'danger' ? 'warning' : 'info')}
           />
         )}
       </AnimatePresence>
@@ -476,8 +483,8 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
           <AutoRedFlagAlert
             result={redFlagResult}
             onDismiss={() => {}}
-            onActionClick={(alert) => {
-              console.log('Action clicked:', alert);
+            onActionClick={(_alert) => {
+              // Action handler
             }}
           />
         </div>
@@ -492,7 +499,7 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                 <input
                   type="text"
                   placeholder="Pesquisar..."
-                  className="w-full bg-black/5 dark:bg-white/[0.03] border border-white/10 rounded-[22px] py-3.5 pl-12 pr-5 text-[13px] font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white dark:focus:bg-white/[0.05] transition-all backdrop-blur-3xl dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 shadow-inner rim-highlight"
+                  className="w-full bg-black/5 dark:bg-white/3 border border-white/10 rounded-[22px] py-3.5 pl-12 pr-5 text-[13px] font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white dark:focus:bg-white/5 transition-all backdrop-blur-3xl dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 shadow-inner rim-highlight"
                 />
             </div>
          </div>
@@ -599,7 +606,7 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                    <div key={section.id} id={`sec-${section.id}`} className="scroll-mt-12 animate-in fade-in slide-in-from-bottom-8 duration-700">
                       <div className="flex items-center justify-between mb-5 px-2">
                          <div className="flex items-center gap-4">
-                             <div className="w-10 h-10 rounded-2xl bg-black/5 dark:bg-white/[0.05] border border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 shadow-sm backdrop-blur-md">
+                             <div className="w-10 h-10 rounded-2xl bg-black/5 dark:bg-white/5 border border-white/10 flex items-center justify-center text-slate-500 dark:text-slate-400 shadow-sm backdrop-blur-md">
                                  <Icon className="w-5 h-5 opacity-70" />
                              </div>
                              <div className="flex flex-col">
@@ -618,7 +625,7 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                          </motion.button>
                       </div>
 
-                      <div className="liquid-glass-material !bg-white/70 dark:!bg-[#1c1c1e]/40 backdrop-blur-3xl rounded-[40px] border border-white/60 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.06)] overflow-hidden relative group/card">
+                      <div className="liquid-glass-material bg-white/70! dark:bg-[#1c1c1e]/40! backdrop-blur-3xl rounded-[40px] border border-white/60 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.06)] overflow-hidden relative group/card">
                          {/* Rim Light / Glow Effect */}
                          <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 

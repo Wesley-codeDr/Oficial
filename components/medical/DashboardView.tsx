@@ -49,7 +49,7 @@ const chartDataPurple = [
 const CustomChartTooltip = ({ active, payload }: any) => {
    if (active && payload && payload.length) {
       return (
-         <div className="liquid-glass-material !bg-white/80 dark:!bg-slate-900/80 backdrop-blur-3xl px-3 py-2 rounded-xl border border-white/50 dark:border-white/10 shadow-xl transform -translate-y-2 glass-texture rim-highlight">
+         <div className="liquid-glass-material bg-white/80! dark:bg-slate-900/80! backdrop-blur-3xl px-3 py-2 rounded-xl border border-white/50 dark:border-white/10 shadow-xl transform -translate-y-2 glass-texture rim-highlight">
             <p className="text-lg font-black text-slate-800 dark:text-white leading-none">
                {payload[0].value}
             </p>
@@ -105,7 +105,7 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
 
   return (
     <div 
-      className={`relative overflow-hidden p-0 flex flex-col justify-between group transition-all duration-[800ms] hover:scale-[1.03] liquid-glass-material ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}
+      className={`relative overflow-hidden p-0 flex flex-col justify-between group transition-all duration-800 hover:scale-[1.03] liquid-glass-material ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}
       style={{ '--shadow-color': theme.shadow } as React.CSSProperties}
     >
       
@@ -314,9 +314,9 @@ const KanbanColumn = ({
   return (
     <div 
         className={`flex flex-col h-full min-w-[320px] w-full p-2 transition-all duration-500 liquid-glass-material
-        ${isDropTarget 
-            ? '!bg-blue-50/60 dark:!bg-blue-900/20 !border-blue-200 dark:!border-blue-500/30 scale-[1.01]' 
-            : '!bg-white/10 dark:!bg-white/5 !border-white/20 dark:!border-white/5'}
+        ${isDropTarget
+            ? 'bg-blue-50/60! dark:bg-blue-900/20! border-blue-200! dark:border-blue-500/30! scale-[1.01]'
+            : 'bg-white/10! dark:bg-white/5! border-white/20! dark:border-white/5!'}
         `}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
@@ -498,7 +498,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </div>
                   <div className="h-6 w-px bg-slate-200 dark:bg-white/10" />
                   <div className="flex items-center gap-2.5">
-                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-400 via-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20 pulse-brilliance">
+                     <div className="w-8 h-8 rounded-full bg-linear-to-br from-orange-400 via-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20 pulse-brilliance">
                         <Sparkles className="w-4 h-4 text-white" />
                      </div>
                      <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">

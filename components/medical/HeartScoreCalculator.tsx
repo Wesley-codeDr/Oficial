@@ -201,7 +201,7 @@ export const HeartScoreCalculator: React.FC<HeartScoreCalculatorProps> = ({
                     whileTap={applePhysics.haptic}
                     onClick={() => setHistoryPoints(opt.val)}
                     className={cn(
-                      "flex-shrink-0 flex flex-col items-start p-5 rounded-3xl min-w-[150px] border transition-all duration-500",
+                      "shrink-0 flex flex-col items-start p-5 rounded-3xl min-w-[150px] border transition-all duration-500",
                       historyPoints === opt.val 
                         ? "bg-linear-to-br from-blue-500 to-indigo-600 border-blue-400 text-white shadow-xl shadow-blue-600/20 rim-highlight" 
                         : "bg-white/5 border-white/10 text-white hover:bg-white/10"
@@ -241,7 +241,7 @@ export const HeartScoreCalculator: React.FC<HeartScoreCalculatorProps> = ({
                     whileTap={applePhysics.haptic}
                     onClick={() => setEcgPoints(opt.val)}
                     className={cn(
-                      "flex-shrink-0 flex flex-col items-start p-5 rounded-3xl min-w-[150px] border transition-all duration-500",
+                      "shrink-0 flex flex-col items-start p-5 rounded-3xl min-w-[150px] border transition-all duration-500",
                       ecgPoints === opt.val 
                         ? "bg-linear-to-br from-blue-500 to-indigo-600 border-blue-400 text-white shadow-xl shadow-blue-600/20 rim-highlight" 
                         : "bg-white/5 border-white/10 text-white hover:bg-white/10"
@@ -308,7 +308,7 @@ export const HeartScoreCalculator: React.FC<HeartScoreCalculatorProps> = ({
                     whileTap={applePhysics.haptic}
                     onClick={() => setTroponinPoints(opt.val)}
                     className={cn(
-                      "flex-shrink-0 flex flex-col items-start p-5 rounded-3xl min-w-[150px] border transition-all duration-500",
+                      "shrink-0 flex flex-col items-start p-5 rounded-3xl min-w-[150px] border transition-all duration-500",
                       troponinPoints === opt.val 
                         ? "bg-linear-to-br from-blue-500 to-indigo-600 border-blue-400 text-white shadow-xl shadow-blue-600/20 rim-highlight" 
                         : "bg-white/5 border-white/10 text-white hover:bg-white/10"

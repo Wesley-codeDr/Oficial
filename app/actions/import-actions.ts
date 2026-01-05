@@ -3,10 +3,16 @@
 import { prisma } from '@/lib/db/prisma'
 import { extractText } from '@/lib/utils/text-extraction'
 import { processSourceDocument } from '@/lib/services/extractionService'
+import { processGuidelineDocument } from '@/lib/services/guidelineExtractionService'
 import { revalidatePath } from 'next/cache'
 import type { CheckboxCategory, RedFlagSeverity } from '@prisma/client'
 
-export async function uploadDocument(formData: globalThis.FormData) {
+type ExtractionMode = 'syndrome' | 'guideline'
+
+export async function uploadDocument(
+  formData: globalThis.FormData,
+  mode: ExtractionMode = 'syndrome'
+) {
   const file = formData.get('file') as globalThis.File
 
   if (!file) {
@@ -27,10 +33,14 @@ export async function uploadDocument(formData: globalThis.FormData) {
       },
     })
 
-    // 3. Trigger extraction immediately (optional, or can be separate step)
-    // For better UX, we might want to do this async or let the user trigger it
-    // But for MVP, let's just trigger it.
-    await processSourceDocument(document.id)
+    // 3. Trigger extraction immediately based on mode
+    if (mode === 'guideline') {
+      console.log(`[UploadDocument] Processing as Brazilian guideline (dual extraction)`)
+      await processGuidelineDocument(document.id)
+    } else {
+      console.log(`[UploadDocument] Processing as standard syndrome extraction`)
+      await processSourceDocument(document.id)
+    }
 
     revalidatePath('/admin/import')
     return { success: true, documentId: document.id }

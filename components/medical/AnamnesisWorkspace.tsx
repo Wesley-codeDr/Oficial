@@ -23,7 +23,7 @@ export const AnamnesisWorkspace: React.FC<AnamnesisWorkspaceProps> = ({
   activeTool,
   onActiveToolChange
 }) => {
-  const [leftWidth, setLeftWidth] = useState(50) // percentage
+  const [leftWidth, setLeftWidth] = useState(70) // percentage - checkboxes get more space initially
   const [isResizing, setIsResizing] = useState(false)
   
   const containerRef = useRef<globalThis.HTMLDivElement>(null)
@@ -131,7 +131,7 @@ const GlassChat: React.FC<{ onClose: () => void; content: React.ReactNode }> = (
     animate={{ x: 0, scale: 1, opacity: 1, filter: 'blur(0px)' }}
     exit={{ x: 60, scale: 0.9, opacity: 0, filter: 'blur(20px)' }}
     transition={applePhysics.soft}
-    className="absolute top-6 bottom-6 right-24 w-80 md:w-[420px] rounded-[44px] glass-elevated !bg-white/15 dark:!bg-black/30 shadow-[0_45px_120px_rgba(0,0,0,0.25)] z-50 flex flex-col overflow-hidden glass-texture ring-1 ring-white/10"
+    className="absolute top-6 bottom-6 right-24 w-80 md:w-[420px] rounded-[44px] glass-elevated bg-white/15! dark:bg-black/30! shadow-[0_45px_120px_rgba(0,0,0,0.25)] z-50 flex flex-col overflow-hidden glass-texture ring-1 ring-white/10"
   >
     {/* Specular Rim Light */}
     <div className="absolute inset-0 rounded-[44px] pointer-events-none border border-white/20 z-10 rim-highlight" />
@@ -166,7 +166,7 @@ const CalculatorWidget: React.FC<{ onClose: () => void; content: React.ReactNode
     animate={{ scale: 1, opacity: 1, filter: 'blur(0px)', y: 0 }}
     exit={{ scale: 0.8, opacity: 0, filter: 'blur(10px)', y: 20 }}
     transition={applePhysics.spatial}
-    className="absolute top-1/2 -translate-y-1/2 right-8 w-[520px] max-w-[90vw] rounded-[44px] glass-elevated !bg-white/40 dark:!bg-slate-900/40 shadow-[0_50px_150px_rgba(0,0,0,0.35)] z-50 flex flex-col overflow-hidden glass-texture ring-1 ring-white/15"
+    className="absolute top-1/2 -translate-y-1/2 right-8 w-[520px] max-w-[90vw] rounded-[44px] glass-elevated bg-white/40! dark:bg-slate-900/40! shadow-[0_50px_150px_rgba(0,0,0,0.35)] z-50 flex flex-col overflow-hidden glass-texture ring-1 ring-white/15"
   >
     <div className="flex items-center justify-between p-7 border-b border-white/10 dark:border-white/5 bg-emerald-500/5 relative z-20">
       <div className="flex items-center gap-4">

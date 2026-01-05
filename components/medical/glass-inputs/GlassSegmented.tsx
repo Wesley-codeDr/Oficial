@@ -13,7 +13,7 @@ interface GlassSegmentedProps {
 
 export const GlassSegmented: React.FC<GlassSegmentedProps> = React.memo(({ item, value, onChange }) => {
   return (
-    <div className="px-7 py-7 border-b border-white/[0.04] first:rounded-t-[32px] last:rounded-b-[32px] last:border-0 relative group/segmented overflow-hidden glass-texture">
+    <div className="px-7 py-7 border-b border-white/4 first:rounded-t-[32px] last:rounded-b-[32px] last:border-0 relative group/segmented overflow-hidden glass-texture">
        <div className="mb-4 flex items-center justify-between px-1 relative z-10">
          <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest opacity-60 group-hover/segmented:opacity-100 transition-opacity">
            {item.label}

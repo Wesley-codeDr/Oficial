@@ -83,7 +83,7 @@ export const ChatWell: React.FC = () => {
                   ${
                     msg.sender === 'user'
                       ? 'bg-linear-to-br from-blue-600 to-indigo-600 text-white rounded-tr-sm shadow-blue-500/20'
-                      : 'liquid-glass-material !bg-white/40 dark:!bg-white/5 border-white/40 dark:border-white/10 text-slate-800 dark:text-slate-100 rounded-tl-sm glass-texture'
+                      : 'liquid-glass-material bg-white/40! dark:bg-white/5! border-white/40 dark:border-white/10 text-slate-800 dark:text-slate-100 rounded-tl-sm glass-texture'
                   }
                 `}
               >
@@ -113,7 +113,7 @@ export const ChatWell: React.FC = () => {
             className="flex justify-start w-full"
           >
             <div
-              className="liquid-glass-material !bg-white/30 dark:!bg-white/5 px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1.5"
+              className="liquid-glass-material bg-white/30! dark:bg-white/5! px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1.5"
             >
               <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
               <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
@@ -129,7 +129,7 @@ export const ChatWell: React.FC = () => {
         <motion.div
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          className="p-2 rounded-[32px] liquid-glass-material !bg-white/40 dark:!bg-black/30 backdrop-blur-3xl border-white/40 dark:border-white/10 shadow-2xl flex items-end gap-2 group focus-within:ring-2 focus-within:ring-blue-500/30 transition-all duration-500"
+          className="p-2 rounded-[32px] liquid-glass-material bg-white/40! dark:bg-black/30! backdrop-blur-3xl border-white/40 dark:border-white/10 shadow-2xl flex items-end gap-2 group focus-within:ring-2 focus-within:ring-blue-500/30 transition-all duration-500"
         >
           <button
             className="p-3.5 rounded-2xl hover:bg-blue-500/10 text-slate-500 dark:text-slate-400 transition-all duration-300 shrink-0 hover:scale-110 active:scale-95"

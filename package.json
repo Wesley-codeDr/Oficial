@@ -29,7 +29,8 @@
     "sync:pull": "tsx scripts/sync/obsidian-to-ts.ts",
     "sync:push": "tsx scripts/sync/ts-to-obsidian.ts",
     "sync:validate": "tsx scripts/sync/validate.ts",
-    "sync:watch": "tsx scripts/sync/watch.ts"
+    "sync:watch": "tsx scripts/sync/watch.ts",
+    "validate:high-risk": "tsx scripts/validation/validate-high-risk.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
