@@ -54,7 +54,9 @@ export async function login(_prevState: AuthState, formData: FormData): Promise<
 
   const validated = loginSchema.safeParse(rawData)
   if (!validated.success) {
-    return { error: validated.error.errors[0]?.message ?? 'Dados invalidos' }
+    const firstError = validated.error.errors?.[0]
+    const errorMessage = firstError?.message || 'Dados inválidos. Verifique os campos.'
+    return { error: errorMessage }
   }
 
   const supabase = await createServerClient()
@@ -95,7 +97,9 @@ export async function register(_prevState: AuthState, formData: FormData): Promi
 
   const validated = registerSchema.safeParse(rawData)
   if (!validated.success) {
-    return { error: validated.error.errors[0]?.message ?? 'Dados invalidos' }
+    const firstError = validated.error.errors?.[0]
+    const errorMessage = firstError?.message || 'Dados inválidos. Verifique os campos.'
+    return { error: errorMessage }
   }
 
   const supabase = await createServerClient()
