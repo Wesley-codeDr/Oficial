@@ -1,4 +1,4 @@
-import { streamText, type Message } from 'ai'
+import { streamText, type CoreMessage } from 'ai'
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
 import { openai, DEFAULT_MODEL, MODEL_CONFIG } from '@/lib/ai/config'
@@ -93,15 +93,13 @@ export async function POST(
     }
 
     // Build message history for context
-    const messageHistory: Message[] = conversation.messages.map((msg) => ({
-      id: msg.id,
+    const messageHistory: CoreMessage[] = conversation.messages.map((msg) => ({
       role: msg.role === 'USER' ? 'user' : 'assistant',
       content: msg.content,
     }))
 
     // Add current message
     messageHistory.push({
-      id: 'current',
       role: 'user',
       content,
     })
@@ -115,7 +113,7 @@ export async function POST(
       system: systemPrompt,
       messages: messageHistory,
       temperature: MODEL_CONFIG.temperature,
-      maxTokens: MODEL_CONFIG.maxTokens,
+      maxCompletionTokens: MODEL_CONFIG.maxTokens,
       onFinish: async ({ text }) => {
         // Save assistant message after streaming completes
         const citations = extractCitations(text)
@@ -152,7 +150,7 @@ export async function POST(
       },
     })
 
-    return result.toDataStreamResponse()
+    return result.toTextStreamResponse()
   } catch (error) {
     console.error('Error in chat:', error)
     return new Response('Internal Server Error', { status: 500 })

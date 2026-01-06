@@ -7,20 +7,21 @@ import { applePhysics } from "@/lib/design-system/animation-tokens"
 
 interface GlassCardProps extends HTMLMotionProps<"div"> {
   variant?: "default" | "dark" | "light" | "elevated"
+  hover?: boolean
 }
 
 const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
-  ({ className, variant = "default", ...props }, ref) => {
+  ({ className, variant = "default", hover = true, ...props }, ref) => {
     return (
       <motion.div
         ref={ref}
         initial={{ opacity: 0, scale: 0.98, y: 10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        whileHover={{ 
+        whileHover={hover ? {
           scale: 1.01,
           y: -2,
           transition: { ...applePhysics.glass, stiffness: 350, damping: 25 } // Physical lift
-        }}
+        } : undefined}
         transition={applePhysics.glass}
         className={cn(
           "rounded-[32px] p-6 overflow-hidden",

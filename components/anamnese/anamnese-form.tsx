@@ -119,7 +119,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     const complaintContext = selectedComplaint
       ? {
           complaintId: selectedComplaint.id,
-          complaintTitle: selectedComplaint.name_pt,
+          complaintTitle: selectedComplaint.title,
           complaintGroup: selectedComplaint.group,
           complaintEBM: selectedComplaint.extendedContentEBM,
         }
@@ -145,6 +145,16 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
     return checkboxRedFlags
   }, [selectedCheckboxes, selectedComplaint])
+
+  // Normalize red flags for RedFlagAlert component
+  const normalizedRedFlags = useMemo(() => {
+    return redFlags.map((rf, index) => ({
+      id: 'id' in rf ? rf.id : `ebm-rf-${index}`,
+      displayText: 'displayText' in rf ? rf.displayText : rf.description,
+      severity: 'severity' in rf ? (rf.severity as 'warning' | 'danger' | 'critical') : undefined,
+      action: 'immediateAction' in rf ? rf.immediateAction : undefined,
+    }))
+  }, [redFlags])
 
   const handleToggle = (id: string) => {
     setSelectedIds((prev) => {
@@ -278,7 +288,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           checkedItems: Array.from(selectedIds),
           generatedText: narrative,
           outputMode,
-          redFlagsDetected: redFlags.map((rf) => rf.id),
+          redFlagsDetected: redFlags.map((rf) => 'id' in rf ? rf.id : rf.description),
         })
 
         setSavedSessionId(session.id)
@@ -294,7 +304,8 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
         // Track red flags if detected
         redFlags.forEach((rf) => {
-          analytics.redFlagDetected(syndrome.code, rf.displayText, 'WARNING')
+          const displayText = 'displayText' in rf ? rf.displayText : rf.description
+          analytics.redFlagDetected(syndrome.code, displayText, 'WARNING')
         })
 
         toast({
@@ -425,7 +436,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
         </div>
 
         {/* Red Flag Alert */}
-        <RedFlagAlert redFlags={redFlags} />
+        <RedFlagAlert redFlags={normalizedRedFlags} />
 
         {/* Checkbox Groups */}
         <div className="space-y-10 px-1">
