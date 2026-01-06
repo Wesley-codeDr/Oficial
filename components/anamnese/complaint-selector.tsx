@@ -1,19 +1,17 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Search, ChevronDown, X, AlertTriangle, Activity, Stethoscope } from 'lucide-react'
-import { combinedComplaintsData, getComplaintsByGroup } from '@/lib/data/allComplaints'
+import { Search, ChevronDown, X, AlertTriangle, Stethoscope, CheckCircle2, Calendar } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { buildComplaintGroups } from '@/lib/data/complaint-groups'
+import { useComplaints } from '@/hooks/use-complaints'
+import type { ComplaintApiPayload } from '@/lib/types/complaints-api'
+import { Badge } from '@/components/ui/badge'
 
 interface ComplaintSelectorProps {
   selectedComplaintId: string | null
   onComplaintSelect: (complaintId: string) => void
   onClear: () => void
-}
-
-const RISK_COLORS: Record<string, string> = {
-  high: 'bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400 border-red-200',
-  medium: 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-400 border-amber-200',
-  low: 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-400 border-green-200',
 }
 
 const GROUP_COLORS: Record<string, string> = {
@@ -49,7 +47,9 @@ export function ComplaintSelector({
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedGroup, setSelectedGroup] = useState<string | null>(null)
 
-  const { groups, complaints } = combinedComplaintsData
+  const { data: complaintsResponse, isLoading, isError } = useComplaints({ limit: 500, isActive: true })
+  const complaints = useMemo(() => complaintsResponse?.data ?? [], [complaintsResponse?.data])
+  const groups = useMemo(() => buildComplaintGroups(complaints), [complaints])
 
   // Queixa selecionada
   const selectedComplaint = useMemo(() => {
@@ -59,7 +59,7 @@ export function ComplaintSelector({
 
   // Queixas filtradas
   const filteredComplaints = useMemo(() => {
-    let result = complaints
+    let result: ComplaintApiPayload[] = complaints
 
     // Filtrar por grupo
     if (selectedGroup) {
@@ -77,7 +77,7 @@ export function ComplaintSelector({
     }
 
     // Ordenar por risco e nome
-    return result.sort((a, b) => {
+    return [...result].sort((a, b) => {
       const riskOrder: Record<string, number> = { high: 0, medium: 1, low: 2 }
       const riskDiff = (riskOrder[a.riskLevel] ?? 2) - (riskOrder[b.riskLevel] ?? 2)
       if (riskDiff !== 0) return riskDiff
@@ -112,22 +112,19 @@ export function ComplaintSelector({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`
-          w-full flex items-center justify-between gap-3 px-4 py-3
-          bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm
-          border-2 rounded-xl transition-all
-          ${selectedComplaint
-            ? 'border-blue-500/50 shadow-md'
-            : 'border-slate-200 dark:border-slate-700 hover:border-blue-300'}
-        `}
+        className={cn(
+          'w-full flex items-center justify-between gap-3 px-4 py-3',
+          'glass-pill rim-light-ios26 transition-all',
+          selectedComplaint
+            ? 'ring-2 ring-blue-500/50 shadow-md'
+            : 'hover:ring-2 hover:ring-blue-300/50'
+        )}
       >
         <div className="flex items-center gap-3 min-w-0">
-          <div className={`
-            w-10 h-10 rounded-lg flex items-center justify-center
-            ${selectedComplaint
-              ? 'bg-blue-100 dark:bg-blue-500/20'
-              : 'bg-slate-100 dark:bg-slate-700'}
-          `}>
+          <div className={cn(
+            'w-10 h-10 rounded-lg flex items-center justify-center glass-pill',
+            selectedComplaint && 'bg-blue-500/10'
+          )}>
             <Stethoscope className={`w-5 h-5 ${selectedComplaint ? 'text-blue-600' : 'text-slate-500'}`} />
           </div>
 
@@ -138,10 +135,12 @@ export function ComplaintSelector({
                   <span className={`text-xs font-medium ${GROUP_COLORS[selectedComplaint.group] || 'text-gray-500'}`}>
                     {groups.find(g => g.code === selectedComplaint.group)?.label || selectedComplaint.group}
                   </span>
-                  <span className={`
-                    text-[10px] px-1.5 py-0.5 rounded-full font-medium border
-                    ${RISK_COLORS[selectedComplaint.riskLevel]}
-                  `}>
+                  <span className={cn(
+                    'text-[10px] px-1.5 py-0.5 rounded-full font-medium glass-pill',
+                    selectedComplaint.riskLevel === 'high' && 'text-red-600 dark:text-red-400',
+                    selectedComplaint.riskLevel === 'medium' && 'text-amber-600 dark:text-amber-400',
+                    selectedComplaint.riskLevel === 'low' && 'text-green-600 dark:text-green-400'
+                  )}>
                     {selectedComplaint.riskLevel === 'high' ? 'ALTO' :
                      selectedComplaint.riskLevel === 'medium' ? 'MÉDIO' : 'BAIXO'}
                   </span>
@@ -182,9 +181,9 @@ export function ComplaintSelector({
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute z-50 top-full left-0 right-0 mt-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 shadow-xl overflow-hidden">
+        <div className="absolute z-50 top-full left-0 right-0 mt-2 liquid-glass-material rim-light-ios26 inner-glow-ios26 rounded-xl shadow-xl overflow-hidden">
           {/* Search Input */}
-          <div className="p-3 border-b border-slate-200 dark:border-slate-700">
+          <div className="p-3 border-b border-white/20 dark:border-white/10">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
               <input
@@ -192,23 +191,23 @@ export function ComplaintSelector({
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Buscar queixa, sintoma ou síndrome..."
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2.5 glass-pill rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                 autoFocus
               />
             </div>
           </div>
 
           {/* Groups Pills */}
-          <div className="p-2 border-b border-slate-200 dark:border-slate-700 flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
+          <div className="p-2 border-b border-white/20 dark:border-white/10 flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
             <button
               type="button"
               onClick={() => setSelectedGroup(null)}
-              className={`
-                px-2.5 py-1 rounded-full text-xs font-medium transition-colors
-                ${!selectedGroup
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200'}
-              `}
+              className={cn(
+                'px-2.5 py-1 rounded-full text-xs font-medium transition-all glass-pill',
+                !selectedGroup
+                  ? 'bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
+                  : 'hover:bg-white/20 text-slate-600 dark:text-slate-300'
+              )}
             >
               Todos ({complaints.length})
             </button>
@@ -217,12 +216,12 @@ export function ComplaintSelector({
                 key={group.code}
                 type="button"
                 onClick={() => setSelectedGroup(group.code === selectedGroup ? null : group.code)}
-                className={`
-                  px-2.5 py-1 rounded-full text-xs font-medium transition-colors
-                  ${selectedGroup === group.code
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-200'}
-                `}
+                className={cn(
+                  'px-2.5 py-1 rounded-full text-xs font-medium transition-all glass-pill',
+                  selectedGroup === group.code
+                    ? 'bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
+                    : 'hover:bg-white/20 text-slate-600 dark:text-slate-300'
+                )}
               >
                 {group.label} ({group.count})
               </button>
@@ -231,7 +230,17 @@ export function ComplaintSelector({
 
           {/* Complaints List */}
           <div className="max-h-72 overflow-y-auto">
-            {filteredComplaints.length === 0 ? (
+            {isLoading ? (
+              <div className="p-6 text-center text-slate-500">
+                <Search className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                <p>Carregando queixas...</p>
+              </div>
+            ) : isError ? (
+              <div className="p-6 text-center text-rose-500">
+                <AlertTriangle className="w-8 h-8 mx-auto mb-2 opacity-60" />
+                <p>Nao foi possivel carregar as queixas</p>
+              </div>
+            ) : filteredComplaints.length === 0 ? (
               <div className="p-6 text-center text-slate-500">
                 <Search className="w-8 h-8 mx-auto mb-2 opacity-40" />
                 <p>Nenhuma queixa encontrada</p>
@@ -243,28 +252,48 @@ export function ComplaintSelector({
                     key={complaint.id}
                     type="button"
                     onClick={() => handleSelect(complaint.id)}
-                    className={`
-                      w-full flex items-start gap-3 p-3 rounded-lg text-left transition-colors
-                      ${selectedComplaintId === complaint.id
-                        ? 'bg-blue-50 dark:bg-blue-500/10'
-                        : 'hover:bg-slate-50 dark:hover:bg-slate-700/50'}
-                    `}
+                    className={cn(
+                      'w-full flex items-start gap-3 p-3 rounded-lg text-left transition-all',
+                      selectedComplaintId === complaint.id
+                        ? 'glass-pill bg-blue-500/10 ring-1 ring-blue-500/20'
+                        : 'hover:bg-white/10 dark:hover:bg-white/5'
+                    )}
                   >
                     {/* Risk Indicator */}
                     <div className={`
                       w-2 h-2 rounded-full mt-2 shrink-0
-                      ${complaint.riskLevel === 'high' ? 'bg-red-500' :
+                      ${complaint.riskLevel === 'high' ? 'bg-red-500 animate-pulse' :
                         complaint.riskLevel === 'medium' ? 'bg-amber-500' : 'bg-green-500'}
                     `} />
 
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-0.5">
+                      <div className="flex items-center gap-2 mb-0.5 flex-wrap">
                         <span className={`text-xs font-medium ${GROUP_COLORS[complaint.group] || 'text-gray-500'}`}>
                           {groups.find(g => g.code === complaint.group)?.label || complaint.group}
                         </span>
                         {complaint.riskLevel === 'high' && (
                           <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
                         )}
+                        {/* Red Flags Count */}
+                        {complaint.extendedContentEBM?.redFlags && complaint.extendedContentEBM.redFlags.length > 0 && (
+                          <Badge variant="destructive" className="h-4 px-1.5 text-[10px] gap-0.5 bg-red-600 text-white">
+                            🚨 {complaint.extendedContentEBM.redFlags.length}
+                          </Badge>
+                        )}
+                        {/* EBM Verified Badge */}
+                        {complaint.extendedContentEBM?.lastEBMReview && (() => {
+                          const reviewDate = new Date(complaint.extendedContentEBM.lastEBMReview)
+                          const now = new Date()
+                          const monthsDiff = Math.floor((now.getTime() - reviewDate.getTime()) / (1000 * 60 * 60 * 24 * 30))
+                          const isRecent = monthsDiff < 6
+
+                          return isRecent && (
+                            <Badge variant="outline" className="h-4 px-1.5 text-[10px] gap-0.5 bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300 border-green-200 dark:border-green-800">
+                              <CheckCircle2 className="w-2.5 h-2.5" />
+                              EBM
+                            </Badge>
+                          )
+                        })()}
                       </div>
                       <p className="font-medium text-slate-800 dark:text-slate-200">
                         {complaint.title}
@@ -272,6 +301,15 @@ export function ComplaintSelector({
                       <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
                         {complaint.subtitle}
                       </p>
+                      {/* Last Review Date (se disponível) */}
+                      {complaint.extendedContentEBM?.lastEBMReview && (
+                        <div className="flex items-center gap-1 mt-1 text-[10px] text-slate-400">
+                          <Calendar className="w-2.5 h-2.5" />
+                          <span>
+                            Rev. {new Date(complaint.extendedContentEBM.lastEBMReview).toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' })}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </button>
                 ))}
@@ -280,7 +318,7 @@ export function ComplaintSelector({
           </div>
 
           {/* Footer */}
-          <div className="p-2 border-t border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900">
+          <div className="p-2 border-t border-white/20 dark:border-white/10 glass-pill">
             <p className="text-xs text-center text-slate-500">
               {filteredComplaints.length} queixa(s) disponível(is)
             </p>

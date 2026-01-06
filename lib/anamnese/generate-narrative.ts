@@ -139,6 +139,32 @@ const CATEGORY_ORDER: CheckboxCategory[] = [
 export type OutputMode = 'SUMMARY' | 'DETAILED'
 
 /**
+ * Contexto de queixa para enriquecimento da narrativa com EBM
+ */
+export type ComplaintContext = {
+  complaintId: string
+  complaintTitle: string
+  complaintGroup: string
+  complaintEBM?: {
+    redFlags?: Array<{
+      description: string
+      severity: 'critical' | 'warning' | 'caution'
+      immediateAction?: string
+    }>
+    diagnosticoDiferencial?: Array<{
+      condition: string
+      icd10?: string
+      probability: 'high' | 'medium' | 'low'
+    }>
+    condutaInicial?: string
+    ebmReferences?: Array<{
+      title: string
+      source: string
+    }>
+  }
+}
+
+/**
  * Junta itens com separador apropriado e "e" antes do último
  */
 function joinWithLastSeparator(
@@ -197,11 +223,13 @@ function cleanNarrative(text: string, category: CheckboxCategory): string {
  * @param selectedCheckboxes - Lista de checkboxes selecionados
  * @param mode - Modo de saída: SUMMARY (texto corrido) ou DETAILED (com títulos)
  * @param context - Contexto do paciente (gênero, pediátrico, intensidade)
+ * @param complaintContext - Contexto da queixa com dados EBM (opcional)
  */
 export function generateNarrative(
   selectedCheckboxes: CheckboxData[],
   mode: OutputMode = 'SUMMARY',
-  context?: PatientContext
+  context?: PatientContext,
+  complaintContext?: ComplaintContext
 ): string {
   if (selectedCheckboxes.length === 0) {
     return ''
@@ -360,6 +388,32 @@ export function generateNarrative(
       : `ALERTA: ${redFlagNarratives.join('; ')}.`
 
     sections.push(redFlagSection)
+  }
+
+  // Adiciona contexto EBM se disponível (apenas em modo DETAILED)
+  if (mode === 'DETAILED' && complaintContext?.complaintEBM) {
+    const ebm = complaintContext.complaintEBM
+
+    // Adiciona diagnósticos diferenciais de alta probabilidade
+    if (ebm.diagnosticoDiferencial && ebm.diagnosticoDiferencial.length > 0) {
+      const highProbDD = ebm.diagnosticoDiferencial
+        .filter(dd => dd.probability === 'high')
+        .slice(0, 3) // Máximo 3 diagnósticos
+
+      if (highProbDD.length > 0) {
+        const ddList = highProbDD.map(dd => {
+          const icd = dd.icd10 ? ` (${dd.icd10})` : ''
+          return `• ${dd.condition}${icd}`
+        }).join('\n')
+
+        sections.push(`**📋 Diagnósticos Diferenciais Principais:**\n${ddList}`)
+      }
+    }
+
+    // Adiciona nota sobre protocolo disponível
+    if (ebm.condutaInicial) {
+      sections.push(`**📖 Nota:** Protocolo de conduta inicial disponível no sistema.`)
+    }
   }
 
   // Junta as seções

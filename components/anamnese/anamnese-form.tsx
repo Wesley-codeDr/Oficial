@@ -16,6 +16,7 @@ import { saveAnamneseSession, markSessionAsCopied } from '@/lib/anamnese/actions
 import { useToast } from '@/hooks/use-toast'
 import { analytics } from '@/lib/analytics'
 import { usePatientStore } from '@/stores/patient-store'
+import { useComplaint } from '@/hooks/use-complaints'
 import type { CheckboxCategory as CheckboxCategoryType } from '@/lib/types/medical'
 
 type CheckboxData = {
@@ -89,6 +90,9 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   const [selectedComplaintId, setSelectedComplaintId] = useState<string | null>(null)
   const [prioritySelectedCheckboxes, setPrioritySelectedCheckboxes] = useState<Set<string>>(new Set())
 
+  // Load complaint data when selected
+  const { data: selectedComplaint } = useComplaint(selectedComplaintId || '')
+
   // Group checkboxes by category
   const groupedCheckboxes = useMemo(() => {
     const groups: Record<CheckboxCategory, CheckboxData[]> = {} as Record<
@@ -110,15 +114,37 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     return syndrome.checkboxes.filter((cb) => selectedIds.has(cb.id))
   }, [syndrome.checkboxes, selectedIds])
 
-  // Generate narrative
+  // Generate narrative (with complaint context)
   const narrative = useMemo(() => {
-    return generateNarrative(selectedCheckboxes, outputMode, patientContext)
-  }, [selectedCheckboxes, outputMode, patientContext])
+    const complaintContext = selectedComplaint
+      ? {
+          complaintId: selectedComplaint.id,
+          complaintTitle: selectedComplaint.name_pt,
+          complaintGroup: selectedComplaint.group,
+          complaintEBM: selectedComplaint.extendedContentEBM,
+        }
+      : undefined
 
-  // Detect red flags
+    return generateNarrative(selectedCheckboxes, outputMode, patientContext, complaintContext)
+  }, [selectedCheckboxes, outputMode, patientContext, selectedComplaint])
+
+  // Detect red flags (from checkboxes + complaint EBM)
   const redFlags = useMemo(() => {
-    return detectRedFlags(selectedCheckboxes)
-  }, [selectedCheckboxes])
+    const checkboxRedFlags = detectRedFlags(selectedCheckboxes)
+
+    // Add red flags from complaint EBM
+    if (selectedComplaint?.extendedContentEBM?.redFlags) {
+      const complaintRedFlags = selectedComplaint.extendedContentEBM.redFlags.map(rf => ({
+        description: rf.description,
+        severity: rf.severity,
+        immediateAction: rf.immediateAction,
+        source: 'complaint' as const,
+      }))
+      return [...checkboxRedFlags, ...complaintRedFlags]
+    }
+
+    return checkboxRedFlags
+  }, [selectedCheckboxes, selectedComplaint])
 
   const handleToggle = (id: string) => {
     setSelectedIds((prev) => {
@@ -340,7 +366,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
       <div className="space-y-8">
         
         {/* Complaint Selector */}
-        <div className="liquid-glass-material rounded-[32px] p-6 border border-white/20 dark:border-white/5 shadow-xl">
+        <div className="glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[32px] p-6 shadow-xl">
           <ComplaintSelector
             selectedComplaintId={selectedComplaintId}
             onComplaintSelect={handleComplaintSelect}
@@ -350,10 +376,10 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
         {/* Priority Checkboxes Panel */}
         {selectedComplaintId && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="liquid-glass-material rounded-[32px] p-6 border border-white/20 dark:border-white/5 shadow-xl"
+            className="glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[32px] p-6 shadow-xl"
           >
             <PriorityCheckboxPanel
               complaintId={selectedComplaintId}
@@ -365,14 +391,14 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
         {/* Mode Toggle and Main Controls */}
         <div className="flex flex-wrap items-center justify-between gap-4 px-2">
-          <div className="flex items-center gap-2 p-1.5 bg-white/10 dark:bg-white/5 rounded-2xl border border-white/20">
+          <div className="flex items-center gap-2 p-1.5 glass-pill rounded-2xl">
             <button
               onClick={() => setOutputMode('SUMMARY')}
               className={cn(
                 'flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all',
-                outputMode === 'SUMMARY' 
-                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20' 
-                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/5'
+                outputMode === 'SUMMARY'
+                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
+                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10'
               )}
             >
               <List className="h-3.5 w-3.5" />
@@ -382,9 +408,9 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
               onClick={() => setOutputMode('DETAILED')}
               className={cn(
                 'flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all',
-                outputMode === 'DETAILED' 
-                  ? 'bg-blue-500 text-white shadow-lg shadow-blue-500/20' 
-                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/5'
+                outputMode === 'DETAILED'
+                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
+                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10'
               )}
             >
               <FileText className="h-3.5 w-3.5" />
@@ -392,7 +418,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             </button>
           </div>
 
-          <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2 bg-slate-100 dark:bg-white/5 px-4 py-2 rounded-full">
+          <div className="text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2 glass-pill px-4 py-2">
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
             {selectedIds.size} Iten{selectedIds.size !== 1 ? 's' : ''} Selecionado{selectedIds.size !== 1 ? 's' : ''}
           </div>
@@ -419,20 +445,25 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           <button
             onClick={handleReset}
             disabled={selectedIds.size === 0}
-            className="glass-btn-small flex items-center gap-2"
+            className={cn(
+              'glass-pill px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
+              selectedIds.size === 0
+                ? 'text-slate-400 cursor-not-allowed'
+                : 'text-slate-600 dark:text-slate-300 hover:bg-white/20 hover:scale-105'
+            )}
           >
             <RotateCcw className="h-3.5 w-3.5" />
             Limpar
           </button>
-          
-          <button 
-            onClick={handleSave} 
+
+          <button
+            onClick={handleSave}
             disabled={isPending || selectedIds.size === 0}
             className={cn(
               'px-8 py-3.5 rounded-[20px] font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 flex items-center gap-3',
               isPending || selectedIds.size === 0
-                ? 'bg-slate-200 dark:bg-slate-800 text-slate-400 cursor-not-allowed'
-                : 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:scale-105 shadow-xl shadow-blue-500/10 active:scale-95'
+                ? 'glass-pill bg-slate-500/20 text-slate-400 cursor-not-allowed'
+                : 'btn-primary-glass text-white hover:scale-105 shadow-xl shadow-blue-500/10 active:scale-95'
             )}
           >
             {isPending ? (
@@ -446,9 +477,14 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           <button
             onClick={handleOpenChat}
             disabled={isPending || !savedSessionId}
-            className="glass-btn-small flex items-center gap-2"
+            className={cn(
+              'glass-pill px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
+              isPending || !savedSessionId
+                ? 'text-slate-400 cursor-not-allowed'
+                : 'text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 hover:scale-105'
+            )}
           >
-            <MessageSquare className="h-3.5 w-3.5 text-blue-500" />
+            <MessageSquare className="h-3.5 w-3.5" />
             <span>Consultar EBM</span>
           </button>
         </div>
