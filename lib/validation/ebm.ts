@@ -29,6 +29,21 @@ const EBMSourceSchema = z.enum([
   'sbpt',
   'amb',
   'ms',
+  'esc-guideline',
+  'acc-aha',
+  'gold-guideline',
+  'amib',
+  'ardsnet',
+  'sbp',
+  'aap',
+  'ilas',
+  'surviving-sepsis',
+  'aha-guideline',
+  'ms-brasil',
+  'paho',
+  'acep',
+  'acg-guideline',
+  'neurocritical-care',
 ])
 
 const EvidenceLevelSchema = z.enum(['A', 'B', 'C', 'D'])
