@@ -214,6 +214,30 @@ MVP do sistema de queixas/síndromes com sincronização Obsidian-Database e con
 
 ---
 
+## 🔧 Post-MVP: Correções e Melhorias
+
+### ✅ Consolidação de Rotas Anamnese (2026-01-06)
+
+**Problema:** Rota `/anamnese` não exibia queixas (ComplaintSelector ausente)
+
+**Solução Implementada:**
+- Substituída rota `/app/anamnese/page.tsx` por redirect para `/dashboard`
+- Workflow correto: Dashboard → Selecionar Síndrome → Visualizar Queixas
+- 5 linhas de código (vs 300+ para integração completa)
+
+**Arquivos Modificados:**
+- [app/anamnese/page.tsx](../app/anamnese/page.tsx) - Redirect implementado
+
+**Validação:**
+- ✅ Redirect HTTP 307 funcionando
+- ✅ Workflow síndrome → queixas preservado
+- ✅ Zero quebra de funcionalidade
+- ✅ Specs validadas (004-007 corrigidas)
+
+**Commit:** 9d3b4a08
+
+---
+
 ## 🚀 Como Usar
 
 ### 1. Iniciar Sync Agent
