@@ -17,10 +17,7 @@
 
 // Placeholder for generated types
 // Replace this with your actual database types once generated
-export type Database = {
-  // Your database types will be generated here
-};
-
+export type Database = Record<string, never>
 
 
 

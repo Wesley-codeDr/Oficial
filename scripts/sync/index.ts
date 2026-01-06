@@ -1,10 +1,10 @@
 #!/usr/bin/env tsx
 /**
- * CLI principal do sistema de sincronização Obsidian ↔ TypeScript
+ * CLI principal do sistema de sincronização Obsidian ↔ DB
  *
  * Uso:
- *   npm run sync:pull      - Obsidian → TypeScript
- *   npm run sync:push      - TypeScript → Obsidian
+ *   npm run sync:pull      - Obsidian → DB
+ *   npm run sync:push      - DB → Obsidian
  *   npm run sync:validate  - Validar dados
  *   npm run sync:watch     - Sincronização automática
  */
@@ -18,16 +18,16 @@ async function main() {
 
   switch (command) {
     case 'pull': {
-      console.log(chalk.gray('Executando: Obsidian → TypeScript'));
-      const { syncObsidianToTS } = await import('./obsidian-to-ts');
-      await syncObsidianToTS();
+      console.log(chalk.gray('Executando: Obsidian → DB'));
+      const { syncObsidianToDB } = await import('./obsidian-to-db');
+      await syncObsidianToDB();
       break;
     }
 
     case 'push': {
-      console.log(chalk.gray('Executando: TypeScript → Obsidian'));
-      const { syncTSToObsidian } = await import('./ts-to-obsidian');
-      await syncTSToObsidian();
+      console.log(chalk.gray('Executando: DB → Obsidian'));
+      const { syncDBToObsidian } = await import('./db-to-obsidian');
+      await syncDBToObsidian();
       break;
     }
 
@@ -47,8 +47,8 @@ async function main() {
 
     default:
       console.log(chalk.yellow('Comandos disponíveis:\n'));
-      console.log('  npm run sync:pull      - Sincronizar Obsidian → TypeScript');
-      console.log('  npm run sync:push      - Sincronizar TypeScript → Obsidian');
+      console.log('  npm run sync:pull      - Sincronizar Obsidian → DB');
+      console.log('  npm run sync:push      - Sincronizar DB → Obsidian');
       console.log('  npm run sync:validate  - Validar dados');
       console.log('  npm run sync:watch     - Sincronização automática\n');
       break;

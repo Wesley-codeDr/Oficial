@@ -31,10 +31,10 @@ const config: Config = {
         'apple-black': '900',
       },
       letterSpacing: {
-        'apple-tight': '-0.025em',
-        'apple-display': '-0.04em',
-        'apple-label': '0.1em',
-        'apple-caps': '0.2em',
+        'apple-tight': '-0.015em',
+        'apple-display': '-0.03em',
+        'apple-label': '0.08em',
+        'apple-caps': '0.15em',
       },
       fontSize: {
         // Responsive typography with fluid scaling using clamp()

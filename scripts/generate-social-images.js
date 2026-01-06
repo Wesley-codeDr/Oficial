@@ -55,7 +55,7 @@ async function createOGImage() {
     ctx.shadowColor = 'transparent';
     ctx.shadowBlur = 0;
   } catch (error) {
-    console.warn('⚠️  Logo não encontrado, continuando sem logo');
+    console.warn('⚠️  Logo não encontrado, continuando sem logo', error);
   }
 
   // Text content
@@ -125,7 +125,7 @@ async function createTwitterImage() {
     ctx.shadowColor = 'transparent';
     ctx.shadowBlur = 0;
   } catch (error) {
-    console.warn('⚠️  Logo não encontrado, continuando sem logo');
+    console.warn('⚠️  Logo não encontrado, continuando sem logo', error);
   }
 
   // Text content

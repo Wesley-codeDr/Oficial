@@ -23,8 +23,8 @@ export function MessageBubble({ role, content, isStreaming }: MessageBubbleProps
       {/* Avatar */}
       <div
         className={cn(
-          'flex h-8 w-8 shrink-0 items-center justify-center rounded-full',
-          isUser ? 'bg-primary text-primary-foreground' : 'bg-muted'
+          'flex h-8 w-8 shrink-0 items-center justify-center rounded-full glass-pill rim-light-ios26',
+          isUser ? 'bg-primary/20 text-primary backdrop-blur-xl' : 'bg-muted/50 backdrop-blur-xl'
         )}
       >
         {isUser ? (
@@ -37,10 +37,10 @@ export function MessageBubble({ role, content, isStreaming }: MessageBubbleProps
       {/* Message Content */}
       <div
         className={cn(
-          'flex max-w-[80%] flex-col gap-1 rounded-2xl px-4 py-2',
+          'flex max-w-[80%] flex-col gap-1 rounded-2xl px-4 py-2 glass-pill rim-light-ios26 inner-glow-ios26',
           isUser
-            ? 'bg-primary text-primary-foreground'
-            : 'bg-muted text-foreground'
+            ? 'bg-primary/20 text-primary-foreground backdrop-blur-xl'
+            : 'bg-muted/50 text-foreground backdrop-blur-xl'
         )}
       >
         <div className="prose prose-sm dark:prose-invert max-w-none">

@@ -1,19 +1,18 @@
 import { Metadata } from 'next'
 import { notFound, redirect } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Trash2 } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
 import { Button } from '@/components/ui/button'
 import { ChatInterface } from '@/components/chat/chat-interface'
-import { buildMinimalContext } from '@/lib/ai/context'
 import { DeleteConversationButton } from './delete-button'
 
 interface ChatPageProps {
   params: Promise<{ id: string }>
 }
 
-export async function generateMetadata({ params }: ChatPageProps): Promise<Metadata> {
+export async function generateMetadata({ params: _params }: ChatPageProps): Promise<Metadata> {
   return {
     title: 'Chat EBM | WellWave',
     description: 'Conversa com o assistente EBM.',

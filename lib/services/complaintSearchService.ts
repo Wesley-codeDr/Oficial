@@ -3,16 +3,9 @@
  * Advanced searching with fuzzy matching, synonyms, relevance scoring, and filtering
  */
 
+import type { Complaint } from '@/lib/types/medical'
 import { normalizeText, tokenize, generateNGrams } from '@/lib/utils/textNormalization'
 import { fuzzyMatch } from '@/lib/utils/fuzzyMatch'
-import {
-  getSearchIndex,
-  getComplaintById,
-  findComplaintsMatchingTerm,
-  findComplaintsMatchingNGrams,
-  findComplaintsMatchingSynonym,
-  getRelatedComplaints,
-} from '@/lib/data/searchIndex'
 
 export interface ComplaintFilters {
   patientCategory?: string[]
@@ -37,14 +30,173 @@ export interface SearchResult {
   searchWeight: number
 }
 
+export interface SearchIndex {
+  lastBuilt: number
+  version: string
+  complaints: {
+    [complaintId: string]: {
+      id: string
+      group: string
+      title: string
+      subtitle: string
+      allSearchableText: string[]
+      synonyms: string[]
+      searchTerms: string[]
+      chips: string[]
+      commonMisconceptions: string[]
+      bodySystem: string[]
+      severity: number
+      riskLevel: string
+      isFastTrack: boolean
+      icd10Codes: string[]
+      searchWeight: number
+    }
+  }
+  invertedIndex: {
+    [normalizedTerm: string]: string[]
+  }
+  ngramIndex: {
+    [ngram: string]: string[]
+  }
+  synonymIndex: {
+    [normalizedSynonym: string]: string[]
+  }
+}
+
+export function buildSearchIndex(complaints: Complaint[], version: string = 'runtime'): SearchIndex {
+  const index: SearchIndex = {
+    lastBuilt: Date.now(),
+    version,
+    complaints: {},
+    invertedIndex: {},
+    ngramIndex: {},
+    synonymIndex: {},
+  }
+
+  for (const complaint of complaints) {
+    const complaintEntry = {
+      id: complaint.id,
+      group: complaint.group,
+      title: complaint.title,
+      subtitle: complaint.subtitle,
+      allSearchableText: [
+        complaint.title,
+        complaint.subtitle,
+        ...(complaint.searchTerms || []),
+        ...(complaint.chips || []),
+        ...(complaint.synonyms || []),
+        ...(complaint.commonMisconceptions || []),
+      ],
+      synonyms: complaint.synonyms || [],
+      searchTerms: complaint.searchTerms || [],
+      chips: complaint.chips || [],
+      commonMisconceptions: complaint.commonMisconceptions || [],
+      bodySystem: complaint.bodySystem || [],
+      severity: complaint.severity || 3,
+      riskLevel: complaint.riskLevel,
+      isFastTrack: complaint.isFastTrack || false,
+      icd10Codes: complaint.icd10Codes || [],
+      searchWeight: complaint.searchWeight || 1.0,
+    }
+
+    index.complaints[complaint.id] = complaintEntry
+
+    const processedTerms = new Set<string>()
+
+    for (const text of complaintEntry.allSearchableText) {
+      const normalized = normalizeText(text)
+      const tokens = tokenize(normalized)
+
+      for (const token of tokens) {
+        if (token.length > 0 && !processedTerms.has(token)) {
+          processedTerms.add(token)
+
+          if (!index.invertedIndex[token]) {
+            index.invertedIndex[token] = []
+          }
+          if (!index.invertedIndex[token].includes(complaint.id)) {
+            index.invertedIndex[token].push(complaint.id)
+          }
+
+          const ngrams = generateNGrams(token, 3)
+          for (const ngram of ngrams) {
+            if (!index.ngramIndex[ngram]) {
+              index.ngramIndex[ngram] = []
+            }
+            if (!index.ngramIndex[ngram].includes(complaint.id)) {
+              index.ngramIndex[ngram].push(complaint.id)
+            }
+          }
+        }
+      }
+    }
+
+    for (const synonym of complaintEntry.synonyms) {
+      const normalizedSynonym = normalizeText(synonym)
+      if (!index.synonymIndex[normalizedSynonym]) {
+        index.synonymIndex[normalizedSynonym] = []
+      }
+      if (!index.synonymIndex[normalizedSynonym].includes(complaint.id)) {
+        index.synonymIndex[normalizedSynonym].push(complaint.id)
+      }
+    }
+  }
+
+  return index
+}
+
+function findComplaintsMatchingTerm(index: SearchIndex, normalizedTerm: string): string[] {
+  return index.invertedIndex[normalizedTerm] || []
+}
+
+function findComplaintsMatchingNGrams(index: SearchIndex, ngrams: string[]): string[] {
+  const resultSet = new Set<string>()
+
+  for (const ngram of ngrams) {
+    const matches = index.ngramIndex[ngram] || []
+    matches.forEach((id) => resultSet.add(id))
+  }
+
+  return Array.from(resultSet)
+}
+
+function findComplaintsMatchingSynonym(index: SearchIndex, normalizedSynonym: string): string[] {
+  return index.synonymIndex[normalizedSynonym] || []
+}
+
+function getRelatedComplaints(index: SearchIndex, complaintId: string, limit: number = 5): string[] {
+  const complaint = index.complaints[complaintId]
+  if (!complaint) return []
+
+  const related = new Set<string>()
+
+  for (const [id, comp] of Object.entries(index.complaints)) {
+    if (id === complaintId) continue
+
+    if (comp.group === complaint.group) {
+      related.add(id)
+    } else if (complaint.bodySystem.some((sys) => comp.bodySystem.includes(sys))) {
+      related.add(id)
+    }
+  }
+
+  return Array.from(related).slice(0, limit)
+}
+
+function getComplaintById(index: SearchIndex, complaintId: string) {
+  return index.complaints[complaintId]
+}
+
 /**
  * Searches for complaints based on a search term and optional filters
+ * @param index - Search index built from complaints data
  * @param searchTerm - The term to search for
  * @param filters - Optional filters to narrow down results
  * @param limit - Maximum number of results (default: 50)
  * @returns Array of search results sorted by relevance
  */
 export function searchComplaints(
+  index: SearchIndex,
   searchTerm: string,
   filters?: ComplaintFilters,
   limit: number = 50
@@ -53,13 +205,11 @@ export function searchComplaints(
     return []
   }
 
-  const index = getSearchIndex()
   const normalizedTerm = normalizeText(searchTerm)
   const tokens = tokenize(normalizedTerm)
   const scoreMap = new Map<string, number>()
   const matchTypeMap = new Map<string, 'exact' | 'prefix' | 'synonym' | 'fuzzy' | 'ngram'>()
 
-  // Strategy 1: Exact matches in title
   for (const complaintId of Object.keys(index.complaints)) {
     const complaint = index.complaints[complaintId]
     if (!complaint) continue
@@ -71,7 +221,6 @@ export function searchComplaints(
     }
   }
 
-  // Strategy 2: Prefix matches in title
   for (const complaintId of Object.keys(index.complaints)) {
     const complaint = index.complaints[complaintId]
     if (!complaint) continue
@@ -83,9 +232,8 @@ export function searchComplaints(
     }
   }
 
-  // Strategy 3: Synonym matches
   for (const token of tokens) {
-    const synonymMatches = findComplaintsMatchingSynonym(token)
+    const synonymMatches = findComplaintsMatchingSynonym(index, token)
     for (const complaintId of synonymMatches) {
       const currentScore = scoreMap.get(complaintId) || 0
       const newScore = Math.max(currentScore, 75)
@@ -96,9 +244,8 @@ export function searchComplaints(
     }
   }
 
-  // Strategy 4: Term matches in inverted index
   for (const token of tokens) {
-    const termMatches = findComplaintsMatchingTerm(token)
+    const termMatches = findComplaintsMatchingTerm(index, token)
     for (const complaintId of termMatches) {
       const currentScore = scoreMap.get(complaintId) || 0
       const newScore = Math.max(currentScore, 60)
@@ -109,9 +256,8 @@ export function searchComplaints(
     }
   }
 
-  // Strategy 5: N-gram matches (partial)
   const ngrams = generateNGrams(normalizedTerm, 3)
-  const ngramMatches = findComplaintsMatchingNGrams(ngrams)
+  const ngramMatches = findComplaintsMatchingNGrams(index, ngrams)
   for (const complaintId of ngramMatches) {
     const currentScore = scoreMap.get(complaintId) || 0
     const newScore = Math.max(currentScore, 40)
@@ -121,7 +267,6 @@ export function searchComplaints(
     }
   }
 
-  // Strategy 6: Fuzzy matching (expensive, only for low-scoring items)
   const fuzzyThreshold = 70
   for (const complaintId of Object.keys(index.complaints)) {
     const complaint = index.complaints[complaintId]
@@ -137,7 +282,6 @@ export function searchComplaints(
         }
       }
 
-      // Also try fuzzy match with subtitle and search terms
       const subtitleFuzzy = fuzzyMatch(normalizedTerm, normalizeText(complaint.subtitle), 65)
       if (subtitleFuzzy > 0) {
         scoreMap.set(complaintId, Math.max(scoreMap.get(complaintId) || 0, subtitleFuzzy - 5))
@@ -145,7 +289,6 @@ export function searchComplaints(
     }
   }
 
-  // Filter results below threshold
   const threshold = 30
   let candidateResults: SearchResult[] = []
 
@@ -158,7 +301,7 @@ export function searchComplaints(
         title: complaint.title,
         subtitle: complaint.subtitle,
         group: complaint.group,
-        relevanceScore: score * complaint.searchWeight, // Apply search weight multiplier
+        relevanceScore: score * complaint.searchWeight,
         matchType: matchTypeMap.get(complaintId) || 'fuzzy',
         riskLevel: complaint.riskLevel,
         severity: complaint.severity,
@@ -169,12 +312,10 @@ export function searchComplaints(
     }
   }
 
-  // Apply filters
   if (filters) {
     candidateResults = applyFilters(candidateResults, filters)
   }
 
-  // Sort by relevance score (descending) and then by severity (for equal scores)
   candidateResults.sort((a, b) => {
     if (b.relevanceScore !== a.relevanceScore) {
       return b.relevanceScore - a.relevanceScore
@@ -185,15 +326,8 @@ export function searchComplaints(
   return candidateResults.slice(0, limit)
 }
 
-/**
- * Applies filters to search results
- * @param results - Array of search results
- * @param filters - Filters to apply
- * @returns Filtered results
- */
 function applyFilters(results: SearchResult[], filters: ComplaintFilters): SearchResult[] {
   return results.filter((result) => {
-    // Filter by risk level
     if (
       filters.riskLevel &&
       filters.riskLevel.length > 0 &&
@@ -202,27 +336,20 @@ function applyFilters(results: SearchResult[], filters: ComplaintFilters): Searc
       return false
     }
 
-    // Filter by minimum severity
-    if (filters.minSeverity !== undefined && result.severity < filters.minSeverity) {
+    if (
+      filters.bodySystem &&
+      filters.bodySystem.length > 0 &&
+      !filters.bodySystem.some((system) => result.bodySystem.includes(system))
+    ) {
       return false
     }
 
-    // Filter by body system
-    if (filters.bodySystem && filters.bodySystem.length > 0) {
-      const hasMatchingSystem = result.bodySystem.some((sys) => filters.bodySystem!.includes(sys))
-      if (!hasMatchingSystem) {
-        return false
-      }
-    }
-
-    // Filter by group codes
     if (filters.groupCodes && filters.groupCodes.length > 0) {
       if (!filters.groupCodes.includes(result.group)) {
         return false
       }
     }
 
-    // Filter by fast track
     if (filters.onlyFastTrack && !result.isFastTrack) {
       return false
     }
@@ -233,33 +360,34 @@ function applyFilters(results: SearchResult[], filters: ComplaintFilters): Searc
 
 /**
  * Gets autocomplete suggestions for a search term
+ * @param index - Search index built from complaints data
  * @param searchTerm - Partial term to complete
  * @param limit - Maximum number of suggestions (default: 10)
  * @returns Array of suggestion strings
  */
-export function getSearchSuggestions(searchTerm: string, limit: number = 10): string[] {
+export function getSearchSuggestions(
+  index: SearchIndex,
+  searchTerm: string,
+  limit: number = 10
+): string[] {
   if (!searchTerm || searchTerm.trim().length < 2) {
     return []
   }
 
-  const index = getSearchIndex()
   const normalizedTerm = normalizeText(searchTerm)
   const suggestions = new Set<string>()
 
-  // Get matching titles that start with the search term
   for (const complaint of Object.values(index.complaints)) {
     if (normalizeText(complaint.title).startsWith(normalizedTerm)) {
       suggestions.add(complaint.title)
     }
 
-    // Also add matching search terms
-    for (const searchTerm of complaint.searchTerms) {
-      if (normalizeText(searchTerm).startsWith(normalizedTerm)) {
-        suggestions.add(searchTerm)
+    for (const term of complaint.searchTerms) {
+      if (normalizeText(term).startsWith(normalizedTerm)) {
+        suggestions.add(term)
       }
     }
 
-    // Add matching synonyms
     for (const synonym of complaint.synonyms) {
       if (normalizeText(synonym).startsWith(normalizedTerm)) {
         suggestions.add(synonym)
@@ -272,23 +400,24 @@ export function getSearchSuggestions(searchTerm: string, limit: number = 10): st
 
 /**
  * Gets related complaints for a given complaint ID
+ * @param index - Search index built from complaints data
  * @param complaintId - The ID of the complaint
  * @param limit - Maximum number of related complaints (default: 5)
  * @returns Array of related complaints
  */
-export function getRelated(complaintId: string, limit: number = 5): SearchResult[] {
-  const relatedIds = getRelatedComplaints(complaintId, limit)
+export function getRelated(index: SearchIndex, complaintId: string, limit: number = 5): SearchResult[] {
+  const relatedIds = getRelatedComplaints(index, complaintId, limit)
   const results: SearchResult[] = []
 
   for (const id of relatedIds) {
-    const complaint = getComplaintById(id)
+    const complaint = getComplaintById(index, id)
     if (complaint) {
       results.push({
         complaintId: id,
         title: complaint.title,
         subtitle: complaint.subtitle,
         group: complaint.group,
-        relevanceScore: 50, // Related items have lower relevance score
+        relevanceScore: 50,
         matchType: 'exact',
         riskLevel: complaint.riskLevel,
         severity: complaint.severity,

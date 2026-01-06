@@ -48,7 +48,7 @@ export function ChatInput({
 
   return (
     <form onSubmit={onSubmit} className={cn('relative', className)}>
-      <div className="relative flex items-end gap-2 rounded-2xl border bg-background p-2 shadow-sm">
+      <div className="relative flex items-end gap-2 rounded-2xl liquid-glass-material rim-light-ios26 p-2">
         <textarea
           ref={textareaRef}
           value={value}
@@ -67,7 +67,7 @@ export function ChatInput({
               size="icon"
               variant="ghost"
               onClick={onStop}
-              className="h-8 w-8"
+              className="h-8 w-8 glass-pill hover:bg-white/20 dark:hover:bg-white/10"
             >
               <Square className="h-4 w-4" />
               <span className="sr-only">Parar</span>
@@ -77,7 +77,7 @@ export function ChatInput({
               type="submit"
               size="icon"
               disabled={!value.trim() || disabled}
-              className="h-8 w-8"
+              className="h-8 w-8 btn-primary-glass text-white disabled:opacity-50"
             >
               <Send className="h-4 w-4" />
               <span className="sr-only">Enviar</span>

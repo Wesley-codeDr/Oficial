@@ -14,55 +14,84 @@ interface GlassCheckboxProps {
 export const GlassCheckbox: React.FC<GlassCheckboxProps> = React.memo(({ item, value, onChange, tooltipText }) => {
   return (
     <motion.button 
-      whileTap={applePhysics.haptic}
+      whileTap={{ scale: 0.98 }}
+      animate={value ? { scale: 1.01 } : { scale: 1 }}
+      transition={applePhysics.haptic}
       onClick={() => onChange(!value)}
       className={`
-        group w-full flex items-center justify-between px-7 py-6 first:rounded-t-[32px] last:rounded-b-[32px] border-b border-white/4 last:border-0 transition-all duration-300 relative overflow-hidden glass-texture
+        group w-full flex items-center justify-between px-5 py-4 first:rounded-t-[28px] last:rounded-b-[28px] border-b border-white/5 last:border-0 transition-all duration-500 relative overflow-hidden
         ${value 
-          ? 'bg-blue-500/8 dark:bg-blue-500/6' 
-          : 'hover:bg-black/2 dark:hover:bg-white/2 bg-transparent'}
+          ? 'bg-gradient-to-r from-blue-500/12 via-blue-500/8 to-transparent dark:from-blue-500/10 dark:via-blue-500/5 dark:to-transparent shadow-[0_0_30px_rgba(37,99,235,0.08)] z-10' 
+          : 'hover:bg-black/3 dark:hover:bg-white/3 bg-transparent'
+        }
       `}
     >
-      <div className="flex items-center gap-6 relative z-10">
-        {/* Custom Ultra-Liquid Checkbox */}
-        <div className={`
-           w-7.5 h-7.5 rounded-[12px] flex items-center justify-center transition-all duration-500 border relative overflow-hidden shadow-sm rim-highlight
-           ${value 
-             ? (item.isRedFlag 
-                 ? 'bg-rose-500 border-rose-300 shadow-[0_0_20px_rgba(244,63,94,0.3)]' 
-                 : 'bg-blue-600 border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.3)]')
-             : 'bg-black/5 dark:bg-white/5 border-white/10 group-hover:border-white/30'
-           }
-        `}>
+      {/* Selection glow background */}
+      <AnimatePresence>
+        {value && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={applePhysics.glass}
+            className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent pointer-events-none"
+          />
+        )}
+      </AnimatePresence>
+
+      <div className="flex items-center gap-4 relative z-10">
+        {/* Custom Ultra-Liquid Checkbox - More compact */}
+        <motion.div
+          animate={value ? { scale: 1.05 } : { scale: 1 }}
+          transition={applePhysics.haptic}
+          className={`
+            w-6 h-6 rounded-[10px] flex items-center justify-center transition-all duration-500 border relative overflow-hidden rim-light-ios26 inner-glow-ios26 shrink-0
+            ${value
+              ? (item.isRedFlag
+                  ? 'bg-gradient-to-br from-rose-500 to-rose-600 border-rose-300/50 shadow-[0_0_24px_rgba(244,63,94,0.35)]'
+                  : 'bg-gradient-to-br from-blue-500 to-blue-600 border-blue-300/50 shadow-[0_0_24px_rgba(37,99,235,0.35)]')
+              : 'glass-pill group-hover:border-white/35 group-hover:bg-white/15 dark:group-hover:bg-white/8'
+            }
+          `}
+        >
            <AnimatePresence mode="wait">
              {value && (
                <motion.div
                  key="check"
-                 initial={{ scale: 0.5, opacity: 0 }}
-                 animate={{ scale: 1, opacity: 1 }}
-                 exit={{ scale: 0.5, opacity: 0 }}
+                 initial={{ scale: 0, opacity: 0, rotate: -45 }}
+                 animate={{ scale: 1, opacity: 1, rotate: 0 }}
+                 exit={{ scale: 0, opacity: 0, rotate: 45 }}
                  transition={applePhysics.haptic}
                  className="relative z-10"
                >
-                 <Check className="w-4 h-4 text-white stroke-[4px]" />
+                 <Check className="w-3.5 h-3.5 text-white stroke-[3.5px]" />
                </motion.div>
              )}
            </AnimatePresence>
-        </div>
+        </motion.div>
         
         <div className="flex flex-col items-start gap-0.5">
-          <span className={`text-[15px] text-left tracking-tight transition-all duration-500 ${value ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-500 dark:text-slate-400 font-medium'}`}>
+          {/* Enhanced text - larger and bolder when selected */}
+          <motion.span 
+            animate={value ? { x: 2 } : { x: 0 }}
+            transition={applePhysics.default}
+            className={`text-left tracking-tight transition-all duration-500 ${
+              value 
+                ? 'text-[16px] text-slate-900 dark:text-white font-bold' 
+                : 'text-[14px] text-slate-500 dark:text-slate-400 font-medium'
+            }`}
+          >
             {item.label}
-          </span>
+          </motion.span>
           
           {tooltipText && (
             <div 
-              className="group/tooltip relative flex items-center gap-2 transition-colors cursor-help"
+              className="group/tooltip relative flex items-center gap-1.5 transition-colors cursor-help"
               onClick={(e) => e.stopPropagation()}
             >
-               <span className="text-[9px] text-blue-500/60 font-extrabold uppercase tracking-widest">Info Adicional</span>
-               <div className="w-3.5 h-3.5 rounded-full bg-blue-500/10 flex items-center justify-center group-hover/tooltip:bg-blue-500 transition-colors">
-                  <Info className="w-2.5 h-2.5 text-blue-500 group-hover/tooltip:text-white" />
+               <span className="text-[8px] text-blue-500/50 font-bold uppercase tracking-widest">Info</span>
+               <div className="w-3 h-3 rounded-full bg-blue-500/10 flex items-center justify-center group-hover/tooltip:bg-blue-500 transition-colors">
+                  <Info className="w-2 h-2 text-blue-500 group-hover/tooltip:text-white" />
                </div>
             </div>
           )}
@@ -72,13 +101,13 @@ export const GlassCheckbox: React.FC<GlassCheckboxProps> = React.memo(({ item, v
       <AnimatePresence>
         {item.isRedFlag && value && (
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
+            initial={{ opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
             animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-            exit={{ opacity: 0, scale: 0.9, filter: 'blur(4px)' }}
+            exit={{ opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
             transition={applePhysics.default}
-            className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-[9px] font-extrabold text-rose-500 uppercase tracking-widest shadow-sm relative z-10"
+            className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-500/15 border border-rose-500/25 text-[8px] font-bold text-rose-500 uppercase tracking-wider shadow-sm relative z-10"
           >
-             <AlertTriangle className="w-3 h-3" />
+             <AlertTriangle className="w-2.5 h-2.5" />
              Crítico
           </motion.div>
         )}
@@ -88,3 +117,4 @@ export const GlassCheckbox: React.FC<GlassCheckboxProps> = React.memo(({ item, v
 })
 
 GlassCheckbox.displayName = 'GlassCheckbox'
+

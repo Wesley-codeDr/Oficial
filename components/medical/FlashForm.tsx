@@ -81,7 +81,7 @@ export const FlashForm: React.FC<FlashFormProps> = ({ initialData, onUpdate, tem
           />
         </div>
 
-        <div className="relative p-8 rounded-[32px] liquid-glass-material overflow-hidden">
+        <div className="relative p-8 rounded-[32px] liquid-glass-material rim-light-ios26 inner-glow-ios26 overflow-hidden">
           <div className="absolute top-0 left-0 w-1 h-full bg-blue-500/30" />
           <div className="flex gap-6 items-end">
             <InputGroup
@@ -112,10 +112,10 @@ export const FlashForm: React.FC<FlashFormProps> = ({ initialData, onUpdate, tem
         />
 
         {isFaringo && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="p-8 rounded-[32px] liquid-glass-material border-purple-500/20 shadow-lg shadow-purple-500/5"
+            className="p-8 rounded-[32px] liquid-glass-material rim-light-ios26 inner-glow-ios26 border border-purple-500/20 shadow-lg shadow-purple-500/5"
           >
             <h3 className="text-[10px] font-black text-purple-600 dark:text-purple-400 uppercase tracking-[0.2em] mb-6 opacity-80">Específico: Score de Centor</h3>
             <InputGroup
@@ -136,7 +136,7 @@ export const FlashForm: React.FC<FlashFormProps> = ({ initialData, onUpdate, tem
             whileTap={applePhysics.haptic}
             transition={applePhysics.glass}
             onClick={onSubmit}
-            className="w-full h-16 bg-linear-to-br from-blue-600 to-blue-700 text-white rounded-[32px] font-black text-base shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 active:scale-95 transition-all overflow-hidden relative group"
+            className="w-full h-16 btn-primary-glass text-white rounded-[32px] font-black text-base shadow-xl shadow-blue-500/20 flex items-center justify-center gap-3 active:scale-95 transition-all overflow-hidden relative group"
           >
             <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
             <span>Finalizar Atendimento</span>
@@ -166,7 +166,7 @@ const InputGroup: React.FC<{
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full bg-white/60 dark:bg-black/25 border border-white/50 dark:border-white/5 rounded-[24px] px-6 py-4 text-slate-900 dark:text-white font-bold text-base focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:font-medium placeholder:text-slate-300 dark:placeholder:text-slate-700 backdrop-blur-xl"
+        className="w-full liquid-glass-material rim-light-ios26 rounded-[24px] px-6 py-4 text-slate-900 dark:text-white font-bold text-base focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:font-medium placeholder:text-slate-300 dark:placeholder:text-slate-700"
       />
       <div className="absolute inset-x-0 bottom-0 h-1 bg-linear-to-r from-transparent via-blue-500/30 to-transparent opacity-0 group-focus-within/input:opacity-100 transition-all rounded-full" />
     </div>
@@ -192,20 +192,20 @@ const DurationSelector: React.FC<{
             transition={applePhysics.default}
             onClick={() => onChange(preset)}
             className={`
-              px-6 py-3 rounded-full text-[13px] font-black transition-all border
+              px-6 py-3 rounded-full text-[13px] font-black transition-all glass-pill
               ${value === preset
-                  ? 'bg-blue-600 text-white border-blue-500 shadow-lg shadow-blue-500/30 scale-105 z-10'
-                  : 'bg-white/50 dark:bg-white/5 text-slate-500 dark:text-slate-400 border-white/50 dark:border-white/5 hover:border-blue-500/40 hover:bg-white/80 dark:hover:bg-white/10'
+                  ? 'bg-blue-500/90 text-white shadow-lg shadow-blue-500/30 scale-105 z-10'
+                  : 'text-slate-500 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10'
               }
             `}
           >
             {preset}
           </motion.button>
         ))}
-        <motion.button 
+        <motion.button
           whileTap={applePhysics.haptic}
           onClick={() => onChange('')}
-          className="px-6 py-3 rounded-full text-[13px] font-black border border-white/50 dark:border-white/5 text-slate-400 hover:text-blue-500 hover:bg-white/50 dark:hover:bg-white/10 transition-all"
+          className="px-6 py-3 rounded-full text-[13px] font-black glass-pill text-slate-400 hover:text-blue-500 hover:bg-white/20 dark:hover:bg-white/10 transition-all"
         >
           Outro
         </motion.button>

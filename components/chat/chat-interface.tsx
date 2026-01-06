@@ -46,7 +46,7 @@ export function ChatInterface({
     <div className={cn('flex h-full flex-col', className)}>
       {/* Context Banner */}
       {contextSummary && (
-        <div className="shrink-0 border-b bg-muted/50 px-4 py-2">
+        <div className="shrink-0 border-b border-white/20 dark:border-white/10 glass-pill px-4 py-2">
           <div className="flex items-start gap-2 text-sm">
             <Info className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
             <p className="text-muted-foreground">
@@ -63,7 +63,7 @@ export function ChatInterface({
           {messages.length === 0 && (
             <GlassCard hover={false} className="mx-auto max-w-lg p-6 text-center">
               <div className="space-y-4">
-                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-primary/10">
+                <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full glass-pill bg-blue-500/10">
                   <Info className="h-6 w-6 text-primary" />
                 </div>
                 <div className="space-y-2">
@@ -73,7 +73,7 @@ export function ChatInterface({
                     diagnosticos diferenciais, condutas ou interpretacao de exames.
                   </p>
                 </div>
-                <div className="rounded-lg bg-yellow-50 p-3 text-left dark:bg-yellow-900/20">
+                <div className="rounded-lg glass-pill bg-yellow-500/10 dark:bg-yellow-500/15 border border-yellow-500/30 p-3 text-left">
                   <p className="text-xs text-yellow-800 dark:text-yellow-200">
                     <strong>Aviso:</strong> Este assistente e para suporte a decisao
                     clinica e nao substitui o julgamento medico.
@@ -110,7 +110,7 @@ export function ChatInterface({
 
           {/* Error Message */}
           {error && (
-            <div className="flex items-center gap-2 rounded-lg bg-destructive/10 p-3 text-sm text-destructive">
+            <div className="flex items-center gap-2 rounded-lg glass-pill bg-red-500/10 dark:bg-red-500/15 border border-red-500/30 p-3 text-sm text-red-600 dark:text-red-400">
               <AlertTriangle className="h-4 w-4" />
               {error}
             </div>
@@ -121,7 +121,7 @@ export function ChatInterface({
       </div>
 
       {/* Input Area */}
-      <div className="shrink-0 border-t bg-background/80 p-4 backdrop-blur-sm">
+      <div className="shrink-0 border-t border-white/20 dark:border-white/10 liquid-glass-material p-4">
         <div className="mx-auto max-w-3xl">
           <ChatInput
             value={input}

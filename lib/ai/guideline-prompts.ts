@@ -245,11 +245,11 @@ Cada checkbox deve ter:
 
 ### QP - Queixa Principal (5-8 checkboxes)
 - Variações do sintoma principal
-- Sempre `isRequired: true` para pelo menos 1 checkbox
-- Maioria deve ser `section: "BOTH"` (aparece em Flash também)
+- Sempre 'isRequired: true' para pelo menos 1 checkbox
+- Maioria deve ser 'section: "BOTH"' (aparece em Flash também)
 
 Exemplo:
-```json
+~~~json
 {
   "category": "QP",
   "displayText": "Dor torácica em aperto/opressão",
@@ -258,7 +258,7 @@ Exemplo:
   "isRequired": true,
   "isRedFlag": true
 }
-```
+~~~
 
 ### HDA - História da Doença Atual (15-25 checkboxes)
 Subdivida em subcategorias lógicas:
@@ -269,12 +269,12 @@ Subdivida em subcategorias lógicas:
 - **Evolução temporal**: Padrão de piora/melhora
 
 **Regras de section**:
-- Red flags críticos: `"BOTH"`
-- Características essenciais: `"BOTH"` ou `"FLASH"`
-- Detalhes refinados: `"DETAILED"`
+- Red flags críticos: "BOTH"
+- Características essenciais: "BOTH" ou "FLASH"
+- Detalhes refinados: "DETAILED"
 
 Exemplo:
-```json
+~~~json
 {
   "category": "HDA",
   "displayText": "Duração > 20 minutos",
@@ -283,7 +283,7 @@ Exemplo:
   "isRequired": false,
   "isRedFlag": true
 }
-```
+~~~
 
 ### ANTECEDENTES (8-12 checkboxes)
 - Doenças crônicas relevantes
@@ -291,10 +291,10 @@ Exemplo:
 - Internações anteriores
 - Condições específicas da queixa (ex: DAC prévia para dor torácica)
 
-**Sempre `isRequired: true`** para pelo menos 3-4 checkboxes principais (HAS, DM, Tabagismo).
+**Sempre 'isRequired: true'** para pelo menos 3-4 checkboxes principais (HAS, DM, Tabagismo).
 
 Exemplo:
-```json
+~~~json
 {
   "category": "ANTECEDENTES",
   "displayText": "Hipertensão arterial sistêmica",
@@ -303,7 +303,7 @@ Exemplo:
   "isRequired": true,
   "isRedFlag": false
 }
-```
+~~~
 
 ### MEDICACOES (5-8 checkboxes)
 - Medicações de uso contínuo relevantes
@@ -311,7 +311,7 @@ Exemplo:
 - Medicações recentes relacionadas ao sintoma
 
 Exemplo:
-```json
+~~~json
 {
   "category": "MEDICACOES",
   "displayText": "Uso de anticoagulante oral",
@@ -320,7 +320,7 @@ Exemplo:
   "isRequired": false,
   "isRedFlag": true
 }
-```
+~~~
 
 ### ALERGIAS (3-5 checkboxes)
 - Alergias medicamentosas comuns
@@ -328,7 +328,7 @@ Exemplo:
 - Sempre incluir "Nega alergias medicamentosas conhecidas"
 
 Exemplo:
-```json
+~~~json
 {
   "category": "ALERGIAS",
   "displayText": "Nega alergias medicamentosas",
@@ -337,7 +337,7 @@ Exemplo:
   "isRequired": true,
   "isRedFlag": false
 }
-```
+~~~
 
 ### HABITOS (4-6 checkboxes)
 - Tabagismo (especificar carga tabágica)
@@ -347,7 +347,7 @@ Exemplo:
 - Dieta (se relevante para queixa)
 
 Exemplo:
-```json
+~~~json
 {
   "category": "HABITOS",
   "displayText": "Tabagismo ativo",
@@ -356,11 +356,11 @@ Exemplo:
   "isRequired": false,
   "isRedFlag": false
 }
-```
+~~~
 
 ### EXAME_FISICO (12-20 checkboxes)
 Subdivida por sistemas:
-- **Sinais vitais**: SEMPRE obrigatório (`isRequired: true`, `section: "BOTH"`)
+- **Sinais vitais**: SEMPRE obrigatório ('isRequired: true', 'section: "BOTH"')
 - **Inspeção geral**: Estado geral, hidratação, coloração
 - **Sistema específico da queixa**: Exame cardiovascular para dor torácica, neurológico para AVC, etc.
 - **Sistemas secundários**: Exames relevantes mas não primários
@@ -368,7 +368,7 @@ Subdivida por sistemas:
 **Red flags** devem ser achados anormais críticos.
 
 Exemplo:
-```json
+~~~json
 {
   "category": "EXAME_FISICO",
   "displayText": "Pressão arterial medida",
@@ -377,9 +377,9 @@ Exemplo:
   "isRequired": true,
   "isRedFlag": false
 }
-```
+~~~
 
-```json
+~~~json
 {
   "category": "EXAME_FISICO",
   "displayText": "Estertores crepitantes bilaterais",
@@ -388,15 +388,15 @@ Exemplo:
   "isRequired": false,
   "isRedFlag": true
 }
-```
+~~~
 
 ### NEGATIVAS (5-8 checkboxes)
 - Negativas pertinentes para a queixa
 - Exclusão de diagnósticos diferenciais importantes
-- Sempre `section: "FLASH"` para as mais importantes
+- Sempre 'section: "FLASH"' para as mais importantes
 
 Exemplo:
-```json
+~~~json
 {
   "category": "NEGATIVAS",
   "displayText": "Nega febre",
@@ -405,7 +405,7 @@ Exemplo:
   "isRequired": false,
   "isRedFlag": false
 }
-```
+~~~
 
 ## REGRAS DE section (CRÍTICO)
 
@@ -530,7 +530,7 @@ Para queixas de **alto risco** do PS:
 ## SAÍDA ESPERADA
 
 Retorne um array de objetos JSON:
-```json
+~~~json
 [
   {
     "category": "QP",
@@ -542,7 +542,7 @@ Retorne um array de objetos JSON:
   },
   // ... 29-49 checkboxes adicionais
 ]
-```
+~~~
 
 **IMPORTANTE**: Crie checkboxes específicos para a queixa de emergência fornecida. Priorize:
 1. Qualidade sobre quantidade

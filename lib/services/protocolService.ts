@@ -1,6 +1,5 @@
 
-import { AnamnesisSection, Symptom, Patient } from '@/lib/types/medical';
-import { complaintsData } from '@/lib/data/complaintsData';
+import { AnamnesisSection, Symptom } from '@/lib/types/medical';
 
 interface ReferenceItem {
   source: string;

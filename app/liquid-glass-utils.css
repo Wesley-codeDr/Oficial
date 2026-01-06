@@ -1,59 +1,340 @@
 @layer utilities {
-  /* ADVANCED LIQUID OPTICS */
-  
-  .glass-sheen {
+  /* ========================================
+     APPLE LIQUID GLASS iOS 26 UTILITIES v2.0
+     Authentic implementation following WWDC 2025 specs
+     ======================================== */
+
+  /* 1. RIM-LIGHT AUTÊNTICO - A ASSINATURA DO LIQUID GLASS */
+  .liquid-glass-rim {
     position: relative;
-    overflow: hidden;
+    isolation: isolate;
   }
-  
-  .glass-sheen::after {
+
+  .liquid-glass-rim::before {
     content: '';
     position: absolute;
-    top: -150%;
-    left: -150%;
-    width: 300%;
-    height: 300%;
-    background: radial-gradient(
-      circle at center,
-      rgba(255, 255, 255, 0.08) 0%,
-      transparent 70%
+    inset: 0;
+    border-radius: inherit;
+    padding: var(--lg-rim-width, 1.5px);
+    
+    /* Gradiente cônico que simula luz ambiente */
+    background: conic-gradient(
+      from 45deg at 50% 50%,
+      rgba(255, 255, 255, 0.95) 0deg,
+      rgba(255, 255, 255, 0.4) 60deg,
+      rgba(255, 255, 255, 0.15) 120deg,
+      rgba(255, 255, 255, 0.4) 180deg,
+      rgba(255, 255, 255, 0.7) 240deg,
+      rgba(255, 255, 255, 0.3) 300deg,
+      rgba(255, 255, 255, 0.95) 360deg
     );
+    
+    /* Mask para mostrar apenas a borda */
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    
     pointer-events: none;
     z-index: 10;
   }
 
-  /* VOLUMETRIC STACKING */
-  .z-depth-1 { z-index: 10; transform: translateZ(10px); }
-  .z-depth-2 { z-index: 20; transform: translateZ(20px); }
-  .z-depth-3 { z-index: 30; transform: translateZ(40px); }
-  .z-depth-overlay { z-index: 100; transform: translateZ(100px); }
-
-  /* MICRO-GRAIN TEXTURE (HIFI 2025) */
-  .noise-grain {
+  /* 2. SPECULAR HIGHLIGHT - REFLEXO SUPERIOR */
+  .liquid-glass-specular {
     position: relative;
   }
-  
+
+  .liquid-glass-specular::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 50%;
+    
+    background: radial-gradient(
+      ellipse 80% 40% at 50% 0%,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.4) 30%,
+      transparent 70%
+    );
+    
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 20;
+    opacity: var(--lg-specular-intensity, 0.6);
+    transition: opacity 0.5s var(--lg-transition-smooth);
+  }
+
+  .liquid-glass-specular:hover::after {
+    opacity: var(--lg-specular-hover, 0.9);
+  }
+
+  /* 3. PROFUNDIDADE 3D - EFEITO MOLDADO */
+  .glass-molded-3d {
+    position: relative;
+    /* Base glass */
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.72) 0%,
+      rgba(255, 255, 255, 0.58) 35%,
+      rgba(255, 255, 255, 0.45) 65%,
+      rgba(255, 255, 255, 0.52) 100%
+    );
+    
+    -webkit-backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+    backdrop-filter: blur(var(--lg-blur)) saturate(var(--lg-saturate));
+    
+    /* Sombras que criam profundidade */
+    box-shadow: var(--lg-shadow-base);
+    border-radius: var(--lg-radius-xl, 32px);
+    transition: all 0.6s var(--lg-transition-bounce);
+  }
+
+  .dark .glass-molded-3d {
+    background: linear-gradient(
+      145deg,
+      rgba(30, 41, 59, 0.75) 0%,
+      rgba(30, 41, 59, 0.55) 35%,
+      rgba(30, 41, 59, 0.45) 65%,
+      rgba(30, 41, 59, 0.6) 100%
+    );
+  }
+
+  /* 4. HOVER TRANSITIONS - FLUIDAS E ORGÂNICAS */
+  .liquid-glass-interactive {
+    transition: 
+      transform 0.6s var(--lg-transition-bounce),
+      box-shadow 0.5s var(--lg-transition-smooth),
+      background 0.4s ease-out;
+    will-change: transform, box-shadow;
+  }
+
+  .liquid-glass-interactive:hover {
+    transform: translateY(-2px) scale(1.015);
+    box-shadow: var(--lg-shadow-hover);
+  }
+
+  .liquid-glass-interactive:active {
+    transform: translateY(0) scale(0.99);
+    transition-duration: 0.1s;
+  }
+
+  /* 5. SIDEBAR - SEPARAÇÃO E PROFUNDIDADE */
+  .sidebar-liquid-glass {
+    position: relative;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.52) 0%,
+      rgba(255, 255, 255, 0.45) 80%,
+      rgba(255, 255, 255, 0.38) 100%
+    );
+    
+    backdrop-filter: blur(50px) saturate(160%);
+    border-right: none;
+    
+    box-shadow:
+      4px 0 30px -5px rgba(0, 0, 0, 0.08),
+      1px 0 0 0 rgba(255, 255, 255, 0.5),
+      inset -1px 0 0 0 rgba(0, 0, 0, 0.03);
+  }
+
+  .dark .sidebar-liquid-glass {
+    background: linear-gradient(
+      90deg,
+      rgba(30, 41, 59, 0.65) 0%,
+      rgba(30, 41, 59, 0.55) 80%,
+      rgba(30, 41, 59, 0.45) 100%
+    );
+  }
+
+  /* Pseudo-elemento para edge glow na sidebar */
+  .sidebar-liquid-glass::after {
+    content: '';
+    position: absolute;
+    top: 20px;
+    bottom: 20px;
+    right: 0;
+    width: 1px;
+    
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.6) 20%,
+      rgba(255, 255, 255, 0.8) 50%,
+      rgba(255, 255, 255, 0.6) 80%,
+      transparent 100%
+    );
+    z-index: 10;
+  }
+
+  /* 6. BADGES E PILLS - MICRO GLASS */
+  .glass-pill {
+    position: relative;
+    background: rgba(255, 255, 255, 0.55);
+    backdrop-filter: blur(12px) saturate(140%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 100px;
+    
+    box-shadow:
+      0 2px 8px -2px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.6);
+  }
+
+  .glass-pill::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.5) 100%
+    );
+    
+    -webkit-mask: 
+      linear-gradient(#fff 0 0) content-box, 
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 5;
+  }
+
+  /* Badge de porcentagem */
+  .glass-badge-positive {
+    background: linear-gradient(
+      135deg,
+      rgba(34, 197, 94, 0.2) 0%,
+      rgba(34, 197, 94, 0.1) 100%
+    );
+    color: rgb(22, 163, 74);
+  }
+
+  .glass-badge-negative {
+    background: linear-gradient(
+      135deg,
+      rgba(239, 68, 68, 0.15) 0%,
+      rgba(239, 68, 68, 0.08) 100%
+    );
+    color: rgb(220, 38, 38);
+  }
+
+  /* 7. ÍCONES CIRCULARES - GLASS BUTTONS */
+  .glass-icon-circle {
+    width: 44px;
+    height: 44px;
+    border-radius: 14px; /* Squircle Apple */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    background: linear-gradient(
+      145deg,
+      rgba(var(--icon-color), 0.2) 0%,
+      rgba(var(--icon-color), 0.1) 100%
+    );
+    
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--icon-color), 0.2);
+    
+    box-shadow:
+      0 4px 12px -4px rgba(var(--icon-color), 0.25),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.3s var(--lg-transition-smooth);
+  }
+
+  .glass-icon-circle:hover {
+    transform: scale(1.1) rotate(5deg);
+    background: linear-gradient(
+      145deg,
+      rgba(var(--icon-color), 0.3) 0%,
+      rgba(var(--icon-color), 0.2) 100%
+    );
+  }
+
+  /* Variantes de cor */
+  .glass-icon-circle--warning { --icon-color: 251, 146, 60; }
+  .glass-icon-circle--info { --icon-color: 59, 130, 246; }
+  .glass-icon-circle--success { --icon-color: 34, 197, 94; }
+  .glass-icon-circle--danger { --icon-color: 168, 85, 247; }
+
+  /* 8. BOTÃO PRIMÁRIO - GLASS GRADIENT */
+  .btn-primary-glass {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+      135deg,
+      #3b82f6 0%,
+      #2563eb 50%,
+      #1d4ed8 100%
+    );
+    border: none;
+    border-radius: 16px;
+    box-shadow:
+      0 8px 24px -6px rgba(37, 99, 235, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+      0 1px 0 0 rgba(255, 255, 255, 0.2) inset;
+    transition: all 0.3s var(--lg-transition-bounce);
+  }
+
+  .btn-primary-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.05) 100%
+    );
+    
+    border-radius: 16px 16px 50% 50%;
+    pointer-events: none;
+  }
+
+  .btn-primary-glass:hover {
+    box-shadow:
+      0 12px 32px -8px rgba(37, 99, 235, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
+      0 1px 0 0 rgba(255, 255, 255, 0.3) inset;
+    transform: translateY(-1px);
+  }
+
+  /* SHIMMER EFFECT para loading */
+  @keyframes glass-shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .glass-shimmer {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 255, 255, 0.4) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: glass-shimmer 2s ease-in-out infinite;
+  }
+
+  /* NOISE GRAIN REFINED */
   .noise-grain::before {
     content: "";
     position: absolute;
     inset: 0;
     z-index: 1;
-    opacity: 0.02;
+    opacity: var(--lg-noise-opacity, 0.03);
     pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     mix-blend-mode: overlay;
   }
-
-  /* SAPPHIRE RIM HIGHLIGHT */
-  .rim-highlight-blue {
-    box-shadow: 
-      inset 0 0 0 1px rgba(255, 255, 255, 0.1),
-      0 0 0 1px rgba(37, 99, 235, 0.1);
-  }
-
-  .rim-highlight-white {
-    box-shadow: 
-      inset 0 0 0 1.5px rgba(255, 255, 255, 0.2),
-      0 0 0 1px rgba(255, 255, 255, 0.05);
-  }
 }
+

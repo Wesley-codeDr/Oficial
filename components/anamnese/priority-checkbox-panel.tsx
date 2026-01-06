@@ -3,8 +3,8 @@
 import { useMemo } from 'react'
 import { Stethoscope, AlertTriangle, CheckCircle2, FileText, Pill, Heart, Activity, XCircle } from 'lucide-react'
 import { getPriorityCheckboxes, countPriorityCheckboxes } from '@/lib/data/complaintCheckboxMap'
-import { getComplaintById } from '@/lib/data/allComplaints'
-import type { CheckboxCategory, PriorityCheckboxMapping } from '@/lib/types/medical'
+import type { CheckboxCategory } from '@/lib/types/medical'
+import { useComplaints } from '@/hooks/use-complaints'
 
 interface PriorityCheckboxPanelProps {
   complaintId: string
@@ -39,21 +39,18 @@ export function PriorityCheckboxPanel({
   selectedCheckboxes,
   onToggle,
 }: PriorityCheckboxPanelProps) {
+  const { data: complaintsResponse } = useComplaints({ limit: 500, isActive: true })
+  const complaints = useMemo(() => complaintsResponse?.data ?? [], [complaintsResponse?.data])
   const priorityCheckboxes = useMemo(() => getPriorityCheckboxes(complaintId), [complaintId])
-  const complaint = useMemo(() => getComplaintById(complaintId), [complaintId])
+  const complaint = useMemo(() => complaints.find((c) => c.id === complaintId), [complaintId, complaints])
   const totalCheckboxes = useMemo(() => countPriorityCheckboxes(complaintId), [complaintId])
-
-  if (!priorityCheckboxes || !complaint) {
-    return null
-  }
-
-  // Calcular progresso
   const selectedCount = useMemo(() => {
+    if (!priorityCheckboxes) return 0
     let count = 0
-    CATEGORY_ORDER.forEach(category => {
+    CATEGORY_ORDER.forEach((category) => {
       const items = priorityCheckboxes[category]
       if (items) {
-        items.forEach(item => {
+        items.forEach((item) => {
           if (selectedCheckboxes.has(`${category}:${item}`)) {
             count++
           }
@@ -63,6 +60,11 @@ export function PriorityCheckboxPanel({
     return count
   }, [priorityCheckboxes, selectedCheckboxes])
 
+  if (!priorityCheckboxes || !complaint) {
+    return null
+  }
+
+  // Calcular progresso
   const progressPercentage = totalCheckboxes > 0 ? Math.round((selectedCount / totalCheckboxes) * 100) : 0
 
   return (

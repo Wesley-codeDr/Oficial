@@ -41,7 +41,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Patient, AnamnesisSection, NoteBlock, KanbanTask, KanbanStatus } from '@/lib/types/medical'
-import { complaintsData } from '@/lib/data/complaintsData'
+import { buildComplaintGroups } from '@/lib/data/complaint-groups'
 import {
   getProtocolData,
   getHypotheses,
@@ -50,6 +50,7 @@ import {
   getCalculatorsForGroup,
 } from '@/lib/services/protocolService'
 import { useToast } from '@/hooks/use-toast'
+import { useComplaints } from '@/hooks/use-complaints'
 
 const initialTasks: KanbanTask[] = [
   {
@@ -117,6 +118,14 @@ export default function Home() {
     'dashboard' | 'selection' | 'protocol' | 'library' | 'accessibility' | 'flash' | 'chat-well'
   >('dashboard')
   const [activeProtocolId, setActiveProtocolId] = React.useState<string | null>(null)
+  const [activeComplaintId, setActiveComplaintId] = React.useState<string | null>(null)
+
+  const { data: complaintsResponse } = useComplaints({ limit: 500, isActive: true })
+  const complaints = complaintsResponse?.data ?? []
+  const activeComplaint = React.useMemo(
+    () => complaints.find((complaint) => complaint.id === activeComplaintId) ?? null,
+    [complaints, activeComplaintId]
+  )
 
   // Data State lifted to App level for synchronization
   const [anamnesisData, setAnamnesisData] = React.useState<Record<string, any>>({})
@@ -137,8 +146,12 @@ export default function Home() {
     status: 'in_progress',
   })
 
+  // Track client-side mount to prevent hydration mismatch
+  const [isMounted, setIsMounted] = React.useState(false)
+
   // Standardize dynamic patient data after mount to avoid hydration mismatch
   React.useEffect(() => {
+    setIsMounted(true)
     setPatient(prev => ({
       ...prev,
       entryTime: new Date(Date.now() - 1000 * 60 * 42).toISOString()
@@ -201,9 +214,10 @@ export default function Home() {
       return i.isRedFlag && anamnesisData[i.id] === true
     })
 
-  const selectComplaint = (complaintId: string, groupCode: string) => {
+  const selectComplaint = (complaintId: string, _groupCode: string) => {
     const mappedProtocolId = mapComplaintToProtocol(complaintId)
     setActiveProtocolId(mappedProtocolId)
+    setActiveComplaintId(complaintId)
     const newSections = getProtocolData(mappedProtocolId)
     setSections(newSections)
     setAnamnesisData({})
@@ -340,9 +354,7 @@ export default function Home() {
 
     // 3. HDA (History of Present Illness) - SYNCHRONIZED
     // Padrão de escrita corrida técnico-médica com proteção jurídica implícita
-    const protocolName =
-      complaintsData.complaints.find((c) => mapComplaintToProtocol(c.id) === activeProtocolId)
-        ?.title || 'Atendimento Geral'
+    const protocolName = activeComplaint?.title || 'Atendimento Geral'
 
     const intensity = anamnesisData['meta_intensity'] || '0'
     const chronicity = anamnesisData['meta_chronicity'] || 'Agudo'
@@ -560,7 +572,7 @@ export default function Home() {
     })
 
     setNoteBlocks(finalBlocks)
-  }, [anamnesisData, patient, activeProtocolId, sections, editingBlockId, activeRedFlags, manualNoteEdits])
+  }, [anamnesisData, patient, activeProtocolId, activeComplaint, sections, editingBlockId, activeRedFlags, manualNoteEdits])
 
   // Trigger Note Generation on Data Change
   React.useEffect(() => {
@@ -578,61 +590,53 @@ export default function Home() {
     globalThis.print?.()
   }
 
-// TODO: Remove this temporary fix when complaintsData.groups is populated correctly
   const complaintGroups = React.useMemo(() => {
-    const groups = new Map()
-    complaintsData.complaints.forEach((c) => {
-      if (!groups.has(c.group)) {
-        groups.set(c.group, {
-          code: c.group,
-          label: c.group, // You might want to have a better label mapping
-          icon: 'Activity', // Default icon
-        })
-      }
-    })
-    return Array.from(groups.values())
-  }, [])
+    return buildComplaintGroups(complaints, { includeAll: true })
+  }, [complaints])
 
   return (
-    <div className="flex h-screen w-full bg-[#fbfbfd] dark:bg-[#000000] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 relative overflow-hidden" suppressHydrationWarning={true}>
-      {/* 
+    <div className="flex h-screen w-full bg-[#fbfbfd] dark:bg-[#000000] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 relative overflow-hidden">
+      {/*
         ULTRA-FIDELITY LIQUID BACKGROUND (Apple 2025)
         Multi-layered mesh gradients with organic morphing
+        Only rendered on client to prevent hydration mismatch
       */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        {/* Primary Ambient Layer */}
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.2, 1],
-            x: [0, 50, 0],
-            y: [0, -30, 0]
-          }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] bg-blue-400/10 dark:bg-blue-600/5 blur-[120px] rounded-full"
-        />
-        {/* Secondary Warm Layer */}
-        <motion.div 
-          animate={{ 
-            scale: [1, 1.3, 1],
-            x: [0, -40, 0],
-            y: [0, 60, 0]
-          }}
-          transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-          className="absolute top-[20%] -right-[10%] w-[60%] h-[60%] bg-indigo-400/10 dark:bg-indigo-600/5 blur-[140px] rounded-full"
-        />
-        {/* Tertiary Liquid Bloom */}
-        <motion.div 
-          animate={{ 
-            rotate: [0, 360],
-            scale: [1, 1.1, 1]
-          }}
-          transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
-          className="absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] bg-blue-300/10 dark:bg-blue-500/5 blur-[160px] rounded-full"
-        />
-        
-        {/* Noise Grain - Tactile Texture */}
-        <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-      </div>
+      {isMounted && (
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+          {/* Primary Ambient Layer */}
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              x: [0, 50, 0],
+              y: [0, -30, 0]
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] bg-blue-400/10 dark:bg-blue-600/5 blur-[120px] rounded-full"
+          />
+          {/* Secondary Warm Layer */}
+          <motion.div
+            animate={{
+              scale: [1, 1.3, 1],
+              x: [0, -40, 0],
+              y: [0, 60, 0]
+            }}
+            transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            className="absolute top-[20%] -right-[10%] w-[60%] h-[60%] bg-indigo-400/10 dark:bg-indigo-600/5 blur-[140px] rounded-full"
+          />
+          {/* Tertiary Liquid Bloom */}
+          <motion.div
+            animate={{
+              rotate: [0, 360],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
+            className="absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] bg-blue-300/10 dark:bg-blue-500/5 blur-[160px] rounded-full"
+          />
+
+          {/* Noise Grain - Tactile Texture */}
+          <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+        </div>
+      )}
 
       <Sidebar currentView={viewMode} onNavigate={handleSidebarNavigation} />
 
@@ -684,7 +688,7 @@ export default function Home() {
               {viewMode === 'library' && (
                 <div className="p-2">
                   <div className="flex items-center gap-3 mb-8">
-                    <div className="p-3 rounded-2xl bg-purple-500/10 text-purple-500">
+                    <div className="p-3 rounded-2xl glass-pill bg-purple-500/10 text-purple-500">
                       <Activity className="w-6 h-6" />
                     </div>
                     <div>
@@ -703,7 +707,7 @@ export default function Home() {
                        return (
                          <div key={`lib-${group.code}`} className="liquid-glass-material rounded-[24px] p-6 flex flex-col gap-4">
                            <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-xl flex items-center justify-center bg-slate-100 dark:bg-slate-700">
+                              <div className="w-10 h-10 rounded-xl flex items-center justify-center glass-pill">
                                 {getLibraryIcon(group.icon)}
                               </div>
                               <h3 className="font-bold text-slate-700 dark:text-slate-200">
@@ -757,6 +761,7 @@ export default function Home() {
                                  data={anamnesisData}
                                  onDataChange={setAnamnesisData}
                                  onAddSymptom={handleOpenAddModal}
+                                 complaint={activeComplaint}
                               />
                            </div>
                         </div>
@@ -774,58 +779,70 @@ export default function Home() {
                            copyBlock={copyBlockToClipboard}
                            copiedId={copiedId}
                            footer={
-                              <div className="flex flex-col gap-4 w-full relative">
-                                {/* Floating Tools Toolbar (VisionOS Style) */}
-                                <div className="absolute bottom-full left-0 right-0 mb-4 flex justify-center pointer-events-none">
-                                   <div className="flex items-center gap-1.5 p-1.5 liquid-glass-material bg-white/40! dark:bg-black/40! backdrop-blur-3xl rounded-[26px] border border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)] pointer-events-auto group/toolbar">
-                                      {/* Chat Button */}
-                                      <button
-                                        onClick={() => setActiveTool(activeTool === 'chat' ? null : 'chat')}
-                                        className={`
-                                          h-12 px-5 rounded-[20px] flex items-center gap-2.5 transition-all duration-500 relative overflow-hidden group/btn
-                                          ${activeTool === 'chat' 
-                                            ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/40 scale-105' 
-                                            : 'bg-transparent text-slate-500 hover:bg-white/20 hover:text-slate-900 dark:hover:text-white'}
-                                        `}
-                                      >
-                                        <MessageSquare className={`w-5 h-5 transition-transform duration-500 ${activeTool === 'chat' ? 'scale-110' : 'group-hover/btn:rotate-12'}`} />
-                                        <span className="text-[12px] font-black uppercase tracking-widest">ChatWW</span>
-                                        {activeTool === 'chat' && (
-                                           <div className="absolute inset-0 bg-linear-to-tr from-white/10 to-transparent pointer-events-none animate-in fade-in duration-300" />
-                                        )}
-                                      </button>
+                              <div className="flex flex-col gap-4 w-full">
+                                {/* Segmented Control (ChatWW/Scores) - iOS Style */}
+                                <div className="w-full h-16 p-1.5 liquid-glass-material bg-white/40 dark:bg-black/40 backdrop-blur-3xl rounded-2xl border border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+                                  <div className="flex items-center gap-1.5 h-full relative">
 
-                                      <div className="w-px h-6 bg-white/10 mx-0.5" />
+                                    {/* Sliding White Pill Indicator */}
+                                    <div
+                                      className="absolute top-0 bottom-0 left-0 w-[calc(50%-3px)] bg-white dark:bg-white/20 rounded-[14px] shadow-lg transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                                      style={{
+                                        transform: activeTool === 'calculators' ? 'translateX(calc(100% + 6px))' : 'translateX(0)',
+                                        opacity: activeTool ? 1 : 0
+                                      }}
+                                    />
 
-                                      {/* Score Button with Alert */}
-                                      <button
-                                        onClick={() => setActiveTool(activeTool === 'calculators' ? null : 'calculators')}
-                                        className={`
-                                          h-12 px-5 rounded-[20px] flex items-center gap-2.5 transition-all duration-500 relative
-                                          ${activeTool === 'calculators' 
-                                            ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-500/40 scale-105' 
-                                            : 'bg-transparent text-slate-500 hover:bg-white/20 hover:text-slate-900 dark:hover:text-white'}
-                                        `}
-                                      >
-                                        <div className="relative">
-                                           <Calculator className={`w-5 h-5 transition-transform duration-500 ${activeTool === 'calculators' ? 'scale-110' : 'group-hover/btn:rotate-12'}`} />
-                                           {hasCalculators && !activeTool && (
-                                             <span className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900 animate-pulse shadow-sm" />
-                                           )}
-                                        </div>
-                                        <span className="text-[12px] font-black uppercase tracking-widest">Scores</span>
-                                        {activeTool === 'calculators' && (
-                                           <div className="absolute inset-0 bg-linear-to-tr from-white/10 to-transparent pointer-events-none animate-in fade-in duration-300" />
+                                    {/* ChatWW Segment */}
+                                    <button
+                                      onClick={() => setActiveTool(activeTool === 'chat' ? null : 'chat')}
+                                      className={`
+                                        relative z-10 flex-1 h-full rounded-[14px]
+                                        flex items-center justify-center gap-2.5
+                                        transition-all duration-300
+                                        ${activeTool === 'chat'
+                                          ? 'text-slate-900 dark:text-white'
+                                          : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'}
+                                      `}
+                                      role="tab"
+                                      aria-selected={activeTool === 'chat'}
+                                      aria-label="ChatWW - Medical Assistant"
+                                    >
+                                      <MessageSquare className="w-5 h-5" />
+                                      <span className="text-[12px] font-black uppercase tracking-widest">ChatWW</span>
+                                    </button>
+
+                                    {/* Scores Segment */}
+                                    <button
+                                      onClick={() => setActiveTool(activeTool === 'calculators' ? null : 'calculators')}
+                                      className={`
+                                        relative z-10 flex-1 h-full rounded-[14px]
+                                        flex items-center justify-center gap-2.5
+                                        transition-all duration-300
+                                        ${activeTool === 'calculators'
+                                          ? 'text-slate-900 dark:text-white'
+                                          : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'}
+                                      `}
+                                      role="tab"
+                                      aria-selected={activeTool === 'calculators'}
+                                      aria-label="Scores - Medical Calculators"
+                                    >
+                                      <div className="relative">
+                                        <Calculator className="w-5 h-5" />
+                                        {hasCalculators && !activeTool && (
+                                          <span className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900 animate-pulse shadow-sm" />
                                         )}
-                                      </button>
-                                   </div>
+                                      </div>
+                                      <span className="text-[12px] font-black uppercase tracking-widest">Scores</span>
+                                    </button>
+                                  </div>
                                 </div>
 
                                 {/* Definir Fluxo Button (Primary Action) */}
-                                <div className="relative flex-1">
-                                  <button 
-                                    onClick={() => setIsFlowMenuOpen(!isFlowMenuOpen)} 
-                                    className="w-full h-16 rounded-[24px] bg-linear-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-200 text-white dark:text-slate-900 transition-all duration-500 shadow-2xl shadow-blue-500/10 group border-0 text-[16px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 flex items-center justify-center relative overflow-hidden"
+                                <div className="relative w-full">
+                                  <button
+                                    onClick={() => setIsFlowMenuOpen(!isFlowMenuOpen)}
+                                    className="w-full h-16 rounded-2xl bg-linear-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-200 text-white dark:text-slate-900 transition-all duration-500 shadow-2xl shadow-blue-500/10 group border-0 text-[12px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 flex items-center justify-center relative overflow-hidden"
                                   >
                                      <div className="absolute inset-0 bg-linear-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                      <div className="relative z-10 flex items-center">

@@ -66,14 +66,14 @@ export function GlassUploadZone() {
   return (
     <div className="space-y-4">
       {/* Mode Selector */}
-      <div className="flex gap-3 rounded-2xl bg-white/10 p-2 backdrop-blur-md">
+      <div className="flex gap-3 rounded-2xl glass-pill p-2">
         <button
           onClick={() => setMode('syndrome')}
           className={cn(
             'flex-1 rounded-xl px-6 py-3 text-sm font-medium transition-all duration-200',
             mode === 'syndrome'
-              ? 'bg-white text-slate-800 shadow-lg'
-              : 'text-slate-600 hover:bg-white/20 hover:text-slate-700'
+              ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
+              : 'text-slate-600 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10'
           )}
         >
           <div className="flex flex-col items-center gap-1">
@@ -86,8 +86,8 @@ export function GlassUploadZone() {
           className={cn(
             'flex-1 rounded-xl px-6 py-3 text-sm font-medium transition-all duration-200',
             mode === 'guideline'
-              ? 'bg-gradient-to-r from-primary-blue to-blue-600 text-white shadow-lg'
-              : 'text-slate-600 hover:bg-white/20 hover:text-slate-700'
+              ? 'btn-primary-glass text-white shadow-lg'
+              : 'text-slate-600 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10'
           )}
         >
           <div className="flex flex-col items-center gap-1">
@@ -101,10 +101,10 @@ export function GlassUploadZone() {
       <motion.div
         className={cn(
           'relative overflow-hidden rounded-3xl border-2 border-dashed transition-all duration-300',
+          'glass-molded rim-light-ios26 inner-glow-ios26',
           isDragging
-            ? 'border-primary-blue bg-blue-50/10 scale-[1.02]'
-            : 'border-white/40 hover:border-white/60 bg-white/5',
-          'backdrop-blur-md'
+            ? 'border-blue-500 bg-blue-500/10 scale-[1.02] ring-2 ring-blue-500/20'
+            : 'border-white/40 dark:border-white/20 hover:border-white/60'
         )}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
@@ -144,13 +144,13 @@ export function GlassUploadZone() {
               animate={{ scale: 1, opacity: 1 }}
               className="flex flex-col items-center gap-4"
             >
-              <div className="rounded-full bg-green-100 p-4">
-                <CheckCircle className="h-12 w-12 text-green-600" />
+              <div className="rounded-full glass-pill bg-green-500/20 p-4">
+                <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-400" />
               </div>
-              <p className="text-lg font-medium text-slate-700">Upload concluído!</p>
+              <p className="text-lg font-medium text-slate-700 dark:text-slate-200">Upload concluído!</p>
               <button
                 onClick={() => setUploadStatus('idle')}
-                className="text-sm font-medium text-primary-blue hover:underline"
+                className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
               >
                 Enviar outro arquivo
               </button>
@@ -162,16 +162,16 @@ export function GlassUploadZone() {
               animate={{ scale: 1, opacity: 1 }}
               className="flex flex-col items-center gap-6"
             >
-              <div className="rounded-2xl bg-white/10 p-6 shadow-glass">
-                <Upload className="h-12 w-12 text-slate-600" />
+              <div className="rounded-2xl glass-pill rim-light-ios26 p-6">
+                <Upload className="h-12 w-12 text-slate-600 dark:text-slate-400" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-slate-800">
+                <h3 className="text-xl font-semibold text-slate-800 dark:text-slate-200">
                   {mode === 'guideline'
                     ? 'Arraste sua diretriz médica brasileira aqui'
                     : 'Arraste seu documento aqui'}
                 </h3>
-                <p className="mt-2 text-slate-500">
+                <p className="mt-2 text-slate-500 dark:text-slate-400">
                   {mode === 'guideline'
                     ? 'SBC, SBPT, AMB, Ministério da Saúde (PDF ou TXT)'
                     : 'Suporta PDF e TXT (Protocolos, Diretrizes, Artigos)'}
@@ -179,9 +179,9 @@ export function GlassUploadZone() {
               </div>
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="glass-btn-small glass-btn-small-primary px-8 py-3"
+                className="btn-primary-glass text-white px-8 py-3 rounded-xl font-medium flex items-center gap-2 shadow-lg shadow-blue-500/20 hover:scale-105 transition-all"
               >
-                <FileText className="mr-2 h-4 w-4" />
+                <FileText className="h-4 w-4" />
                 Selecionar Arquivo
               </button>
             </motion.div>
@@ -193,7 +193,7 @@ export function GlassUploadZone() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-4 rounded-xl bg-blue-50/50 px-4 py-3 text-xs text-slate-600 backdrop-blur-sm"
+            className="mt-4 rounded-xl glass-pill px-4 py-3 text-xs text-slate-600 dark:text-slate-400"
           >
             <strong>Guideline Mode:</strong> Generates Flash template (2-3 min) + Anamnese Well checkboxes (30-50 items) from Brazilian medical guidelines.
           </motion.div>

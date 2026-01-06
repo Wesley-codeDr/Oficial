@@ -25,6 +25,12 @@ export const SYNC_CONFIG = {
   // Debounce em ms para o file watcher
   watchDebounce: 1000,
 
+  // Polling do DB em ms
+  dbPollInterval: 60000,
+
+  // Limite de registros por lote
+  dbBatchSize: 500,
+
   // Campos obrigatórios no frontmatter
   requiredFields: ['grupo', 'risco'],
 

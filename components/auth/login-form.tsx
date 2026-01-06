@@ -39,27 +39,22 @@ const itemVariants = {
 // Enhanced input styles with glass effect and glow
 const inputStyles = [
   'h-12 pl-12 pr-4',
-  'bg-white/40 dark:bg-white/5',
-  'border border-white/50 dark:border-white/10',
-  'backdrop-blur-md',
+  'liquid-glass-material rim-light-ios26',
   'rounded-xl',
   'text-foreground placeholder:text-muted-foreground/70',
   'transition-all duration-300 ease-out',
-  'focus:bg-white/60 dark:focus:bg-white/10',
-  'focus:border-primary/40 dark:focus:border-primary/50',
+  'focus:bg-white/20 dark:focus:bg-white/10',
   'focus:ring-2 focus:ring-primary/20 dark:focus:ring-primary/30',
   'focus:shadow-[0_0_20px_rgba(0,122,255,0.15)]',
   'dark:focus:shadow-[0_0_20px_rgba(0,122,255,0.25)]',
-  'hover:bg-white/50 dark:hover:bg-white/10',
-  'hover:border-white/60 dark:hover:border-white/20',
+  'hover:bg-white/10 dark:hover:bg-white/5',
 ].join(' ')
 
 // Enhanced button styles with gradient and lift effect
 const buttonStyles = [
   'w-full h-[52px] rounded-xl',
   'font-semibold text-[15px] tracking-tight',
-  'bg-gradient-to-r from-primary via-primary to-blue-600',
-  'hover:from-primary/95 hover:via-primary/95 hover:to-blue-600/95',
+  'btn-primary-glass text-white',
   'shadow-lg shadow-primary/30',
   'hover:shadow-xl hover:shadow-primary/40',
   'hover:-translate-y-0.5',
@@ -87,10 +82,10 @@ export function LoginForm() {
           initial={{ opacity: 0, scale: 0.95, y: -10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="flex items-start gap-3 rounded-xl border border-red-500/30 bg-red-500/10 dark:bg-red-500/15 p-4 backdrop-blur-md shadow-lg shadow-red-500/5"
+          className="flex items-start gap-3 rounded-xl glass-pill bg-red-500/10 dark:bg-red-500/15 p-4 shadow-lg shadow-red-500/5 border border-red-500/30"
         >
           <div className="flex-shrink-0 mt-0.5">
-            <AlertCircle className="h-5 w-5 text-red-500" />
+            <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400" />
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-red-600 dark:text-red-400">Erro ao entrar</p>

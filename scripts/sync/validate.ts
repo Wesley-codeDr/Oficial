@@ -6,11 +6,11 @@
  */
 
 import { glob } from 'glob';
-import fs from 'fs';
 import path from 'path';
 import chalk from 'chalk';
-import { PATHS, VALID_GROUPS, VALID_RISK_LEVELS, VALID_AGE_TARGETS } from './utils/config';
+import { PATHS } from './utils/config';
 import { parseMarkdownFile, ParsedComplaint } from './utils/markdown-parser';
+import { validateComplaintFrontmatter } from '../../lib/validation/complaints';
 
 interface ValidationError {
   file: string;
@@ -32,121 +32,50 @@ interface ValidationResult {
 }
 
 /**
- * Valida código ICD-10 (formato básico)
- */
-function isValidICD10(code: string): boolean {
-  // Formato: letra seguida de 2 dígitos, opcionalmente ponto e mais dígitos
-  // Ex: I20.0, R55.9, G40.9
-  const icd10Regex = /^[A-Z]\d{2}(\.\d{1,2})?$/;
-  return icd10Regex.test(code);
-}
-
-/**
  * Valida uma complaint parseada
  */
 function validateComplaint(complaint: ParsedComplaint): ValidationError[] {
   const errors: ValidationError[] = [];
   const file = complaint.filePath;
 
-  // ID obrigatório
-  if (!complaint.id) {
-    errors.push({
-      file,
-      field: 'id',
-      message: 'ID é obrigatório',
-      severity: 'error',
-    });
-  }
+  const frontmatterResult = validateComplaintFrontmatter({
+    id: complaint.id,
+    group: complaint.group,
+    title: complaint.title,
+    subtitle: complaint.subtitle,
+    riskLevel: complaint.riskLevel,
+    severity: complaint.severity,
+    icd10Codes: complaint.icd10Codes,
+    synonyms: complaint.synonyms,
+    searchTerms: complaint.searchTerms,
+    chips: complaint.chips,
+    ageTargets: complaint.ageTargets,
+    isTopForAdult: complaint.isTopForAdult,
+    isTopForChild: complaint.isTopForChild,
+    isFastTrack: complaint.isFastTrack,
+    searchWeight: complaint.searchWeight,
+    bodySystem: complaint.bodySystem,
+    relatedSymptoms: complaint.relatedSymptoms,
+    commonMisconceptions: complaint.commonMisconceptions,
+  });
 
-  // Grupo válido
-  if (!complaint.group) {
+  frontmatterResult.errors.forEach((issue) => {
     errors.push({
       file,
-      field: 'group',
-      message: 'Grupo é obrigatório',
-      severity: 'error',
+      field: issue.field,
+      message: issue.message,
+      severity: issue.severity,
     });
-  } else if (!VALID_GROUPS.includes(complaint.group)) {
-    errors.push({
-      file,
-      field: 'group',
-      message: `Grupo inválido: ${complaint.group}. Válidos: ${VALID_GROUPS.join(', ')}`,
-      severity: 'error',
-    });
-  }
+  });
 
-  // Título obrigatório
-  if (!complaint.title) {
+  frontmatterResult.warnings.forEach((issue) => {
     errors.push({
       file,
-      field: 'title',
-      message: 'Título é obrigatório',
-      severity: 'error',
+      field: issue.field,
+      message: issue.message,
+      severity: issue.severity,
     });
-  }
-
-  // Risk level válido
-  if (!VALID_RISK_LEVELS.includes(complaint.riskLevel)) {
-    errors.push({
-      file,
-      field: 'riskLevel',
-      message: `Nível de risco inválido: ${complaint.riskLevel}. Válidos: ${VALID_RISK_LEVELS.join(', ')}`,
-      severity: 'error',
-    });
-  }
-
-  // Severidade válida (1-5)
-  if (complaint.severity < 1 || complaint.severity > 5) {
-    errors.push({
-      file,
-      field: 'severity',
-      message: `Severidade deve ser entre 1 e 5. Atual: ${complaint.severity}`,
-      severity: 'error',
-    });
-  }
-
-  // ICD-10 codes
-  if (complaint.icd10Codes && complaint.icd10Codes.length > 0) {
-    for (const code of complaint.icd10Codes) {
-      if (!isValidICD10(code)) {
-        errors.push({
-          file,
-          field: 'icd10Codes',
-          message: `Código ICD-10 inválido: ${code}`,
-          severity: 'warning',
-        });
-      }
-    }
-  } else {
-    errors.push({
-      file,
-      field: 'icd10Codes',
-      message: 'Recomendado incluir códigos ICD-10',
-      severity: 'warning',
-    });
-  }
-
-  // Age targets válidos
-  for (const age of complaint.ageTargets) {
-    if (!VALID_AGE_TARGETS.includes(age as typeof VALID_AGE_TARGETS[number])) {
-      errors.push({
-        file,
-        field: 'ageTargets',
-        message: `Age target inválido: ${age}. Válidos: ${VALID_AGE_TARGETS.join(', ')}`,
-        severity: 'warning',
-      });
-    }
-  }
-
-  // Search weight válido
-  if (complaint.searchWeight < 0 || complaint.searchWeight > 2) {
-    errors.push({
-      file,
-      field: 'searchWeight',
-      message: `Search weight deve ser entre 0 e 2. Atual: ${complaint.searchWeight}`,
-      severity: 'warning',
-    });
-  }
+  });
 
   // Recomendações de conteúdo
   if (!complaint.extendedContent?.redFlags?.length) {
@@ -154,24 +83,6 @@ function validateComplaint(complaint: ParsedComplaint): ValidationError[] {
       file,
       field: 'redFlags',
       message: 'Recomendado incluir Red Flags',
-      severity: 'warning',
-    });
-  }
-
-  if (!complaint.synonyms?.length) {
-    errors.push({
-      file,
-      field: 'synonyms',
-      message: 'Recomendado incluir sinônimos para busca',
-      severity: 'warning',
-    });
-  }
-
-  if (!complaint.searchTerms?.length) {
-    errors.push({
-      file,
-      field: 'searchTerms',
-      message: 'Recomendado incluir termos de busca',
       severity: 'warning',
     });
   }

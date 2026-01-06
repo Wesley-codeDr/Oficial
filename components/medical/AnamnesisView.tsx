@@ -18,7 +18,8 @@ import {
 } from './glass-inputs';
 import { AutoRedFlagAlert } from './AutoRedFlagAlert';
 import { detectRedFlags, DetectionResult } from '@/lib/anamnese/red-flag-detector';
-import { getComplaintById, complaintToFormConfig } from '@/lib/anamnese/complaint-to-form';
+import { complaintToFormConfig } from '@/lib/anamnese/complaint-to-form';
+import type { ComplaintApiPayload } from '@/lib/types/complaints-api';
 import { CalculatorTriggerButton } from './CalculatorTriggerButton';
 import { InlineCalculatorPanel } from './InlineCalculatorPanel';
 
@@ -53,7 +54,7 @@ interface CalculatorCardProps {
 const CalculatorCard: React.FC<CalculatorCardProps> = ({ name, description, onClick }) => (
   <button
     onClick={onClick}
-    className="flex items-center gap-3 px-4 py-3 bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 rounded-2xl hover:bg-blue-100 dark:hover:bg-blue-900/30 transition-all group"
+    className="glass-pill flex items-center gap-3 px-4 py-3 rounded-2xl hover:bg-white/20 dark:hover:bg-white/10 transition-all group rim-light-ios26"
   >
     <div className="w-10 h-10 rounded-xl bg-blue-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
       <Calculator className="w-5 h-5" />
@@ -240,7 +241,7 @@ interface AnamnesisViewProps {
   data: AnamnesisData;
   onDataChange: React.Dispatch<React.SetStateAction<AnamnesisData>>;
   onAddSymptom: (sectionId: string) => void;
-  complaintId?: string; // ID da queixa para carregar dados do Obsidian
+  complaint?: ComplaintApiPayload | null;
   onCalculatorClick?: (calculatorName: string) => void;
 }
 
@@ -250,7 +251,7 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
     data,
     onDataChange,
     onAddSymptom,
-    complaintId,
+    complaint,
     onCalculatorClick
 }) => {
   const [activeSectionId, setActiveSectionId] = useState<string | null>(null);
@@ -259,20 +260,18 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
   const [openCalculatorId, setOpenCalculatorId] = useState<string | null>(null);
   const [isCalculatorPanelOpen, setIsCalculatorPanelOpen] = useState(false);
 
-  // Carrega dados do Obsidian se complaintId fornecido
   const complaintData = useMemo(() => {
-    if (!complaintId) return null;
-    return getComplaintById(complaintId);
-  }, [complaintId]);
+    return complaint ?? null;
+  }, [complaint]);
 
   const formConfig = useMemo(() => {
-    if (!complaintId) return null;
-    return complaintToFormConfig(complaintId);
-  }, [complaintId]);
+    if (!complaintData) return null;
+    return complaintToFormConfig(complaintData);
+  }, [complaintData]);
 
   // Detecta red flags baseado nas seleções atuais
   const redFlagResult = useMemo((): DetectionResult => {
-    if (!complaintId) {
+    if (!complaintData) {
       return { hasRedFlags: false, alerts: [], highestSeverity: 'none', requiresImmediateAction: false };
     }
 
@@ -291,8 +290,8 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
       });
     });
 
-    return detectRedFlags(complaintId, selectedSymptoms);
-  }, [complaintId, data, sections]);
+    return detectRedFlags(complaintData, selectedSymptoms);
+  }, [complaintData, data, sections]);
 
   useEffect(() => {
     const firstSection = sections[0]
@@ -490,21 +489,21 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
         </div>
       )}
 
-      {/* 1. STICKY SIDEBAR (Ultra-FID Apple 2025) */}
-      <div className="w-80 shrink-0 flex flex-col h-full py-6 pl-4">
-         <div className="mb-8 px-4">
-            <h3 className="text-[10px] font-apple-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.3em] mb-5 pl-1.5 opacity-60">Roteiro Clínico</h3>
+      {/* 1. STICKY SIDEBAR - Subtle & Compact */}
+      <div className="w-56 shrink-0 flex flex-col h-full py-4 pl-3">
+         <div className="mb-5 px-2">
+            <h3 className="text-[9px] font-semibold text-slate-400 dark:text-slate-600 uppercase tracking-[0.2em] mb-3 pl-1 opacity-50">Roteiro Clínico</h3>
             <div className="relative group">
-                <Search className="absolute left-4.5 top-3.5 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-all duration-500 pointer-events-none z-10" />
+                <Search className="absolute left-3.5 top-2.5 w-3.5 h-3.5 text-slate-400 group-focus-within:text-blue-500 transition-all duration-500 pointer-events-none z-10" />
                 <input
                   type="text"
                   placeholder="Pesquisar..."
-                  className="w-full bg-black/5 dark:bg-white/3 border border-white/10 rounded-[22px] py-3.5 pl-12 pr-5 text-[13px] font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:bg-white dark:focus:bg-white/5 transition-all backdrop-blur-3xl dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600 shadow-inner rim-highlight"
+                  className="w-full bg-black/4 dark:bg-white/3 border border-white/8 rounded-[16px] py-2.5 pl-9 pr-4 text-[12px] font-medium focus:outline-none focus:ring-2 focus:ring-blue-500/10 focus:bg-white dark:focus:bg-white/5 transition-all backdrop-blur-xl dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-600"
                 />
             </div>
          </div>
 
-         <div className="flex-1 overflow-y-auto custom-scrollbar space-y-2.5 pr-4 pb-10 px-1 scroll-smooth">
+         <div className="flex-1 overflow-y-auto custom-scrollbar space-y-1.5 pr-2 pb-8 px-1 scroll-smooth">
             {sections.map(section => {
                const sectionPrefix = section.id.split('_')[0] ?? section.id
                const Icon = SECTION_ICONS[section.id] || SECTION_ICONS[sectionPrefix] || Activity;
@@ -514,14 +513,14 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                return (
                   <motion.button
                     key={section.id}
-                    whileHover={{ x: 4, scale: 1.01 }}
+                    whileHover={{ x: 2, scale: 1.005 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => scrollToSection(section.id, true)}
                     className={`
-                      w-full flex items-center justify-between px-4 py-3 rounded-[16px] group relative overflow-hidden
+                      w-full flex items-center justify-between px-2.5 py-2 rounded-[12px] group relative overflow-hidden
                       ${isActive
-                        ? 'text-white dark:text-slate-900 font-semibold'
-                        : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium'
+                        ? 'text-white dark:text-slate-900 font-medium'
+                        : 'text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-normal'
                       }
                     `}
                   >
@@ -533,44 +532,43 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                            initial={{ opacity: 0 }}
                            animate={{ opacity: 1 }}
                            exit={{ opacity: 0 }}
-                           className="absolute inset-0 z-0 bg-linear-to-br from-blue-600 via-indigo-600 to-blue-700 dark:from-white dark:via-blue-50 dark:to-slate-100 shadow-xl shadow-blue-600/15 dark:shadow-white/5 rounded-[16px]"
-                           transition={{ type: 'spring', damping: 25, stiffness: 200, mass: 1 }}
+                           className="absolute inset-0 z-0 bg-gradient-to-br from-blue-500 to-blue-600 dark:from-slate-100 dark:to-white shadow-md shadow-blue-500/10 dark:shadow-slate-200/10 rounded-[12px]"
+                           transition={{ type: 'spring', damping: 28, stiffness: 220, mass: 1 }}
                          >
-                           {/* Specular Rim Glow */}
-                           <div className="absolute inset-0 border-t border-white/30 dark:border-black/5 pointer-events-none" />
+                           <div className="absolute inset-0 border-t border-white/20 dark:border-black/5 pointer-events-none rounded-[12px]" />
                          </motion.div>
                        )}
                      </AnimatePresence>
 
-                     <div className="flex items-center gap-4 min-w-0 relative z-10">
+                     <div className="flex items-center gap-2.5 min-w-0 relative z-10">
                         <div className={`
-                          w-8.5 h-8.5 rounded-[13px] flex items-center justify-center transition-colors duration-300
-                          ${isActive ? 'bg-white/20 dark:bg-black/10' : 'bg-black/5 dark:bg-white/5 group-hover:bg-blue-500/10'}
+                          w-6 h-6 rounded-[9px] flex items-center justify-center transition-colors duration-300
+                          ${isActive ? 'bg-white/20 dark:bg-black/10' : 'bg-transparent group-hover:bg-black/5 dark:group-hover:bg-white/5'}
                         `}>
-                          <Icon className={`w-[17px] h-[17px] shrink-0 transition-transform duration-300 ${isActive ? 'stroke-[2.5px] scale-105' : 'stroke-[1.8px] opacity-60 group-hover:opacity-100'}`} />
+                          <Icon className={`w-3.5 h-3.5 shrink-0 transition-all duration-300 ${isActive ? 'stroke-[2px] scale-105' : 'stroke-[1.5px] opacity-40 group-hover:opacity-70'}`} />
                         </div>
-                        <span className={`text-[13px] truncate tracking-tight uppercase font-apple-black transition-transform duration-300 ${isActive ? 'translate-x-0.5' : ''}`}>
+                        <span className={`text-[11px] truncate tracking-tight transition-all duration-300 ${isActive ? 'font-semibold' : 'font-normal opacity-70 group-hover:opacity-100'}`}>
                           {section.title}
                         </span>
                      </div>
 
-                     <div className="relative z-10 flex items-center gap-2">
+                     <div className="relative z-10 flex items-center gap-1.5">
                        {hasRedFlag && (
                           <motion.div
                             animate={{
-                              scale: [1, 1.3, 1],
-                              opacity: [0.7, 1, 0.7]
+                              scale: [1, 1.2, 1],
+                              opacity: [0.6, 1, 0.6]
                             }}
-                            transition={{ repeat: Infinity, duration: 2 }}
-                            className={`w-2 h-2 rounded-full ${isActive ? 'bg-white shadow-[0_0_8px_white]' : 'bg-rose-500'} shadow-md`}
+                            transition={{ repeat: Infinity, duration: 2.5 }}
+                            className={`w-1.5 h-1.5 rounded-full ${isActive ? 'bg-white shadow-[0_0_6px_white]' : 'bg-rose-500'}`}
                           />
                        )}
                        {isActive && (
                          <motion.div
-                           initial={{ opacity: 0, x: -3 }}
-                           animate={{ opacity: 0.5, x: 0 }}
+                           initial={{ opacity: 0, x: -2 }}
+                           animate={{ opacity: 0.6, x: 0 }}
                          >
-                            <ChevronRight className="w-3.5 h-3.5 stroke-[3px]" />
+                            <ChevronRight className="w-3 h-3 stroke-[2.5px]" />
                          </motion.div>
                        )}
                      </div>
@@ -579,14 +577,14 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
             })}
          </div>
 
-         <div className="mt-auto pt-6 px-4">
+         <div className="mt-auto pt-4 px-2">
              <motion.button
-               whileHover={{ scale: 1.02, translateY: -2 }}
+               whileHover={{ scale: 1.02, translateY: -1 }}
                whileTap={{ scale: 0.97 }}
-               className="w-full h-14 rounded-apple-cta bg-linear-to-br from-blue-600 via-indigo-600 to-blue-700 text-white font-apple-black text-[14px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 shadow-[0_15px_35px_rgba(37,99,235,0.2)] border border-white/20 relative overflow-hidden group rim-highlight"
+               className="w-full h-11 rounded-[14px] bg-gradient-to-br from-blue-500 to-blue-600 text-white font-semibold text-[12px] uppercase tracking-[0.15em] flex items-center justify-center gap-2 shadow-[0_8px_20px_rgba(37,99,235,0.2)] border border-white/15 relative overflow-hidden group"
              >
                 <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                <Check className="w-4.5 h-4.5 stroke-[4px]" />
+                <Check className="w-4 h-4 stroke-[3px]" />
                 Finalizar
              </motion.button>
          </div>

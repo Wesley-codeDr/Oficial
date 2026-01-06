@@ -28,7 +28,7 @@ export function RegisterForm() {
         animate={{ opacity: 1, scale: 1 }}
         className="space-y-6 text-center"
       >
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full glass-pill bg-green-500/20">
           <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
         </div>
         <div className="space-y-2">
@@ -38,7 +38,7 @@ export function RegisterForm() {
             Por favor, verifique sua caixa de entrada.
           </p>
         </div>
-        <Button asChild className="w-full">
+        <Button asChild className="w-full btn-primary-glass text-white">
           <Link href="/login">Ir para o login</Link>
         </Button>
       </motion.div>
@@ -57,7 +57,7 @@ export function RegisterForm() {
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="rounded-lg border border-destructive/50 bg-destructive/10 p-4 text-sm text-destructive"
+          className="rounded-lg glass-pill bg-red-500/10 dark:bg-red-500/15 border border-red-500/30 p-4 text-sm text-red-600 dark:text-red-400"
         >
           {state.error}
         </motion.div>
@@ -66,13 +66,13 @@ export function RegisterForm() {
       <div className="space-y-2">
         <Label htmlFor="fullName">Nome Completo</Label>
         <div className="relative">
-          <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <User className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-10" />
           <Input
             id="fullName"
             name="fullName"
             type="text"
             placeholder="Dr. João Silva"
-            className="pl-10"
+            className="pl-10 liquid-glass-material rim-light-ios26 h-10"
             required
             autoComplete="name"
           />
@@ -82,13 +82,13 @@ export function RegisterForm() {
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Mail className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-10" />
           <Input
             id="email"
             name="email"
             type="email"
             placeholder="medico@hospital.com"
-            className="pl-10"
+            className="pl-10 liquid-glass-material rim-light-ios26 h-10"
             required
             autoComplete="email"
           />
@@ -99,13 +99,13 @@ export function RegisterForm() {
         <div className="space-y-2">
           <Label htmlFor="crmNumber">Numero CRM</Label>
           <div className="relative">
-            <FileText className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <FileText className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-10" />
             <Input
               id="crmNumber"
               name="crmNumber"
               type="text"
               placeholder="123456"
-              className="pl-10"
+              className="pl-10 liquid-glass-material rim-light-ios26 h-10"
               required
             />
           </div>
@@ -113,11 +113,11 @@ export function RegisterForm() {
         <div className="space-y-2">
           <Label htmlFor="crmState">UF</Label>
           <div className="relative">
-            <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-10" />
             <select
               id="crmState"
               name="crmState"
-              className="h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-10 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="h-10 w-full rounded-md glass-pill pl-10 pr-3 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/20"
               required
             >
               <option value="">UF</option>
@@ -134,13 +134,13 @@ export function RegisterForm() {
       <div className="space-y-2">
         <Label htmlFor="password">Senha</Label>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Lock className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground z-10" />
           <Input
             id="password"
             name="password"
             type="password"
             placeholder="••••••••"
-            className="pl-10"
+            className="pl-10 liquid-glass-material rim-light-ios26 h-10"
             required
             autoComplete="new-password"
             minLength={6}
@@ -149,7 +149,7 @@ export function RegisterForm() {
         <p className="text-xs text-muted-foreground">Minimo de 6 caracteres</p>
       </div>
 
-      <Button type="submit" className="w-full" disabled={isPending}>
+      <Button type="submit" className="w-full btn-primary-glass text-white h-11 shadow-lg shadow-primary/30 hover:shadow-xl hover:shadow-primary/40 hover:scale-105 transition-all" disabled={isPending}>
         {isPending ? (
           <>
             <Loader2 className="mr-2 h-4 w-4 animate-spin" />

@@ -1,11 +1,11 @@
 /**
  * Transforma dados de queixas do Obsidian para configuração de formulário
  *
- * Este módulo converte o formato de complaintsData.ts para estruturas
+ * Este módulo converte dados de queixas para estruturas
  * que podem ser usadas tanto pelo AnamnesisView quanto pelo anamnese-form.
  */
 
-import { complaintsData } from '@/lib/data/complaintsData'
+import type { Complaint } from '@/lib/types/medical'
 
 // Tipos para a estrutura do formulário
 export interface FormSection {
@@ -58,24 +58,24 @@ export interface CalculatorConfig {
 /**
  * Busca uma queixa por ID
  */
-export function getComplaintById(id: string) {
-  return complaintsData.complaints.find(c => c.id === id)
+export function getComplaintById(complaints: Complaint[], id: string) {
+  return complaints.find(c => c.id === id)
 }
 
 /**
  * Busca queixas por grupo
  */
-export function getComplaintsByGroup(group: string) {
-  return complaintsData.complaints.filter(c => c.group === group)
+export function getComplaintsByGroup(complaints: Complaint[], group: string) {
+  return complaints.filter(c => c.group === group)
 }
 
 /**
  * Converte dados de uma queixa para configuração de formulário
  */
-export function complaintToFormConfig(complaintId: string): FormConfig | null {
-  const complaint = getComplaintById(complaintId)
+export function complaintToFormConfig(complaint: Complaint): FormConfig | null {
   if (!complaint) return null
 
+  const complaintId = complaint.id
   const extended = complaint.extendedContent || {}
 
   // Gera seções do formulário
@@ -305,8 +305,8 @@ function getRecommendedAction(redFlag: string): string {
 /**
  * Lista todas as queixas disponíveis
  */
-export function getAllComplaints() {
-  return complaintsData.complaints.map(c => ({
+export function getAllComplaints(complaints: Complaint[]) {
+  return complaints.map(c => ({
     id: c.id,
     title: c.title,
     subtitle: c.subtitle,
@@ -320,10 +320,10 @@ export function getAllComplaints() {
 /**
  * Agrupa queixas por sistema corporal
  */
-export function getComplaintsGroupedBySystem() {
-  const groups: Record<string, typeof complaintsData.complaints> = {}
+export function getComplaintsGroupedBySystem(complaints: Complaint[]) {
+  const groups: Record<string, Complaint[]> = {}
 
-  for (const complaint of complaintsData.complaints) {
+  for (const complaint of complaints) {
     if (!groups[complaint.group]) {
       groups[complaint.group] = []
     }

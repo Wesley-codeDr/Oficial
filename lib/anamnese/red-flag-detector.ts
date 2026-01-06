@@ -5,7 +5,7 @@
  * e nos dados de red flags sincronizados do Obsidian.
  */
 
-import { getComplaintById } from './complaint-to-form'
+import type { Complaint } from '@/lib/types/medical'
 
 // Tipos para alertas de red flag
 export interface RedFlagAlert {
@@ -143,11 +143,10 @@ const SYMPTOM_RED_FLAG_MAP: Record<string, SymptomMapping> = {
  * Detecta red flags baseado nos sintomas selecionados
  */
 export function detectRedFlags(
-  complaintId: string,
+  complaint: Complaint | null,
   selectedSymptoms: string[],
   additionalSymptoms?: string[]
 ): DetectionResult {
-  const complaint = getComplaintById(complaintId)
   if (!complaint) {
     return {
       hasRedFlags: false,

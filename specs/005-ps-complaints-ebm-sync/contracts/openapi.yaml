@@ -1,0 +1,459 @@
+openapi: 3.1.0
+info:
+  title: WellWave Complaint Sync API
+  description: |
+    Complaint catalog endpoints for canonical DB and Obsidian sync.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api
+    description: Development
+  - url: https://api.wellwave.com/v1
+    description: Production
+
+tags:
+  - name: Complaints
+    description: Complaint catalog and sync endpoints
+
+paths:
+  /complaints:
+    get:
+      tags: [Complaints]
+      summary: List complaints
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: group
+          in: query
+          schema:
+            type: string
+          description: Group code filter (e.g., RC, CV)
+        - name: riskLevel
+          in: query
+          schema:
+            type: string
+            enum: [low, medium, high]
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: updatedSince
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Complaint list
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplaintListResponse'
+        '401':
+          description: Unauthorized
+  /complaints/{id}:
+    get:
+      tags: [Complaints]
+      summary: Get complaint details
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Complaint detail
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplaintApiPayload'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+    put:
+      tags: [Complaints]
+      summary: Update complaint fields
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComplaintUpdateRequest'
+      responses:
+        '200':
+          description: Updated complaint
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplaintApiPayload'
+        '400':
+          description: Validation error
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not found
+  /complaints/changes:
+    get:
+      tags: [Complaints]
+      summary: List complaint changes since a timestamp
+      parameters:
+        - name: since
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 500
+            default: 100
+      responses:
+        '200':
+          description: Complaint changes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComplaintChangesResponse'
+        '401':
+          description: Unauthorized
+
+components:
+  schemas:
+    ComplaintListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplaintApiPayload'
+        total:
+          type: integer
+        limit:
+          type: integer
+        offset:
+          type: integer
+    ComplaintChangesResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComplaintApiPayload'
+        nextCursor:
+          type: string
+          nullable: true
+    ComplaintApiPayload:
+      type: object
+      properties:
+        id:
+          type: string
+        group:
+          type: string
+        title:
+          type: string
+        subtitle:
+          type: string
+        ageTargets:
+          type: array
+          items:
+            type: string
+        riskLevel:
+          type: string
+          enum: [low, medium, high]
+        isTopForAdult:
+          type: boolean
+        isTopForChild:
+          type: boolean
+        isFastTrack:
+          type: boolean
+        chips:
+          type: array
+          items:
+            type: string
+        searchTerms:
+          type: array
+          items:
+            type: string
+        synonyms:
+          type: array
+          items:
+            type: string
+        relatedSymptoms:
+          type: array
+          items:
+            type: string
+        bodySystem:
+          type: array
+          items:
+            type: string
+        severity:
+          type: number
+        commonMisconceptions:
+          type: array
+          items:
+            type: string
+        icd10Codes:
+          type: array
+          items:
+            type: string
+        searchWeight:
+          type: number
+        extendedContent:
+          $ref: '#/components/schemas/ComplaintExtendedContent'
+        extendedContentEBM:
+          $ref: '#/components/schemas/ComplaintExtendedContentEBM'
+        additionalData:
+          $ref: '#/components/schemas/ComplaintAdditionalData'
+        sync:
+          $ref: '#/components/schemas/ComplaintSync'
+        db:
+          $ref: '#/components/schemas/ComplaintDbMeta'
+    ComplaintDbMeta:
+      type: object
+      properties:
+        id:
+          type: string
+        code:
+          type: string
+        groupId:
+          type: string
+        groupCode:
+          type: string
+        groupName:
+          type: string
+        groupNameEn:
+          type: string
+          nullable: true
+        isActive:
+          type: boolean
+        isHighAcuity:
+          type: boolean
+        isTimeSensitive:
+          type: boolean
+        requiresIsolation:
+          type: boolean
+        orderIndex:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    ComplaintAdditionalData:
+      type: object
+      properties:
+        metadata:
+          $ref: '#/components/schemas/ComplaintMetadata'
+        extendedContent:
+          $ref: '#/components/schemas/ComplaintExtendedContent'
+        extendedContentEBM:
+          $ref: '#/components/schemas/ComplaintExtendedContentEBM'
+        sync:
+          $ref: '#/components/schemas/ComplaintSync'
+    ComplaintMetadata:
+      type: object
+      properties:
+        subtitle:
+          type: string
+        riskLevel:
+          type: string
+          enum: [low, medium, high]
+        severity:
+          type: integer
+        ageTargets:
+          type: array
+          items:
+            type: string
+        isTopForAdult:
+          type: boolean
+        isTopForChild:
+          type: boolean
+        isFastTrack:
+          type: boolean
+        chips:
+          type: array
+          items:
+            type: string
+        searchTerms:
+          type: array
+          items:
+            type: string
+        bodySystem:
+          type: array
+          items:
+            type: string
+        relatedSymptoms:
+          type: array
+          items:
+            type: string
+        commonMisconceptions:
+          type: array
+          items:
+            type: string
+        searchWeight:
+          type: number
+    ComplaintSync:
+      type: object
+      properties:
+        contentHash:
+          type: string
+        lastSyncedAt:
+          type: string
+          format: date-time
+        syncSource:
+          type: string
+          enum: [obsidian, app, system]
+    ComplaintExtendedContent:
+      type: object
+      properties:
+        redFlags:
+          type: array
+          items:
+            type: string
+        diagnosticoDiferencial:
+          type: array
+          items:
+            type: string
+        condutaInicial:
+          type: string
+        calculadoras:
+          type: array
+          items:
+            type: string
+        rawMarkdown:
+          type: string
+    ComplaintExtendedContentEBM:
+      type: object
+      properties:
+        redFlags:
+          type: array
+          items:
+            $ref: '#/components/schemas/RedFlag'
+        diagnosticoDiferencial:
+          type: array
+          items:
+            $ref: '#/components/schemas/DifferentialDiagnosis'
+        condutaInicial:
+          type: string
+        calculadoras:
+          type: array
+          items:
+            type: string
+        ebmVersion:
+          type: string
+        lastEBMReview:
+          type: string
+          format: date-time
+        evidenceQuality:
+          type: string
+          enum: [high, moderate, low, very-low]
+        ebmReferences:
+          type: array
+          items:
+            $ref: '#/components/schemas/EBMCitation'
+    RedFlag:
+      type: object
+      properties:
+        description:
+          type: string
+        severity:
+          type: string
+          enum: [critical, warning, caution]
+        clinicalSignificance:
+          type: string
+        immediateAction:
+          type: string
+        timeToAction:
+          type: integer
+    DifferentialDiagnosis:
+      type: object
+      properties:
+        condition:
+          type: string
+        icd10:
+          type: string
+        probability:
+          type: string
+          enum: [high, medium, low]
+        keyFeatures:
+          type: array
+          items:
+            type: string
+    EBMCitation:
+      type: object
+      properties:
+        source:
+          type: string
+        title:
+          type: string
+        url:
+          type: string
+        pmid:
+          type: string
+        doi:
+          type: string
+        yearPublished:
+          type: integer
+        lastAccessed:
+          type: string
+          format: date-time
+        evidenceLevel:
+          type: string
+          enum: [A, B, C, D]
+    ComplaintUpdateRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        subtitle:
+          type: string
+        definition:
+          type: string
+        groupCode:
+          type: string
+        synonyms:
+          type: array
+          items:
+            type: string
+        icd10Codes:
+          type: array
+          items:
+            type: string
+        isTimeSensitive:
+          type: boolean
+        isHighAcuity:
+          type: boolean
+        requiresIsolation:
+          type: boolean
+        isActive:
+          type: boolean
+        orderIndex:
+          type: integer
+        additionalData:
+          $ref: '#/components/schemas/ComplaintAdditionalData'

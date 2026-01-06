@@ -59,8 +59,8 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollap
         <motion.div
           className={`
             absolute inset-0 rounded-[20px] transition-all duration-500
-            ${isActive 
-              ? 'bg-white/15 dark:bg-white/10 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-sm' 
+            ${isActive
+              ? 'glass-pill inner-glow-ios26 shadow-lg'
               : 'bg-transparent group-hover/item:bg-white/5 dark:group-hover/item:bg-white/5'}
           `}
         />
@@ -75,7 +75,7 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollap
               flex items-center justify-center w-10 h-10 rounded-[14px] transition-all duration-500
               ${
                 isActive
-                  ? 'bg-primary/20 backdrop-blur-md shadow-lg shadow-primary/20 text-primary border border-primary/20'
+                  ? 'glass-pill bg-primary/20! backdrop-blur-xl shadow-lg shadow-primary/20 text-primary border-primary/30!'
                   : 'text-slate-500 dark:text-slate-400 group-hover/item:text-primary'
               }
            `}
@@ -208,7 +208,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside
       suppressHydrationWarning={true}
-      className={`${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'} h-[calc(100vh-1rem)] liquid-glass-material flex flex-col shrink-0 my-2 ml-2 rounded-[32px] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-40 relative hover:shadow-2xl hover:shadow-blue-500/5`}
+      className={`${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'} h-[calc(100vh-1rem)] structural-glass sidebar-rim-light rim-light-ios26 noise-grain flex flex-col shrink-0 my-2 ml-2 rounded-[32px] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-40 relative`}
     >
       <motion.div 
          className="w-full h-full flex flex-col"
@@ -230,7 +230,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* LOGO CONTAINER GLASS */}
           <motion.div
             className={`
-              relative flex items-center justify-center bg-white/20 backdrop-blur-md border border-white/30 rounded-[20px] shadow-sm dark:bg-white/5 dark:border-white/10 shrink-0 overflow-hidden group-hover/brand:bg-white/30 dark:group-hover/brand:bg-white/10 transition-all duration-500
+              relative flex items-center justify-center glass-pill inner-glow-ios26 shrink-0 overflow-hidden group-hover/brand:bg-white/40 dark:group-hover/brand:bg-white/15 transition-all duration-500
               ${isCollapsed ? 'w-[60px] h-[60px]' : 'w-14 h-14'}
             `}
             animate={{ y: [0, -2, 0] }}

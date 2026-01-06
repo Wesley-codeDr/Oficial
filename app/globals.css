@@ -296,27 +296,71 @@
     --ring: 213 97% 50%;
     --radius: 1.5rem;
 
-    /* === Liquid Glass 2025 Material - Light Refined === */
-    --liquid-glass-bg: rgba(255, 255, 255, 0.65);
-    --liquid-glass-border: rgba(255, 255, 255, 0.45);
-    --liquid-glass-blur: 50px;
-    --liquid-glass-blur-mobile: 30px;
-    --liquid-glass-blur-elevated: 80px;
-    --liquid-glass-saturate: 180%;
+    /* === Liquid Glass iOS 26 Material - Authentic Apple Specs === */
+    --lg-blur: 60px;
+    --lg-blur-mobile: 40px;
+    --lg-blur-elevated: 80px;
+    --lg-saturate: 180%;
+    --lg-bg-opacity: 0.55;
     
-    /* Deep multi-layered shadows for 3D stacking */
-    --liquid-glass-shadow: 
-      0 4px 24px -1px rgba(0, 0, 0, 0.04),
-      0 0 0 1px rgba(255, 255, 255, 0.4) inset,
-      0 12px 48px rgba(0, 0, 0, 0.06); /* Ambient depth */
-    
-    --liquid-glass-shadow-elevated:
-      0 32px 64px -12px rgba(0, 0, 0, 0.14),
-      0 0 0 1px rgba(255, 255, 255, 0.6) inset,
-      0 0 40px rgba(0, 0, 0, 0.03);
+    /* Liquid Glass Core v2.0 */
+    --lg-bg-primary: rgba(255, 255, 255, 0.55);
+    --lg-bg-secondary: rgba(255, 255, 255, 0.42);
 
-    /* Noise Texture Data URI for global use */
-    --noise-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.4'/%3E%3C/svg%3E");
+    /* Rim Light - iOS 26 Specification */
+    --lg-rim-opacity: 0.85;
+    --lg-rim-width: 1.5px;
+    --lg-rim-intensity: 0.85;
+
+    /* Inner Glow & Specular */
+    --lg-specular: rgba(255, 255, 255, 0.6);
+    --lg-specular-intensity: 0.6;
+    --lg-specular-hover: 0.9;
+
+    /* Noise Texture Opacity */
+    --lg-noise-opacity: 0.03;
+
+    /* Border Radius iOS 26 - Apple Squircle approximations */
+    --lg-radius-xl: 32px;
+    --lg-radius-lg: 24px;
+    --lg-radius-md: 16px;
+    --lg-radius-sm: 12px;
+    --lg-radius-xs: 8px;
+
+    /* Transitions & Physics */
+    --lg-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --lg-transition-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+    /* Shadows - iOS 26 Multi-Layer System */
+    --lg-shadow-base: 
+      0 25px 50px -12px rgba(0, 0, 0, 0.15),
+      0 0 80px -20px rgba(255, 255, 255, 0.6),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.9),
+      inset 0 -2px 4px 0 rgba(0, 0, 0, 0.04);
+    
+    --lg-shadow-hover: 
+      0 35px 60px -15px rgba(0, 0, 0, 0.2),
+      0 0 100px -30px rgba(255, 255, 255, 0.8),
+      inset 0 1px 0 0 rgba(255, 255, 255, 1),
+      inset 0 -2px 6px 0 rgba(0, 0, 0, 0.05);
+
+    /* Legacy Variables (Backward Compatibility) */
+    --liquid-glass-bg: var(--lg-bg-primary);
+    --liquid-glass-border: rgba(255, 255, 255, 0.5);
+    --liquid-glass-blur: var(--lg-blur);
+    --liquid-glass-blur-mobile: var(--lg-blur-mobile);
+    --liquid-glass-blur-elevated: var(--lg-blur-elevated);
+    --liquid-glass-saturate: var(--lg-saturate);
+    --liquid-glass-shadow: var(--lg-shadow-base);
+
+    /* Z-Depth Tokens */
+    --z-depth-0: 0px;
+    --z-depth-1: 10px;
+    --z-depth-2: 24px;
+    --z-depth-3: 48px;
+
+    /* Noise Texture Data URI */
+    --noise-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   }
 
   .dark {
@@ -341,23 +385,35 @@
     --input: 240 3.7% 15.9%;
     --ring: 213 100% 56%;
 
-    /* === Liquid Glass 2025 Material - Dark Refined === */
-    --liquid-glass-bg: rgba(30, 30, 35, 0.60); 
+    /* === Liquid Glass iOS 26 Material - Dark Mode === */
+    --lg-bg-primary: rgba(30, 41, 59, 0.65);
+    --lg-bg-secondary: rgba(30, 41, 59, 0.45);
+    --lg-rim-intensity: 0.3;
+    --lg-specular-intensity: 0.2;
+    --lg-noise-opacity: 0.04;
+    --lg-saturate: 200%;
+
+    /* Legacy Variables (Backward Compatibility) */
+    --liquid-glass-bg: var(--lg-bg-primary);
     --liquid-glass-border: rgba(255, 255, 255, 0.12);
     --liquid-glass-blur: 60px;
     --liquid-glass-blur-mobile: 40px;
     --liquid-glass-blur-elevated: 90px;
-    --liquid-glass-saturate: 200%;
+    --liquid-glass-saturate: var(--lg-saturate);
 
-    --liquid-glass-shadow: 
-      0 20px 40px -4px rgba(0, 0, 0, 0.4),
-      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-      0 0 20px rgba(0, 0, 0, 0.2);
+    /* iOS 26 Dark Mode Shadows */
+    --lg-shadow-base:
+      0 25px 50px -12px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.1),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+
+    --liquid-glass-shadow: var(--lg-shadow-base);
 
     --liquid-glass-shadow-elevated:
       0 50px 100px -10px rgba(0, 0, 0, 0.6),
       0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-      0 0 60px rgba(10, 132, 255, 0.05); /* Subtle cool tint glow */
+      0 0 60px rgba(10, 132, 255, 0.05);
   }
 }
 
@@ -374,20 +430,30 @@
   
   body {
     @apply text-foreground font-sans;
-    /* Apple 2025 Deep Mesh Gradient: Deep Ocean -> Vibrant Cyan -> Liquid Softness */
+    /* Apple 2025 Dynamic Mesh Background */
     background: 
-      radial-gradient(at 0% 0%, rgba(0, 78, 146, 0.15) 0px, transparent 50%),
-      radial-gradient(at 50% 0%, rgba(0, 198, 255, 0.1) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(238, 242, 243, 0.8) 0px, transparent 50%),
-      radial-gradient(at 50% 50%, rgba(0, 198, 255, 0.05) 0px, transparent 50%),
-      linear-gradient(135deg, #004e92 0%, #00c6ff 50%, #eef2f3 100%);
+      radial-gradient(at 0% 0%, rgba(0, 78, 146, 0.12) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(0, 198, 255, 0.08) 0px, transparent 50%),
+      radial-gradient(at 50% 100%, rgba(238, 242, 243, 0.6) 0px, transparent 50%),
+      var(--color-background);
     background-attachment: fixed;
-    background-size: 400% 400%;
-    animation: gradient-flow 20s ease infinite;
+    background-size: 100% 100%;
     font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    letter-spacing: 0.02em;
+    letter-spacing: -0.01em; /* Tighter for Apple-like rhythm */
+    
+    /* Subtle Grain Overly */
+    &::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      opacity: 0.02;
+      background-image: var(--noise-texture);
+      mix-blend-mode: soft-light;
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {

@@ -143,14 +143,14 @@ export const FlashTemplateSelection: React.FC<FlashTemplateSelectionProps> = ({ 
               transition={{ delay: catIdx * 0.1, ...applePhysics.soft }}
             >
               <div className="flex items-center gap-3 mb-6 px-2">
-                <div className={`p-2.5 rounded-xl ${config.bgColor.split(' ')[0]} ${config.color} shadow-sm border border-white/20`}>
+                <div className={`p-2.5 rounded-xl glass-pill ${config.color} shadow-sm`}>
                   <Icon className="w-5 h-5 stroke-[2.5px]" />
                 </div>
                 <h3 className="text-lg font-black text-slate-800 dark:text-slate-100 uppercase tracking-tight">
                   {config.label}
                 </h3>
                 <div className="h-px flex-1 bg-linear-to-r from-slate-200 dark:from-white/10 to-transparent ml-2" />
-                <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest bg-slate-100 dark:bg-white/5 px-3 py-1 rounded-full">
+                <span className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest glass-pill px-3 py-1">
                   {templates.length} {templates.length === 1 ? 'modelo' : 'modelos'}
                 </span>
               </div>
@@ -162,7 +162,7 @@ export const FlashTemplateSelection: React.FC<FlashTemplateSelectionProps> = ({ 
                     layoutId={template.id}
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    whileHover={{ 
+                    whileHover={{
                       scale: 1.025,
                       translateY: -5,
                       boxShadow: "0 20px 40px rgba(0,0,0,0.12)"
@@ -170,15 +170,15 @@ export const FlashTemplateSelection: React.FC<FlashTemplateSelectionProps> = ({ 
                     whileTap={applePhysics.haptic}
                     transition={{ ...applePhysics.glass, delay: (catIdx * 0.1) + (tIdx * 0.05) }}
                     onClick={() => onSelect(template.id)}
-                    className="group relative flex flex-col p-6 rounded-[32px] liquid-glass-material text-left overflow-hidden"
+                    className="group relative flex flex-col p-6 rounded-[32px] liquid-glass-material rim-light-ios26 inner-glow-ios26 text-left overflow-hidden"
                   >
                     <div className="flex items-start justify-between mb-4">
                       <div
-                        className={`p-3 rounded-2xl ${config.bgColor} ${config.color} group-hover:text-white transition-all duration-500 shadow-sm border border-white/20`}
+                        className={`p-3 rounded-2xl glass-pill ${config.color} group-hover:text-white transition-all duration-500 shadow-sm`}
                       >
                         <Icon className="w-6 h-6 stroke-[2px]" />
                       </div>
-                      <div className="px-3 py-1 rounded-full bg-slate-900/5 dark:bg-white/10 text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest border border-white/20">
+                      <div className="px-3 py-1 glass-pill text-[10px] font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest">
                         {template.template.cid}
                       </div>
                     </div>

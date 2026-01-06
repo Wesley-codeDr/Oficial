@@ -9,13 +9,14 @@ import chokidar from 'chokidar';
 import path from 'path';
 import chalk from 'chalk';
 import { PATHS, SYNC_CONFIG } from './utils/config';
-import { syncObsidianToTS } from './obsidian-to-ts';
-import { syncTSToObsidian } from './ts-to-obsidian';
+import { syncObsidianToDB } from './obsidian-to-db';
+import { syncDBToObsidian } from './db-to-obsidian';
 
 // Estado para evitar loops de sincronização
 let isSyncing = false;
-let pendingSync: 'obsidian' | 'typescript' | null = null;
+let pendingSync: 'obsidian' | 'db' | null = null;
 let debounceTimer: NodeJS.Timeout | null = null;
+let lastDbSyncAt: Date | null = null;
 
 /**
  * Debounce para evitar múltiplas sincronizações
@@ -33,7 +34,7 @@ function debounce(fn: () => Promise<void>, delay: number): void {
 /**
  * Executa sincronização do Obsidian para TypeScript
  */
-async function syncFromObsidian(): Promise<void> {
+async function syncFromObsidian(filePaths?: string[]): Promise<void> {
   if (isSyncing) {
     pendingSync = 'obsidian';
     return;
@@ -43,7 +44,7 @@ async function syncFromObsidian(): Promise<void> {
   console.log(chalk.blue('\n📥 Detectada mudança no Obsidian...'));
 
   try {
-    await syncObsidianToTS();
+    await syncObsidianToDB({ filePaths });
   } catch (error) {
     console.error(chalk.red('Erro na sincronização:'), error);
   } finally {
@@ -56,26 +57,32 @@ async function syncFromObsidian(): Promise<void> {
       if (pending === 'obsidian') {
         await syncFromObsidian();
       } else {
-        await syncFromTypeScript();
+        await syncFromDatabase();
       }
     }
   }
 }
 
 /**
- * Executa sincronização do TypeScript para Obsidian
+ * Executa sincronização do DB para Obsidian
  */
-async function syncFromTypeScript(): Promise<void> {
+async function syncFromDatabase(): Promise<void> {
   if (isSyncing) {
-    pendingSync = 'typescript';
+    pendingSync = 'db';
     return;
   }
 
   isSyncing = true;
-  console.log(chalk.blue('\n📤 Detectada mudança no TypeScript...'));
+  console.log(chalk.blue('\n📤 Detectada mudança no DB...'));
 
   try {
-    await syncTSToObsidian();
+    const result = await syncDBToObsidian({
+      since: lastDbSyncAt ?? undefined,
+      limit: SYNC_CONFIG.dbBatchSize,
+    });
+    if (result.lastSyncAt) {
+      lastDbSyncAt = new Date(result.lastSyncAt);
+    }
   } catch (error) {
     console.error(chalk.red('Erro na sincronização:'), error);
   } finally {
@@ -85,8 +92,8 @@ async function syncFromTypeScript(): Promise<void> {
     if (pendingSync) {
       const pending = pendingSync;
       pendingSync = null;
-      if (pending === 'typescript') {
-        await syncFromTypeScript();
+      if (pending === 'db') {
+        await syncFromDatabase();
       } else {
         await syncFromObsidian();
       }
@@ -101,8 +108,8 @@ async function startWatcher(): Promise<void> {
   console.log(chalk.blue('\n🔄 Iniciando sincronização automática bidirecional\n'));
   console.log(chalk.gray('   Monitorando:'));
   console.log(chalk.gray(`   • Obsidian: ${PATHS.queixas}`));
-  console.log(chalk.gray(`   • TypeScript: ${PATHS.complaintsData}`));
   console.log(chalk.gray(`\n   Debounce: ${SYNC_CONFIG.watchDebounce}ms`));
+  console.log(chalk.gray(`   Poll DB: ${SYNC_CONFIG.dbPollInterval}ms`));
   console.log(chalk.yellow('\n   Pressione Ctrl+C para parar\n'));
 
   // Watcher para o vault do Obsidian
@@ -115,20 +122,8 @@ async function startWatcher(): Promise<void> {
         /(^|[/\\])\../,  // Ignora arquivos ocultos
         /_índice\.md$/,   // Ignora índices
         /00 - Índice/,    // Ignora índice principal
+        /-CONFLICT\.md$/, // Ignora arquivos de conflito
       ],
-      persistent: true,
-      ignoreInitial: true,
-      awaitWriteFinish: {
-        stabilityThreshold: 500,
-        pollInterval: 100,
-      },
-    }
-  );
-
-  // Watcher para o arquivo TypeScript
-  const tsWatcher = chokidar.watch(
-    PATHS.complaintsData,
-    {
       persistent: true,
       ignoreInitial: true,
       awaitWriteFinish: {
@@ -143,12 +138,12 @@ async function startWatcher(): Promise<void> {
     .on('change', (filePath) => {
       if (isSyncing) return;
       console.log(chalk.cyan(`   📝 Modificado: ${path.basename(filePath)}`));
-      debounce(syncFromObsidian, SYNC_CONFIG.watchDebounce);
+      debounce(() => syncFromObsidian([filePath]), SYNC_CONFIG.watchDebounce);
     })
     .on('add', (filePath) => {
       if (isSyncing) return;
       console.log(chalk.green(`   ➕ Adicionado: ${path.basename(filePath)}`));
-      debounce(syncFromObsidian, SYNC_CONFIG.watchDebounce);
+      debounce(() => syncFromObsidian([filePath]), SYNC_CONFIG.watchDebounce);
     })
     .on('unlink', (filePath) => {
       console.log(chalk.yellow(`   ➖ Removido: ${path.basename(filePath)}`));
@@ -158,22 +153,17 @@ async function startWatcher(): Promise<void> {
       console.error(chalk.red('Erro no watcher Obsidian:'), error);
     });
 
-  // Eventos do TypeScript
-  tsWatcher
-    .on('change', () => {
-      if (isSyncing) return;
-      console.log(chalk.cyan(`   📝 Modificado: complaintsData.ts`));
-      debounce(syncFromTypeScript, SYNC_CONFIG.watchDebounce);
-    })
-    .on('error', (error) => {
-      console.error(chalk.red('Erro no watcher TypeScript:'), error);
-    });
+  // Polling do DB para mudanças
+  const dbInterval = setInterval(() => {
+    if (isSyncing) return;
+    debounce(syncFromDatabase, SYNC_CONFIG.watchDebounce);
+  }, SYNC_CONFIG.dbPollInterval);
 
   // Mantém o processo rodando
   process.on('SIGINT', () => {
     console.log(chalk.yellow('\n\n👋 Encerrando watcher...\n'));
     obsidianWatcher.close();
-    tsWatcher.close();
+    clearInterval(dbInterval);
     process.exit(0);
   });
 
@@ -183,6 +173,8 @@ async function startWatcher(): Promise<void> {
       console.log(chalk.gray(`   [${new Date().toLocaleTimeString()}] Monitorando...`));
     }
   }, 60000); // A cada minuto
+
+  await syncFromDatabase();
 
   console.log(chalk.green('✅ Watcher iniciado! Aguardando mudanças...\n'));
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Trash2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -16,7 +16,7 @@ export function DeleteConversationButton({ conversationId }: DeleteConversationB
   const [isPending, startTransition] = useTransition()
 
   const handleDelete = async () => {
-    if (!confirm('Tem certeza que deseja excluir esta conversa?')) {
+    if (!window.confirm('Tem certeza que deseja excluir esta conversa?')) {
       return
     }
 
@@ -37,7 +37,7 @@ export function DeleteConversationButton({ conversationId }: DeleteConversationB
 
         router.push('/chat')
         router.refresh()
-      } catch (error) {
+      } catch {
         toast({
           title: 'Erro',
           description: 'Nao foi possivel excluir a conversa.',

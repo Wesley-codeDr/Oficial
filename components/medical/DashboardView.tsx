@@ -49,7 +49,7 @@ const chartDataPurple = [
 const CustomChartTooltip = ({ active, payload }: any) => {
    if (active && payload && payload.length) {
       return (
-         <div className="liquid-glass-material bg-white/80! dark:bg-slate-900/80! backdrop-blur-3xl px-3 py-2 rounded-xl border border-white/50 dark:border-white/10 shadow-xl transform -translate-y-2 glass-texture rim-highlight">
+         <div className="glass-molded-3d liquid-glass-rim liquid-glass-specular px-3 py-2 rounded-xl shadow-xl transform -translate-y-2">
             <p className="text-lg font-black text-slate-800 dark:text-white leading-none">
                {payload[0].value}
             </p>
@@ -104,9 +104,8 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
   const isCompact = density === 'compact';
 
   return (
-    <div 
-      className={`relative overflow-hidden p-0 flex flex-col justify-between group transition-all duration-800 hover:scale-[1.03] liquid-glass-material ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}
-      style={{ '--shadow-color': theme.shadow } as React.CSSProperties}
+    <div
+      className={`relative overflow-hidden p-0 flex flex-col justify-between group glass-molded-3d liquid-glass-rim liquid-glass-specular liquid-glass-interactive noise-grain ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}
     >
       
       {/* Dynamic Brilliance Layer */}
@@ -116,11 +115,11 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
       {/* Content Container */}
       <div className={`relative z-20 flex flex-col h-full pointer-events-none ${isCompact ? 'p-4' : 'p-6'}`}>
          <div className="flex items-center justify-between pointer-events-auto">
-            <div className={`w-10 h-10 rounded-2xl ${theme.iconBg} flex items-center justify-center shadow-inner transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3`}>
+            <div className={`glass-icon-circle ${theme.iconBg.includes('orange') ? 'glass-icon-circle--warning' : theme.iconBg.includes('blue') ? 'glass-icon-circle--info' : theme.iconBg.includes('emerald') ? 'glass-icon-circle--success' : 'glass-icon-circle--danger'}`}>
                <Icon className={`w-5 h-5 ${theme.iconColor} filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]`} />
             </div>
             
-            <div className={`px-3 py-1.5 rounded-full text-[11px] font-apple-semibold backdrop-blur-md border border-white/25 flex items-center gap-1.5 ${theme.trendBg} ${theme.trendColor} rim-highlight shadow-sm`}>
+            <div className={`glass-pill px-3 py-1.5 rounded-full text-[11px] font-apple-semibold flex items-center gap-1.5 ${theme.trendColor}`}>
                {trend === 'up' ? <ArrowUpRight className="w-3 h-3 stroke-[3px]" /> : <ArrowUpRight className="w-3 h-3 rotate-90 stroke-[3px]" />}
                <span className="tracking-wide">{trendValue}</span>
             </div>
@@ -137,8 +136,8 @@ const MetricCard = ({ title, value, sub, icon: Icon, colorTheme, trend, trendVal
          </div>
       </div>
 
-      {/* Chart Area - Seamless Bottom */}
-      <div className={`absolute bottom-0 left-0 right-0 w-full z-10 opacity-90 ${isCompact ? 'h-24' : 'h-36'}`}>
+      {/* Chart Area - Seamless Bottom (Translúcido, não opaco) */}
+      <div className={`absolute bottom-0 left-0 right-0 w-full z-10 opacity-90 ${isCompact ? 'h-24' : 'h-36'} bg-linear-to-b from-transparent via-slate-500/5 to-slate-500/15`}>
          <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 0, right: 0, left: 0, bottom: 0 }}>
                <defs>
@@ -199,30 +198,31 @@ const KanbanCard: React.FC<{
        initial={{ opacity: 0, scale: 0.95 }}
        animate={{ opacity: 1, scale: 1 }}
        exit={{ opacity: 0, scale: 0.95 }}
-       whileHover={!isDragging ? { 
-         scale: 1.03, 
-         y: -5,
-         boxShadow: "0 25px 55px -12px rgba(0,0,0,0.15)"
+       whileHover={!isDragging ? {
+         scale: 1.02,
+         y: -4,
+         boxShadow: "0 20px 40px rgba(0,0,0,0.15)"
        } : {}}
        whileTap={{ scale: 0.98 }}
        transition={{ type: "spring", stiffness: 450, damping: 32 }}
-       className={`group relative w-full 
-         transition-all duration-500
+       className={`group relative w-full z-[1]
+         transition-all duration-300
          cursor-grab active:cursor-grabbing
-         p-5 rounded-[28px] border border-white/30 dark:border-white/10
-         liquid-glass-material
-         ${isDragging 
-            ? 'bg-blue-50/40! dark:bg-blue-900/15! border-dashed! border-blue-400 dark:border-blue-500/50' 
-            : 'hover:bg-white/60 dark:hover:bg-white/15'
+         p-4 rounded-[24px]
+         glass-molded-3d liquid-glass-rim liquid-glass-specular liquid-glass-interactive noise-grain
+         ${isDragging
+            ? 'opacity-50 scale-95'
+            : 'hover:z-50 hover:bg-white/85 hover:backdrop-blur-[24px] dark:hover:bg-white/10 hover:border-white/50 dark:hover:border-white/20'
          }
+         ${task.acuity === 'red' ? 'border-l-4 border-red-500 shadow-[-4px_0_20px_-8px_rgba(239,68,68,0.2)]' : ''}
        `}
     >
-       {/* Acuity Left Bar - Volumetric */}
-       <div className={`absolute left-0 top-0 bottom-0 w-1.5 rounded-l-[28px] saturate-200 ${
-          task.acuity === 'red' ? 'bg-red-500 shadow-[0_0_15px_rgba(239,68,68,0.5)]' : 
-          task.acuity === 'orange' ? 'bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.5)]' : 
-          task.acuity === 'yellow' ? 'bg-yellow-400 shadow-[0_0_15px_rgba(250,204,21,0.5)]' : 
-          'bg-green-500 shadow-[0_0_15px_rgba(34,197,94,0.5)]'
+       {/* Acuity Left Bar - Subtle Volumetric */}
+       <div className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-[28px] opacity-60 ${
+          task.acuity === 'red' ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.3)]' :
+          task.acuity === 'orange' ? 'bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.3)]' :
+          task.acuity === 'yellow' ? 'bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.3)]' :
+          'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.3)]'
        }`} />
       
        {/* Identity Header */}
@@ -312,25 +312,25 @@ const KanbanColumn = ({
   const isCompact = density === 'compact';
   
   return (
-    <div 
-        className={`flex flex-col h-full min-w-[320px] w-full p-2 transition-all duration-500 liquid-glass-material
+    <div
+        className={`flex flex-col h-full min-w-[320px] w-full p-2 transition-all duration-700 sidebar-liquid-glass rounded-[32px] overflow-visible
         ${isDropTarget
-            ? 'bg-blue-50/60! dark:bg-blue-900/20! border-blue-200! dark:border-blue-500/30! scale-[1.01]'
-            : 'bg-white/10! dark:bg-white/5! border-white/20! dark:border-white/5!'}
+            ? 'bg-blue-50/60! dark:bg-blue-900/20! scale-[1.01]'
+            : ''}
         `}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
         onDrop={(e) => onDrop(e, id)}
     >
        {/* Minimalist Header */}
-       <div className={`flex items-center justify-between ${isCompact ? 'px-4 py-3' : 'px-5 py-5'}`}>
+       <div className={`relative z-10 flex items-center justify-between ${isCompact ? 'px-4 py-3' : 'px-5 py-5'}`}>
           <div className="flex items-center gap-3">
-             <div className={`rounded-2xl bg-white/50 dark:bg-white/10 shadow-sm border border-white/20 text-slate-500 dark:text-slate-400 ${isCompact ? 'p-2' : 'p-2.5'}`}>
+             <div className={`glass-pill rounded-2xl text-slate-500 dark:text-slate-400 ${isCompact ? 'p-2' : 'p-2.5'}`}>
                <Icon className="w-5 h-5 stroke-[2px] icon-volumetric fill-current/10" />
              </div>
              <h4 className="text-[16px] font-bold text-slate-800 dark:text-slate-100 tracking-tight">
                {title}
-               <span className="ml-2 text-xs font-semibold text-slate-400 bg-white/50 dark:bg-white/5 px-2 py-0.5 rounded-full">
+               <span className="ml-2 text-xs font-semibold text-slate-400 glass-pill px-2 py-0.5 rounded-full">
                  {tasks.length}
                </span>
              </h4>
@@ -341,7 +341,7 @@ const KanbanColumn = ({
        </div>
 
        {/* Task List */}
-       <div className={`flex-1 overflow-y-auto px-2 pb-2 custom-scrollbar ${isCompact ? 'space-y-2' : 'space-y-3'}`}>
+       <div className={`flex-1 overflow-y-auto overflow-x-visible px-2 pb-2 custom-scrollbar ${isCompact ? 'space-y-2' : 'space-y-3'}`}>
           {tasks.map((task: any) => (
              <KanbanCard 
                key={task.id}
@@ -454,27 +454,27 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 <h1 className="text-[32px] font-black text-slate-900 dark:text-white tracking-tighter leading-tight">Visão Geral</h1>
                 
                 {preferences.showGreeting && (
-                    <div className="flex items-center gap-2 mt-1 animate-in fade-in slide-in-from-left-4">
+                    <div className="glass-pill flex items-center gap-2 mt-2 px-3 py-1.5 rounded-full animate-in fade-in slide-in-from-left-4">
                        <span className="flex h-2.5 w-2.5 relative">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                        </span>
-                       <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">Plantão Ativo • Dr. André</p>
+                       <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">Plantão Ativo • Dr. André</p>
                     </div>
                 )}
              </div>
 
              <div className="flex gap-4">
-                 <button 
+                 <button
                     onClick={() => setIsSettingsOpen(true)}
-                    className="h-11 px-5 rounded-[20px] bg-white/40 dark:bg-white/5 backdrop-blur-xl border border-white/50 dark:border-white/10 font-bold text-sm text-slate-600 dark:text-slate-300 flex items-center gap-2 hover:bg-white/60 dark:hover:bg-white/10 transition-all shadow-sm"
+                    className="glass-btn-ghost h-11 px-5 font-bold text-sm text-slate-600 dark:text-slate-300 flex items-center gap-2"
                  >
                     <Settings2 className="w-4 h-4" />
                     Configurar
                  </button>
-                 <button 
+                 <button
                     onClick={onNewAttendance}
-                    className="h-11 px-6 rounded-[20px] bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm flex items-center gap-2 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-slate-900/20 dark:shadow-white/20"
+                    className="btn-primary-glass h-11 px-6 text-white font-bold text-sm flex items-center gap-2 active:scale-95"
                  >
                     <Plus className="w-4 h-4 stroke-[3px]" />
                     Novo Atendimento
@@ -492,7 +492,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
        {preferences.showAlertRow && (
            <div className={`px-4 shrink-0 flex items-center justify-between animate-in fade-in slide-in-from-bottom-2 duration-1000 delay-200 ${preferences.density === 'compact' ? 'mt-3 mb-2' : 'mt-6 mb-4'}`}>
                <div className="flex items-center gap-5">
-                  <div className="flex items-center gap-2 bg-white/50 dark:bg-white/5 px-4 py-2 rounded-full border border-white/40 dark:border-white/5 backdrop-blur-md shadow-sm glass-texture">
+                  <div className="glass-pill flex items-center gap-2 px-4 py-2 rounded-full shadow-sm">
                      <Sun className="w-5 h-5 text-amber-500" />
                      <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{greeting}</span>
                   </div>

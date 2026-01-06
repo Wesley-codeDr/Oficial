@@ -13,15 +13,15 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary:
-          "bg-gradient-to-b from-apple-blue/90 to-apple-blue text-white shadow-apple-lg hover:from-apple-blue/100 hover:to-apple-blue/90",
+          "btn-primary-glass text-white",
         destructive:
-          "bg-gradient-to-b from-apple-red/90 to-apple-red text-white shadow-lg shadow-apple-red/30 hover:to-apple-red/90",
+          "btn-primary-glass bg-gradient-to-br from-rose-500/90 to-rose-600/90 text-white shadow-lg shadow-rose-500/30",
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 hover:shadow-apple",
+          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 hover:shadow-apple glass-pill liquid-glass-rim",
         secondary:
-          "liquid-glass-material hover:bg-black/5 dark:hover:bg-white/10",
+          "glass-pill glass-molded-3d liquid-glass-rim liquid-glass-interactive hover:bg-black/5 dark:hover:bg-white/10",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+          "glass-btn-ghost hover:bg-white/10",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

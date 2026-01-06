@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Save, Trash2 } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { GlassCard } from '@/components/ui/glass-card'
 import type { ExtractedData } from '@/lib/services/extractionService'
 import { saveDraft } from '@/app/actions/import-actions'
@@ -47,19 +48,34 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
           <div className="flex gap-2">
             <button
               onClick={() => setActiveTab('symptoms')}
-              className={`glass-btn-small ${activeTab === 'symptoms' ? 'selected' : ''}`}
+              className={cn(
+                'px-4 py-2 rounded-xl text-sm font-medium transition-all',
+                activeTab === 'symptoms'
+                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
+                  : 'glass-pill text-slate-600 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10'
+              )}
             >
               Perguntas ({data.questions?.length || 0})
             </button>
             <button
               onClick={() => setActiveTab('redflags')}
-              className={`glass-btn-small ${activeTab === 'redflags' ? 'selected' : ''}`}
+              className={cn(
+                'px-4 py-2 rounded-xl text-sm font-medium transition-all',
+                activeTab === 'redflags'
+                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
+                  : 'glass-pill text-slate-600 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10'
+              )}
             >
               Red Flags ({data.redFlags?.length || 0})
             </button>
             <button
               onClick={() => setActiveTab('source')}
-              className={`glass-btn-small lg:hidden ${activeTab === 'source' ? 'selected' : ''}`}
+              className={cn(
+                'px-4 py-2 rounded-xl text-sm font-medium transition-all lg:hidden',
+                activeTab === 'source'
+                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
+                  : 'glass-pill text-slate-600 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10'
+              )}
             >
               Ver Fonte
             </button>
@@ -68,7 +84,10 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
           <div className="flex items-center gap-4">
             {saveMessage && (
               <span
-                className={`text-sm ${saveMessage.type === 'success' ? 'text-green-600' : 'text-red-600'}`}
+                className={cn(
+                  'text-sm font-medium',
+                  saveMessage.type === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                )}
               >
                 {saveMessage.text}
               </span>
@@ -76,7 +95,7 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className="glass-btn-small glass-btn-small-primary"
+              className="btn-primary-glass text-white px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 shadow-lg shadow-blue-500/20 hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSaving ? 'Salvando...' : 'Salvar Rascunho'}
               <Save className="h-4 w-4" />
@@ -118,7 +137,7 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
 
                   <div className="grid gap-3">
                     <div className="flex gap-3">
-                      <span className="px-2 py-1 rounded text-xs font-bold bg-blue-100 text-blue-700 h-fit">
+                      <span className="px-2 py-1 rounded text-xs font-bold glass-pill text-blue-700 dark:text-blue-400 h-fit">
                         {q.category}
                       </span>
                       <input
@@ -128,7 +147,7 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
                           newQ[idx].displayText = e.target.value
                           setData({ ...data, questions: newQ })
                         }}
-                        className="flex-1 font-medium bg-transparent border-b border-transparent focus:border-blue-300 focus:outline-none"
+                        className="flex-1 font-medium bg-transparent border-b border-transparent focus:border-blue-300 dark:focus:border-blue-500 focus:outline-none text-slate-800 dark:text-slate-200"
                       />
                     </div>
 
@@ -206,11 +225,12 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
                     />
                     <div className="flex gap-2 mt-2">
                       <span
-                        className={`text-xs px-2 py-1 rounded font-bold ${
+                        className={cn(
+                          'text-xs px-2 py-1 rounded font-bold glass-pill',
                           rf.severity === 'CRITICAL'
-                            ? 'bg-red-100 text-red-800'
-                            : 'bg-amber-100 text-amber-800'
-                        }`}
+                            ? 'text-red-700 dark:text-red-400'
+                            : 'text-amber-700 dark:text-amber-400'
+                        )}
                       >
                         {rf.severity}
                       </span>
@@ -230,11 +250,11 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
       </div>
 
       {/* Right Column: Source Viewer (Desktop only) */}
-      <div className="hidden lg:block h-full overflow-hidden bg-white/40 backdrop-blur-sm rounded-3xl border border-white/50 shadow-inner p-6">
-        <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-4 sticky top-0">
+      <div className="hidden lg:block h-full overflow-hidden liquid-glass-material rim-light-ios26 inner-glow-ios26 rounded-3xl shadow-inner p-6">
+        <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 sticky top-0">
           Documento Original
         </h3>
-        <div className="h-full overflow-y-auto pb-20 text-slate-700 leading-relaxed whitespace-pre-wrap font-serif">
+        <div className="h-full overflow-y-auto pb-20 text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap font-serif">
           {sourceText}
         </div>
       </div>

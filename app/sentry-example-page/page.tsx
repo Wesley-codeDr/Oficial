@@ -224,10 +224,7 @@ export default function SentryExamplePage() {
     setStatus({ type: "idle", message: "" });
 
     try {
-      // This will throw a ReferenceError: myUndefinedFunction is not defined
-      // Sentry should automatically catch this error
-      // @ts-expect-error - Intentionally calling undefined function for testing
-      myUndefinedFunction();
+      throw new ReferenceError("myUndefinedFunction is not defined");
     } catch (error) {
       // Capture the error explicitly to ensure it's sent to Sentry
       Sentry.captureException(error, {
