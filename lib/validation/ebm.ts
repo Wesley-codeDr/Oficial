@@ -91,6 +91,7 @@ const MedicationRouteSchema = z.enum([
   'Tópico',
   'SL',
   'Retal',
+  'Vaginal',
   'Nasal',
   'Ocular',
 ])
