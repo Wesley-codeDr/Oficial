@@ -2,8 +2,6 @@
 # Husky pre-commit hook (if using Husky)
 # This is an alternative to .git/hooks/pre-commit
 
-. "$(dirname "$0")/_/husky.sh"
-
 # Run Spec-Kit validation
 if [ -f "./scripts/validate-specs.sh" ]; then
     ./scripts/validate-specs.sh

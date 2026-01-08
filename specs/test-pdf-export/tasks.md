@@ -10,9 +10,38 @@
 ## Task Organization
 
 Tasks are organized by user story and include:
+
 - **[P]** = Can be executed in parallel with other [P] tasks
 - **Dependencies**: Must complete before starting
 - **Acceptance**: How to know it's done
+
+---
+
+## Tasks
+
+Tasks are broken down by phase and user story. Each task includes estimated time, complexity, risk level, and clear acceptance criteria.
+
+---
+
+## Dependencies
+
+### External Dependencies
+
+- `@react-pdf/renderer` (v3.1.14+) - PDF generation library
+- `react-pdf` (v7.5.1+) - React wrapper for PDF rendering
+- Supabase Auth - User authentication
+- Prisma ORM - Database access
+- Zod - Request validation
+
+### Internal Dependencies
+
+- Anamnesis generation feature must be working
+- User authentication system must be active
+- Database schema for anamnesis sessions must exist
+
+### Cross-Feature Dependencies
+
+- None (standalone feature)
 
 ---
 
@@ -23,9 +52,11 @@ Tasks are organized by user story and include:
 **Description:** Install `@react-pdf/renderer` and related packages
 
 **Files to modify:**
+
 - `package.json`
 
 **Steps:**
+
 1. Run `pnpm add @react-pdf/renderer react-pdf`
 2. Verify packages installed correctly
 3. Check for TypeScript type conflicts
@@ -34,6 +65,7 @@ Tasks are organized by user story and include:
 **Dependencies:** None
 
 **Acceptance Criteria:**
+
 - [ ] @react-pdf/renderer installed (v3.1.14+)
 - [ ] react-pdf installed (v7.5.1+)
 - [ ] No TypeScript errors after installation
@@ -50,11 +82,13 @@ Tasks are organized by user story and include:
 **Description:** Create directories for new components and utilities
 
 **Directories to create:**
+
 - `components/anamnese/ExportPDFButton/`
 - `lib/pdf/`
 - `e2e/anamnese/`
 
 **Steps:**
+
 1. Create component directory structure
 2. Create lib/pdf directory for PDF templates
 3. Create e2e/anamnese directory for E2E tests
@@ -63,6 +97,7 @@ Tasks are organized by user story and include:
 **Dependencies:** None
 
 **Acceptance Criteria:**
+
 - [ ] All directories created
 - [ ] Index.ts files exist in component directories
 - [ ] No duplicate directories
@@ -78,9 +113,11 @@ Tasks are organized by user story and include:
 **Description:** Optimize Vercel serverless function for PDF generation
 
 **Files to modify:**
+
 - `vercel.json` (create if doesn't exist)
 
 **Steps:**
+
 1. Check if vercel.json exists
 2. Add function configuration for PDF export route
 3. Set memory to 1024 MB
@@ -89,6 +126,7 @@ Tasks are organized by user story and include:
 **Dependencies:** None
 
 **Acceptance Criteria:**
+
 - [ ] vercel.json created/updated
 - [ ] PDF export route configured with 1024 MB memory
 - [ ] PDF export route configured with 10s timeout
@@ -106,9 +144,11 @@ Tasks are organized by user story and include:
 **Description:** Define request validation schema for PDF export API
 
 **Files to create:**
+
 - `lib/validations/anamnese.ts` (if doesn't exist)
 
 **Steps:**
+
 1. Create or open validations file
 2. Define ExportPdfRequestSchema with sessionId validation
 3. Export schema for use in API route
@@ -117,20 +157,22 @@ Tasks are organized by user story and include:
 **Dependencies:** None
 
 **Acceptance Criteria:**
+
 - [ ] ExportPdfRequestSchema defined
 - [ ] Validates sessionId as cuid string
 - [ ] TypeScript types exported
 - [ ] Schema exported for API route use
 
 **Code Example:**
+
 ```typescript
-import { z } from 'zod';
+import { z } from 'zod'
 
 export const ExportPdfRequestSchema = z.object({
   sessionId: z.string().cuid(),
-});
+})
 
-export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
+export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>
 ```
 
 **Estimated Time:** 5 min
@@ -144,9 +186,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Build React PDF template for anamnesis document
 
 **Files to create:**
+
 - `lib/pdf/anamnesis-template.tsx`
 
 **Steps:**
+
 1. Import Document, Page, Text, View from @react-pdf/renderer
 2. Define StyleSheet with CFM-compliant formatting
 3. Create AnamnesisPdfDocument component
@@ -156,9 +200,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 7. Test template rendering
 
 **Dependencies:**
+
 - Task 1.1 (dependencies installed)
 
 **Acceptance Criteria:**
+
 - [ ] Component renders without errors
 - [ ] All CFM-required fields present (date, professional, findings)
 - [ ] Portuguese language used throughout
@@ -178,9 +224,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Implement Next.js API route for PDF generation
 
 **Files to create:**
+
 - `app/api/anamnese/export-pdf/route.ts`
 
 **Steps:**
+
 1. Create API route file
 2. Import dependencies (prisma, auth, pdf library, validation)
 3. Implement POST handler
@@ -195,11 +243,13 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 12. Add error logging to Sentry
 
 **Dependencies:**
+
 - Task 1.1 (dependencies installed)
 - Task 2.1 (Zod schema)
 - Task 2.2 (PDF template)
 
 **Acceptance Criteria:**
+
 - [ ] Endpoint responds to POST requests
 - [ ] Request validation works (400 on invalid)
 - [ ] Authentication enforced (401 on unauthorized)
@@ -223,9 +273,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Test API route logic and error handling
 
 **Files to create:**
+
 - `app/api/anamnese/export-pdf/route.test.ts`
 
 **Steps:**
+
 1. Create test file
 2. Mock Supabase Auth
 3. Mock Prisma client
@@ -239,9 +291,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 11. Verify filename format
 
 **Dependencies:**
+
 - Task 2.3 (API route created)
 
 **Acceptance Criteria:**
+
 - [ ] All test cases implemented
 - [ ] Tests pass (pnpm vitest run)
 - [ ] Coverage >80% for API route
@@ -259,9 +313,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Implement TanStack Query hook for PDF export
 
 **Files to create:**
+
 - `components/anamnese/ExportPDFButton/useExportPdf.ts`
 
 **Steps:**
+
 1. Import useMutation from @tanstack/react-query
 2. Define mutation function that calls /api/anamnese/export-pdf
 3. Handle response blob
@@ -270,9 +326,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 6. Export hook with TypeScript types
 
 **Dependencies:**
+
 - Task 2.3 (API route exists)
 
 **Acceptance Criteria:**
+
 - [ ] Hook uses useMutation
 - [ ] Calls correct API endpoint
 - [ ] Sends correct request body (sessionId)
@@ -292,10 +350,12 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Build UI component for PDF export button
 
 **Files to create:**
+
 - `components/anamnese/ExportPDFButton/ExportPDFButton.tsx`
 - `components/anamnese/ExportPDFButton/index.ts`
 
 **Steps:**
+
 1. Create component file
 2. Define props interface (sessionId, syndrome, disabled)
 3. Import shadcn/ui Button component
@@ -310,9 +370,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 12. Export component in index.ts
 
 **Dependencies:**
+
 - Task 2.5 (useExportPdf hook)
 
 **Acceptance Criteria:**
+
 - [ ] Component accepts sessionId, syndrome, disabled props
 - [ ] Renders Button with FileDown icon
 - [ ] Shows loading state (spinner + "Gerando PDF...")
@@ -334,9 +396,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Test component rendering and behavior
 
 **Files to create:**
+
 - `components/anamnese/ExportPDFButton/ExportPDFButton.test.tsx`
 
 **Steps:**
+
 1. Create test file
 2. Mock useExportPdf hook
 3. Test component renders correctly
@@ -350,9 +414,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 11. Test keyboard accessibility
 
 **Dependencies:**
+
 - Task 2.6 (component created)
 
 **Acceptance Criteria:**
+
 - [ ] All test cases implemented
 - [ ] Tests pass (pnpm vitest run)
 - [ ] Coverage >80% for component
@@ -370,9 +436,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Integrate PDF export button into existing UI
 
 **Files to modify:**
+
 - `app/(dashboard)/anamnese/page.tsx`
 
 **Steps:**
+
 1. Locate anamnesis results section
 2. Import ExportPDFButton component
 3. Add button to UI (after generated text section)
@@ -382,9 +450,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 7. Test button placement and styling
 
 **Dependencies:**
+
 - Task 2.6 (component created)
 
 **Acceptance Criteria:**
+
 - [ ] Button visible on anamnesis results page
 - [ ] Button placed in logical location
 - [ ] Button disabled when no anamnesis generated
@@ -405,9 +475,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Show user-friendly error messages using shadcn/ui toast
 
 **Files to modify:**
+
 - `components/anamnese/ExportPDFButton/ExportPDFButton.tsx`
 
 **Steps:**
+
 1. Import useToast hook from shadcn/ui
 2. Add success toast in onSuccess callback
 3. Add error toast in onError callback
@@ -420,10 +492,12 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
    - Timeout: "Tempo esgotado. Por favor, tente novamente."
 
 **Dependencies:**
+
 - Task 2.6 (component created)
 - Task 2.3 (API error responses)
 
 **Acceptance Criteria:**
+
 - [ ] Success toast shown on successful export
 - [ ] Error toast shown on failed export
 - [ ] Error messages user-friendly (Portuguese)
@@ -442,9 +516,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Verify error messages display correctly
 
 **Files to create:**
+
 - No new files (extend ExportPDFButton.test.tsx)
 
 **Steps:**
+
 1. Add test for 401 error
 2. Add test for 403 error
 3. Add test for 404 error
@@ -454,9 +530,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 7. Verify Portuguese text in messages
 
 **Dependencies:**
+
 - Task 3.1 (error toasts implemented)
 
 **Acceptance Criteria:**
+
 - [ ] All error scenarios tested
 - [ ] Toast notifications called correctly
 - [ ] Error messages in Portuguese
@@ -495,9 +573,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Ensure PDF template doesn't include patient identifiers
 
 **Files to verify:**
+
 - `lib/pdf/anamnesis-template.tsx`
 
 **Steps:**
+
 1. Review PDF template code
 2. Verify no patient name field
 3. Verify no patient ID field
@@ -506,9 +586,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 6. Review WellWave system confirms no patient identifiers stored
 
 **Dependencies:**
+
 - Task 2.2 (PDF template created)
 
 **Acceptance Criteria:**
+
 - [ ] PDF template verified to contain no patient identifiers
 - [ ] "DOCUMENTO ANÔNIMO" label present
 - [ ] Only anonymous session data in PDF
@@ -525,9 +607,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Test authentication and authorization
 
 **Files to create:**
+
 - No new files (extend route.test.tsx)
 
 **Steps:**
+
 1. Test 401 when no auth token
 2. Test 401 when invalid auth token
 3. Test 403 when user tries to export another user's session
@@ -535,9 +619,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 5. Verify authorization check uses userId comparison
 
 **Dependencies:**
+
 - Task 2.4 (API tests created)
 
 **Acceptance Criteria:**
+
 - [ ] Security tests implemented
 - [ ] 401 tested for no token
 - [ ] 401 tested for invalid token
@@ -557,9 +643,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Test complete user flow with Playwright
 
 **Files to create:**
+
 - `e2e/anamnese/export-pdf.spec.ts`
 
 **Steps:**
+
 1. Create test file
 2. Implement login flow
 3. Navigate to anamnese page
@@ -573,10 +661,12 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 11. Clean up downloaded file
 
 **Dependencies:**
+
 - Task 2.8 (button integrated)
 - Task 2.3 (API working)
 
 **Acceptance Criteria:**
+
 - [ ] Complete user flow tested
 - [ ] Download event captured
 - [ ] Filename matches pattern: anamnesis-[syndrome]-[date].pdf
@@ -595,9 +685,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Test security in E2E environment
 
 **Files to modify:**
+
 - `e2e/anamnese/export-pdf.spec.ts`
 
 **Steps:**
+
 1. Add test case for unauthorized export
 2. Login as user A
 3. Attempt to export user B's session (via API call)
@@ -606,9 +698,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 6. Verify no PDF downloaded
 
 **Dependencies:**
+
 - Task 5.1 (E2E tests created)
 
 **Acceptance Criteria:**
+
 - [ ] Unauthorized access tested
 - [ ] 403 status code verified
 - [ ] Error message verified
@@ -626,9 +720,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Verify loading state during PDF generation
 
 **Files to modify:**
+
 - `e2e/anamnese/export-pdf.spec.ts`
 
 **Steps:**
+
 1. Add test case for loading state
 2. Login and generate anamnese
 3. Click "Exportar PDF" button
@@ -639,9 +735,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 8. Verify normal state restored
 
 **Dependencies:**
+
 - Task 5.1 (E2E tests created)
 
 **Acceptance Criteria:**
+
 - [ ] Loading state tested
 - [ ] "Gerando PDF..." text visible
 - [ ] Spinner animation visible
@@ -660,6 +758,7 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Execute complete test suite and ensure all pass
 
 **Steps:**
+
 1. Run unit tests: `pnpm vitest run`
 2. Fix any unit test failures
 3. Run E2E tests: `pnpm playwright test`
@@ -668,13 +767,15 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 6. Fix any TypeScript errors
 7. Run lint: `pnpm lint`
 8. Fix any lint errors
-8. Run full test suite again
-9. Verify all tests pass
+9. Run full test suite again
+10. Verify all tests pass
 
 **Dependencies:**
+
 - All previous tasks complete
 
 **Acceptance Criteria:**
+
 - [ ] All unit tests pass (pnpm vitest run)
 - [ ] All E2E tests pass (pnpm playwright test)
 - [ ] No TypeScript errors (pnpm typecheck)
@@ -695,11 +796,13 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Document TypeScript interfaces and functions
 
 **Files to modify:**
+
 - `lib/pdf/anamnesis-template.tsx`
 - `components/anamnese/ExportPDFButton/ExportPDFButton.tsx`
 - `components/anamnese/ExportPDFButton/useExportPdf.ts`
 
 **Steps:**
+
 1. Add JSDoc comments to component props
 2. Add JSDoc comments to hook functions
 3. Add JSDoc comments to PDF template
@@ -707,9 +810,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 5. Add usage examples where helpful
 
 **Dependencies:**
+
 - All implementation tasks complete
 
 **Acceptance Criteria:**
+
 - [ ] JSDoc comments on all public APIs
 - [ ] Parameters documented
 - [ ] Return types documented
@@ -727,9 +832,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 **Description:** Document new feature in project changelog
 
 **Files to modify:**
+
 - `CHANGELOG.md` (create if doesn't exist)
 
 **Steps:**
+
 1. Open CHANGELOG.md
 2. Add entry for new version
 3. List "Added" feature: "Export anamnesis to PDF"
@@ -738,9 +845,11 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 6. List technical changes (new dependencies, API routes, components)
 
 **Dependencies:**
+
 - All implementation tasks complete
 
 **Acceptance Criteria:**
+
 - [ ] CHANGELOG.md updated
 - [ ] Version entry added
 - [ ] Feature documented
@@ -755,16 +864,19 @@ export type ExportPdfRequest = z.infer<typeof ExportPdfRequestSchema>;
 ## Execution Order
 
 ### Phase 1: Setup (Parallel - 15 min total)
+
 ```
 [P] Task 1.1: Install dependencies (5 min)
 [P] Task 1.2: Create directories (5 min)
 [P] Task 1.3: Configure Vercel (5 min)
 ```
+
 **Can execute all 3 tasks in parallel**
 
 ---
 
 ### Phase 2: Backend - User Story 1 (75 min)
+
 ```
 Task 2.1: Create Zod schema (5 min)
     ↓
@@ -774,11 +886,13 @@ Task 2.3: Create API route (45 min) [Start after 2.1, parallel with 2.2]
     ↓
 Task 2.4: Write API tests (30 min)
 ```
+
 **Can parallelize Task 2.2 and 2.3 after Task 2.1**
 
 ---
 
 ### Phase 3: Frontend - User Story 1 (55 min)
+
 ```
 Task 2.5: Create hook (15 min) [After 2.3]
     ↓
@@ -792,6 +906,7 @@ Task 2.8: Integrate into page (10 min)
 ---
 
 ### Phase 4: Error Handling (30 min)
+
 ```
 Task 3.1: Add toast notifications (15 min) [After 2.6]
     ↓
@@ -801,6 +916,7 @@ Task 3.2: Test error scenarios (15 min)
 ---
 
 ### Phase 5: Security - User Story 3 (35 min)
+
 ```
 Task 4.1: Auth (DONE in 2.3)
 Task 4.2: Authorization (DONE in 2.3)
@@ -813,6 +929,7 @@ Task 4.4: Write security tests (15 min)
 ---
 
 ### Phase 6: E2E Testing (55 min)
+
 ```
 Task 5.1: E2E test - successful export (30 min)
     ↓
@@ -826,10 +943,12 @@ Task 5.4: Run all tests, fix failures (30 min)
 ---
 
 ### Phase 7: Documentation (20 min)
+
 ```
 [P] Task 6.1: Add JSDoc comments (15 min)
 [P] Task 6.2: Update CHANGELOG (5 min)
 ```
+
 **Can execute both in parallel**
 
 ---
@@ -881,29 +1000,29 @@ Phase 7 (Docs): [6.1, 6.2] - Both parallel
 
 ## Complexity Estimates
 
-| Task | Complexity | Time | Risk | Notes |
-|------|------------|------|------|-------|
-| 1.1 | Low | 5min | Low | Simple install |
-| 1.2 | Low | 5min | Low | Create dirs |
-| 1.3 | Low | 5min | Low | Config file |
-| 2.1 | Low | 5min | Low | Zod schema |
-| 2.2 | Medium | 30min | Medium | PDF layout |
-| 2.3 | Medium | 45min | Medium | API logic |
-| 2.4 | Medium | 30min | Low | Unit tests |
-| 2.5 | Low | 15min | Low | Hook |
-| 2.6 | Low | 20min | Low | Component |
-| 2.7 | Low | 20min | Low | Unit tests |
-| 2.8 | Low | 10min | Low | Integration |
-| 3.1 | Low | 15min | Low | Toasts |
-| 3.2 | Low | 15min | Low | Error tests |
-| 4.3 | Low | 10min | Low | Verification |
-| 4.4 | Low | 15min | Low | Security tests |
-| 5.1 | Medium | 30min | Medium | E2E flow |
-| 5.2 | Low | 15min | Low | E2E test |
-| 5.3 | Low | 10min | Low | E2E test |
-| 5.4 | Medium | 30min | Medium | Fix tests |
-| 6.1 | Low | 15min | Low | Comments |
-| 6.2 | Low | 5min | Low | Changelog |
+| Task | Complexity | Time  | Risk   | Notes          |
+| ---- | ---------- | ----- | ------ | -------------- |
+| 1.1  | Low        | 5min  | Low    | Simple install |
+| 1.2  | Low        | 5min  | Low    | Create dirs    |
+| 1.3  | Low        | 5min  | Low    | Config file    |
+| 2.1  | Low        | 5min  | Low    | Zod schema     |
+| 2.2  | Medium     | 30min | Medium | PDF layout     |
+| 2.3  | Medium     | 45min | Medium | API logic      |
+| 2.4  | Medium     | 30min | Low    | Unit tests     |
+| 2.5  | Low        | 15min | Low    | Hook           |
+| 2.6  | Low        | 20min | Low    | Component      |
+| 2.7  | Low        | 20min | Low    | Unit tests     |
+| 2.8  | Low        | 10min | Low    | Integration    |
+| 3.1  | Low        | 15min | Low    | Toasts         |
+| 3.2  | Low        | 15min | Low    | Error tests    |
+| 4.3  | Low        | 10min | Low    | Verification   |
+| 4.4  | Low        | 15min | Low    | Security tests |
+| 5.1  | Medium     | 30min | Medium | E2E flow       |
+| 5.2  | Low        | 15min | Low    | E2E test       |
+| 5.3  | Low        | 10min | Low    | E2E test       |
+| 5.4  | Medium     | 30min | Medium | Fix tests      |
+| 6.1  | Low        | 15min | Low    | Comments       |
+| 6.2  | Low        | 5min  | Low    | Changelog      |
 
 **Total Estimated Time:** 5-5.5 hours (with parallel execution: ~4 hours)
 
@@ -912,20 +1031,24 @@ Phase 7 (Docs): [6.1, 6.2] - Both parallel
 ## Risk Assessment
 
 ### High-Risk Tasks
+
 - **Task 2.2 (PDF Template)**: Complex PDF layout may need iterations → **Mitigation**: Test template rendering early, use existing examples from @react-pdf/renderer docs
 - **Task 2.3 (API Route)**: Many edge cases (auth, authorization, errors) → **Mitigation**: Comprehensive unit tests, refer to existing API routes in codebase
 - **Task 5.4 (Run all tests)**: May uncover issues requiring rework → **Mitigation**: Allocate buffer time, fix iteratively
 
 ### Dependencies on External Factors
+
 - **Task 2.2**: Requires @react-pdf/renderer to work correctly → **Mitigation**: Well-maintained library (2M+ downloads), tested before use
 - **Task 5.1**: Requires Playwright environment configured → **Mitigation**: Playwright already configured in project
 - **Task 2.3**: Requires Supabase Auth working → **Mitigation**: Auth already configured and working
 
 ### Medium-Risk Tasks
+
 - **Task 5.1 (E2E Test)**: Full user flow may be fragile → **Mitigation**: Use stable selectors, wait for elements, add retries
 - **Task 2.4 (API Tests)**: Mocking Supabase and Prisma can be tricky → **Mitigation**: Use existing test patterns in codebase
 
 ### Low-Risk Tasks
+
 - All setup tasks (1.x): Straightforward
 - Frontend tasks (2.5-2.8): Well-established patterns
 - Documentation tasks (6.x): No execution risk
@@ -935,6 +1058,7 @@ Phase 7 (Docs): [6.1, 6.2] - Both parallel
 ## Parallel Execution Opportunities
 
 ### Can Run in Parallel (saves time):
+
 1. **Phase 1 Setup** (15 min → 15 min, no savings, but organized)
    - Tasks 1.1, 1.2, 1.3 can run simultaneously
 
@@ -945,12 +1069,14 @@ Phase 7 (Docs): [6.1, 6.2] - Both parallel
    - Tasks 6.1 and 6.2 can run in parallel
 
 ### Must Run Sequentially:
+
 - Frontend tasks (2.5-2.8) depend on backend (2.3)
 - Error handling (3.x) depends on component (2.6)
 - E2E tests (5.x) depend on all implementation
 - Security tests (4.x) depend on API route (2.3)
 
 **Total Time with Parallel Execution:**
+
 - Sequential estimate: 5.5 hours
 - With parallelization: ~4 hours
 - **Time saved: 1.5 hours (27% reduction)**
@@ -998,6 +1124,7 @@ Before moving to Phase 4:
 **Tasks Breakdown Complete!** 🎉
 
 **Summary:**
+
 - **21 total tasks**
 - **3 user stories covered**
 - **3 setup/config tasks**
@@ -1009,6 +1136,7 @@ Before moving to Phase 4:
 - **2 documentation tasks**
 
 **Execution order:**
+
 - Phase 1 (Setup): 3 tasks - 15 min (all parallel)
 - Phase 2 (Backend): 4 tasks - 75 min (30 min saved with parallel)
 - Phase 3 (Frontend): 4 tasks - 55 min
@@ -1017,18 +1145,21 @@ Before moving to Phase 4:
 - Phase 6 (E2E): 4 tasks - 55 min
 - Phase 7 (Docs): 2 tasks - 20 min (parallel)
 
-**Total estimated time:** 
+**Total estimated time:**
+
 - Sequential: 5.5 hours
 - With parallelization: ~4 hours
 - **Time saved: 1.5 hours (27% reduction)**
 
 **Parallel execution opportunities:**
+
 - 7 tasks can run in parallel
 - Could reduce timeline by 27%
 
 **📄 Full task breakdown:** `specs/test-pdf-export/tasks.md` (this file)
 
 **Ready to proceed to Phase 4 (Implementation)?**
+
 - If yes: Start new session and run `/4_implement`
 - If concerns: What needs adjustment?
 

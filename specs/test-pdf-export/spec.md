@@ -27,6 +27,7 @@ Add PDF export capability to WellWave's anamnesis generation feature, allowing h
 ### Current Situation
 
 Emergency department doctors using WellWave can generate AI-powered anamnesis (medical history), but:
+
 - Anamnesis only viewable in web browser
 - No way to print for physical medical records
 - Users must manually copy-paste into Word/Google Docs
@@ -60,6 +61,7 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 **So that** I can include it in the patient's physical medical record
 
 **Acceptance Criteria:**
+
 - [ ] "Export PDF" button visible on anamnesis results page
 - [ ] Button shows loading state during generation (<3s)
 - [ ] PDF downloads automatically with descriptive filename
@@ -74,6 +76,7 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 **So that** I can understand what went wrong and retry
 
 **Acceptance Criteria:**
+
 - [ ] Network errors show user-friendly message
 - [ ] Server errors show user-friendly message
 - [ ] Authentication errors redirect to login
@@ -88,6 +91,7 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 **So that** patient privacy is protected (LGPD compliance)
 
 **Acceptance Criteria:**
+
 - [ ] Unauthenticated users cannot export (401 error)
 - [ ] Users can only export their own anamnesis (403 error if wrong user)
 - [ ] No patient identifying information in PDF (anonymous by design)
@@ -96,7 +100,9 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 
 ---
 
-## Functional Requirements
+## Requirements
+
+### Functional Requirements
 
 ### Core Functionality
 
@@ -105,15 +111,18 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 **Description:** Add export button to anamnesis results page
 
 **Input:**
+
 - User clicks "Export PDF" button
 - Button includes `FileDown` icon (Lucide React)
 
 **Processing:**
+
 - Show loading state (spinner + "Generating PDF..." text)
 - Call API endpoint with current session ID
 - Handle API response (success or error)
 
 **Output:**
+
 - Success: PDF downloads with filename `anamnesis-[syndrome]-[date].pdf`
 - Error: Show toast notification with error message
 
@@ -122,11 +131,13 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 **Description:** Server-side endpoint to generate PDF from anamnesis session
 
 **Input:**
+
 - POST `/api/anamnese/export-pdf`
 - Request body: `{ sessionId: string }`
 - Headers: Supabase Auth token
 
 **Processing:**
+
 1. Validate request body (Zod schema)
 2. Authenticate user (Supabase Auth)
 3. Fetch anamnesis session from database (Prisma)
@@ -135,6 +146,7 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 6. Return PDF as binary response
 
 **Output:**
+
 - Success (200): PDF file as `application/pdf`
 - Unauthorized (401): `{ error: "Authentication required" }`
 - Forbidden (403): `{ error: "Access denied" }`
@@ -146,6 +158,7 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 **Description:** Medical document template with CFM-compliant structure
 
 **Sections:**
+
 1. **Header:**
    - Title: "ANAMNESE - [Syndrome Name]"
    - Date and time of generation
@@ -230,7 +243,7 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 
 - **Authentication:** Supabase Auth required (JWT token validation)
 - **Authorization:** User can only export own sessions (userId check)
-- **Data Protection:** 
+- **Data Protection:**
   - No patient identifiers in PDF (LGPD compliant)
   - PDF generated server-side only
   - No PDF storage (ephemeral generation)
@@ -239,7 +252,7 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 
 ### Usability
 
-- **Accessibility:** 
+- **Accessibility:**
   - Export button has proper ARIA label
   - Keyboard accessible (Tab + Enter)
   - Screen reader announces loading state
@@ -250,7 +263,7 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 
 - **Uptime:** 99.9% (Vercel SLA)
 - **Error Rate:** <0.1% of PDF generations fail
-- **Recovery:** 
+- **Recovery:**
   - Automatic retry on transient errors (serverless function)
   - User can manually retry on failure
   - No data loss (session persists in database)
@@ -287,7 +300,8 @@ Emergency department doctors using WellWave can generate AI-powered anamnesis (m
 
 **Constraint:** LGPD privacy law compliance  
 **Impact:** User data protection, audit trails, no data leakage  
-**Mitigation:** 
+**Mitigation:**
+
 - Server-side generation only
 - Authorization checks
 - Audit logging
