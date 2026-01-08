@@ -68,7 +68,19 @@ Use o comando `/speckit.plan` no Cursor Code para gerar `plan.md`.
 
 Use o comando `/speckit.tasks` no Cursor Code para gerar `tasks.md`.
 
-### 5. Implementar
+### 5. Migrar para Vibe Kanban (Opcional)
+
+Após criar `tasks.md`, você pode migrar as tarefas para o Vibe Kanban para visualização e gerenciamento:
+
+```bash
+pnpm kanban:migrate:spec XXX-nome-da-feature
+```
+
+Isso gerará arquivos em `.vibe-kanban/XXX-nome-da-feature/` que podem ser importados no Vibe Kanban.
+
+**Documentação completa**: [`docs/VIBE_KANBAN.md`](../docs/VIBE_KANBAN.md)
+
+### 6. Implementar
 
 Use o comando `/speckit.implement` no Cursor Code para executar a implementação.
 

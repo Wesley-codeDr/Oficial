@@ -46,7 +46,9 @@ specs/[feature-name]/
    - Se NÃO existe: Usar `/speckit.tasks` para gerar
    - Se existe: LER e seguir as tarefas na ordem
 
-4. **SOMENTE ENTÃO** implementar seguindo `tasks.md`
+4. **OPCIONAL**: Migrar tarefas para Vibe Kanban usando `pnpm kanban:migrate:spec [feature-name]`
+
+5. **SOMENTE ENTÃO** implementar seguindo `tasks.md`
 
 ### Quando o usuário pede mudanças em código existente:
 
@@ -76,6 +78,14 @@ Use estes comandos quando apropriado:
 - `/speckit.plan` - Gera plano de implementação
 - `/speckit.tasks` - Gera breakdown de tarefas
 - `/speckit.implement` - Executa implementação seguindo tasks.md
+
+## Vibe Kanban Integration
+
+O projeto usa Vibe Kanban para visualização e gerenciamento de tarefas:
+
+- Após criar `tasks.md`, execute `pnpm kanban:migrate:spec [feature-name]` para migrar para Kanban
+- Use `pnpm kanban:sync` para sincronizar status entre tasks.md e Kanban
+- Consulte `docs/VIBE_KANBAN.md` para documentação completa
 
 ## Gerenciador de Pacotes
 

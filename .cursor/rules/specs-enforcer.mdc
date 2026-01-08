@@ -1,0 +1,336 @@
+---
+title: SPECS-Enforcer Rule
+description: Enforces SPECS-first development in Cursor IDE
+version: 3.0.0
+priority: critical
+---
+
+# SPECS-Enforcer Cursor Rule
+
+## 🚨 ABSOLUTE RULE: NO SPEC = NO CODE
+
+This rule enforces the fundamental principle of WellWave development:
+**Production code cannot be written without approved specifications.**
+
+---
+
+## Trigger Conditions
+
+This rule activates when attempting to:
+
+1. **Create new files** in production directories:
+   - `app/(dashboard)/**/*.{ts,tsx,js,jsx}`
+   - `app/(auth)/**/*.{ts,tsx,js,jsx}`
+   - `app/api/**/*.{ts,tsx,js,jsx}`
+   - `components/**/*.{ts,tsx,js,jsx}`
+   - `lib/**/*.{ts,tsx,js,jsx}`
+   - `stores/**/*.{ts,tsx,js,jsx}`
+   - `hooks/**/*.{ts,tsx}`
+
+2. **Modify existing files** in production directories (above)
+
+3. **Generate code** via Cursor AI for production features
+
+**Excluded from enforcement**:
+- Test files (`*.test.{ts,tsx}`, `*.spec.{ts,tsx}`, `__tests__/**`)
+- Type definitions (`*.d.ts`, `types/**`)
+- Configuration files
+- Documentation files (`*.md`, `*.mdx`)
+
+---
+
+## Validation Process
+
+### Step 1: Extract Feature Name
+
+From file path, extract feature name using these patterns:
+
+```
+app/(dashboard)/[feature]/*     → feature
+app/(auth)/[feature]/*          → feature
+app/api/[feature]/*             → feature
+components/[feature]/*          → feature
+lib/[feature]/*                 → feature
+```
+
+**Examples**:
+- `app/(dashboard)/anamnese/page.tsx` → `anamnese`
+- `components/medical/RedFlagAlert.tsx` → `medical`
+- `lib/ai/prompt-builder.ts` → `ai`
+
+### Step 2: Check SPECS Existence
+
+Verify these files exist:
+- ✅ `specs/[feature]/spec.md` - Feature specification
+- ✅ `specs/[feature]/plan.md` - Implementation plan
+- ✅ `specs/[feature]/tasks.md` - Task breakdown
+
+### Step 3: Action Based on Result
+
+**IF all SPECS exist:**
+- ✅ **ALLOW** code generation/modification
+- 📄 **AUTO-LOAD** relevant guidelines:
+  - Load `specs/[feature]/spec.md` context
+  - Load `specs/[feature]/plan.md` context
+  - Load `specs/[feature]/tasks.md` context
+  - If medical feature: Load `app/(dashboard)/anamnese/MODULE_GUIDELINES.md`
+
+**IF any SPECS missing:**
+- ❌ **BLOCK** code generation/modification
+- 🚨 **SHOW ERROR MESSAGE** (see below)
+- 💡 **SUGGEST** corrective action
+
+---
+
+## Error Messages
+
+### When SPECS Don't Exist
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  SPECS REQUIRED - CANNOT PROCEED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Feature: [feature-name]
+Status: ❌ No specification found
+
+Required files missing:
+  ❌ specs/[feature]/spec.md
+  ❌ specs/[feature]/plan.md
+  ❌ specs/[feature]/tasks.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TO FIX THIS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Create spec structure:
+   ./scripts/setup-plan.sh [feature-name]
+
+2. Edit the specification:
+   specs/[feature-name]/spec.md
+   (Define requirements, user stories, acceptance criteria)
+
+3. Generate plan:
+   /speckit.plan
+   (Creates implementation plan from spec)
+
+4. Generate tasks:
+   /speckit.tasks
+   (Creates task breakdown from plan)
+
+5. Get human approval for plan
+
+6. Return here to implement
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WHY THIS MATTERS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+WellWave is a production healthcare application with:
+- CFM compliance requirements (medical documentation)
+- LGPD compliance requirements (patient data privacy)
+- Zero tolerance for errors in emergency medical context
+
+Specifications ensure:
+✅ Requirements are understood
+✅ Architecture is sound
+✅ Medical compliance is verified
+✅ Implementation is planned
+✅ Tests are defined
+
+Code without specs = Technical debt + Risk
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+### When SPECS Are Outdated
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⚠️  SPECS UPDATE REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Feature: [feature-name]
+Status: ⚠️ Specification exists but change not documented
+
+The change you're attempting is not reflected in:
+  specs/[feature]/spec.md
+  specs/[feature]/plan.md
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+TO FIX THIS:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Update specification:
+   specs/[feature]/spec.md
+   (Add new requirement or modify existing)
+
+2. Regenerate plan:
+   /speckit.plan
+
+3. Regenerate tasks:
+   /speckit.tasks
+
+4. Get human approval
+
+5. Return here to implement
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+---
+
+## Exceptions (Direct Implementation Allowed)
+
+The following changes can proceed WITHOUT SPECS:
+
+1. **Bug Fixes**
+   - Fixing broken functionality
+   - Must document fix in commit message
+   - Should add test to prevent regression
+
+2. **Documentation Updates**
+   - README changes
+   - Comment improvements
+   - JSDoc additions
+
+3. **Type Definitions**
+   - TypeScript type updates
+   - Interface additions
+
+4. **Test Additions**
+   - New test cases
+   - Test refactoring
+
+5. **Dependency Updates**
+   - package.json updates
+   - Lock file updates
+
+6. **Configuration Changes**
+   - ESLint, Prettier, TypeScript config
+   - Build tool configuration
+
+7. **Simple Single-File Changes**
+   - Trivial refactors
+   - Variable renames (within single file)
+   - Import reorganization
+
+**All other changes require SPECS.**
+
+---
+
+## Auto-Loading Guidelines
+
+When SPECS exist and validation passes, automatically load:
+
+### For Medical Features (`anamnese`, `medical`, `templates`):
+```
+Load: app/(dashboard)/anamnese/MODULE_GUIDELINES.md
+Contains:
+  - CFM compliance rules
+  - LGPD privacy requirements
+  - Red flags detection standards
+  - Medical terminology guidelines
+  - Template structure rules
+```
+
+### For Chat/AI Features (`chat`, `ai`, `prompts`):
+```
+Load: lib/ai/SERVICE_GUIDELINES.md
+Contains:
+  - LLM integration patterns
+  - Prompt engineering standards
+  - Token management
+  - Error handling
+  - Rate limiting
+```
+
+### For UI Components (`components/ui`, `components/layout`):
+```
+Load: components/ui/DOMAIN_GUIDELINES.md
+Contains:
+  - shadcn/ui patterns
+  - Accessibility standards
+  - Responsive design rules
+  - Component composition
+```
+
+---
+
+## Integration with RPI Workflow
+
+This rule works in conjunction with:
+
+1. **Pre-commit Hook** (`scripts/validate-specs-strict.sh`)
+   - Blocks commits without specs
+   - Validates spec structure
+   - Runs before git commit
+
+2. **CI/CD Pipeline** (`.github/workflows/specs-validation.yml`)
+   - Blocks PR merges without specs
+   - Validates on push to remote
+   - Runs on GitHub Actions
+
+3. **AI Configuration** (`CLAUDE.md`)
+   - Claude enforces same rules
+   - RPI framework integration
+   - Context management
+
+**Triple enforcement = No bypass possible**
+
+---
+
+## Configuration
+
+### Enable/Disable
+
+To temporarily disable (NOT RECOMMENDED):
+```
+# In .cursor/rules/specs-enforcer.mdc
+priority: disabled
+```
+
+To re-enable:
+```
+priority: critical
+```
+
+### Customize Feature Detection
+
+Edit `extract_feature_name()` logic in this file to match your project structure.
+
+### Add Custom Patterns
+
+Add to trigger conditions:
+```
+- `your/custom/path/**/*.{ts,tsx}`
+```
+
+---
+
+## Monitoring
+
+Track enforcement effectiveness:
+
+1. **Pre-commit Blocks**: Check `.git/hooks/pre-commit` logs
+2. **CI/CD Failures**: Check GitHub Actions logs
+3. **Cursor Blocks**: User reports of blocked generation
+
+**Goal**: 100% compliance with zero bypasses
+
+---
+
+## Support
+
+**Questions?** See:
+- `CLAUDE.md` - Core rules and RPI framework
+- `AGENTS.md` - Navigation and quick reference
+- `.ai/PLAYBOOK.md` - Comprehensive RPI guide
+- `.ai/RPI_QUICKSTART.md` - Quick reference
+
+**Issues?** Contact: [Your team contact]
+
+---
+
+**Version**: 3.0.0 | **Last Updated**: 2026-01-08
+**Status**: Active | **Priority**: Critical

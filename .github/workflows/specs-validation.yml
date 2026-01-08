@@ -1,0 +1,238 @@
+name: SPECS Validation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'app/**/*.{ts,tsx,js,jsx}'
+      - 'components/**/*.{ts,tsx,js,jsx}'
+      - 'lib/**/*.{ts,tsx,js,jsx}'
+      - 'stores/**/*.{ts,tsx,js,jsx}'
+      - 'hooks/**/*.{ts,tsx}'
+      - 'specs/**/*.md'
+      - 'CLAUDE.md'
+      - '.github/workflows/specs-validation.yml'
+      - 'scripts/validate-specs-strict.sh'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'app/**/*.{ts,tsx,js,jsx}'
+      - 'components/**/*.{ts,tsx,js,jsx}'
+      - 'lib/**/*.{ts,tsx,js,jsx}'
+      - 'stores/**/*.{ts,tsx,js,jsx}'
+      - 'hooks/**/*.{ts,tsx}'
+      - 'specs/**/*.md'
+      - 'CLAUDE.md'
+  workflow_dispatch:
+
+jobs:
+  validate-specs:
+    name: Validate SPECS-First Compliance
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for proper diff
+
+      - name: Setup validation script
+        run: |
+          chmod +x scripts/validate-specs-strict.sh
+          
+      - name: Run SPECS validation
+        id: validate
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "  WellWave SPECS Validation (CI/CD)"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          ./scripts/validate-specs-strict.sh
+        continue-on-error: true
+
+      - name: Validate CLAUDE.md size
+        id: claude-size
+        run: |
+          echo "Checking CLAUDE.md line count..."
+          MAX_LINES=200
+          CURRENT_LINES=$(wc -l < CLAUDE.md)
+          
+          echo "CLAUDE.md: $CURRENT_LINES lines (max: $MAX_LINES)"
+          
+          if [ $CURRENT_LINES -gt $MAX_LINES ]; then
+            echo "::error::CLAUDE.md exceeds $MAX_LINES lines (current: $CURRENT_LINES)"
+            echo "::error::Please reduce CLAUDE.md size to stay under $MAX_LINES lines"
+            echo "::error::Consider moving detailed docs to .ai/ directory"
+            exit 1
+          else
+            echo "✅ CLAUDE.md size OK"
+          fi
+
+      - name: Validate specs directory structure
+        id: specs-structure
+        run: |
+          echo "Validating specs/ directory structure..."
+          
+          # Find all feature directories in specs/
+          for feature_dir in specs/*/; do
+            if [ -d "$feature_dir" ]; then
+              feature=$(basename "$feature_dir")
+              echo ""
+              echo "Checking feature: $feature"
+              
+              missing_files=""
+              
+              if [ ! -f "$feature_dir/spec.md" ]; then
+                echo "  ❌ Missing: spec.md"
+                missing_files="$missing_files spec.md"
+              else
+                echo "  ✅ Found: spec.md"
+              fi
+              
+              if [ ! -f "$feature_dir/plan.md" ]; then
+                echo "  ❌ Missing: plan.md"
+                missing_files="$missing_files plan.md"
+              else
+                echo "  ✅ Found: plan.md"
+              fi
+              
+              if [ ! -f "$feature_dir/tasks.md" ]; then
+                echo "  ❌ Missing: tasks.md"
+                missing_files="$missing_files tasks.md"
+              else
+                echo "  ✅ Found: tasks.md"
+              fi
+              
+              if [ -n "$missing_files" ]; then
+                echo "::warning::Incomplete spec for feature '$feature': missing$missing_files"
+              fi
+            fi
+          done
+          
+          echo ""
+          echo "✅ Specs structure validation complete"
+
+      - name: Check for constitution.md
+        run: |
+          if [ ! -f "memory/constitution.md" ]; then
+            echo "::error::memory/constitution.md not found"
+            echo "::error::Constitution is required for project standards"
+            exit 1
+          else
+            echo "✅ Constitution found"
+          fi
+
+      - name: Generate validation report
+        if: always()
+        run: |
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "  VALIDATION REPORT"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo ""
+          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "Author: ${{ github.actor }}"
+          echo ""
+          
+          if [ "${{ steps.validate.outcome }}" == "success" ] && \
+             [ "${{ steps.claude-size.outcome }}" == "success" ] && \
+             [ "${{ steps.specs-structure.outcome }}" == "success" ]; then
+            echo "✅ ALL VALIDATIONS PASSED"
+            echo ""
+            echo "SPECS-first compliance verified."
+            echo "PR is ready for review."
+          else
+            echo "❌ VALIDATION FAILURES DETECTED"
+            echo ""
+            if [ "${{ steps.validate.outcome }}" != "success" ]; then
+              echo "  ❌ SPECS validation failed"
+            fi
+            if [ "${{ steps.claude-size.outcome }}" != "success" ]; then
+              echo "  ❌ CLAUDE.md size exceeded"
+            fi
+            if [ "${{ steps.specs-structure.outcome }}" != "success" ]; then
+              echo "  ❌ Specs structure validation failed"
+            fi
+            echo ""
+            echo "Please fix the issues above and push again."
+            echo ""
+            echo "For help, see:"
+            echo "  - CLAUDE.md (core rules)"
+            echo "  - AGENTS.md (navigation)"
+            echo "  - .ai/PLAYBOOK.md (comprehensive guide)"
+            exit 1
+          fi
+
+      - name: Post validation comment (on PR)
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const validation_passed = '${{ steps.validate.outcome }}' === 'success' &&
+                                     '${{ steps.claude-size.outcome }}' === 'success' &&
+                                     '${{ steps.specs-structure.outcome }}' === 'success';
+            
+            const body = validation_passed
+              ? `## ✅ SPECS Validation Passed
+            
+            All production code has required specifications.
+            
+            - ✅ SPECS validation
+            - ✅ CLAUDE.md size check
+            - ✅ Specs structure validation
+            - ✅ Constitution check
+            
+            **PR is ready for review.**`
+              : `## ❌ SPECS Validation Failed
+            
+            This PR contains production code without proper specifications.
+            
+            **Failures:**
+            ${  '${{ steps.validate.outcome }}' !== 'success' ? '- ❌ SPECS validation\n' : ''}${  '${{ steps.claude-size.outcome }}' !== 'success' ? '- ❌ CLAUDE.md size check\n' : ''}${  '${{ steps.specs-structure.outcome }}' !== 'success' ? '- ❌ Specs structure validation\n' : ''}
+            
+            **To fix:**
+            1. Create spec structure: \`./scripts/setup-plan.sh [feature-name]\`
+            2. Edit \`specs/[feature]/spec.md\` with requirements
+            3. Run \`/speckit.plan\` to generate plan
+            4. Run \`/speckit.tasks\` to generate tasks
+            5. Push changes
+            
+            See [CLAUDE.md](${context.payload.repository.html_url}/blob/${context.payload.pull_request.head.ref}/CLAUDE.md) for details.`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            });
+
+  status-check:
+    name: SPECS Validation Status
+    runs-on: ubuntu-latest
+    needs: validate-specs
+    if: always()
+    steps:
+      - name: Check validation result
+        run: |
+          if [ "${{ needs.validate-specs.result }}" != "success" ]; then
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo "  ❌ SPECS VALIDATION FAILED"
+            echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+            echo ""
+            echo "This PR cannot be merged until SPECS validation passes."
+            echo ""
+            echo "Required: All production code must have specifications"
+            echo "  - specs/[feature]/spec.md"
+            echo "  - specs/[feature]/plan.md"
+            echo "  - specs/[feature]/tasks.md"
+            echo ""
+            echo "See workflow logs above for details."
+            exit 1
+          else
+            echo "✅ SPECS validation passed - PR can be merged"
+          fi

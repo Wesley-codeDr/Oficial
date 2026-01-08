@@ -1,396 +1,246 @@
-# Guia para Agentes de IA - WellWave
+# AGENTS.md - WellWave AI Agent Navigation Index
+**v3.0.0** | 2026-01-08 | Quick Reference & Navigation
 
-Este documento fornece instruções completas para agentes de IA (como Claude, GitHub Copilot, etc.) trabalharem no projeto WellWave seguindo os padrões do [GitHub Spec-Kit](https://github.com/github/spec-kit).
+## Quick Start
 
-## Visão Geral
+**New to this project?** Start here:
+1. Read `CLAUDE.md` (core rules - 122 lines)
+2. Read `memory/constitution.md` (project principles)
+3. Use `.ai/RPI_QUICKSTART.md` for workflow reference
+4. See `.ai/PLAYBOOK.md` for comprehensive guidance
 
-O WellWave utiliza **Spec-Driven Development** com o GitHub Spec-Kit. Todas as features devem seguir rigorosamente o workflow: **Especificação → Plano → Tarefas → Implementação**.
+## RPI Workflow Commands
 
-## Regra Fundamental
+| Command | Phase | File | Description |
+|---------|-------|------|-------------|
+| `/1_research` | Research | `.ai/commands/1_research.md` | Gather context, resolve unknowns |
+| `/2_plan` | Plan | `.ai/commands/2_plan.md` | Design architecture, create specs |
+| `/3_tasks` | Tasks | `.ai/commands/3_tasks.md` | Break down into actionable tasks |
+| `/4_implement` | Implement | `.ai/commands/4_implement.md` | Execute implementation |
 
-```
-SEM ESPECIFICAÇÃO → SEM CÓDIGO
-```
+## Spec-Kit Integration
 
-**NUNCA** implemente código sem uma especificação aprovada.
+| Command | Description | Used In |
+|---------|-------------|---------|
+| `/speckit.plan` | Generate `plan.md` from `spec.md` | Phase 2 (Planning) |
+| `/speckit.tasks` | Generate `tasks.md` from `plan.md` | Phase 3 (Tasks) |
+| `/speckit.implement` | Execute tasks from `tasks.md` | Phase 4 (Implementation) |
 
-## Workflow Obrigatório
+## Core Documentation
 
-### 1. Verificar Pré-requisitos
+### Always Load (Level 1 - 20-30% context)
+- **CLAUDE.md** - Core rules, RPI framework, context management
+- **memory/constitution.md** - Project principles and standards
+- **AGENTS.md** (this file) - Navigation index
 
-Antes de qualquer implementação, verifique:
+### Load on Demand (Level 2 - +10-20% context)
+- **specs/[feature]/spec.md** - Feature specification
+- **specs/[feature]/plan.md** - Implementation plan
+- **specs/[feature]/tasks.md** - Task breakdown
+- **specs/[feature]/research.md** - Research findings
 
-- [ ] `memory/constitution.md` existe e foi lido
-- [ ] `specs/[feature-name]/spec.md` existe e está aprovado
-- [ ] `specs/[feature-name]/plan.md` existe e está validado
-- [ ] `specs/[feature-name]/tasks.md` existe e está completo
+### Module-Specific (Level 3 - +10-20% context)
+Load only when working in specific module:
+- **app/(dashboard)/anamnese/MODULE_GUIDELINES.md** - Medical anamnesis rules
+- **app/(dashboard)/chat/MODULE_GUIDELINES.md** - EBM chat rules
+- **app/(auth)/MODULE_GUIDELINES.md** - Authentication rules
+- **components/medical/DOMAIN_GUIDELINES.md** - Medical components
+- **components/ui/DOMAIN_GUIDELINES.md** - UI components
+- **lib/ai/SERVICE_GUIDELINES.md** - AI integration
 
-### 2. Criar Nova Feature
+### Session Memory (Level 4 - up to 60% total)
+- **thoughts/shared/research/[feature].md** - Research session memory
+- **thoughts/shared/progress/[feature].md** - Implementation progress
+- **thoughts/shared/handoffs/[date]-[feature].md** - Session handoffs
+- **thoughts/shared/plans-archive/[feature].md** - Archived plans
 
-Se o usuário pedir uma nova feature:
+## Sub-Agents
 
-1. **Verificar** se já existe especificação
-2. **Se não existe**: Alertar que precisa criar spec primeiro
-3. **Sugerir**: `./scripts/setup-plan.sh nome-da-feature`
-4. **Ajudar** a criar a spec se solicitado
-5. **NÃO** implementar código até que a spec exista
+Located in `.ai/agents/`:
+- **codebase-analyzer.md** - Analyzes existing codebase patterns
+- **medical-validator.md** - Validates CFM/LGPD compliance
+- **spec-enforcer.md** - Enforces SPECS-first workflow
 
-### 3. Workflow de Implementação
+## Enforcement Mechanisms
 
-Quando uma spec existe e está aprovada:
+### Pre-Commit Validation
+**Script**: `scripts/validate-specs-strict.sh`
+- Detects modified production files
+- Verifies specs exist for affected features
+- Blocks commits if specs missing
+- Runs automatically via `.husky/pre-commit`
 
-1. **Ler** `spec.md` completamente
-2. **Ler** `plan.md` para entender arquitetura
-3. **Ler** `tasks.md` para ver ordem de execução
-4. **Seguir** tarefas na ordem correta
-5. **Respeitar** dependências entre tarefas
-6. **Executar** tarefas paralelas quando marcadas com `[P]`
+### CI/CD Validation
+**Workflow**: `.github/workflows/specs-validation.yml`
+- Runs on all PRs and pushes
+- Validates spec structure
+- Checks CLAUDE.md size (<200 lines)
+- Blocks merge if validation fails
 
-## Comandos Spec-Kit
+### IDE Validation
+**Cursor Rule**: `.cursor/rules/specs-enforcer.mdc`
+- Real-time validation in Cursor IDE
+- Shows violation messages
+- Prevents code without specs
+- Auto-loads module-specific guidelines
 
-### `/speckit.plan`
+## Scripts & Tools
 
-Gera ou atualiza o plano de implementação baseado na especificação.
-
-**Quando usar:**
-- Após escrever/atualizar `spec.md`
-- Quando especificação foi aprovada
-
-**O que faz:**
-- Lê `specs/[feature-name]/spec.md`
-- Gera `specs/[feature-name]/plan.md` com:
-  - Arquitetura do sistema
-  - Stack tecnológica
-  - Modelo de dados
-  - Design de API
-  - Fases de implementação
-
-**Uso:**
-```
-/speckit.plan
-
-Vamos usar Next.js 15, React 19, Prisma e PostgreSQL para implementar esta feature.
-A arquitetura seguirá o padrão de Server Components com API Routes.
-```
-
-### `/speckit.tasks`
-
-Gera o breakdown de tarefas baseado no plano.
-
-**Quando usar:**
-- Após `plan.md` ser validado
-- Antes de começar implementação
-
-**O que faz:**
-- Lê `specs/[feature-name]/plan.md`
-- Gera `specs/[feature-name]/tasks.md` com:
-  - Tarefas organizadas por user story
-  - Dependências entre tarefas
-  - Marcadores de execução paralela `[P]`
-  - Caminhos de arquivos para implementação
-
-**Uso:**
-```
-/speckit.tasks
-```
-
-### `/speckit.implement`
-
-Executa a implementação seguindo as tarefas.
-
-**Quando usar:**
-- Quando spec, plan e tasks estão completos
-- Pronto para começar a codificar
-
-**O que faz:**
-- Valida pré-requisitos (constitution, spec, plan, tasks)
-- Executa tarefas na ordem correta
-- Respeita dependências entre tarefas
-- Executa tarefas paralelas quando marcadas com `[P]`
-- Segue abordagem TDD quando definida
-
-**Uso:**
-```
-/speckit.implement
-```
-
-### `/speckit.archive`
-
-Arquiva uma especificação concluída.
-
-**Quando usar:**
-- Após feature ser implementada e deployada
-- Quando spec não é mais necessária em `specs/`
-
-**Uso:**
-```
-/speckit.archive 001-feature-name
-```
-
-## Estrutura de Arquivos
-
-### Especificação Completa
-
-```
-specs/XXX-feature-name/
-├── spec.md              # ⚠️ OBRIGATÓRIO - Especificação
-├── plan.md              # ⚠️ OBRIGATÓRIO - Plano de implementação
-├── tasks.md             # ⚠️ OBRIGATÓRIO - Breakdown de tarefas
-├── research.md          # Opcional - Pesquisa técnica
-├── data-model.md        # Opcional - Modelo de dados
-├── quickstart.md        # Opcional - Guia rápido
-├── contracts/           # Opcional - Contratos de API
-│   ├── api-spec.json
-│   └── signalr-spec.md
-└── checklists/         # Opcional - Checklists
-    └── requirements.md
-```
-
-## Padrões de Código
-
-### TypeScript
-
-- Use tipos explícitos para todas as funções
-- Evite `any` - use `unknown` ou tipos genéricos
-- Use `zod` para validação em tempo de execução
-- Siga convenções de nomenclatura do TypeScript
-
-### React/Next.js
-
-- Use componentes funcionais
-- Prefer Server Components (RSC) quando possível
-- Minimize 'use client' directives
-- Use hooks em vez de classes
-- Implemente proper error boundaries
-
-### Prisma
-
-- Siga convenções de nomenclatura do Prisma
-- Use migrations em vez de db push
-- Documente migrations com nomes descritivos
-- Teste migrations localmente antes de fazer push
-
-## Testes
-
-### Abordagem TDD
-
-Quando `tasks.md` especifica TDD:
-
-1. Escreva testes ANTES de escrever código
-2. Execute testes e veja falharem
-3. Implemente o mínimo necessário para passar
-4. Refatore mantendo testes passando
-
-### Cobertura
-
-- Mínimo: 80% de cobertura
-- Crítico: 95%+ para código core
-- Use `pnpm test:coverage` para verificar
-
-## Validação
-
-### Antes de Implementar
-
-Sempre valide:
-
+### Setup & Validation
 ```bash
-./scripts/validate-specs.sh [feature-name]
+./scripts/check-prerequisites.sh          # Check environment
+./scripts/setup-plan.sh [feature]         # Create new feature
+./scripts/validate-specs-strict.sh        # Validate specs
+./scripts/setup-database.sh               # Configure database
+./scripts/docker-db.sh [start|stop]       # Manage local DB
 ```
 
-### Checklist
-
-- [ ] Constitution lida e entendida
-- [ ] Spec completa e aprovada
-- [ ] Plan validado
-- [ ] Tasks completas
-- [ ] Arquitetura do plan compreendida
-- [ ] Ordem das tarefas verificada
-- [ ] Dependências mapeadas
-
-## Quando o Usuário Pede Implementação Direta
-
-Se o usuário pedir para implementar algo SEM especificação:
-
-1. **ALERTAR** que é necessário criar a spec primeiro
-2. **SUGERIR** executar: `./scripts/setup-plan.sh [feature-name]`
-3. **OFERECER** ajudar a criar a spec
-4. **NÃO** implementar código até que a spec exista
-
-**Exceção:** Correções de bugs críticos podem ser feitas, mas devem ser documentadas depois.
-
-## Atualização de Especificações
-
-Quando o código precisa mudar de forma que não está na spec:
-
-1. **PARAR** a implementação
-2. **ATUALIZAR** `spec.md` primeiro
-3. **ATUALIZAR** `plan.md` se necessário
-4. **ATUALIZAR** `tasks.md` se necessário
-5. **ENTÃO** continuar a implementação
-
-## Dependências entre Tarefas
-
-- **SEMPRE** respeite as dependências definidas em `tasks.md`
-- Tarefas marcadas com `[P]` podem ser executadas em paralelo
-- **NUNCA** pule tarefas que têm dependências não resolvidas
-
-## Arquitetura e Design
-
-- **SEMPRE** consulte `plan.md` para decisões arquiteturais
-- **NUNCA** faça mudanças arquiteturais sem atualizar `plan.md`
-- Use a stack tecnológica definida em `plan.md`
-- Siga o modelo de dados definido em `plan.md`
-
-## Documentação
-
-- Atualize documentação conforme especificado em `tasks.md`
-- Mantenha README atualizado
-- Documente APIs conforme `plan.md`
-- Adicione comentários onde a spec indica necessidade
-
-## ByteRover MCP Integration
-
-Este projeto também utiliza ByteRover MCP para conhecimento persistente.
-
-### `byterover-store-knowledge`
-
-**Use SEMPRE quando:**
-- Aprendendo novos padrões, APIs ou decisões arquiteturais
-- Encontrando soluções de erros ou técnicas de debugging
-- Encontrando padrões de código reutilizáveis ou funções utilitárias
-- Completando qualquer tarefa ou implementação de plano significativa
-
-### `byterover-retrieve-knowledge`
-
-**Use SEMPRE quando:**
-- Iniciando nova tarefa ou implementação para reunir contexto relevante
-- Antes de tomar decisões arquiteturais para entender padrões existentes
-- Ao debugar problemas para verificar soluções anteriores
-- Trabalhando com partes não familiares do codebase
-
-## Mensagens de Erro e Avisos
-
-Quando detectar violações do workflow:
-
-```
-⚠️ ATENÇÃO: Esta implementação requer uma especificação primeiro.
-Por favor, crie a spec usando: ./scripts/setup-plan.sh [feature-name]
+### Development
+```bash
+pnpm dev                                  # Start dev server
+pnpm build                                # Production build
+pnpm test                                 # Run tests
+pnpm typecheck                            # TypeScript validation
+pnpm lint                                 # ESLint
+pnpm format                               # Prettier
 ```
 
-```
-⚠️ ATENÇÃO: Esta mudança não está na especificação atual.
-Por favor, atualize specs/[feature-name]/spec.md primeiro.
-```
-
-## Recursos
-
-### Documentação do Projeto
-
-- `memory/constitution.md` - Princípios e regras do projeto
-- `CLAUDE.md` - Configuração do Claude
-- `.cursor/DEVELOPMENT.md` - Guia de desenvolvimento
-- `README.md` - Documentação geral
-
-### Templates
-
-- `templates/spec-template.md` - Template de especificação
-- `templates/plan-template.md` - Template de plano
-- `templates/tasks-template.md` - Template de tarefas
-- `templates/research-template.md` - Template de pesquisa
-- `templates/api-spec.md` - Template de API
-- `templates/data-model.md` - Template de modelo de dados
-
-### Scripts
-
-- `scripts/setup-plan.sh` - Cria nova feature
-- `scripts/validate-specs.sh` - Valida specs
-- `scripts/archive-spec.sh` - Arquiva specs
-- `scripts/check-prerequisites.sh` - Verifica pré-requisitos
-
-## Exemplos
-
-### Exemplo 1: Nova Feature
-
-**Usuário:** "Quero adicionar autenticação de dois fatores"
-
-**Resposta do Agente:**
-```
-⚠️ Para implementar autenticação de dois fatores, precisamos criar uma especificação primeiro.
-
-Vou criar a estrutura usando:
-./scripts/setup-plan.sh two-factor-authentication
-
-Depois, edite specs/XXX-two-factor-authentication/spec.md com os requisitos.
-Após aprovar a spec, use /speckit.plan para gerar o plano.
+### Database
+```bash
+pnpm prisma generate                      # Generate Prisma client
+pnpm prisma migrate dev                   # Create & apply migrations
+pnpm prisma studio                        # Open Prisma Studio
+pnpm db:seed                              # Seed database
 ```
 
-### Exemplo 2: Implementação com Spec Existente
+## Tech Stack Quick Reference
 
-**Usuário:** "Implemente a feature de chat EBM"
+**Frontend**: Next.js 16 (App Router), React 19, TypeScript 5.9, Tailwind CSS 4, shadcn/ui
+**Backend**: Next.js API Routes (serverless)
+**Database**: PostgreSQL (Supabase) + Prisma ORM 6
+**Auth**: Supabase Auth
+**AI**: Vercel AI SDK + OpenAI GPT-4
+**State**: Zustand + TanStack Query
+**Testing**: Vitest (unit), Playwright (E2E)
+**Monitoring**: Sentry
+**CI/CD**: GitHub Actions
+**Deploy**: Vercel
 
-**Resposta do Agente:**
+## Project Structure Navigation
+
 ```
-Verificando especificação para chat EBM...
+.ai/                          # AI configuration hub
+├── commands/                 # RPI phase commands
+├── agents/                   # Sub-agents
+├── PLAYBOOK.md              # Comprehensive guide
+└── RPI_QUICKSTART.md        # Quick reference
 
-✅ Spec encontrada: specs/001-wellwave-mvp/spec.md
-✅ Plan encontrado: specs/001-wellwave-mvp/plan.md
-✅ Tasks encontrado: specs/001-wellwave-mvp/tasks.md
+app/                          # Next.js App Router
+├── (auth)/                  # Public routes (login, signup)
+├── (dashboard)/             # Protected routes
+│   ├── anamnese/           # Anamnesis generator
+│   ├── chat/               # EBM chat
+│   └── history/            # Session history
+└── api/                     # API routes
 
-Iniciando implementação seguindo tasks.md...
+components/                   # React components
+├── ui/                      # shadcn/ui components
+├── medical/                 # Medical-specific
+└── layout/                  # Layout components
+
+lib/                         # Utilities & services
+├── ai/                      # LLM integration
+├── db/                      # Prisma client
+├── templates/               # Medical templates
+└── utils/                   # Helpers
+
+memory/                      # Project memory
+└── constitution.md          # Core principles
+
+specs/                       # Specifications
+└── [feature]/
+    ├── spec.md             # Feature specification
+    ├── plan.md             # Implementation plan
+    ├── tasks.md            # Task breakdown
+    └── research.md         # Research findings
+
+thoughts/                    # Session memory
+└── shared/
+    ├── research/           # Research outputs
+    ├── progress/           # Implementation tracking
+    ├── handoffs/           # Session transitions
+    └── plans-archive/      # Archived plans
 ```
 
-## Checklist Final
+## Medical Compliance Checklist
 
-Antes de considerar uma feature completa:
+When working on medical features:
+- [ ] CFM compliance verified
+- [ ] LGPD privacy requirements met
+- [ ] Red flags detection implemented
+- [ ] EBM sources referenced
+- [ ] Professional medical terminology used
+- [ ] Medical validator sub-agent consulted
+- [ ] Module guidelines loaded
 
-- [ ] Todos os testes passam (unit + E2E)
-- [ ] Cobertura de testes >= 80%
-- [ ] Sem erros de lint
-- [ ] Typecheck sem erros
-- [ ] Build de produção bem-sucedido
-- [ ] Documentação atualizada
-- [ ] Spec atualizada se necessário
-- [ ] Code review aprovado
-- [ ] PR merged e deploy realizado
+**Load**: Appropriate `MODULE_GUIDELINES.md` for medical features
 
-## Prioridades
+## Context Management Zones
 
-1. **ESPECIFICAÇÃO** (Prioridade Máxima)
-2. **PLANO** (Antes de qualquer código)
-3. **TAREFAS** (Guia a implementação)
-4. **CÓDIGO** (Último na ordem)
+| Zone | Range | Status | Action |
+|------|-------|--------|--------|
+| **Smart** | 20-40% | ✅ Optimal | Research & planning |
+| **Working** | 40-60% | ⚠️ Caution | Implementation OK |
+| **Danger** | 60-80% | 🚨 High Risk | Reduce context |
+| **Critical** | 80-100% | ❌ Failure | Emergency compact |
 
-## Lembrete Final
+**Strategy**: New session between RPI phases | During impl if >60% | Emergency if >80%
 
-> "A especificação não é um obstáculo - é a fundação que garante código de qualidade, arquitetura sólida e desenvolvimento eficiente. Sem spec, não há código."
+## Troubleshooting
 
-**SEMPRE** priorize a especificação sobre a velocidade de implementação. Melhor fazer certo do que fazer rápido.
+### "No spec exists for this feature"
+```bash
+./scripts/setup-plan.sh [feature-name]
+# Then edit specs/[feature]/spec.md
+```
+
+### "Context budget exceeded"
+1. Save progress to `thoughts/shared/progress/[feature].md`
+2. Create handoff: `thoughts/shared/handoffs/[date]-[feature].md`
+3. Start new session
+4. Load handoff + continue
+
+### "Tests failing"
+1. Fix issues identified by tests
+2. Re-run tests: `pnpm test`
+3. Repeat until all pass (validation loop)
+4. Do not advance until tests pass
+
+### "Medical compliance unclear"
+1. Load `app/(dashboard)/anamnese/MODULE_GUIDELINES.md`
+2. Consult `.ai/agents/medical-validator.md`
+3. Reference CFM documentation
+4. Get human review before proceeding
+
+## Rules Summary
+
+1. **NO SPEC = NO CODE** (absolute rule)
+2. **Context 20-40%** (Smart Zone for research/planning)
+3. **Clean sessions** (between RPI phases)
+4. **Human checkpoints** (mandatory Phase 2→3, 3→4)
+5. **Tests pass** (before advancing)
+6. **Medical compliance** (CFM/LGPD for healthcare features)
+7. **Progressive disclosure** (load only what's needed)
+8. **Validation loop** (retry until tests pass)
+
+## Getting Help
+
+- **Quick reference**: `.ai/RPI_QUICKSTART.md`
+- **Detailed guide**: `.ai/PLAYBOOK.md`
+- **Core rules**: `CLAUDE.md`
+- **Project principles**: `memory/constitution.md`
+- **Workflow details**: `.ai/commands/[1-4]_*.md`
 
 ---
 
-**Referências:**
-- [GitHub Spec-Kit](https://github.com/github/spec-kit)
-- [Spec-Kit Documentation](https://github.com/github/spec-kit/blob/main/README.md)
-- [Project Constitution](./memory/constitution.md)
-- [Development Guide](./.cursor/DEVELOPMENT.md)
-
-[byterover-mcp]
-
-[byterover-mcp]
-
-You are given two tools from Byterover MCP server, including
-## 1. `byterover-store-knowledge`
-You `MUST` always use this tool when:
-
-+ Learning new patterns, APIs, or architectural decisions from the codebase
-+ Encountering error solutions or debugging techniques
-+ Finding reusable code patterns or utility functions
-+ Completing any significant task or plan implementation
-
-## 2. `byterover-retrieve-knowledge`
-You `MUST` always use this tool when:
-
-+ Starting any new task or implementation to gather relevant context
-+ Before making architectural decisions to understand existing patterns
-+ When debugging issues to check for previous solutions
-+ Working with unfamiliar parts of the codebase
+**Remember**: This is a navigation index. Detailed instructions are in the referenced files. Load them on-demand using Progressive Disclosure to manage context budget.

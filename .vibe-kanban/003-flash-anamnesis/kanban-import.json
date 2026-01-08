@@ -1,0 +1,720 @@
+{
+  "version": "1.0",
+  "tasks": [
+    {
+      "title": "T1: Resolve `alert` usage (replace with Toast or console).",
+      "description": "Resolve `alert` usage (replace with Toast or console).",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Resolve `alert` usage (replace with Toast or console).",
+        "lineNumber": 10
+      }
+    },
+    {
+      "title": "T2: Resolve `Navigator` type error or undefined variable.",
+      "description": "Resolve `Navigator` type error or undefined variable.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Resolve `Navigator` type error or undefined variable.",
+        "lineNumber": 11
+      }
+    },
+    {
+      "title": "T3: Ensure `FlashAnamnesisFlow` is correctly imported and used.",
+      "description": "Ensure `FlashAnamnesisFlow` is correctly imported and used.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure `FlashAnamnesisFlow` is correctly imported and used.",
+        "lineNumber": 12
+      }
+    },
+    {
+      "title": "T4: **Implement `FlashTemplateSelection` Component** <!-- id: 2 -->",
+      "description": "**Implement `FlashTemplateSelection` Component** <!-- id: 2 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement `FlashTemplateSelection` Component** <!-- id: 2 -->",
+        "lineNumber": 14
+      }
+    },
+    {
+      "title": "T5: Create `components/medical/FlashTemplateSelection.tsx`.",
+      "description": "Create `components/medical/FlashTemplateSelection.tsx`.\n\n**Files:**\n- `components/medical/FlashTemplateSelection.tsx`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "components/medical/FlashTemplateSelection.tsx"
+        ],
+        "rawLine": "- [x] Create `components/medical/FlashTemplateSelection.tsx`.",
+        "lineNumber": 15
+      }
+    },
+    {
+      "title": "T6: List templates from `flashTemplates.ts`.",
+      "description": "List templates from `flashTemplates.ts`.\n\n**Files:**\n- `flashTemplates.ts`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "flashTemplates.ts"
+        ],
+        "rawLine": "- [x] List templates from `flashTemplates.ts`.",
+        "lineNumber": 16
+      }
+    },
+    {
+      "title": "T7: styling: Glassmorphism cards.",
+      "description": "styling: Glassmorphism cards.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T7",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] styling: Glassmorphism cards.",
+        "lineNumber": 17
+      }
+    },
+    {
+      "title": "T8: **Implement `FlashForm` Component** <!-- id: 3 -->",
+      "description": "**Implement `FlashForm` Component** <!-- id: 3 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T8",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement `FlashForm` Component** <!-- id: 3 -->",
+        "lineNumber": 19
+      }
+    },
+    {
+      "title": "T9: Create `components/medical/FlashForm.tsx`.",
+      "description": "Create `components/medical/FlashForm.tsx`.\n\n**Files:**\n- `components/medical/FlashForm.tsx`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T9",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "components/medical/FlashForm.tsx"
+        ],
+        "rawLine": "- [x] Create `components/medical/FlashForm.tsx`.",
+        "lineNumber": 20
+      }
+    },
+    {
+      "title": "T10: Add inputs for standard vitals (PA, FC, Temp, SpO2).",
+      "description": "Add inputs for standard vitals (PA, FC, Temp, SpO2).",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T10",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add inputs for standard vitals (PA, FC, Temp, SpO2).",
+        "lineNumber": 21
+      }
+    },
+    {
+      "title": "T11: Add inputs for specific template variables if needed.",
+      "description": "Add inputs for specific template variables if needed.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T11",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add inputs for specific template variables if needed.",
+        "lineNumber": 22
+      }
+    },
+    {
+      "title": "T12: **Implement `FlashPreview` Component** <!-- id: 4 -->",
+      "description": "**Implement `FlashPreview` Component** <!-- id: 4 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T12",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement `FlashPreview` Component** <!-- id: 4 -->",
+        "lineNumber": 24
+      }
+    },
+    {
+      "title": "T13: Create `components/medical/FlashPreview.tsx`.",
+      "description": "Create `components/medical/FlashPreview.tsx`.\n\n**Files:**\n- `components/medical/FlashPreview.tsx`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T13",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "components/medical/FlashPreview.tsx"
+        ],
+        "rawLine": "- [x] Create `components/medical/FlashPreview.tsx`.",
+        "lineNumber": 25
+      }
+    },
+    {
+      "title": "T14: Display `queixa_principal`, `exame_fisico`, `hipotese_diagnostica`, `conduta`, `",
+      "description": "Display `queixa_principal`, `exame_fisico`, `hipotese_diagnostica`, `conduta`, `cid`.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T14",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Display `queixa_principal`, `exame_fisico`, `hipotese_diagnostica`, `conduta`, `cid`.",
+        "lineNumber": 26
+      }
+    },
+    {
+      "title": "T15: Add \"Copy to Clipboard\" button.",
+      "description": "Add \"Copy to Clipboard\" button.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T15",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add \"Copy to Clipboard\" button.",
+        "lineNumber": 27
+      }
+    },
+    {
+      "title": "T16: **Integrate Components into `FlashAnamnesisFlow`** <!-- id: 5 -->",
+      "description": "**Integrate Components into `FlashAnamnesisFlow`** <!-- id: 5 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T16",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Integrate Components into `FlashAnamnesisFlow`** <!-- id: 5 -->",
+        "lineNumber": 29
+      }
+    },
+    {
+      "title": "T17: Update `FlashAnamnesisFlow.tsx` to render the new components based on `step`.",
+      "description": "Update `FlashAnamnesisFlow.tsx` to render the new components based on `step`.\n\n**Files:**\n- `FlashAnamnesisFlow.tsx`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T17",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "FlashAnamnesisFlow.tsx"
+        ],
+        "rawLine": "- [x] Update `FlashAnamnesisFlow.tsx` to render the new components based on `step`.",
+        "lineNumber": 30
+      }
+    },
+    {
+      "title": "T18: Ensure state is passed correctly.",
+      "description": "Ensure state is passed correctly.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T18",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure state is passed correctly.",
+        "lineNumber": 31
+      }
+    },
+    {
+      "title": "T19: **Implement `FlashPatientEntry` Enhancements** <!-- id: 7 -->",
+      "description": "**Implement `FlashPatientEntry` Enhancements** <!-- id: 7 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T19",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement `FlashPatientEntry` Enhancements** <!-- id: 7 -->",
+        "lineNumber": 33
+      }
+    },
+    {
+      "title": "T20: Add \"Gestante\" button with specific styling (glassmorphism, pink, icon).",
+      "description": "Add \"Gestante\" button with specific styling (glassmorphism, pink, icon).",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T20",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add \"Gestante\" button with specific styling (glassmorphism, pink, icon).",
+        "lineNumber": 34
+      }
+    },
+    {
+      "title": "T21: Handle mutually exclusive logic for gender selection.",
+      "description": "Handle mutually exclusive logic for gender selection.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T21",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Handle mutually exclusive logic for gender selection.",
+        "lineNumber": 35
+      }
+    },
+    {
+      "title": "T22: Update `FlashAnamnesisFlow` to handle `isPregnant` state.",
+      "description": "Update `FlashAnamnesisFlow` to handle `isPregnant` state.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T22",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Update `FlashAnamnesisFlow` to handle `isPregnant` state.",
+        "lineNumber": 36
+      }
+    },
+    {
+      "title": "T23: Integrate with `flashTemplates.ts` (enforce 'F' gender, append status).",
+      "description": "Integrate with `flashTemplates.ts` (enforce 'F' gender, append status).\n\n**Files:**\n- `flashTemplates.ts`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T23",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "flashTemplates.ts"
+        ],
+        "rawLine": "- [x] Integrate with `flashTemplates.ts` (enforce 'F' gender, append status).",
+        "lineNumber": 37
+      }
+    },
+    {
+      "title": "T24: **Refactor `FlashPatientEntry` UI** <!-- id: 8 -->",
+      "description": "**Refactor `FlashPatientEntry` UI** <!-- id: 8 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T24",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Refactor `FlashPatientEntry` UI** <!-- id: 8 -->",
+        "lineNumber": 39
+      }
+    },
+    {
+      "title": "T25: Remove top-level \"Gestante\" button from gender grid.",
+      "description": "Remove top-level \"Gestante\" button from gender grid.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T25",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Remove top-level \"Gestante\" button from gender grid.",
+        "lineNumber": 40
+      }
+    },
+    {
+      "title": "T26: Implement conditional \"Gestante\" toggle that appears only when \"Feminino\" is sel",
+      "description": "Implement conditional \"Gestante\" toggle that appears only when \"Feminino\" is selected.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T26",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Implement conditional \"Gestante\" toggle that appears only when \"Feminino\" is selected.",
+        "lineNumber": 41
+      }
+    },
+    {
+      "title": "T27: Ensure \"Masculino\" selection clears `isPregnant` state.",
+      "description": "Ensure \"Masculino\" selection clears `isPregnant` state.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T27",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure \"Masculino\" selection clears `isPregnant` state.",
+        "lineNumber": 42
+      }
+    },
+    {
+      "title": "T28: Animate the appearance of the \"Gestante\" option.",
+      "description": "Animate the appearance of the \"Gestante\" option.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T28",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Animate the appearance of the \"Gestante\" option.",
+        "lineNumber": 43
+      }
+    },
+    {
+      "title": "T29: **Enhance `FlashForm` Duration Input** <!-- id: 9 -->",
+      "description": "**Enhance `FlashForm` Duration Input** <!-- id: 9 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T29",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Enhance `FlashForm` Duration Input** <!-- id: 9 -->",
+        "lineNumber": 45
+      }
+    },
+    {
+      "title": "T30: Replace text input for \"Tempo de Sintomas\" with a button grid.",
+      "description": "Replace text input for \"Tempo de Sintomas\" with a button grid.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T30",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Replace text input for \"Tempo de Sintomas\" with a button grid.",
+        "lineNumber": 46
+      }
+    },
+    {
+      "title": "T31: Add common presets: \"1 dia\", \"2 dias\", \"3 dias\", \"5 dias\", \"7 dias\", \"> 7 dias\".",
+      "description": "Add common presets: \"1 dia\", \"2 dias\", \"3 dias\", \"5 dias\", \"7 dias\", \"> 7 dias\".",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T31",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add common presets: \"1 dia\", \"2 dias\", \"3 dias\", \"5 dias\", \"7 dias\", \"> 7 dias\".",
+        "lineNumber": 47
+      }
+    },
+    {
+      "title": "T32: Allow manual override if needed (e.g., \"Outro\" button or double-click behavior, ",
+      "description": "Allow manual override if needed (e.g., \"Outro\" button or double-click behavior, or just a small input below).",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T32",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Allow manual override if needed (e.g., \"Outro\" button or double-click behavior, or just a small input below).",
+        "lineNumber": 48
+      }
+    },
+    {
+      "title": "T33: **Implement Inline Editing in `FlashPreview`** <!-- id: 10 -->",
+      "description": "**Implement Inline Editing in `FlashPreview`** <!-- id: 10 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T33",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement Inline Editing in `FlashPreview`** <!-- id: 10 -->",
+        "lineNumber": 50
+      }
+    },
+    {
+      "title": "T34: Allow double-click to edit text content in `SectionCard`.",
+      "description": "Allow double-click to edit text content in `SectionCard`.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T34",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Allow double-click to edit text content in `SectionCard`.",
+        "lineNumber": 51
+      }
+    },
+    {
+      "title": "T35: Show a textarea when in edit mode.",
+      "description": "Show a textarea when in edit mode.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T35",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Show a textarea when in edit mode.",
+        "lineNumber": 52
+      }
+    },
+    {
+      "title": "T36: Auto-save on blur or specific \"Save\" button.",
+      "description": "Auto-save on blur or specific \"Save\" button.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T36",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Auto-save on blur or specific \"Save\" button.",
+        "lineNumber": 53
+      }
+    },
+    {
+      "title": "T37: Ensure \"Copy All\" grabs the _edited_ content, not just the original.",
+      "description": "Ensure \"Copy All\" grabs the _edited_ content, not just the original.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T37",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure \"Copy All\" grabs the _edited_ content, not just the original.",
+        "lineNumber": 54
+      }
+    },
+    {
+      "title": "T38: **Verify & Polish** <!-- id: 6 -->",
+      "description": "**Verify & Polish** <!-- id: 6 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T38",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Verify & Polish** <!-- id: 6 -->",
+        "lineNumber": 56
+      }
+    },
+    {
+      "title": "T39: Check gender flexion in generated text.",
+      "description": "Check gender flexion in generated text.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T39",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Check gender flexion in generated text.",
+        "lineNumber": 57
+      }
+    },
+    {
+      "title": "T40: Verify animations between steps.",
+      "description": "Verify animations between steps.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T40",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Verify animations between steps.",
+        "lineNumber": 58
+      }
+    },
+    {
+      "title": "T41: Ensure \"Back\" navigation works.",
+      "description": "Ensure \"Back\" navigation works.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T41",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure \"Back\" navigation works.",
+        "lineNumber": 59
+      }
+    }
+  ]
+}

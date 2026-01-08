@@ -1,0 +1,8 @@
+{
+  "spec": "002-wellwave-platform",
+  "totalTasks": 12,
+  "done": 0,
+  "pending": 12,
+  "blocking": 1,
+  "parallel": 3
+}

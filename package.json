@@ -37,7 +37,13 @@
     "sync:agent:logs": "pm2 logs sync-agent",
     "sync:agent:health": "curl -s http://localhost:3001/health | jq || curl -s http://localhost:3001/health",
     "sync:agent:status": "pm2 status sync-agent",
-    "validate:high-risk": "tsx scripts/validation/validate-high-risk.ts"
+    "validate:high-risk": "tsx scripts/validation/validate-high-risk.ts",
+    "kanban:setup": "./scripts/setup-kanban.sh",
+    "kanban:migrate": "tsx scripts/kanban/migrate-tasks-to-kanban.ts",
+    "kanban:migrate:spec": "tsx scripts/kanban/migrate-tasks-to-kanban.ts",
+    "kanban:sync": "./scripts/sync-all-tasks.sh",
+    "kanban:sync:to": "./scripts/sync-all-tasks.sh to-kanban",
+    "kanban:sync:from": "./scripts/sync-all-tasks.sh from-kanban"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

@@ -1,0 +1,229 @@
+{
+  "version": "1.0",
+  "tasks": [
+    {
+      "title": "T1.1: Project setup and configuration",
+      "description": "Project setup and configuration",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1.1",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [B] **T1.1** Project setup and configuration",
+        "lineNumber": 18
+      }
+    },
+    {
+      "title": "T1.2: Database schema updates",
+      "description": "Database schema updates\n\n**Dependencies:** T1.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T1.1"
+      ],
+      "metadata": {
+        "taskId": "T1.2",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T1.1] **T1.2** Database schema updates",
+        "lineNumber": 19
+      }
+    },
+    {
+      "title": "T1.3: Environment configuration",
+      "description": "Environment configuration\n\n**Dependencies:** T1.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T1.1"
+      ],
+      "metadata": {
+        "taskId": "T1.3",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T1.1] **T1.3** Environment configuration",
+        "lineNumber": 20
+      }
+    },
+    {
+      "title": "T2.1: Checkbox system implementation",
+      "description": "Checkbox system implementation\n\n**Dependencies:** T1.2",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T1.2"
+      ],
+      "metadata": {
+        "taskId": "T2.1",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T1.2] **T2.1** Checkbox system implementation",
+        "lineNumber": 24
+      }
+    },
+    {
+      "title": "T2.2: Text generation engine",
+      "description": "Text generation engine\n\n**Dependencies:** T2.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T2.1"
+      ],
+      "metadata": {
+        "taskId": "T2.2",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T2.1] **T2.2** Text generation engine",
+        "lineNumber": 25
+      }
+    },
+    {
+      "title": "T2.3: Split-screen interface",
+      "description": "Split-screen interface",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2.3",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [P] **T2.3** Split-screen interface",
+        "lineNumber": 26
+      }
+    },
+    {
+      "title": "T3.1: Chat EBM integration",
+      "description": "Chat EBM integration\n\n**Dependencies:** T2.2",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T2.2"
+      ],
+      "metadata": {
+        "taskId": "T3.1",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T2.2] **T3.1** Chat EBM integration",
+        "lineNumber": 30
+      }
+    },
+    {
+      "title": "T3.2: Red flag detection",
+      "description": "Red flag detection\n\n**Dependencies:** T2.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T2.1"
+      ],
+      "metadata": {
+        "taskId": "T3.2",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T2.1] **T3.2** Red flag detection",
+        "lineNumber": 31
+      }
+    },
+    {
+      "title": "T3.3: Export functionality",
+      "description": "Export functionality",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3.3",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [P] **T3.3** Export functionality",
+        "lineNumber": 32
+      }
+    },
+    {
+      "title": "T4.1: Testing suite",
+      "description": "Testing suite\n\n**Dependencies:** T3.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T3.1"
+      ],
+      "metadata": {
+        "taskId": "T4.1",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T3.1] **T4.1** Testing suite",
+        "lineNumber": 36
+      }
+    },
+    {
+      "title": "T4.2: Documentation",
+      "description": "Documentation",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4.2",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [P] **T4.2** Documentation",
+        "lineNumber": 37
+      }
+    },
+    {
+      "title": "T4.3: Deployment",
+      "description": "Deployment\n\n**Dependencies:** T4.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T4.1"
+      ],
+      "metadata": {
+        "taskId": "T4.3",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T4.1] **T4.3** Deployment",
+        "lineNumber": 38
+      }
+    }
+  ]
+}

@@ -1,0 +1,1267 @@
+{
+  "version": "1.0",
+  "updates": [
+    {
+      "taskId": "T1.1.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Update `package.json` with required dependencies",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.1",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T1.1.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Configure TypeScript strict mode",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.1",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T1.1.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Setup ESLint + Prettier",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.1",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T1.1.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create environment template",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.1",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T1.2.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Update Prisma schema per data-model.md",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.2",
+        "blocking"
+      ],
+      "dependencies": [
+        "T1.1.1"
+      ]
+    },
+    {
+      "taskId": "T1.2.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create initial migration",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.2"
+      ],
+      "dependencies": [
+        "T1.2.1"
+      ]
+    },
+    {
+      "taskId": "T1.2.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create seed data for syndromes",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.2"
+      ],
+      "dependencies": [
+        "T1.2.2"
+      ]
+    },
+    {
+      "taskId": "T1.2.4",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Configure RLS policies in Supabase",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.2"
+      ],
+      "dependencies": [
+        "T1.2.2"
+      ]
+    },
+    {
+      "taskId": "T1.3.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Configure Supabase Auth client",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3",
+        "blocking"
+      ],
+      "dependencies": [
+        "T1.2.1"
+      ]
+    },
+    {
+      "taskId": "T1.3.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create auth middleware",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3"
+      ],
+      "dependencies": [
+        "T1.3.1"
+      ]
+    },
+    {
+      "taskId": "T1.3.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create Zustand auth store",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3"
+      ],
+      "dependencies": [
+        "T1.3.1"
+      ]
+    },
+    {
+      "taskId": "T1.3.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create login page",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3"
+      ],
+      "dependencies": [
+        "T1.3.2"
+      ]
+    },
+    {
+      "taskId": "T1.3.5",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create forgot password flow",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3",
+        "parallel"
+      ],
+      "dependencies": [
+        "T1.3.4"
+      ]
+    },
+    {
+      "taskId": "T1.4.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create design tokens",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.4",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T1.4.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Update Tailwind config",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.4"
+      ],
+      "dependencies": [
+        "T1.4.1"
+      ]
+    },
+    {
+      "taskId": "T1.4.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create base UI components",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.4"
+      ],
+      "dependencies": [
+        "T1.4.2"
+      ]
+    },
+    {
+      "taskId": "T1.4.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Setup dark mode",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.4"
+      ],
+      "dependencies": [
+        "T1.4.3"
+      ]
+    },
+    {
+      "taskId": "T2.1.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create dashboard layout",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T2.1.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create sidebar component",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1"
+      ],
+      "dependencies": [
+        "T2.1.1"
+      ]
+    },
+    {
+      "taskId": "T2.1.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create header component",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1"
+      ],
+      "dependencies": [
+        "T2.1.1"
+      ]
+    },
+    {
+      "taskId": "T2.1.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create user menu component",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1"
+      ],
+      "dependencies": [
+        "T2.1.3"
+      ]
+    },
+    {
+      "taskId": "T2.1.5",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create split-screen layout",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1"
+      ],
+      "dependencies": [
+        "T2.1.1"
+      ]
+    },
+    {
+      "taskId": "T2.2.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create syndrome selector",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T2.2.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create checkbox panel",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.1"
+      ]
+    },
+    {
+      "taskId": "T2.2.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create checkbox item",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.2"
+      ]
+    },
+    {
+      "taskId": "T2.2.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create text preview panel",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.3"
+      ]
+    },
+    {
+      "taskId": "T2.2.5",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create red flag alert",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.4"
+      ]
+    },
+    {
+      "taskId": "T2.2.6",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create copy button",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.4"
+      ]
+    },
+    {
+      "taskId": "T2.3.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create chat interface",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.3",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T2.3.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create message bubble",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.3"
+      ],
+      "dependencies": [
+        "T2.3.1"
+      ]
+    },
+    {
+      "taskId": "T2.3.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create citation card",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.3"
+      ],
+      "dependencies": [
+        "T2.3.2"
+      ]
+    },
+    {
+      "taskId": "T2.3.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create typing indicator",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.3"
+      ],
+      "dependencies": [
+        "T2.3.1"
+      ]
+    },
+    {
+      "taskId": "T2.4.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create loading states",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.4",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T2.4.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create error boundary",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.4",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T2.4.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create toast notifications",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.4",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T3.1.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create template engine",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T3.1.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create chest pain template",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.1"
+      ]
+    },
+    {
+      "taskId": "T3.1.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create dyspnea template",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.1"
+      ]
+    },
+    {
+      "taskId": "T3.1.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create acute abdomen template",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.1"
+      ]
+    },
+    {
+      "taskId": "T3.1.5",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create text generator service",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.2,T3.1.3,T3.1.4"
+      ]
+    },
+    {
+      "taskId": "T3.1.6",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create negative statement generator",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.5"
+      ]
+    },
+    {
+      "taskId": "T3.2.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create red flag detector",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.2",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T3.2.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create condition evaluator",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.2"
+      ],
+      "dependencies": [
+        "T3.2.1"
+      ]
+    },
+    {
+      "taskId": "T3.2.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create severity classifier",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.2"
+      ],
+      "dependencies": [
+        "T3.2.1"
+      ]
+    },
+    {
+      "taskId": "T3.3.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create syndromes endpoints",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.3",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T3.3.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create anamnese generate endpoint",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.3"
+      ],
+      "dependencies": [
+        "T3.3.1"
+      ]
+    },
+    {
+      "taskId": "T3.3.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create sessions endpoints",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.3"
+      ],
+      "dependencies": [
+        "T3.3.2"
+      ]
+    },
+    {
+      "taskId": "T3.4.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create anamnese store",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.4",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T3.4.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create syndromes hook",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.4"
+      ],
+      "dependencies": [
+        "T3.4.1"
+      ]
+    },
+    {
+      "taskId": "T3.4.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create anamnese hook",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.4"
+      ],
+      "dependencies": [
+        "T3.4.2"
+      ]
+    },
+    {
+      "taskId": "T3.5.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create syndrome selection page",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.5"
+      ],
+      "dependencies": [
+        "T3.4.3"
+      ]
+    },
+    {
+      "taskId": "T3.5.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create anamnese generator page",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.5"
+      ],
+      "dependencies": [
+        "T3.5.1"
+      ]
+    },
+    {
+      "taskId": "T3.5.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create history page",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.5"
+      ],
+      "dependencies": [
+        "T3.5.2"
+      ]
+    },
+    {
+      "taskId": "T4.1.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Setup Vercel AI SDK",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.1",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T4.1.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create system prompts",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.1"
+      ],
+      "dependencies": [
+        "T4.1.1"
+      ]
+    },
+    {
+      "taskId": "T4.1.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create context builder",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.1"
+      ],
+      "dependencies": [
+        "T4.1.2"
+      ]
+    },
+    {
+      "taskId": "T4.1.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create citation extractor",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.1"
+      ],
+      "dependencies": [
+        "T4.1.3"
+      ]
+    },
+    {
+      "taskId": "T4.2.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create streaming chat endpoint",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.2",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T4.2.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create conversation endpoints",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.2"
+      ],
+      "dependencies": [
+        "T4.2.1"
+      ]
+    },
+    {
+      "taskId": "T4.2.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create streaming client hook",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.2"
+      ],
+      "dependencies": [
+        "T4.2.2"
+      ]
+    },
+    {
+      "taskId": "T4.3.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create data validation",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.3"
+      ],
+      "dependencies": [
+        "T4.1.4"
+      ]
+    },
+    {
+      "taskId": "T4.3.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create red flag injection",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.3"
+      ],
+      "dependencies": [
+        "T4.3.1"
+      ]
+    },
+    {
+      "taskId": "T4.3.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create disclaimer system",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.3"
+      ],
+      "dependencies": [
+        "T4.3.2"
+      ]
+    },
+    {
+      "taskId": "T4.4.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create chat page",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.4"
+      ],
+      "dependencies": [
+        "T4.2.3,T4.3.3"
+      ]
+    },
+    {
+      "taskId": "T4.4.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Integrate chat with anamnese",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.4"
+      ],
+      "dependencies": [
+        "T4.4.1"
+      ]
+    },
+    {
+      "taskId": "T5.1.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Setup Vitest",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.1",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T5.1.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Test text generator",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.1"
+      ],
+      "dependencies": [
+        "T5.1.1"
+      ]
+    },
+    {
+      "taskId": "T5.1.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Test red flag detector",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.1"
+      ],
+      "dependencies": [
+        "T5.1.1"
+      ]
+    },
+    {
+      "taskId": "T5.1.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Test AI modules",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.1"
+      ],
+      "dependencies": [
+        "T5.1.1"
+      ]
+    },
+    {
+      "taskId": "T5.2.1",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Test API endpoints",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.2"
+      ],
+      "dependencies": [
+        "T5.1.1"
+      ]
+    },
+    {
+      "taskId": "T5.2.2",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Test database operations",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.2"
+      ],
+      "dependencies": [
+        "T5.2.1"
+      ]
+    },
+    {
+      "taskId": "T5.3.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Setup Playwright",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T5.3.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Test auth flow",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3"
+      ],
+      "dependencies": [
+        "T5.3.1"
+      ]
+    },
+    {
+      "taskId": "T5.3.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Test anamnese flow",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3"
+      ],
+      "dependencies": [
+        "T5.3.2"
+      ]
+    },
+    {
+      "taskId": "T5.3.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Test chat flow",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3"
+      ],
+      "dependencies": [
+        "T5.3.3"
+      ]
+    },
+    {
+      "taskId": "T5.3.5",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Test home page",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T5.4.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Bundle analysis",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.4",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T5.4.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "API optimization",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.4"
+      ],
+      "dependencies": [
+        "T5.4.1"
+      ]
+    },
+    {
+      "taskId": "T5.4.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Loading states",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.4"
+      ],
+      "dependencies": [
+        "T5.4.2"
+      ]
+    },
+    {
+      "taskId": "T5.5.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Error boundaries",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.5",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T5.5.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "API error handling",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.5"
+      ],
+      "dependencies": [
+        "T5.5.1"
+      ]
+    },
+    {
+      "taskId": "T5.5.3",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Offline detection",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.5"
+      ],
+      "dependencies": [
+        "T5.5.2"
+      ]
+    },
+    {
+      "taskId": "T5.6.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Configure Sentry",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.6",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T5.6.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Add analytics events",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.6"
+      ],
+      "dependencies": [
+        "T5.6.1"
+      ]
+    },
+    {
+      "taskId": "T6.1.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Generate API docs",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.1",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T6.1.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Update README",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.1",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T6.1.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Create user guide",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.1",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T6.2.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Dependency audit",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.2",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T6.2.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "RLS verification",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.2"
+      ],
+      "dependencies": [
+        "T6.2.1"
+      ]
+    },
+    {
+      "taskId": "T6.2.3",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Auth review",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.2"
+      ],
+      "dependencies": [
+        "T6.2.2"
+      ]
+    },
+    {
+      "taskId": "T6.2.4",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "LGPD compliance check",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.2"
+      ],
+      "dependencies": [
+        "T6.2.3"
+      ]
+    },
+    {
+      "taskId": "T6.3.1",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Configure CI/CD",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.3",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T6.3.2",
+      "spec": "001-wellwave-mvp",
+      "status": "done",
+      "description": "Configure production env",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.3"
+      ],
+      "dependencies": [
+        "T6.3.1"
+      ]
+    },
+    {
+      "taskId": "T6.3.3",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Database migration",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.3"
+      ],
+      "dependencies": [
+        "T6.3.2"
+      ]
+    },
+    {
+      "taskId": "T6.3.4",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Deploy to production",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.3"
+      ],
+      "dependencies": [
+        "T6.3.3"
+      ]
+    },
+    {
+      "taskId": "T6.4.1",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Smoke tests",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.4"
+      ],
+      "dependencies": [
+        "T6.3.4"
+      ]
+    },
+    {
+      "taskId": "T6.4.2",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Configure alerts",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.4"
+      ],
+      "dependencies": [
+        "T6.4.1"
+      ]
+    },
+    {
+      "taskId": "T6.4.3",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Backup verification",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.4"
+      ],
+      "dependencies": [
+        "T6.4.2"
+      ]
+    },
+    {
+      "taskId": "T6.4.4",
+      "spec": "001-wellwave-mvp",
+      "status": "todo",
+      "description": "Rollback plan",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.4"
+      ],
+      "dependencies": [
+        "T6.4.3"
+      ]
+    }
+  ],
+  "generatedAt": "2026-01-08T05:33:18.038Z"
+}

@@ -1,0 +1,142 @@
+{
+  "version": "1.0",
+  "tasks": [
+    {
+      "title": "T1: **Task 1.1**: [Task description]",
+      "description": "**Task 1.1**: [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.1**: [Task description]",
+        "lineNumber": 27
+      }
+    },
+    {
+      "title": "T2: **Task 1.2**: [Task description]",
+      "description": "**Task 1.2**: [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.2**: [Task description]",
+        "lineNumber": 32
+      }
+    },
+    {
+      "title": "T3: **Task 1.3**: [Task description]",
+      "description": "**Task 1.3**: [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.3**: [Task description]",
+        "lineNumber": 38
+      }
+    },
+    {
+      "title": "T4: **Task 1.4** : [Task description]",
+      "description": "**Task 1.4** : [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.4** [P]: [Task description]",
+        "lineNumber": 43
+      }
+    },
+    {
+      "title": "T5: **Task 1.5**: Write unit tests",
+      "description": "**Task 1.5**: Write unit tests",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.5**: Write unit tests",
+        "lineNumber": 49
+      }
+    },
+    {
+      "title": "T6: All tests passing",
+      "description": "All tests passing",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All tests passing",
+        "lineNumber": 55
+      }
+    },
+    {
+      "title": "T7: Code review completed",
+      "description": "Code review completed",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T7",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Code review completed",
+        "lineNumber": 56
+      }
+    },
+    {
+      "title": "T8: Documentation updated",
+      "description": "Documentation updated",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T8",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Documentation updated",
+        "lineNumber": 57
+      }
+    }
+  ]
+}

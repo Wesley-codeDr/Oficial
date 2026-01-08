@@ -1,0 +1,5440 @@
+{
+  "version": "1.0",
+  "tasks": [
+    {
+      "title": "T1.1.1: Update `package.json` with required dependencies",
+      "description": "Update `package.json` with required dependencies",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.1",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1.1.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.1",
+        "rawLine": "- [x] [B] **T1.1.1** Update `package.json` with required dependencies",
+        "lineNumber": 34
+      }
+    },
+    {
+      "title": "T1.1.2: Configure TypeScript strict mode",
+      "description": "Configure TypeScript strict mode",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.1",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1.1.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.1",
+        "rawLine": "- [x] [P] **T1.1.2** Configure TypeScript strict mode",
+        "lineNumber": 39
+      }
+    },
+    {
+      "title": "T1.1.3: Setup ESLint + Prettier",
+      "description": "Setup ESLint + Prettier",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.1",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1.1.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.1",
+        "rawLine": "- [x] [P] **T1.1.3** Setup ESLint + Prettier",
+        "lineNumber": 43
+      }
+    },
+    {
+      "title": "T1.1.4: Create environment template",
+      "description": "Create environment template",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.1",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1.1.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.1",
+        "rawLine": "- [x] [P] **T1.1.4** Create environment template",
+        "lineNumber": 48
+      }
+    },
+    {
+      "title": "T1.2.1: Update Prisma schema per data-model.md",
+      "description": "Update Prisma schema per data-model.md\n\n**Dependencies:** T1.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.2",
+        "blocking"
+      ],
+      "dependencies": [
+        "T1.1.1"
+      ],
+      "metadata": {
+        "taskId": "T1.2.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.2",
+        "rawLine": "- [x] [B] [D:T1.1.1] **T1.2.1** Update Prisma schema per data-model.md",
+        "lineNumber": 54
+      }
+    },
+    {
+      "title": "T1.2.2: Create initial migration",
+      "description": "Create initial migration\n\n**Dependencies:** T1.2.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.2"
+      ],
+      "dependencies": [
+        "T1.2.1"
+      ],
+      "metadata": {
+        "taskId": "T1.2.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.2",
+        "rawLine": "- [x] [D:T1.2.1] **T1.2.2** Create initial migration",
+        "lineNumber": 65
+      }
+    },
+    {
+      "title": "T1.2.3: Create seed data for syndromes",
+      "description": "Create seed data for syndromes\n\n**Dependencies:** T1.2.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.2"
+      ],
+      "dependencies": [
+        "T1.2.2"
+      ],
+      "metadata": {
+        "taskId": "T1.2.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.2",
+        "rawLine": "- [x] [D:T1.2.2] **T1.2.3** Create seed data for syndromes",
+        "lineNumber": 69
+      }
+    },
+    {
+      "title": "T1.2.4: Configure RLS policies in Supabase",
+      "description": "Configure RLS policies in Supabase\n\n**Dependencies:** T1.2.2",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.2"
+      ],
+      "dependencies": [
+        "T1.2.2"
+      ],
+      "metadata": {
+        "taskId": "T1.2.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.2",
+        "rawLine": "- [ ] [D:T1.2.2] **T1.2.4** Configure RLS policies in Supabase",
+        "lineNumber": 76
+      }
+    },
+    {
+      "title": "T1.3.1: Configure Supabase Auth client",
+      "description": "Configure Supabase Auth client\n\n**Dependencies:** T1.2.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3",
+        "blocking"
+      ],
+      "dependencies": [
+        "T1.2.1"
+      ],
+      "metadata": {
+        "taskId": "T1.3.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.3",
+        "rawLine": "- [x] [B] [D:T1.2.1] **T1.3.1** Configure Supabase Auth client",
+        "lineNumber": 83
+      }
+    },
+    {
+      "title": "T1.3.2: Create auth middleware",
+      "description": "Create auth middleware\n\n**Dependencies:** T1.3.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3"
+      ],
+      "dependencies": [
+        "T1.3.1"
+      ],
+      "metadata": {
+        "taskId": "T1.3.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.3",
+        "rawLine": "- [x] [D:T1.3.1] **T1.3.2** Create auth middleware",
+        "lineNumber": 88
+      }
+    },
+    {
+      "title": "T1.3.3: Create Zustand auth store",
+      "description": "Create Zustand auth store\n\n**Dependencies:** T1.3.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3"
+      ],
+      "dependencies": [
+        "T1.3.1"
+      ],
+      "metadata": {
+        "taskId": "T1.3.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.3",
+        "rawLine": "- [x] [D:T1.3.1] **T1.3.3** Create Zustand auth store",
+        "lineNumber": 94
+      }
+    },
+    {
+      "title": "T1.3.4: Create login page",
+      "description": "Create login page\n\n**Dependencies:** T1.3.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3"
+      ],
+      "dependencies": [
+        "T1.3.2"
+      ],
+      "metadata": {
+        "taskId": "T1.3.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.3",
+        "rawLine": "- [x] [D:T1.3.2] **T1.3.4** Create login page",
+        "lineNumber": 99
+      }
+    },
+    {
+      "title": "T1.3.5: Create forgot password flow",
+      "description": "Create forgot password flow\n\n**Dependencies:** T1.3.4",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.3",
+        "parallel"
+      ],
+      "dependencies": [
+        "T1.3.4"
+      ],
+      "metadata": {
+        "taskId": "T1.3.5",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.3",
+        "rawLine": "- [x] [P] [D:T1.3.4] **T1.3.5** Create forgot password flow",
+        "lineNumber": 105
+      }
+    },
+    {
+      "title": "T1.4.1: Create design tokens",
+      "description": "Create design tokens",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.4",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1.4.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.4",
+        "rawLine": "- [x] [B] **T1.4.1** Create design tokens",
+        "lineNumber": 112
+      }
+    },
+    {
+      "title": "T1.4.2: Update Tailwind config",
+      "description": "Update Tailwind config\n\n**Dependencies:** T1.4.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.4"
+      ],
+      "dependencies": [
+        "T1.4.1"
+      ],
+      "metadata": {
+        "taskId": "T1.4.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.4",
+        "rawLine": "- [x] [D:T1.4.1] **T1.4.2** Update Tailwind config",
+        "lineNumber": 117
+      }
+    },
+    {
+      "title": "T1.4.3: Create base UI components",
+      "description": "Create base UI components\n\n**Dependencies:** T1.4.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.4"
+      ],
+      "dependencies": [
+        "T1.4.2"
+      ],
+      "metadata": {
+        "taskId": "T1.4.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.4",
+        "rawLine": "- [x] [D:T1.4.2] **T1.4.3** Create base UI components",
+        "lineNumber": 123
+      }
+    },
+    {
+      "title": "T1.4.4: Setup dark mode",
+      "description": "Setup dark mode\n\n**Dependencies:** T1.4.3",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 1.4"
+      ],
+      "dependencies": [
+        "T1.4.3"
+      ],
+      "metadata": {
+        "taskId": "T1.4.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 1.4",
+        "rawLine": "- [x] [D:T1.4.3] **T1.4.4** Setup dark mode",
+        "lineNumber": 129
+      }
+    },
+    {
+      "title": "T2.1.1: Create dashboard layout",
+      "description": "Create dashboard layout",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2.1.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.1",
+        "rawLine": "- [x] [B] **T2.1.1** Create dashboard layout",
+        "lineNumber": 140
+      }
+    },
+    {
+      "title": "T2.1.2: Create sidebar component",
+      "description": "Create sidebar component\n\n**Dependencies:** T2.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1"
+      ],
+      "dependencies": [
+        "T2.1.1"
+      ],
+      "metadata": {
+        "taskId": "T2.1.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.1",
+        "rawLine": "- [x] [D:T2.1.1] **T2.1.2** Create sidebar component",
+        "lineNumber": 146
+      }
+    },
+    {
+      "title": "T2.1.3: Create header component",
+      "description": "Create header component\n\n**Dependencies:** T2.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1"
+      ],
+      "dependencies": [
+        "T2.1.1"
+      ],
+      "metadata": {
+        "taskId": "T2.1.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.1",
+        "rawLine": "- [x] [D:T2.1.1] **T2.1.3** Create header component",
+        "lineNumber": 152
+      }
+    },
+    {
+      "title": "T2.1.4: Create user menu component",
+      "description": "Create user menu component\n\n**Dependencies:** T2.1.3",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1"
+      ],
+      "dependencies": [
+        "T2.1.3"
+      ],
+      "metadata": {
+        "taskId": "T2.1.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.1",
+        "rawLine": "- [x] [D:T2.1.3] **T2.1.4** Create user menu component",
+        "lineNumber": 158
+      }
+    },
+    {
+      "title": "T2.1.5: Create split-screen layout",
+      "description": "Create split-screen layout\n\n**Dependencies:** T2.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.1"
+      ],
+      "dependencies": [
+        "T2.1.1"
+      ],
+      "metadata": {
+        "taskId": "T2.1.5",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.1",
+        "rawLine": "- [x] [D:T2.1.1] **T2.1.5** Create split-screen layout",
+        "lineNumber": 164
+      }
+    },
+    {
+      "title": "T2.2.1: Create syndrome selector",
+      "description": "Create syndrome selector",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2.2.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.2",
+        "rawLine": "- [x] [B] **T2.2.1** Create syndrome selector",
+        "lineNumber": 173
+      }
+    },
+    {
+      "title": "T2.2.2: Create checkbox panel",
+      "description": "Create checkbox panel\n\n**Dependencies:** T2.2.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.1"
+      ],
+      "metadata": {
+        "taskId": "T2.2.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.2",
+        "rawLine": "- [x] [D:T2.2.1] **T2.2.2** Create checkbox panel",
+        "lineNumber": 179
+      }
+    },
+    {
+      "title": "T2.2.3: Create checkbox item",
+      "description": "Create checkbox item\n\n**Dependencies:** T2.2.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.2"
+      ],
+      "metadata": {
+        "taskId": "T2.2.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.2",
+        "rawLine": "- [x] [D:T2.2.2] **T2.2.3** Create checkbox item",
+        "lineNumber": 185
+      }
+    },
+    {
+      "title": "T2.2.4: Create text preview panel",
+      "description": "Create text preview panel\n\n**Dependencies:** T2.2.3",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.3"
+      ],
+      "metadata": {
+        "taskId": "T2.2.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.2",
+        "rawLine": "- [x] [D:T2.2.3] **T2.2.4** Create text preview panel",
+        "lineNumber": 192
+      }
+    },
+    {
+      "title": "T2.2.5: Create red flag alert",
+      "description": "Create red flag alert\n\n**Dependencies:** T2.2.4",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.4"
+      ],
+      "metadata": {
+        "taskId": "T2.2.5",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.2",
+        "rawLine": "- [x] [D:T2.2.4] **T2.2.5** Create red flag alert",
+        "lineNumber": 200
+      }
+    },
+    {
+      "title": "T2.2.6: Create copy button",
+      "description": "Create copy button\n\n**Dependencies:** T2.2.4",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.2"
+      ],
+      "dependencies": [
+        "T2.2.4"
+      ],
+      "metadata": {
+        "taskId": "T2.2.6",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.2",
+        "rawLine": "- [x] [D:T2.2.4] **T2.2.6** Create copy button",
+        "lineNumber": 206
+      }
+    },
+    {
+      "title": "T2.3.1: Create chat interface",
+      "description": "Create chat interface",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.3",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2.3.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.3",
+        "rawLine": "- [x] [P] **T2.3.1** Create chat interface",
+        "lineNumber": 214
+      }
+    },
+    {
+      "title": "T2.3.2: Create message bubble",
+      "description": "Create message bubble\n\n**Dependencies:** T2.3.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.3"
+      ],
+      "dependencies": [
+        "T2.3.1"
+      ],
+      "metadata": {
+        "taskId": "T2.3.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.3",
+        "rawLine": "- [x] [D:T2.3.1] **T2.3.2** Create message bubble",
+        "lineNumber": 220
+      }
+    },
+    {
+      "title": "T2.3.3: Create citation card",
+      "description": "Create citation card\n\n**Dependencies:** T2.3.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.3"
+      ],
+      "dependencies": [
+        "T2.3.2"
+      ],
+      "metadata": {
+        "taskId": "T2.3.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.3",
+        "rawLine": "- [x] [D:T2.3.2] **T2.3.3** Create citation card",
+        "lineNumber": 226
+      }
+    },
+    {
+      "title": "T2.3.4: Create typing indicator",
+      "description": "Create typing indicator\n\n**Dependencies:** T2.3.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.3"
+      ],
+      "dependencies": [
+        "T2.3.1"
+      ],
+      "metadata": {
+        "taskId": "T2.3.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.3",
+        "rawLine": "- [x] [D:T2.3.1] **T2.3.4** Create typing indicator",
+        "lineNumber": 232
+      }
+    },
+    {
+      "title": "T2.4.1: Create loading states",
+      "description": "Create loading states",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.4",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2.4.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.4",
+        "rawLine": "- [x] [P] **T2.4.1** Create loading states",
+        "lineNumber": 239
+      }
+    },
+    {
+      "title": "T2.4.2: Create error boundary",
+      "description": "Create error boundary",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.4",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2.4.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.4",
+        "rawLine": "- [x] [P] **T2.4.2** Create error boundary",
+        "lineNumber": 245
+      }
+    },
+    {
+      "title": "T2.4.3: Create toast notifications",
+      "description": "Create toast notifications",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 2.4",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2.4.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 2.4",
+        "rawLine": "- [x] [P] **T2.4.3** Create toast notifications",
+        "lineNumber": 251
+      }
+    },
+    {
+      "title": "T3.1.1: Create template engine",
+      "description": "Create template engine",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3.1.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.1",
+        "rawLine": "- [x] [B] **T3.1.1** Create template engine",
+        "lineNumber": 262
+      }
+    },
+    {
+      "title": "T3.1.2: Create chest pain template",
+      "description": "Create chest pain template\n\n**Dependencies:** T3.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.1"
+      ],
+      "metadata": {
+        "taskId": "T3.1.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.1",
+        "rawLine": "- [x] [D:T3.1.1] **T3.1.2** Create chest pain template",
+        "lineNumber": 267
+      }
+    },
+    {
+      "title": "T3.1.3: Create dyspnea template",
+      "description": "Create dyspnea template\n\n**Dependencies:** T3.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.1"
+      ],
+      "metadata": {
+        "taskId": "T3.1.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.1",
+        "rawLine": "- [x] [D:T3.1.1] **T3.1.3** Create dyspnea template",
+        "lineNumber": 273
+      }
+    },
+    {
+      "title": "T3.1.4: Create acute abdomen template",
+      "description": "Create acute abdomen template\n\n**Dependencies:** T3.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.1"
+      ],
+      "metadata": {
+        "taskId": "T3.1.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.1",
+        "rawLine": "- [x] [D:T3.1.1] **T3.1.4** Create acute abdomen template",
+        "lineNumber": 278
+      }
+    },
+    {
+      "title": "T3.1.5: Create text generator service",
+      "description": "Create text generator service\n\n**Dependencies:** T3.1.2,T3.1.3,T3.1.4",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.2,T3.1.3,T3.1.4"
+      ],
+      "metadata": {
+        "taskId": "T3.1.5",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.1",
+        "rawLine": "- [x] [D:T3.1.2,T3.1.3,T3.1.4] **T3.1.5** Create text generator service",
+        "lineNumber": 283
+      }
+    },
+    {
+      "title": "T3.1.6: Create negative statement generator",
+      "description": "Create negative statement generator\n\n**Dependencies:** T3.1.5",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.1"
+      ],
+      "dependencies": [
+        "T3.1.5"
+      ],
+      "metadata": {
+        "taskId": "T3.1.6",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.1",
+        "rawLine": "- [x] [D:T3.1.5] **T3.1.6** Create negative statement generator",
+        "lineNumber": 290
+      }
+    },
+    {
+      "title": "T3.2.1: Create red flag detector",
+      "description": "Create red flag detector",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.2",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3.2.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.2",
+        "rawLine": "- [x] [B] **T3.2.1** Create red flag detector",
+        "lineNumber": 297
+      }
+    },
+    {
+      "title": "T3.2.2: Create condition evaluator",
+      "description": "Create condition evaluator\n\n**Dependencies:** T3.2.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.2"
+      ],
+      "dependencies": [
+        "T3.2.1"
+      ],
+      "metadata": {
+        "taskId": "T3.2.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.2",
+        "rawLine": "- [x] [D:T3.2.1] **T3.2.2** Create condition evaluator",
+        "lineNumber": 303
+      }
+    },
+    {
+      "title": "T3.2.3: Create severity classifier",
+      "description": "Create severity classifier\n\n**Dependencies:** T3.2.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.2"
+      ],
+      "dependencies": [
+        "T3.2.1"
+      ],
+      "metadata": {
+        "taskId": "T3.2.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.2",
+        "rawLine": "- [x] [D:T3.2.1] **T3.2.3** Create severity classifier",
+        "lineNumber": 308
+      }
+    },
+    {
+      "title": "T3.3.1: Create syndromes endpoints",
+      "description": "Create syndromes endpoints",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.3",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3.3.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.3",
+        "rawLine": "- [x] [B] **T3.3.1** Create syndromes endpoints",
+        "lineNumber": 315
+      }
+    },
+    {
+      "title": "T3.3.2: Create anamnese generate endpoint",
+      "description": "Create anamnese generate endpoint\n\n**Dependencies:** T3.3.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.3"
+      ],
+      "dependencies": [
+        "T3.3.1"
+      ],
+      "metadata": {
+        "taskId": "T3.3.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.3",
+        "rawLine": "- [x] [D:T3.3.1] **T3.3.2** Create anamnese generate endpoint",
+        "lineNumber": 321
+      }
+    },
+    {
+      "title": "T3.3.3: Create sessions endpoints",
+      "description": "Create sessions endpoints\n\n**Dependencies:** T3.3.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.3"
+      ],
+      "dependencies": [
+        "T3.3.2"
+      ],
+      "metadata": {
+        "taskId": "T3.3.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.3",
+        "rawLine": "- [x] [D:T3.3.2] **T3.3.3** Create sessions endpoints",
+        "lineNumber": 327
+      }
+    },
+    {
+      "title": "T3.4.1: Create anamnese store",
+      "description": "Create anamnese store",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.4",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3.4.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.4",
+        "rawLine": "- [x] [B] **T3.4.1** Create anamnese store",
+        "lineNumber": 337
+      }
+    },
+    {
+      "title": "T3.4.2: Create syndromes hook",
+      "description": "Create syndromes hook\n\n**Dependencies:** T3.4.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.4"
+      ],
+      "dependencies": [
+        "T3.4.1"
+      ],
+      "metadata": {
+        "taskId": "T3.4.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.4",
+        "rawLine": "- [x] [D:T3.4.1] **T3.4.2** Create syndromes hook",
+        "lineNumber": 342
+      }
+    },
+    {
+      "title": "T3.4.3: Create anamnese hook",
+      "description": "Create anamnese hook\n\n**Dependencies:** T3.4.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.4"
+      ],
+      "dependencies": [
+        "T3.4.2"
+      ],
+      "metadata": {
+        "taskId": "T3.4.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.4",
+        "rawLine": "- [x] [D:T3.4.2] **T3.4.3** Create anamnese hook",
+        "lineNumber": 347
+      }
+    },
+    {
+      "title": "T3.5.1: Create syndrome selection page",
+      "description": "Create syndrome selection page\n\n**Dependencies:** T3.4.3",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.5"
+      ],
+      "dependencies": [
+        "T3.4.3"
+      ],
+      "metadata": {
+        "taskId": "T3.5.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.5",
+        "rawLine": "- [x] [D:T3.4.3] **T3.5.1** Create syndrome selection page",
+        "lineNumber": 355
+      }
+    },
+    {
+      "title": "T3.5.2: Create anamnese generator page",
+      "description": "Create anamnese generator page\n\n**Dependencies:** T3.5.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.5"
+      ],
+      "dependencies": [
+        "T3.5.1"
+      ],
+      "metadata": {
+        "taskId": "T3.5.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.5",
+        "rawLine": "- [x] [D:T3.5.1] **T3.5.2** Create anamnese generator page",
+        "lineNumber": 360
+      }
+    },
+    {
+      "title": "T3.5.3: Create history page",
+      "description": "Create history page\n\n**Dependencies:** T3.5.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 3.5"
+      ],
+      "dependencies": [
+        "T3.5.2"
+      ],
+      "metadata": {
+        "taskId": "T3.5.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 3.5",
+        "rawLine": "- [x] [D:T3.5.2] **T3.5.3** Create history page",
+        "lineNumber": 369
+      }
+    },
+    {
+      "title": "T4.1.1: Setup Vercel AI SDK",
+      "description": "Setup Vercel AI SDK",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.1",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4.1.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.1",
+        "rawLine": "- [x] [B] **T4.1.1** Setup Vercel AI SDK",
+        "lineNumber": 381
+      }
+    },
+    {
+      "title": "T4.1.2: Create system prompts",
+      "description": "Create system prompts\n\n**Dependencies:** T4.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.1"
+      ],
+      "dependencies": [
+        "T4.1.1"
+      ],
+      "metadata": {
+        "taskId": "T4.1.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.1",
+        "rawLine": "- [x] [D:T4.1.1] **T4.1.2** Create system prompts",
+        "lineNumber": 386
+      }
+    },
+    {
+      "title": "T4.1.3: Create context builder",
+      "description": "Create context builder\n\n**Dependencies:** T4.1.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.1"
+      ],
+      "dependencies": [
+        "T4.1.2"
+      ],
+      "metadata": {
+        "taskId": "T4.1.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.1",
+        "rawLine": "- [x] [D:T4.1.2] **T4.1.3** Create context builder",
+        "lineNumber": 394
+      }
+    },
+    {
+      "title": "T4.1.4: Create citation extractor",
+      "description": "Create citation extractor\n\n**Dependencies:** T4.1.3",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.1"
+      ],
+      "dependencies": [
+        "T4.1.3"
+      ],
+      "metadata": {
+        "taskId": "T4.1.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.1",
+        "rawLine": "- [x] [D:T4.1.3] **T4.1.4** Create citation extractor",
+        "lineNumber": 400
+      }
+    },
+    {
+      "title": "T4.2.1: Create streaming chat endpoint",
+      "description": "Create streaming chat endpoint",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.2",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4.2.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.2",
+        "rawLine": "- [x] [B] **T4.2.1** Create streaming chat endpoint",
+        "lineNumber": 408
+      }
+    },
+    {
+      "title": "T4.2.2: Create conversation endpoints",
+      "description": "Create conversation endpoints\n\n**Dependencies:** T4.2.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.2"
+      ],
+      "dependencies": [
+        "T4.2.1"
+      ],
+      "metadata": {
+        "taskId": "T4.2.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.2",
+        "rawLine": "- [x] [D:T4.2.1] **T4.2.2** Create conversation endpoints",
+        "lineNumber": 414
+      }
+    },
+    {
+      "title": "T4.2.3: Create streaming client hook",
+      "description": "Create streaming client hook\n\n**Dependencies:** T4.2.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.2"
+      ],
+      "dependencies": [
+        "T4.2.2"
+      ],
+      "metadata": {
+        "taskId": "T4.2.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.2",
+        "rawLine": "- [x] [D:T4.2.2] **T4.2.3** Create streaming client hook",
+        "lineNumber": 420
+      }
+    },
+    {
+      "title": "T4.3.1: Create data validation",
+      "description": "Create data validation\n\n**Dependencies:** T4.1.4",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.3"
+      ],
+      "dependencies": [
+        "T4.1.4"
+      ],
+      "metadata": {
+        "taskId": "T4.3.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.3",
+        "rawLine": "- [x] [D:T4.1.4] **T4.3.1** Create data validation",
+        "lineNumber": 429
+      }
+    },
+    {
+      "title": "T4.3.2: Create red flag injection",
+      "description": "Create red flag injection\n\n**Dependencies:** T4.3.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.3"
+      ],
+      "dependencies": [
+        "T4.3.1"
+      ],
+      "metadata": {
+        "taskId": "T4.3.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.3",
+        "rawLine": "- [x] [D:T4.3.1] **T4.3.2** Create red flag injection",
+        "lineNumber": 434
+      }
+    },
+    {
+      "title": "T4.3.3: Create disclaimer system",
+      "description": "Create disclaimer system\n\n**Dependencies:** T4.3.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.3"
+      ],
+      "dependencies": [
+        "T4.3.2"
+      ],
+      "metadata": {
+        "taskId": "T4.3.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.3",
+        "rawLine": "- [x] [D:T4.3.2] **T4.3.3** Create disclaimer system",
+        "lineNumber": 439
+      }
+    },
+    {
+      "title": "T4.4.1: Create chat page",
+      "description": "Create chat page\n\n**Dependencies:** T4.2.3,T4.3.3",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.4"
+      ],
+      "dependencies": [
+        "T4.2.3,T4.3.3"
+      ],
+      "metadata": {
+        "taskId": "T4.4.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.4",
+        "rawLine": "- [x] [D:T4.2.3,T4.3.3] **T4.4.1** Create chat page",
+        "lineNumber": 446
+      }
+    },
+    {
+      "title": "T4.4.2: Integrate chat with anamnese",
+      "description": "Integrate chat with anamnese\n\n**Dependencies:** T4.4.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 4.4"
+      ],
+      "dependencies": [
+        "T4.4.1"
+      ],
+      "metadata": {
+        "taskId": "T4.4.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 4.4",
+        "rawLine": "- [x] [D:T4.4.1] **T4.4.2** Integrate chat with anamnese",
+        "lineNumber": 452
+      }
+    },
+    {
+      "title": "T5.1.1: Setup Vitest",
+      "description": "Setup Vitest",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.1",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5.1.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.1",
+        "rawLine": "- [x] [P] **T5.1.1** Setup Vitest",
+        "lineNumber": 463
+      }
+    },
+    {
+      "title": "T5.1.2: Test text generator",
+      "description": "Test text generator\n\n**Dependencies:** T5.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.1"
+      ],
+      "dependencies": [
+        "T5.1.1"
+      ],
+      "metadata": {
+        "taskId": "T5.1.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.1",
+        "rawLine": "- [x] [D:T5.1.1] **T5.1.2** Test text generator",
+        "lineNumber": 468
+      }
+    },
+    {
+      "title": "T5.1.3: Test red flag detector",
+      "description": "Test red flag detector\n\n**Dependencies:** T5.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.1"
+      ],
+      "dependencies": [
+        "T5.1.1"
+      ],
+      "metadata": {
+        "taskId": "T5.1.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.1",
+        "rawLine": "- [x] [D:T5.1.1] **T5.1.3** Test red flag detector",
+        "lineNumber": 473
+      }
+    },
+    {
+      "title": "T5.1.4: Test AI modules",
+      "description": "Test AI modules\n\n**Dependencies:** T5.1.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.1"
+      ],
+      "dependencies": [
+        "T5.1.1"
+      ],
+      "metadata": {
+        "taskId": "T5.1.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.1",
+        "rawLine": "- [x] [D:T5.1.1] **T5.1.4** Test AI modules",
+        "lineNumber": 478
+      }
+    },
+    {
+      "title": "T5.2.1: Test API endpoints",
+      "description": "Test API endpoints\n\n**Dependencies:** T5.1.1",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.2"
+      ],
+      "dependencies": [
+        "T5.1.1"
+      ],
+      "metadata": {
+        "taskId": "T5.2.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.2",
+        "rawLine": "- [ ] [D:T5.1.1] **T5.2.1** Test API endpoints",
+        "lineNumber": 488
+      }
+    },
+    {
+      "title": "T5.2.2: Test database operations",
+      "description": "Test database operations\n\n**Dependencies:** T5.2.1",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.2"
+      ],
+      "dependencies": [
+        "T5.2.1"
+      ],
+      "metadata": {
+        "taskId": "T5.2.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.2",
+        "rawLine": "- [ ] [D:T5.2.1] **T5.2.2** Test database operations",
+        "lineNumber": 495
+      }
+    },
+    {
+      "title": "T5.3.1: Setup Playwright",
+      "description": "Setup Playwright",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5.3.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.3",
+        "rawLine": "- [x] [P] **T5.3.1** Setup Playwright",
+        "lineNumber": 502
+      }
+    },
+    {
+      "title": "T5.3.2: Test auth flow",
+      "description": "Test auth flow\n\n**Dependencies:** T5.3.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3"
+      ],
+      "dependencies": [
+        "T5.3.1"
+      ],
+      "metadata": {
+        "taskId": "T5.3.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.3",
+        "rawLine": "- [x] [D:T5.3.1] **T5.3.2** Test auth flow",
+        "lineNumber": 507
+      }
+    },
+    {
+      "title": "T5.3.3: Test anamnese flow",
+      "description": "Test anamnese flow\n\n**Dependencies:** T5.3.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3"
+      ],
+      "dependencies": [
+        "T5.3.2"
+      ],
+      "metadata": {
+        "taskId": "T5.3.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.3",
+        "rawLine": "- [x] [D:T5.3.2] **T5.3.3** Test anamnese flow",
+        "lineNumber": 512
+      }
+    },
+    {
+      "title": "T5.3.4: Test chat flow",
+      "description": "Test chat flow\n\n**Dependencies:** T5.3.3",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3"
+      ],
+      "dependencies": [
+        "T5.3.3"
+      ],
+      "metadata": {
+        "taskId": "T5.3.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.3",
+        "rawLine": "- [x] [D:T5.3.3] **T5.3.4** Test chat flow",
+        "lineNumber": 517
+      }
+    },
+    {
+      "title": "T5.3.5: Test home page",
+      "description": "Test home page",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.3"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5.3.5",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.3",
+        "rawLine": "- [x] **T5.3.5** Test home page",
+        "lineNumber": 522
+      }
+    },
+    {
+      "title": "T5.4.1: Bundle analysis",
+      "description": "Bundle analysis",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.4",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5.4.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.4",
+        "rawLine": "- [x] [P] **T5.4.1** Bundle analysis",
+        "lineNumber": 530
+      }
+    },
+    {
+      "title": "T5.4.2: API optimization",
+      "description": "API optimization\n\n**Dependencies:** T5.4.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.4"
+      ],
+      "dependencies": [
+        "T5.4.1"
+      ],
+      "metadata": {
+        "taskId": "T5.4.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.4",
+        "rawLine": "- [x] [D:T5.4.1] **T5.4.2** API optimization",
+        "lineNumber": 536
+      }
+    },
+    {
+      "title": "T5.4.3: Loading states",
+      "description": "Loading states\n\n**Dependencies:** T5.4.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.4"
+      ],
+      "dependencies": [
+        "T5.4.2"
+      ],
+      "metadata": {
+        "taskId": "T5.4.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.4",
+        "rawLine": "- [x] [D:T5.4.2] **T5.4.3** Loading states",
+        "lineNumber": 541
+      }
+    },
+    {
+      "title": "T5.5.1: Error boundaries",
+      "description": "Error boundaries",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.5",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5.5.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.5",
+        "rawLine": "- [x] [P] **T5.5.1** Error boundaries",
+        "lineNumber": 548
+      }
+    },
+    {
+      "title": "T5.5.2: API error handling",
+      "description": "API error handling\n\n**Dependencies:** T5.5.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.5"
+      ],
+      "dependencies": [
+        "T5.5.1"
+      ],
+      "metadata": {
+        "taskId": "T5.5.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.5",
+        "rawLine": "- [x] [D:T5.5.1] **T5.5.2** API error handling",
+        "lineNumber": 555
+      }
+    },
+    {
+      "title": "T5.5.3: Offline detection",
+      "description": "Offline detection\n\n**Dependencies:** T5.5.2",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.5"
+      ],
+      "dependencies": [
+        "T5.5.2"
+      ],
+      "metadata": {
+        "taskId": "T5.5.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.5",
+        "rawLine": "- [ ] [D:T5.5.2] **T5.5.3** Offline detection",
+        "lineNumber": 560
+      }
+    },
+    {
+      "title": "T5.6.1: Configure Sentry",
+      "description": "Configure Sentry",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.6",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5.6.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.6",
+        "rawLine": "- [x] [B] **T5.6.1** Configure Sentry",
+        "lineNumber": 567
+      }
+    },
+    {
+      "title": "T5.6.2: Add analytics events",
+      "description": "Add analytics events\n\n**Dependencies:** T5.6.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 5.6"
+      ],
+      "dependencies": [
+        "T5.6.1"
+      ],
+      "metadata": {
+        "taskId": "T5.6.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 5.6",
+        "rawLine": "- [x] [D:T5.6.1] **T5.6.2** Add analytics events",
+        "lineNumber": 574
+      }
+    },
+    {
+      "title": "T6.1.1: Generate API docs",
+      "description": "Generate API docs",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.1",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6.1.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.1",
+        "rawLine": "- [x] [P] **T6.1.1** Generate API docs",
+        "lineNumber": 589
+      }
+    },
+    {
+      "title": "T6.1.2: Update README",
+      "description": "Update README",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.1",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6.1.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.1",
+        "rawLine": "- [x] [P] **T6.1.2** Update README",
+        "lineNumber": 594
+      }
+    },
+    {
+      "title": "T6.1.3: Create user guide",
+      "description": "Create user guide",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.1",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6.1.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.1",
+        "rawLine": "- [x] [P] **T6.1.3** Create user guide",
+        "lineNumber": 601
+      }
+    },
+    {
+      "title": "T6.2.1: Dependency audit",
+      "description": "Dependency audit",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.2",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6.2.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.2",
+        "rawLine": "- [x] [B] **T6.2.1** Dependency audit",
+        "lineNumber": 609
+      }
+    },
+    {
+      "title": "T6.2.2: RLS verification",
+      "description": "RLS verification\n\n**Dependencies:** T6.2.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.2"
+      ],
+      "dependencies": [
+        "T6.2.1"
+      ],
+      "metadata": {
+        "taskId": "T6.2.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.2",
+        "rawLine": "- [x] [D:T6.2.1] **T6.2.2** RLS verification",
+        "lineNumber": 615
+      }
+    },
+    {
+      "title": "T6.2.3: Auth review",
+      "description": "Auth review\n\n**Dependencies:** T6.2.2",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.2"
+      ],
+      "dependencies": [
+        "T6.2.2"
+      ],
+      "metadata": {
+        "taskId": "T6.2.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.2",
+        "rawLine": "- [x] [D:T6.2.2] **T6.2.3** Auth review",
+        "lineNumber": 621
+      }
+    },
+    {
+      "title": "T6.2.4: LGPD compliance check",
+      "description": "LGPD compliance check\n\n**Dependencies:** T6.2.3",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.2"
+      ],
+      "dependencies": [
+        "T6.2.3"
+      ],
+      "metadata": {
+        "taskId": "T6.2.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.2",
+        "rawLine": "- [x] [D:T6.2.3] **T6.2.4** LGPD compliance check",
+        "lineNumber": 628
+      }
+    },
+    {
+      "title": "T6.3.1: Configure CI/CD",
+      "description": "Configure CI/CD",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.3",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6.3.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.3",
+        "rawLine": "- [x] [B] **T6.3.1** Configure CI/CD",
+        "lineNumber": 636
+      }
+    },
+    {
+      "title": "T6.3.2: Configure production env",
+      "description": "Configure production env\n\n**Dependencies:** T6.3.1",
+      "status": "done",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.3"
+      ],
+      "dependencies": [
+        "T6.3.1"
+      ],
+      "metadata": {
+        "taskId": "T6.3.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.3",
+        "rawLine": "- [x] [D:T6.3.1] **T6.3.2** Configure production env",
+        "lineNumber": 643
+      }
+    },
+    {
+      "title": "T6.3.3: Database migration",
+      "description": "Database migration\n\n**Dependencies:** T6.3.2",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.3"
+      ],
+      "dependencies": [
+        "T6.3.2"
+      ],
+      "metadata": {
+        "taskId": "T6.3.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.3",
+        "rawLine": "- [ ] [D:T6.3.2] **T6.3.3** Database migration",
+        "lineNumber": 649
+      }
+    },
+    {
+      "title": "T6.3.4: Deploy to production",
+      "description": "Deploy to production\n\n**Dependencies:** T6.3.3",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.3"
+      ],
+      "dependencies": [
+        "T6.3.3"
+      ],
+      "metadata": {
+        "taskId": "T6.3.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.3",
+        "rawLine": "- [ ] [D:T6.3.3] **T6.3.4** Deploy to production",
+        "lineNumber": 654
+      }
+    },
+    {
+      "title": "T6.4.1: Smoke tests",
+      "description": "Smoke tests\n\n**Dependencies:** T6.3.4",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.4"
+      ],
+      "dependencies": [
+        "T6.3.4"
+      ],
+      "metadata": {
+        "taskId": "T6.4.1",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.4",
+        "rawLine": "- [ ] [D:T6.3.4] **T6.4.1** Smoke tests",
+        "lineNumber": 661
+      }
+    },
+    {
+      "title": "T6.4.2: Configure alerts",
+      "description": "Configure alerts\n\n**Dependencies:** T6.4.1",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.4"
+      ],
+      "dependencies": [
+        "T6.4.1"
+      ],
+      "metadata": {
+        "taskId": "T6.4.2",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.4",
+        "rawLine": "- [ ] [D:T6.4.1] **T6.4.2** Configure alerts",
+        "lineNumber": 667
+      }
+    },
+    {
+      "title": "T6.4.3: Backup verification",
+      "description": "Backup verification\n\n**Dependencies:** T6.4.2",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.4"
+      ],
+      "dependencies": [
+        "T6.4.2"
+      ],
+      "metadata": {
+        "taskId": "T6.4.3",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.4",
+        "rawLine": "- [ ] [D:T6.4.2] **T6.4.3** Backup verification",
+        "lineNumber": 672
+      }
+    },
+    {
+      "title": "T6.4.4: Rollback plan",
+      "description": "Rollback plan\n\n**Dependencies:** T6.4.3",
+      "status": "todo",
+      "labels": [
+        "spec:001-wellwave-mvp",
+        "phase:Phase 6.4"
+      ],
+      "dependencies": [
+        "T6.4.3"
+      ],
+      "metadata": {
+        "taskId": "T6.4.4",
+        "spec": "001-wellwave-mvp",
+        "phase": "Phase 6.4",
+        "rawLine": "- [ ] [D:T6.4.3] **T6.4.4** Rollback plan",
+        "lineNumber": 677
+      }
+    },
+    {
+      "title": "T1.1: Project setup and configuration",
+      "description": "Project setup and configuration",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "blocking"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1.1",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [B] **T1.1** Project setup and configuration",
+        "lineNumber": 18
+      }
+    },
+    {
+      "title": "T1.2: Database schema updates",
+      "description": "Database schema updates\n\n**Dependencies:** T1.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T1.1"
+      ],
+      "metadata": {
+        "taskId": "T1.2",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T1.1] **T1.2** Database schema updates",
+        "lineNumber": 19
+      }
+    },
+    {
+      "title": "T1.3: Environment configuration",
+      "description": "Environment configuration\n\n**Dependencies:** T1.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T1.1"
+      ],
+      "metadata": {
+        "taskId": "T1.3",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T1.1] **T1.3** Environment configuration",
+        "lineNumber": 20
+      }
+    },
+    {
+      "title": "T2.1: Checkbox system implementation",
+      "description": "Checkbox system implementation\n\n**Dependencies:** T1.2",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T1.2"
+      ],
+      "metadata": {
+        "taskId": "T2.1",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T1.2] **T2.1** Checkbox system implementation",
+        "lineNumber": 24
+      }
+    },
+    {
+      "title": "T2.2: Text generation engine",
+      "description": "Text generation engine\n\n**Dependencies:** T2.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T2.1"
+      ],
+      "metadata": {
+        "taskId": "T2.2",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T2.1] **T2.2** Text generation engine",
+        "lineNumber": 25
+      }
+    },
+    {
+      "title": "T2.3: Split-screen interface",
+      "description": "Split-screen interface",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2.3",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [P] **T2.3** Split-screen interface",
+        "lineNumber": 26
+      }
+    },
+    {
+      "title": "T3.1: Chat EBM integration",
+      "description": "Chat EBM integration\n\n**Dependencies:** T2.2",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T2.2"
+      ],
+      "metadata": {
+        "taskId": "T3.1",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T2.2] **T3.1** Chat EBM integration",
+        "lineNumber": 30
+      }
+    },
+    {
+      "title": "T3.2: Red flag detection",
+      "description": "Red flag detection\n\n**Dependencies:** T2.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T2.1"
+      ],
+      "metadata": {
+        "taskId": "T3.2",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T2.1] **T3.2** Red flag detection",
+        "lineNumber": 31
+      }
+    },
+    {
+      "title": "T3.3: Export functionality",
+      "description": "Export functionality",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3.3",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [P] **T3.3** Export functionality",
+        "lineNumber": 32
+      }
+    },
+    {
+      "title": "T4.1: Testing suite",
+      "description": "Testing suite\n\n**Dependencies:** T3.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T3.1"
+      ],
+      "metadata": {
+        "taskId": "T4.1",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T3.1] **T4.1** Testing suite",
+        "lineNumber": 36
+      }
+    },
+    {
+      "title": "T4.2: Documentation",
+      "description": "Documentation",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4.2",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [P] **T4.2** Documentation",
+        "lineNumber": 37
+      }
+    },
+    {
+      "title": "T4.3: Deployment",
+      "description": "Deployment\n\n**Dependencies:** T4.1",
+      "status": "todo",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T4.1"
+      ],
+      "metadata": {
+        "taskId": "T4.3",
+        "spec": "002-wellwave-platform",
+        "phase": "Unknown",
+        "rawLine": "- [ ] [D:T4.1] **T4.3** Deployment",
+        "lineNumber": 38
+      }
+    },
+    {
+      "title": "T1: Resolve `alert` usage (replace with Toast or console).",
+      "description": "Resolve `alert` usage (replace with Toast or console).",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Resolve `alert` usage (replace with Toast or console).",
+        "lineNumber": 10
+      }
+    },
+    {
+      "title": "T2: Resolve `Navigator` type error or undefined variable.",
+      "description": "Resolve `Navigator` type error or undefined variable.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Resolve `Navigator` type error or undefined variable.",
+        "lineNumber": 11
+      }
+    },
+    {
+      "title": "T3: Ensure `FlashAnamnesisFlow` is correctly imported and used.",
+      "description": "Ensure `FlashAnamnesisFlow` is correctly imported and used.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure `FlashAnamnesisFlow` is correctly imported and used.",
+        "lineNumber": 12
+      }
+    },
+    {
+      "title": "T4: **Implement `FlashTemplateSelection` Component** <!-- id: 2 -->",
+      "description": "**Implement `FlashTemplateSelection` Component** <!-- id: 2 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement `FlashTemplateSelection` Component** <!-- id: 2 -->",
+        "lineNumber": 14
+      }
+    },
+    {
+      "title": "T5: Create `components/medical/FlashTemplateSelection.tsx`.",
+      "description": "Create `components/medical/FlashTemplateSelection.tsx`.\n\n**Files:**\n- `components/medical/FlashTemplateSelection.tsx`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "components/medical/FlashTemplateSelection.tsx"
+        ],
+        "rawLine": "- [x] Create `components/medical/FlashTemplateSelection.tsx`.",
+        "lineNumber": 15
+      }
+    },
+    {
+      "title": "T6: List templates from `flashTemplates.ts`.",
+      "description": "List templates from `flashTemplates.ts`.\n\n**Files:**\n- `flashTemplates.ts`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "flashTemplates.ts"
+        ],
+        "rawLine": "- [x] List templates from `flashTemplates.ts`.",
+        "lineNumber": 16
+      }
+    },
+    {
+      "title": "T7: styling: Glassmorphism cards.",
+      "description": "styling: Glassmorphism cards.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T7",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] styling: Glassmorphism cards.",
+        "lineNumber": 17
+      }
+    },
+    {
+      "title": "T8: **Implement `FlashForm` Component** <!-- id: 3 -->",
+      "description": "**Implement `FlashForm` Component** <!-- id: 3 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T8",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement `FlashForm` Component** <!-- id: 3 -->",
+        "lineNumber": 19
+      }
+    },
+    {
+      "title": "T9: Create `components/medical/FlashForm.tsx`.",
+      "description": "Create `components/medical/FlashForm.tsx`.\n\n**Files:**\n- `components/medical/FlashForm.tsx`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T9",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "components/medical/FlashForm.tsx"
+        ],
+        "rawLine": "- [x] Create `components/medical/FlashForm.tsx`.",
+        "lineNumber": 20
+      }
+    },
+    {
+      "title": "T10: Add inputs for standard vitals (PA, FC, Temp, SpO2).",
+      "description": "Add inputs for standard vitals (PA, FC, Temp, SpO2).",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T10",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add inputs for standard vitals (PA, FC, Temp, SpO2).",
+        "lineNumber": 21
+      }
+    },
+    {
+      "title": "T11: Add inputs for specific template variables if needed.",
+      "description": "Add inputs for specific template variables if needed.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T11",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add inputs for specific template variables if needed.",
+        "lineNumber": 22
+      }
+    },
+    {
+      "title": "T12: **Implement `FlashPreview` Component** <!-- id: 4 -->",
+      "description": "**Implement `FlashPreview` Component** <!-- id: 4 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T12",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement `FlashPreview` Component** <!-- id: 4 -->",
+        "lineNumber": 24
+      }
+    },
+    {
+      "title": "T13: Create `components/medical/FlashPreview.tsx`.",
+      "description": "Create `components/medical/FlashPreview.tsx`.\n\n**Files:**\n- `components/medical/FlashPreview.tsx`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T13",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "components/medical/FlashPreview.tsx"
+        ],
+        "rawLine": "- [x] Create `components/medical/FlashPreview.tsx`.",
+        "lineNumber": 25
+      }
+    },
+    {
+      "title": "T14: Display `queixa_principal`, `exame_fisico`, `hipotese_diagnostica`, `conduta`, `",
+      "description": "Display `queixa_principal`, `exame_fisico`, `hipotese_diagnostica`, `conduta`, `cid`.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T14",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Display `queixa_principal`, `exame_fisico`, `hipotese_diagnostica`, `conduta`, `cid`.",
+        "lineNumber": 26
+      }
+    },
+    {
+      "title": "T15: Add \"Copy to Clipboard\" button.",
+      "description": "Add \"Copy to Clipboard\" button.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T15",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add \"Copy to Clipboard\" button.",
+        "lineNumber": 27
+      }
+    },
+    {
+      "title": "T16: **Integrate Components into `FlashAnamnesisFlow`** <!-- id: 5 -->",
+      "description": "**Integrate Components into `FlashAnamnesisFlow`** <!-- id: 5 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T16",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Integrate Components into `FlashAnamnesisFlow`** <!-- id: 5 -->",
+        "lineNumber": 29
+      }
+    },
+    {
+      "title": "T17: Update `FlashAnamnesisFlow.tsx` to render the new components based on `step`.",
+      "description": "Update `FlashAnamnesisFlow.tsx` to render the new components based on `step`.\n\n**Files:**\n- `FlashAnamnesisFlow.tsx`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T17",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "FlashAnamnesisFlow.tsx"
+        ],
+        "rawLine": "- [x] Update `FlashAnamnesisFlow.tsx` to render the new components based on `step`.",
+        "lineNumber": 30
+      }
+    },
+    {
+      "title": "T18: Ensure state is passed correctly.",
+      "description": "Ensure state is passed correctly.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T18",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure state is passed correctly.",
+        "lineNumber": 31
+      }
+    },
+    {
+      "title": "T19: **Implement `FlashPatientEntry` Enhancements** <!-- id: 7 -->",
+      "description": "**Implement `FlashPatientEntry` Enhancements** <!-- id: 7 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T19",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement `FlashPatientEntry` Enhancements** <!-- id: 7 -->",
+        "lineNumber": 33
+      }
+    },
+    {
+      "title": "T20: Add \"Gestante\" button with specific styling (glassmorphism, pink, icon).",
+      "description": "Add \"Gestante\" button with specific styling (glassmorphism, pink, icon).",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T20",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add \"Gestante\" button with specific styling (glassmorphism, pink, icon).",
+        "lineNumber": 34
+      }
+    },
+    {
+      "title": "T21: Handle mutually exclusive logic for gender selection.",
+      "description": "Handle mutually exclusive logic for gender selection.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T21",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Handle mutually exclusive logic for gender selection.",
+        "lineNumber": 35
+      }
+    },
+    {
+      "title": "T22: Update `FlashAnamnesisFlow` to handle `isPregnant` state.",
+      "description": "Update `FlashAnamnesisFlow` to handle `isPregnant` state.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T22",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Update `FlashAnamnesisFlow` to handle `isPregnant` state.",
+        "lineNumber": 36
+      }
+    },
+    {
+      "title": "T23: Integrate with `flashTemplates.ts` (enforce 'F' gender, append status).",
+      "description": "Integrate with `flashTemplates.ts` (enforce 'F' gender, append status).\n\n**Files:**\n- `flashTemplates.ts`",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T23",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "files": [
+          "flashTemplates.ts"
+        ],
+        "rawLine": "- [x] Integrate with `flashTemplates.ts` (enforce 'F' gender, append status).",
+        "lineNumber": 37
+      }
+    },
+    {
+      "title": "T24: **Refactor `FlashPatientEntry` UI** <!-- id: 8 -->",
+      "description": "**Refactor `FlashPatientEntry` UI** <!-- id: 8 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T24",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Refactor `FlashPatientEntry` UI** <!-- id: 8 -->",
+        "lineNumber": 39
+      }
+    },
+    {
+      "title": "T25: Remove top-level \"Gestante\" button from gender grid.",
+      "description": "Remove top-level \"Gestante\" button from gender grid.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T25",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Remove top-level \"Gestante\" button from gender grid.",
+        "lineNumber": 40
+      }
+    },
+    {
+      "title": "T26: Implement conditional \"Gestante\" toggle that appears only when \"Feminino\" is sel",
+      "description": "Implement conditional \"Gestante\" toggle that appears only when \"Feminino\" is selected.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T26",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Implement conditional \"Gestante\" toggle that appears only when \"Feminino\" is selected.",
+        "lineNumber": 41
+      }
+    },
+    {
+      "title": "T27: Ensure \"Masculino\" selection clears `isPregnant` state.",
+      "description": "Ensure \"Masculino\" selection clears `isPregnant` state.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T27",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure \"Masculino\" selection clears `isPregnant` state.",
+        "lineNumber": 42
+      }
+    },
+    {
+      "title": "T28: Animate the appearance of the \"Gestante\" option.",
+      "description": "Animate the appearance of the \"Gestante\" option.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T28",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Animate the appearance of the \"Gestante\" option.",
+        "lineNumber": 43
+      }
+    },
+    {
+      "title": "T29: **Enhance `FlashForm` Duration Input** <!-- id: 9 -->",
+      "description": "**Enhance `FlashForm` Duration Input** <!-- id: 9 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T29",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Enhance `FlashForm` Duration Input** <!-- id: 9 -->",
+        "lineNumber": 45
+      }
+    },
+    {
+      "title": "T30: Replace text input for \"Tempo de Sintomas\" with a button grid.",
+      "description": "Replace text input for \"Tempo de Sintomas\" with a button grid.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T30",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Replace text input for \"Tempo de Sintomas\" with a button grid.",
+        "lineNumber": 46
+      }
+    },
+    {
+      "title": "T31: Add common presets: \"1 dia\", \"2 dias\", \"3 dias\", \"5 dias\", \"7 dias\", \"> 7 dias\".",
+      "description": "Add common presets: \"1 dia\", \"2 dias\", \"3 dias\", \"5 dias\", \"7 dias\", \"> 7 dias\".",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T31",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Add common presets: \"1 dia\", \"2 dias\", \"3 dias\", \"5 dias\", \"7 dias\", \"> 7 dias\".",
+        "lineNumber": 47
+      }
+    },
+    {
+      "title": "T32: Allow manual override if needed (e.g., \"Outro\" button or double-click behavior, ",
+      "description": "Allow manual override if needed (e.g., \"Outro\" button or double-click behavior, or just a small input below).",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T32",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Allow manual override if needed (e.g., \"Outro\" button or double-click behavior, or just a small input below).",
+        "lineNumber": 48
+      }
+    },
+    {
+      "title": "T33: **Implement Inline Editing in `FlashPreview`** <!-- id: 10 -->",
+      "description": "**Implement Inline Editing in `FlashPreview`** <!-- id: 10 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T33",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Implement Inline Editing in `FlashPreview`** <!-- id: 10 -->",
+        "lineNumber": 50
+      }
+    },
+    {
+      "title": "T34: Allow double-click to edit text content in `SectionCard`.",
+      "description": "Allow double-click to edit text content in `SectionCard`.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T34",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Allow double-click to edit text content in `SectionCard`.",
+        "lineNumber": 51
+      }
+    },
+    {
+      "title": "T35: Show a textarea when in edit mode.",
+      "description": "Show a textarea when in edit mode.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T35",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Show a textarea when in edit mode.",
+        "lineNumber": 52
+      }
+    },
+    {
+      "title": "T36: Auto-save on blur or specific \"Save\" button.",
+      "description": "Auto-save on blur or specific \"Save\" button.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T36",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Auto-save on blur or specific \"Save\" button.",
+        "lineNumber": 53
+      }
+    },
+    {
+      "title": "T37: Ensure \"Copy All\" grabs the _edited_ content, not just the original.",
+      "description": "Ensure \"Copy All\" grabs the _edited_ content, not just the original.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T37",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure \"Copy All\" grabs the _edited_ content, not just the original.",
+        "lineNumber": 54
+      }
+    },
+    {
+      "title": "T38: **Verify & Polish** <!-- id: 6 -->",
+      "description": "**Verify & Polish** <!-- id: 6 -->",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T38",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] **Verify & Polish** <!-- id: 6 -->",
+        "lineNumber": 56
+      }
+    },
+    {
+      "title": "T39: Check gender flexion in generated text.",
+      "description": "Check gender flexion in generated text.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T39",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Check gender flexion in generated text.",
+        "lineNumber": 57
+      }
+    },
+    {
+      "title": "T40: Verify animations between steps.",
+      "description": "Verify animations between steps.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T40",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Verify animations between steps.",
+        "lineNumber": 58
+      }
+    },
+    {
+      "title": "T41: Ensure \"Back\" navigation works.",
+      "description": "Ensure \"Back\" navigation works.",
+      "status": "done",
+      "labels": [
+        "spec:003-flash-anamnesis",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T41",
+        "spec": "003-flash-anamnesis",
+        "phase": "Unknown",
+        "rawLine": "- [x] Ensure \"Back\" navigation works.",
+        "lineNumber": 59
+      }
+    },
+    {
+      "title": "T1: **Task 1.1**: [Task description]",
+      "description": "**Task 1.1**: [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-inslate-backend",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1",
+        "spec": "004-inslate-backend",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.1**: [Task description]",
+        "lineNumber": 18
+      }
+    },
+    {
+      "title": "T2: **Task 1.2**: [Task description]",
+      "description": "**Task 1.2**: [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-inslate-backend",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2",
+        "spec": "004-inslate-backend",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.2**: [Task description]",
+        "lineNumber": 23
+      }
+    },
+    {
+      "title": "T3: **Task 1.3**: [Task description]",
+      "description": "**Task 1.3**: [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-inslate-backend",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3",
+        "spec": "004-inslate-backend",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.3**: [Task description]",
+        "lineNumber": 29
+      }
+    },
+    {
+      "title": "T4: **Task 1.4** : [Task description]",
+      "description": "**Task 1.4** : [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-inslate-backend",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4",
+        "spec": "004-inslate-backend",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.4** [P]: [Task description]",
+        "lineNumber": 34
+      }
+    },
+    {
+      "title": "T5: **Task 1.5**: Write unit tests",
+      "description": "**Task 1.5**: Write unit tests",
+      "status": "todo",
+      "labels": [
+        "spec:004-inslate-backend",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5",
+        "spec": "004-inslate-backend",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.5**: Write unit tests",
+        "lineNumber": 40
+      }
+    },
+    {
+      "title": "T6: All tests passing",
+      "description": "All tests passing",
+      "status": "todo",
+      "labels": [
+        "spec:004-inslate-backend",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6",
+        "spec": "004-inslate-backend",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All tests passing",
+        "lineNumber": 46
+      }
+    },
+    {
+      "title": "T7: Code review completed",
+      "description": "Code review completed",
+      "status": "todo",
+      "labels": [
+        "spec:004-inslate-backend",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T7",
+        "spec": "004-inslate-backend",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Code review completed",
+        "lineNumber": 47
+      }
+    },
+    {
+      "title": "T8: Documentation updated",
+      "description": "Documentation updated",
+      "status": "todo",
+      "labels": [
+        "spec:004-inslate-backend",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T8",
+        "spec": "004-inslate-backend",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Documentation updated",
+        "lineNumber": 48
+      }
+    },
+    {
+      "title": "T1: **Task 1.1**: [Task description]",
+      "description": "**Task 1.1**: [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.1**: [Task description]",
+        "lineNumber": 27
+      }
+    },
+    {
+      "title": "T2: **Task 1.2**: [Task description]",
+      "description": "**Task 1.2**: [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.2**: [Task description]",
+        "lineNumber": 32
+      }
+    },
+    {
+      "title": "T3: **Task 1.3**: [Task description]",
+      "description": "**Task 1.3**: [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.3**: [Task description]",
+        "lineNumber": 38
+      }
+    },
+    {
+      "title": "T4: **Task 1.4** : [Task description]",
+      "description": "**Task 1.4** : [Task description]",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.4** [P]: [Task description]",
+        "lineNumber": 43
+      }
+    },
+    {
+      "title": "T5: **Task 1.5**: Write unit tests",
+      "description": "**Task 1.5**: Write unit tests",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Task 1.5**: Write unit tests",
+        "lineNumber": 49
+      }
+    },
+    {
+      "title": "T6: All tests passing",
+      "description": "All tests passing",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All tests passing",
+        "lineNumber": 55
+      }
+    },
+    {
+      "title": "T7: Code review completed",
+      "description": "Code review completed",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T7",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Code review completed",
+        "lineNumber": 56
+      }
+    },
+    {
+      "title": "T8: Documentation updated",
+      "description": "Documentation updated",
+      "status": "todo",
+      "labels": [
+        "spec:004-unified-toggle-liquid-glass",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T8",
+        "spec": "004-unified-toggle-liquid-glass",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Documentation updated",
+        "lineNumber": 57
+      }
+    },
+    {
+      "title": "T1: @react-pdf/renderer installed (v3.1.14+)",
+      "description": "@react-pdf/renderer installed (v3.1.14+)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T1",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] @react-pdf/renderer installed (v3.1.14+)",
+        "lineNumber": 37
+      }
+    },
+    {
+      "title": "T2: react-pdf installed (v7.5.1+)",
+      "description": "react-pdf installed (v7.5.1+)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T2",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] react-pdf installed (v7.5.1+)",
+        "lineNumber": 38
+      }
+    },
+    {
+      "title": "T3: No TypeScript errors after installation",
+      "description": "No TypeScript errors after installation",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T3",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] No TypeScript errors after installation",
+        "lineNumber": 39
+      }
+    },
+    {
+      "title": "T4: pnpm typecheck passes",
+      "description": "pnpm typecheck passes",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T4",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] pnpm typecheck passes",
+        "lineNumber": 40
+      }
+    },
+    {
+      "title": "T5: All directories created",
+      "description": "All directories created",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T5",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All directories created",
+        "lineNumber": 66
+      }
+    },
+    {
+      "title": "T6: Index.ts files exist in component directories",
+      "description": "Index.ts files exist in component directories",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T6",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Index.ts files exist in component directories",
+        "lineNumber": 67
+      }
+    },
+    {
+      "title": "T7: No duplicate directories",
+      "description": "No duplicate directories",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T7",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] No duplicate directories",
+        "lineNumber": 68
+      }
+    },
+    {
+      "title": "T8: vercel.json created/updated",
+      "description": "vercel.json created/updated",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T8",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] vercel.json created/updated",
+        "lineNumber": 92
+      }
+    },
+    {
+      "title": "T9: PDF export route configured with 1024 MB memory",
+      "description": "PDF export route configured with 1024 MB memory",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T9",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] PDF export route configured with 1024 MB memory",
+        "lineNumber": 93
+      }
+    },
+    {
+      "title": "T10: PDF export route configured with 10s timeout",
+      "description": "PDF export route configured with 10s timeout",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T10",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] PDF export route configured with 10s timeout",
+        "lineNumber": 94
+      }
+    },
+    {
+      "title": "T11: ExportPdfRequestSchema defined",
+      "description": "ExportPdfRequestSchema defined",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T11",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] ExportPdfRequestSchema defined",
+        "lineNumber": 120
+      }
+    },
+    {
+      "title": "T12: Validates sessionId as cuid string",
+      "description": "Validates sessionId as cuid string",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T12",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Validates sessionId as cuid string",
+        "lineNumber": 121
+      }
+    },
+    {
+      "title": "T13: TypeScript types exported",
+      "description": "TypeScript types exported",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T13",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] TypeScript types exported",
+        "lineNumber": 122
+      }
+    },
+    {
+      "title": "T14: Schema exported for API route use",
+      "description": "Schema exported for API route use",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T14",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Schema exported for API route use",
+        "lineNumber": 123
+      }
+    },
+    {
+      "title": "T15: Component renders without errors",
+      "description": "Component renders without errors",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T15",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Component renders without errors",
+        "lineNumber": 162
+      }
+    },
+    {
+      "title": "T16: All CFM-required fields present (date, professional, findings)",
+      "description": "All CFM-required fields present (date, professional, findings)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T16",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All CFM-required fields present (date, professional, findings)",
+        "lineNumber": 163
+      }
+    },
+    {
+      "title": "T17: Portuguese language used throughout",
+      "description": "Portuguese language used throughout",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T17",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Portuguese language used throughout",
+        "lineNumber": 164
+      }
+    },
+    {
+      "title": "T18: Red flags displayed prominently when present",
+      "description": "Red flags displayed prominently when present",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T18",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Red flags displayed prominently when present",
+        "lineNumber": 165
+      }
+    },
+    {
+      "title": "T19: Footer includes WellWave branding",
+      "description": "Footer includes WellWave branding",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T19",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Footer includes WellWave branding",
+        "lineNumber": 166
+      }
+    },
+    {
+      "title": "T20: Multi-page support (if content overflows)",
+      "description": "Multi-page support (if content overflows)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T20",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Multi-page support (if content overflows)",
+        "lineNumber": 167
+      }
+    },
+    {
+      "title": "T21: Styles properly defined (Helvetica font, readable sizes)",
+      "description": "Styles properly defined (Helvetica font, readable sizes)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T21",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Styles properly defined (Helvetica font, readable sizes)",
+        "lineNumber": 168
+      }
+    },
+    {
+      "title": "T22: Endpoint responds to POST requests",
+      "description": "Endpoint responds to POST requests",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T22",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Endpoint responds to POST requests",
+        "lineNumber": 203
+      }
+    },
+    {
+      "title": "T23: Request validation works (400 on invalid)",
+      "description": "Request validation works (400 on invalid)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T23",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Request validation works (400 on invalid)",
+        "lineNumber": 204
+      }
+    },
+    {
+      "title": "T24: Authentication enforced (401 on unauthorized)",
+      "description": "Authentication enforced (401 on unauthorized)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T24",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Authentication enforced (401 on unauthorized)",
+        "lineNumber": 205
+      }
+    },
+    {
+      "title": "T25: Authorization enforced (403 on wrong user)",
+      "description": "Authorization enforced (403 on wrong user)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T25",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Authorization enforced (403 on wrong user)",
+        "lineNumber": 206
+      }
+    },
+    {
+      "title": "T26: Returns 404 for non-existent session",
+      "description": "Returns 404 for non-existent session",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T26",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Returns 404 for non-existent session",
+        "lineNumber": 207
+      }
+    },
+    {
+      "title": "T27: Returns 200 with PDF binary for valid request",
+      "description": "Returns 200 with PDF binary for valid request",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T27",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Returns 200 with PDF binary for valid request",
+        "lineNumber": 208
+      }
+    },
+    {
+      "title": "T28: Content-Type header set to application/pdf",
+      "description": "Content-Type header set to application/pdf",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T28",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Content-Type header set to application/pdf",
+        "lineNumber": 209
+      }
+    },
+    {
+      "title": "T29: Content-Disposition header set with correct filename",
+      "description": "Content-Disposition header set with correct filename",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T29",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Content-Disposition header set with correct filename",
+        "lineNumber": 210
+      }
+    },
+    {
+      "title": "T30: Filename format: anamnesis-[syndrome]-[date].pdf",
+      "description": "Filename format: anamnesis-[syndrome]-[date].pdf",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T30",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Filename format: anamnesis-[syndrome]-[date].pdf",
+        "lineNumber": 211
+      }
+    },
+    {
+      "title": "T31: Errors logged to Sentry",
+      "description": "Errors logged to Sentry",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T31",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Errors logged to Sentry",
+        "lineNumber": 212
+      }
+    },
+    {
+      "title": "T32: Response time <3 seconds (tested)",
+      "description": "Response time <3 seconds (tested)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T32",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Response time <3 seconds (tested)",
+        "lineNumber": 213
+      }
+    },
+    {
+      "title": "T33: All test cases implemented",
+      "description": "All test cases implemented",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T33",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All test cases implemented",
+        "lineNumber": 245
+      }
+    },
+    {
+      "title": "T34: Tests pass (pnpm vitest run)",
+      "description": "Tests pass (pnpm vitest run)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T34",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Tests pass (pnpm vitest run)",
+        "lineNumber": 246
+      }
+    },
+    {
+      "title": "T35: Coverage >80% for API route",
+      "description": "Coverage >80% for API route",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T35",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Coverage >80% for API route",
+        "lineNumber": 247
+      }
+    },
+    {
+      "title": "T36: Mocks properly isolated",
+      "description": "Mocks properly isolated",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T36",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Mocks properly isolated",
+        "lineNumber": 248
+      }
+    },
+    {
+      "title": "T37: No test pollution between cases",
+      "description": "No test pollution between cases",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T37",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] No test pollution between cases",
+        "lineNumber": 249
+      }
+    },
+    {
+      "title": "T38: Hook uses useMutation",
+      "description": "Hook uses useMutation",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T38",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Hook uses useMutation",
+        "lineNumber": 276
+      }
+    },
+    {
+      "title": "T39: Calls correct API endpoint",
+      "description": "Calls correct API endpoint",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T39",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Calls correct API endpoint",
+        "lineNumber": 277
+      }
+    },
+    {
+      "title": "T40: Sends correct request body (sessionId)",
+      "description": "Sends correct request body (sessionId)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T40",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Sends correct request body (sessionId)",
+        "lineNumber": 278
+      }
+    },
+    {
+      "title": "T41: Downloads PDF blob to browser",
+      "description": "Downloads PDF blob to browser",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T41",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Downloads PDF blob to browser",
+        "lineNumber": 279
+      }
+    },
+    {
+      "title": "T42: Extracts filename from Content-Disposition header",
+      "description": "Extracts filename from Content-Disposition header",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T42",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Extracts filename from Content-Disposition header",
+        "lineNumber": 280
+      }
+    },
+    {
+      "title": "T43: Throws error on failure with message",
+      "description": "Throws error on failure with message",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T43",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Throws error on failure with message",
+        "lineNumber": 281
+      }
+    },
+    {
+      "title": "T44: TypeScript types properly defined",
+      "description": "TypeScript types properly defined",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T44",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] TypeScript types properly defined",
+        "lineNumber": 282
+      }
+    },
+    {
+      "title": "T45: Component accepts sessionId, syndrome, disabled props",
+      "description": "Component accepts sessionId, syndrome, disabled props",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T45",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Component accepts sessionId, syndrome, disabled props",
+        "lineNumber": 316
+      }
+    },
+    {
+      "title": "T46: Renders Button with FileDown icon",
+      "description": "Renders Button with FileDown icon",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T46",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Renders Button with FileDown icon",
+        "lineNumber": 317
+      }
+    },
+    {
+      "title": "T47: Shows loading state (spinner + \"Gerando PDF...\")",
+      "description": "Shows loading state (spinner + \"Gerando PDF...\")",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T47",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Shows loading state (spinner + \"Gerando PDF...\")",
+        "lineNumber": 318
+      }
+    },
+    {
+      "title": "T48: Shows idle state (\"Exportar PDF\" + icon)",
+      "description": "Shows idle state (\"Exportar PDF\" + icon)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T48",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Shows idle state (\"Exportar PDF\" + icon)",
+        "lineNumber": 319
+      }
+    },
+    {
+      "title": "T49: Calls useExportPdf on click",
+      "description": "Calls useExportPdf on click",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T49",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Calls useExportPdf on click",
+        "lineNumber": 320
+      }
+    },
+    {
+      "title": "T50: Disabled when isPending or disabled prop",
+      "description": "Disabled when isPending or disabled prop",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T50",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Disabled when isPending or disabled prop",
+        "lineNumber": 321
+      }
+    },
+    {
+      "title": "T51: ARIA label present",
+      "description": "ARIA label present",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T51",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] ARIA label present",
+        "lineNumber": 322
+      }
+    },
+    {
+      "title": "T52: Keyboard accessible (Enter key)",
+      "description": "Keyboard accessible (Enter key)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T52",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Keyboard accessible (Enter key)",
+        "lineNumber": 323
+      }
+    },
+    {
+      "title": "T53: Responsive design (works on mobile)",
+      "description": "Responsive design (works on mobile)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T53",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Responsive design (works on mobile)",
+        "lineNumber": 324
+      }
+    },
+    {
+      "title": "T54: All test cases implemented",
+      "description": "All test cases implemented",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T54",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All test cases implemented",
+        "lineNumber": 356
+      }
+    },
+    {
+      "title": "T55: Tests pass (pnpm vitest run)",
+      "description": "Tests pass (pnpm vitest run)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T55",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Tests pass (pnpm vitest run)",
+        "lineNumber": 357
+      }
+    },
+    {
+      "title": "T56: Coverage >80% for component",
+      "description": "Coverage >80% for component",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T56",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Coverage >80% for component",
+        "lineNumber": 358
+      }
+    },
+    {
+      "title": "T57: Mocks properly isolated",
+      "description": "Mocks properly isolated",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T57",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Mocks properly isolated",
+        "lineNumber": 359
+      }
+    },
+    {
+      "title": "T58: Accessibility tested",
+      "description": "Accessibility tested",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T58",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Accessibility tested",
+        "lineNumber": 360
+      }
+    },
+    {
+      "title": "T59: Button visible on anamnesis results page",
+      "description": "Button visible on anamnesis results page",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T59",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Button visible on anamnesis results page",
+        "lineNumber": 388
+      }
+    },
+    {
+      "title": "T60: Button placed in logical location",
+      "description": "Button placed in logical location",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T60",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Button placed in logical location",
+        "lineNumber": 389
+      }
+    },
+    {
+      "title": "T61: Button disabled when no anamnesis generated",
+      "description": "Button disabled when no anamnesis generated",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T61",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Button disabled when no anamnesis generated",
+        "lineNumber": 390
+      }
+    },
+    {
+      "title": "T62: Button enabled after anamnesis generated",
+      "description": "Button enabled after anamnesis generated",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T62",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Button enabled after anamnesis generated",
+        "lineNumber": 391
+      }
+    },
+    {
+      "title": "T63: Proper styling with Tailwind",
+      "description": "Proper styling with Tailwind",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T63",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Proper styling with Tailwind",
+        "lineNumber": 392
+      }
+    },
+    {
+      "title": "T64: Responsive on mobile/tablet/desktop",
+      "description": "Responsive on mobile/tablet/desktop",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T64",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Responsive on mobile/tablet/desktop",
+        "lineNumber": 393
+      }
+    },
+    {
+      "title": "T65: Success toast shown on successful export",
+      "description": "Success toast shown on successful export",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T65",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Success toast shown on successful export",
+        "lineNumber": 427
+      }
+    },
+    {
+      "title": "T66: Error toast shown on failed export",
+      "description": "Error toast shown on failed export",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T66",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Error toast shown on failed export",
+        "lineNumber": 428
+      }
+    },
+    {
+      "title": "T67: Error messages user-friendly (Portuguese)",
+      "description": "Error messages user-friendly (Portuguese)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T67",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Error messages user-friendly (Portuguese)",
+        "lineNumber": 429
+      }
+    },
+    {
+      "title": "T68: All error types handled",
+      "description": "All error types handled",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T68",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All error types handled",
+        "lineNumber": 430
+      }
+    },
+    {
+      "title": "T69: Toast auto-dismisses after 5 seconds",
+      "description": "Toast auto-dismisses after 5 seconds",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T69",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Toast auto-dismisses after 5 seconds",
+        "lineNumber": 431
+      }
+    },
+    {
+      "title": "T70: Button remains clickable after error",
+      "description": "Button remains clickable after error",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T70",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Button remains clickable after error",
+        "lineNumber": 432
+      }
+    },
+    {
+      "title": "T71: All error scenarios tested",
+      "description": "All error scenarios tested",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T71",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All error scenarios tested",
+        "lineNumber": 460
+      }
+    },
+    {
+      "title": "T72: Toast notifications called correctly",
+      "description": "Toast notifications called correctly",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T72",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Toast notifications called correctly",
+        "lineNumber": 461
+      }
+    },
+    {
+      "title": "T73: Error messages in Portuguese",
+      "description": "Error messages in Portuguese",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T73",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Error messages in Portuguese",
+        "lineNumber": 462
+      }
+    },
+    {
+      "title": "T74: Tests pass (pnpm vitest run)",
+      "description": "Tests pass (pnpm vitest run)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T74",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Tests pass (pnpm vitest run)",
+        "lineNumber": 463
+      }
+    },
+    {
+      "title": "T75: PDF template verified to contain no patient identifiers",
+      "description": "PDF template verified to contain no patient identifiers",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T75",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] PDF template verified to contain no patient identifiers",
+        "lineNumber": 512
+      }
+    },
+    {
+      "title": "T76: \"DOCUMENTO ANÔNIMO\" label present",
+      "description": "\"DOCUMENTO ANÔNIMO\" label present",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T76",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] \"DOCUMENTO ANÔNIMO\" label present",
+        "lineNumber": 513
+      }
+    },
+    {
+      "title": "T77: Only anonymous session data in PDF",
+      "description": "Only anonymous session data in PDF",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T77",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Only anonymous session data in PDF",
+        "lineNumber": 514
+      }
+    },
+    {
+      "title": "T78: No fields for patient name, CPF, ID, etc.",
+      "description": "No fields for patient name, CPF, ID, etc.",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T78",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] No fields for patient name, CPF, ID, etc.",
+        "lineNumber": 515
+      }
+    },
+    {
+      "title": "T79: Security tests implemented",
+      "description": "Security tests implemented",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T79",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Security tests implemented",
+        "lineNumber": 541
+      }
+    },
+    {
+      "title": "T80: 401 tested for no token",
+      "description": "401 tested for no token",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T80",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] 401 tested for no token",
+        "lineNumber": 542
+      }
+    },
+    {
+      "title": "T81: 401 tested for invalid token",
+      "description": "401 tested for invalid token",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T81",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] 401 tested for invalid token",
+        "lineNumber": 543
+      }
+    },
+    {
+      "title": "T82: 403 tested for wrong user",
+      "description": "403 tested for wrong user",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T82",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] 403 tested for wrong user",
+        "lineNumber": 544
+      }
+    },
+    {
+      "title": "T83: Tests pass (pnpm vitest run)",
+      "description": "Tests pass (pnpm vitest run)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T83",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Tests pass (pnpm vitest run)",
+        "lineNumber": 545
+      }
+    },
+    {
+      "title": "T84: Complete user flow tested",
+      "description": "Complete user flow tested",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T84",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Complete user flow tested",
+        "lineNumber": 580
+      }
+    },
+    {
+      "title": "T85: Download event captured",
+      "description": "Download event captured",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T85",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Download event captured",
+        "lineNumber": 581
+      }
+    },
+    {
+      "title": "T86: Filename matches pattern: anamnesis-[syndrome]-[date].pdf",
+      "description": "Filename matches pattern: anamnesis-[syndrome]-[date].pdf",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T86",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Filename matches pattern: anamnesis-[syndrome]-[date].pdf",
+        "lineNumber": 582
+      }
+    },
+    {
+      "title": "T87: File contains valid PDF header (%PDF)",
+      "description": "File contains valid PDF header (%PDF)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T87",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] File contains valid PDF header (%PDF)",
+        "lineNumber": 583
+      }
+    },
+    {
+      "title": "T88: Test passes locally (pnpm playwright test)",
+      "description": "Test passes locally (pnpm playwright test)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T88",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Test passes locally (pnpm playwright test)",
+        "lineNumber": 584
+      }
+    },
+    {
+      "title": "T89: Test passes in CI",
+      "description": "Test passes in CI",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T89",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Test passes in CI",
+        "lineNumber": 585
+      }
+    },
+    {
+      "title": "T90: Unauthorized access tested",
+      "description": "Unauthorized access tested",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T90",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Unauthorized access tested",
+        "lineNumber": 612
+      }
+    },
+    {
+      "title": "T91: 403 status code verified",
+      "description": "403 status code verified",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T91",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] 403 status code verified",
+        "lineNumber": 613
+      }
+    },
+    {
+      "title": "T92: Error message verified",
+      "description": "Error message verified",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T92",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Error message verified",
+        "lineNumber": 614
+      }
+    },
+    {
+      "title": "T93: No download triggered",
+      "description": "No download triggered",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T93",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] No download triggered",
+        "lineNumber": 615
+      }
+    },
+    {
+      "title": "T94: Test passes",
+      "description": "Test passes",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T94",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Test passes",
+        "lineNumber": 616
+      }
+    },
+    {
+      "title": "T95: Loading state tested",
+      "description": "Loading state tested",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T95",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Loading state tested",
+        "lineNumber": 645
+      }
+    },
+    {
+      "title": "T96: \"Gerando PDF...\" text visible",
+      "description": "\"Gerando PDF...\" text visible",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T96",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] \"Gerando PDF...\" text visible",
+        "lineNumber": 646
+      }
+    },
+    {
+      "title": "T97: Spinner animation visible",
+      "description": "Spinner animation visible",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T97",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Spinner animation visible",
+        "lineNumber": 647
+      }
+    },
+    {
+      "title": "T98: Loading state removed after completion",
+      "description": "Loading state removed after completion",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T98",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Loading state removed after completion",
+        "lineNumber": 648
+      }
+    },
+    {
+      "title": "T99: Normal state restored",
+      "description": "Normal state restored",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T99",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Normal state restored",
+        "lineNumber": 649
+      }
+    },
+    {
+      "title": "T100: Test passes",
+      "description": "Test passes",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T100",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Test passes",
+        "lineNumber": 650
+      }
+    },
+    {
+      "title": "T101: All unit tests pass (pnpm vitest run)",
+      "description": "All unit tests pass (pnpm vitest run)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T101",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All unit tests pass (pnpm vitest run)",
+        "lineNumber": 678
+      }
+    },
+    {
+      "title": "T102: All E2E tests pass (pnpm playwright test)",
+      "description": "All E2E tests pass (pnpm playwright test)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T102",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] All E2E tests pass (pnpm playwright test)",
+        "lineNumber": 679
+      }
+    },
+    {
+      "title": "T103: No TypeScript errors (pnpm typecheck)",
+      "description": "No TypeScript errors (pnpm typecheck)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T103",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] No TypeScript errors (pnpm typecheck)",
+        "lineNumber": 680
+      }
+    },
+    {
+      "title": "T104: No lint errors (pnpm lint)",
+      "description": "No lint errors (pnpm lint)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T104",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] No lint errors (pnpm lint)",
+        "lineNumber": 681
+      }
+    },
+    {
+      "title": "T105: Test coverage >80%",
+      "description": "Test coverage >80%",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T105",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Test coverage >80%",
+        "lineNumber": 682
+      }
+    },
+    {
+      "title": "T106: No test pollution",
+      "description": "No test pollution",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T106",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] No test pollution",
+        "lineNumber": 683
+      }
+    },
+    {
+      "title": "T107: JSDoc comments on all public APIs",
+      "description": "JSDoc comments on all public APIs",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T107",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] JSDoc comments on all public APIs",
+        "lineNumber": 713
+      }
+    },
+    {
+      "title": "T108: Parameters documented",
+      "description": "Parameters documented",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T108",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Parameters documented",
+        "lineNumber": 714
+      }
+    },
+    {
+      "title": "T109: Return types documented",
+      "description": "Return types documented",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T109",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Return types documented",
+        "lineNumber": 715
+      }
+    },
+    {
+      "title": "T110: Usage examples included",
+      "description": "Usage examples included",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T110",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Usage examples included",
+        "lineNumber": 716
+      }
+    },
+    {
+      "title": "T111: No undocumented exports",
+      "description": "No undocumented exports",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T111",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] No undocumented exports",
+        "lineNumber": 717
+      }
+    },
+    {
+      "title": "T112: CHANGELOG.md updated",
+      "description": "CHANGELOG.md updated",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T112",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] CHANGELOG.md updated",
+        "lineNumber": 744
+      }
+    },
+    {
+      "title": "T113: Version entry added",
+      "description": "Version entry added",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T113",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Version entry added",
+        "lineNumber": 745
+      }
+    },
+    {
+      "title": "T114: Feature documented",
+      "description": "Feature documented",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T114",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Feature documented",
+        "lineNumber": 746
+      }
+    },
+    {
+      "title": "T115: Changes listed",
+      "description": "Changes listed",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T115",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Changes listed",
+        "lineNumber": 747
+      }
+    },
+    {
+      "title": "T116: **Batch Export**: Allow exporting multiple anamneses at once",
+      "description": "**Batch Export**: Allow exporting multiple anamneses at once",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T116",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Batch Export**: Allow exporting multiple anamneses at once",
+        "lineNumber": 964
+      }
+    },
+    {
+      "title": "T117: **PDF Caching**: Cache generated PDFs to avoid regeneration",
+      "description": "**PDF Caching**: Cache generated PDFs to avoid regeneration",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T117",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **PDF Caching**: Cache generated PDFs to avoid regeneration",
+        "lineNumber": 965
+      }
+    },
+    {
+      "title": "T118: **Custom Templates**: Allow users to customize PDF layout",
+      "description": "**Custom Templates**: Allow users to customize PDF layout",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T118",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Custom Templates**: Allow users to customize PDF layout",
+        "lineNumber": 966
+      }
+    },
+    {
+      "title": "T119: **Digital Signature**: Add digital signature support",
+      "description": "**Digital Signature**: Add digital signature support",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T119",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Digital Signature**: Add digital signature support",
+        "lineNumber": 967
+      }
+    },
+    {
+      "title": "T120: **Email Delivery**: Send PDF via email instead of download",
+      "description": "**Email Delivery**: Send PDF via email instead of download",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T120",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Email Delivery**: Send PDF via email instead of download",
+        "lineNumber": 968
+      }
+    },
+    {
+      "title": "T121: **Print Preview**: Show preview before download",
+      "description": "**Print Preview**: Show preview before download",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T121",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Print Preview**: Show preview before download",
+        "lineNumber": 969
+      }
+    },
+    {
+      "title": "T122: **Export Formats**: Support Word, HTML, etc.",
+      "description": "**Export Formats**: Support Word, HTML, etc.",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T122",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Export Formats**: Support Word, HTML, etc.",
+        "lineNumber": 970
+      }
+    },
+    {
+      "title": "T123: **Audit Logging**: Add PdfExport table to database",
+      "description": "**Audit Logging**: Add PdfExport table to database",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T123",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Audit Logging**: Add PdfExport table to database",
+        "lineNumber": 971
+      }
+    },
+    {
+      "title": "T124: **Rate Limiting**: Add rate limiting per user",
+      "description": "**Rate Limiting**: Add rate limiting per user",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T124",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Rate Limiting**: Add rate limiting per user",
+        "lineNumber": 972
+      }
+    },
+    {
+      "title": "T125: **Performance Metrics**: Track PDF generation time",
+      "description": "**Performance Metrics**: Track PDF generation time",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T125",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] **Performance Metrics**: Track PDF generation time",
+        "lineNumber": 973
+      }
+    },
+    {
+      "title": "T126: `specs/test-pdf-export/tasks.md` created and complete",
+      "description": "`specs/test-pdf-export/tasks.md` created and complete\n\n**Files:**\n- `specs/test-pdf-export/tasks.md`",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T126",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "files": [
+          "specs/test-pdf-export/tasks.md"
+        ],
+        "rawLine": "- [x] `specs/test-pdf-export/tasks.md` created and complete",
+        "lineNumber": 981
+      }
+    },
+    {
+      "title": "T127: All tasks have clear descriptions",
+      "description": "All tasks have clear descriptions",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T127",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] All tasks have clear descriptions",
+        "lineNumber": 982
+      }
+    },
+    {
+      "title": "T128: All tasks have file paths listed",
+      "description": "All tasks have file paths listed",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T128",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] All tasks have file paths listed",
+        "lineNumber": 983
+      }
+    },
+    {
+      "title": "T129: All tasks have step-by-step instructions",
+      "description": "All tasks have step-by-step instructions",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T129",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] All tasks have step-by-step instructions",
+        "lineNumber": 984
+      }
+    },
+    {
+      "title": "T130: Dependencies identified for each task",
+      "description": "Dependencies identified for each task",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T130",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] Dependencies identified for each task",
+        "lineNumber": 985
+      }
+    },
+    {
+      "title": "T131: Parallel-safe tasks marked with ``",
+      "description": "Parallel-safe tasks marked with ``",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T131",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] Parallel-safe tasks marked with `[P]`",
+        "lineNumber": 986
+      }
+    },
+    {
+      "title": "T132: Acceptance criteria defined per task",
+      "description": "Acceptance criteria defined per task",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T132",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] Acceptance criteria defined per task",
+        "lineNumber": 987
+      }
+    },
+    {
+      "title": "T133: Execution order documented",
+      "description": "Execution order documented",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T133",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] Execution order documented",
+        "lineNumber": 988
+      }
+    },
+    {
+      "title": "T134: Time estimates provided",
+      "description": "Time estimates provided",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T134",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] Time estimates provided",
+        "lineNumber": 989
+      }
+    },
+    {
+      "title": "T135: Risk assessment complete",
+      "description": "Risk assessment complete",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T135",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] Risk assessment complete",
+        "lineNumber": 990
+      }
+    },
+    {
+      "title": "T136: Dependency graph created",
+      "description": "Dependency graph created",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T136",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] Dependency graph created",
+        "lineNumber": 991
+      }
+    },
+    {
+      "title": "T137: Parallel execution opportunities identified",
+      "description": "Parallel execution opportunities identified",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T137",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] Parallel execution opportunities identified",
+        "lineNumber": 992
+      }
+    },
+    {
+      "title": "T138: Human review received (recommended)",
+      "description": "Human review received (recommended)",
+      "status": "todo",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T138",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [ ] Human review received (recommended)",
+        "lineNumber": 993
+      }
+    },
+    {
+      "title": "T139: Context budget: Still in Smart Zone (20-40%)",
+      "description": "Context budget: Still in Smart Zone (20-40%)",
+      "status": "done",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": [],
+      "metadata": {
+        "taskId": "T139",
+        "spec": "test-pdf-export",
+        "phase": "Unknown",
+        "rawLine": "- [x] Context budget: Still in Smart Zone (20-40%)",
+        "lineNumber": 994
+      }
+    }
+  ]
+}

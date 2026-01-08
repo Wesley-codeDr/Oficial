@@ -1,0 +1,158 @@
+{
+  "version": "1.0",
+  "updates": [
+    {
+      "taskId": "T1.1",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Project setup and configuration",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "blocking"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T1.2",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Database schema updates",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T1.1"
+      ]
+    },
+    {
+      "taskId": "T1.3",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Environment configuration",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T1.1"
+      ]
+    },
+    {
+      "taskId": "T2.1",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Checkbox system implementation",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T1.2"
+      ]
+    },
+    {
+      "taskId": "T2.2",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Text generation engine",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T2.1"
+      ]
+    },
+    {
+      "taskId": "T2.3",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Split-screen interface",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T3.1",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Chat EBM integration",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T2.2"
+      ]
+    },
+    {
+      "taskId": "T3.2",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Red flag detection",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T2.1"
+      ]
+    },
+    {
+      "taskId": "T3.3",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Export functionality",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T4.1",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Testing suite",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T3.1"
+      ]
+    },
+    {
+      "taskId": "T4.2",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Documentation",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T4.3",
+      "spec": "002-wellwave-platform",
+      "status": "todo",
+      "description": "Deployment",
+      "labels": [
+        "spec:002-wellwave-platform",
+        "phase:Unknown"
+      ],
+      "dependencies": [
+        "T4.1"
+      ]
+    }
+  ],
+  "generatedAt": "2026-01-08T05:33:18.051Z"
+}

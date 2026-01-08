@@ -293,6 +293,17 @@ pnpm audit            # Auditoria de segurança das dependências
 - `pnpm prisma studio` - Abre o Prisma Studio (interface visual)
 - `pnpm db:seed` - Popula banco com dados iniciais (síndromes, checkboxes)
 
+### Comandos Vibe Kanban
+
+- `pnpm kanban:setup` - Setup inicial do Vibe Kanban
+- `pnpm kanban:migrate` - Migra todas as tarefas de tasks.md para Kanban
+- `pnpm kanban:migrate:spec [name]` - Migra uma spec específica
+- `pnpm kanban:sync` - Sincronização bidirecional entre tasks.md e Kanban
+- `pnpm kanban:sync:to` - Sincroniza tasks.md → Kanban
+- `pnpm kanban:sync:from` - Sincroniza Kanban → tasks.md
+
+**Documentação completa**: [`docs/VIBE_KANBAN.md`](docs/VIBE_KANBAN.md)
+
 ## 🔧 Regras do Cursor
 
 Este projeto inclui regras específicas para o Cursor IDE que garantem o uso correto do Spec-Driven Development:

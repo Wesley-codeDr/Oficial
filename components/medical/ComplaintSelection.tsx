@@ -178,13 +178,32 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
 
   return (
     <div className="h-full flex flex-col relative overflow-hidden p-2 sm:p-4">
-      {/* Liquid Search Header */}
-      <div className="shrink-0 mb-6 relative z-30 px-2">
+      {/* Liquid Search Header - iOS 26 */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+        className="shrink-0 mb-6 relative z-30 px-2"
+      >
         <div className="flex items-center gap-3 max-w-5xl mx-auto">
           {selectedGroupCode && !searchTerm && (
             <button
               onClick={handleBack}
-              className="w-12 h-12 rounded-2xl glass-pill rim-light-ios26 hover:bg-white/20 text-slate-500 dark:text-slate-400 transition-all shadow-sm hover:scale-105 active:scale-95 flex items-center justify-center shrink-0"
+              className={`
+                w-12 h-12 rounded-2xl flex items-center justify-center shrink-0
+                backdrop-blur-[40px] saturate-[180%]
+                bg-white/55 dark:bg-slate-900/65
+                border-[1.5px] border-white/50 dark:border-white/12
+                shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
+                shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]
+                dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)]
+                dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]
+                text-slate-500 dark:text-slate-400
+                hover:bg-white/70 dark:hover:bg-slate-900/75
+                hover:scale-105
+                active:scale-95
+                transition-all duration-[300ms] ease-[cubic-bezier(0.25,1,0.5,1)]
+              `}
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
@@ -206,7 +225,23 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
                   ? `Filtrar em ${activeGroup?.label}...`
                   : 'Sintoma, queixa ou síndrome...'
               }
-              className="w-full liquid-glass-material rim-light-ios26 inner-glow-ios26 rounded-[32px] py-5 pl-16 pr-8 text-base font-black text-slate-800 dark:text-slate-100 placeholder:text-slate-300 dark:placeholder:text-slate-700 focus:outline-none focus:ring-4 focus:ring-blue-500/10 transition-all hover:bg-white/20 dark:hover:bg-white/5"
+              className={`
+                w-full h-14 pl-16 pr-8 rounded-[32px]
+                backdrop-blur-[40px] saturate-[180%]
+                bg-white/55 dark:bg-slate-900/65
+                border-[1.5px] border-white/50 dark:border-white/12
+                shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
+                shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]
+                dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)]
+                dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]
+                text-base font-black
+                text-slate-800 dark:text-slate-100
+                placeholder:text-slate-300 dark:placeholder:text-slate-700
+                focus:outline-none
+                focus:ring-4 focus:ring-blue-500/10
+                hover:bg-white/65 dark:hover:bg-slate-900/70
+                transition-all duration-[300ms] ease-[cubic-bezier(0.25,1,0.5,1)]
+              `}
               autoFocus={!selectedGroupCode}
             />
 
@@ -216,7 +251,16 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
                   initial={{ opacity: 0, y: 10, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.98 }}
-                  className="absolute mt-4 left-4 right-4 liquid-glass-material rim-light-ios26 inner-glow-ios26 rounded-[28px] shadow-2xl z-40 overflow-hidden py-2"
+                  transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
+                  className={`
+                    absolute mt-4 left-4 right-4 z-40 overflow-hidden py-2
+                    backdrop-blur-[60px] saturate-[180%]
+                    bg-white/75 dark:bg-slate-900/75
+                    border border-white/40 dark:border-white/20
+                    rounded-[28px]
+                    shadow-[0_35px_60px_-15px_rgba(0,0,0,0.2)]
+                    dark:shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)]
+                  `}
                 >
                   {suggestions.map((s) => (
                     <button
@@ -237,233 +281,237 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
             </AnimatePresence>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Content Area */}
       <div className="flex-1 overflow-y-auto custom-scrollbar px-2 pb-10 scroll-smooth">
         {isLoading ? (
-          <div className="h-full flex items-center justify-center text-sm font-semibold text-slate-400">
-            Carregando queixas...
+          <div className="h-full flex items-center justify-center">
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+              className="w-10 h-10 border-4 border-blue-500/30 border-t-blue-500 rounded-full"
+            />
           </div>
         ) : isError ? (
-          <div className="h-full flex items-center justify-center text-sm font-semibold text-rose-500">
-            Nao foi possivel carregar as queixas.
-          </div>
-        ) : !hasComplaints ? (
-          <div className="h-full flex items-center justify-center text-sm font-semibold text-slate-400">
-            Nenhuma queixa encontrada.
-          </div>
-        ) : searchTerm ? (
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto space-y-6">
-            <div className="flex items-center justify-between px-2">
-              <h3 className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-[0.2em]">
-                Localizações Encontradas
-              </h3>
-              <span className="text-[10px] font-black text-blue-500 glass-pill px-3 py-1 uppercase tracking-widest">
-                {filteredComplaints.length} Resultados
-              </span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {filteredComplaints.map((complaint) => (
-                <ComplaintCard
-                  key={complaint.id}
-                  complaint={complaint}
-                  onClick={() => {
-                    analytics.complaintSelection(complaint.id, searchTerm)
-                    addToSearchHistory(searchTerm, filteredComplaints.length, complaint.id)
-                    onSelect(complaint.id, complaint.group)
-                  }}
-                />
-              ))}
+          <div className="h-full flex items-center justify-center">
+            <div className={`
+              liquid-glass-material
+              bg-red-500/10 dark:bg-red-500/5
+              border-red-500/30 dark:border-red-500/20
+              rounded-3xl p-8 text-center
+              shadow-[0_25px_50px_-12px_rgba(239,68,68,0.15)]
+            `}>
+              <p className="text-sm font-bold text-red-600 dark:text-red-400">
+                Não foi possível carregar as queixas.
+              </p>
             </div>
           </div>
-        ) : selectedGroupCode && activeGroup ? (
-          <div className="animate-in fade-in slide-in-from-right-8 duration-500 max-w-6xl mx-auto">
-            <div className="flex items-center gap-6 mb-8 px-4">
-              <div className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg glass-pill transition-transform duration-500 hover:rotate-6">
-                {React.createElement(ICON_MAP[activeGroup.icon] || Activity, {
-                  className: 'w-7 h-7',
-                  style: { color: getIconColor(activeGroup.color) },
-                })}
-              </div>
-              <div className="space-y-0.5">
-                <h2 className="text-2xl font-black text-slate-800 dark:text-white tracking-tighter">
-                  {activeGroup.label}
-                </h2>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400 font-black uppercase tracking-[0.15em] opacity-70">
-                  {activeGroup.description ? `${activeGroup.description} • ` : ''}{groupComplaints.length} Opções
+        ) : selectedGroupCode || searchTerm ? (
+          /* Selected Group or Search Results */
+          <div className="space-y-3">
+            {filteredComplaints.length === 0 ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className={`
+                  liquid-glass-material
+                  bg-slate-100/50 dark:bg-slate-800/50
+                  border-slate-200/50 dark:border-slate-700/50
+                  rounded-3xl p-8 text-center
+                `}
+              >
+                <p className="text-sm font-semibold text-slate-600 dark:text-slate-400">
+                  Nenhum resultado encontrado para "{searchTerm}"
                 </p>
-              </div>
-            </div>
+              </motion.div>
+            ) : (
+              filteredComplaints.map((complaint, index) => {
+                const IconComponent = ICON_MAP[complaint.icon] || Activity
+                const iconColor = getIconColor(complaint.iconColor || 'blue')
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-              {groupComplaints.map((complaint) => (
-                <ComplaintCard
-                  key={complaint.id}
-                  complaint={complaint}
-                  onClick={() => onSelect(complaint.id, complaint.group)}
-                  onViewProtocol={(c) => {
-                    setSelectedProtocolComplaint(c)
-                    setProtocolDrawerOpen(true)
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="max-w-7xl mx-auto space-y-12 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            {/* Quick Access */}
-            {topSms.length > 0 && (
-              <section>
-                <div className="flex items-center justify-between mb-5 px-4">
-                   <div className="flex items-center gap-2.5">
-                      <Zap className="w-5 h-5 text-blue-500 fill-blue-500/10" />
-                      <h3 className="text-[11px] font-black text-slate-800 dark:text-white uppercase tracking-[0.2em]">Sugeridos para este Perfil</h3>
-                   </div>
-                   <div className="h-px flex-1 bg-slate-100 dark:bg-white/10 mx-6 opacity-30" />
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                  {topSms.map((complaint) => (
-                    <ComplaintCard
-                      key={`top-${complaint.id}`}
-                      complaint={complaint}
-                      onClick={() => onSelect(complaint.id, complaint.group)}
-                      styleVariant="premium"
-                    />
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Categories Grid - Optimized Spacing */}
-            <section>
-              <div className="flex items-center gap-2.5 mb-5 px-4">
-                <div className="w-5 h-5 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
-                  <ChevronRight className="w-3 h-3 text-slate-500" />
-                </div>
-                <h3 className="text-[11px] font-black text-slate-800 dark:text-white uppercase tracking-[0.2em]">Explorar Especialidades</h3>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
-                {groups.map((group) => {
-                  const Icon = ICON_MAP[group.icon] || Activity
-                  const isRecommended = group.recommendedFor.includes(targetCategory)
-
-                  return (
-                    <button
-                      key={group.code}
-                      onClick={() => setSelectedGroupCode(group.code)}
-                      className="group relative flex flex-col items-center justify-center p-5 rounded-[28px] text-center transition-all duration-400
-                                glass-molded rim-light-ios26 inner-glow-ios26
-                                hover:bg-white/20 dark:hover:bg-white/5 hover:shadow-xl hover:shadow-blue-500/5 hover:-translate-y-1"
-                    >
-                      <div className="w-12 h-12 rounded-2xl flex items-center justify-center mb-3 transition-all duration-500 group-hover:scale-110 glass-pill">
-                        <Icon className="w-6 h-6 stroke-[2px]" style={{ color: getIconColor(group.color) }} />
+                return (
+                  <motion.button
+                    key={complaint.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: index * 0.05, duration: 0.3 }}
+                    onClick={() => onSelect(complaint.id, complaint.group)}
+                    className={`
+                      w-full text-left p-5 rounded-2xl
+                      backdrop-blur-[40px] saturate-[180%]
+                      bg-white/55 dark:bg-slate-900/65
+                      border-[1.5px] border-white/40 dark:border-white/12
+                      shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
+                      dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]
+                      hover:scale-[1.02] hover:shadow-lg
+                      hover:bg-white/70 dark:hover:bg-slate-900/75
+                      transition-all duration-[300ms] ease-[cubic-bezier(0.25,1,0.5,1)]
+                      group
+                    `}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="shrink-0 flex h-12 w-12 items-center justify-center rounded-xl" style={{ background: `${iconColor}15`, border: `1px solid ${iconColor}30` }}>
+                        <IconComponent className="w-6 h-6" style={{ color: iconColor }} />
                       </div>
-
-                      <h3 className="text-[13px] font-black text-slate-800 dark:text-slate-100 leading-tight group-hover:text-blue-600 transition-colors">
-                        {group.label}
-                      </h3>
-
-                      {isRecommended && (
-                        <div className="absolute -top-1.5 -right-1.5 w-6 h-6 glass-pill bg-blue-500/90 rounded-full flex items-center justify-center text-white shadow-lg shadow-blue-500/20 ring-4 ring-white/50 dark:ring-slate-900/50 animate-in zoom-in duration-500">
-                          <Check className="w-3.5 h-3.5 stroke-[4px]" />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-bold text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                          {complaint.label}
+                        </h3>
+                        <p className="text-sm text-slate-500 dark:text-slate-400 truncate">
+                          {complaint.description}
+                        </p>
+                      </div>
+                      {complaint.riskLevel === 'high' && (
+                        <div className="shrink-0 px-3 py-1 rounded-full bg-red-500/10 dark:bg-red-500/20 border border-red-500/30">
+                          <span className="text-[10px] font-black uppercase tracking-wider text-red-600 dark:text-red-400">
+                            Alto risco
+                          </span>
                         </div>
                       )}
-                    </button>
+                    </div>
+                  </motion.button>
+                )
+              })
+            )}
+          </div>
+        ) : (
+          /* Default View - Top Symptoms & Groups */
+          <div className="space-y-6">
+            {/* Top Recommended Symptoms */}
+            <div>
+              <motion.h2
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.1 }}
+                className="mb-4 text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 px-2"
+              >
+                Recomendado para você
+              </motion.h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {topSms.map((complaint, index) => {
+                  const IconComponent = ICON_MAP[complaint.icon] || Activity
+                  const iconColor = getIconColor(complaint.iconColor || 'blue')
+
+                  return (
+                    <motion.button
+                      key={complaint.id}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.15 + index * 0.05, duration: 0.3 }}
+                      onClick={() => onSelect(complaint.id, complaint.group)}
+                      className={`
+                        w-full text-left p-4 rounded-2xl
+                        backdrop-blur-[40px] saturate-[180%]
+                        bg-white/55 dark:bg-slate-900/65
+                        border-[1.5px] border-white/40 dark:border-white/12
+                        shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
+                        dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]
+                        hover:scale-[1.03] hover:shadow-lg
+                        hover:bg-white/70 dark:hover:bg-slate-900/75
+                        transition-all duration-[300ms] ease-[cubic-bezier(0.25,1,0.5,1)]
+                        group
+                      `}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="shrink-0 flex h-11 w-11 items-center justify-center rounded-xl" style={{ background: `${iconColor}15`, border: `1px solid ${iconColor}30` }}>
+                          <IconComponent className="w-5 h-5" style={{ color: iconColor }} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                            {complaint.label}
+                          </h3>
+                        </div>
+                      </div>
+                    </motion.button>
                   )
                 })}
               </div>
-            </section>
+            </div>
+
+            {/* Groups Grid */}
+            <div>
+              <motion.h2
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.2 }}
+                className="mb-4 text-sm font-bold uppercase tracking-widest text-slate-500 dark:text-slate-400 px-2"
+              >
+                Por Categoria
+              </motion.h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {groups.map((group, index) => {
+                  const IconComponent = ICON_MAP[group.icon] || Activity
+                  const isRecommended = group.recommendedFor?.includes(targetCategory)
+
+                  return (
+                    <motion.button
+                      key={group.code}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.25 + index * 0.05, duration: 0.3 }}
+                      onClick={() => setSelectedGroupCode(group.code)}
+                      className={`
+                        w-full text-left p-4 rounded-2xl relative overflow-hidden
+                        backdrop-blur-[40px] saturate-[180%]
+                        ${isRecommended
+                          ? 'bg-gradient-to-br from-blue-500/15 to-purple-500/15 dark:from-blue-500/10 dark:to-purple-500/10'
+                          : 'bg-white/55 dark:bg-slate-900/65'
+                        }
+                        border-[1.5px] ${isRecommended
+                          ? 'border-blue-500/40 dark:border-blue-500/20'
+                          : 'border-white/40 dark:border-white/12'
+                        }
+                        shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
+                        dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)]
+                        hover:scale-[1.02] hover:shadow-lg
+                        hover:bg-white/70 dark:hover:bg-slate-900/75
+                        transition-all duration-[300ms] ease-[cubic-bezier(0.25,1,0.5,1)]
+                        group
+                      `}
+                    >
+                      {isRecommended && (
+                        <div className="absolute top-2 right-2">
+                          <div className="px-2 py-0.5 rounded-full bg-blue-500/20 border border-blue-500/40">
+                            <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 dark:text-blue-400">
+                              Recomendado
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      <div className="flex items-center gap-3">
+                        <div className="shrink-0 flex h-11 w-11 items-center justify-center rounded-xl bg-white/50 dark:bg-white/10 border border-white/30 dark:border-white/10">
+                          <IconComponent className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-bold text-slate-900 dark:text-slate-100 truncate">
+                            {group.label}
+                          </h3>
+                          <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                            {group.description}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.button>
+                  )
+                })}
+              </div>
+            </div>
           </div>
         )}
       </div>
 
-      <ProtocolDrawer
-        complaint={selectedProtocolComplaint}
-        isOpen={protocolDrawerOpen}
-        onClose={() => setProtocolDrawerOpen(false)}
-      />
+      {/* Protocol Drawer */}
+      {selectedProtocolComplaint && (
+        <ProtocolDrawer
+          isOpen={protocolDrawerOpen}
+          onClose={() => {
+            setProtocolDrawerOpen(false)
+            setSelectedProtocolComplaint(null)
+          }}
+          complaint={selectedProtocolComplaint}
+        />
+      )}
     </div>
-  )
-}
-
-interface ComplaintCardProps {
-  complaint: ComplaintApiPayload
-  onClick: () => void
-  onViewProtocol?: (complaint: ComplaintApiPayload) => void
-  styleVariant?: 'default' | 'premium'
-}
-
-const ComplaintCard: React.FC<ComplaintCardProps> = ({ complaint, onClick, onViewProtocol, styleVariant = 'default' }) => {
-  const isHighRisk = complaint.riskLevel === 'high'
-  const hasEBMContent = Boolean(
-    complaint.extendedContentEBM?.ebmReferences?.length ||
-    complaint.extendedContentEBM?.lastEBMReview ||
-    complaint.extendedContent?.rawMarkdown?.includes('## ⚡ AÇÃO IMEDIATA')
-  )
-
-  return (
-    <motion.div
-      whileHover={{ y: -4, scale: 1.01 }}
-      whileTap={{ scale: 0.98 }}
-      onClick={onClick}
-      className={cn(
-        'relative flex flex-col p-5 rounded-[28px] cursor-pointer transition-all duration-400',
-        'glass-molded rim-light-ios26 inner-glow-ios26',
-        styleVariant === 'premium' && 'ring-1 ring-blue-500/10 bg-gradient-to-br from-blue-500/5 to-transparent',
-        isHighRisk ? 'ring-2 ring-red-500/20 border-red-500/30' : 'hover:shadow-lg hover:shadow-blue-500/5'
-      )}
-    >
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1">
-             {isHighRisk && <Siren className="w-4 h-4 text-red-500 animate-pulse shrink-0" />}
-             <h4 className={`text-sm font-black tracking-tight truncate ${isHighRisk ? 'text-red-600 dark:text-red-400' : 'text-slate-800 dark:text-white'}`}>
-                {complaint.title}
-             </h4>
-          </div>
-          <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-wider line-clamp-1 opacity-70">
-            {complaint.subtitle}
-          </p>
-        </div>
-      </div>
-
-      <div className="mt-auto space-y-3">
-        <div className="flex flex-wrap gap-1.5">
-          {complaint.chips?.slice(0, 2).map((chip: string) => (
-            <span key={chip} className="px-2 py-0.5 glass-pill text-[9px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-tighter">
-              {chip}
-            </span>
-          ))}
-          {hasEBMContent && (
-             <span className="px-2 py-0.5 glass-pill text-green-600 dark:text-green-400 text-[9px] font-black uppercase">EBM</span>
-          )}
-        </div>
-
-
-        <div className="flex gap-2">
-           <button className={cn(
-             'flex-1 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all',
-             isHighRisk
-               ? 'btn-primary-glass bg-gradient-to-br from-red-500 to-red-600 text-white shadow-lg shadow-red-500/20'
-               : 'btn-primary-glass'
-           )}>
-             Atender
-           </button>
-           {hasEBMContent && onViewProtocol && (
-             <button
-                onClick={(e) => { e.stopPropagation(); onViewProtocol(complaint); }}
-                className="w-10 h-10 flex items-center justify-center rounded-xl glass-pill text-slate-400 hover:text-blue-500 transition-all hover:scale-110"
-             >
-                <BookOpen className="w-4 h-4" />
-             </button>
-           )}
-        </div>
-      </div>
-      
-      {isHighRisk && (
-        <div className="absolute top-0 right-8 w-8 h-1 bg-red-500 rounded-b-full shadow-lg shadow-red-500/50" />
-      )}
-    </motion.div>
   )
 }

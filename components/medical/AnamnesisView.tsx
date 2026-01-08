@@ -147,9 +147,9 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
 
   const getSeverityStyles = () => {
     switch(severity) {
-      case 'critical': return 'from-rose-500/80 to-rose-700/80 shadow-rose-500/30 border-rose-400/30';
-      case 'warning': return 'from-amber-500/80 to-orange-600/80 shadow-amber-500/30 border-amber-400/30';
-      default: return 'from-blue-500/80 to-indigo-600/80 shadow-blue-500/30 border-blue-400/30';
+      case 'critical': return 'from-rose-500/90 to-rose-700/90 border-rose-400/50 shadow-rose-500/20';
+      case 'warning': return 'from-amber-500/90 to-orange-600/90 border-amber-400/50 shadow-amber-500/20';
+      default: return 'from-blue-600/90 to-indigo-700/90 border-blue-400/40 shadow-blue-500/25';
     }
   };
 
@@ -162,8 +162,8 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
       className="fixed bottom-28 right-10 z-100 w-[340px]"
     >
       <div className={`
-        relative overflow-hidden rounded-[42px] backdrop-blur-3xl border shadow-3xl p-6 group
-        ${getSeverityStyles()}
+        relative overflow-hidden rounded-[42px] backdrop-blur-3xl border shadow-[0_30px_80px_rgba(0,0,0,0.3)] p-6 group
+        bg-gradient-to-br ${getSeverityStyles()}
       `}>
         {/* Animated Mesh Gradient Background (Inside) */}
         <motion.div 
@@ -202,7 +202,7 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
                 whileHover={{ x: 6, backgroundColor: 'rgba(255, 255, 255, 0.15)' }}
                 whileTap={{ scale: 0.97 }}
                 onClick={() => onClick(calc.name)}
-                className="w-full flex items-center justify-between p-4 rounded-[24px] bg-white/10 border border-white/20 transition-all duration-700 text-left group/btn rim-highlight"
+                className="w-full flex items-center justify-between p-4 rounded-[24px] bg-white/10 hover:bg-white/20 border border-white/20 transition-all duration-500 text-left group/btn rim-highlight shadow-lg shadow-black/5"
               >
                 <div className="min-w-0 pr-4">
                   <p className="text-[14px] font-apple-black text-white truncate">{calc.name}</p>
@@ -223,8 +223,9 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
           </div>
         </div>
 
-        {/* Outer Specular Highlight */}
-        <div className="absolute inset-0 pointer-events-none border border-white/30 rounded-[42px] mix-blend-overlay" />
+        {/* Outer Specular Highlight & Noise */}
+        <div className="absolute inset-0 pointer-events-none noise-grain opacity-50" />
+        <div className="absolute inset-0 pointer-events-none border border-white/40 rounded-[42px] mix-blend-overlay shadow-[inset_0_1px_1px_rgba(255,255,255,0.4)]" />
       </div>
     </motion.div>
   );

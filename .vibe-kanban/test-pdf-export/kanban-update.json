@@ -1,0 +1,1536 @@
+{
+  "version": "1.0",
+  "updates": [
+    {
+      "taskId": "T1",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "@react-pdf/renderer installed (v3.1.14+)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T2",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "react-pdf installed (v7.5.1+)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T3",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "No TypeScript errors after installation",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T4",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "pnpm typecheck passes",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T5",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "All directories created",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T6",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Index.ts files exist in component directories",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T7",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "No duplicate directories",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T8",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "vercel.json created/updated",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T9",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "PDF export route configured with 1024 MB memory",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T10",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "PDF export route configured with 10s timeout",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T11",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "ExportPdfRequestSchema defined",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T12",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Validates sessionId as cuid string",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T13",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "TypeScript types exported",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T14",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Schema exported for API route use",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T15",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Component renders without errors",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T16",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "All CFM-required fields present (date, professional, findings)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T17",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Portuguese language used throughout",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T18",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Red flags displayed prominently when present",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T19",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Footer includes WellWave branding",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T20",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Multi-page support (if content overflows)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T21",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Styles properly defined (Helvetica font, readable sizes)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T22",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Endpoint responds to POST requests",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T23",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Request validation works (400 on invalid)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T24",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Authentication enforced (401 on unauthorized)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T25",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Authorization enforced (403 on wrong user)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T26",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Returns 404 for non-existent session",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T27",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Returns 200 with PDF binary for valid request",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T28",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Content-Type header set to application/pdf",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T29",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Content-Disposition header set with correct filename",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T30",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Filename format: anamnesis-[syndrome]-[date].pdf",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T31",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Errors logged to Sentry",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T32",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Response time <3 seconds (tested)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T33",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "All test cases implemented",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T34",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Tests pass (pnpm vitest run)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T35",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Coverage >80% for API route",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T36",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Mocks properly isolated",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T37",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "No test pollution between cases",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T38",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Hook uses useMutation",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T39",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Calls correct API endpoint",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T40",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Sends correct request body (sessionId)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T41",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Downloads PDF blob to browser",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T42",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Extracts filename from Content-Disposition header",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T43",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Throws error on failure with message",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T44",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "TypeScript types properly defined",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T45",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Component accepts sessionId, syndrome, disabled props",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T46",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Renders Button with FileDown icon",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T47",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Shows loading state (spinner + \"Gerando PDF...\")",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T48",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Shows idle state (\"Exportar PDF\" + icon)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T49",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Calls useExportPdf on click",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T50",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Disabled when isPending or disabled prop",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T51",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "ARIA label present",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T52",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Keyboard accessible (Enter key)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T53",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Responsive design (works on mobile)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T54",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "All test cases implemented",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T55",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Tests pass (pnpm vitest run)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T56",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Coverage >80% for component",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T57",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Mocks properly isolated",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T58",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Accessibility tested",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T59",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Button visible on anamnesis results page",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T60",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Button placed in logical location",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T61",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Button disabled when no anamnesis generated",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T62",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Button enabled after anamnesis generated",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T63",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Proper styling with Tailwind",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T64",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Responsive on mobile/tablet/desktop",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T65",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Success toast shown on successful export",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T66",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Error toast shown on failed export",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T67",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Error messages user-friendly (Portuguese)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T68",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "All error types handled",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T69",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Toast auto-dismisses after 5 seconds",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T70",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Button remains clickable after error",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T71",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "All error scenarios tested",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T72",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Toast notifications called correctly",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T73",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Error messages in Portuguese",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T74",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Tests pass (pnpm vitest run)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T75",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "PDF template verified to contain no patient identifiers",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T76",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "\"DOCUMENTO ANÔNIMO\" label present",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T77",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Only anonymous session data in PDF",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T78",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "No fields for patient name, CPF, ID, etc.",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T79",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Security tests implemented",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T80",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "401 tested for no token",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T81",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "401 tested for invalid token",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T82",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "403 tested for wrong user",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T83",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Tests pass (pnpm vitest run)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T84",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Complete user flow tested",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T85",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Download event captured",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T86",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Filename matches pattern: anamnesis-[syndrome]-[date].pdf",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T87",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "File contains valid PDF header (%PDF)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T88",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Test passes locally (pnpm playwright test)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T89",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Test passes in CI",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T90",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Unauthorized access tested",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T91",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "403 status code verified",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T92",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Error message verified",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T93",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "No download triggered",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T94",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Test passes",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T95",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Loading state tested",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T96",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "\"Gerando PDF...\" text visible",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T97",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Spinner animation visible",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T98",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Loading state removed after completion",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T99",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Normal state restored",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T100",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Test passes",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T101",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "All unit tests pass (pnpm vitest run)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T102",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "All E2E tests pass (pnpm playwright test)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T103",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "No TypeScript errors (pnpm typecheck)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T104",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "No lint errors (pnpm lint)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T105",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Test coverage >80%",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T106",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "No test pollution",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T107",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "JSDoc comments on all public APIs",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T108",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Parameters documented",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T109",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Return types documented",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T110",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Usage examples included",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T111",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "No undocumented exports",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T112",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "CHANGELOG.md updated",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T113",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Version entry added",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T114",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Feature documented",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T115",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Changes listed",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T116",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**Batch Export**: Allow exporting multiple anamneses at once",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T117",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**PDF Caching**: Cache generated PDFs to avoid regeneration",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T118",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**Custom Templates**: Allow users to customize PDF layout",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T119",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**Digital Signature**: Add digital signature support",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T120",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**Email Delivery**: Send PDF via email instead of download",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T121",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**Print Preview**: Show preview before download",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T122",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**Export Formats**: Support Word, HTML, etc.",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T123",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**Audit Logging**: Add PdfExport table to database",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T124",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**Rate Limiting**: Add rate limiting per user",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T125",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "**Performance Metrics**: Track PDF generation time",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T126",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "`specs/test-pdf-export/tasks.md` created and complete",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T127",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "All tasks have clear descriptions",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T128",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "All tasks have file paths listed",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T129",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "All tasks have step-by-step instructions",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T130",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "Dependencies identified for each task",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T131",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "Parallel-safe tasks marked with ``",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown",
+        "parallel"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T132",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "Acceptance criteria defined per task",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T133",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "Execution order documented",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T134",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "Time estimates provided",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T135",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "Risk assessment complete",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T136",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "Dependency graph created",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T137",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "Parallel execution opportunities identified",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T138",
+      "spec": "test-pdf-export",
+      "status": "todo",
+      "description": "Human review received (recommended)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    },
+    {
+      "taskId": "T139",
+      "spec": "test-pdf-export",
+      "status": "done",
+      "description": "Context budget: Still in Smart Zone (20-40%)",
+      "labels": [
+        "spec:test-pdf-export",
+        "phase:Unknown"
+      ],
+      "dependencies": []
+    }
+  ],
+  "generatedAt": "2026-01-08T05:33:18.055Z"
+}

@@ -1,0 +1,8 @@
+{
+  "spec": "001-wellwave-mvp",
+  "totalTasks": 99,
+  "done": 89,
+  "pending": 10,
+  "blocking": 15,
+  "parallel": 15
+}
