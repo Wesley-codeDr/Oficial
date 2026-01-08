@@ -1,15 +1,9 @@
-'use client'
-
 import { redirect } from 'next/navigation'
-import { motion } from 'framer-motion'
 import { getUser } from '@/lib/supabase/server'
 import { DashboardHeader } from '@/components/layout/DashboardHeader'
+import { DashboardContent } from '@/components/layout/DashboardContent'
 
-export default async function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function DashboardLayout({ children }: { children: React.ReactNode }) {
   const user = await getUser()
 
   if (!user) {
@@ -19,31 +13,24 @@ export default async function DashboardLayout({
   const userName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Usuario'
 
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Glass Header */}
+    <div className="flex min-h-screen flex-col bg-gradient-to-br from-blue-50/30 via-purple-50/20 to-pink-50/30 dark:from-slate-950 dark:via-purple-950/20 dark:to-pink-950/30">
       <DashboardHeader userName={userName} />
 
-      {/* Main Content */}
       <main className="flex-1 p-4 lg:p-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
-          className="max-w-7xl mx-auto"
-        >
-          {children}
-        </motion.div>
+        <DashboardContent>{children}</DashboardContent>
       </main>
 
-      {/* Glass Footer */}
-      <footer className={`
+      <footer
+        className={`
         relative z-10
         flex h-12 items-center justify-center border-t
-        backdrop-blur-[60px] saturate-[180%]
-        bg-white/60 dark:bg-slate-900/60
-        border-white/40 dark:border-white/10
+        backdrop-blur-4xl saturate-180
+        bg-white/25 dark:bg-slate-900/25
+        border-white/30 dark:border-white/10
+        shadow-glass dark:shadow-glass-dark
         transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]
-      `}>
+      `}
+      >
         <p className="text-xs text-slate-500 dark:text-slate-400">
           &copy; {new Date().getFullYear()} WellWave - Documentação médica inteligente
         </p>

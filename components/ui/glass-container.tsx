@@ -34,10 +34,12 @@ const sizeClasses = {
 }
 
 const variantClasses = {
-  card: 'bg-white/60 dark:bg-[#1c1c1e]/60 backdrop-blur-3xl border border-white/60 dark:border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.3)] ring-1 ring-white/40 dark:ring-white/5',
-  panel: 'bg-white/40 dark:bg-white/5 backdrop-blur-xl border border-white/40 dark:border-white/10',
-  section: 'bg-white/20 dark:bg-white/[0.02] backdrop-blur-2xl border border-white/30 dark:border-white/5',
-  nav: 'bg-white/60 dark:bg-[#1c1c1e]/60 backdrop-blur-3xl border-b border-white/60 dark:border-white/10',
+  card: 'bg-white/25 dark:bg-[#1c1c1e]/25 backdrop-blur-4xl saturate-180 border border-white/30 dark:border-white/10 shadow-glass dark:shadow-glass-dark ring-1 ring-white/40 dark:ring-white/5',
+  panel:
+    'bg-white/25 dark:bg-white/[0.03] backdrop-blur-4xl saturate-180 border border-white/30 dark:border-white/10',
+  section:
+    'bg-white/15 dark:bg-white/[0.02] backdrop-blur-4xl saturate-180 border border-white/20 dark:border-white/5',
+  nav: 'bg-white/25 dark:bg-[#1c1c1e]/25 backdrop-blur-4xl saturate-180 border-b border-white/30 dark:border-white/10 shadow-glass dark:shadow-glass-dark',
 }
 
 export function GlassContainer({
@@ -103,7 +105,10 @@ export function GlassMetricCard({
   trendValue,
   className,
 }: GlassMetricCardProps) {
-  const glowClasses: Record<GlowColor, { iconBg: string; iconColor: string; trendBg: string; trendColor: string }> = {
+  const glowClasses: Record<
+    GlowColor,
+    { iconBg: string; iconColor: string; trendBg: string; trendColor: string }
+  > = {
     teal: {
       iconBg: 'bg-teal-50 dark:bg-teal-500/20',
       iconColor: 'text-teal-500',
@@ -153,10 +158,10 @@ export function GlassMetricCard({
   return (
     <motion.div
       className={cn(
-        'group relative overflow-hidden rounded-[32px] p-6 h-[200px] flex flex-col justify-between',
-        'bg-white/60 dark:bg-[#1c1c1e]/60 backdrop-blur-3xl',
-        'border border-white/60 dark:border-white/10',
-        'shadow-[0_8px_32px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgba(0,0,0,0.06)]',
+        'group relative overflow-hidden rounded-liquid-lg p-6 h-[200px] flex flex-col justify-between',
+        'bg-white/25 dark:bg-[#1c1c1e]/25 backdrop-blur-4xl saturate-180',
+        'border border-white/30 dark:border-white/10',
+        'shadow-glass dark:shadow-glass-dark hover:shadow-glass-elevated',
         'ring-1 ring-white/40 dark:ring-white/5',
         'transition-all duration-500 hover:scale-[1.02]',
         className
@@ -166,7 +171,8 @@ export function GlassMetricCard({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {/* Volumetric Glow */}
+      <div className="light-refraction" />
+
       <div
         className={cn(
           'absolute -top-20 -right-20 w-60 h-60 rounded-full pointer-events-none',
@@ -204,7 +210,12 @@ export function GlassMetricCard({
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 10l7-7m0 0l7 7m-7-7v18"
+              />
             </svg>
             {trendValue}
           </div>
@@ -216,11 +227,13 @@ export function GlassMetricCard({
         <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide mb-1">
           {title}
         </p>
-        <h3 className="text-[42px] font-bold text-slate-800 dark:text-white tracking-tight leading-none">
+        <h3 className="text-[42px] font-light text-slate-800 dark:text-white tracking-tight leading-none">
           {value}
         </h3>
         {subtitle && (
-          <p className="text-sm font-semibold text-slate-400 dark:text-slate-500 mt-1">{subtitle}</p>
+          <p className="text-sm font-semibold text-slate-400 dark:text-slate-500 mt-1">
+            {subtitle}
+          </p>
         )}
       </div>
     </motion.div>

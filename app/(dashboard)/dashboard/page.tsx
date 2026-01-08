@@ -122,30 +122,35 @@ export default async function DashboardPage() {
               >
                 <Link href={`/anamnese/${syndrome.code.toLowerCase()}`}>
                   <motion.div
-                    whileHover={{ scale: 1.02, y: -4 }}
+                    whileHover={{
+                      scale: 1.02,
+                      y: -4,
+                      transition: { type: 'spring', stiffness: 300, damping: 30 },
+                    }}
                     whileTap={{ scale: 0.98 }}
                     className={`
                       h-full relative overflow-hidden
                       liquid-glass-material
-                      bg-white/55 dark:bg-slate-900/55
-                      border border-white/40 dark:border-white/10
-                      rounded-2xl
-                      shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
-                      dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.3)]
+                      bg-white/25 dark:bg-slate-900/25
+                      backdrop-blur-4xl saturate-180
+                      border border-white/30 dark:border-white/10
+                      rounded-liquid-lg
+                      shadow-glass dark:shadow-glass-dark
+                      ring-1 ring-white/40 dark:ring-white/5
                       transition-all duration-[500ms] ease-[cubic-bezier(0.25,1,0.5,1)]
                       group
                     `}
                   >
-                    {/* Content */}
-                    <div className="p-6">
+                    <div className="light-refraction" />
+
+                    <div className="relative z-10 p-6">
                       <div className="flex flex-col items-center space-y-4 text-center">
-                        {/* Icon */}
                         <motion.div
                           whileHover={{ rotate: 5, scale: 1.1 }}
                           transition={{ type: 'spring', stiffness: 300 }}
-                          className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/10 to-purple-500/10 group-hover:from-blue-500/20 group-hover:to-purple-500/20 border border-white/30 dark:border-white/10"
+                          className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500/15 to-purple-500/15 group-hover:from-blue-500/25 group-hover:to-purple-500/25 border border-white/30 dark:border-white/10"
                         >
-                          <IconComponent className="h-7 w-7 text-blue-600 dark:text-blue-400 transition-colors" />
+                          <IconComponent className="h-7 w-7 text-blue-600 dark:text-blue-400 transition-colors group-hover:icon-glow" />
                         </motion.div>
 
                         {/* Title & Description */}

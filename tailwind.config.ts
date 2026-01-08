@@ -10,11 +10,11 @@ const config: Config = {
   ],
   theme: {
     screens: {
-      'xs': '320px',   // iPhone SE 1st gen, extreme small phones
-      'sm': '640px',   // Mobile landscape
-      'md': '768px',   // Tablet portrait
-      'lg': '1024px',  // Desktop / tablet landscape
-      'xl': '1280px',  // Large desktop
+      xs: '320px', // iPhone SE 1st gen, extreme small phones
+      sm: '640px', // Mobile landscape
+      md: '768px', // Tablet portrait
+      lg: '1024px', // Desktop / tablet landscape
+      xl: '1280px', // Large desktop
       '2xl': '1536px', // Extra large desktop
     },
     extend: {
@@ -120,12 +120,16 @@ const config: Config = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
-        'apple-cta': '16px', // Standard for Apple Buttons
-        'apple-card': '32px', // Standard for Apple Cards
-        'apple-input': '22px', // Standard for iOS Inputs
-        '3xl': '1.5rem', 
-        '4xl': '2rem', 
-        '5xl': '2.75rem', 
+        'apple-cta': '16px',
+        'apple-card': '32px',
+        'apple-input': '22px',
+        '3xl': '1.5rem',
+        '4xl': '2rem',
+        '5xl': '2.75rem',
+        'liquid-sm': '20px',
+        'liquid-md': '28px',
+        'liquid-lg': '32px',
+        'liquid-xl': '40px',
       },
       animation: {
         // Animações suaves estilo Apple
@@ -196,7 +200,12 @@ const config: Config = {
         '2xl': '40px',
         '3xl': '50px',
         '4xl': '60px',
-        '5xl': '80px', // For ultra-low focus depth
+        '5xl': '80px',
+      },
+      backdropSaturate: {
+        '150': '150%',
+        '180': '180%',
+        '200': '200%',
       },
       transitionTimingFunction: {
         apple: 'cubic-bezier(0.4, 0, 0.2, 1)',
@@ -207,7 +216,16 @@ const config: Config = {
         apple: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
         'apple-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
         'apple-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37), 0 25px 50px -12px rgba(0, 0, 0, 0.25)', // Enhanced glass shadow
+        glass: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.4)',
+        'glass-dark': '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        'glass-elevated':
+          '0 25px 50px -12px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.5)',
+        'glow-blue': '0 4px 24px rgba(59, 130, 246, 0.35)',
+        'glow-blue-intense': '0 8px 32px rgba(59, 130, 246, 0.45)',
+        'glow-red': '0 4px 24px rgba(255, 59, 48, 0.35)',
+        'glow-red-intense': '0 8px 32px rgba(255, 59, 48, 0.45)',
+        'glow-green': '0 4px 24px rgba(52, 199, 89, 0.35)',
+        float: '0 25px 50px -12px rgba(0, 0, 0, 0.15)',
       },
     },
   },

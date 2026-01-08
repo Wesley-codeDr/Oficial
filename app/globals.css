@@ -104,24 +104,22 @@
   backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
   border: 1px solid var(--liquid-glass-border);
   box-shadow: var(--liquid-glass-shadow);
-  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1); /* Authentic iOS spring-like bezier */
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   z-index: 1;
-  border-radius: 32px;
+  border-radius: var(--liquid-radius-lg, 32px);
   overflow: hidden;
 
-  /* Noise Grain Texture */
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    z-index: -1; /* Behind content, on top of bg */
-    opacity: 0.03; /* Very subtle */
+    z-index: -1;
+    opacity: 0.03;
     background-image: var(--noise-texture);
     pointer-events: none;
     mix-blend-mode: overlay;
   }
 
-  /* Specular Sheen "Passing Mirror" Effect */
   &::after {
     content: '';
     position: absolute;
@@ -134,7 +132,7 @@
       transparent 0%,
       rgba(255, 255, 255, 0) 20%,
       rgba(255, 255, 255, 0.3) 50%,
-      /* Bright highlight */ rgba(255, 255, 255, 0) 80%,
+      rgba(255, 255, 255, 0) 80%,
       transparent 100%
     );
     transform: skewX(-20deg);
@@ -145,13 +143,12 @@
 
   &:hover::after {
     left: 150%;
-    transition: left 1.2s cubic-bezier(0.19, 1, 0.22, 1); /* Slow, smooth wipe */
+    transition: left 1.2s cubic-bezier(0.19, 1, 0.22, 1);
   }
 
-  /* Rim Light Highlight (Top Bevel) */
   box-shadow:
     var(--liquid-glass-shadow),
-    inset 0 1px 1px 0 rgba(255, 255, 255, 0.5); /* Top crisp highlight */
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.5);
 
   @media (max-width: 768px) {
     -webkit-backdrop-filter: blur(var(--liquid-glass-blur-mobile))

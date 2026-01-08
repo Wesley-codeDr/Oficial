@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { Activity, User, Settings, LogOut, Bell, Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
@@ -24,15 +25,15 @@ export function DashboardHeader({ userName, userAvatar, notifications = 0 }: Das
     <>
       {/* Header */}
       <header className="sticky top-0 z-50 w-full">
-        {/* Glass backdrop */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className={`
             relative h-16
-            backdrop-blur-[60px] saturate-[180%]
-            bg-white/70 dark:bg-slate-900/70
-            border-b border-white/40 dark:border-white/10
+            backdrop-blur-4xl saturate-180
+            bg-white/25 dark:bg-slate-900/25
+            border-b border-white/30 dark:border-white/10
+            shadow-glass dark:shadow-glass-dark
             transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)]
           `}
         >
@@ -90,9 +91,7 @@ export function DashboardHeader({ userName, userAvatar, notifications = 0 }: Das
             {/* Right - Actions */}
             <div className="flex items-center gap-2">
               {/* Notifications */}
-              <button
-                className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white/50 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/15 transition-all hover:scale-105"
-              >
+              <button className="relative flex h-10 w-10 items-center justify-center rounded-xl bg-white/50 dark:bg-white/10 hover:bg-white/70 dark:hover:bg-white/15 transition-all hover:scale-105">
                 <Bell className="h-5 w-5 text-slate-500 dark:text-slate-400" />
                 {notifications > 0 && (
                   <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-bold text-white shadow-md">
@@ -143,7 +142,7 @@ export function DashboardHeader({ userName, userAvatar, notifications = 0 }: Das
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -100 }}
                 transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                className="fixed left-0 top-0 z-50 h-full w-72 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-r border-white/40 dark:border-white/10 lg:hidden"
+                className="fixed left-0 top-0 z-50 h-full w-72 glass-elevated-2026 bg-white/35 dark:bg-slate-900/35 border-r border-white/50 dark:border-white/20 shadow-float lg:hidden"
               >
                 <div className="flex h-16 items-center justify-between px-4 border-b border-white/20 dark:border-white/10">
                   <span className="text-lg font-semibold">Menu</span>
