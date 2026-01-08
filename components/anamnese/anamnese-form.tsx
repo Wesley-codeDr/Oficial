@@ -3,7 +3,7 @@
 import { useState, useMemo, useTransition, useCallback, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckboxCategory } from '@prisma/client'
-import { Save, RotateCcw, FileText, List, MessageSquare } from 'lucide-react'
+import { Save, RotateCcw, FileText, List, MessageSquare, FileDown } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { CheckboxGroup } from './checkbox-group'
@@ -11,7 +11,12 @@ import { NarrativePreview } from './narrative-preview'
 import { RedFlagAlert } from './red-flag-alert'
 import { ComplaintSelector } from './complaint-selector'
 import { PriorityCheckboxPanel } from './priority-checkbox-panel'
-import { generateNarrative, detectRedFlags, type OutputMode } from '@/lib/anamnese/generate-narrative'
+import { ExportPDFButton } from './ExportPDFButton'
+import {
+  generateNarrative,
+  detectRedFlags,
+  type OutputMode,
+} from '@/lib/anamnese/generate-narrative'
 import { saveAnamneseSession, markSessionAsCopied } from '@/lib/anamnese/actions'
 import { useToast } from '@/hooks/use-toast'
 import { analytics } from '@/lib/analytics'
@@ -74,13 +79,16 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   const evolutionType = usePatientStore((state) => state.evolutionType)
   const onsetType = usePatientStore((state) => state.onsetType)
 
-  const patientContext = useMemo(() => ({
-    gender,
-    isPediatric,
-    painIntensity: painIntensity > 0 ? painIntensity : undefined,
-    evolutionType,
-    onsetType,
-  }), [gender, isPediatric, painIntensity, evolutionType, onsetType])
+  const patientContext = useMemo(
+    () => ({
+      gender,
+      isPediatric,
+      painIntensity: painIntensity > 0 ? painIntensity : undefined,
+      evolutionType,
+      onsetType,
+    }),
+    [gender, isPediatric, painIntensity, evolutionType, onsetType]
+  )
 
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [outputMode, setOutputMode] = useState<OutputMode>('SUMMARY')
@@ -88,7 +96,9 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
   // State for complaint selector and priority checkboxes
   const [selectedComplaintId, setSelectedComplaintId] = useState<string | null>(null)
-  const [prioritySelectedCheckboxes, setPrioritySelectedCheckboxes] = useState<Set<string>>(new Set())
+  const [prioritySelectedCheckboxes, setPrioritySelectedCheckboxes] = useState<Set<string>>(
+    new Set()
+  )
 
   // Load complaint data when selected
   const { data: selectedComplaint } = useComplaint(selectedComplaintId || '')
@@ -134,7 +144,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
     // Add red flags from complaint EBM
     if (selectedComplaint?.extendedContentEBM?.redFlags) {
-      const complaintRedFlags = selectedComplaint.extendedContentEBM.redFlags.map(rf => ({
+      const complaintRedFlags = selectedComplaint.extendedContentEBM.redFlags.map((rf) => ({
         description: rf.description,
         severity: rf.severity,
         immediateAction: rf.immediateAction,
@@ -192,61 +202,67 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   }, [])
 
   // Helper function to find checkbox ID by label and category
-  const findCheckboxIdByLabel = useCallback((category: CheckboxCategory, label: string): string | null => {
-    const checkbox = syndrome.checkboxes.find(
-      cb => cb.category === category && cb.displayText === label
-    )
-    return checkbox?.id || null
-  }, [syndrome.checkboxes])
+  const findCheckboxIdByLabel = useCallback(
+    (category: CheckboxCategory, label: string): string | null => {
+      const checkbox = syndrome.checkboxes.find(
+        (cb) => cb.category === category && cb.displayText === label
+      )
+      return checkbox?.id || null
+    },
+    [syndrome.checkboxes]
+  )
 
   // Handler for priority checkboxes
-  const handlePriorityToggle = useCallback((label: string, category: CheckboxCategoryType) => {
-    const key = `${category}:${label}`
-    const checkboxId = findCheckboxIdByLabel(category, label)
+  const handlePriorityToggle = useCallback(
+    (label: string, category: CheckboxCategoryType) => {
+      const key = `${category}:${label}`
+      const checkboxId = findCheckboxIdByLabel(category, label)
 
-    // Se não encontrar o checkbox, logar e retornar
-    if (!checkboxId) {
-      console.warn(`Checkbox not found: ${category} - ${label}`)
-      return
-    }
-
-    // Atualizar estado visual do painel prioritário
-    setPrioritySelectedCheckboxes(prev => {
-      const next = new Set(prev)
-      if (next.has(key)) {
-        next.delete(key)
-      } else {
-        next.add(key)
+      // Se não encontrar o checkbox, logar e retornar
+      if (!checkboxId) {
+        console.warn(`Checkbox not found: ${category} - ${label}`)
+        return
       }
-      return next
-    })
 
-    // CRÍTICO: Sincronizar com selectedIds para gerar narrativa
-    setSelectedIds(prev => {
-      const next = new Set(prev)
-      if (next.has(checkboxId)) {
-        next.delete(checkboxId)
-      } else {
-        next.add(checkboxId)
-      }
-      return next
-    })
+      // Atualizar estado visual do painel prioritário
+      setPrioritySelectedCheckboxes((prev) => {
+        const next = new Set(prev)
+        if (next.has(key)) {
+          next.delete(key)
+        } else {
+          next.add(key)
+        }
+        return next
+      })
 
-    // Reset saved session when changing selection
-    setSavedSessionId(null)
-  }, [findCheckboxIdByLabel])
+      // CRÍTICO: Sincronizar com selectedIds para gerar narrativa
+      setSelectedIds((prev) => {
+        const next = new Set(prev)
+        if (next.has(checkboxId)) {
+          next.delete(checkboxId)
+        } else {
+          next.add(checkboxId)
+        }
+        return next
+      })
+
+      // Reset saved session when changing selection
+      setSavedSessionId(null)
+    },
+    [findCheckboxIdByLabel]
+  )
 
   // Sincronizar prioritySelectedCheckboxes quando selectedIds muda (sincronização reversa)
   useEffect(() => {
     if (!selectedComplaintId) return // Só sincroniza se houver queixa selecionada
 
-    setPrioritySelectedCheckboxes(prev => {
+    setPrioritySelectedCheckboxes((prev) => {
       const next = new Set(prev)
       let changed = false
 
       // Para cada ID selecionado, adicionar ao set prioritário se não existir
-      selectedIds.forEach(id => {
-        const checkbox = syndrome.checkboxes.find(cb => cb.id === id)
+      selectedIds.forEach((id) => {
+        const checkbox = syndrome.checkboxes.find((cb) => cb.id === id)
         if (checkbox) {
           const key = `${checkbox.category}:${checkbox.displayText}`
           if (!next.has(key)) {
@@ -257,7 +273,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
       })
 
       // Remover do set prioritário se não estiver em selectedIds
-      Array.from(next).forEach(key => {
+      Array.from(next).forEach((key) => {
         const [category, ...labelParts] = key.split(':')
         const label = labelParts.join(':')
         const checkboxId = findCheckboxIdByLabel(category as CheckboxCategory, label)
@@ -288,7 +304,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           checkedItems: Array.from(selectedIds),
           generatedText: narrative,
           outputMode,
-          redFlagsDetected: redFlags.map((rf) => 'id' in rf ? rf.id : rf.description),
+          redFlagsDetected: redFlags.map((rf) => ('id' in rf ? rf.id : rf.description)),
         })
 
         setSavedSessionId(session.id)
@@ -375,7 +391,6 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     <div className="grid gap-8 lg:grid-cols-[1fr,450px]">
       {/* Left Panel - Checkboxes */}
       <div className="space-y-8">
-        
         {/* Complaint Selector */}
         <div className="glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[32px] p-6 shadow-xl">
           <ComplaintSelector
@@ -431,7 +446,8 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
           <div className="text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2 glass-pill px-4 py-2">
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-            {selectedIds.size} Iten{selectedIds.size !== 1 ? 's' : ''} Selecionado{selectedIds.size !== 1 ? 's' : ''}
+            {selectedIds.size} Iten{selectedIds.size !== 1 ? 's' : ''} Selecionado
+            {selectedIds.size !== 1 ? 's' : ''}
           </div>
         </div>
 
@@ -498,6 +514,14 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             <MessageSquare className="h-3.5 w-3.5" />
             <span>Consultar EBM</span>
           </button>
+
+          {savedSessionId && (
+            <ExportPDFButton
+              sessionId={savedSessionId}
+              disabled={isPending}
+              className="glass-pill px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest"
+            />
+          )}
         </div>
       </div>
 

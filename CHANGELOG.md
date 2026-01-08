@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+- PDF export for anamnesis sessions (CFM-compliant format)
+  - ExportPDFButton component with loading states and toast notifications
+  - API route `/api/anamnese/export-pdf` for server-side PDF generation
+  - PDF template with header, red flags section, anamnesis content, and footer
+  - Uses @react-pdf/renderer for reliable PDF generation
 - Spec-Kit integration with complete workflow
 - Development container configuration (.devcontainer/)
 - Comprehensive templates (research, api-spec, data-model)
@@ -17,18 +23,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved CONTRIBUTING.md with Spec-Kit references
 
 ### Changed
+
 - Standardized specs/ directory with numeric naming (001-, 002-, etc.)
 - Updated all templates to Spec-Kit compliance
 - Enhanced scripts for better Spec-Kit integration
 - Improved documentation organization
 
 ### Fixed
+
 - Template placeholders and structure
 - Script validation and error handling
 
 ## [1.0.0] - 2025-12-25
 
 ### Added
+
 - Initial WellWave MVP specification
 - Spec-Driven Development workflow
 - GitHub Spec-Kit integration
@@ -40,6 +49,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - EBM Chat functionality
 
 ### Changed
+
 - Project structure to follow Spec-Kit standards
 - Documentation to Spec-Driven approach
 
@@ -57,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Format
 
 We follow [Semantic Versioning](https://semver.org/):
+
 - **MAJOR** version for incompatible API changes
 - **MINOR** version for new functionality in a backwards compatible manner
 - **PATCH** version for backwards compatible bug fixes
@@ -68,5 +79,3 @@ When a specification is archived using `./scripts/archive-spec.sh`, an entry is 
 ---
 
 **Note:** This changelog is maintained manually for major releases. For detailed feature changes, see individual specification files in `specs/`.
-
-

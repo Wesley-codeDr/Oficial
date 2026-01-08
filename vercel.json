@@ -8,6 +8,10 @@
     "PRISMA_GENERATE_DATAPROXY": "true"
   },
   "functions": {
+    "app/api/anamnese/export-pdf/route.ts": {
+      "memory": 1024,
+      "maxDuration": 30
+    },
     "app/**/*.ts": {
       "maxDuration": 30
     },
@@ -16,9 +20,3 @@
     }
   }
 }
-
-
-
-
-
-
