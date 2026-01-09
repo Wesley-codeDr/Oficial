@@ -145,26 +145,42 @@ const MetricCard = ({
   const gradId = `grad-${title.replace(/\s/g, '')}`
   const isCompact = density === 'compact'
 
+  const glowClass =
+    colorTheme === 'orange'
+      ? 'text-glow-orange'
+      : colorTheme === 'blue'
+        ? 'text-glow-blue'
+        : colorTheme === 'green'
+          ? 'text-glow-green'
+          : 'text-glow-purple'
+  const iconGlowClass =
+    colorTheme === 'orange'
+      ? 'icon-glow-orange'
+      : colorTheme === 'blue'
+        ? 'icon-glow-blue'
+        : colorTheme === 'green'
+          ? 'icon-glow-green'
+          : 'icon-glow-purple'
+
   return (
     <div
       className={`relative overflow-hidden p-0 flex flex-col justify-between group 
-        bg-white/25 dark:bg-slate-900/25 
-        backdrop-blur-4xl saturate-180
-        border border-white/30 dark:border-white/10
+        bg-white/18 dark:bg-slate-900/18 
+        backdrop-blur-4xl saturate-[200%]
+        border border-white/40 dark:border-white/15
         rounded-liquid-lg
-        shadow-glass dark:shadow-glass-dark
-        ring-1 ring-white/40 dark:ring-white/5
-        transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
-        hover:scale-[1.02] hover:shadow-glass-elevated
+        elevation-1 liquid-float
+        specular-2026 caustics-2026
+        inner-glow-ios26
+        ring-1 ring-white/50 dark:ring-white/10
+        stagger-child
         ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}
     >
       <div className="light-refraction" />
 
+      <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
       <div
-        className={`absolute inset-0 bg-gradient-to-tr from-white/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none`}
-      />
-      <div
-        className={`absolute -top-20 -right-20 w-60 h-60 bg-gradient-to-br ${theme.glow} opacity-20 blur-[70px] rounded-full pointer-events-none group-hover:opacity-45 transition-opacity duration-700`}
+        className={`absolute -top-20 -right-20 w-72 h-72 bg-gradient-to-br ${theme.glow} opacity-30 blur-[80px] rounded-full pointer-events-none group-hover:opacity-60 transition-opacity duration-700`}
       />
 
       {/* Content Container */}
@@ -173,15 +189,15 @@ const MetricCard = ({
       >
         <div className="flex items-center justify-between pointer-events-auto">
           <div
-            className={`glass-icon-circle ${theme.iconBg.includes('orange') ? 'glass-icon-circle--warning' : theme.iconBg.includes('blue') ? 'glass-icon-circle--info' : theme.iconBg.includes('emerald') ? 'glass-icon-circle--success' : 'glass-icon-circle--danger'}`}
+            className={`glass-icon-circle rim-light-ios26 ${theme.iconBg.includes('orange') ? 'glass-icon-circle--warning' : theme.iconBg.includes('blue') ? 'glass-icon-circle--info' : theme.iconBg.includes('emerald') ? 'glass-icon-circle--success' : 'glass-icon-circle--danger'}`}
           >
             <Icon
-              className={`w-5 h-5 ${theme.iconColor} filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.1)]`}
+              className={`w-5 h-5 ${theme.iconColor} ${iconGlowClass} transition-all duration-300`}
             />
           </div>
 
           <div
-            className={`glass-pill px-3 py-1.5 rounded-full text-[11px] font-apple-semibold flex items-center gap-1.5 ${theme.trendColor}`}
+            className={`glass-pill inner-glow-ios26 px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 ${theme.trendColor}`}
           >
             {trend === 'up' ? (
               <ArrowUpRight className="w-3 h-3 stroke-[3px]" />
@@ -193,18 +209,18 @@ const MetricCard = ({
         </div>
 
         <div className={`pointer-events-auto ${isCompact ? 'mt-auto' : 'mt-5'}`}>
-          <p className="text-[12px] font-apple-semibold text-slate-500 dark:text-slate-400 uppercase tracking-apple-label mb-1 opacity-80">
+          <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-[0.15em] mb-1.5 opacity-90">
             {title}
           </p>
           <div className="flex items-baseline gap-2">
             <h3
-              className={`${isCompact ? 'text-[34px]' : 'text-[44px]'} font-apple-thin text-slate-800 dark:text-white tracking-apple-display leading-none filter drop-shadow-md`}
+              className={`${isCompact ? 'text-[38px]' : 'text-[52px]'} font-[100] text-slate-800 dark:text-white tracking-[-0.04em] leading-none display-number-2026 ${glowClass}`}
             >
               {value}
             </h3>
           </div>
           {!isCompact && (
-            <p className="text-sm font-apple-medium text-slate-400 dark:text-slate-500 mt-1.5 tracking-tight">
+            <p className="text-[13px] font-medium text-slate-400 dark:text-slate-500 mt-2 tracking-tight">
               {sub}
             </p>
           )}
@@ -290,17 +306,18 @@ const KanbanCard: React.FC<{
           transition-all duration-300
           cursor-grab active:cursor-grabbing
           p-4 rounded-liquid-md
-          bg-white/25 dark:bg-slate-900/25
-          backdrop-blur-4xl saturate-180
-          border border-white/30 dark:border-white/10
-          shadow-glass dark:shadow-glass-dark
-          ring-1 ring-white/40 dark:ring-white/5
+          bg-white/20 dark:bg-slate-900/20
+          backdrop-blur-4xl saturate-[200%]
+          border border-white/40 dark:border-white/15
+          elevation-1 inner-glow-ios26
+          specular-2026
+          ring-1 ring-white/50 dark:ring-white/10
           ${
             isDragging
               ? 'opacity-50 scale-95'
-              : 'hover:z-50 hover:bg-white/35 hover:shadow-glass-elevated dark:hover:bg-white/10'
+              : 'hover:z-50 hover:bg-white/30 hover:elevation-2 dark:hover:bg-white/10'
           }
-          ${task.acuity === 'red' ? 'border-l-4 border-l-red-500 shadow-[-4px_0_20px_-8px_rgba(239,68,68,0.2)]' : ''}
+          ${task.acuity === 'red' ? 'border-l-4 border-l-red-500 shadow-[-4px_0_24px_-8px_rgba(239,68,68,0.35)]' : ''}
        `}
     >
       {/* Acuity Left Bar - Subtle Volumetric */}
@@ -444,31 +461,35 @@ const KanbanColumn = ({
 
   return (
     <div
-      className={`flex flex-col h-full min-w-[320px] w-full p-2 transition-all duration-700 sidebar-liquid-glass rounded-[32px] overflow-visible
-        ${isDropTarget ? 'bg-blue-50/60! dark:bg-blue-900/20! scale-[1.01]' : ''}
+      className={`flex flex-col h-full min-w-[320px] w-full p-3 transition-all duration-700 
+        bg-white/15 dark:bg-slate-900/15 
+        backdrop-blur-4xl saturate-[200%]
+        border border-white/30 dark:border-white/10
+        elevation-2 inner-glow-ios26 
+        rounded-[36px] overflow-visible
+        ${isDropTarget ? 'bg-blue-100/40! dark:bg-blue-900/30! scale-[1.01] ring-2 ring-blue-400/50' : ''}
         `}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={(e) => onDrop(e, id)}
     >
-      {/* Minimalist Header */}
       <div
         className={`relative z-10 flex items-center justify-between ${isCompact ? 'px-4 py-3' : 'px-5 py-5'}`}
       >
         <div className="flex items-center gap-3">
           <div
-            className={`glass-pill rounded-2xl text-slate-500 dark:text-slate-400 ${isCompact ? 'p-2' : 'p-2.5'}`}
+            className={`glass-pill inner-glow-ios26 rounded-2xl text-slate-500 dark:text-slate-400 ${isCompact ? 'p-2' : 'p-2.5'}`}
           >
             <Icon className="w-5 h-5 stroke-[2px] icon-volumetric fill-current/10" />
           </div>
-          <h4 className="text-[16px] font-bold text-slate-800 dark:text-slate-100 tracking-tight">
+          <h4 className="text-[15px] font-bold text-slate-800 dark:text-slate-100 tracking-tight">
             {title}
-            <span className="ml-2 text-xs font-semibold text-slate-400 glass-pill px-2 py-0.5 rounded-full">
+            <span className="ml-2.5 text-[11px] font-bold text-slate-400 glass-pill inner-glow-ios26 px-2.5 py-1 rounded-full">
               {tasks.length}
             </span>
           </h4>
         </div>
-        <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+        <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-2 rounded-xl hover:bg-white/30 dark:hover:bg-white/10">
           <MoreHorizontal className="w-5 h-5" />
         </button>
       </div>
