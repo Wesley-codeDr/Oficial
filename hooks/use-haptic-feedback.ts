@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from 'react'
 import { useAnimation, TargetAndTransition } from 'framer-motion'
 import { hapticFeedback } from '@/lib/design-system/micro-interactions'
+import { fastDeepClone } from '@/lib/utils/deep-clone'
 
 export type HapticType = 'light' | 'medium' | 'heavy' | 'success' | 'error' | 'warning'
 
@@ -47,7 +48,8 @@ export function useHapticFeedback(options: UseHapticFeedbackOptions = {}): UseHa
       }
 
       try {
-        const animation = JSON.parse(JSON.stringify(hapticFeedback[type])) as TargetAndTransition
+        // Deep clone the animation object to avoid mutation
+        const animation = fastDeepClone(hapticFeedback[type]) as TargetAndTransition
         await controls.start(animation)
       } finally {
         timeoutRef.current = setTimeout(() => {
