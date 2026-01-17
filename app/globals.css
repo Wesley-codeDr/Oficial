@@ -36,64 +36,41 @@
   --color-ring: hsl(var(--ring));
 
   /* ========== MEDICAL COLOR SYSTEM 2026 ========== */
-  /* Primary: Medical Blue - Trust, Professionalism */
-  --color-medical-blue-50: #E6F3FF;
-  --color-medical-blue-100: #CCE7FF;
-  --color-medical-blue-200: #99CFFF;
-  --color-medical-blue-300: #66B7FF;
-  --color-medical-blue-400: #339FFF;
-  --color-medical-blue-500: #0087FF;
-  --color-medical-blue-600: #006FD6;
-  --color-medical-blue-700: #0057AD;
-  --color-medical-blue-800: #004E92;
-  --color-medical-blue-900: #003366;
+  /* Primary: Deep Medical Blue - Trust, Serenity */
+  --color-medical-blue-50: #F0F7FF;
+  --color-medical-blue-100: #E0EFFF;
+  --color-medical-blue-200: #BADAFF;
+  --color-medical-blue-300: #7CB9FF;
+  --color-medical-blue-400: #3E98FF;
+  --color-medical-blue-500: #007AFF; /* Apple standard blue */
+  --color-medical-blue-600: #0062CC;
+  --color-medical-blue-700: #004A99;
+  --color-medical-blue-800: #003266;
+  --color-medical-blue-900: #001933;
   
-  /* Secondary: Medical Green - Health, Vitality */
-  --color-medical-green-50: #E6FFF5;
-  --color-medical-green-100: #CCFFEB;
-  --color-medical-green-200: #99FFD6;
-  --color-medical-green-300: #66FFC2;
-  --color-medical-green-400: #33FFAD;
-  --color-medical-green-500: #00D68F;
-  --color-medical-green-600: #00B894;
-  --color-medical-green-700: #009975;
-  --color-medical-green-800: #007A5E;
-  --color-medical-green-900: #005C46;
+  /* Secondary: Vitality Green - Health, Growth */
+  --color-medical-green-50: #F2FFF9;
+  --color-medical-green-100: #E6FFF3;
+  --color-medical-green-200: #C2FFE6;
+  --color-medical-green-300: #7AFFC7;
+  --color-medical-green-400: #33FFA8;
+  --color-medical-green-500: #34C759; /* Apple standard green */
+  --color-medical-green-600: #2AAD4F;
+  --color-medical-green-700: #21873D;
+  --color-medical-green-800: #17612C;
+  --color-medical-green-900: #0D3B1A;
   
-  /* Accent: Teal - Balance, Calm */
-  --color-medical-teal-400: #2DD4BF;
-  --color-medical-teal-500: #14B8A6;
-  --color-medical-teal-600: #0D9488;
+  /* Accent: Serene Teal */
+  --color-medical-teal-400: #5AC8FA; /* Apple standard sky/teal */
+  --color-medical-teal-500: #30B0C7;
+  --color-medical-teal-600: #248A9C;
 
-  /* Legacy Medical Colors */
-  --color-medical-primary: #0087FF;
-  --color-medical-secondary: #00D68F;
-  --color-medical-accent: #14B8A6;
-  --color-medical-redFlag: #FF3B30;
-  --color-medical-warning: #FF9F0A;
-  --color-medical-safe: #34C759;
-  --color-medical-info: #5AC8FA;
-
-  /* Apple accent colors - iOS 26 */
-  --color-apple-blue: #0A84FF;
-  --color-apple-green: #30D158;
-  --color-apple-orange: #FF9F0A;
-  --color-apple-red: #FF453A;
-  --color-apple-purple: #BF5AF2;
-  --color-apple-pink: #FF375F;
-  --color-apple-teal: #64D2FF;
-  --color-apple-indigo: #5E5CE6;
-
-  /* Glass effect specific colors */
-  --color-glass-background: rgba(255, 255, 255, 0.45);
-  --color-glass-border: rgba(255, 255, 255, 0.5);
-  --color-glass-highlight: rgba(255, 255, 255, 0.2);
-  --color-glass-medical: rgba(0, 135, 255, 0.15);
-
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-3xl: 1.5rem;
+  /* Global Liquid Radius */
+  --radius: 24px;
+  --radius-lg: 32px;
+  --radius-md: 20px;
+  --radius-sm: 12px;
+  --radius-3xl: 40px;
   --radius-liquid: 40px;
   --liquid-glass-bg: rgba(255, 255, 255, 0.45);
   --liquid-glass-border: rgba(255, 255, 255, 0.5);

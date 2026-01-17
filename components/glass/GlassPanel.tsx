@@ -71,7 +71,7 @@ const GlassPanel = React.forwardRef<HTMLDivElement, GlassPanelProps>(
     ref
   ) => {
     const baseClasses = `
-      relative rounded-[32px] overflow-hidden
+      relative rounded-[40px] overflow-hidden
       transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]
     `
     
@@ -88,19 +88,19 @@ const GlassPanel = React.forwardRef<HTMLDivElement, GlassPanelProps>(
         animate={animate}
         transition={transition}
         whileHover={interactive ? { 
-          scale: 1.008, 
-          y: -2,
+          scale: 1.015, 
+          y: -4,
         } : undefined}
         {...props}
       >
         <div 
-          className="absolute inset-0 pointer-events-none opacity-[0.025] dark:opacity-[0.02]"
+          className="absolute inset-0 pointer-events-none opacity-[0.035] dark:opacity-[0.03]"
           style={{
             backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
           }}
         />
         
-        <div className="absolute top-0 left-[10%] right-[10%] h-[40%] pointer-events-none rounded-t-[32px] bg-gradient-to-b from-white/20 via-white/10 to-transparent dark:from-white/10 dark:via-white/5 dark:to-transparent" />
+        <div className="absolute top-0 left-[5%] right-[5%] h-[45%] pointer-events-none rounded-t-[40px] bg-gradient-to-b from-white/30 via-white/10 to-transparent dark:from-white/15 dark:via-white/5 dark:to-transparent" />
         
         <div className="relative z-10">
           {children}
