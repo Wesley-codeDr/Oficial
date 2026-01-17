@@ -48,15 +48,6 @@ export const metadata: Metadata = {
     siteName: 'WellWave',
     title: 'WellWave - Sistema de Anamnese Médica Inteligente',
     description: 'Sistema médico para geração automática de anamneses em pronto-socorro. Compliance CFM e LGPD garantidos.',
-    images: [
-      {
-        url: '/og-image.png', // TODO: Criar imagem 1200x630px
-        width: 1200,
-        height: 630,
-        alt: 'WellWave - Sistema de Anamnese Médica',
-        type: 'image/png',
-      },
-    ],
   },
 
   // Twitter Card metadata
