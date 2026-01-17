@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Lock, Loader2, ArrowRight, AlertCircle } from 'lucide-react'
+import { Mail, Lock, ArrowRight, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -130,19 +130,12 @@ export function LoginForm() {
             disabled:hover:translate-y-0 disabled:hover:shadow-lg
             group
           `}
-          disabled={isPending}
+          loading={isPending}
         >
-          {isPending ? (
-            <span className="flex items-center justify-center gap-2">
-              <Loader2 className="h-5 w-5 animate-spin" />
-              <span>Entrando...</span>
-            </span>
-          ) : (
-            <span className="flex items-center justify-center gap-2">
-              <span>Entrar</span>
-              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
-            </span>
-          )}
+          <span className="flex items-center justify-center gap-2">
+            <span>Entrar</span>
+            <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5" />
+          </span>
         </Button>
       </motion.div>
 
