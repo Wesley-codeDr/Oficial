@@ -85,16 +85,25 @@
   --color-apple-indigo: #5E5CE6;
 
   /* Glass effect specific colors */
-  --color-glass-background: rgba(0, 135, 255, 0.08);
-  --color-glass-border: rgba(255, 255, 255, 0.35);
-  --color-glass-highlight: rgba(255, 255, 255, 0.08);
-  --color-glass-medical: rgba(0, 135, 255, 0.1);
+  --color-glass-background: rgba(255, 255, 255, 0.45);
+  --color-glass-border: rgba(255, 255, 255, 0.5);
+  --color-glass-highlight: rgba(255, 255, 255, 0.2);
+  --color-glass-medical: rgba(0, 135, 255, 0.15);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-3xl: 1.5rem;
-  --radius-liquid: 36px;
+  --radius-liquid: 40px;
+  --liquid-glass-bg: rgba(255, 255, 255, 0.45);
+  --liquid-glass-border: rgba(255, 255, 255, 0.5);
+  --liquid-glass-blur: 40px;
+  --liquid-glass-saturate: 180%;
+  --liquid-glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+  --liquid-glass-blur-mobile: 20px;
+  --liquid-glass-blur-elevated: 60px;
+  --liquid-glass-shadow-elevated: 0 20px 50px 0 rgba(0, 0, 0, 0.1);
+  --noise-texture: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
 
   /* Custom Animations */
   --animate-shimmer: shimmer 2s linear infinite;
