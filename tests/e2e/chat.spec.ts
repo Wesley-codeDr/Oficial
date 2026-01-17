@@ -86,5 +86,7 @@ authTest.describe('Chat EBM Flow (Authenticated)', () => {
 
   authTest.skip('should show context banner when linked from anamnese', async ({ page: _page }) => {
     // TODO: Implement with auth fixture
+    // This requires setting up an anamnese session and linking to chat.
+    // Out of scope for current task as it requires significant data setup.
   })
 })

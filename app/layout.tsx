@@ -48,15 +48,6 @@ export const metadata: Metadata = {
     siteName: 'WellWave',
     title: 'WellWave - Sistema de Anamnese Médica Inteligente',
     description: 'Sistema médico para geração automática de anamneses em pronto-socorro. Compliance CFM e LGPD garantidos.',
-    images: [
-      {
-        url: '/og-image.png', // TODO: Criar imagem 1200x630px
-        width: 1200,
-        height: 630,
-        alt: 'WellWave - Sistema de Anamnese Médica',
-        type: 'image/png',
-      },
-    ],
   },
 
   // Twitter Card metadata
@@ -118,8 +109,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+    { media: '(prefers-color-scheme: light)', color: '#f8fafc' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
   ],
 }
 
@@ -131,9 +122,14 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body
-        className={`${inter.variable} font-sans antialiased min-h-screen`}
+        className={`${inter.variable} font-sans antialiased min-h-screen bg-[#fbfbfd] text-[#1d1d1f] dark:bg-[#000000] dark:text-[#f5f5f7] selection:bg-blue-500/30`}
         suppressHydrationWarning
       >
+        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/20 blur-[120px] animate-blob-1" />
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-400/20 blur-[120px] animate-blob-2" />
+          <div className="absolute top-[30%] right-[10%] w-[30%] h-[30%] rounded-full bg-purple-400/10 blur-[120px] animate-blob-3" />
+        </div>
         <Providers>
           {children}
           <Toaster />

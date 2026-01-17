@@ -23,6 +23,8 @@ export interface GlassSelectProps extends Omit<
   options: GlassSelectOption[]
   variant?: 'default' | 'error'
   glassIntensity?: 'light' | 'medium' | 'heavy'
+  className?: string
+  id?: string
 }
 
 // ==================== SUB-COMPONENTS ====================
@@ -40,6 +42,7 @@ const GlassSelect = React.forwardRef<
       value,
       onValueChange,
       disabled,
+      id,
       ...props
     },
     ref
@@ -71,6 +74,7 @@ const GlassSelect = React.forwardRef<
       >
         <SelectPrimitive.Trigger
           ref={ref}
+          id={id}
           className={cn(
             // Base styles
             'relative flex w-full items-center justify-between',
