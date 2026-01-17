@@ -81,196 +81,66 @@ async function main() {
     },
   ]
 
-  for (let i = 0; i < chestPainQP.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: chestPain.id,
-        category: CheckboxCategory.QP,
-        displayText: chestPainQP[i]!.displayText,
-        narrativeText: chestPainQP[i]!.narrativeText,
-        isRedFlag: chestPainQP[i]!.isRedFlag || false,
-        isRequired: i < 3,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Chest Pain - HDA
-  const chestPainHDA = [
-    { displayText: 'Sintomas iniciados ha minutos', narrativeText: 'inicio ha poucos minutos' },
-    { displayText: 'Sintomas iniciados ha horas', narrativeText: 'inicio ha algumas horas' },
-    { displayText: 'Sintomas iniciados ha dias', narrativeText: 'inicio ha dias' },
-    { displayText: 'Piora aos esforcos', narrativeText: 'piora aos esforcos', isRedFlag: true },
-    { displayText: 'Piora ao decubito', narrativeText: 'piora ao decubito' },
-    { displayText: 'Piora a respiracao profunda', narrativeText: 'piora a respiracao profunda' },
-    { displayText: 'Piora a palpacao', narrativeText: 'piora a palpacao local' },
-    { displayText: 'Melhora ao repouso', narrativeText: 'melhora ao repouso', isRedFlag: true },
-    {
-      displayText: 'Melhora com nitrato',
-      narrativeText: 'melhora com uso de nitrato',
-      isRedFlag: true,
-    },
-    {
-      displayText: 'Episodios previos semelhantes',
-      narrativeText: 'episodios previos semelhantes',
-    },
-    { displayText: 'Primeiro episodio', narrativeText: 'primeiro episodio' },
-  ]
-
-  for (let i = 0; i < chestPainHDA.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: chestPain.id,
-        category: CheckboxCategory.HDA,
-        displayText: chestPainHDA[i]!.displayText,
-        narrativeText: chestPainHDA[i]!.narrativeText,
-        isRedFlag: chestPainHDA[i]!.isRedFlag || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Chest Pain - ANTECEDENTES
-  const chestPainAntecedentes = [
-    {
-      displayText: 'Hipertensao arterial (HAS)',
-      narrativeText: 'hipertensao arterial sistemica',
-      isRedFlag: true,
-    },
-    { displayText: 'Diabetes mellitus (DM)', narrativeText: 'diabetes mellitus', isRedFlag: true },
-    { displayText: 'Dislipidemia', narrativeText: 'dislipidemia', isRedFlag: true },
-    {
-      displayText: 'Doenca coronariana previa',
-      narrativeText: 'doenca coronariana previa',
-      isRedFlag: true,
-    },
-    {
-      displayText: 'IAM previo',
-      narrativeText: 'infarto agudo do miocardio previo',
-      isRedFlag: true,
-    },
-    {
-      displayText: 'Angioplastia previa',
-      narrativeText: 'angioplastia coronariana previa',
-      isRedFlag: true,
-    },
-    { displayText: 'Cirurgia cardiaca previa', narrativeText: 'cirurgia cardiaca previa' },
-    { displayText: 'Insuficiencia cardiaca', narrativeText: 'insuficiencia cardiaca' },
-    { displayText: 'Arritmia cardiaca', narrativeText: 'arritmia cardiaca' },
-    {
-      displayText: 'AVC/AIT previo',
-      narrativeText: 'acidente vascular cerebral ou ataque isquemico transitorio previo',
-    },
-    { displayText: 'Doenca renal cronica', narrativeText: 'doenca renal cronica' },
-    {
-      displayText: 'Historia familiar de DAC precoce',
-      narrativeText: 'historia familiar de doenca arterial coronariana precoce',
-      isRedFlag: true,
-    },
-  ]
-
-  for (let i = 0; i < chestPainAntecedentes.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: chestPain.id,
-        category: CheckboxCategory.ANTECEDENTES,
-        displayText: chestPainAntecedentes[i]!.displayText,
-        narrativeText: chestPainAntecedentes[i]!.narrativeText,
-        isRedFlag: chestPainAntecedentes[i]!.isRedFlag || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Chest Pain - HABITOS
-  const chestPainHabitos = [
-    { displayText: 'Tabagismo ativo', narrativeText: 'tabagismo ativo', isRedFlag: true },
-    { displayText: 'Ex-tabagista', narrativeText: 'ex-tabagista' },
-    { displayText: 'Etilismo', narrativeText: 'etilismo' },
-    { displayText: 'Sedentarismo', narrativeText: 'sedentarismo' },
-    { displayText: 'Uso de cocaina/crack', narrativeText: 'uso de cocaina/crack', isRedFlag: true },
-  ]
-
-  for (let i = 0; i < chestPainHabitos.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: chestPain.id,
-        category: CheckboxCategory.HABITOS,
-        displayText: chestPainHabitos[i]!.displayText,
-        narrativeText: chestPainHabitos[i]!.narrativeText,
-        isRedFlag: chestPainHabitos[i]!.isRedFlag || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Chest Pain - NEGATIVAS
-  const chestPainNegativas = [
-    { displayText: 'Nega dispneia', narrativeText: 'dispneia', isNegative: true },
-    { displayText: 'Nega palpitacoes', narrativeText: 'palpitacoes', isNegative: true },
-    { displayText: 'Nega sincope', narrativeText: 'sincope', isNegative: true },
-    { displayText: 'Nega sudorese', narrativeText: 'sudorese', isNegative: true },
-    { displayText: 'Nega nauseas/vomitos', narrativeText: 'nauseas ou vomitos', isNegative: true },
-    {
-      displayText: 'Nega edema de MMII',
-      narrativeText: 'edema de membros inferiores',
+  const chestPainCheckboxes = [
+    ...chestPainQP.map((item, i) => ({
+      syndromeId: chestPain.id,
+      category: CheckboxCategory.QP,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      isRequired: i < 3,
+      orderIndex: i + 1,
+    })),
+    ...chestPainHDA.map((item, i) => ({
+      syndromeId: chestPain.id,
+      category: CheckboxCategory.HDA,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      orderIndex: i + 1,
+    })),
+    ...chestPainAntecedentes.map((item, i) => ({
+      syndromeId: chestPain.id,
+      category: CheckboxCategory.ANTECEDENTES,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      orderIndex: i + 1,
+    })),
+    ...chestPainHabitos.map((item, i) => ({
+      syndromeId: chestPain.id,
+      category: CheckboxCategory.HABITOS,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      orderIndex: i + 1,
+    })),
+    ...chestPainNegativas.map((item, i) => ({
+      syndromeId: chestPain.id,
+      category: CheckboxCategory.NEGATIVAS,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
       isNegative: true,
-    },
-    { displayText: 'Nega febre', narrativeText: 'febre', isNegative: true },
-    { displayText: 'Nega tosse', narrativeText: 'tosse', isNegative: true },
-    { displayText: 'Nega trauma recente', narrativeText: 'trauma recente', isNegative: true },
+      orderIndex: i + 1,
+    })),
+    ...chestPainExameFisico.map((item, i) => ({
+      syndromeId: chestPain.id,
+      category: CheckboxCategory.EXAME_FISICO,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      orderIndex: i + 1,
+    })),
   ]
-
-  for (let i = 0; i < chestPainNegativas.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: chestPain.id,
-        category: CheckboxCategory.NEGATIVAS,
-        displayText: chestPainNegativas[i]!.displayText,
-        narrativeText: chestPainNegativas[i]!.narrativeText,
-        isNegative: true,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Chest Pain - EXAME FISICO
-  const chestPainExameFisico = [
-    { displayText: 'PA elevada', narrativeText: 'pressao arterial elevada' },
-    { displayText: 'PA normal', narrativeText: 'pressao arterial dentro da normalidade' },
-    { displayText: 'Taquicardia', narrativeText: 'taquicardia', isRedFlag: true },
-    { displayText: 'Bradicardia', narrativeText: 'bradicardia' },
-    { displayText: 'FC normal', narrativeText: 'frequencia cardiaca normal' },
-    { displayText: 'Sudorese', narrativeText: 'sudorese', isRedFlag: true },
-    { displayText: 'Palidez cutanea', narrativeText: 'palidez cutanea', isRedFlag: true },
-    { displayText: 'Bulhas ritmicas', narrativeText: 'bulhas cardiacas ritmicas' },
-    { displayText: 'Bulhas arritmicas', narrativeText: 'bulhas cardiacas arritmicas' },
-    { displayText: 'Sopro cardiaco', narrativeText: 'sopro cardiaco' },
-    { displayText: 'B3 presente', narrativeText: 'terceira bulha presente' },
-    {
-      displayText: 'Estertores pulmonares',
-      narrativeText: 'estertores pulmonares',
-      isRedFlag: true,
-    },
-    { displayText: 'MV simetrico', narrativeText: 'murmuro vesicular simetrico bilateralmente' },
-    {
-      displayText: 'Sem alteracoes ao exame',
-      narrativeText: 'exame cardiovascular sem alteracoes significativas',
-    },
-  ]
-
-  for (let i = 0; i < chestPainExameFisico.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: chestPain.id,
-        category: CheckboxCategory.EXAME_FISICO,
-        displayText: chestPainExameFisico[i]!.displayText,
-        narrativeText: chestPainExameFisico[i]!.narrativeText,
-        isRedFlag: chestPainExameFisico[i]!.isRedFlag || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
+  await prisma.checkbox.createMany({
+    data: chestPainCheckboxes.map(
+      ({ isRequired, isNegative, ...rest }) => ({
+        ...rest,
+        isRequired: isRequired || false,
+        isNegative: isNegative || false,
+      }),
+    ),
+  })
 
   // Red Flag Rules for Chest Pain
   await prisma.redFlagRule.createMany({
@@ -356,156 +226,58 @@ async function main() {
     { displayText: 'Piora progressiva', narrativeText: 'piora progressiva' },
   ]
 
-  for (let i = 0; i < dyspneaQP.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: dyspnea.id,
-        category: CheckboxCategory.QP,
-        displayText: dyspneaQP[i]!.displayText,
-        narrativeText: dyspneaQP[i]!.narrativeText,
-        isRedFlag: dyspneaQP[i]!.isRedFlag || false,
-        isRequired: dyspneaQP[i]!.isRequired || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Dyspnea - HDA
-  const dyspneaHDA = [
-    { displayText: 'Tosse seca', narrativeText: 'tosse seca' },
-    { displayText: 'Tosse produtiva', narrativeText: 'tosse produtiva' },
-    { displayText: 'Expectoracao amarelada', narrativeText: 'expectoracao amarelada' },
-    { displayText: 'Expectoracao esverdeada', narrativeText: 'expectoracao esverdeada' },
-    { displayText: 'Hemoptise', narrativeText: 'hemoptise', isRedFlag: true },
-    { displayText: 'Sibilancia', narrativeText: 'chiado no peito' },
-    {
-      displayText: 'Dor toracica associada',
-      narrativeText: 'dor toracica associada',
-      isRedFlag: true,
-    },
-    { displayText: 'Febre', narrativeText: 'febre' },
-    { displayText: 'Calafrios', narrativeText: 'calafrios' },
-  ]
-
-  for (let i = 0; i < dyspneaHDA.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: dyspnea.id,
-        category: CheckboxCategory.HDA,
-        displayText: dyspneaHDA[i]!.displayText,
-        narrativeText: dyspneaHDA[i]!.narrativeText,
-        isRedFlag: dyspneaHDA[i]!.isRedFlag || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Dyspnea - ANTECEDENTES
-  const dyspneaAntecedentes = [
-    { displayText: 'Asma', narrativeText: 'asma' },
-    { displayText: 'DPOC', narrativeText: 'doenca pulmonar obstrutiva cronica (DPOC)' },
-    {
-      displayText: 'Insuficiencia cardiaca',
-      narrativeText: 'insuficiencia cardiaca',
-      isRedFlag: true,
-    },
-    {
-      displayText: 'TEP previo',
-      narrativeText: 'tromboembolismo pulmonar previo',
-      isRedFlag: true,
-    },
-    { displayText: 'TVP previa', narrativeText: 'trombose venosa profunda previa' },
-    { displayText: 'Neoplasia', narrativeText: 'neoplasia' },
-    { displayText: 'Cirurgia recente', narrativeText: 'cirurgia recente', isRedFlag: true },
-    {
-      displayText: 'Imobilizacao prolongada',
-      narrativeText: 'imobilizacao prolongada',
-      isRedFlag: true,
-    },
-  ]
-
-  for (let i = 0; i < dyspneaAntecedentes.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: dyspnea.id,
-        category: CheckboxCategory.ANTECEDENTES,
-        displayText: dyspneaAntecedentes[i]!.displayText,
-        narrativeText: dyspneaAntecedentes[i]!.narrativeText,
-        isRedFlag: dyspneaAntecedentes[i]!.isRedFlag || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Dyspnea - NEGATIVAS
-  const dyspneaNegativas = [
-    { displayText: 'Nega dor toracica', narrativeText: 'dor toracica', isNegative: true },
-    { displayText: 'Nega hemoptise', narrativeText: 'hemoptise', isNegative: true },
-    {
-      displayText: 'Nega edema de MMII',
-      narrativeText: 'edema de membros inferiores',
+  const dyspneaCheckboxes = [
+    ...dyspneaQP.map((item, i) => ({
+      syndromeId: dyspnea.id,
+      category: CheckboxCategory.QP,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      isRequired: item.isRequired || false,
+      orderIndex: i + 1,
+    })),
+    ...dyspneaHDA.map((item, i) => ({
+      syndromeId: dyspnea.id,
+      category: CheckboxCategory.HDA,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      orderIndex: i + 1,
+    })),
+    ...dyspneaAntecedentes.map((item, i) => ({
+      syndromeId: dyspnea.id,
+      category: CheckboxCategory.ANTECEDENTES,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      orderIndex: i + 1,
+    })),
+    ...dyspneaNegativas.map((item, i) => ({
+      syndromeId: dyspnea.id,
+      category: CheckboxCategory.NEGATIVAS,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
       isNegative: true,
-    },
-    { displayText: 'Nega febre', narrativeText: 'febre', isNegative: true },
-    { displayText: 'Nega sincope', narrativeText: 'sincope', isNegative: true },
+      orderIndex: i + 1,
+    })),
+    ...dyspneaExameFisico.map((item, i) => ({
+      syndromeId: dyspnea.id,
+      category: CheckboxCategory.EXAME_FISICO,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      orderIndex: i + 1,
+    })),
   ]
-
-  for (let i = 0; i < dyspneaNegativas.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: dyspnea.id,
-        category: CheckboxCategory.NEGATIVAS,
-        displayText: dyspneaNegativas[i]!.displayText,
-        narrativeText: dyspneaNegativas[i]!.narrativeText,
-        isNegative: true,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Dyspnea - EXAME FISICO
-  const dyspneaExameFisico = [
-    { displayText: 'Taquipneia', narrativeText: 'taquipneia', isRedFlag: true },
-    {
-      displayText: 'Uso de musculatura acessoria',
-      narrativeText: 'uso de musculatura acessoria',
-      isRedFlag: true,
-    },
-    { displayText: 'Tiragem intercostal', narrativeText: 'tiragem intercostal', isRedFlag: true },
-    { displayText: 'Cianose', narrativeText: 'cianose', isRedFlag: true },
-    {
-      displayText: 'SpO2 < 90%',
-      narrativeText: 'saturacao de oxigenio abaixo de 90%',
-      isRedFlag: true,
-    },
-    { displayText: 'SpO2 90-94%', narrativeText: 'saturacao de oxigenio entre 90-94%' },
-    { displayText: 'SpO2 > 94%', narrativeText: 'saturacao de oxigenio acima de 94%' },
-    { displayText: 'Sibilos difusos', narrativeText: 'sibilos difusos a ausculta' },
-    {
-      displayText: 'Estertores crepitantes',
-      narrativeText: 'estertores crepitantes',
-      isRedFlag: true,
-    },
-    { displayText: 'MV diminuido', narrativeText: 'murmuro vesicular diminuido' },
-    { displayText: 'MV abolido', narrativeText: 'murmuro vesicular abolido', isRedFlag: true },
-    {
-      displayText: 'Exame pulmonar sem alteracoes',
-      narrativeText: 'exame pulmonar sem alteracoes',
-    },
-  ]
-
-  for (let i = 0; i < dyspneaExameFisico.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: dyspnea.id,
-        category: CheckboxCategory.EXAME_FISICO,
-        displayText: dyspneaExameFisico[i]!.displayText,
-        narrativeText: dyspneaExameFisico[i]!.narrativeText,
-        isRedFlag: dyspneaExameFisico[i]!.isRedFlag || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
+  await prisma.checkbox.createMany({
+    data: dyspneaCheckboxes.map(
+      ({ isRequired, isNegative, ...rest }) => ({
+        ...rest,
+        isRequired: isRequired || false,
+        isNegative: isNegative || false,
+      }),
+    ),
+  })
 
   // Red Flag Rules for Dyspnea
   await prisma.redFlagRule.createMany({
@@ -581,144 +353,57 @@ async function main() {
     { displayText: 'Inicio gradual', narrativeText: 'inicio gradual' },
   ]
 
-  for (let i = 0; i < abdomenQP.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: acuteAbdomen.id,
-        category: CheckboxCategory.QP,
-        displayText: abdomenQP[i]!.displayText,
-        narrativeText: abdomenQP[i]!.narrativeText,
-        isRedFlag: abdomenQP[i]!.isRedFlag || false,
-        isRequired: abdomenQP[i]!.isRequired || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Acute Abdomen - HDA
-  const abdomenHDA = [
-    { displayText: 'Nauseas', narrativeText: 'nauseas' },
-    { displayText: 'Vomitos', narrativeText: 'vomitos' },
-    { displayText: 'Vomitos biliosos', narrativeText: 'vomitos de conteudo bilioso' },
-    { displayText: 'Vomitos fecaloides', narrativeText: 'vomitos fecaloides', isRedFlag: true },
-    { displayText: 'Anorexia', narrativeText: 'anorexia' },
-    { displayText: 'Febre', narrativeText: 'febre', isRedFlag: true },
-    { displayText: 'Diarreia', narrativeText: 'diarreia' },
-    { displayText: 'Constipacao', narrativeText: 'constipacao' },
-    {
-      displayText: 'Parada de eliminacao de gases',
-      narrativeText: 'parada de eliminacao de gases e fezes',
-      isRedFlag: true,
-    },
-    { displayText: 'Hematoquezia', narrativeText: 'sangramento retal', isRedFlag: true },
-    { displayText: 'Melena', narrativeText: 'melena (fezes escurecidas)', isRedFlag: true },
-    { displayText: 'Disuria', narrativeText: 'disuria' },
-  ]
-
-  for (let i = 0; i < abdomenHDA.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: acuteAbdomen.id,
-        category: CheckboxCategory.HDA,
-        displayText: abdomenHDA[i]!.displayText,
-        narrativeText: abdomenHDA[i]!.narrativeText,
-        isRedFlag: abdomenHDA[i]!.isRedFlag || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Acute Abdomen - ANTECEDENTES
-  const abdomenAntecedentes = [
-    { displayText: 'Cirurgia abdominal previa', narrativeText: 'cirurgia abdominal previa' },
-    { displayText: 'Apendicectomia', narrativeText: 'apendicectomia previa' },
-    { displayText: 'Colecistectomia', narrativeText: 'colecistectomia previa' },
-    { displayText: 'Hernia', narrativeText: 'hernia' },
-    { displayText: 'Ulcera peptica', narrativeText: 'ulcera peptica' },
-    { displayText: 'Doenca hepatica', narrativeText: 'doenca hepatica' },
-    { displayText: 'Pancreatite previa', narrativeText: 'pancreatite previa' },
-    { displayText: 'Colelitiase', narrativeText: 'colelitiase' },
-  ]
-
-  for (let i = 0; i < abdomenAntecedentes.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: acuteAbdomen.id,
-        category: CheckboxCategory.ANTECEDENTES,
-        displayText: abdomenAntecedentes[i]!.displayText,
-        narrativeText: abdomenAntecedentes[i]!.narrativeText,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Acute Abdomen - NEGATIVAS
-  const abdomenNegativas = [
-    { displayText: 'Nega vomitos', narrativeText: 'vomitos', isNegative: true },
-    { displayText: 'Nega diarreia', narrativeText: 'diarreia', isNegative: true },
-    { displayText: 'Nega febre', narrativeText: 'febre', isNegative: true },
-    { displayText: 'Nega hematoquezia', narrativeText: 'sangramento retal', isNegative: true },
-    { displayText: 'Nega melena', narrativeText: 'melena', isNegative: true },
-    { displayText: 'Nega disuria', narrativeText: 'disuria', isNegative: true },
-    {
-      displayText: 'Evacuacoes presentes',
-      narrativeText: 'evacuacoes presentes',
+  const acuteAbdomenCheckboxes = [
+    ...abdomenQP.map((item, i) => ({
+      syndromeId: acuteAbdomen.id,
+      category: CheckboxCategory.QP,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      isRequired: item.isRequired || false,
+      orderIndex: i + 1,
+    })),
+    ...abdomenHDA.map((item, i) => ({
+      syndromeId: acuteAbdomen.id,
+      category: CheckboxCategory.HDA,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      orderIndex: i + 1,
+    })),
+    ...abdomenAntecedentes.map((item, i) => ({
+      syndromeId: acuteAbdomen.id,
+      category: CheckboxCategory.ANTECEDENTES,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      orderIndex: i + 1,
+    })),
+    ...abdomenNegativas.map((item, i) => ({
+      syndromeId: acuteAbdomen.id,
+      category: CheckboxCategory.NEGATIVAS,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
       isNegative: true,
-    },
+      orderIndex: i + 1,
+    })),
+    ...abdomenExameFisico.map((item, i) => ({
+      syndromeId: acuteAbdomen.id,
+      category: CheckboxCategory.EXAME_FISICO,
+      displayText: item.displayText,
+      narrativeText: item.narrativeText,
+      isRedFlag: item.isRedFlag || false,
+      orderIndex: i + 1,
+    })),
   ]
-
-  for (let i = 0; i < abdomenNegativas.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: acuteAbdomen.id,
-        category: CheckboxCategory.NEGATIVAS,
-        displayText: abdomenNegativas[i]!.displayText,
-        narrativeText: abdomenNegativas[i]!.narrativeText,
-        isNegative: true,
-        orderIndex: i + 1,
-      },
-    })
-  }
-
-  // Checkboxes for Acute Abdomen - EXAME FISICO
-  const abdomenExameFisico = [
-    { displayText: 'Abdome plano', narrativeText: 'abdome plano' },
-    { displayText: 'Abdome distendido', narrativeText: 'abdome distendido', isRedFlag: true },
-    { displayText: 'RHA presentes', narrativeText: 'ruidos hidroaereos presentes' },
-    { displayText: 'RHA diminuidos', narrativeText: 'ruidos hidroaereos diminuidos' },
-    { displayText: 'RHA ausentes', narrativeText: 'ruidos hidroaereos ausentes', isRedFlag: true },
-    { displayText: 'RHA aumentados', narrativeText: 'ruidos hidroaereos aumentados' },
-    { displayText: 'Dor a palpacao superficial', narrativeText: 'dor a palpacao superficial' },
-    { displayText: 'Dor a palpacao profunda', narrativeText: 'dor a palpacao profunda' },
-    { displayText: 'Defesa abdominal', narrativeText: 'defesa abdominal', isRedFlag: true },
-    { displayText: 'Abdome em tabua', narrativeText: 'abdome em tabua (rigidez)', isRedFlag: true },
-    {
-      displayText: 'Descompressao brusca positiva',
-      narrativeText: 'descompressao brusca dolorosa (Blumberg positivo)',
-      isRedFlag: true,
-    },
-    { displayText: 'Sinal de Murphy positivo', narrativeText: 'sinal de Murphy positivo' },
-    { displayText: 'Sinal de Rovsing positivo', narrativeText: 'sinal de Rovsing positivo' },
-    { displayText: 'Massa palpavel', narrativeText: 'massa palpavel', isRedFlag: true },
-    { displayText: 'Hernia visivel', narrativeText: 'hernia visivel ao exame' },
-    {
-      displayText: 'Sem alteracoes ao exame',
-      narrativeText: 'exame abdominal sem alteracoes significativas',
-    },
-  ]
-
-  for (let i = 0; i < abdomenExameFisico.length; i++) {
-    await prisma.checkbox.create({
-      data: {
-        syndromeId: acuteAbdomen.id,
-        category: CheckboxCategory.EXAME_FISICO,
-        displayText: abdomenExameFisico[i]!.displayText,
-        narrativeText: abdomenExameFisico[i]!.narrativeText,
-        isRedFlag: abdomenExameFisico[i]!.isRedFlag || false,
-        orderIndex: i + 1,
-      },
-    })
-  }
+  await prisma.checkbox.createMany({
+    data: acuteAbdomenCheckboxes.map(
+      ({ isRequired, isNegative, ...rest }) => ({
+        ...rest,
+        isRequired: isRequired || false,
+        isNegative: isNegative || false,
+      }),
+    ),
+  })
 
   // Red Flag Rules for Acute Abdomen
   await prisma.redFlagRule.createMany({
