@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test'
 
+const authFile = 'playwright/.auth/user.json'
+
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: true,

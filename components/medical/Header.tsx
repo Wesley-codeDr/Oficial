@@ -51,11 +51,17 @@ export const Header: React.FC<HeaderProps> = ({ patient, setPatient }) => {
 
   return (
     <header className="w-full mb-6 px-1">
-      {/* Smart Patient Capsule */}
+      {/* Smart Patient Capsule - Liquid Glass 2026 */}
       <motion.div 
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="relative w-full liquid-glass-material bg-white/40 dark:bg-black/30 p-1 rounded-[40px] shadow-2xl border border-white/50 dark:border-white/10 overflow-hidden"
+        initial={{ opacity: 0, scale: 0.98, y: -10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
+        className="relative w-full p-1 rounded-[44px] overflow-hidden
+          backdrop-blur-[80px] saturate-[200%]
+          bg-white/25 dark:bg-slate-900/28
+          border border-white/40 dark:border-white/12
+          shadow-[0_8px_32px_rgba(0,78,146,0.08),inset_0_1px_1px_rgba(255,255,255,0.5)]
+          dark:shadow-[0_8px_32px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.1)]"
       >
         {/* Main Header Bar - Unified Summary */}
         <div 

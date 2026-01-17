@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Lock, User, FileText, MapPin, Loader2, CheckCircle } from 'lucide-react'
+import { Mail, Lock, User, FileText, MapPin, CheckCircle } from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -243,16 +243,9 @@ export function RegisterForm() {
             disabled:hover:translate-y-0 disabled:hover:shadow-lg
             group
           `}
-          disabled={isPending}
+          loading={isPending}
         >
-          {isPending ? (
-            <span className="flex items-center justify-center gap-2">
-              <Loader2 className="h-5 w-5 animate-spin" />
-              <span>Criando conta...</span>
-            </span>
-          ) : (
-            'Criar conta'
-          )}
+          Criar conta
         </Button>
       </motion.div>
 
