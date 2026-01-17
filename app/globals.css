@@ -3,10 +3,10 @@
 
 @theme {
   --font-sans:
-    'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    'SF Pro Display', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   --font-mono:
-    'Fira Code', 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    'SF Mono', 'Fira Code', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
 
@@ -35,39 +35,77 @@
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
 
-  /* Medical-specific colors (WellWave Palette) */
-  --color-medical-primary: #004e92;
-  --color-medical-secondary: #00c6ff;
-  --color-medical-accent: #eef2f3;
-  --color-medical-redFlag: #ff3b30;
-  --color-medical-warning: #ff9500;
-  --color-medical-safe: #34c759;
-  --color-medical-info: #5ac8fa;
+  /* ========== MEDICAL COLOR SYSTEM 2026 ========== */
+  /* Primary: Medical Blue - Trust, Professionalism */
+  --color-medical-blue-50: #E6F3FF;
+  --color-medical-blue-100: #CCE7FF;
+  --color-medical-blue-200: #99CFFF;
+  --color-medical-blue-300: #66B7FF;
+  --color-medical-blue-400: #339FFF;
+  --color-medical-blue-500: #0087FF;
+  --color-medical-blue-600: #006FD6;
+  --color-medical-blue-700: #0057AD;
+  --color-medical-blue-800: #004E92;
+  --color-medical-blue-900: #003366;
+  
+  /* Secondary: Medical Green - Health, Vitality */
+  --color-medical-green-50: #E6FFF5;
+  --color-medical-green-100: #CCFFEB;
+  --color-medical-green-200: #99FFD6;
+  --color-medical-green-300: #66FFC2;
+  --color-medical-green-400: #33FFAD;
+  --color-medical-green-500: #00D68F;
+  --color-medical-green-600: #00B894;
+  --color-medical-green-700: #009975;
+  --color-medical-green-800: #007A5E;
+  --color-medical-green-900: #005C46;
+  
+  /* Accent: Teal - Balance, Calm */
+  --color-medical-teal-400: #2DD4BF;
+  --color-medical-teal-500: #14B8A6;
+  --color-medical-teal-600: #0D9488;
 
-  /* Apple accent colors */
-  --color-apple-blue: #007aff;
-  --color-apple-green: #34c759;
-  --color-apple-orange: #ff9500;
-  --color-apple-red: #ff3b30;
-  --color-apple-purple: #af52de;
-  --color-apple-pink: #ff2d55;
-  --color-apple-teal: #5ac8fa;
+  /* Legacy Medical Colors */
+  --color-medical-primary: #0087FF;
+  --color-medical-secondary: #00D68F;
+  --color-medical-accent: #14B8A6;
+  --color-medical-redFlag: #FF3B30;
+  --color-medical-warning: #FF9F0A;
+  --color-medical-safe: #34C759;
+  --color-medical-info: #5AC8FA;
+
+  /* Apple accent colors - iOS 26 */
+  --color-apple-blue: #0A84FF;
+  --color-apple-green: #30D158;
+  --color-apple-orange: #FF9F0A;
+  --color-apple-red: #FF453A;
+  --color-apple-purple: #BF5AF2;
+  --color-apple-pink: #FF375F;
+  --color-apple-teal: #64D2FF;
+  --color-apple-indigo: #5E5CE6;
 
   /* Glass effect specific colors */
-  --color-glass-background: rgba(0, 78, 146, 0.15);
-  --color-glass-border: rgba(255, 255, 255, 0.2);
-  --color-glass-highlight: rgba(255, 255, 255, 0.05);
+  --color-glass-background: rgba(0, 135, 255, 0.08);
+  --color-glass-border: rgba(255, 255, 255, 0.35);
+  --color-glass-highlight: rgba(255, 255, 255, 0.08);
+  --color-glass-medical: rgba(0, 135, 255, 0.1);
 
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-3xl: 1.5rem;
+  --radius-liquid: 36px;
 
   /* Custom Animations */
   --animate-shimmer: shimmer 2s linear infinite;
   --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-accordion-down: accordion-down 0.2s ease-out;
   --animate-accordion-up: accordion-up 0.2s ease-out;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-blob-1: blob-float-1 12s ease-in-out infinite;
+  --animate-blob-2: blob-float-2 14s ease-in-out infinite;
+  --animate-blob-3: blob-float-3 16s ease-in-out infinite;
+  --animate-glow-pulse: glow-pulse 4s ease-in-out infinite;
 
   @keyframes shimmer {
     from {
@@ -91,6 +129,66 @@
     }
     to {
       height: 0;
+    }
+  }
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-20px) rotate(2deg);
+    }
+  }
+  @keyframes blob-float-1 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    25% {
+      transform: translate(30px, -50px) scale(1.1) rotate(5deg);
+    }
+    50% {
+      transform: translate(-20px, -100px) scale(0.95) rotate(-3deg);
+    }
+    75% {
+      transform: translate(-40px, -30px) scale(1.05) rotate(2deg);
+    }
+  }
+  @keyframes blob-float-2 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    33% {
+      transform: translate(-40px, 60px) scale(1.15) rotate(-5deg);
+    }
+    66% {
+      transform: translate(50px, 30px) scale(0.9) rotate(8deg);
+    }
+  }
+  @keyframes blob-float-3 {
+    0%, 100% {
+      transform: translate(0, 0) scale(1) rotate(0deg);
+    }
+    20% {
+      transform: translate(70px, -40px) scale(1.08) rotate(3deg);
+    }
+    40% {
+      transform: translate(40px, 60px) scale(0.92) rotate(-4deg);
+    }
+    60% {
+      transform: translate(-30px, 80px) scale(1.12) rotate(6deg);
+    }
+    80% {
+      transform: translate(-60px, 20px) scale(0.95) rotate(-2deg);
+    }
+  }
+  @keyframes glow-pulse {
+    0%, 100% {
+      opacity: 0.6;
+      filter: blur(60px);
+    }
+    50% {
+      opacity: 0.8;
+      filter: blur(80px);
     }
   }
 }

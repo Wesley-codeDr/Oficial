@@ -595,46 +595,80 @@ export default function Home() {
   }, [complaints])
 
   return (
-    <div className="flex h-screen w-full bg-[#fbfbfd] dark:bg-[#000000] text-slate-900 dark:text-slate-100 font-sans selection:bg-blue-500/30 relative overflow-hidden">
+    <div className="flex h-screen w-full bg-gradient-to-br from-slate-50 via-blue-50/30 to-emerald-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-[#0087FF]/30 relative overflow-hidden">
       {/*
-        ULTRA-FIDELITY LIQUID BACKGROUND (Apple 2025)
-        Multi-layered mesh gradients with organic morphing
-        Only rendered on client to prevent hydration mismatch
+        LIQUID GLASS 2026 - MEDICAL BACKGROUND
+        Enhanced with medical blue (#0087FF) and health green (#00D68F)
+        Color psychology: Blue = Trust/Professionalism, Green = Health/Vitality
       */}
       {isMounted && (
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-          {/* Primary Ambient Layer */}
+          {/* Primary Medical Blue Blob - Trust & Professionalism */}
+          <motion.div
+            animate={{
+              scale: [1, 1.15, 1],
+              x: [0, 40, 0],
+              y: [0, -40, 0]
+            }}
+            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+            className="absolute -top-[15%] -left-[10%] w-[600px] h-[600px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, rgba(0, 135, 255, 0.22) 0%, rgba(0, 135, 255, 0) 70%)',
+              filter: 'blur(60px)',
+            }}
+          />
+          {/* Secondary Health Green Blob - Vitality & Wellness */}
           <motion.div
             animate={{
               scale: [1, 1.2, 1],
-              x: [0, 50, 0],
-              y: [0, -30, 0]
+              x: [0, -50, 0],
+              y: [0, 50, 0]
             }}
-            transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -top-[20%] -left-[10%] w-[70%] h-[70%] bg-blue-400/10 dark:bg-blue-600/5 blur-[120px] rounded-full"
+            transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+            className="absolute top-[30%] -right-[12%] w-[550px] h-[550px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, rgba(0, 214, 143, 0.18) 0%, rgba(0, 214, 143, 0) 70%)',
+              filter: 'blur(70px)',
+            }}
           />
-          {/* Secondary Warm Layer */}
+          {/* Tertiary Teal Bloom - Balance & Calm */}
           <motion.div
             animate={{
-              scale: [1, 1.3, 1],
-              x: [0, -40, 0],
-              y: [0, 60, 0]
+              scale: [1, 1.1, 1],
+              x: [0, 30, 0],
+              y: [0, -25, 0]
             }}
-            transition={{ duration: 30, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-            className="absolute top-[20%] -right-[10%] w-[60%] h-[60%] bg-indigo-400/10 dark:bg-indigo-600/5 blur-[140px] rounded-full"
+            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
+            className="absolute bottom-[-8%] left-[25%] w-[450px] h-[450px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, rgba(20, 184, 166, 0) 70%)',
+              filter: 'blur(55px)',
+            }}
           />
-          {/* Tertiary Liquid Bloom */}
+          {/* Accent Deep Blue - Depth */}
           <motion.div
             animate={{
-              rotate: [0, 360],
-              scale: [1, 1.1, 1]
+              scale: [1, 1.12, 1],
+              rotate: [0, 5, 0]
             }}
-            transition={{ duration: 45, repeat: Infinity, ease: 'linear' }}
-            className="absolute bottom-[-10%] left-[20%] w-[50%] h-[50%] bg-blue-300/10 dark:bg-blue-500/5 blur-[160px] rounded-full"
+            transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+            className="absolute top-[55%] left-[45%] w-[380px] h-[380px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, rgba(0, 111, 214, 0.12) 0%, rgba(0, 111, 214, 0) 70%)',
+              filter: 'blur(50px)',
+            }}
           />
 
-          {/* Noise Grain - Tactile Texture */}
-          <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none mix-blend-overlay bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+          {/* Subtle Noise Grain - Tactile Texture */}
+          <div 
+            className="absolute inset-0 opacity-[0.018] dark:opacity-[0.025] pointer-events-none"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            }}
+          />
+          
+          {/* Top Gradient Fade for Header Visibility */}
+          <div className="absolute top-0 left-0 right-0 h-[200px] bg-gradient-to-b from-white/60 via-white/30 to-transparent dark:from-slate-950/70 dark:via-slate-950/30 dark:to-transparent" />
         </div>
       )}
 

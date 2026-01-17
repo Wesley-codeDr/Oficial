@@ -1,80 +1,183 @@
 /* ========================================
    APPLE LIQUID GLASS 2026 - CSS CUSTOM PROPERTIES
    Design tokens for authentic iOS 26 glassmorphism
+   Medical Edition - Optimized for Healthcare UI
    ======================================== */
 
 :root {
-  /* Core Liquid Glass 2026 Tokens */
-  --liquid-glass-bg: rgba(255, 255, 255, 0.25);
-  --liquid-glass-bg-elevated: rgba(255, 255, 255, 0.35);
-  --liquid-glass-border: rgba(255, 255, 255, 0.3);
-  --liquid-glass-border-strong: rgba(255, 255, 255, 0.5);
+  /* ========== MEDICAL COLOR PALETTE ========== */
+  /* Primary Medical Blue - Trust, Professionalism, Calm */
+  --medical-blue-50: #E6F3FF;
+  --medical-blue-100: #CCE7FF;
+  --medical-blue-200: #99CFFF;
+  --medical-blue-300: #66B7FF;
+  --medical-blue-400: #339FFF;
+  --medical-blue-500: #0087FF;
+  --medical-blue-600: #006FD6;
+  --medical-blue-700: #0057AD;
+  --medical-blue-800: #004E92;
+  --medical-blue-900: #003366;
+  
+  /* Secondary Medical Green - Health, Vitality, Growth */
+  --medical-green-50: #E6FFF5;
+  --medical-green-100: #CCFFEB;
+  --medical-green-200: #99FFD6;
+  --medical-green-300: #66FFC2;
+  --medical-green-400: #33FFAD;
+  --medical-green-500: #00D68F;
+  --medical-green-600: #00B894;
+  --medical-green-700: #009975;
+  --medical-green-800: #007A5E;
+  --medical-green-900: #005C46;
+  
+  /* Accent Teal - Calm, Balance */
+  --medical-teal-500: #14B8A6;
+  --medical-teal-600: #0D9488;
+  
+  /* Status Colors - Medical Context */
+  --medical-safe: #34C759;
+  --medical-warning: #FF9F0A;
+  --medical-critical: #FF3B30;
+  --medical-info: #5AC8FA;
+  
+  /* ========== LIQUID GLASS 2026 TOKENS ========== */
+  /* Enhanced blur and saturation for authentic iOS 26 feel */
+  --liquid-glass-bg: rgba(255, 255, 255, 0.22);
+  --liquid-glass-bg-elevated: rgba(255, 255, 255, 0.32);
+  --liquid-glass-bg-medical: rgba(0, 135, 255, 0.08);
+  --liquid-glass-border: rgba(255, 255, 255, 0.35);
+  --liquid-glass-border-strong: rgba(255, 255, 255, 0.55);
+  --liquid-glass-border-medical: rgba(0, 135, 255, 0.15);
 
-  /* Blur & Saturation */
-  --liquid-glass-blur: 60px;
-  --liquid-glass-blur-mobile: 40px;
-  --liquid-glass-blur-elevated: 80px;
-  --liquid-glass-saturate: 180%;
-  --liquid-glass-saturate-elevated: 200%;
+  /* Blur & Saturation - Enhanced for 2026 */
+  --liquid-glass-blur: 80px;
+  --liquid-glass-blur-mobile: 50px;
+  --liquid-glass-blur-elevated: 100px;
+  --liquid-glass-blur-max: 120px;
+  --liquid-glass-saturate: 200%;
+  --liquid-glass-saturate-elevated: 220%;
 
-  /* Shadows - Volumetric with inner glow */
-  --liquid-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  /* Shadows - Volumetric with inner glow + medical tint */
+  --liquid-glass-shadow: 
+    0 8px 32px rgba(0, 78, 146, 0.08), 
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.5);
   --liquid-glass-shadow-elevated:
-    0 25px 50px -12px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.5);
-  --liquid-glass-shadow-float: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    0 25px 50px -12px rgba(0, 78, 146, 0.12), 
+    0 8px 24px rgba(0, 0, 0, 0.06),
+    inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  --liquid-glass-shadow-float: 
+    0 30px 60px -15px rgba(0, 78, 146, 0.15),
+    0 15px 30px -10px rgba(0, 0, 0, 0.08);
+  --liquid-glass-shadow-glow:
+    0 0 40px rgba(0, 135, 255, 0.15),
+    0 0 80px rgba(0, 184, 148, 0.08);
 
-  /* Colored Glow Shadows */
-  --shadow-glow-blue: 0 4px 24px rgba(59, 130, 246, 0.35);
-  --shadow-glow-blue-intense: 0 8px 32px rgba(59, 130, 246, 0.45);
+  /* Medical-Themed Glow Shadows */
+  --shadow-glow-blue: 0 4px 24px rgba(0, 135, 255, 0.35);
+  --shadow-glow-blue-intense: 0 8px 40px rgba(0, 135, 255, 0.5);
+  --shadow-glow-blue-soft: 0 4px 20px rgba(0, 135, 255, 0.2);
+  --shadow-glow-green: 0 4px 24px rgba(0, 184, 148, 0.35);
+  --shadow-glow-green-intense: 0 8px 40px rgba(0, 184, 148, 0.5);
+  --shadow-glow-green-soft: 0 4px 20px rgba(0, 184, 148, 0.2);
+  --shadow-glow-teal: 0 4px 24px rgba(20, 184, 166, 0.35);
   --shadow-glow-red: 0 4px 24px rgba(255, 59, 48, 0.35);
   --shadow-glow-red-intense: 0 8px 32px rgba(255, 59, 48, 0.45);
-  --shadow-glow-green: 0 4px 24px rgba(52, 199, 89, 0.35);
-  --shadow-glow-green-intense: 0 8px 32px rgba(52, 199, 89, 0.45);
 
-  /* Border Radius - Liquid curves */
+  /* Border Radius - Liquid curves (Apple 2026 style) */
+  --liquid-radius-xs: 14px;
   --liquid-radius-sm: 20px;
   --liquid-radius-md: 28px;
-  --liquid-radius-lg: 32px;
-  --liquid-radius-xl: 40px;
+  --liquid-radius-lg: 36px;
+  --liquid-radius-xl: 44px;
+  --liquid-radius-2xl: 52px;
 
-  /* Transitions */
+  /* Transitions - Spring physics */
   --lg-transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
   --lg-transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --lg-transition-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --lg-transition-elastic: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --lg-transition-smooth-out: cubic-bezier(0.16, 1, 0.3, 1);
 
   /* Noise Texture */
   --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1Ii8+PC9zdmc+');
 
+  /* Medical Gradient Presets */
+  --gradient-medical-primary: linear-gradient(135deg, var(--medical-blue-500) 0%, var(--medical-blue-700) 100%);
+  --gradient-medical-secondary: linear-gradient(135deg, var(--medical-green-500) 0%, var(--medical-teal-600) 100%);
+  --gradient-medical-accent: linear-gradient(135deg, var(--medical-blue-400) 0%, var(--medical-green-500) 100%);
+  --gradient-medical-soft: linear-gradient(135deg, rgba(0, 135, 255, 0.1) 0%, rgba(0, 184, 148, 0.1) 100%);
+  --gradient-glass-medical: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.75) 0%,
+    rgba(0, 135, 255, 0.05) 50%,
+    rgba(0, 184, 148, 0.03) 100%
+  );
+
   /* Legacy compatibility */
-  --lg-blur: 60px;
-  --lg-saturate: 180%;
-  --lg-radius-xl: 32px;
+  --lg-blur: 80px;
+  --lg-saturate: 200%;
+  --lg-radius-xl: 36px;
   --lg-shadow-base: var(--liquid-glass-shadow);
   --lg-shadow-hover: var(--liquid-glass-shadow-elevated);
-  --lg-noise-opacity: 0.03;
-  --lg-specular-intensity: 0.6;
-  --lg-specular-hover: 0.9;
+  --lg-noise-opacity: 0.025;
+  --lg-specular-intensity: 0.7;
+  --lg-specular-hover: 0.95;
 }
 
-/* Dark Mode Variants */
+/* Dark Mode Variants - Medical Edition */
 .dark {
-  --liquid-glass-bg: rgba(28, 28, 30, 0.25);
-  --liquid-glass-bg-elevated: rgba(28, 28, 30, 0.35);
-  --liquid-glass-border: rgba(255, 255, 255, 0.1);
-  --liquid-glass-border-strong: rgba(255, 255, 255, 0.2);
+  /* Medical colors adapted for dark mode */
+  --medical-blue-500: #0A9FFF;
+  --medical-green-500: #00E6A0;
+  
+  --liquid-glass-bg: rgba(15, 23, 42, 0.28);
+  --liquid-glass-bg-elevated: rgba(15, 23, 42, 0.38);
+  --liquid-glass-bg-medical: rgba(0, 135, 255, 0.12);
+  --liquid-glass-border: rgba(255, 255, 255, 0.12);
+  --liquid-glass-border-strong: rgba(255, 255, 255, 0.22);
+  --liquid-glass-border-medical: rgba(0, 159, 255, 0.2);
 
-  --liquid-glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --liquid-glass-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.35), 
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
   --liquid-glass-shadow-elevated:
-    0 25px 50px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  --liquid-glass-shadow-float: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    0 25px 50px -12px rgba(0, 0, 0, 0.5), 
+    0 8px 24px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  --liquid-glass-shadow-float: 
+    0 30px 60px -15px rgba(0, 0, 0, 0.55),
+    0 15px 30px -10px rgba(0, 0, 0, 0.3);
+  --liquid-glass-shadow-glow:
+    0 0 50px rgba(10, 159, 255, 0.2),
+    0 0 100px rgba(0, 230, 160, 0.1);
 
-  /* Colored glows slightly dimmed for dark mode */
-  --shadow-glow-blue: 0 4px 24px rgba(59, 130, 246, 0.25);
-  --shadow-glow-blue-intense: 0 8px 32px rgba(59, 130, 246, 0.35);
-  --shadow-glow-red: 0 4px 24px rgba(255, 59, 48, 0.25);
-  --shadow-glow-red-intense: 0 8px 32px rgba(255, 59, 48, 0.35);
-  --shadow-glow-green: 0 4px 24px rgba(52, 199, 89, 0.25);
-  --shadow-glow-green-intense: 0 8px 32px rgba(52, 199, 89, 0.35);
+  /* Medical glows enhanced for dark mode visibility */
+  --shadow-glow-blue: 0 4px 28px rgba(10, 159, 255, 0.4);
+  --shadow-glow-blue-intense: 0 8px 48px rgba(10, 159, 255, 0.55);
+  --shadow-glow-blue-soft: 0 4px 24px rgba(10, 159, 255, 0.25);
+  --shadow-glow-green: 0 4px 28px rgba(0, 230, 160, 0.4);
+  --shadow-glow-green-intense: 0 8px 48px rgba(0, 230, 160, 0.55);
+  --shadow-glow-green-soft: 0 4px 24px rgba(0, 230, 160, 0.25);
+  --shadow-glow-teal: 0 4px 28px rgba(20, 184, 166, 0.4);
+  --shadow-glow-red: 0 4px 28px rgba(255, 69, 58, 0.35);
+  --shadow-glow-red-intense: 0 8px 40px rgba(255, 69, 58, 0.5);
+
+  /* Dark mode gradients */
+  --gradient-medical-primary: linear-gradient(135deg, #0A9FFF 0%, #0066CC 100%);
+  --gradient-medical-secondary: linear-gradient(135deg, #00E6A0 0%, #0D9488 100%);
+  --gradient-medical-accent: linear-gradient(135deg, #339FFF 0%, #00D68F 100%);
+  --gradient-medical-soft: linear-gradient(135deg, rgba(10, 159, 255, 0.15) 0%, rgba(0, 230, 160, 0.15) 100%);
+  --gradient-glass-medical: linear-gradient(
+    145deg,
+    rgba(30, 41, 59, 0.8) 0%,
+    rgba(10, 159, 255, 0.08) 50%,
+    rgba(0, 230, 160, 0.05) 100%
+  );
+
+  --lg-specular-intensity: 0.5;
+  --lg-specular-hover: 0.75;
 }
 
 /* Mobile Breakpoint - Reduce blur for performance */
