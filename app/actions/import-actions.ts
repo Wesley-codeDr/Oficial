@@ -51,7 +51,7 @@ export async function uploadDocument(
 }
 
 export async function getSourceDocuments() {
-  return await prisma.sourceDocument.findMany({
+  return prisma.sourceDocument.findMany({
     orderBy: { createdAt: 'desc' },
     include: { extractions: true },
   })
