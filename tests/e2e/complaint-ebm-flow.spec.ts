@@ -113,10 +113,9 @@ test.describe('Complaint EBM Flow - API & Data Validation', () => {
 // ============================================================================
 
 test.describe('Complaint EBM Flow - UI Components', () => {
-  // TODO: These tests require authentication setup
-  // For now, marking as skip. Can be enabled when auth fixture is ready.
-
-  test.skip('should display complaint selector with EBM indicators', async ({ page }) => {
+  test('should display complaint selector with EBM indicators', async ({
+    page,
+  }) => {
     // Navigate to anamnese page
     await page.goto('/anamnese')
 
@@ -132,7 +131,9 @@ test.describe('Complaint EBM Flow - UI Components', () => {
     await expect(redFlagBadge).toBeVisible()
   })
 
-  test.skip('should show complaint detail panel when complaint selected', async ({ page }) => {
+  test('should show complaint detail panel when complaint selected', async ({
+    page,
+  }) => {
     await page.goto('/anamnese')
 
     // Select a complaint with EBM content
@@ -150,7 +151,7 @@ test.describe('Complaint EBM Flow - UI Components', () => {
     await expect(page.getByText(/HEART Score/i)).toBeVisible()
   })
 
-  test.skip('should generate narrative with EBM context', async ({ page }) => {
+  test('should generate narrative with EBM context', async ({ page }) => {
     await page.goto('/anamnese')
 
     // Select complaint
@@ -170,7 +171,9 @@ test.describe('Complaint EBM Flow - UI Components', () => {
     expect(narrative).toContain('Protocolo de conduta inicial disponível')
   })
 
-  test.skip('should detect and highlight red flags automatically', async ({ page }) => {
+  test('should detect and highlight red flags automatically', async ({
+    page,
+  }) => {
     await page.goto('/anamnese')
 
     // Select high-risk complaint
@@ -188,7 +191,7 @@ test.describe('Complaint EBM Flow - UI Components', () => {
     await expect(alert).toHaveClass(/red|warning|alert/i)
   })
 
-  test.skip('should show sync status indicator', async ({ page }) => {
+  test('should show sync status indicator', async ({ page }) => {
     await page.goto('/anamnese')
 
     // Should show sync status badge
@@ -200,7 +203,9 @@ test.describe('Complaint EBM Flow - UI Components', () => {
     await expect(syncBadge).toHaveText(/sync|online|offline/i)
   })
 
-  test.skip('should complete anamnese flow in under 90 seconds', async ({ page }) => {
+  test('should complete anamnese flow in under 90 seconds', async ({
+    page,
+  }) => {
     const startTime = Date.now()
 
     await page.goto('/anamnese')
@@ -239,7 +244,9 @@ test.describe('Complaint EBM Flow - UI Components', () => {
 // ============================================================================
 
 test.describe('Complaint EBM Flow - Integration', () => {
-  test.skip('should sync red flags from complaint EBM with checkbox red flags', async ({ page }) => {
+  test('should sync red flags from complaint EBM with checkbox red flags', async ({
+    page,
+  }) => {
     await page.goto('/anamnese')
 
     // Select complaint with red flags
@@ -257,7 +264,7 @@ test.describe('Complaint EBM Flow - Integration', () => {
     expect(totalRedFlags).toBeGreaterThanOrEqual(complaintRedFlags + 1)
   })
 
-  test.skip('should update narrative when switching output mode', async ({ page }) => {
+  test('should update narrative when switching output mode', async ({ page }) => {
     await page.goto('/anamnese')
 
     await page.click(`text=${EBM_COMPLAINTS.chestPain.title}`)
