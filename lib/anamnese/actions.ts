@@ -31,22 +31,20 @@ export async function saveAnamneseSession(data: {
     throw new Error('User not authenticated')
   }
 
-  // Check if user exists in our database, create if not
-  let dbUser = await prisma.user.findUnique({
+  // Upsert user: update if exists, create if not
+  const dbUser = await prisma.user.upsert({
     where: { id: user.id },
+    update: {
+      lastLoginAt: new Date(),
+    },
+    create: {
+      id: user.id,
+      email: user.email!,
+      fullName: user.user_metadata?.full_name || 'Usuario',
+      crmNumber: user.user_metadata?.crm_number || '000000',
+      crmState: user.user_metadata?.crm_state || 'SP',
+    },
   })
-
-  if (!dbUser) {
-    dbUser = await prisma.user.create({
-      data: {
-        id: user.id,
-        email: user.email!,
-        fullName: user.user_metadata?.full_name || 'Usuario',
-        crmNumber: user.user_metadata?.crm_number || '000000',
-        crmState: user.user_metadata?.crm_state || 'SP',
-      },
-    })
-  }
 
   const session = await prisma.anamneseSession.create({
     data: {
