@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { registerAndLoginUser } from './utils'
 
 test.describe('Anamnese Flow (Public Access Check)', () => {
   test('should redirect unauthenticated user from anamnese page', async ({ page }) => {
@@ -35,8 +36,41 @@ test.describe('Anamnese Flow (Authenticated)', () => {
     // TODO: Implement authenticated test
   })
 
-  test.skip('should generate narrative when checkboxes selected', async ({ page }) => {
-    // TODO: Implement authenticated test
+  test('should generate narrative when checkboxes selected', async ({ page }) => {
+    // Authenticate
+    await registerAndLoginUser(page)
+
+    // Navigate to Chest Pain syndrome
+    await page.goto('/anamnese/CHEST_PAIN')
+
+    // Handle Patient Context Modal
+    // It opens automatically on load
+    await expect(page.getByText('Contexto Clínico')).toBeVisible({ timeout: 10000 })
+
+    // Start Anamnese
+    await page.click('text=Iniciar Anamnese')
+
+    // Wait for modal to close
+    await expect(page.getByText('Contexto Clínico')).toBeHidden()
+
+    // Select "Dor precordial" (QP)
+    // Using a more specific selector if possible to avoid ambiguity,
+    // but text locator is usually fine for buttons/divs with text.
+    // The checkboxes are rendered as buttons with the text inside.
+    await page.click('text=Dor precordial')
+
+    // Select "Inicio subito" (QP)
+    await page.click('text=Inicio subito')
+
+    // Verify narrative preview
+    // The narrative text is rendered in a <p> tag within the preview area.
+    // We check if the narrative contains the selected texts converted to narrative format.
+    // "Dor precordial" -> "dor precordial"
+    // "Inicio subito" -> "inicio subito"
+
+    // Wait for the narrative to update
+    await expect(page.locator('.prose p')).toContainText('dor precordial')
+    await expect(page.locator('.prose p')).toContainText('inicio subito')
   })
 
   test.skip('should detect red flags automatically', async ({ page }) => {
