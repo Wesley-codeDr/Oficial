@@ -23,13 +23,13 @@ export default defineConfig({
   projects: [
     {
       name: 'setup',
-      testMatch: /.*\.setup\.ts/,
+      testMatch: /auth\.setup\.ts/,
     },
     {
       name: 'chromium',
       use: {
         ...devices['Desktop Chrome'],
-        storageState: authFile,
+        storageState: 'playwright/.auth/user.json',
       },
       dependencies: ['setup'],
     },
@@ -37,7 +37,7 @@ export default defineConfig({
       name: 'firefox',
       use: {
         ...devices['Desktop Firefox'],
-        storageState: authFile,
+        storageState: 'playwright/.auth/user.json',
       },
       dependencies: ['setup'],
     },
@@ -45,7 +45,7 @@ export default defineConfig({
       name: 'webkit',
       use: {
         ...devices['Desktop Safari'],
-        storageState: authFile,
+        storageState: 'playwright/.auth/user.json',
       },
       dependencies: ['setup'],
     },
@@ -53,7 +53,7 @@ export default defineConfig({
       name: 'Mobile Chrome',
       use: {
         ...devices['Pixel 5'],
-        storageState: authFile,
+        storageState: 'playwright/.auth/user.json',
       },
       dependencies: ['setup'],
     },

@@ -1,5 +1,8 @@
 import { test, expect } from '@playwright/test'
 
+// Reset storage state for auth tests to ensure no user is logged in
+test.use({ storageState: { cookies: [], origins: [] } })
+
 test.describe('Authentication', () => {
   test('should show login page', async ({ page }) => {
     await page.goto('/login', { waitUntil: 'domcontentloaded' })

@@ -58,3 +58,8 @@ temp/
 tsconfig.tsbuildinfo
 .vercel
 .env*.local
+
+# Playwright
+playwright-report/
+test-results/
+playwright/.auth/
