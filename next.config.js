@@ -10,6 +10,12 @@ const nextConfig = {
   },
   // Enable standalone output for Docker
   output: 'standalone',
+  // Allow Replit proxy hosts
+  allowedDevOrigins: [
+    'https://*.replit.dev',
+    'https://*.replit.app',
+    'https://*.repl.co',
+  ],
   // Performance optimizations
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion', '@radix-ui/react-icons'],
@@ -33,14 +39,14 @@ const nextConfig = {
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
               "connect-src 'self' https://*.supabase.co https://api.openai.com https://vercel.live wss://*.supabase.co",
-              "frame-ancestors 'none'",
+              "frame-ancestors *",
               "base-uri 'self'",
               "form-action 'self'",
             ].join('; ')
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY'
+            value: 'SAMEORIGIN'
           },
           {
             key: 'X-Content-Type-Options',
