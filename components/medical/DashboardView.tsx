@@ -215,7 +215,7 @@ const MetricCard = ({
         backdrop-blur-[var(--liquid-glass-blur)] 
         saturate-[var(--liquid-glass-saturate)]
         border border-[var(--liquid-glass-border)]
-        rounded-liquid-lg
+        rounded-3xl
         elevation-1 liquid-float
         specular-2026 caustics-2026
         inner-glow-ios26
@@ -373,7 +373,7 @@ const KanbanCard: React.FC<{
       className={`group relative w-full z-[1] glass-card-reflection
           transition-all duration-500
           cursor-grab active:cursor-grabbing
-          p-4 rounded-liquid-md
+          p-4 rounded-2xl
           bg-(--liquid-glass-bg)
           backdrop-blur-(--liquid-glass-blur)
           saturate-(--liquid-glass-saturate)
@@ -393,7 +393,7 @@ const KanbanCard: React.FC<{
     >
       {/* Acuity Bar Bleed Effect - Reduced opacity for neutral glass appearance */}
       <div
-        className={`absolute top-0 left-0 right-0 h-6 opacity-[0.06] pointer-events-none rounded-t-liquid-md bg-linear-to-b from-current to-transparent`}
+        className={`absolute top-0 left-0 right-0 h-6 opacity-[0.06] pointer-events-none rounded-t-2xl bg-linear-to-b from-current to-transparent`}
         style={{
           color: task.acuity === 'red' ? 'var(--color-emergency-red-500)' :
                  task.acuity === 'orange' ? 'var(--color-emergency-orange-500)' :
