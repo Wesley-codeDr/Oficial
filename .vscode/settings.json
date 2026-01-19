@@ -33,5 +33,11 @@
     "**/pnpm-lock.yaml": true,
     "**/.vercel": true
   },
-  "prisma.pinToPrisma6": true
+  "prisma.pinToPrisma6": true,
+  "editor.inlineSuggest.experimental.showOnSuggestConflict": "always",
+  "workbench.colorTheme": "Visual Studio Light",
+  "workbench.preferredDarkColorTheme": "Visual Studio Light",
+  "workbench.view.alwaysShowHeaderActions": true,
+  "window.autoDetectColorScheme": true,
+  "traycer.languagePreference": "Português"
 }

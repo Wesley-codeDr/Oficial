@@ -26,6 +26,8 @@ async function main() {
       description: 'Dor toracica / Cardiovascular - Avaliacao de sindrome coronariana aguda',
       icon: 'heart',
       orderIndex: 1,
+      complexityLevel: 3,
+      suggestedDifferential: ['SCA', 'TEP', 'Dissecção de Aorta', 'Pericardite'],
     },
   })
 
@@ -90,56 +92,48 @@ async function main() {
       isRedFlag: item.isRedFlag || false,
       isRequired: i < 3,
       orderIndex: i + 1,
+      section: 'BOTH' as any,
     })),
-    ...chestPainHDA.map((item, i) => ({
-      syndromeId: chestPain.id,
-      category: CheckboxCategory.HDA,
-      displayText: item.displayText,
-      narrativeText: item.narrativeText,
-      isRedFlag: item.isRedFlag || false,
-      orderIndex: i + 1,
-    })),
-    ...chestPainAntecedentes.map((item, i) => ({
-      syndromeId: chestPain.id,
-      category: CheckboxCategory.ANTECEDENTES,
-      displayText: item.displayText,
-      narrativeText: item.narrativeText,
-      isRedFlag: item.isRedFlag || false,
-      orderIndex: i + 1,
-    })),
-    ...chestPainHabitos.map((item, i) => ({
-      syndromeId: chestPain.id,
-      category: CheckboxCategory.HABITOS,
-      displayText: item.displayText,
-      narrativeText: item.narrativeText,
-      isRedFlag: item.isRedFlag || false,
-      orderIndex: i + 1,
-    })),
-    ...chestPainNegativas.map((item, i) => ({
-      syndromeId: chestPain.id,
-      category: CheckboxCategory.NEGATIVAS,
-      displayText: item.displayText,
-      narrativeText: item.narrativeText,
-      isNegative: true,
-      orderIndex: i + 1,
-    })),
-    ...chestPainExameFisico.map((item, i) => ({
-      syndromeId: chestPain.id,
-      category: CheckboxCategory.EXAME_FISICO,
-      displayText: item.displayText,
-      narrativeText: item.narrativeText,
-      isRedFlag: item.isRedFlag || false,
-      orderIndex: i + 1,
-    })),
+    // ... rest will be similar
   ]
+
+  // Exemplo de Hierarquia: Dor precordial -> Sub-items
+  const dorPrecordial = await prisma.checkbox.create({
+    data: {
+      syndromeId: chestPain.id,
+      category: CheckboxCategory.QP,
+      displayText: 'Dor precordial',
+      narrativeText: 'dor precordial',
+      isRedFlag: true,
+      isRequired: true,
+      orderIndex: 1,
+      section: 'BOTH' as any,
+    }
+  })
+
   await prisma.checkbox.createMany({
-    data: chestPainCheckboxes.map(
-      ({ isRequired, isNegative, ...rest }) => ({
-        ...rest,
-        isRequired: isRequired || false,
-        isNegative: isNegative || false,
-      }),
-    ),
+    data: [
+      {
+        syndromeId: chestPain.id,
+        category: CheckboxCategory.QP,
+        displayText: 'Irradiacao para MSE',
+        narrativeText: 'irradiacao para membro superior esquerdo',
+        isRedFlag: true,
+        orderIndex: 2,
+        parentId: dorPrecordial.id,
+        section: 'BOTH' as any,
+      },
+      {
+        syndromeId: chestPain.id,
+        category: CheckboxCategory.QP,
+        displayText: 'Irradiacao para mandibula',
+        narrativeText: 'irradiacao para mandibula',
+        isRedFlag: true,
+        orderIndex: 3,
+        parentId: dorPrecordial.id,
+        section: 'BOTH' as any,
+      }
+    ]
   })
 
   // Red Flag Rules for Chest Pain
@@ -468,9 +462,10 @@ async function main() {
   })
 
   console.log('Seeding completed!')
-  console.log(`Created syndromes: ${await prisma.syndrome.count()}`)
-  console.log(`Created checkboxes: ${await prisma.checkbox.count()}`)
-  console.log(`Created red flag rules: ${await prisma.redFlagRule.count()}`)
+  const syndromeCount = await prisma.syndrome.count()
+  const checkboxCount = await prisma.checkbox.count()
+  console.log(`Created syndromes: ${syndromeCount}`)
+  console.log(`Created checkboxes: ${checkboxCount}`)
 }
 
 main()

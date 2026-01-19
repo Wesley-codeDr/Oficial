@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Copy, Check, AlertTriangle, FileText, Maximize2, Minimize2, Sparkles } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { EmptyStateIllustration } from '@/components/ui/empty-state-illustration'
 
 interface NarrativePreviewProps {
   narrative: string
@@ -120,14 +121,24 @@ export function NarrativePreview({
           )}
         >
           {isEmpty ? (
-            <div className="flex flex-col items-center justify-center h-48 opacity-40 text-center space-y-4">
-              <div className="w-12 h-12 rounded-full border-2 border-dashed border-slate-400 flex items-center justify-center">
-                 <FileText className="h-6 w-6 text-slate-400" />
+            <motion.div
+              className="flex flex-col items-center justify-center h-48 text-center space-y-4"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+            >
+              <div className="relative">
+                <div className="absolute inset-0 blur-2xl bg-gradient-to-r from-teal-500/10 to-blue-500/10 rounded-full scale-125" />
+                <EmptyStateIllustration variant="personal-productivity" size="sm" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
-                Aguardando seleção de sintomas...
-              </p>
-            </div>
+              <motion.p
+                className="text-xs font-bold uppercase tracking-widest text-slate-500"
+                animate={{ opacity: [0.5, 1, 0.5] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                Aguardando selecao de sintomas...
+              </motion.p>
+            </motion.div>
           ) : (
             <motion.div
               key={narrative}

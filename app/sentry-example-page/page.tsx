@@ -335,7 +335,7 @@ export default function SentryExamplePage() {
           <Button
             onClick={handleTestSpan}
             disabled={!isConnected || isLoading}
-            variant="default"
+            variant="secondary"
             className="w-full"
           >
             {isLoading ? "Criando..." : "Testar Span (UI Click)"}

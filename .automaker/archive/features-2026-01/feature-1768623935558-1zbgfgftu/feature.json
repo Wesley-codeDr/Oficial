@@ -1,0 +1,17 @@
+{
+  "category": "enhancement",
+  "description": "When users first open the app with no tasks, display an interactive tutorial overlay that highlights key features: how to create tasks, move them between columns, and customize their board. Include a 'Take Tour' button and 'Skip' option.\n\n**Rationale:** New users often abandon tools when faced with a blank canvas. A guided tour reduces time-to-value and increases activation rates by showing users exactly what the tool can do.",
+  "title": "Interactive Empty Board Onboarding",
+  "status": "completed",
+  "id": "feature-1768623935558-1zbgfgftu",
+  "descriptionHistory": [
+    {
+      "description": "When users first open the app with no tasks, display an interactive tutorial overlay that highlights key features: how to create tasks, move them between columns, and customize their board. Include a 'Take Tour' button and 'Skip' option.\n\n**Rationale:** New users often abandon tools when faced with a blank canvas. A guided tour reduces time-to-value and increases activation rates by showing users exactly what the tool can do.",
+      "timestamp": "2026-01-17T04:25:35.559Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-17T05:09:50.926Z",
+  "updatedAt": "2026-01-17T05:13:06.232Z"
+}

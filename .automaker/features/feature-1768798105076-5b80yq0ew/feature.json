@@ -1,0 +1,17 @@
+{
+  "category": "enhancement",
+  "description": "Add persistent visual feedback showing when forms auto-save, last saved timestamp, and handle network failures gracefully. Include recovery UI if user loses connection mid-documentation.\n\n**Rationale:** Long anamnesis forms risk data loss if browser crashes or network drops. Users need confidence their work is saved, especially during 20+ minute consultations with complex medical histories.",
+  "title": "Auto-save indicators with conflict resolution UI",
+  "status": "in_progress",
+  "id": "feature-1768798105076-5b80yq0ew",
+  "descriptionHistory": [
+    {
+      "description": "Add persistent visual feedback showing when forms auto-save, last saved timestamp, and handle network failures gracefully. Include recovery UI if user loses connection mid-documentation.\n\n**Rationale:** Long anamnesis forms risk data loss if browser crashes or network drops. Users need confidence their work is saved, especially during 20+ minute consultations with complex medical histories.",
+      "timestamp": "2026-01-19T04:48:25.079Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-19T04:48:41.434Z",
+  "updatedAt": "2026-01-19T04:48:41.731Z"
+}

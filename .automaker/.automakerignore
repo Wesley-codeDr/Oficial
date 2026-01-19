@@ -1,0 +1,71 @@
+# Automaker Ignore - Reduce context loading
+
+# Archive folders
+archive/
+worktrees/
+images/
+
+# Large node modules
+**/node_modules/**
+**/.next/**
+**/dist/**
+**/build/**
+
+# Dependencies
+**/pnpm-lock.yaml
+**/package-lock.json
+**/yarn.lock
+
+# Environment files
+**/.env*
+!**/.env.example
+
+# Git
+**/.git/**
+
+# IDE
+**/.vscode/**
+**/.idea/**
+**/.cursor/**
+
+# Build outputs
+**/*.map
+**/*.log
+**/*.tsbuildinfo
+
+# Tests
+**/coverage/**
+**/.nyc_output/**
+
+# Documentation (load only when needed)
+**/docs/**
+**/README.md
+
+# Large data files
+**/*.pdf
+**/*.csv
+**/*.xlsx
+
+# Media
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.svg
+**/*.webp
+**/*.mp4
+**/*.mov
+
+# Prisma generated
+**/node_modules/.prisma/**
+**/node_modules/@prisma/**
+
+# Old specs (load only specific ones)
+specs/archived/**
+specs/001-*
+specs/002-*
+specs/003-*
+specs/004-*
+specs/005-*
+specs/006-*
+specs/007-*

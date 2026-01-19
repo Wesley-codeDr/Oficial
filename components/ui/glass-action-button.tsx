@@ -130,7 +130,7 @@ export const GlassActionButton = React.forwardRef<
       >
         {loading && <Loader2 className="w-4 h-4 animate-spin" />}
         {!loading && icon && iconPosition === "left" && icon}
-        {children}
+        {children as React.ReactNode}
         {!loading && icon && iconPosition === "right" && icon}
         
         {/* Apple Shine Effect Overlay */}

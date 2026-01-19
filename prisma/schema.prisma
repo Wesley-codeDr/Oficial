@@ -37,6 +37,8 @@ model Syndrome {
   icon             String?
   orderIndex       Int                @map("order_index")
   isActive         Boolean            @default(true) @map("is_active")
+  complexityLevel Int                @default(1) @map("complexity_level")
+  suggestedDifferential String[]     @map("suggested_differential")
   createdAt        DateTime           @default(now()) @map("created_at")
   updatedAt        DateTime           @updatedAt @map("updated_at")
   sessions         AnamneseSession[]
@@ -46,6 +48,7 @@ model Syndrome {
 
   @@index([code])
   @@index([orderIndex])
+  @@index([complexityLevel])
   @@map("syndromes")
 }
 
@@ -59,13 +62,21 @@ model Checkbox {
   isRedFlag     Boolean          @default(false) @map("is_red_flag")
   isNegative    Boolean          @default(false) @map("is_negative")
   orderIndex    Int              @map("order_index")
+  parentId      String?          @map("parent_id")
+  section       CheckboxSection  @default(BOTH) @map("section")
+  dependsOnId   String?          @map("depends_on_id")
+  dependsOnValue Boolean?        @map("depends_on_value")
+  triggersCalculator String?     @map("triggers_calculator")
   createdAt     DateTime         @default(now()) @map("created_at")
   updatedAt     DateTime         @updatedAt @map("updated_at")
   syndrome      Syndrome         @relation(fields: [syndromeId], references: [id], onDelete: Cascade)
+  parent        Checkbox?        @relation("CheckboxHierarchy", fields: [parentId], references: [id])
+  children      Checkbox[]       @relation("CheckboxHierarchy")
 
   @@index([syndromeId])
   @@index([category])
   @@index([orderIndex])
+  @@index([parentId])
   @@map("checkboxes")
 }
 
@@ -280,6 +291,14 @@ enum MessageRole {
   ASSISTANT
 
   @@map("message_role")
+}
+
+enum CheckboxSection {
+  FLASH
+  DETAILED
+  BOTH
+
+  @@map("checkbox_section")
 }
 
 enum tag_category {

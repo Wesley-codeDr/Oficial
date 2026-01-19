@@ -1,27 +1,34 @@
 'use client'
 
-import { useState, useMemo, useTransition, useCallback, useEffect } from 'react'
+import { useState, useMemo, useTransition, useCallback, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { CheckboxCategory } from '@prisma/client'
-import { Save, RotateCcw, FileText, List, MessageSquare, FileDown } from 'lucide-react'
+import { Save, RotateCcw, FileText, List, MessageSquare } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { CheckboxGroup } from './checkbox-group'
 import { NarrativePreview } from './narrative-preview'
 import { RedFlagAlert } from './red-flag-alert'
+import { EmergencyWarningOverlay } from './emergency-warning-overlay'
 import { ComplaintSelector } from './complaint-selector'
 import { PriorityCheckboxPanel } from './priority-checkbox-panel'
+import { CFMProgressIndicator } from './cfm-progress-indicator'
 import { ExportPDFButton } from './ExportPDFButton'
 import {
   generateNarrative,
   detectRedFlags,
   type OutputMode,
 } from '@/lib/anamnese/generate-narrative'
-import { saveAnamneseSession, markSessionAsCopied } from '@/lib/anamnese/actions'
+import { saveAnamneseSession, saveAnamneseDraft, markSessionAsCopied } from '@/lib/anamnese/actions'
 import { useToast } from '@/hooks/use-toast'
+import { useAutoSave } from '@/hooks/use-auto-save'
+import { AutoSaveIndicator } from '@/components/ui/auto-save-indicator'
+import { NetworkRecoveryBanner, NetworkStatusToast } from '@/components/ui/network-recovery-banner'
 import { analytics } from '@/lib/analytics'
 import { usePatientStore } from '@/stores/patient-store'
 import { useComplaint } from '@/hooks/use-complaints'
+import { useCFMProgress } from '@/hooks/use-cfm-progress'
+import { useEmergencyDetection } from '@/hooks/use-emergency-detection'
 import type { CheckboxCategory as CheckboxCategoryType } from '@/lib/types/medical'
 
 type CheckboxData = {
@@ -93,12 +100,16 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [outputMode, setOutputMode] = useState<OutputMode>('SUMMARY')
   const [savedSessionId, setSavedSessionId] = useState<string | null>(null)
+  const [draftSessionId, setDraftSessionId] = useState<string | null>(null)
 
   // State for complaint selector and priority checkboxes
   const [selectedComplaintId, setSelectedComplaintId] = useState<string | null>(null)
   const [prioritySelectedCheckboxes, setPrioritySelectedCheckboxes] = useState<Set<string>>(
     new Set()
   )
+
+  // Track if first interaction happened (for auto-save trigger)
+  const hasInteractedRef = useRef(false)
 
   // Load complaint data when selected
   const { data: selectedComplaint } = useComplaint(selectedComplaintId || '')
@@ -123,6 +134,39 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   const selectedCheckboxes = useMemo(() => {
     return syndrome.checkboxes.filter((cb) => selectedIds.has(cb.id))
   }, [syndrome.checkboxes, selectedIds])
+
+  // Calculate CFM block progress
+  const { selectedByCategory, totalByCategory } = useCFMProgress(syndrome.checkboxes, selectedIds)
+
+  // Emergency detection - Real-time monitoring for critical symptoms
+  const {
+    detectedEmergencies,
+    highestSeverity,
+    hasEmergency,
+    requiresImmediateAction,
+    dismissEmergency,
+    dismissAll,
+    checkSymptoms,
+  } = useEmergencyDetection({
+    enableAudio: true,
+    enableHaptic: true,
+    onEmergencyDetected: (emergencies) => {
+      // Track emergency detection analytics
+      emergencies.forEach((emergency) => {
+        analytics.redFlagDetected(
+          syndrome.code,
+          emergency.indicator.label,
+          emergency.indicator.severity.toUpperCase()
+        )
+      })
+    },
+  })
+
+  // Check symptoms when selected checkboxes change
+  useEffect(() => {
+    const symptomLabels = selectedCheckboxes.map((cb) => cb.displayText)
+    checkSymptoms(symptomLabels)
+  }, [selectedCheckboxes, checkSymptoms])
 
   // Generate narrative (with complaint context)
   const narrative = useMemo(() => {
@@ -166,7 +210,50 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     }))
   }, [redFlags])
 
+  // Auto-save data structure
+  const autoSaveData = useMemo(
+    () => ({
+      draftId: draftSessionId,
+      syndromeId: syndrome.id,
+      checkedItems: Array.from(selectedIds),
+      generatedText: narrative,
+      outputMode,
+      redFlagsDetected: redFlags.map((rf) => ('id' in rf ? rf.id : rf.description)),
+    }),
+    [draftSessionId, syndrome.id, selectedIds, narrative, outputMode, redFlags]
+  )
+
+  // Auto-save hook
+  const {
+    status: autoSaveStatus,
+    lastSavedAt,
+    isOnline,
+    pendingChanges,
+    error: autoSaveError,
+    retryFailedSaves,
+  } = useAutoSave({
+    data: autoSaveData,
+    onSave: async (data) => {
+      const result = await saveAnamneseDraft(data)
+      if (result.isNew) {
+        setDraftSessionId(result.session.id)
+      }
+    },
+    debounceMs: 3000, // 3 seconds debounce
+    enabled: hasInteractedRef.current && selectedIds.size > 0,
+    isValid: (data) => data.checkedItems.length > 0,
+    onSaveSuccess: () => {
+      // Silent success - indicator shows status
+    },
+    onSaveError: (error) => {
+      console.error('Auto-save failed:', error)
+    },
+  })
+
   const handleToggle = (id: string) => {
+    // Mark first interaction for auto-save
+    hasInteractedRef.current = true
+
     setSelectedIds((prev) => {
       const next = new Set(prev)
       if (next.has(id)) {
@@ -183,8 +270,10 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   const handleReset = () => {
     setSelectedIds(new Set())
     setSavedSessionId(null)
+    setDraftSessionId(null)
     setSelectedComplaintId(null)
     setPrioritySelectedCheckboxes(new Set())
+    hasInteractedRef.current = false
   }
 
   // Handlers for complaint selector
@@ -215,6 +304,9 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   // Handler for priority checkboxes
   const handlePriorityToggle = useCallback(
     (label: string, category: CheckboxCategoryType) => {
+      // Mark first interaction for auto-save
+      hasInteractedRef.current = true
+
       const key = `${category}:${label}`
       const checkboxId = findCheckboxIdByLabel(category, label)
 
@@ -389,10 +481,38 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr,450px]">
+      {/* Network Recovery Banner - spans full width */}
+      <div className="lg:col-span-2">
+        <NetworkRecoveryBanner
+          isOnline={isOnline}
+          status={autoSaveStatus}
+          pendingChanges={pendingChanges}
+          error={autoSaveError}
+          onRetry={retryFailedSaves}
+        />
+      </div>
+
+      {/* Network Status Toast (shows on status change) */}
+      <NetworkStatusToast isOnline={isOnline} />
+
       {/* Left Panel - Checkboxes */}
       <div className="space-y-8">
+        {/* Auto-Save Status Indicator */}
+        {selectedIds.size > 0 && (
+          <div className="flex items-center justify-end px-2">
+            <AutoSaveIndicator
+              status={autoSaveStatus}
+              lastSavedAt={lastSavedAt}
+              isOnline={isOnline}
+              pendingChanges={pendingChanges}
+              error={autoSaveError}
+              onRetry={retryFailedSaves}
+            />
+          </div>
+        )}
+
         {/* Complaint Selector */}
-        <div className="glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[32px] p-6 shadow-xl">
+        <div className="glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[36px] p-6 shadow-xl">
           <ComplaintSelector
             selectedComplaintId={selectedComplaintId}
             onComplaintSelect={handleComplaintSelect}
@@ -405,7 +525,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[32px] p-6 shadow-xl"
+            className="glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[36px] p-6 shadow-xl"
           >
             <PriorityCheckboxPanel
               complaintId={selectedComplaintId}
@@ -417,11 +537,11 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
         {/* Mode Toggle and Main Controls */}
         <div className="flex flex-wrap items-center justify-between gap-4 px-2">
-          <div className="flex items-center gap-2 p-1.5 glass-pill rounded-2xl">
+          <div className="flex items-center gap-2 p-1.5 glass-pill rounded-[20px]">
             <button
               onClick={() => setOutputMode('SUMMARY')}
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all',
+                'flex items-center gap-2 px-4 py-2 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all',
                 outputMode === 'SUMMARY'
                   ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
                   : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10'
@@ -433,7 +553,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             <button
               onClick={() => setOutputMode('DETAILED')}
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all',
+                'flex items-center gap-2 px-4 py-2 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all',
                 outputMode === 'DETAILED'
                   ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
                   : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10'
@@ -451,7 +571,32 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           </div>
         </div>
 
-        {/* Red Flag Alert */}
+        {/* CFM Progress Indicator */}
+        <CFMProgressIndicator
+          selectedByCategory={selectedByCategory}
+          totalByCategory={totalByCategory}
+          showLabels={true}
+        />
+
+        {/* Emergency Warning Overlay - Real-time critical symptom detection */}
+        {hasEmergency && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+          >
+            <EmergencyWarningOverlay
+              emergencies={detectedEmergencies}
+              highestSeverity={highestSeverity}
+              requiresImmediateAction={requiresImmediateAction}
+              onDismiss={dismissAll}
+              onDismissOne={dismissEmergency}
+              position="inline"
+            />
+          </motion.div>
+        )}
+
+        {/* Red Flag Alert - Static warnings from checkbox metadata */}
         <RedFlagAlert redFlags={normalizedRedFlags} />
 
         {/* Checkbox Groups */}
@@ -473,7 +618,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             onClick={handleReset}
             disabled={selectedIds.size === 0}
             className={cn(
-              'glass-pill px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
+              'glass-pill px-4 py-2.5 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
               selectedIds.size === 0
                 ? 'text-slate-400 cursor-not-allowed'
                 : 'text-slate-600 dark:text-slate-300 hover:bg-white/20 hover:scale-105'
@@ -505,7 +650,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             onClick={handleOpenChat}
             disabled={isPending || !savedSessionId}
             className={cn(
-              'glass-pill px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
+              'glass-pill px-4 py-2.5 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
               isPending || !savedSessionId
                 ? 'text-slate-400 cursor-not-allowed'
                 : 'text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 hover:scale-105'
@@ -519,7 +664,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             <ExportPDFButton
               sessionId={savedSessionId}
               disabled={isPending}
-              className="glass-pill px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest"
+              className="glass-pill px-4 py-2.5 rounded-[14px] text-[10px] font-black uppercase tracking-widest"
             />
           )}
         </div>

@@ -1,0 +1,17 @@
+{
+  "category": "enhancement",
+  "description": "Implement prominent, real-time visual warnings when users enter symptoms matching emergency indicators (chest pain, syncope, altered consciousness, etc.). Include recommended immediate actions and escalation protocols.\n\n**Rationale:** Critical symptoms may be buried in checkbox forms without immediate recognition. Real-time alerts ensure emergency conditions trigger appropriate urgent response protocols, improving patient safety.",
+  "title": "Red flag visual alerts during examination data entry",
+  "status": "verified",
+  "id": "feature-1768798102123-3q7de9v27",
+  "descriptionHistory": [
+    {
+      "description": "Implement prominent, real-time visual warnings when users enter symptoms matching emergency indicators (chest pain, syncope, altered consciousness, etc.). Include recommended immediate actions and escalation protocols.\n\n**Rationale:** Critical symptoms may be buried in checkbox forms without immediate recognition. Real-time alerts ensure emergency conditions trigger appropriate urgent response protocols, improving patient safety.",
+      "timestamp": "2026-01-19T04:48:22.124Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-19T04:48:41.166Z",
+  "updatedAt": "2026-01-19T05:37:36.709Z"
+}

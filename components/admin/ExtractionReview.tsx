@@ -43,16 +43,16 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 h-[calc(100vh-200px)]">
       {/* Left Column: Editor */}
       <div className="flex flex-col gap-6 h-full overflow-hidden">
-        {/* Toolbar */}
-        <div className="flex items-center justify-between">
+        {/* Toolbar - Glass iOS 26 */}
+        <div className="flex items-center justify-between glass-pill rim-light-ios26 p-2 rounded-2xl">
           <div className="flex gap-2">
             <button
               onClick={() => setActiveTab('symptoms')}
               className={cn(
-                'px-4 py-2 rounded-xl text-sm font-medium transition-all',
+                'px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300',
                 activeTab === 'symptoms'
-                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
-                  : 'glass-pill text-slate-600 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10'
+                  ? 'btn-primary-glass text-white shadow-lg shadow-blue-500/25'
+                  : 'glass-btn-ghost text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
               )}
             >
               Perguntas ({data.questions?.length || 0})
@@ -60,10 +60,10 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
             <button
               onClick={() => setActiveTab('redflags')}
               className={cn(
-                'px-4 py-2 rounded-xl text-sm font-medium transition-all',
+                'px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300',
                 activeTab === 'redflags'
-                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
-                  : 'glass-pill text-slate-600 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10'
+                  ? 'btn-primary-glass text-white shadow-lg shadow-blue-500/25'
+                  : 'glass-btn-ghost text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
               )}
             >
               Red Flags ({data.redFlags?.length || 0})
@@ -71,10 +71,10 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
             <button
               onClick={() => setActiveTab('source')}
               className={cn(
-                'px-4 py-2 rounded-xl text-sm font-medium transition-all lg:hidden',
+                'px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 lg:hidden',
                 activeTab === 'source'
-                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
-                  : 'glass-pill text-slate-600 dark:text-slate-400 hover:bg-white/20 dark:hover:bg-white/10'
+                  ? 'btn-primary-glass text-white shadow-lg shadow-blue-500/25'
+                  : 'glass-btn-ghost text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100'
               )}
             >
               Ver Fonte
@@ -85,8 +85,10 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
             {saveMessage && (
               <span
                 className={cn(
-                  'text-sm font-medium',
-                  saveMessage.type === 'success' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                  'text-sm font-medium glass-pill px-3 py-1.5 rounded-lg',
+                  saveMessage.type === 'success'
+                    ? 'text-green-600 dark:text-green-400 !bg-green-500/10 !border-green-500/20'
+                    : 'text-red-600 dark:text-red-400 !bg-red-500/10 !border-red-500/20'
                 )}
               >
                 {saveMessage.text}
@@ -95,7 +97,7 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
             <button
               onClick={handleSave}
               disabled={isSaving}
-              className="btn-primary-glass text-white px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 shadow-lg shadow-blue-500/20 hover:scale-105 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-primary-glass text-white px-6 py-2.5 rounded-xl font-medium flex items-center gap-2 shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/35 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:translate-y-0"
             >
               {isSaving ? 'Salvando...' : 'Salvar Rascunho'}
               <Save className="h-4 w-4" />
@@ -242,19 +244,19 @@ export function ExtractionReview({ extractionId, initialData, sourceText }: Extr
           )}
 
           {activeTab === 'source' && (
-            <div className="lg:hidden bg-white/50 p-4 rounded-xl border border-white/60 text-sm text-slate-600 font-mono whitespace-pre-wrap h-full overflow-y-auto">
+            <div className="lg:hidden liquid-glass-material rim-light-ios26 noise-grain p-5 rounded-2xl text-sm text-slate-700 dark:text-slate-300 font-mono whitespace-pre-wrap h-full overflow-y-auto leading-relaxed">
               {sourceText}
             </div>
           )}
         </div>
       </div>
 
-      {/* Right Column: Source Viewer (Desktop only) */}
-      <div className="hidden lg:block h-full overflow-hidden liquid-glass-material rim-light-ios26 inner-glow-ios26 rounded-3xl shadow-inner p-6">
-        <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 sticky top-0">
+      {/* Right Column: Source Viewer (Desktop only) - Enhanced iOS 26 */}
+      <div className="hidden lg:block h-full overflow-hidden liquid-glass-material-elevated rim-light-ios26 inner-glow-ios26 noise-grain rounded-3xl p-6 relative">
+        <h3 className="text-sm font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-4 sticky top-0 bg-transparent z-10">
           Documento Original
         </h3>
-        <div className="h-full overflow-y-auto pb-20 text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap font-serif">
+        <div className="h-full overflow-y-auto pb-20 text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap font-serif text-[15px]">
           {sourceText}
         </div>
       </div>

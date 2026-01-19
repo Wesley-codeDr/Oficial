@@ -7,6 +7,7 @@ import { MessageSquare, ChevronRight } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
 import { formatDistanceToNow } from '@/lib/utils'
 import { NewChatButton } from './new-chat-button'
+import { ChatEmptyState } from './chat-empty-state'
 
 export const metadata: Metadata = {
   title: 'Chat EBM | WellWave',
@@ -72,20 +73,7 @@ export default async function ChatListPage() {
 
       {/* Conversations List */}
       {conversations.length === 0 ? (
-        <GlassCard hover={false} className="p-8 text-center">
-          <div className="space-y-4">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-              <MessageSquare className="h-8 w-8 text-muted-foreground" />
-            </div>
-            <div className="space-y-2">
-              <h2 className="text-xl font-semibold">Nenhuma conversa ainda</h2>
-              <p className="text-muted-foreground">
-                Inicie uma nova conversa para tirar duvidas clinicas.
-              </p>
-            </div>
-            <NewChatButton variant="primary" />
-          </div>
-        </GlassCard>
+        <ChatEmptyState />
       ) : (
         <div className="space-y-3">
           {conversations.map((conversation) => {
@@ -96,7 +84,7 @@ export default async function ChatListPage() {
               <Link key={conversation.id} href={`/chat/${conversation.id}`}>
                 <GlassCard className="group cursor-pointer p-4 transition-all hover:shadow-md">
                   <div className="flex items-center gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[20px] bg-primary/10">
                       <MessageSquare className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1 space-y-1 overflow-hidden">
@@ -108,7 +96,7 @@ export default async function ChatListPage() {
                       </div>
                       <div className="flex items-center gap-3 text-xs text-muted-foreground">
                         {conversation.session && (
-                          <span className="rounded-full bg-muted px-2 py-0.5">
+                          <span className="rounded-[14px] bg-muted px-2 py-0.5">
                             {conversation.session.syndrome.name}
                           </span>
                         )}

@@ -42,39 +42,39 @@ export const RemindersCard: React.FC = () => {
   };
 
   return (
-    <div className="relative p-6 rounded-[32px] bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl backdrop-saturate-[180%] border border-white/50 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] h-full flex flex-col transition-colors overflow-hidden">
-      
+    <div className="relative p-6 rounded-[24px] bg-white/55 dark:bg-[rgba(30,30,30,0.55)] backdrop-blur-[40px] saturate-[180%] border border-white/40 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.3)] h-full flex flex-col transition-colors overflow-hidden">
+
       {/* Header */}
       <div className="flex justify-between items-center mb-6 shrink-0">
-        <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100 tracking-tight transition-colors">Lembretes</h3>
+        <h3 className="font-bold text-lg text-[rgba(0,0,0,0.85)] dark:text-white tracking-tight transition-colors">Lembretes</h3>
         <div className="flex gap-2">
-          <button 
+          <button
             onClick={() => setIsAdding(true)}
-            className="w-8 h-8 rounded-full bg-blue-500 hover:bg-blue-600 flex items-center justify-center text-white transition-all shadow-lg shadow-blue-500/30 hover:scale-105 active:scale-95"
+            className="w-8 h-8 rounded-[14px] bg-[rgba(0,122,255,0.2)] hover:bg-[rgba(0,122,255,0.3)] flex items-center justify-center text-[#007AFF] transition-all hover:scale-105 active:scale-95"
             title="Adicionar Lembrete"
           >
             <Plus className="w-5 h-5" />
           </button>
-          <button className="w-8 h-8 rounded-full bg-white/40 dark:bg-slate-700/40 hover:bg-white dark:hover:bg-slate-600 flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors">
+          <button className="w-8 h-8 rounded-[14px] bg-white/40 dark:bg-white/10 hover:bg-white/60 dark:hover:bg-white/20 flex items-center justify-center text-[rgba(0,0,0,0.45)] dark:text-[rgba(255,255,255,0.5)] hover:text-[rgba(0,0,0,0.7)] dark:hover:text-white transition-colors">
             <MoreHorizontal className="w-5 h-5" />
           </button>
         </div>
       </div>
-      
+
       {/* List */}
       <ul className="space-y-3 overflow-y-auto pr-2 custom-scrollbar flex-1 pb-2">
         {reminders.map((reminder) => (
-          <li 
-            key={reminder.id} 
-            className="flex items-center gap-4 cursor-pointer group p-3 rounded-2xl hover:bg-white/40 dark:hover:bg-slate-700/40 transition-all duration-300"
+          <li
+            key={reminder.id}
+            className="flex items-center gap-4 cursor-pointer group p-3 rounded-[18px] hover:bg-white/40 dark:hover:bg-white/10 transition-all duration-300"
             onClick={() => toggle(reminder.id)}
           >
-            <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 shadow-sm shrink-0 ${reminder.checked ? 'bg-blue-500 border-blue-500 scale-110' : 'border-slate-300 dark:border-slate-600 bg-white/80 dark:bg-slate-800/80 group-hover:border-blue-400'}`}>
-              {reminder.checked && <Check className="w-3.5 h-3.5 text-white stroke-[3]" />}
+            <div className={`w-6 h-6 rounded-[10px] border flex items-center justify-center transition-all duration-300 shrink-0 ${reminder.checked ? 'bg-[rgba(0,122,255,0.25)] border-[rgba(0,122,255,0.4)] scale-110' : 'border-white/40 dark:border-white/20 bg-white/50 dark:bg-white/10 group-hover:border-[rgba(0,122,255,0.4)]'}`}>
+              {reminder.checked && <Check className="w-3.5 h-3.5 text-[#007AFF] stroke-[3]" />}
             </div>
             <div className="min-w-0">
-              <p className={`font-semibold text-[15px] transition-all truncate ${reminder.checked ? 'text-slate-400/80 dark:text-slate-500/80 line-through' : 'text-slate-700 dark:text-slate-200'}`}>{reminder.title}</p>
-              <p className="text-xs text-slate-400 dark:text-slate-500 font-medium truncate">{reminder.sub}</p>
+              <p className={`font-semibold text-[15px] transition-all truncate ${reminder.checked ? 'text-[rgba(0,0,0,0.35)] dark:text-[rgba(255,255,255,0.35)] line-through' : 'text-[rgba(0,0,0,0.85)] dark:text-white'}`}>{reminder.title}</p>
+              <p className="text-xs text-[rgba(0,0,0,0.45)] dark:text-[rgba(255,255,255,0.5)] font-medium truncate">{reminder.sub}</p>
             </div>
           </li>
         ))}
@@ -82,51 +82,51 @@ export const RemindersCard: React.FC = () => {
 
       {/* Add Modal Overlay */}
       {isAdding && (
-        <div className="absolute inset-0 z-20 bg-white/80 dark:bg-slate-900/90 backdrop-blur-xl p-6 flex flex-col animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute inset-0 z-20 bg-white/90 dark:bg-[rgba(30,30,30,0.95)] backdrop-blur-[40px] p-6 flex flex-col animate-in fade-in zoom-in-95 duration-200 rounded-[24px]">
            <div className="flex justify-between items-center mb-6">
-              <h4 className="text-lg font-bold text-slate-800 dark:text-white">Novo Lembrete</h4>
-              <button onClick={handleCancel} className="p-1 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors text-slate-500">
+              <h4 className="text-lg font-bold text-[rgba(0,0,0,0.85)] dark:text-white">Novo Lembrete</h4>
+              <button onClick={handleCancel} className="p-1 rounded-[10px] hover:bg-white/40 dark:hover:bg-white/10 transition-colors text-[rgba(0,0,0,0.45)] dark:text-[rgba(255,255,255,0.5)]">
                 <X className="w-5 h-5" />
               </button>
            </div>
-           
+
            <div className="space-y-4 flex-1">
              <div>
-               <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Título</label>
-               <input 
+               <label className="block text-xs font-semibold text-[rgba(0,0,0,0.5)] dark:text-[rgba(255,255,255,0.5)] uppercase tracking-wider mb-1.5 ml-1">Título</label>
+               <input
                   autoFocus
                   type="text"
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   placeholder="Ex: Tomar medicação"
-                  className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                  className="w-full bg-white/50 dark:bg-white/10 border border-white/40 dark:border-white/20 rounded-[14px] px-4 py-3 text-[rgba(0,0,0,0.85)] dark:text-white placeholder:text-[rgba(0,0,0,0.35)] dark:placeholder:text-[rgba(255,255,255,0.35)] focus:outline-none focus:ring-2 focus:ring-[rgba(0,122,255,0.4)] transition-all"
                   onKeyDown={(e) => e.key === 'Enter' && handleAddReminder()}
                />
              </div>
-             
+
              <div>
-               <label className="block text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-1.5 ml-1">Detalhes (Opcional)</label>
-               <input 
+               <label className="block text-xs font-semibold text-[rgba(0,0,0,0.5)] dark:text-[rgba(255,255,255,0.5)] uppercase tracking-wider mb-1.5 ml-1">Detalhes (Opcional)</label>
+               <input
                   type="text"
                   value={newSub}
                   onChange={(e) => setNewSub(e.target.value)}
                   placeholder="Ex: Após o almoço"
-                  className="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
+                  className="w-full bg-white/50 dark:bg-white/10 border border-white/40 dark:border-white/20 rounded-[14px] px-4 py-3 text-[rgba(0,0,0,0.85)] dark:text-white placeholder:text-[rgba(0,0,0,0.35)] dark:placeholder:text-[rgba(255,255,255,0.35)] focus:outline-none focus:ring-2 focus:ring-[rgba(0,122,255,0.4)] transition-all"
                   onKeyDown={(e) => e.key === 'Enter' && handleAddReminder()}
                />
              </div>
            </div>
 
            <div className="flex gap-3 mt-4">
-             <button 
+             <button
                onClick={handleCancel}
-               className="flex-1 py-3.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+               className="flex-1 py-3.5 rounded-[14px] bg-white/50 dark:bg-white/10 text-[rgba(0,0,0,0.5)] dark:text-[rgba(255,255,255,0.5)] font-semibold hover:bg-white/70 dark:hover:bg-white/20 transition-colors"
              >
                Cancelar
              </button>
-             <button 
+             <button
                onClick={handleAddReminder}
-               className="flex-1 py-3.5 rounded-xl bg-blue-500 text-white font-bold hover:bg-blue-600 shadow-lg shadow-blue-500/30 hover:shadow-blue-500/40 transition-all active:scale-[0.98]"
+               className="flex-1 py-3.5 rounded-[14px] bg-[rgba(0,122,255,0.2)] hover:bg-[rgba(0,122,255,0.3)] text-[#007AFF] font-semibold transition-all active:scale-[0.98]"
              >
                Salvar
              </button>

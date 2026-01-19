@@ -49,20 +49,20 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollap
         aria-label={label}
         aria-current={isActive ? 'page' : undefined}
         className={`
-          relative flex items-center transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] outline-none
+          relative flex items-center transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] outline-none
           ${isCollapsed ? 'justify-center w-[60px] h-[60px]' : 'w-full px-4 py-3'}
         `}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
-        {/* Background Layer - Liquid Glass Hover/Active */}
+        {/* Background Layer - iOS 26 Glass Hover/Active */}
         <motion.div
           className={`
-            absolute inset-0 rounded-[20px] transition-all duration-500
+            absolute inset-0 rounded-[14px] transition-all duration-200
             ${
               isActive
-                ? 'glass-pill inner-glow-ios26 shadow-lg'
-                : 'bg-transparent group-hover/item:bg-white/5 dark:group-hover/item:bg-white/5'
+                ? 'backdrop-blur-[40px] saturate-[180%] bg-white/25 dark:bg-[rgba(30,30,30,0.25)] border border-white/30 dark:border-white/15 shadow-[0_8px_32px_rgba(0,122,255,0.12)]'
+                : 'bg-transparent group-hover/item:bg-white/15 dark:group-hover/item:bg-[rgba(30,30,30,0.15)]'
             }
           `}
         />
@@ -74,11 +74,11 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollap
         >
           <div
             className={`
-              flex items-center justify-center w-10 h-10 rounded-[14px] transition-all duration-500
+              flex items-center justify-center w-10 h-10 rounded-[12px] transition-all duration-200
               ${
                 isActive
-                  ? 'glass-pill bg-primary/20! backdrop-blur-xl shadow-lg shadow-primary/20 text-primary border-primary/30!'
-                  : 'text-slate-500 dark:text-slate-400 group-hover/item:text-primary'
+                  ? 'bg-[rgba(0,122,255,0.15)] backdrop-blur-[20px] text-[#007AFF] dark:text-[#0A84FF] border border-[rgba(0,122,255,0.2)]'
+                  : 'text-[rgba(0,0,0,0.5)] dark:text-[rgba(255,255,255,0.5)] group-hover/item:text-[#007AFF] dark:group-hover/item:text-[#0A84FF]'
               }
            `}
           >
@@ -208,14 +208,52 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const asideAnimation = {
     initial: { x: -20, opacity: 0 },
     animate: { x: 0, opacity: 1 },
-    transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] },
+    transition: { duration: 0.7, ease: [0.32, 0.72, 0, 1] as const },
   }
+
+  // Compute width class - use stable value until mounted to prevent hydration mismatch
+  const widthClass = !hasMounted
+    ? 'w-[88px] lg:w-[280px]' // Server-safe default
+    : isCollapsed
+      ? 'w-[88px]'
+      : 'w-[88px] lg:w-[280px]'
 
   return (
     <aside
       suppressHydrationWarning={true}
-      className={`${isCollapsed ? 'w-[88px]' : 'w-[88px] lg:w-[280px]'} h-[calc(100vh-1rem)] structural-glass elevation-3 rim-light-ios26 inner-glow-ios26 flex flex-col shrink-0 my-2 ml-2 rounded-[36px] transition-all duration-[800ms] ease-[cubic-bezier(0.16,1,0.3,1)] z-40 relative`}
+      className={`${widthClass} h-[calc(100vh-1rem)]
+        backdrop-blur-[40px] saturate-[180%]
+        bg-[linear-gradient(135deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)]
+        dark:bg-[linear-gradient(135deg,rgba(30,30,30,0.25)_0%,rgba(30,30,30,0.15)_100%)]
+        border border-white/30 dark:border-white/15
+        flex flex-col shrink-0 my-2 ml-2 rounded-[24px]
+        transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] z-40 relative overflow-hidden`}
+      style={{
+        boxShadow: `
+          0 8px 32px rgba(0, 0, 0, 0.1),
+          inset 0 1px 1px rgba(255, 255, 255, 0.2)
+        `
+      }}
     >
+      {/* NEW: Ambient light gradient for depth */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-40"
+        style={{
+          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 40%, rgba(0, 135, 255, 0.05) 100%)',
+        }}
+      />
+
+      {/* NEW: Caustics effect on sidebar */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-25"
+        style={{
+          background: `
+            radial-gradient(ellipse 30% 20% at 15% 85%, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
+            radial-gradient(ellipse 25% 15% at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+            radial-gradient(ellipse 20% 25% at 90% 25%, rgba(255, 255, 255, 0.08) 0%, transparent 50%)
+          `,
+        }}
+      />
       <motion.div
         className="w-full h-full flex flex-col"
         initial={hasMounted ? asideAnimation.initial : false}

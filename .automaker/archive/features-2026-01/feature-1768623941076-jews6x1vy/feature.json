@@ -1,0 +1,17 @@
+{
+  "category": "enhancement",
+  "description": "Add a 'Load Sample Project' button in empty states that instantly populates the board with example tasks across different columns. Include a sample software project, personal tasks, or content calendar depending on detected use case.\n\n**Rationale:** Users learn best by example. Sample data helps them understand the tool's structure and capabilities without needing to create content from scratch, reducing onboarding friction.",
+  "title": "One-Click Sample Project Generator",
+  "status": "completed",
+  "id": "feature-1768623941076-jews6x1vy",
+  "descriptionHistory": [
+    {
+      "description": "Add a 'Load Sample Project' button in empty states that instantly populates the board with example tasks across different columns. Include a sample software project, personal tasks, or content calendar depending on detected use case.\n\n**Rationale:** Users learn best by example. Sample data helps them understand the tool's structure and capabilities without needing to create content from scratch, reducing onboarding friction.",
+      "timestamp": "2026-01-17T04:25:41.080Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-17T04:25:53.487Z",
+  "updatedAt": "2026-01-17T05:11:36.503Z"
+}

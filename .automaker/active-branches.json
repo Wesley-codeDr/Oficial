@@ -1,0 +1,16 @@
+{
+  "branches": [
+    {
+      "name": "main",
+      "createdAt": "2026-01-17T04:14:02.181Z"
+    },
+    {
+      "name": "feature/main-1768623738137-h89z",
+      "createdAt": "2026-01-17T04:22:19.083Z"
+    },
+    {
+      "name": "feature/main-1768625631164-pmtl",
+      "createdAt": "2026-01-17T04:53:57.039Z"
+    }
+  ]
+}

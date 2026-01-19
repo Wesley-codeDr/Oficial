@@ -4,7 +4,6 @@
 import React, { useState, useRef } from 'react';
 import { X, GripVertical, Check, Eye, EyeOff, RotateCcw, Layout, Rows, Columns } from 'lucide-react';
 import { useDashboardPreferences } from '@/contexts/DashboardPreferencesContext';
-import { DashboardPreferences } from '@/lib/types/medical';
 import { cn } from '@/lib/utils';
 
 interface DashboardSettingsModalProps {
@@ -68,8 +67,8 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-md p-4 animate-in fade-in duration-200">
-       <div className="w-full max-w-2xl liquid-glass-material rim-light-ios26 inner-glow-ios26 rounded-[32px] shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-[60px] p-4 animate-in fade-in duration-200">
+       <div className="w-full max-w-2xl bg-white/25 backdrop-blur-[60px] rim-light-ios26 inner-glow-ios26 rounded-[32px] shadow-glass-elevated overflow-hidden flex flex-col max-h-[85vh]">
           
           {/* Header */}
           <div className="px-6 py-5 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-between shrink-0">
@@ -118,10 +117,10 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
                            onDragEnd={handleSort}
                            onDragOver={(e) => e.preventDefault()}
                            className={cn(
-                             'group flex items-center gap-3 p-3 rounded-2xl transition-all duration-200',
+                             'group flex items-center gap-3 p-3.5 rounded-2xl transition-all duration-300 hover:light-refraction-diag',
                              isVisible
-                                ? 'glass-pill'
-                                : 'glass-pill opacity-60'
+                                ? 'glass-pill bg-white/40 shadow-sm'
+                                : 'glass-pill opacity-40'
                            )}
                          >
                             <div className="p-2 cursor-grab active:cursor-grabbing text-slate-300 hover:text-slate-500 dark:text-slate-600 dark:hover:text-slate-300">
@@ -156,7 +155,7 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
                       <label className="flex items-center justify-between p-3 rounded-2xl glass-pill cursor-pointer">
                          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Saudação (Bom dia...)</span>
                          <div
-                            className={`w-11 h-6 rounded-full p-1 transition-colors duration-300 ${preferences.showGreeting ? 'bg-green-500' : 'bg-slate-300 dark:bg-slate-600'}`}
+                            className={`w-11 h-6 rounded-full p-1 transition-all duration-300 ${preferences.showGreeting ? 'bg-[#00D68F] shadow-[0_0_12px_rgba(0,214,143,0.4)]' : 'bg-slate-300 dark:bg-slate-600'}`}
                             onClick={(e) => { e.preventDefault(); updatePreferences({ showGreeting: !preferences.showGreeting }); }}
                          >
                             <div className={`w-4 h-4 bg-white rounded-full shadow-sm transform transition-transform duration-300 ${preferences.showGreeting ? 'translate-x-5' : 'translate-x-0'}`} />
@@ -167,7 +166,7 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
                       <label className="flex items-center justify-between p-3 rounded-2xl glass-pill cursor-pointer">
                          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Linha de Alertas</span>
                          <div
-                            className={`w-11 h-6 rounded-full p-1 transition-colors duration-300 ${preferences.showAlertRow ? 'bg-green-500' : 'bg-slate-300 dark:bg-slate-600'}`}
+                            className={`w-11 h-6 rounded-full p-1 transition-all duration-300 ${preferences.showAlertRow ? 'bg-[#00D68F] shadow-[0_0_12px_rgba(0,214,143,0.4)]' : 'bg-slate-300 dark:bg-slate-600'}`}
                             onClick={(e) => { e.preventDefault(); updatePreferences({ showAlertRow: !preferences.showAlertRow }); }}
                          >
                             <div className={`w-4 h-4 bg-white rounded-full shadow-sm transform transition-transform duration-300 ${preferences.showAlertRow ? 'translate-x-5' : 'translate-x-0'}`} />
@@ -218,7 +217,7 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
                              'flex items-center justify-between p-3.5 rounded-2xl transition-all duration-200 text-left',
                              isVisible
                                ? 'glass-pill bg-blue-500/10 text-blue-700 dark:text-blue-300'
-                               : 'glass-pill opacity-60'
+                               : 'glass-pill opacity-40'
                            )}
                          >
                             <span className={cn(

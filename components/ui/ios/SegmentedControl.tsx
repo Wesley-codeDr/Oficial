@@ -13,7 +13,7 @@ export interface SegmentedControlProps {
 
 export function SegmentedControl({ options, value, onChange }: SegmentedControlProps) {
   return (
-    <div className="inline-flex rounded-[10px] bg-[#F2F2F7] dark:bg-[#2C2C2E] p-1">
+    <div className="inline-flex rounded-[18px] backdrop-blur-[40px] saturate-[180%] bg-white/40 dark:bg-[rgba(30,30,30,0.4)] border border-white/30 dark:border-white/15 p-1.5">
       {options.map((opt) => {
         const selected = opt.id === value
         return (
@@ -22,10 +22,10 @@ export function SegmentedControl({ options, value, onChange }: SegmentedControlP
             type="button"
             onClick={() => onChange(opt.id)}
             className={
-              'px-3 py-1.5 rounded-[8px] text-[14px] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0A84FF]/40 ' +
+              'px-4 py-2 rounded-[14px] text-[14px] font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#007AFF]/40 ' +
               (selected
-                ? 'bg-white dark:bg-black text-black dark:text-white shadow-sm'
-                : 'text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.6)] hover:bg-white/60 dark:hover:bg-black/40')
+                ? 'bg-white/80 dark:bg-white/20 text-[rgba(0,0,0,0.85)] dark:text-white shadow-[0_4px_12px_rgba(0,0,0,0.08)]'
+                : 'text-[rgba(0,0,0,0.5)] dark:text-[rgba(255,255,255,0.5)] hover:bg-white/40 dark:hover:bg-white/10')
             }
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore - ARIA spec requires string "true"/"false", not boolean

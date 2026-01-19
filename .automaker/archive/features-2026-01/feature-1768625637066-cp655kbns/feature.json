@@ -1,0 +1,356 @@
+{
+  "category": "Maintenance",
+  "description": "Transform Project Layout to Apple Liquid Glass 2026 Design System\n\nRedesign the entire project interface to match Apple's Liquid Glass 2026 design language, implementing the dynamic material system introduced at WWDC 2025 and deployed across iOS 26, iPadOS 26, macOS Tahoe 26, watchOS 26, and tvOS 26.\n\nCore Design Principles to Implement:\n\nHIERARCHY\n- Replace solid UI blocks with floating glass layers that sit above content\n- Ensure content always takes visual priority over interface controls\n- Implement translucent controls that visually recede when not in active use\n- Create clear depth separation between navigation, content, and interactive elements\n\nHARMONY\n- Align all UI elements with Apple's rounded geometry standards\n- Design for HDR displays and edge-to-edge screen layouts\n- Match hardware aesthetics (device corners, button radiuses, border treatments)\n- Ensure visual consistency with reference images provided\n\nCONSISTENCY\n- Apply unified design patterns across all project screens and components\n- Use identical control behaviors and navigation patterns throughout\n- Implement shared material physics for all glass elements\n- Maintain consistent spacing, typography, and color treatment\n\nTechnical Implementation Requirements:\n\nGLASS MATERIAL SYSTEM\n- Implement translucency with variable opacity (20%-80% based on context)\n- Add real-time GPU rendering for refraction and blur effects\n- Create lensing effects where background content subtly bends through glass layers\n- Add specular highlights that respond to device motion and user interaction\n- Ensure automatic adaptation between Light Mode and Dark Mode\n\nUI COMPONENTS TO REDESIGN\n- Buttons and toggles with glass backing\n- Sliders and controls with translucent treatment\n- Navigation bars and tab bars that collapse/expand on scroll\n- Modal sheets with frosted glass backdrop\n- Widgets with transparent or semi-transparent backgrounds\n- Dock elements with refractive properties\n- Control panels with clear separation from content\n\nLAYOUT CHARACTERISTICS\n- Rounded geometry matching device hardware\n- Selective blur that preserves clarity without flattening depth\n- Layered spatial hierarchy with clear z-axis positioning\n- Motion responsiveness tied to user interactions\n- Text always on solid layers (never directly on glass) for readability\n\nPLATFORM-SPECIFIC FEATURES\n- Transparent/adaptive dock and app icons\n- Frosted control center buttons\n- Optional \"Clear Mode\" with fully transparent UI elements\n- Refractive sidebars that preserve surrounding context\n- Glass-based window chrome and navigation elements\n\nPerformance & Accessibility Considerations:\n\nPERFORMANCE\n- Optimize GPU rendering to avoid battery drain (target <1% impact)\n- Implement fallbacks for older devices with simplified rendering\n- Avoid nested glass layers that increase processing load\n- Limit glass effects in scrollable lists to maintain frame rate\n\nACCESSIBILITY\n- Test against \"Reduce Transparency\" system setting and provide solid fallbacks\n- Respect \"Reduce Motion\" preferences by disabling motion-based effects\n- Ensure sufficient contrast ratios on all backgrounds (WCAG AA minimum)\n- Verify readability across various content types and lighting conditions\n- Test with VoiceOver and other assistive technologies\n\nVISUAL REFERENCES\n- Analyze provided reference images for exact glass opacity levels\n- Match blur intensity, refraction depth, and highlight positioning\n- Replicate layer stacking order and spatial relationships\n- Ensure color tinting matches examples in both light and dark modes\n\nBEST PRACTICE EXAMPLES TO FOLLOW\n- Camera app: Floating minimal controls over full-screen content\n- Photos app: Disappearing navigation that reveals on scroll\n- Safari: Glass address bar with adaptive content-based tinting\n- Music app: Layered controls over album artwork\n- Weather app: Glass buttons over dynamic/animated backgrounds\n\nSuccess Criteria:\n- Visual parity with Apple's native iOS 26/macOS Tahoe 26 applications\n- Matches reference images provided for layout, spacing, and material treatment\n- Passes accessibility audits with proper fallbacks enabled\n- Maintains 60fps performance during scrolling and transitions\n- Works seamlessly in both light and dark appearance modes\n- All text remains legible on all backgrounds\n- Interactive elements provide clear visual feedback\n- Design feels cohesive, premium, and unmistakably aligned with Apple's 2026 design direction",
+  "title": "Layout liquid glass 2026",
+  "images": [],
+  "imagePaths": [
+    {
+      "id": "img-1768625212015-56eo271xa",
+      "path": "/Users/wesleywillian/Oficial/Oficial/.automaker/features/feature-1768625637066-cp655kbns/images/111-1768625211754.png",
+      "filename": "111.png",
+      "mimeType": "image/png"
+    },
+    {
+      "id": "img-1768625277386-jbeafx58m",
+      "path": "/Users/wesleywillian/Oficial/Oficial/.automaker/features/feature-1768625637066-cp655kbns/images/1112-1768625277380.webp",
+      "filename": "1112.webp",
+      "mimeType": "image/webp"
+    },
+    {
+      "id": "img-1768625293343-4byp3q8bl",
+      "path": "/Users/wesleywillian/Oficial/Oficial/.automaker/features/feature-1768625637066-cp655kbns/images/11113-1768625293297.jpg",
+      "filename": "11113.jpg",
+      "mimeType": "image/jpeg"
+    },
+    {
+      "id": "img-1768625298737-39ms2b6qa",
+      "path": "/Users/wesleywillian/Oficial/Oficial/.automaker/features/feature-1768625637066-cp655kbns/images/11114-1768625298728.webp",
+      "filename": "11114.webp",
+      "mimeType": "image/webp"
+    }
+  ],
+  "textFilePaths": [],
+  "skipTests": true,
+  "model": "opus",
+  "thinkingLevel": "none",
+  "reasoningEffort": "none",
+  "branchName": null,
+  "priority": 1,
+  "planningMode": "spec",
+  "requirePlanApproval": false,
+  "dependencies": [],
+  "workMode": "custom",
+  "titleGenerating": false,
+  "status": "completed",
+  "id": "feature-1768625637066-cp655kbns",
+  "descriptionHistory": [
+    {
+      "description": "Transform Project Layout to Apple Liquid Glass 2026 Design System\n\nRedesign the entire project interface to match Apple's Liquid Glass 2026 design language, implementing the dynamic material system introduced at WWDC 2025 and deployed across iOS 26, iPadOS 26, macOS Tahoe 26, watchOS 26, and tvOS 26.\n\nCore Design Principles to Implement:\n\nHIERARCHY\n- Replace solid UI blocks with floating glass layers that sit above content\n- Ensure content always takes visual priority over interface controls\n- Implement translucent controls that visually recede when not in active use\n- Create clear depth separation between navigation, content, and interactive elements\n\nHARMONY\n- Align all UI elements with Apple's rounded geometry standards\n- Design for HDR displays and edge-to-edge screen layouts\n- Match hardware aesthetics (device corners, button radiuses, border treatments)\n- Ensure visual consistency with reference images provided\n\nCONSISTENCY\n- Apply unified design patterns across all project screens and components\n- Use identical control behaviors and navigation patterns throughout\n- Implement shared material physics for all glass elements\n- Maintain consistent spacing, typography, and color treatment\n\nTechnical Implementation Requirements:\n\nGLASS MATERIAL SYSTEM\n- Implement translucency with variable opacity (20%-80% based on context)\n- Add real-time GPU rendering for refraction and blur effects\n- Create lensing effects where background content subtly bends through glass layers\n- Add specular highlights that respond to device motion and user interaction\n- Ensure automatic adaptation between Light Mode and Dark Mode\n\nUI COMPONENTS TO REDESIGN\n- Buttons and toggles with glass backing\n- Sliders and controls with translucent treatment\n- Navigation bars and tab bars that collapse/expand on scroll\n- Modal sheets with frosted glass backdrop\n- Widgets with transparent or semi-transparent backgrounds\n- Dock elements with refractive properties\n- Control panels with clear separation from content\n\nLAYOUT CHARACTERISTICS\n- Rounded geometry matching device hardware\n- Selective blur that preserves clarity without flattening depth\n- Layered spatial hierarchy with clear z-axis positioning\n- Motion responsiveness tied to user interactions\n- Text always on solid layers (never directly on glass) for readability\n\nPLATFORM-SPECIFIC FEATURES\n- Transparent/adaptive dock and app icons\n- Frosted control center buttons\n- Optional \"Clear Mode\" with fully transparent UI elements\n- Refractive sidebars that preserve surrounding context\n- Glass-based window chrome and navigation elements\n\nPerformance & Accessibility Considerations:\n\nPERFORMANCE\n- Optimize GPU rendering to avoid battery drain (target <1% impact)\n- Implement fallbacks for older devices with simplified rendering\n- Avoid nested glass layers that increase processing load\n- Limit glass effects in scrollable lists to maintain frame rate\n\nACCESSIBILITY\n- Test against \"Reduce Transparency\" system setting and provide solid fallbacks\n- Respect \"Reduce Motion\" preferences by disabling motion-based effects\n- Ensure sufficient contrast ratios on all backgrounds (WCAG AA minimum)\n- Verify readability across various content types and lighting conditions\n- Test with VoiceOver and other assistive technologies\n\nVISUAL REFERENCES\n- Analyze provided reference images for exact glass opacity levels\n- Match blur intensity, refraction depth, and highlight positioning\n- Replicate layer stacking order and spatial relationships\n- Ensure color tinting matches examples in both light and dark modes\n\nBEST PRACTICE EXAMPLES TO FOLLOW\n- Camera app: Floating minimal controls over full-screen content\n- Photos app: Disappearing navigation that reveals on scroll\n- Safari: Glass address bar with adaptive content-based tinting\n- Music app: Layered controls over album artwork\n- Weather app: Glass buttons over dynamic/animated backgrounds\n\nSuccess Criteria:\n- Visual parity with Apple's native iOS 26/macOS Tahoe 26 applications\n- Matches reference images provided for layout, spacing, and material treatment\n- Passes accessibility audits with proper fallbacks enabled\n- Maintains 60fps performance during scrolling and transitions\n- Works seamlessly in both light and dark appearance modes\n- All text remains legible on all backgrounds\n- Interactive elements provide clear visual feedback\n- Design feels cohesive, premium, and unmistakably aligned with Apple's 2026 design direction",
+      "timestamp": "2026-01-17T04:53:57.505Z",
+      "source": "initial"
+    }
+  ],
+  "startedAt": "2026-01-17T06:20:28.361Z",
+  "updatedAt": "2026-01-17T06:22:30.584Z",
+  "planSpec": {
+    "status": "approved",
+    "version": 1,
+    "reviewedByUser": true,
+    "generatedAt": "2026-01-17T04:57:54.859Z",
+    "tasks": [
+      {
+        "id": "T001",
+        "description": "Create glass design tokens with CSS custom properties for opacity, blur, and tint values",
+        "filePath": "src/styles/glass-tokens.css",
+        "phase": "Phase 1: Foundation - Design Tokens & Base Styles",
+        "status": "pending"
+      },
+      {
+        "id": "T002",
+        "description": "Add Tailwind plugin configuration for glass utilities (glass-light, glass-dark, glass-card, glass-nav)",
+        "filePath": "tailwind.config.ts",
+        "phase": "Phase 1: Foundation - Design Tokens & Base Styles",
+        "status": "pending"
+      },
+      {
+        "id": "T003",
+        "description": "Create base glass material CSS classes with backdrop-filter, blur, and gradient overlays",
+        "filePath": "src/styles/glass-materials.css",
+        "phase": "Phase 1: Foundation - Design Tokens & Base Styles",
+        "status": "pending"
+      },
+      {
+        "id": "T004",
+        "description": "Implement dark mode glass variants using CSS media queries and custom properties",
+        "filePath": "src/styles/glass-materials.css",
+        "phase": "Phase 1: Foundation - Design Tokens & Base Styles",
+        "status": "pending"
+      },
+      {
+        "id": "T005",
+        "description": "Add accessibility fallbacks for reduced-transparency and reduced-motion preferences",
+        "filePath": "src/styles/accessibility-fallbacks.css",
+        "phase": "Phase 1: Foundation - Design Tokens & Base Styles",
+        "status": "pending"
+      },
+      {
+        "id": "T006",
+        "description": "Update globals.css to import new glass styles and set up CSS layering",
+        "filePath": "src/styles/globals.css",
+        "phase": "Phase 1: Foundation - Design Tokens & Base Styles",
+        "status": "pending"
+      },
+      {
+        "id": "T007",
+        "description": "Create GlassCard component with translucent background, subtle border, and specular highlight",
+        "filePath": "src/components/ui/glass-card.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T008",
+        "description": "Create GlassButton component with glass backing and hover states",
+        "filePath": "src/components/ui/glass-button.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T009",
+        "description": "Create GlassInput component with frosted glass styling",
+        "filePath": "src/components/ui/glass-input.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T010",
+        "description": "Create GlassModal/Sheet component with frosted backdrop",
+        "filePath": "src/components/ui/glass-modal.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T011",
+        "description": "Create GlassNavbar component with scroll-responsive transparency",
+        "filePath": "src/components/ui/glass-navbar.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T012",
+        "description": "Create GlassSidebar component with refractive properties",
+        "filePath": "src/components/ui/glass-sidebar.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T013",
+        "description": "Create GlassSelect/Dropdown component with glass styling",
+        "filePath": "src/components/ui/glass-select.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T014",
+        "description": "Create GlassToggle/Switch component matching reference images",
+        "filePath": "src/components/ui/glass-toggle.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T015",
+        "description": "Create GlassSlider component with translucent track",
+        "filePath": "src/components/ui/glass-slider.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T016",
+        "description": "Create GlassTabBar component for bottom navigation",
+        "filePath": "src/components/ui/glass-tabbar.tsx",
+        "phase": "Phase 2: Core UI Components - Glass Variants",
+        "status": "pending"
+      },
+      {
+        "id": "T017",
+        "description": "Update DashboardLayout with glass navigation bars and content layering",
+        "filePath": "src/components/layouts/dashboard-layout.tsx",
+        "phase": "Phase 3: Layout Components - Navigation & Structure",
+        "status": "pending"
+      },
+      {
+        "id": "T018",
+        "description": "Create floating header that collapses/expands on scroll with glass material",
+        "filePath": "src/components/layouts/glass-header.tsx",
+        "phase": "Phase 3: Layout Components - Navigation & Structure",
+        "status": "pending"
+      },
+      {
+        "id": "T019",
+        "description": "Implement glass sidebar with blur effects and proper z-indexing",
+        "filePath": "src/components/layouts/glass-sidebar-layout.tsx",
+        "phase": "Phase 3: Layout Components - Navigation & Structure",
+        "status": "pending"
+      },
+      {
+        "id": "T020",
+        "description": "Create glass bottom dock component for mobile navigation",
+        "filePath": "src/components/layouts/glass-dock.tsx",
+        "phase": "Phase 3: Layout Components - Navigation & Structure",
+        "status": "pending"
+      },
+      {
+        "id": "T021",
+        "description": "Add glass breadcrumb component with translucent styling",
+        "filePath": "src/components/ui/glass-breadcrumb.tsx",
+        "phase": "Phase 3: Layout Components - Navigation & Structure",
+        "status": "pending"
+      },
+      {
+        "id": "T022",
+        "description": "Update AnamneseGenerator with glass card containers and floating controls",
+        "filePath": "src/components/medical/AnamneseGenerator.tsx",
+        "phase": "Phase 4: Medical Components - Domain-Specific Glass UI",
+        "status": "pending"
+      },
+      {
+        "id": "T023",
+        "description": "Update MedicalChecklist with glass list items and section headers",
+        "filePath": "src/components/medical/MedicalChecklist.tsx",
+        "phase": "Phase 4: Medical Components - Domain-Specific Glass UI",
+        "status": "pending"
+      },
+      {
+        "id": "T024",
+        "description": "Update Kanban board cards with glass styling and drag visual effects",
+        "filePath": "src/components/medical/kanban/KanbanCard.tsx",
+        "phase": "Phase 4: Medical Components - Domain-Specific Glass UI",
+        "status": "pending"
+      },
+      {
+        "id": "T025",
+        "description": "Update patient cards with glass material and content priority",
+        "filePath": "src/components/medical/PatientCard.tsx",
+        "phase": "Phase 4: Medical Components - Domain-Specific Glass UI",
+        "status": "pending"
+      },
+      {
+        "id": "T026",
+        "description": "Update medical modals/dialogs with frosted glass backdrop",
+        "filePath": "src/components/medical/MedicalModal.tsx",
+        "phase": "Phase 4: Medical Components - Domain-Specific Glass UI",
+        "status": "pending"
+      },
+      {
+        "id": "T027",
+        "description": "Update template selector with glass option cards",
+        "filePath": "src/components/medical/TemplateSelector.tsx",
+        "phase": "Phase 4: Medical Components - Domain-Specific Glass UI",
+        "status": "pending"
+      },
+      {
+        "id": "T028",
+        "description": "Update dashboard home page with glass widgets and layered content",
+        "filePath": "src/app/(dashboard)/page.tsx",
+        "phase": "Phase 5: Page-Level Integration",
+        "status": "pending"
+      },
+      {
+        "id": "T029",
+        "description": "Update anamnese page with glass form containers",
+        "filePath": "src/app/(dashboard)/anamnese/page.tsx",
+        "phase": "Phase 5: Page-Level Integration",
+        "status": "pending"
+      },
+      {
+        "id": "T030",
+        "description": "Update kanban page with glass board background and columns",
+        "filePath": "src/app/(dashboard)/kanban/page.tsx",
+        "phase": "Phase 5: Page-Level Integration",
+        "status": "pending"
+      },
+      {
+        "id": "T031",
+        "description": "Update templates page with glass grid cards",
+        "filePath": "src/app/(dashboard)/templates/page.tsx",
+        "phase": "Phase 5: Page-Level Integration",
+        "status": "pending"
+      },
+      {
+        "id": "T032",
+        "description": "Update admin pages with glass panel styling",
+        "filePath": "src/app/(dashboard)/admin/page.tsx",
+        "phase": "Phase 5: Page-Level Integration",
+        "status": "pending"
+      },
+      {
+        "id": "T033",
+        "description": "Update auth pages (login/register) with centered glass forms",
+        "filePath": "src/app/auth/login/page.tsx",
+        "phase": "Phase 5: Page-Level Integration",
+        "status": "pending"
+      },
+      {
+        "id": "T034",
+        "description": "Add glass shimmer/specular highlight animations on interaction",
+        "filePath": "src/components/ui/glass-effects.tsx",
+        "phase": "Phase 6: Animation & Polish",
+        "status": "pending"
+      },
+      {
+        "id": "T035",
+        "description": "Implement scroll-responsive navbar transparency transitions",
+        "filePath": "src/hooks/useScrollTransparency.ts",
+        "phase": "Phase 6: Animation & Polish",
+        "status": "pending"
+      },
+      {
+        "id": "T036",
+        "description": "Add subtle parallax effect to glass layers (respecting reduce-motion)",
+        "filePath": "src/hooks/useGlassParallax.ts",
+        "phase": "Phase 6: Animation & Polish",
+        "status": "pending"
+      },
+      {
+        "id": "T037",
+        "description": "Create hover state animations for glass buttons and cards",
+        "filePath": "src/styles/glass-animations.css",
+        "phase": "Phase 6: Animation & Polish",
+        "status": "pending"
+      },
+      {
+        "id": "T038",
+        "description": "Add focus ring styles that work with glass components",
+        "filePath": "src/styles/glass-focus.css",
+        "phase": "Phase 6: Animation & Polish",
+        "status": "pending"
+      },
+      {
+        "id": "T039",
+        "description": "Create Playwright visual verification test for glass components",
+        "filePath": "tests/glass-design-verification.spec.ts",
+        "phase": "Phase 7: Testing & Verification",
+        "status": "pending"
+      },
+      {
+        "id": "T040",
+        "description": "Test accessibility with reduced-transparency mode enabled",
+        "filePath": "tests/glass-accessibility.spec.ts",
+        "phase": "Phase 7: Testing & Verification",
+        "status": "pending"
+      },
+      {
+        "id": "T041",
+        "description": "Performance test glass rendering at 60fps threshold",
+        "filePath": "tests/glass-performance.spec.ts",
+        "phase": "Phase 7: Testing & Verification",
+        "status": "pending"
+      }
+    ],
+    "tasksTotal": 41,
+    "tasksCompleted": 0,
+    "approvedAt": "2026-01-17T04:58:08.067Z",
+    "currentTaskId": "T001"
+  },
+  "prUrl": "https://github.com/Wesley-codeDr/Oficial/pull/62",
+  "justFinishedAt": "2026-01-17T06:22:30.584Z"
+}

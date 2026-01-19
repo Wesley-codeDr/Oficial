@@ -11,6 +11,7 @@ import {
   FileCheck2,
   Filter,
   HeartPulse,
+  HelpCircle,
   Microscope,
   MoreHorizontal,
   PlayCircle,
@@ -78,10 +79,47 @@ const chartDataPurple = [
 
 // --- Sub-components ---
 
+const CountUp = ({ value, duration = 2 }: { value: string | number, duration?: number }) => {
+  const [count, setCount] = useState(0);
+  const target = typeof value === 'string' ? parseFloat(value.replace(/[^0-9.]/g, '')) : value;
+  const isDecimal = typeof value === 'string' && value.includes('.');
+  
+  React.useEffect(() => {
+    const start = 0;
+    const end = target;
+    if (start === end) return;
+    
+    const totalFrames = duration * 60;
+    let frame = 0;
+    
+    const timer = setInterval(() => {
+      frame++;
+      const progress = frame / totalFrames;
+      // Ease out expo
+      const current = end * (1 - Math.pow(2, -10 * progress));
+      setCount(current);
+      
+      if (frame === totalFrames) {
+        clearInterval(timer);
+        setCount(end);
+      }
+    }, 1000 / 60);
+    
+    return () => clearInterval(timer);
+  }, [target, duration]);
+
+  if (isNaN(target)) return <>{value}</>;
+  
+  const displayValue = isDecimal ? count.toFixed(1) : Math.floor(count);
+  const suffix = typeof value === 'string' ? value.replace(/[0-9.]/g, '') : '';
+  
+  return <>{displayValue}{suffix}</>;
+};
+
 const CustomChartTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="glass-molded-3d liquid-glass-rim liquid-glass-specular px-3 py-2 rounded-xl shadow-xl transform -translate-y-2">
+      <div className="glass-molded-3d liquid-glass-rim liquid-glass-specular px-3 py-2 rounded-[14px] shadow-xl transform -translate-y-2">
         <p className="text-lg font-black text-slate-800 dark:text-white leading-none">
           {payload[0].value}
         </p>
@@ -104,13 +142,13 @@ const MetricCard = ({
 }: any) => {
   const themeMap: Record<string, any> = {
     orange: {
-      stroke: '#F97316',
-      fillStart: '#F97316',
-      glow: 'from-orange-500/30 to-amber-500/30',
-      iconColor: 'text-orange-500',
-      iconBg: 'bg-orange-50 dark:bg-orange-500/20',
-      trendColor: 'text-orange-600 dark:text-orange-400',
-      trendBg: 'bg-orange-100/50 dark:bg-orange-500/10',
+      stroke: '#FF6B6B',
+      fillStart: '#FF6B6B',
+      glow: 'from-rose-500/30 to-orange-400/20',
+      iconColor: 'text-rose-500',
+      iconBg: 'bg-rose-50 dark:bg-rose-500/20',
+      trendColor: 'text-rose-600 dark:text-rose-400',
+      trendBg: 'bg-rose-100/50 dark:bg-rose-500/10',
     },
     blue: {
       stroke: '#3B82F6',
@@ -163,24 +201,55 @@ const MetricCard = ({
           : 'icon-glow-purple'
 
   return (
-    <div
-      className={`relative overflow-hidden p-0 flex flex-col justify-between group 
-        bg-white/18 dark:bg-slate-900/18 
-        backdrop-blur-4xl saturate-[200%]
-        border border-white/40 dark:border-white/15
+    <motion.div
+      whileHover={{
+        y: -6,
+        scale: 1.01,
+        transition: {
+          duration: 0.4,
+          ease: [0.25, 1, 0.5, 1]
+        }
+      }}
+      className={`relative overflow-hidden p-0 flex flex-col justify-between group
+        bg-[var(--liquid-glass-bg)]
+        backdrop-blur-[var(--liquid-glass-blur)] 
+        saturate-[var(--liquid-glass-saturate)]
+        border border-[var(--liquid-glass-border)]
         rounded-liquid-lg
         elevation-1 liquid-float
         specular-2026 caustics-2026
         inner-glow-ios26
-        ring-1 ring-white/50 dark:ring-white/10
+        light-refraction-diag
+        ring-1 ring-white/40 dark:ring-white/15
         stagger-child
         ${isCompact ? 'h-[180px]' : 'h-[240px]'}`}
+      style={{
+        boxShadow: `var(--liquid-glass-shadow)`
+      }}
     >
-      <div className="light-refraction" />
+      {/* Enhanced hover gradient with better visibility */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-white/30 via-white/15 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
 
-      <div className="absolute inset-0 bg-gradient-to-tr from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-      <div
-        className={`absolute -top-20 -right-20 w-72 h-72 bg-gradient-to-br ${theme.glow} opacity-30 blur-[80px] rounded-full pointer-events-none group-hover:opacity-60 transition-opacity duration-700`}
+      {/* Enhanced glow with better saturation */}
+      <motion.div
+        className={`absolute -top-20 -right-20 w-80 h-80 bg-gradient-to-br ${theme.glow} blur-[90px] rounded-full pointer-events-none transition-opacity duration-700`}
+        animate={{
+          opacity: [0.35, 0.5, 0.35],
+          scale: [1, 1.1, 1],
+        }}
+        transition={{
+          duration: 4,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+      />
+
+      {/* NEW: Specular reflection that moves on hover */}
+      <motion.div
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: 'radial-gradient(ellipse 80% 40% at 50% 0%, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.2) 30%, transparent 60%)',
+        }}
       />
 
       {/* Content Container */}
@@ -197,7 +266,7 @@ const MetricCard = ({
           </div>
 
           <div
-            className={`glass-pill inner-glow-ios26 px-3 py-1.5 rounded-full text-[11px] font-semibold flex items-center gap-1.5 ${theme.trendColor}`}
+            className={`glass-pill inner-glow-ios26 px-3 py-1.5 rounded-[14px] text-[11px] font-semibold flex items-center gap-1.5 ${theme.trendColor}`}
           >
             {trend === 'up' ? (
               <ArrowUpRight className="w-3 h-3 stroke-[3px]" />
@@ -216,7 +285,7 @@ const MetricCard = ({
             <h3
               className={`${isCompact ? 'text-[38px]' : 'text-[52px]'} font-[100] text-slate-800 dark:text-white tracking-[-0.04em] leading-none display-number-2026 ${glowClass}`}
             >
-              {value}
+              <CountUp value={value} />
             </h3>
           </div>
           {!isCompact && (
@@ -248,7 +317,7 @@ const MetricCard = ({
               type="monotone"
               dataKey="value"
               stroke={theme.stroke}
-              strokeWidth={3}
+              strokeWidth={1.5}
               fill={`url(#${gradId})`}
               filter="url(#lineGlow)"
               animationDuration={1500}
@@ -258,7 +327,7 @@ const MetricCard = ({
           </AreaChart>
         </ResponsiveContainer>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -294,42 +363,53 @@ const KanbanCard: React.FC<{
       whileHover={
         !isDragging
           ? {
-              scale: 1.02,
+              scale: 1.015,
               y: -4,
-              boxShadow: '0 20px 40px rgba(0,0,0,0.15)',
+              transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] }
             }
           : {}
       }
       whileTap={{ scale: 0.98 }}
-      transition={{ type: 'spring', stiffness: 450, damping: 32 }}
-      className={`group relative w-full z-[1]
-          transition-all duration-300
+      className={`group relative w-full z-[1] glass-card-reflection
+          transition-all duration-500
           cursor-grab active:cursor-grabbing
           p-4 rounded-liquid-md
-          bg-white/20 dark:bg-slate-900/20
-          backdrop-blur-4xl saturate-[200%]
-          border border-white/40 dark:border-white/15
+          bg-(--liquid-glass-bg)
+          backdrop-blur-(--liquid-glass-blur)
+          saturate-(--liquid-glass-saturate)
+          border border-(--liquid-glass-border)
           elevation-1 inner-glow-ios26
-          specular-2026
-          ring-1 ring-white/50 dark:ring-white/10
+          specular-2026 light-refraction-diag
+          ring-1 ring-white/30 dark:ring-white/10
           ${
             isDragging
               ? 'opacity-50 scale-95'
-              : 'hover:z-50 hover:bg-white/30 hover:elevation-2 dark:hover:bg-white/10'
+              : 'hover:z-50 hover:bg-white/25 dark:hover:bg-white/10'
           }
-          ${task.acuity === 'red' ? 'border-l-4 border-l-red-500 shadow-[-4px_0_24px_-8px_rgba(239,68,68,0.35)]' : ''}
        `}
+      style={{
+        boxShadow: isDragging ? 'none' : 'var(--liquid-glass-shadow)'
+      }}
     >
+      {/* Acuity Bar Bleed Effect - Reduced opacity for neutral glass appearance */}
+      <div
+        className={`absolute top-0 left-0 right-0 h-6 opacity-[0.06] pointer-events-none rounded-t-liquid-md bg-linear-to-b from-current to-transparent`}
+        style={{
+          color: task.acuity === 'red' ? 'var(--color-emergency-red-500)' :
+                 task.acuity === 'orange' ? 'var(--color-emergency-orange-500)' :
+                 task.acuity === 'yellow' ? 'var(--color-emergency-yellow-500)' : 'var(--color-medical-green-500)'
+        }}
+      />
       {/* Acuity Left Bar - Subtle Volumetric */}
       <div
-        className={`absolute left-0 top-0 bottom-0 w-1 rounded-l-[28px] opacity-60 ${
+        className={`absolute left-0 top-1 bottom-1 w-1.5 rounded-full opacity-80 ${
           task.acuity === 'red'
-            ? 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.3)]'
+            ? 'bg-linear-to-b from-emergency-red-500 via-emergency-red-500/80 to-emergency-red-500/40 shadow-[2px_0_12px_rgba(255,59,48,0.4)]'
             : task.acuity === 'orange'
-              ? 'bg-orange-500 shadow-[0_0_8px_rgba(249,115,22,0.3)]'
+              ? 'bg-linear-to-b from-emergency-orange-500 via-emergency-orange-500/80 to-emergency-orange-500/40 shadow-[2px_0_12px_rgba(255,149,0,0.4)]'
               : task.acuity === 'yellow'
-                ? 'bg-yellow-400 shadow-[0_0_8px_rgba(250,204,21,0.3)]'
-                : 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.3)]'
+                ? 'bg-linear-to-b from-emergency-yellow-500 via-emergency-yellow-500/80 to-emergency-yellow-500/40 shadow-[2px_0_10px_rgba(255,204,0,0.3)]'
+                : 'bg-linear-to-b from-medical-green-500 via-medical-green-500/80 to-medical-green-500/40 shadow-[2px_0_10px_rgba(52,199,89,0.3)]'
         }`}
       />
 
@@ -338,12 +418,19 @@ const KanbanCard: React.FC<{
         <div className="flex items-center gap-3">
           <div
             className={`
-                rounded-full flex items-center justify-center text-xs font-apple-black shadow-inner ring-1 ring-white/30
+                rounded-full flex items-center justify-center text-xs font-apple-black shadow-inner 
                 ${isCompact ? 'w-8.5 h-8.5' : 'w-10.5 h-10.5'}
                 ${
+                  task.acuity === 'red' 
+                    ? 'ring-2 ring-red-500 shadow-[0_0_12px_rgba(239,68,68,0.4)]' 
+                    : task.acuity === 'orange'
+                      ? 'ring-2 ring-orange-500 shadow-[0_0_12px_rgba(249,115,22,0.4)]'
+                      : 'ring-1 ring-white/30'
+                }
+                ${
                   task.gender === 'F'
-                    ? 'bg-linear-to-br from-pink-500/25 to-rose-500/15 text-pink-600 dark:text-pink-300 border border-pink-500/25'
-                    : 'bg-linear-to-br from-blue-500/25 to-indigo-500/15 text-blue-600 dark:text-blue-300 border border-blue-500/25'
+                    ? 'bg-white/30 dark:bg-white/15 text-pink-500 dark:text-pink-400 ring-1 ring-pink-400/30'
+                    : 'bg-white/30 dark:bg-white/15 text-blue-500 dark:text-blue-400 ring-1 ring-blue-400/30'
                 }
              `}
           >
@@ -361,30 +448,26 @@ const KanbanCard: React.FC<{
           </div>
         </div>
 
-        {/* Acuity Indicator - Glowing Ping */}
         <div className="relative">
           <div
-            className={`w-3 h-3 rounded-full shadow-md ring-2 ring-white/60 dark:ring-white/15
+            className={`w-3.5 h-3.5 rounded-full shadow-md ring-2 ring-white/60 dark:ring-white/15
                 ${
                   task.acuity === 'red'
-                    ? 'bg-red-500'
+                    ? 'bg-emergency-red-500 shadow-[0_0_8px_rgba(255,59,48,0.6)]'
                     : task.acuity === 'orange'
-                      ? 'bg-orange-500'
+                      ? 'bg-emergency-orange-500'
                       : task.acuity === 'yellow'
-                        ? 'bg-yellow-400'
-                        : 'bg-green-500'
+                        ? 'bg-emergency-yellow-500'
+                        : 'bg-medical-green-500'
                 }
              `}
           >
-            <span
-              className={`absolute inset-0 rounded-full opacity-50 animate-ping ${
-                task.acuity === 'red'
-                  ? 'bg-red-500'
-                  : task.acuity === 'orange'
-                    ? 'bg-orange-500'
-                    : 'hidden'
-              }`}
-            />
+            {task.acuity === 'red' && (
+              <span className="absolute inset-0 rounded-full bg-emergency-red-500 animate-[ping_2s_cubic-bezier(0,0,0.2,1)_infinite] opacity-60 scale-150" />
+            )}
+            {task.acuity === 'orange' && (
+              <span className="absolute inset-0 rounded-full bg-emergency-orange-500 animate-ping opacity-40" />
+            )}
           </div>
         </div>
       </div>
@@ -402,7 +485,7 @@ const KanbanCard: React.FC<{
       <div
         className={`flex items-center justify-between border-t border-slate-100 dark:border-white/5 ${isCompact ? 'pt-2' : 'pt-3'}`}
       >
-        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 dark:text-slate-500 bg-slate-100/50 dark:bg-white/5 px-2 py-1 rounded-lg">
+        <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 dark:text-slate-500 bg-slate-100/50 dark:bg-white/5 px-2 py-1 rounded-[14px]">
           <Clock className="w-3.5 h-3.5" />
           {task.waitTime}
         </div>
@@ -419,7 +502,7 @@ const KanbanCard: React.FC<{
           </button>
 
           {isMenuOpen && (
-            <div className="absolute top-8 right-0 w-48 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-xl border border-white/20 dark:border-white/10 p-1.5 z-50 animate-in fade-in zoom-in-95 duration-200">
+            <div className="absolute top-8 right-0 w-48 bg-white/90 dark:bg-slate-800/90 backdrop-blur-xl rounded-[20px] shadow-xl border border-white/20 dark:border-white/10 p-1.5 z-50 animate-in fade-in zoom-in-95 duration-200">
               {statusOptions
                 .filter((opt) => opt.id !== task.status)
                 .map((option) => (
@@ -429,7 +512,7 @@ const KanbanCard: React.FC<{
                       onStatusChange(task.id, option.id)
                       setIsMenuOpen(false)
                     }}
-                    className="w-full text-left px-3 py-2 rounded-xl text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors flex items-center justify-between group"
+                    className="w-full text-left px-3 py-2 rounded-[14px] text-xs font-bold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors flex items-center justify-between group"
                   >
                     {option.label}
                   </button>
@@ -462,13 +545,17 @@ const KanbanColumn = ({
   return (
     <div
       className={`flex flex-col h-full min-w-[320px] w-full p-3 transition-all duration-700 
-        bg-white/15 dark:bg-slate-900/15 
-        backdrop-blur-4xl saturate-[200%]
-        border border-white/30 dark:border-white/10
-        elevation-2 inner-glow-ios26 
-        rounded-[36px] overflow-visible
+        bg-(--liquid-glass-bg)
+        backdrop-blur-(--liquid-glass-blur-elevated) 
+        saturate-(--liquid-glass-saturate-elevated)
+        border border-(--liquid-glass-border)
+        elevation-2 inner-glow-ios26
+        rounded-[24px] overflow-visible
         ${isDropTarget ? 'bg-blue-100/40! dark:bg-blue-900/30! scale-[1.01] ring-2 ring-blue-400/50' : ''}
         `}
+      style={{
+        boxShadow: `var(--liquid-glass-shadow-elevated)`
+      }}
       onDragOver={onDragOver}
       onDragLeave={onDragLeave}
       onDrop={(e) => onDrop(e, id)}
@@ -478,18 +565,18 @@ const KanbanColumn = ({
       >
         <div className="flex items-center gap-3">
           <div
-            className={`glass-pill inner-glow-ios26 rounded-2xl text-slate-500 dark:text-slate-400 ${isCompact ? 'p-2' : 'p-2.5'}`}
+            className={`glass-pill inner-glow-ios26 rounded-[20px] text-slate-500 dark:text-slate-400 ${isCompact ? 'p-2' : 'p-2.5'}`}
           >
             <Icon className="w-5 h-5 stroke-[2px] icon-volumetric fill-current/10" />
           </div>
           <h4 className="text-[15px] font-bold text-slate-800 dark:text-slate-100 tracking-tight">
             {title}
-            <span className="ml-2.5 text-[11px] font-bold text-slate-400 glass-pill inner-glow-ios26 px-2.5 py-1 rounded-full">
+            <span className="ml-2.5 text-[11px] font-bold text-slate-400 glass-pill inner-glow-ios26 px-2.5 py-1 rounded-[14px]">
               {tasks.length}
             </span>
           </h4>
         </div>
-        <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-2 rounded-xl hover:bg-white/30 dark:hover:bg-white/10">
+        <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors p-2 rounded-[14px] hover:bg-white/30 dark:hover:bg-white/10">
           <MoreHorizontal className="w-5 h-5" />
         </button>
       </div>
@@ -510,12 +597,17 @@ const KanbanColumn = ({
           />
         ))}
 
-        <button className="w-full py-4 rounded-[24px] border border-dashed border-slate-300/60 dark:border-white/10 text-slate-400 dark:text-slate-500 font-bold text-sm flex items-center justify-center gap-2 hover:bg-white/40 dark:hover:bg-white/5 transition-all group">
-          <div className="w-6 h-6 rounded-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:bg-blue-500 group-hover:text-white transition-colors">
-            <Plus className="w-3.5 h-3.5" />
+        <motion.button
+          whileHover={{ scale: 1.01 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full py-4 rounded-[36px] border-2 border-dashed border-slate-300/40 dark:border-white/5 text-slate-400 dark:text-slate-500 font-apple-bold text-sm flex items-center justify-center gap-3 hover:bg-white/40 dark:hover:bg-white/5 hover:border-blue-400/50 dark:hover:border-blue-500/30 transition-all group overflow-hidden relative"
+        >
+          <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+          <div className="w-7 h-7 rounded-full bg-slate-200/50 dark:bg-slate-700/50 flex items-center justify-center text-slate-500 dark:text-slate-400 group-hover:bg-blue-500 group-hover:text-white transition-all shadow-sm">
+            <Plus className="w-4 h-4 stroke-[2.5px]" />
           </div>
-          Novo Atendimento
-        </button>
+          <span className="group-hover:text-slate-700 dark:group-hover:text-slate-200 transition-colors">Novo Atendimento</span>
+        </motion.button>
       </div>
     </div>
   )
@@ -528,12 +620,14 @@ interface DashboardViewProps {
   setTasks: React.Dispatch<React.SetStateAction<KanbanTask[]>>
   onNewAttendance?: () => void
   onSettings?: () => void
+  onStartTour?: () => void
 }
 
 export const DashboardView: React.FC<DashboardViewProps> = ({
   tasks,
   setTasks,
   onNewAttendance,
+  onStartTour,
 }) => {
   const { preferences } = useDashboardPreferences()
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
@@ -666,7 +760,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </h1>
 
             {preferences.showGreeting && (
-              <div className="glass-pill flex items-center gap-2 mt-2 px-3 py-1.5 rounded-full animate-in fade-in slide-in-from-left-4">
+              <div className="glass-pill flex items-center gap-2 mt-2 px-3 py-1.5 rounded-[14px] animate-in fade-in slide-in-from-left-4">
                 <span className="flex h-2.5 w-2.5 relative">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
@@ -679,6 +773,16 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           </div>
 
           <div className="flex gap-4">
+            {tasks.length === 0 && onStartTour && (
+              <button
+                onClick={onStartTour}
+                className="glass-btn-ghost h-11 px-5 font-bold text-sm text-blue-600 dark:text-blue-400 flex items-center gap-2 hover:bg-blue-50 dark:hover:bg-blue-500/10"
+                aria-label="Iniciar tour guiado"
+              >
+                <HelpCircle className="w-4 h-4" />
+                Fazer Tour
+              </button>
+            )}
             <button
               onClick={() => setIsSettingsOpen(true)}
               className="glass-btn-ghost h-11 px-5 font-bold text-sm text-slate-600 dark:text-slate-300 flex items-center gap-2"
@@ -688,7 +792,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
             </button>
             <button
               onClick={onNewAttendance}
-              className="btn-primary-glass h-11 px-6 text-white font-bold text-sm flex items-center gap-2 active:scale-95"
+              className="btn-primary-glass h-11 px-6 text-[#007AFF] font-bold text-sm flex items-center gap-2 active:scale-95"
             >
               <Plus className="w-4 h-4 stroke-[3px]" />
               Novo Atendimento
@@ -705,32 +809,33 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
       {/* 2. Priority Insight Row (Refined) */}
       {preferences.showAlertRow && (
         <div
-          className={`px-4 shrink-0 flex items-center justify-between animate-in fade-in slide-in-from-bottom-2 duration-1000 delay-200 ${preferences.density === 'compact' ? 'mt-3 mb-2' : 'mt-6 mb-4'}`}
+          className={`mx-4 shrink-0 flex items-center justify-between animate-in fade-in slide-in-from-bottom-2 duration-1000 delay-200 
+            liquid-glass-material rounded-full px-6 py-3 border border-white/30 dark:border-white/10 shadow-glass
+            ${preferences.density === 'compact' ? 'mt-3 mb-2' : 'mt-6 mb-4'}`}
         >
-          <div className="flex items-center gap-5">
-            <div className="glass-pill flex items-center gap-2 px-4 py-2 rounded-full shadow-sm">
-              <Sun className="w-5 h-5 text-amber-500" />
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2.5">
+              <Sun className="w-5 h-5 text-amber-500/80" />
               <span className="text-sm font-bold text-slate-700 dark:text-slate-200">
                 {greeting}
               </span>
             </div>
-            <div className="h-6 w-px bg-slate-200 dark:bg-white/10" />
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-linear-to-br from-orange-400 via-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20 pulse-brilliance">
+            
+            <div className="h-4 w-px bg-slate-200/50 dark:bg-white/10" />
+            
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-linear-to-br from-blue-400 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20">
                 <Sparkles className="w-4 h-4 text-white" />
               </div>
-              <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
-                <strong className="text-slate-900 dark:text-white flex items-center gap-1.5">
-                  <Zap className="w-3.5 h-3.5 text-blue-500 fill-blue-500/20" />
-                  Insight:
-                </strong>{' '}
+              <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+                <span className="text-slate-800 dark:text-slate-100 font-bold mr-1">IA Insights:</span>
                 1 paciente aguarda reavaliação prioritária.
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <button className="p-2 rounded-full hover:bg-white/40 dark:hover:bg-white/5 transition-colors text-slate-400">
+            <button className="p-2 rounded-[14px] hover:bg-white/40 dark:hover:bg-white/5 transition-colors text-slate-400">
               <Filter className="w-5 h-5" />
             </button>
             <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-widest px-3">

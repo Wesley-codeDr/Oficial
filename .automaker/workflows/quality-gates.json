@@ -1,0 +1,65 @@
+{
+  "name": "Quality Gates",
+  "version": "1.0.0",
+  "description": "Automated quality checks before feature completion",
+  "gates": [
+    {
+      "id": "typecheck",
+      "name": "TypeScript Validation",
+      "command": "pnpm typecheck",
+      "blocking": true,
+      "timeout": 60000,
+      "allowedFailures": {
+        "exclude": ["scripts/", "prisma/seed.ts"],
+        "knownIssues": true
+      }
+    },
+    {
+      "id": "lint",
+      "name": "ESLint Validation",
+      "command": "pnpm lint",
+      "blocking": true,
+      "timeout": 60000,
+      "autoFix": true,
+      "autoFixCommand": "pnpm lint:fix"
+    },
+    {
+      "id": "format",
+      "name": "Prettier Formatting",
+      "command": "pnpm format:check",
+      "blocking": false,
+      "autoFix": true,
+      "autoFixCommand": "pnpm format"
+    },
+    {
+      "id": "build",
+      "name": "Build Validation",
+      "command": "pnpm build",
+      "blocking": true,
+      "timeout": 300000,
+      "runOnCategories": ["UI/UX", "API", "Infrastructure"]
+    },
+    {
+      "id": "test-unit",
+      "name": "Unit Tests",
+      "command": "pnpm test",
+      "blocking": true,
+      "timeout": 120000,
+      "coverage": {
+        "minimum": 70,
+        "failOnDecrease": true
+      }
+    },
+    {
+      "id": "test-e2e",
+      "name": "E2E Tests",
+      "command": "pnpm test:e2e",
+      "blocking": true,
+      "timeout": 300000,
+      "runOnCategories": ["Medical", "Authentication", "UI/UX"]
+    }
+  ],
+  "preCommit": ["typecheck", "lint", "format"],
+  "preMerge": ["typecheck", "lint", "build", "test-unit"],
+  "preRelease": ["typecheck", "lint", "build", "test-unit", "test-e2e"]
+}

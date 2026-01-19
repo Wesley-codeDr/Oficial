@@ -1,0 +1,94 @@
+{
+  "name": "Medical Compliance Workflow",
+  "version": "1.0.0",
+  "description": "Ensures all medical features comply with CFM and LGPD regulations",
+  "triggers": {
+    "categories": ["Medical", "Compliance"],
+    "filePatterns": [
+      "app/(dashboard)/anamnese/**",
+      "components/medical/**",
+      "lib/medical/**"
+    ]
+  },
+  "validations": [
+    {
+      "id": "cfm-blocks",
+      "name": "CFM Required Blocks",
+      "description": "Ensures anamnesis contains all required blocks",
+      "type": "content",
+      "rules": {
+        "requiredBlocks": ["QP", "HDA", "AP", "EF", "HD", "CD"],
+        "blockValidation": "complete"
+      },
+      "severity": "error",
+      "autoFix": false
+    },
+    {
+      "id": "red-flags",
+      "name": "Red Flag Detection",
+      "description": "Validates red flag detection is implemented",
+      "type": "code",
+      "rules": {
+        "mustImport": ["RedFlagRule", "RedFlagSeverity"],
+        "mustCall": ["detectRedFlags", "validateRedFlags"]
+      },
+      "severity": "warning",
+      "autoFix": false
+    },
+    {
+      "id": "audit-logging",
+      "name": "Audit Logging",
+      "description": "Ensures medical actions are logged",
+      "type": "code",
+      "rules": {
+        "mustCall": ["createAuditLog", "logMedicalAction"],
+        "contexts": ["create", "update", "delete", "export"]
+      },
+      "severity": "error",
+      "autoFix": false
+    },
+    {
+      "id": "lgpd-consent",
+      "name": "LGPD Consent",
+      "description": "Validates patient consent handling",
+      "type": "code",
+      "rules": {
+        "mustValidate": ["patientConsent", "dataProcessingConsent"],
+        "beforeActions": ["save", "export", "share"]
+      },
+      "severity": "error",
+      "autoFix": false
+    },
+    {
+      "id": "professional-language",
+      "name": "Professional Medical Language",
+      "description": "Validates generated text uses professional medical terminology",
+      "type": "content",
+      "rules": {
+        "dictionary": "lib/medical/terminology.json",
+        "noSlang": true,
+        "abbreviationsAllowed": ["CFM", "LGPD", "QP", "HDA", "AP", "EF", "HD", "CD"]
+      },
+      "severity": "warning",
+      "autoFix": true
+    }
+  ],
+  "actions": {
+    "onValidationFail": [
+      {
+        "type": "block_merge",
+        "message": "Medical compliance validation failed"
+      },
+      {
+        "type": "create_issue",
+        "assignee": "medical-reviewer"
+      }
+    ],
+    "onValidationPass": [
+      {
+        "type": "add_label",
+        "label": "cfm-compliant"
+      }
+    ]
+  }
+}

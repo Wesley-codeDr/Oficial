@@ -14,66 +14,75 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { cn } from '@/lib/utils'
 import { buttonAnimations } from '@/lib/design-system/micro-interactions'
 
+/**
+ * Apple Liquid Glass iOS 26 Button Variants
+ * Universal: blur(40px) saturate(180%)
+ * Border-radius: 14px for buttons
+ */
 const glassButtonVariants = cva(
   [
     'relative inline-flex items-center justify-center gap-2',
-    'whitespace-nowrap rounded-2xl text-sm font-semibold',
-    'ring-offset-background transition-all duration-[300ms] ease-[cubic-bezier(0.25,1,0.5,1)]',
+    // iOS 26 radius (14px for buttons)
+    'whitespace-nowrap rounded-[14px] text-sm font-semibold',
+    'ring-offset-background transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
     'disabled:pointer-events-none disabled:opacity-50',
     '[&_svg]:pointer-events-none [&_svg:not([class*="size-"])]:size-4 shrink-0 [&_svg]:shrink-0',
-    'backdrop-blur-[40px] saturate-[180%]',
+    // iOS 26 blur specs (40px, 180%)
+    'backdrop-blur-[20px]',
     'overflow-hidden',
   ].join(' '),
   {
     variants: {
       variant: {
         primary: [
-          'bg-gradient-to-r from-blue-500/90 to-blue-600/90',
-          'text-white',
-          'border-[1.5px] border-white/20',
-          'shadow-glow-blue',
-          'shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]',
-          'hover:from-blue-500 hover:to-blue-600',
-          'hover:shadow-glow-blue-intense',
+          'bg-white/30 dark:bg-[rgba(30,30,30,0.35)]',
+          'text-[#007AFF] dark:text-[#0A84FF] font-semibold',
+          'border border-white/40 dark:border-white/20',
+          'shadow-[0_8px_32px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.2)]',
+          'dark:shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_1px_rgba(255,255,255,0.1)]',
+          'hover:bg-white/40 dark:hover:bg-[rgba(30,30,30,0.45)]',
+          'hover:scale-[1.02]',
         ].join(' '),
         secondary: [
-          'bg-white/35 dark:bg-slate-900/45',
-          'text-slate-700 dark:text-slate-200',
-          'border-[1.5px] border-white/30 dark:border-white/12',
-          'shadow-glass dark:shadow-glass-dark',
-          'hover:bg-white/50 dark:hover:bg-slate-900/55',
+          'bg-white/30 dark:bg-[rgba(30,30,30,0.3)]',
+          'text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.9)] font-semibold',
+          'border border-white/40 dark:border-white/15',
+          'shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.2)]',
+          'dark:shadow-[0_8px_32px_rgba(0,0,0,0.2),inset_0_1px_1px_rgba(255,255,255,0.1)]',
+          'hover:bg-white/40 dark:hover:bg-[rgba(30,30,30,0.4)]',
+          'hover:scale-[1.02]',
         ].join(' '),
         destructive: [
-          'bg-gradient-to-r from-rose-500/90 to-rose-600/90',
-          'text-white',
-          'border-[1.5px] border-white/20',
-          'shadow-glow-red',
-          'shadow-[inset_0_1px_0_rgba(255,255,255,0.3)]',
-          'hover:from-rose-500 hover:to-rose-600',
-          'hover:shadow-glow-red-intense',
+          'bg-[rgba(255,59,48,0.15)] dark:bg-[rgba(255,59,48,0.2)]',
+          'text-[#FF3B30] dark:text-[#FF453A]',
+          'border border-[rgba(255,59,48,0.3)] dark:border-[rgba(255,59,48,0.35)]',
+          'shadow-[0_4px_24px_rgba(255,59,48,0.3)]',
+          'hover:bg-[rgba(255,59,48,0.2)] dark:hover:bg-[rgba(255,59,48,0.25)]',
+          'hover:scale-[1.02]',
         ].join(' '),
         outline: [
-          'bg-white/25 dark:bg-slate-900/25',
-          'text-slate-900 dark:text-slate-100',
-          'border-[1.5px] border-slate-300/40 dark:border-white/15',
-          'shadow-glass dark:shadow-glass-dark',
-          'hover:bg-white/40 dark:hover:bg-slate-900/40',
-          'hover:border-slate-400/60 dark:hover:border-white/20',
+          'bg-white/20 dark:bg-[rgba(30,30,30,0.2)]',
+          'text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.9)]',
+          'border border-white/30 dark:border-white/15',
+          'shadow-[0_8px_32px_rgba(0,0,0,0.06),inset_0_1px_1px_rgba(255,255,255,0.15)]',
+          'hover:bg-white/30 dark:hover:bg-[rgba(30,30,30,0.3)]',
+          'hover:scale-[1.02]',
         ].join(' '),
         ghost: [
-          'bg-white/20 dark:bg-white/5',
-          'text-slate-700 dark:text-slate-200',
-          'border-[1.5px] border-transparent',
-          'hover:bg-white/40 dark:hover:bg-white/10',
-          'hover:border-white/30 dark:hover:border-white/10',
+          'bg-transparent',
+          'text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.9)]',
+          'border border-transparent',
+          'hover:bg-white/20 dark:hover:bg-[rgba(30,30,30,0.2)]',
+          'hover:border-white/20 dark:hover:border-white/10',
         ].join(' '),
       },
       size: {
-        sm: 'h-9 px-3 text-xs rounded-xl gap-1.5 has-[>svg]:px-2.5',
-        default: 'h-11 px-5 py-2.5 has-[>svg]:px-4',
-        lg: 'h-13 px-8 text-base rounded-2xl has-[>svg]:px-6',
-        icon: 'size-11 rounded-xl',
+        // iOS 26 radius for each size
+        sm: 'h-9 px-3 text-xs rounded-[12px] gap-1.5 has-[>svg]:px-2.5',
+        default: 'h-11 px-5 py-2.5 rounded-[14px] has-[>svg]:px-4',
+        lg: 'h-13 px-8 text-base rounded-[18px] has-[>svg]:px-6',
+        icon: 'size-11 rounded-[14px]',
       },
     },
     defaultVariants: {
@@ -153,12 +162,16 @@ function LoadingSpinner() {
   )
 }
 
+/**
+ * iOS 26 Haptic Tap Animation
+ * scale(1.02) with 0.2s transition
+ */
 const hapticTapAnimation = {
-  scale: [1, 0.95, 1.03, 1],
+  scale: [1, 0.98, 1.02, 1],
   transition: {
-    duration: 0.25,
-    times: [0, 0.25, 0.65, 1],
-    ease: [0.25, 1, 0.5, 1] as [number, number, number, number],
+    duration: 0.2,
+    ease: [0.25, 1, 0.5, 1] as const,
+    times: [0, 0.2, 0.6, 1],
   },
 }
 
@@ -216,7 +229,6 @@ const GlassButton = forwardRef<HTMLButtonElement, GlassButtonProps>(
     if (asChild) {
       return (
         <Slot
-          ref={ref as React.Ref<HTMLElement>}
           data-slot="glass-button"
           className={cn(glassButtonVariants({ variant, size, className }))}
           {...(props as React.ComponentProps<typeof Slot>)}
@@ -238,15 +250,25 @@ const GlassButton = forwardRef<HTMLButtonElement, GlassButtonProps>(
         onClick={handleClick}
         whileHover={!isDisabled ? buttonAnimations.hover : undefined}
         whileTap={!isDisabled ? hapticTapAnimation : undefined}
-        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+        // iOS 26 transition
+        transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
         {...props}
       >
+        {/* iOS 26 Light reflection - top edge */}
+        <div
+          className="absolute top-0 left-[10%] right-[10%] h-[1px] pointer-events-none z-[20]"
+          style={{
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent)',
+          }}
+        />
+
+        {/* Interactive mouse-follow glow */}
         <motion.div
           className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity duration-300"
           style={{
             background: useMotionTemplate`
               radial-gradient(
-                180px circle at ${mouseX}px ${mouseY}px,
+                200px circle at ${mouseX}px ${mouseY}px,
                 ${glowColor},
                 transparent 70%
               )

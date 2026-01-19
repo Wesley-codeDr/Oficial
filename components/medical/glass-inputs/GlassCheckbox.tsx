@@ -13,20 +13,20 @@ interface GlassCheckboxProps {
 
 export const GlassCheckbox: React.FC<GlassCheckboxProps> = React.memo(({ item, value, onChange, tooltipText }) => {
   return (
-    <motion.button 
+    <motion.button
       whileTap={{ scale: 0.98 }}
       animate={value ? { scale: 1.01 } : { scale: 1 }}
       transition={applePhysics.haptic}
       onClick={() => onChange(!value)}
       className={`
-        group w-full flex items-center justify-between px-5 py-4 first:rounded-t-[28px] last:rounded-b-[28px] border-b border-white/5 last:border-0 transition-all duration-500 relative overflow-hidden
-        ${value 
-          ? 'bg-gradient-to-r from-blue-500/12 via-blue-500/8 to-transparent dark:from-blue-500/10 dark:via-blue-500/5 dark:to-transparent shadow-[0_0_30px_rgba(37,99,235,0.08)] z-10' 
-          : 'hover:bg-black/3 dark:hover:bg-white/3 bg-transparent'
+        group w-full flex items-center justify-between px-5 py-4 first:rounded-t-[28px] last:rounded-b-[28px] border-b border-white/10 last:border-0 transition-all duration-300 relative overflow-hidden
+        ${value
+          ? 'bg-[rgba(0,122,255,0.08)] dark:bg-[rgba(0,122,255,0.12)] z-10'
+          : 'hover:bg-white/10 dark:hover:bg-white/5 bg-transparent'
         }
       `}
     >
-      {/* Selection glow background */}
+      {/* Selection glow background - subtle */}
       <AnimatePresence>
         {value && (
           <motion.div
@@ -34,23 +34,23 @@ export const GlassCheckbox: React.FC<GlassCheckboxProps> = React.memo(({ item, v
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={applePhysics.glass}
-            className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent pointer-events-none"
+            className="absolute inset-0 bg-[rgba(0,122,255,0.03)] pointer-events-none"
           />
         )}
       </AnimatePresence>
 
       <div className="flex items-center gap-4 relative z-10">
-        {/* Custom Ultra-Liquid Checkbox - More compact */}
+        {/* Custom Liquid Glass Checkbox - using tinted glass, not solid colors */}
         <motion.div
           animate={value ? { scale: 1.05 } : { scale: 1 }}
           transition={applePhysics.haptic}
           className={`
-            w-6 h-6 rounded-[10px] flex items-center justify-center transition-all duration-500 border relative overflow-hidden rim-light-ios26 inner-glow-ios26 shrink-0
+            w-6 h-6 rounded-[10px] flex items-center justify-center transition-all duration-300 border relative overflow-hidden shrink-0
             ${value
               ? (item.isRedFlag
-                  ? 'bg-gradient-to-br from-rose-500 to-rose-600 border-rose-300/50 shadow-[0_0_24px_rgba(244,63,94,0.35)]'
-                  : 'bg-gradient-to-br from-blue-500 to-blue-600 border-blue-300/50 shadow-[0_0_24px_rgba(37,99,235,0.35)]')
-              : 'glass-pill group-hover:border-white/35 group-hover:bg-white/15 dark:group-hover:bg-white/8'
+                  ? 'bg-[rgba(255,59,48,0.25)] dark:bg-[rgba(255,59,48,0.35)] border-[rgba(255,59,48,0.4)] shadow-[0_4px_16px_rgba(255,59,48,0.2)]'
+                  : 'bg-[rgba(0,122,255,0.25)] dark:bg-[rgba(0,122,255,0.35)] border-[rgba(0,122,255,0.4)] shadow-[0_4px_16px_rgba(0,122,255,0.2)]')
+              : 'bg-white/30 dark:bg-white/10 border-white/40 dark:border-white/20 group-hover:border-white/50 group-hover:bg-white/40'
             }
           `}
         >
@@ -64,7 +64,7 @@ export const GlassCheckbox: React.FC<GlassCheckboxProps> = React.memo(({ item, v
                  transition={applePhysics.haptic}
                  className="relative z-10"
                >
-                 <Check className="w-3.5 h-3.5 text-white stroke-[3.5px]" />
+                 <Check className={`w-3.5 h-3.5 stroke-[3.5px] ${item.isRedFlag ? 'text-[#FF3B30]' : 'text-[#007AFF]'}`} />
                </motion.div>
              )}
            </AnimatePresence>

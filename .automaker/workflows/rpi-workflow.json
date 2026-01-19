@@ -1,0 +1,126 @@
+{
+  "name": "RPI Workflow Integration",
+  "version": "1.0.0",
+  "description": "Integrates Automaker features with the Research-Plan-Implement workflow",
+  "phases": [
+    {
+      "id": "research",
+      "name": "Research Phase",
+      "trigger": "feature_created",
+      "actions": [
+        {
+          "type": "load_context",
+          "files": [".ai/commands/1_research.md", "memory/constitution.md"]
+        },
+        {
+          "type": "create_file",
+          "path": "specs/{{feature_slug}}/research.md",
+          "template": "research-template"
+        },
+        {
+          "type": "set_status",
+          "status": "researching"
+        }
+      ],
+      "completion": {
+        "requires": ["specs/{{feature_slug}}/research.md"],
+        "nextPhase": "plan"
+      }
+    },
+    {
+      "id": "plan",
+      "name": "Plan Phase",
+      "trigger": "research_complete",
+      "actions": [
+        {
+          "type": "load_context",
+          "files": [".ai/commands/2_plan.md", "specs/{{feature_slug}}/research.md"]
+        },
+        {
+          "type": "create_file",
+          "path": "specs/{{feature_slug}}/spec.md"
+        },
+        {
+          "type": "create_file",
+          "path": "specs/{{feature_slug}}/plan.md"
+        },
+        {
+          "type": "set_status",
+          "status": "planning"
+        }
+      ],
+      "completion": {
+        "requires": ["specs/{{feature_slug}}/spec.md", "specs/{{feature_slug}}/plan.md"],
+        "checkpoint": true,
+        "checkpointMessage": "Plan requires human approval before proceeding",
+        "nextPhase": "tasks"
+      }
+    },
+    {
+      "id": "tasks",
+      "name": "Tasks Phase",
+      "trigger": "plan_approved",
+      "actions": [
+        {
+          "type": "load_context",
+          "files": [".ai/commands/3_tasks.md", "specs/{{feature_slug}}/plan.md"]
+        },
+        {
+          "type": "create_file",
+          "path": "specs/{{feature_slug}}/tasks.md"
+        },
+        {
+          "type": "set_status",
+          "status": "tasks_defined"
+        }
+      ],
+      "completion": {
+        "requires": ["specs/{{feature_slug}}/tasks.md"],
+        "checkpoint": true,
+        "checkpointMessage": "Tasks require final approval before implementation",
+        "nextPhase": "implement"
+      }
+    },
+    {
+      "id": "implement",
+      "name": "Implement Phase",
+      "trigger": "tasks_approved",
+      "actions": [
+        {
+          "type": "load_context",
+          "files": [".ai/commands/4_implement.md", "specs/{{feature_slug}}/tasks.md"]
+        },
+        {
+          "type": "load_memory",
+          "categories": ["gotchas", "architecture"]
+        },
+        {
+          "type": "set_status",
+          "status": "implementing"
+        }
+      ],
+      "completion": {
+        "requires": ["all_tasks_complete", "tests_pass"],
+        "nextPhase": null
+      }
+    }
+  ],
+  "hooks": {
+    "beforePhaseChange": [
+      {
+        "type": "save_context",
+        "action": "snapshot"
+      }
+    ],
+    "afterFeatureComplete": [
+      {
+        "type": "extract_learnings",
+        "categories": ["gotchas", "architecture", "patterns"]
+      },
+      {
+        "type": "update_memory",
+        "incrementStats": true
+      }
+    ]
+  }
+}

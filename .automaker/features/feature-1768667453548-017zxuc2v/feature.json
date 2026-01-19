@@ -1,0 +1,17 @@
+{
+  "category": "enhancement",
+  "description": "When a column is empty, show context-aware suggestions like 'Add your first task here' with visual arrows pointing to the add button. Include column-specific hints (e.g., 'Drag completed items here' for Done column).\n\n**Rationale:** Empty columns create confusion about workflow. Smart prompts teach users how to use each section effectively and maintain momentum in their task management.",
+  "title": "Contextual Empty Column Prompts",
+  "status": "completed",
+  "id": "feature-1768667453548-017zxuc2v",
+  "descriptionHistory": [
+    {
+      "description": "When a column is empty, show context-aware suggestions like 'Add your first task here' with visual arrows pointing to the add button. Include column-specific hints (e.g., 'Drag completed items here' for Done column).\n\n**Rationale:** Empty columns create confusion about workflow. Smart prompts teach users how to use each section effectively and maintain momentum in their task management.",
+      "timestamp": "2026-01-17T16:30:53.554Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-17T16:31:21.067Z",
+  "updatedAt": "2026-01-17T17:33:32.564Z"
+}

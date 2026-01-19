@@ -1,0 +1,92 @@
+{
+  "version": "2.0.0",
+  "project": {
+    "name": "WellWave",
+    "type": "medical-saas",
+    "description": "Healthcare emergency anamnesis system",
+    "language": "pt-BR"
+  },
+  "performance": {
+    "maxConcurrentAgents": 1,
+    "contextBudget": {
+      "smart": [15, 30],
+      "working": [30, 50],
+      "danger": [50, 70],
+      "critical": [70, 100]
+    },
+    "memoryLoading": {
+      "maxFilesPerFeature": 2,
+      "priorityCategories": ["gotchas", "medical"],
+      "minImportanceThreshold": 0.8,
+      "lazyLoad": true
+    },
+    "caching": {
+      "enableContextCache": true,
+      "cacheExpiryMinutes": 60,
+      "preloadCommonPatterns": false
+    }
+  },
+  "features": {
+    "defaultPriority": "medium",
+    "autoAssignCategory": true,
+    "requireSpecs": false,
+    "templates": {
+      "medical-feature": ".automaker/templates/medical-feature.md",
+      "ui-component": ".automaker/templates/ui-component.md",
+      "api-endpoint": ".automaker/templates/api-endpoint.md",
+      "bug-fix": ".automaker/templates/bug-fix.md"
+    },
+    "workflows": {
+      "rpi-integration": false,
+      "autoCreateSpecs": false,
+      "autoRunTests": false,
+      "autoLint": false
+    }
+  },
+  "compliance": {
+    "medical": {
+      "cfmResolutions": ["2.314/2022"],
+      "requiredBlocks": ["QP", "HDA", "AP", "EF", "HD", "CD"],
+      "redFlagDetection": true
+    }
+  },
+  "agents": {
+    "defaultModel": "claude-3-5-haiku-20241022",
+    "specializations": {
+      "medical": {
+        "model": "claude-sonnet-4-20250514",
+        "contextPriority": ["medical", "gotchas"]
+      },
+      "ui": {
+        "model": "claude-3-5-haiku-20241022",
+        "contextPriority": ["ui"]
+      },
+      "quick-fix": {
+        "model": "claude-3-5-haiku-20241022",
+        "contextPriority": ["gotchas"]
+      }
+    }
+  },
+  "paths": {
+    "features": ".automaker/features",
+    "memory": ".automaker/memory",
+    "templates": ".automaker/templates",
+    "archive": ".automaker/archive"
+  },
+  "git": {
+    "autoCreateBranch": false,
+    "branchPrefix": "feature/",
+    "protectedBranches": ["main", "production"]
+  },
+  "notifications": {
+    "onFeatureComplete": true,
+    "onError": true,
+    "onCheckpointRequired": false
+  },
+  "optimization": {
+    "ignoreFile": ".automaker/.automakerignore",
+    "archiveCompletedFeatures": true,
+    "maxFeatureAge": 7,
+    "autoCleanup": true
+  }
+}

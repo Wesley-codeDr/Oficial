@@ -30,7 +30,7 @@ export function CopyButton({ text, className }: CopyButtonProps) {
 
   return (
     <Button
-      variant={copied ? 'default' : 'outline'}
+      variant={copied ? 'secondary' : 'outline'}
       size="sm"
       onClick={handleCopy}
       disabled={!text}

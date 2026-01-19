@@ -11,10 +11,12 @@ interface ReferenceItem {
 
 // --- Logic Generators ---
 
-export const getMetaSection = (customTitle: string = "Caracterização da Queixa"): AnamnesisSection => ({
-  id: 'meta_characterization',
-  title: customTitle,
-  items: [
+/**
+ * Retorna a seção de metadados da queixa.
+ * Agora suporta customização baseada na síndrome.
+ */
+export const getMetaSection = (syndromeId?: string): AnamnesisSection => {
+  const items: Symptom[] = [
     { 
       id: 'meta_intensity', 
       label: 'Intensidade da Dor/Queixa (0-10)', 
@@ -30,43 +32,49 @@ export const getMetaSection = (customTitle: string = "Caracterização da Queixa
       type: 'segment',
       options: ['Agudo', 'Subagudo', 'Crônico'],
       value: 'Agudo'
-    },
-    {
+    }
+  ];
+
+  if (syndromeId === 'CHEST_PAIN') {
+    items.push({
       id: 'meta_onset',
       label: 'Tipo de Início',
       type: 'segment',
       options: ['Súbito', 'Progressivo', 'Insidioso'],
       value: 'Súbito'
-    },
-    {
-      id: 'meta_duration',
-      label: 'Tempo de Evolução',
-      type: 'text',
-      placeholder: 'Ex: 2 horas, 3 dias...',
-      value: ''
-    }
-  ]
-});
+    });
+  }
+
+  items.push({
+    id: 'meta_duration',
+    label: 'Tempo de Evolução',
+    type: 'text',
+    placeholder: 'Ex: 2 horas, 3 dias...',
+    value: ''
+  });
+
+  return {
+    id: 'meta_characterization',
+    title: 'Caracterização da Queixa',
+    items
+  };
+};
 
 export const getPhysicalExamSection = (syndromeId: string): AnamnesisSection => {
   const commonItems: Symptom[] = [
     { id: 'ef_geral', label: 'Estado Geral', type: 'segment', options: ['BEG', 'REG', 'MEG'], value: 'BEG' },
     { id: 'ef_mucosas', label: 'Mucosas', type: 'segment', options: ['Coradas', 'Hipocoradas', 'Descoradas'], value: 'Coradas' },
-    { id: 'ef_hidratacao', label: 'Hidratação', type: 'segment', options: ['Hidratado', 'Desidratado'], value: 'Hidratado' },
   ];
 
   const specificItems: Symptom[] = [];
 
-  if (syndromeId === 'dor_toracica' || syndromeId === 'dispneia' || syndromeId === 'sincope') {
+  if (syndromeId === 'CHEST_PAIN' || syndromeId === 'DYSPNEA') {
     specificItems.push(
       { id: 'ef_acv_ritmo', label: 'Ritmo Cardíaco', type: 'segment', options: ['Regular', 'Irregular'], value: 'Regular' },
-      { id: 'ef_acv_sopro', label: 'Sopros', type: 'boolean' },
-      { id: 'ef_ar_mv', label: 'Murmúrio Vesicular', type: 'segment', options: ['Presente', 'Diminuído'], value: 'Presente' },
-      { id: 'ef_ar_ra', label: 'Ruídos Adventícios', type: 'multiSelect', options: ['Creptos', 'Sibilos', 'Roncos'], value: [] },
-      { id: 'ef_perfusao', label: 'Perfusão Periférica', type: 'segment', options: ['<3s', '>3s'], value: '<3s' },
-      { id: 'ef_turgencia', label: 'Turgência Jugular', type: 'boolean', isRedFlag: true }
+      { id: 'ef_ar_mv', label: 'Murmúrio Vesicular', type: 'segment', options: ['Presente', 'Diminuído'], value: 'Presente' }
     );
-  } else if (syndromeId === 'dor_abdominal') {
+  }
+ else if (syndromeId === 'dor_abdominal') {
     specificItems.push(
       { id: 'ef_abd_forma', label: 'Abdome', type: 'segment', options: ['Plano', 'Globoso', 'Distendido'], value: 'Plano' },
       { id: 'ef_abd_rha', label: 'RHA', type: 'segment', options: ['Presentes', 'Aumentados', 'Diminuídos/Ausentes'], value: 'Presentes' },
@@ -153,7 +161,7 @@ export const getProtocolData = (syndromeId: string): AnamnesisSection[] => {
               label: 'Local da Dor', 
               type: 'multiSelect', 
               options: ['Epigástrio', 'Hipo. Direito', 'Hipo. Esquerdo', 'Mesogástrio', 'FID', 'FIE', 'Hipogástrio', 'Dorso', 'Flancos'],
-              value: [] 
+              value: [] as string[] 
             },
             { id: 'tipo_colica', label: 'Tipo Cólica', type: 'boolean', checked: true },
             { id: 'tipo_continua', label: 'Tipo Contínua', type: 'boolean' },

@@ -1,0 +1,17 @@
+{
+  "category": "enhancement",
+  "description": "In empty states, display 3-4 task template buttons users can click to instantly create common task types: 'Bug Report', 'Feature Request', 'Meeting Notes', 'General Task'. Each pre-fills with helpful structure.\n\n**Rationale:** Starting with a structured template is easier than facing a blank form. Templates also subtly educate users about different task types and encourage consistent task creation patterns.",
+  "title": "Quick-Start Task Templates",
+  "status": "completed",
+  "id": "feature-1768667458919-dhyp987xu",
+  "descriptionHistory": [
+    {
+      "description": "In empty states, display 3-4 task template buttons users can click to instantly create common task types: 'Bug Report', 'Feature Request', 'Meeting Notes', 'General Task'. Each pre-fills with helpful structure.\n\n**Rationale:** Starting with a structured template is easier than facing a blank form. Templates also subtly educate users about different task types and encourage consistent task creation patterns.",
+      "timestamp": "2026-01-17T16:30:58.963Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-17T16:31:51.820Z",
+  "updatedAt": "2026-01-17T17:11:58.939Z"
+}

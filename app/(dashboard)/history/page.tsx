@@ -7,6 +7,7 @@ import { GlassCard } from '@/components/ui/glass-card'
 import { Button } from '@/components/ui/button'
 import { CopyButton } from '@/components/anamnese/copy-button'
 import { getUserSessions } from '@/lib/anamnese/actions'
+import { HistoryEmptyState } from './history-empty-state'
 
 export const metadata: Metadata = {
   title: 'Historico | WellWave',
@@ -32,22 +33,7 @@ export default async function HistoryPage() {
       </div>
 
       {sessions.length === 0 ? (
-        <GlassCard hover={false} className="p-8 text-center">
-          <div className="space-y-4">
-            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-              <FileText className="h-8 w-8 text-muted-foreground" />
-            </div>
-            <div className="space-y-2">
-              <h2 className="text-xl font-semibold">Nenhuma anamnese ainda</h2>
-              <p className="text-muted-foreground">
-                Comece criando sua primeira anamnese.
-              </p>
-            </div>
-            <Button asChild>
-              <Link href="/dashboard">Criar Anamnese</Link>
-            </Button>
-          </div>
-        </GlassCard>
+        <HistoryEmptyState />
       ) : (
         <div className="space-y-4">
           {sessions.map((session) => {
@@ -62,7 +48,7 @@ export default async function HistoryPage() {
             return (
               <GlassCard key={session.id} hover={false} className="p-4">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/10">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[20px] bg-primary/10">
                     <IconComponent className="h-6 w-6 text-primary" />
                   </div>
 
@@ -70,13 +56,13 @@ export default async function HistoryPage() {
                     <div className="flex items-center gap-2">
                       <h3 className="font-semibold">{session.syndrome.name}</h3>
                       {redFlagCount > 0 && (
-                        <span className="flex items-center gap-1 rounded-full bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
+                        <span className="flex items-center gap-1 rounded-[14px] bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
                           <AlertTriangle className="h-3 w-3" />
                           {redFlagCount}
                         </span>
                       )}
                       {session.wasCopied && (
-                        <span className="flex items-center gap-1 rounded-full bg-green-500/10 px-2 py-0.5 text-xs font-medium text-green-600 dark:text-green-400">
+                        <span className="flex items-center gap-1 rounded-[14px] bg-green-500/10 px-2 py-0.5 text-xs font-medium text-green-600 dark:text-green-400">
                           <CheckCircle className="h-3 w-3" />
                           Copiado
                         </span>
@@ -97,7 +83,7 @@ export default async function HistoryPage() {
                 </div>
 
                 {session.generatedText && (
-                  <div className="mt-4 rounded-lg bg-muted/50 p-3">
+                  <div className="mt-4 rounded-[20px] bg-muted/50 p-3">
                     <p className="line-clamp-3 text-sm text-muted-foreground">
                       {session.generatedText}
                     </p>

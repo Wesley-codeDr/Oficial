@@ -1,0 +1,59 @@
+{
+  "project": {
+    "name": "WellWave",
+    "description": "Healthcare emergency anamnesis system",
+    "domain": "medical",
+    "compliance": ["CFM", "LGPD"]
+  },
+  "criticalPaths": [
+    {
+      "name": "Anamnesis Generation",
+      "path": "app/(dashboard)/anamnese/",
+      "priority": "critical",
+      "compliance": true
+    },
+    {
+      "name": "Medical Templates",
+      "path": "lib/medical/templates/",
+      "priority": "critical",
+      "compliance": true
+    },
+    {
+      "name": "Authentication",
+      "path": "app/(auth)/",
+      "priority": "high",
+      "compliance": false
+    },
+    {
+      "name": "API Routes",
+      "path": "app/api/",
+      "priority": "high",
+      "compliance": true
+    },
+    {
+      "name": "Glass Design System",
+      "path": "components/ui/glass-*",
+      "priority": "medium",
+      "compliance": false
+    }
+  ],
+  "keyFiles": {
+    "schema": "prisma/schema.prisma",
+    "cfmCompliance": "lib/medical/cfmCompliance.ts",
+    "glassTokens": "lib/design-system/glass-tokens.ts",
+    "animationTokens": "lib/design-system/animation-tokens.ts",
+    "zustandStore": "stores/index.ts",
+    "types": "types/index.ts"
+  },
+  "conventions": {
+    "components": "PascalCase",
+    "utilities": "camelCase",
+    "hooks": "use* prefix",
+    "types": "PascalCase with I or T prefix when needed"
+  },
+  "testing": {
+    "unit": "vitest",
+    "e2e": "playwright",
+    "coverage": 70
+  }
+}

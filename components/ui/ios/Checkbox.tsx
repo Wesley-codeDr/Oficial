@@ -18,9 +18,9 @@ export function IOSCheckbox({ id, label, narrative, checked, onChange, disabled 
     <label
       htmlFor={inputId}
       className={
-        'flex items-start gap-3 p-3 rounded-[8px] focus-within:ring-2 focus-within:ring-[#0A84FF]/40 ' +
-        'bg-white dark:bg-[#1C1C1E] shadow-[0_1px_3px_rgba(0,0,0,0.1)] ' +
-        (disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:bg-[#F2F2F7] dark:hover:bg-[#2C2C2E]')
+        'flex items-start gap-3 p-4 rounded-[18px] backdrop-blur-[40px] saturate-[180%] border transition-all duration-200 focus-within:ring-2 focus-within:ring-[#007AFF]/40 ' +
+        'bg-white/55 dark:bg-[rgba(30,30,30,0.55)] border-white/40 dark:border-white/15 shadow-[0_4px_16px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.3)] ' +
+        (disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:bg-white/70 dark:hover:bg-[rgba(30,30,30,0.65)]')
       }
       aria-disabled={disabled}
     >
@@ -35,8 +35,10 @@ export function IOSCheckbox({ id, label, narrative, checked, onChange, disabled 
       />
       <span
         className={
-          'mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-[6px] border ' +
-          (checked ? 'bg-[#0A84FF] border-[#0A84FF]' : 'bg-white dark:bg-[#1C1C1E] border-gray-300 dark:border-[#2C2C2E]')
+          'mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-[10px] border transition-all duration-200 ' +
+          (checked
+            ? 'bg-[rgba(0,122,255,0.25)] dark:bg-[rgba(0,122,255,0.35)] border-[#007AFF]/50'
+            : 'bg-white/50 dark:bg-white/10 border-white/40 dark:border-white/20')
         }
         role="checkbox"
         aria-checked={checked}
@@ -44,14 +46,14 @@ export function IOSCheckbox({ id, label, narrative, checked, onChange, disabled 
       >
         {checked ? (
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M7.8 14.3L4.5 11l1.4-1.4l1.9 1.9l6.2-6.2l1.4 1.4l-7.6 7.6z" fill="white" />
+            <path d="M7.8 14.3L4.5 11l1.4-1.4l1.9 1.9l6.2-6.2l1.4 1.4l-7.6 7.6z" fill="#007AFF" />
           </svg>
         ) : null}
       </span>
       <div className="flex-1">
-        <div className="text-[16px] leading-[1.4] text-black dark:text-white">{label}</div>
+        <div className="text-[16px] leading-[1.4] text-[rgba(0,0,0,0.85)] dark:text-white font-medium">{label}</div>
         {narrative ? (
-          <div className="text-[14px] leading-[1.4] text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.6)]">
+          <div className="text-[14px] leading-[1.4] text-[rgba(0,0,0,0.45)] dark:text-[rgba(255,255,255,0.5)]">
             {narrative}
           </div>
         ) : null}

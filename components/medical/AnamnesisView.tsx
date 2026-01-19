@@ -518,14 +518,14 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                     whileTap={{ scale: 0.98 }}
                     onClick={() => scrollToSection(section.id, true)}
                     className={`
-                      w-full flex items-center justify-between px-2.5 py-2 rounded-[12px] group relative overflow-hidden
+                      w-full flex items-center justify-between px-2.5 py-2 rounded-[14px] group relative overflow-hidden
                       ${isActive
-                        ? 'text-white dark:text-slate-900 font-medium'
-                        : 'text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 font-normal'
+                        ? 'text-[#007AFF] dark:text-[#0A84FF] font-medium'
+                        : 'text-[rgba(0,0,0,0.45)] dark:text-[rgba(255,255,255,0.5)] hover:text-[rgba(0,0,0,0.7)] dark:hover:text-white font-normal'
                       }
                     `}
                   >
-                     {/* Liquid Morphing Background */}
+                     {/* Liquid Glass Active Background */}
                      <AnimatePresence>
                        {isActive && (
                          <motion.div
@@ -533,10 +533,10 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                            initial={{ opacity: 0 }}
                            animate={{ opacity: 1 }}
                            exit={{ opacity: 0 }}
-                           className="absolute inset-0 z-0 bg-gradient-to-br from-blue-500 to-blue-600 dark:from-slate-100 dark:to-white shadow-md shadow-blue-500/10 dark:shadow-slate-200/10 rounded-[12px]"
+                           className="absolute inset-0 z-0 bg-[rgba(0,122,255,0.15)] dark:bg-[rgba(0,122,255,0.2)] shadow-[0_4px_16px_rgba(0,122,255,0.1)] rounded-[14px]"
                            transition={{ type: 'spring', damping: 28, stiffness: 220, mass: 1 }}
                          >
-                           <div className="absolute inset-0 border-t border-white/20 dark:border-black/5 pointer-events-none rounded-[12px]" />
+                           <div className="absolute inset-0 border border-[rgba(0,122,255,0.2)] dark:border-[rgba(0,122,255,0.3)] pointer-events-none rounded-[14px]" />
                          </motion.div>
                        )}
                      </AnimatePresence>

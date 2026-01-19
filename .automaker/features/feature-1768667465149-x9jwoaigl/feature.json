@@ -1,0 +1,17 @@
+{
+  "category": "enhancement",
+  "description": "When sections are empty, show expandable help cards that reveal tips on click: keyboard shortcuts, drag-and-drop tips, or integration possibilities. Dismissible but easily recalled via help icon.\n\n**Rationale:** Users need different levels of guidance. Progressive disclosure respects power users who want minimal UI while helping newcomers discover advanced features at their own pace.",
+  "title": "Progressive Disclosure Help System",
+  "status": "completed",
+  "id": "feature-1768667465149-x9jwoaigl",
+  "descriptionHistory": [
+    {
+      "description": "When sections are empty, show expandable help cards that reveal tips on click: keyboard shortcuts, drag-and-drop tips, or integration possibilities. Dismissible but easily recalled via help icon.\n\n**Rationale:** Users need different levels of guidance. Progressive disclosure respects power users who want minimal UI while helping newcomers discover advanced features at their own pace.",
+      "timestamp": "2026-01-17T16:31:05.183Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-19T04:07:29.396Z",
+  "updatedAt": "2026-01-19T04:45:39.097Z"
+}

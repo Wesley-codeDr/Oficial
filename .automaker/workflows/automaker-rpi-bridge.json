@@ -1,0 +1,110 @@
+{
+  "name": "Automaker-RPI Bridge",
+  "version": "1.0.0",
+  "description": "Bridges Automaker features with existing RPI workflow and specs structure",
+  "mapping": {
+    "featureToSpec": {
+      "enabled": true,
+      "specsPath": "specs",
+      "autoCreateSpec": true,
+      "specTemplate": {
+        "research": "specs/templates/research-template.md",
+        "spec": "specs/templates/spec-template.md",
+        "plan": "specs/templates/plan-template.md",
+        "tasks": "specs/templates/tasks-template.md"
+      }
+    },
+    "statusSync": {
+      "backlog": "researching",
+      "in_progress": "implementing",
+      "review": "review_needed",
+      "done": "completed"
+    }
+  },
+  "commands": {
+    "onFeatureCreate": [
+      {
+        "action": "create_spec_folder",
+        "path": "specs/{{feature_id}}-{{feature_slug}}"
+      },
+      {
+        "action": "load_rpi_context",
+        "file": ".ai/commands/1_research.md"
+      }
+    ],
+    "onResearchComplete": [
+      {
+        "action": "save_research",
+        "path": "specs/{{feature_id}}-{{feature_slug}}/research.md"
+      },
+      {
+        "action": "load_rpi_context",
+        "file": ".ai/commands/2_plan.md"
+      }
+    ],
+    "onPlanComplete": [
+      {
+        "action": "save_spec",
+        "path": "specs/{{feature_id}}-{{feature_slug}}/spec.md"
+      },
+      {
+        "action": "save_plan",
+        "path": "specs/{{feature_id}}-{{feature_slug}}/plan.md"
+      },
+      {
+        "action": "require_checkpoint",
+        "message": "Plan requires human approval"
+      }
+    ],
+    "onTasksComplete": [
+      {
+        "action": "save_tasks",
+        "path": "specs/{{feature_id}}-{{feature_slug}}/tasks.md"
+      },
+      {
+        "action": "sync_to_kanban",
+        "command": "pnpm kanban:migrate:spec {{feature_id}}-{{feature_slug}}"
+      },
+      {
+        "action": "require_checkpoint",
+        "message": "Tasks require final approval before implementation"
+      }
+    ],
+    "onImplementStart": [
+      {
+        "action": "load_rpi_context",
+        "file": ".ai/commands/4_implement.md"
+      },
+      {
+        "action": "load_memory",
+        "categories": ["gotchas", "architecture", "medical", "compliance"]
+      }
+    ],
+    "onFeatureComplete": [
+      {
+        "action": "extract_learnings",
+        "outputPath": ".automaker/memory/"
+      },
+      {
+        "action": "archive_spec",
+        "from": "specs/{{feature_id}}-{{feature_slug}}",
+        "to": "specs/archived/{{feature_id}}-{{feature_slug}}"
+      }
+    ]
+  },
+  "contextLoading": {
+    "alwaysLoad": [
+      "memory/constitution.md",
+      "AGENTS.md"
+    ],
+    "loadOnMedical": [
+      ".automaker/memory/medical.md",
+      ".automaker/memory/compliance.md",
+      "app/(dashboard)/anamnese/MODULE_GUIDELINES.md"
+    ],
+    "loadOnUI": [
+      ".automaker/memory/ui.md",
+      ".automaker/memory/architecture.md"
+    ]
+  }
+}

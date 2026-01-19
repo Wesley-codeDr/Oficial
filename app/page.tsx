@@ -5,6 +5,7 @@ import dynamic from 'next/dynamic'
 import { Sidebar } from '@/components/medical/Sidebar'
 import { Header } from '@/components/medical/Header'
 import { DashboardView } from '@/components/medical/DashboardView'
+import { OnboardingTutorial, useOnboarding } from '@/components/medical/OnboardingTutorial'
 import { ComplaintSelection } from '@/components/medical/ComplaintSelection'
 import { AnamnesisView } from '@/components/medical/AnamnesisView'
 import { AccessibilityGuide } from '@/components/medical/AccessibilityGuide'
@@ -51,6 +52,7 @@ import {
 } from '@/lib/services/protocolService'
 import { useToast } from '@/hooks/use-toast'
 import { useComplaints } from '@/hooks/use-complaints'
+import { useParallax, PARALLAX_SPEEDS } from '@/hooks/use-parallax'
 
 const initialTasks: KanbanTask[] = [
   {
@@ -114,6 +116,22 @@ const BlockIcon = ({ name }: { name: NoteBlock['iconName'] }) => {
 
 export default function Home() {
   const { toast } = useToast()
+
+  // Parallax depth effects for Apple Liquid Glass 2026 aesthetic
+  const { transforms, getPresetStyle, isActive: parallaxActive } = useParallax({
+    layers: [
+      { id: 'blob1', speed: PARALLAX_SPEEDS.backgroundSlow, enable3D: true },
+      { id: 'blob2', speed: PARALLAX_SPEEDS.background, enable3D: true },
+      { id: 'blob3', speed: PARALLAX_SPEEDS.midground, enable3D: true },
+      { id: 'blob4', speed: PARALLAX_SPEEDS.foreground, enable3D: true },
+    ],
+    smooth: true,
+    smoothFactor: 0.08,
+    respectReducedMotion: true,
+    disableOnMobile: true,
+    mobileBreakpoint: 768,
+  })
+
   const [viewMode, setViewMode] = React.useState<
     'dashboard' | 'selection' | 'protocol' | 'library' | 'accessibility' | 'flash' | 'chat-well'
   >('dashboard')
@@ -121,7 +139,7 @@ export default function Home() {
   const [activeComplaintId, setActiveComplaintId] = React.useState<string | null>(null)
 
   const { data: complaintsResponse } = useComplaints({ limit: 500, isActive: true })
-  const complaints = complaintsResponse?.data ?? []
+  const complaints = React.useMemo(() => complaintsResponse?.data ?? [], [complaintsResponse])
   const activeComplaint = React.useMemo(
     () => complaints.find((complaint) => complaint.id === activeComplaintId) ?? null,
     [complaints, activeComplaintId]
@@ -133,6 +151,14 @@ export default function Home() {
 
   const [noteBlocks, setNoteBlocks] = React.useState<NoteBlock[]>([])
   const [tasks, setTasks] = React.useState<KanbanTask[]>(initialTasks)
+
+  // Onboarding tutorial state - shows when no tasks exist
+  const {
+    showOnboarding,
+    closeTour,
+    completeTour,
+    startTour,
+  } = useOnboarding(tasks.length === 0)
   const [patient, setPatient] = React.useState<Patient>({
     id: '12345',
     age: '45',
@@ -564,11 +590,12 @@ export default function Home() {
     blocks.push({ id: 'sources', title: 'Referências', iconName: 'list', content: '' })
 
     // Apply manual edits if they exist
-    const finalBlocks = blocks.map(block => {
-      if (manualNoteEdits[block.id]) {
-        return { ...block, content: manualNoteEdits[block.id] }
+    const finalBlocks: NoteBlock[] = blocks.map(block => {
+      const manualContent = manualNoteEdits[block.id];
+      return { 
+        ...block, 
+        content: typeof manualContent === 'string' ? manualContent : (block.content || "") 
       }
-      return block
     })
 
     setNoteBlocks(finalBlocks)
@@ -602,66 +629,91 @@ export default function Home() {
         Color psychology: Blue = Trust/Professionalism, Green = Health/Vitality
       */}
       {isMounted && (
-        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-          {/* Primary Medical Blue Blob - Trust & Professionalism */}
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" style={{ perspective: '1200px', perspectiveOrigin: '50% 50%' }}>
+          {/* Primary Medical Blue Blob - Trust & Professionalism - ENHANCED */}
           <motion.div
             animate={{
-              scale: [1, 1.15, 1],
-              x: [0, 40, 0],
-              y: [0, -40, 0]
+              scale: [1, 1.15, 0.95, 1],
+              x: [0, 40, -20, 0],
+              y: [0, -30, 20, 0],
+              rotate: [0, 10, -5, 0]
             }}
-            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
-            className="absolute -top-[15%] -left-[10%] w-[600px] h-[600px] rounded-full"
+            transition={{ duration: 25, repeat: Infinity, ease: [0.45, 0, 0.55, 1] }}
+            className="absolute -top-[10%] -left-[5%] w-[800px] h-[800px] rounded-full"
             style={{
-              background: 'radial-gradient(circle, rgba(0, 135, 255, 0.22) 0%, rgba(0, 135, 255, 0) 70%)',
-              filter: 'blur(60px)',
+              background: 'radial-gradient(circle at 40% 40%, rgba(0, 122, 255, 0.18) 0%, rgba(0, 122, 255, 0.08) 50%, transparent 80%)',
+              filter: 'blur(100px) saturate(220%)',
+              mixBlendMode: 'normal',
+              ...(parallaxActive && transforms.blob1?.style),
             }}
           />
-          {/* Secondary Health Green Blob - Vitality & Wellness */}
+          {/* Secondary Health Green Blob - Vitality & Wellness - ENHANCED */}
           <motion.div
             animate={{
-              scale: [1, 1.2, 1],
-              x: [0, -50, 0],
-              y: [0, 50, 0]
+              scale: [1, 1.2, 0.9, 1],
+              x: [0, -40, 30, 0],
+              y: [0, 40, -20, 0],
+              rotate: [0, -15, 10, 0]
             }}
-            transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
-            className="absolute top-[30%] -right-[12%] w-[550px] h-[550px] rounded-full"
+            transition={{ duration: 30, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 2 }}
+            className="absolute top-[25%] -right-[10%] w-[750px] h-[750px] rounded-full"
             style={{
-              background: 'radial-gradient(circle, rgba(0, 214, 143, 0.18) 0%, rgba(0, 214, 143, 0) 70%)',
-              filter: 'blur(70px)',
+              background: 'radial-gradient(circle at 60% 50%, rgba(52, 199, 89, 0.15) 0%, rgba(52, 199, 89, 0.05) 50%, transparent 80%)',
+              filter: 'blur(120px) saturate(240%)',
+              mixBlendMode: 'normal',
+              ...(parallaxActive && transforms.blob2?.style),
             }}
           />
-          {/* Tertiary Teal Bloom - Balance & Calm */}
+          {/* Tertiary Teal Bloom - Balance & Calm - ENHANCED */}
           <motion.div
             animate={{
-              scale: [1, 1.1, 1],
-              x: [0, 30, 0],
-              y: [0, -25, 0]
+              scale: [1, 1.1, 1, 1],
+              x: [0, 30, -20, 0],
+              y: [0, -25, 30, 0],
             }}
-            transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut', delay: 3 }}
-            className="absolute bottom-[-8%] left-[25%] w-[450px] h-[450px] rounded-full"
+            transition={{ duration: 28, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 4 }}
+            className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] rounded-full"
             style={{
-              background: 'radial-gradient(circle, rgba(20, 184, 166, 0.15) 0%, rgba(20, 184, 166, 0) 70%)',
-              filter: 'blur(55px)',
+              background: 'radial-gradient(circle, rgba(90, 200, 250, 0.18) 0%, rgba(90, 200, 250, 0.05) 60%, transparent 80%)',
+              filter: 'blur(90px) saturate(220%)',
+              mixBlendMode: 'normal',
+              ...(parallaxActive && transforms.blob3?.style),
             }}
           />
-          {/* Accent Deep Blue - Depth */}
+          {/* Accent Deep Blue - Depth - ENHANCED */}
           <motion.div
             animate={{
-              scale: [1, 1.12, 1],
-              rotate: [0, 5, 0]
+              scale: [1, 1.15, 0.95, 1],
+              x: [0, 20, -20, 0],
+              y: [0, -30, 25, 0],
             }}
-            transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-            className="absolute top-[55%] left-[45%] w-[380px] h-[380px] rounded-full"
+            transition={{ duration: 32, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 1 }}
+            className="absolute top-[50%] left-[40%] w-[550px] h-[550px] rounded-full"
             style={{
-              background: 'radial-gradient(circle, rgba(0, 111, 214, 0.12) 0%, rgba(0, 111, 214, 0) 70%)',
-              filter: 'blur(50px)',
+              background: 'radial-gradient(circle, rgba(88, 86, 214, 0.15) 0%, rgba(88, 86, 214, 0.05) 50%, transparent 80%)',
+              filter: 'blur(80px) saturate(210%)',
+              mixBlendMode: 'normal',
+              ...(parallaxActive && transforms.blob4?.style),
+            }}
+          />
+          {/* Violet Depth Layer */}
+          <motion.div
+            animate={{
+              scale: [1, 1.05, 1.1, 1],
+              opacity: [0.4, 0.6, 0.4],
+            }}
+            transition={{ duration: 24, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 5 }}
+            className="absolute top-[10%] right-[15%] w-[500px] h-[500px] rounded-full"
+            style={{
+              background: 'radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, transparent 70%)',
+              filter: 'blur(100px) saturate(230%)',
+              mixBlendMode: 'normal',
             }}
           />
 
-          {/* Subtle Noise Grain - Tactile Texture */}
+          {/* Refined Noise Grain 2026 - Tactile Texture */}
           <div 
-            className="absolute inset-0 opacity-[0.018] dark:opacity-[0.025] pointer-events-none"
+            className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none mix-blend-overlay"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
             }}
@@ -687,6 +739,7 @@ export default function Home() {
                   description: 'Painel de configurações em breve.',
                 })
               }
+              onStartTour={startTour}
             />
           </GlassPanel>
         )}
@@ -927,7 +980,13 @@ export default function Home() {
           </GlassPanel>
         )}
       </main>
-      {/* ... (Modals) */}
+
+      {/* Onboarding Tutorial Overlay */}
+      <OnboardingTutorial
+        isOpen={showOnboarding}
+        onClose={closeTour}
+        onComplete={completeTour}
+      />
     </div>
   )
 }

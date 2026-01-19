@@ -1,0 +1,27 @@
+{
+  "category": "enhancement",
+  "description": "Detect if user has data in clipboard, Google Tasks, Trello, or common formats and show 'Import your existing tasks' button with auto-detection of source format. Make onboarding instant for switchers.\n\n**Rationale:** Users switching from other tools face migration friction. Smart import detection eliminates the blank slate problem and helps users transition seamlessly with their existing workflow.",
+  "title": "Smart Import Suggestions in Empty State",
+  "status": "completed",
+  "id": "feature-1768667467783-ohdjqwo3m",
+  "descriptionHistory": [
+    {
+      "description": "Detect if user has data in clipboard, Google Tasks, Trello, or common formats and show 'Import your existing tasks' button with auto-detection of source format. Make onboarding instant for switchers.\n\n**Rationale:** Users switching from other tools face migration friction. Smart import detection eliminates the blank slate problem and helps users transition seamlessly with their existing workflow.",
+      "timestamp": "2026-01-17T16:31:07.886Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-19T04:07:29.760Z",
+  "updatedAt": "2026-01-19T04:39:09.094Z",
+  "skipTests": false,
+  "model": "opus",
+  "thinkingLevel": "none",
+  "reasoningEffort": "none",
+  "imagePaths": [],
+  "textFilePaths": [],
+  "priority": 2,
+  "planningMode": "skip",
+  "requirePlanApproval": false,
+  "workMode": "custom"
+}

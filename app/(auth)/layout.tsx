@@ -87,7 +87,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <main className="relative z-10 flex flex-1 items-center justify-center p-6">
         <div className="w-full max-w-md lg:max-w-4xl animate-fade-in-up">
           {/* Glass Card Container */}
-          <div className="liquid-glass-material bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/50 dark:border-white/10 rounded-[32px] p-6 lg:p-10 shadow-2xl">
+          <div className="liquid-glass-material rim-light-ios26 inner-glow-ios26 bg-white/60 dark:bg-slate-900/60 backdrop-blur-2xl border border-white/50 dark:border-white/10 rounded-[32px] p-6 lg:p-10 shadow-2xl relative overflow-hidden">
             {children}
           </div>
         </div>

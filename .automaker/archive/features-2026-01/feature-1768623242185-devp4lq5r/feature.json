@@ -1,0 +1,29 @@
+{
+  "category": "Maintenance",
+  "description": "Pull latest from origin/main and resolve conflicts. Merge origin/main into the current branch (main), resolving any merge conflicts that arise. After resolving conflicts, ensure the code compiles and tests pass.",
+  "title": "Resolve Merge Conflicts",
+  "images": [],
+  "imagePaths": [],
+  "skipTests": true,
+  "model": "opus",
+  "thinkingLevel": "none",
+  "branchName": "main",
+  "workMode": "custom",
+  "priority": 1,
+  "planningMode": "skip",
+  "requirePlanApproval": false,
+  "titleGenerating": false,
+  "status": "completed",
+  "dependencies": [],
+  "id": "feature-1768623242185-devp4lq5r",
+  "descriptionHistory": [
+    {
+      "description": "Pull latest from origin/main and resolve conflicts. Merge origin/main into the current branch (main), resolving any merge conflicts that arise. After resolving conflicts, ensure the code compiles and tests pass.",
+      "timestamp": "2026-01-17T04:14:02.318Z",
+      "source": "initial"
+    }
+  ],
+  "startedAt": "2026-01-17T04:14:02.380Z",
+  "updatedAt": "2026-01-17T04:16:59.746Z",
+  "justFinishedAt": "2026-01-17T04:16:59.747Z"
+}

@@ -1,96 +1,109 @@
 /* ========================================
    APPLE LIQUID GLASS 2026 - CSS CUSTOM PROPERTIES
    Design tokens for authentic iOS 26 glassmorphism
-   Medical Edition - Optimized for Healthcare UI
+   Updated to match Apple HIG specifications
    ======================================== */
 
 :root {
-  /* ========== MEDICAL COLOR PALETTE ========== */
-  /* Primary Medical Blue - Trust, Professionalism, Calm */
-  --medical-blue-50: #E6F3FF;
-  --medical-blue-100: #CCE7FF;
-  --medical-blue-200: #99CFFF;
-  --medical-blue-300: #66B7FF;
-  --medical-blue-400: #339FFF;
-  --medical-blue-500: #0087FF;
-  --medical-blue-600: #006FD6;
-  --medical-blue-700: #0057AD;
-  --medical-blue-800: #004E92;
-  --medical-blue-900: #003366;
-  
-  /* Secondary Medical Green - Health, Vitality, Growth */
-  --medical-green-50: #E6FFF5;
-  --medical-green-100: #CCFFEB;
-  --medical-green-200: #99FFD6;
-  --medical-green-300: #66FFC2;
-  --medical-green-400: #33FFAD;
-  --medical-green-500: #00D68F;
-  --medical-green-600: #00B894;
-  --medical-green-700: #009975;
-  --medical-green-800: #007A5E;
-  --medical-green-900: #005C46;
-  
-  /* Accent Teal - Calm, Balance */
-  --medical-teal-500: #14B8A6;
-  --medical-teal-600: #0D9488;
-  
-  /* Status Colors - Medical Context */
-  --medical-safe: #34C759;
-  --medical-warning: #FF9F0A;
-  --medical-critical: #FF3B30;
-  --medical-info: #5AC8FA;
-  
-  /* ========== LIQUID GLASS 2026 TOKENS ========== */
-  /* Enhanced blur and saturation for authentic iOS 26 feel */
-  --liquid-glass-bg: rgba(255, 255, 255, 0.22);
-  --liquid-glass-bg-elevated: rgba(255, 255, 255, 0.32);
-  --liquid-glass-bg-medical: rgba(0, 135, 255, 0.08);
-  --liquid-glass-border: rgba(255, 255, 255, 0.35);
-  --liquid-glass-border-strong: rgba(255, 255, 255, 0.55);
-  --liquid-glass-border-medical: rgba(0, 135, 255, 0.15);
+  /* ========== APPLE SYSTEM COLORS ========== */
+  /* Apple Blue - Primary interactive */
+  --apple-blue: #007AFF;
+  --apple-blue-light: #5AC8FA;
+  --apple-blue-dark: #0056B3;
 
-  /* Blur & Saturation - Enhanced for 2026 */
-  --liquid-glass-blur: 80px;
-  --liquid-glass-blur-mobile: 50px;
-  --liquid-glass-blur-elevated: 100px;
-  --liquid-glass-blur-max: 120px;
-  --liquid-glass-saturate: 200%;
-  --liquid-glass-saturate-elevated: 220%;
+  /* Apple Green - Success, positive */
+  --apple-green: #34C759;
+  --apple-green-light: #30D158;
+  --apple-green-dark: #248A3D;
 
-  /* Shadows - Volumetric with inner glow + medical tint */
-  --liquid-glass-shadow: 
-    0 8px 32px rgba(0, 78, 146, 0.08), 
-    0 2px 8px rgba(0, 0, 0, 0.04),
-    inset 0 1px 1px rgba(255, 255, 255, 0.5);
+  /* Apple Red - Destructive, alerts */
+  --apple-red: #FF3B30;
+  --apple-red-light: #FF6961;
+  --apple-red-dark: #D70015;
+
+  /* Apple Orange - Warning */
+  --apple-orange: #FF9500;
+  --apple-yellow: #FFCC00;
+  --apple-teal: #5AC8FA;
+  --apple-purple: #AF52DE;
+
+  /* Text Colors - Apple Standard */
+  --text-primary: rgba(0, 0, 0, 0.85);
+  --text-secondary: rgba(0, 0, 0, 0.5);
+  --text-tertiary: rgba(0, 0, 0, 0.3);
+
+  /* ========== APPLE LIQUID GLASS 2026 - MATERIAL VARIANTS ========== */
+  /* Based on Apple Human Interface Guidelines iOS 26 */
+
+  /* REGULAR VARIANT - For controls, navigation, alerts, sidebars, popovers */
+  --lg-regular-bg: rgba(255, 255, 255, 0.2);
+  --lg-regular-border: rgba(255, 255, 255, 0.3);
+  --lg-regular-blur: 40px;
+  --lg-regular-saturate: 180%;
+  --lg-regular-specular: 0.6;
+
+  /* CLEAR VARIANT - For components over photos/videos/rich backgrounds */
+  --lg-clear-bg: rgba(255, 255, 255, 0.15);
+  --lg-clear-border: rgba(255, 255, 255, 0.25);
+  --lg-clear-blur: 40px;
+  --lg-clear-saturate: 180%;
+  --lg-clear-specular: 0.4;
+  --lg-clear-dimming: rgba(0, 0, 0, 0.35);
+
+  /* ELEVATED VARIANT - For modals, floating panels, high z-index */
+  --lg-elevated-bg: rgba(255, 255, 255, 0.25);
+  --lg-elevated-border: rgba(255, 255, 255, 0.4);
+  --lg-elevated-blur: 40px;
+  --lg-elevated-saturate: 180%;
+  --lg-elevated-specular: 0.7;
+
+  /* Legacy tokens (mapped to regular variant) */
+  --liquid-glass-bg: var(--lg-regular-bg);
+  --liquid-glass-bg-elevated: var(--lg-elevated-bg);
+  --liquid-glass-bg-medical: rgba(0, 122, 255, 0.08);
+  --liquid-glass-border: var(--lg-regular-border);
+  --liquid-glass-border-strong: var(--lg-elevated-border);
+  --liquid-glass-border-medical: rgba(0, 122, 255, 0.15);
+
+  /* Blur & Saturation - iOS 26 Standard (40px universal) */
+  --liquid-glass-blur: 40px;
+  --liquid-glass-blur-mobile: 40px;
+  --liquid-glass-blur-elevated: 40px;
+  --liquid-glass-blur-max: 40px;
+  --liquid-glass-saturate: 180%;
+  --liquid-glass-saturate-elevated: 180%;
+
+  /* Shadows - Simplified Apple format */
+  --liquid-glass-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
   --liquid-glass-shadow-elevated:
-    0 25px 50px -12px rgba(0, 78, 146, 0.12), 
-    0 8px 24px rgba(0, 0, 0, 0.06),
-    inset 0 1px 2px rgba(255, 255, 255, 0.6);
-  --liquid-glass-shadow-float: 
-    0 30px 60px -15px rgba(0, 78, 146, 0.15),
-    0 15px 30px -10px rgba(0, 0, 0, 0.08);
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  --liquid-glass-shadow-float:
+    0 8px 32px rgba(0, 0, 0, 0.15),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
   --liquid-glass-shadow-glow:
-    0 0 40px rgba(0, 135, 255, 0.15),
-    0 0 80px rgba(0, 184, 148, 0.08);
+    0 0 32px rgba(0, 122, 255, 0.12);
 
-  /* Medical-Themed Glow Shadows */
-  --shadow-glow-blue: 0 4px 24px rgba(0, 135, 255, 0.35);
-  --shadow-glow-blue-intense: 0 8px 40px rgba(0, 135, 255, 0.5);
-  --shadow-glow-blue-soft: 0 4px 20px rgba(0, 135, 255, 0.2);
-  --shadow-glow-green: 0 4px 24px rgba(0, 184, 148, 0.35);
-  --shadow-glow-green-intense: 0 8px 40px rgba(0, 184, 148, 0.5);
-  --shadow-glow-green-soft: 0 4px 20px rgba(0, 184, 148, 0.2);
-  --shadow-glow-teal: 0 4px 24px rgba(20, 184, 166, 0.35);
-  --shadow-glow-red: 0 4px 24px rgba(255, 59, 48, 0.35);
-  --shadow-glow-red-intense: 0 8px 32px rgba(255, 59, 48, 0.45);
+  /* Apple System Glow Shadows */
+  --shadow-glow-blue: 0 4px 24px rgba(0, 122, 255, 0.3);
+  --shadow-glow-blue-intense: 0 8px 32px rgba(0, 122, 255, 0.4);
+  --shadow-glow-blue-soft: 0 4px 20px rgba(0, 122, 255, 0.15);
+  --shadow-glow-green: 0 4px 24px rgba(52, 199, 89, 0.3);
+  --shadow-glow-green-intense: 0 8px 32px rgba(52, 199, 89, 0.4);
+  --shadow-glow-green-soft: 0 4px 20px rgba(52, 199, 89, 0.15);
+  --shadow-glow-teal: 0 4px 24px rgba(90, 200, 250, 0.3);
+  --shadow-glow-red: 0 4px 24px rgba(255, 59, 48, 0.3);
+  --shadow-glow-red-intense: 0 8px 32px rgba(255, 59, 48, 0.4);
 
-  /* Border Radius - Liquid curves (Apple 2026 style) */
-  --liquid-radius-xs: 14px;
-  --liquid-radius-sm: 20px;
-  --liquid-radius-md: 28px;
-  --liquid-radius-lg: 36px;
-  --liquid-radius-xl: 44px;
-  --liquid-radius-2xl: 52px;
+  /* Border Radius - iOS 26 Standard */
+  --liquid-radius-xs: 12px;   /* Buttons, small elements */
+  --liquid-radius-sm: 14px;   /* Buttons, toggles */
+  --liquid-radius-md: 18px;   /* Medium cards, inputs */
+  --liquid-radius-lg: 24px;   /* Large cards, panels */
+  --liquid-radius-xl: 28px;   /* Extra large containers */
+  --liquid-radius-2xl: 32px;  /* Full-size modals */
 
   /* Transitions - Spring physics */
   --lg-transition-smooth: cubic-bezier(0.25, 1, 0.5, 1);
@@ -102,89 +115,101 @@
   /* Noise Texture */
   --noise-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJhIj48ZmVUdXJidWxlbmNlIGJhc2VGcmVxdWVuY3k9Ii43NSIgc3RpdGNoVGlsZXM9InN0aXRjaCIvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNhKSIgb3BhY2l0eT0iLjA1Ii8+PC9zdmc+');
 
-  /* Medical Gradient Presets */
-  --gradient-medical-primary: linear-gradient(135deg, var(--medical-blue-500) 0%, var(--medical-blue-700) 100%);
-  --gradient-medical-secondary: linear-gradient(135deg, var(--medical-green-500) 0%, var(--medical-teal-600) 100%);
-  --gradient-medical-accent: linear-gradient(135deg, var(--medical-blue-400) 0%, var(--medical-green-500) 100%);
-  --gradient-medical-soft: linear-gradient(135deg, rgba(0, 135, 255, 0.1) 0%, rgba(0, 184, 148, 0.1) 100%);
-  --gradient-glass-medical: linear-gradient(
-    145deg,
-    rgba(255, 255, 255, 0.75) 0%,
-    rgba(0, 135, 255, 0.05) 50%,
-    rgba(0, 184, 148, 0.03) 100%
+  /* Gradient Presets */
+  --gradient-primary: linear-gradient(135deg, var(--apple-blue) 0%, var(--apple-blue-dark) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--apple-green) 0%, var(--apple-teal) 100%);
+  --gradient-accent: linear-gradient(135deg, var(--apple-blue-light) 0%, var(--apple-green) 100%);
+  --gradient-soft: linear-gradient(135deg, rgba(0, 122, 255, 0.1) 0%, rgba(52, 199, 89, 0.1) 100%);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.1) 100%
   );
 
   /* Legacy compatibility */
-  --lg-blur: 80px;
-  --lg-saturate: 200%;
-  --lg-radius-xl: 36px;
+  --lg-blur: 40px;
+  --lg-saturate: 180%;
+  --lg-radius-xl: 24px;
   --lg-shadow-base: var(--liquid-glass-shadow);
   --lg-shadow-hover: var(--liquid-glass-shadow-elevated);
   --lg-noise-opacity: 0.025;
-  --lg-specular-intensity: 0.7;
-  --lg-specular-hover: 0.95;
+  --lg-specular-intensity: 0.6;
+  --lg-specular-hover: 0.8;
 }
 
-/* Dark Mode Variants - Medical Edition */
+/* Dark Mode Variants */
 .dark {
-  /* Medical colors adapted for dark mode */
-  --medical-blue-500: #0A9FFF;
-  --medical-green-500: #00E6A0;
-  
-  --liquid-glass-bg: rgba(15, 23, 42, 0.28);
-  --liquid-glass-bg-elevated: rgba(15, 23, 42, 0.38);
-  --liquid-glass-bg-medical: rgba(0, 135, 255, 0.12);
-  --liquid-glass-border: rgba(255, 255, 255, 0.12);
-  --liquid-glass-border-strong: rgba(255, 255, 255, 0.22);
-  --liquid-glass-border-medical: rgba(0, 159, 255, 0.2);
+  /* Text Colors - Dark Mode */
+  --text-primary: rgba(255, 255, 255, 0.9);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-tertiary: rgba(255, 255, 255, 0.4);
 
-  --liquid-glass-shadow: 
-    0 8px 32px rgba(0, 0, 0, 0.35), 
-    0 2px 8px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  /* REGULAR VARIANT - Dark Mode */
+  --lg-regular-bg: rgba(30, 30, 30, 0.25);
+  --lg-regular-border: rgba(255, 255, 255, 0.15);
+  --lg-regular-specular: 0.4;
+
+  /* CLEAR VARIANT - Dark Mode */
+  --lg-clear-bg: rgba(30, 30, 30, 0.18);
+  --lg-clear-border: rgba(255, 255, 255, 0.1);
+  --lg-clear-specular: 0.25;
+  --lg-clear-dimming: rgba(0, 0, 0, 0.45);
+
+  /* ELEVATED VARIANT - Dark Mode */
+  --lg-elevated-bg: rgba(30, 30, 30, 0.32);
+  --lg-elevated-border: rgba(255, 255, 255, 0.2);
+  --lg-elevated-specular: 0.5;
+
+  /* Legacy tokens */
+  --liquid-glass-bg: var(--lg-regular-bg);
+  --liquid-glass-bg-elevated: var(--lg-elevated-bg);
+  --liquid-glass-bg-medical: rgba(0, 122, 255, 0.12);
+  --liquid-glass-border: var(--lg-regular-border);
+  --liquid-glass-border-strong: var(--lg-elevated-border);
+  --liquid-glass-border-medical: rgba(0, 122, 255, 0.2);
+
+  /* Shadows - Dark Mode (simplified) */
+  --liquid-glass-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
   --liquid-glass-shadow-elevated:
-    0 25px 50px -12px rgba(0, 0, 0, 0.5), 
-    0 8px 24px rgba(0, 0, 0, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.15);
-  --liquid-glass-shadow-float: 
-    0 30px 60px -15px rgba(0, 0, 0, 0.55),
-    0 15px 30px -10px rgba(0, 0, 0, 0.3);
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
+  --liquid-glass-shadow-float:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1px rgba(255, 255, 255, 0.1);
   --liquid-glass-shadow-glow:
-    0 0 50px rgba(10, 159, 255, 0.2),
-    0 0 100px rgba(0, 230, 160, 0.1);
+    0 0 32px rgba(0, 122, 255, 0.2);
 
-  /* Medical glows enhanced for dark mode visibility */
-  --shadow-glow-blue: 0 4px 28px rgba(10, 159, 255, 0.4);
-  --shadow-glow-blue-intense: 0 8px 48px rgba(10, 159, 255, 0.55);
-  --shadow-glow-blue-soft: 0 4px 24px rgba(10, 159, 255, 0.25);
-  --shadow-glow-green: 0 4px 28px rgba(0, 230, 160, 0.4);
-  --shadow-glow-green-intense: 0 8px 48px rgba(0, 230, 160, 0.55);
-  --shadow-glow-green-soft: 0 4px 24px rgba(0, 230, 160, 0.25);
-  --shadow-glow-teal: 0 4px 28px rgba(20, 184, 166, 0.4);
-  --shadow-glow-red: 0 4px 28px rgba(255, 69, 58, 0.35);
-  --shadow-glow-red-intense: 0 8px 40px rgba(255, 69, 58, 0.5);
+  /* Apple System Glows - Dark Mode */
+  --shadow-glow-blue: 0 4px 24px rgba(0, 122, 255, 0.35);
+  --shadow-glow-blue-intense: 0 8px 32px rgba(0, 122, 255, 0.5);
+  --shadow-glow-blue-soft: 0 4px 20px rgba(0, 122, 255, 0.2);
+  --shadow-glow-green: 0 4px 24px rgba(52, 199, 89, 0.35);
+  --shadow-glow-green-intense: 0 8px 32px rgba(52, 199, 89, 0.5);
+  --shadow-glow-green-soft: 0 4px 20px rgba(52, 199, 89, 0.2);
+  --shadow-glow-teal: 0 4px 24px rgba(90, 200, 250, 0.35);
+  --shadow-glow-red: 0 4px 24px rgba(255, 59, 48, 0.35);
+  --shadow-glow-red-intense: 0 8px 32px rgba(255, 59, 48, 0.5);
 
   /* Dark mode gradients */
-  --gradient-medical-primary: linear-gradient(135deg, #0A9FFF 0%, #0066CC 100%);
-  --gradient-medical-secondary: linear-gradient(135deg, #00E6A0 0%, #0D9488 100%);
-  --gradient-medical-accent: linear-gradient(135deg, #339FFF 0%, #00D68F 100%);
-  --gradient-medical-soft: linear-gradient(135deg, rgba(10, 159, 255, 0.15) 0%, rgba(0, 230, 160, 0.15) 100%);
-  --gradient-glass-medical: linear-gradient(
-    145deg,
-    rgba(30, 41, 59, 0.8) 0%,
-    rgba(10, 159, 255, 0.08) 50%,
-    rgba(0, 230, 160, 0.05) 100%
+  --gradient-primary: linear-gradient(135deg, var(--apple-blue) 0%, var(--apple-blue-light) 100%);
+  --gradient-secondary: linear-gradient(135deg, var(--apple-green) 0%, var(--apple-teal) 100%);
+  --gradient-glass: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 100%
   );
 
-  --lg-specular-intensity: 0.5;
-  --lg-specular-hover: 0.75;
+  --lg-specular-intensity: 0.4;
+  --lg-specular-hover: 0.6;
 }
 
-/* Mobile Breakpoint - Reduce blur for performance */
+/* Mobile Breakpoint - Consistent blur (40px is already optimized) */
 @media (max-width: 768px) {
   :root {
     --liquid-glass-blur: 40px;
-    --liquid-glass-blur-elevated: 60px;
+    --liquid-glass-blur-elevated: 40px;
     --lg-blur: 40px;
   }
 }
@@ -248,31 +273,78 @@
 /* Glass Card 2026 - Ready-to-use class */
 .glass-card-2026 {
   position: relative;
-  background: var(--liquid-glass-bg);
-  backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
-  -webkit-backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
-  border: 1px solid var(--liquid-glass-border);
-  border-radius: var(--liquid-radius-lg);
-  box-shadow: var(--liquid-glass-shadow);
-  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.25) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+}
+
+/* Light reflection effect */
+.glass-card-2026::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.5),
+    transparent
+  );
+  pointer-events: none;
 }
 
 .glass-card-2026:hover {
-  transform: translateY(-2px) scale(1.005);
-  box-shadow: var(--liquid-glass-shadow-elevated);
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.02);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
 }
 
 /* Glass Elevated 2026 - For sidebar, modals */
 .glass-elevated-2026 {
   position: relative;
-  background: var(--liquid-glass-bg-elevated);
-  backdrop-filter: blur(var(--liquid-glass-blur-elevated))
-    saturate(var(--liquid-glass-saturate-elevated));
-  -webkit-backdrop-filter: blur(var(--liquid-glass-blur-elevated))
-    saturate(var(--liquid-glass-saturate-elevated));
-  border: 1px solid var(--liquid-glass-border-strong);
-  border-radius: var(--liquid-radius-lg);
-  box-shadow: var(--liquid-glass-shadow-float);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    rgba(255, 255, 255, 0.15) 100%
+  );
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 24px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Glass Button Primary - iOS 26 Style */
+.glass-button-primary {
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 14px;
+  color: #007AFF;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.glass-button-primary:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: scale(1.02);
 }
 
 /* Button Glow Classes */
@@ -302,9 +374,216 @@
 
 @layer utilities {
   /* ========================================
-     APPLE LIQUID GLASS iOS 26 UTILITIES v2.0
-     Authentic implementation following WWDC 2025 specs
+     APPLE LIQUID GLASS iOS 26 UTILITIES v3.0
+     Authentic implementation following WWDC 2025 HIG
      ======================================== */
+
+  /* ========== MATERIAL VARIANTS ========== */
+
+  /* REGULAR VARIANT - For controls, navigation, alerts, sidebars, popovers */
+  .liquid-glass-regular {
+    position: relative;
+    background: var(--lg-regular-bg);
+    backdrop-filter: blur(var(--lg-regular-blur)) saturate(var(--lg-regular-saturate));
+    -webkit-backdrop-filter: blur(var(--lg-regular-blur)) saturate(var(--lg-regular-saturate));
+    border: 1px solid var(--lg-regular-border);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      0 2px 8px rgba(0, 0, 0, 0.04),
+      inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .dark .liquid-glass-regular {
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.35),
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* CLEAR VARIANT - For components over photos/videos/rich backgrounds */
+  .liquid-glass-clear {
+    position: relative;
+    background: var(--lg-clear-bg);
+    backdrop-filter: blur(var(--lg-clear-blur)) saturate(var(--lg-clear-saturate));
+    -webkit-backdrop-filter: blur(var(--lg-clear-blur)) saturate(var(--lg-clear-saturate));
+    border: 1px solid var(--lg-clear-border);
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .dark .liquid-glass-clear {
+    box-shadow:
+      0 4px 16px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* 35% Dimming layer for clear variant on bright backgrounds */
+  .liquid-glass-dim::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--lg-clear-dimming);
+    border-radius: inherit;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* ELEVATED VARIANT - For modals, floating panels, high z-index */
+  .liquid-glass-elevated {
+    position: relative;
+    background: var(--lg-elevated-bg);
+    backdrop-filter: blur(var(--lg-elevated-blur)) saturate(var(--lg-elevated-saturate));
+    -webkit-backdrop-filter: blur(var(--lg-elevated-blur)) saturate(var(--lg-elevated-saturate));
+    border: 1px solid var(--lg-elevated-border);
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.15),
+      0 8px 24px rgba(0, 0, 0, 0.08),
+      inset 0 1px 2px rgba(255, 255, 255, 0.6);
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .dark .liquid-glass-elevated {
+    box-shadow:
+      0 25px 50px -12px rgba(0, 0, 0, 0.5),
+      0 8px 24px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  }
+
+  /* ========== SPECULAR HIGHLIGHTS ========== */
+
+  /* Regular specular - higher intensity for navigation elements */
+  .liquid-glass-specular::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 50%;
+    background: radial-gradient(
+      ellipse 80% 40% at 50% 0%,
+      rgba(255, 255, 255, 0.8) 0%,
+      rgba(255, 255, 255, 0.4) 30%,
+      transparent 70%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 20;
+    opacity: var(--lg-regular-specular, 0.7);
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .liquid-glass-specular:hover::after {
+    opacity: calc(var(--lg-regular-specular, 0.7) * 1.3);
+  }
+
+  .dark .liquid-glass-specular::after {
+    opacity: var(--lg-regular-specular, 0.5);
+  }
+
+  /* Clear variant specular - subtler for media overlays */
+  .liquid-glass-specular-clear::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 15%;
+    right: 15%;
+    height: 40%;
+    background: radial-gradient(
+      ellipse 70% 35% at 50% 0%,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.2) 35%,
+      transparent 65%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 20;
+    opacity: var(--lg-clear-specular, 0.5);
+    transition: opacity 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .dark .liquid-glass-specular-clear::after {
+    opacity: var(--lg-clear-specular, 0.3);
+  }
+
+  /* ========== REFRACTION EFFECT ========== */
+
+  /* Content refraction through glass */
+  .liquid-glass-refraction::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 5;
+    mix-blend-mode: overlay;
+  }
+
+  /* ========== SCROLL EDGE EFFECTS ========== */
+
+  /* Top scroll edge blur enhancement */
+  .scroll-edge-top::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 30;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .scroll-edge-top.scrolled::before {
+    opacity: 1;
+  }
+
+  /* Bottom scroll edge */
+  .scroll-edge-bottom::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(
+      to top,
+      rgba(255, 255, 255, 0.3) 0%,
+      transparent 100%
+    );
+    pointer-events: none;
+    z-index: 30;
+  }
+
+  /* ========== SCROLL-REACTIVE HEADER ========== */
+
+  .liquid-glass-header {
+    --header-blur: var(--lg-regular-blur);
+    --header-bg-opacity: 0.22;
+    transition:
+      height 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+      padding 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+      backdrop-filter 0.3s ease;
+  }
+
+  .liquid-glass-header.collapsed {
+    --header-blur: var(--lg-elevated-blur);
+    --header-bg-opacity: 0.32;
+  }
 
   /* 1. RIM-LIGHT AUTÊNTICO - A ASSINATURA DO LIQUID GLASS */
   .liquid-glass-rim {
@@ -333,6 +612,9 @@
 
     /* Mask para mostrar apenas a borda */
     -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
@@ -501,6 +783,9 @@
     -webkit-mask:
       linear-gradient(#fff 0 0) content-box,
       linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     pointer-events: none;
@@ -565,44 +850,45 @@
     --icon-color: 168, 85, 247;
   }
 
-  /* 8. BOTÃO PRIMÁRIO - GLASS GRADIENT */
+  /* 8. BOTÃO PRIMÁRIO - APPLE BLUE TINTED GLASS */
   .btn-primary-glass {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 50%, #1d4ed8 100%);
-    border: none;
-    border-radius: 16px;
+    background: rgba(0, 122, 255, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(0, 122, 255, 0.3);
+    border-radius: 14px;
+    color: #007AFF;
+    font-weight: 600;
     box-shadow:
-      0 8px 24px -6px rgba(37, 99, 235, 0.4),
-      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
-      0 1px 0 0 rgba(255, 255, 255, 0.2) inset;
-    transition: all 0.3s var(--lg-transition-bounce);
+      0 4px 16px rgba(0, 122, 255, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: all 0.2s ease;
   }
 
   .btn-primary-glass::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-
+    left: 10%;
+    right: 10%;
+    height: 1px;
     background: linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.25) 0%,
-      rgba(255, 255, 255, 0.05) 100%
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
     );
-
-    border-radius: 16px 16px 50% 50%;
     pointer-events: none;
   }
 
   .btn-primary-glass:hover {
+    background: rgba(0, 122, 255, 0.3);
+    transform: scale(1.02);
     box-shadow:
-      0 12px 32px -8px rgba(37, 99, 235, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.15) inset,
-      0 1px 0 0 rgba(255, 255, 255, 0.3) inset;
-    transform: translateY(-1px);
+      0 8px 24px rgba(0, 122, 255, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
   }
 
   /* SHIMMER EFFECT para loading */
@@ -636,5 +922,221 @@
     pointer-events: none;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
     mix-blend-mode: overlay;
+  }
+
+  /* 9. GLASS GHOST BUTTON - Transparent secondary actions */
+  .glass-btn-ghost {
+    position: relative;
+    overflow: hidden;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    transition: all 0.3s var(--lg-transition-smooth);
+  }
+
+  .glass-btn-ghost::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.3) 0%,
+      rgba(255, 255, 255, 0.1) 50%,
+      rgba(255, 255, 255, 0.2) 100%
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s var(--lg-transition-smooth);
+  }
+
+  .glass-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.35);
+    box-shadow:
+      0 4px 16px -4px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  }
+
+  .glass-btn-ghost:hover::before {
+    opacity: 1;
+  }
+
+  .glass-btn-ghost:active {
+    transform: scale(0.98);
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .dark .glass-btn-ghost {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .dark .glass-btn-ghost:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow:
+      0 4px 16px -4px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+  }
+
+  /* 10. RIM-LIGHT iOS 26 - Authentic Apple specular border */
+  .rim-light-ios26 {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .rim-light-ios26::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.5px;
+    background: conic-gradient(
+      from 225deg at 50% 50%,
+      rgba(255, 255, 255, 0.9) 0deg,
+      rgba(255, 255, 255, 0.5) 45deg,
+      rgba(255, 255, 255, 0.2) 90deg,
+      rgba(255, 255, 255, 0.1) 135deg,
+      rgba(255, 255, 255, 0.2) 180deg,
+      rgba(255, 255, 255, 0.4) 225deg,
+      rgba(255, 255, 255, 0.6) 270deg,
+      rgba(255, 255, 255, 0.8) 315deg,
+      rgba(255, 255, 255, 0.9) 360deg
+    );
+    -webkit-mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    mask:
+      linear-gradient(#fff 0 0) content-box,
+      linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0.85;
+  }
+
+  .dark .rim-light-ios26::before {
+    opacity: 0.5;
+    background: conic-gradient(
+      from 225deg at 50% 50%,
+      rgba(255, 255, 255, 0.6) 0deg,
+      rgba(255, 255, 255, 0.3) 45deg,
+      rgba(255, 255, 255, 0.1) 90deg,
+      rgba(255, 255, 255, 0.05) 135deg,
+      rgba(255, 255, 255, 0.1) 180deg,
+      rgba(255, 255, 255, 0.2) 225deg,
+      rgba(255, 255, 255, 0.4) 270deg,
+      rgba(255, 255, 255, 0.5) 315deg,
+      rgba(255, 255, 255, 0.6) 360deg
+    );
+  }
+
+  /* 11. INNER GLOW iOS 26 - Top specular highlight */
+  .inner-glow-ios26 {
+    position: relative;
+    box-shadow: 
+      inset 0 1px 1px rgba(255, 255, 255, 0.5), 
+      inset 0 -1px 1px rgba(255, 255, 255, 0.1);
+  }
+
+  .inner-glow-ios26::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 5%;
+    right: 5%;
+    height: 45%;
+    background: radial-gradient(
+      ellipse 100% 70% at 50% 0%,
+      rgba(255, 255, 255, 0.6) 0%,
+      rgba(255, 255, 255, 0.3) 25%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 70%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 5;
+    opacity: 0.9;
+    transition: opacity 0.5s var(--lg-transition-smooth);
+  }
+
+  .inner-glow-ios26:hover::after {
+    opacity: 1;
+  }
+
+  .dark .inner-glow-ios26::after {
+    opacity: 0.5;
+    background: radial-gradient(
+      ellipse 100% 70% at 50% 0%,
+      rgba(255, 255, 255, 0.35) 0%,
+      rgba(255, 255, 255, 0.15) 25%,
+      rgba(255, 255, 255, 0.05) 50%,
+      transparent 70%
+    );
+  }
+
+  .dark .inner-glow-ios26:hover::after {
+    opacity: 0.65;
+  }
+
+  /* 11.5 GLASS CARD REFLECTION - Subtle top specular highlight for cards */
+  .glass-card-reflection {
+    position: relative;
+  }
+
+  .glass-card-reflection::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.5),
+      transparent
+    );
+    pointer-events: none;
+    z-index: 10;
+    border-radius: inherit;
+  }
+
+  .dark .glass-card-reflection::before {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.25),
+      transparent
+    );
+  }
+
+  /* 12. LIQUID GLASS MATERIAL - Base glass surface */
+  .liquid-glass-material {
+    background: var(--liquid-glass-bg);
+    backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
+    border: 1px solid var(--liquid-glass-border);
+    box-shadow: var(--liquid-glass-shadow);
+  }
+
+  .liquid-glass-material-elevated {
+    background: var(--liquid-glass-bg-elevated);
+    backdrop-filter: blur(var(--liquid-glass-blur-elevated)) saturate(var(--liquid-glass-saturate-elevated));
+    -webkit-backdrop-filter: blur(var(--liquid-glass-blur-elevated)) saturate(var(--liquid-glass-saturate-elevated));
+    border: 1px solid var(--liquid-glass-border-strong);
+    box-shadow: var(--liquid-glass-shadow-elevated);
   }
 }

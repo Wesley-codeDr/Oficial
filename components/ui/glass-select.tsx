@@ -30,7 +30,7 @@ export interface GlassSelectProps extends Omit<
 // ==================== SUB-COMPONENTS ====================
 
 const GlassSelect = React.forwardRef<
-  React.ElementRef<typeof SelectPrimitive.Root>,
+  HTMLButtonElement,
   GlassSelectProps
 >(
   (

@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Lock, User, FileText, MapPin, CheckCircle } from 'lucide-react'
+import { Mail, Lock, User, FileText, MapPin, CheckCircle, AlertCircle } from 'lucide-react'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -54,11 +54,12 @@ export function RegisterForm() {
         transition={{ type: 'spring', stiffness: 300, damping: 25 }}
         className="space-y-6 text-center"
       >
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-green-500/10 backdrop-blur-sm border border-green-500/30 shadow-lg shadow-green-500/10">
-          <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
+        {/* Success Icon - Glass Pill iOS 26 */}
+        <div className="glass-pill mx-auto flex h-16 w-16 items-center justify-center !rounded-2xl !bg-green-500/10 dark:!bg-green-500/15 !border-green-500/30 shadow-lg shadow-green-500/10">
+          <CheckCircle className="h-8 w-8 text-green-600 dark:text-green-400 icon-glow-subtle" />
         </div>
         <div className="space-y-2">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
@@ -66,7 +67,7 @@ export function RegisterForm() {
           >
             Conta criada com sucesso!
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
@@ -81,17 +82,19 @@ export function RegisterForm() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Button 
-            asChild 
+          {/* Success Button - Glass Primary Green iOS 26 */}
+          <Button
+            asChild
             className={`
-              w-full h-11 rounded-2xl
+              w-full h-[52px] rounded-2xl
+              btn-primary-glass
               font-semibold text-[15px] tracking-tight
-              bg-gradient-to-r from-green-500 to-green-600
+              !bg-gradient-to-r !from-green-500 !to-green-600
               text-white
-              shadow-lg shadow-green-500/30
-              hover:shadow-xl hover:shadow-green-500/40
-              hover:scale-105
-              active:scale-95
+              !shadow-[0_8px_24px_-6px_rgba(34,197,94,0.4),0_0_0_1px_rgba(255,255,255,0.1)_inset,0_1px_0_0_rgba(255,255,255,0.2)_inset]
+              hover:!shadow-[0_12px_32px_-8px_rgba(34,197,94,0.5),0_0_0_1px_rgba(255,255,255,0.15)_inset,0_1px_0_0_rgba(255,255,255,0.3)_inset]
+              hover:-translate-y-0.5
+              active:translate-y-0 active:scale-[0.98]
               transition-all duration-300 ease-out
             `}
           >
@@ -116,20 +119,16 @@ export function RegisterForm() {
       initial="hidden"
       animate="visible"
     >
-      {/* Error State */}
+      {/* Enhanced Error State - Glass Pill iOS 26 */}
       {state.error && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: -10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="flex items-start gap-3 rounded-2xl bg-red-500/10 backdrop-blur-sm border border-red-500/30 p-4 shadow-lg shadow-red-500/5"
+          className="glass-pill flex items-start gap-3 !rounded-2xl !bg-red-500/10 dark:!bg-red-500/15 !border-red-500/30 p-4 shadow-lg shadow-red-500/10"
         >
-          <div className="flex-shrink-0 mt-0.5 text-red-500 dark:text-red-400">
-            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <line x1="12" y1="8" x2="12" y2="12" />
-              <line x1="12" y1="16" x2="12.01" y2="16" />
-            </svg>
+          <div className="flex-shrink-0 mt-0.5">
+            <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 icon-glow-subtle" />
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-red-600 dark:text-red-400">Erro ao criar conta</p>
@@ -224,20 +223,20 @@ export function RegisterForm() {
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">Minimo de 6 caracteres</p>
       </motion.div>
 
-      {/* Submit Button */}
+      {/* Submit Button - Glass Primary iOS 26 */}
       <motion.div variants={itemVariants} className="pt-3">
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
+          size="lg"
           className={`
             w-full h-[52px] rounded-2xl
+            btn-primary-glass
             font-semibold text-[15px] tracking-tight
-            bg-gradient-to-r from-blue-500 to-blue-600
             text-white
             shadow-lg shadow-blue-500/30
             hover:shadow-xl hover:shadow-blue-500/40
             hover:-translate-y-0.5
-            hover:from-blue-600 hover:to-blue-700
-            active:translate-y-0 active:shadow-md
+            active:translate-y-0 active:scale-[0.98]
             transition-all duration-300 ease-out
             disabled:opacity-60 disabled:cursor-not-allowed
             disabled:hover:translate-y-0 disabled:hover:shadow-lg

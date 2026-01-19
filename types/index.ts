@@ -2,3 +2,4 @@
 export * from './medical'
 export * from './auth'
 export * from './api'
+export * from './kanban'

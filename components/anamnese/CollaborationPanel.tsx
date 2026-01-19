@@ -49,13 +49,24 @@ export function CollaborationPanel({ sessionId }: CollaborationPanelProps) {
   }, [sessionId])
 
   return (
-    <aside className="p-2 rounded-[12px] bg-[#F2F2F7] dark:bg-[#2C2C2E]" aria-label="Colaboração multiprofissional">
-      <div className="text-[13px] text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.6)]">Participantes</div>
-      <ul className="mt-1 space-y-1" aria-live="polite">
+    <aside
+      className="p-4 rounded-[24px] backdrop-blur-[40px] saturate-[180%] bg-white/55 dark:bg-[rgba(30,30,30,0.55)] border border-white/40 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.3)]"
+      aria-label="Colaboração multiprofissional"
+    >
+      <div className="text-[13px] font-semibold uppercase tracking-wider text-[rgba(0,0,0,0.5)] dark:text-[rgba(255,255,255,0.5)]">
+        Participantes
+      </div>
+      <ul className="mt-2 space-y-1.5" aria-live="polite">
         {users.map((u) => (
-          <li key={u.id} className="text-[14px] text-black dark:text-white">{u.name ?? 'Usuário'}{u.role ? ` — ${u.role}` : ''}</li>
+          <li key={u.id} className="text-[14px] text-[rgba(0,0,0,0.85)] dark:text-white">
+            {u.name ?? 'Usuário'}{u.role ? ` — ${u.role}` : ''}
+          </li>
         ))}
-        {!users.length && <li className="text-[14px] text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.6)]">Sem participantes</li>}
+        {!users.length && (
+          <li className="text-[14px] text-[rgba(0,0,0,0.45)] dark:text-[rgba(255,255,255,0.5)]">
+            Sem participantes
+          </li>
+        )}
       </ul>
     </aside>
   )

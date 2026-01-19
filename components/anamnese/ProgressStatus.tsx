@@ -8,16 +8,29 @@ export interface ProgressStatusProps {
 }
 
 export function ProgressStatus({ progress, severity }: ProgressStatusProps) {
-  const color = severity === 'critical' ? '#FF3B30' : severity === 'high' ? '#FF9500' : severity === 'moderate' ? '#0A84FF' : '#34C759'
+  const color = severity === 'critical' ? '#FF3B30' : severity === 'high' ? '#FF9500' : severity === 'moderate' ? '#007AFF' : '#34C759'
 
   return (
-    <div className="space-y-1" aria-label="Indicadores de progresso e severidade">
+    <div className="space-y-2" aria-label="Indicadores de progresso e severidade">
       <div className="flex items-center justify-between">
-        <span className="text-[13px] text-[rgba(60,60,67,0.6)] dark:text-[rgba(235,235,245,0.6)]">Progresso</span>
-        <span className="text-[13px]" style={{ color }}>{severity.toUpperCase()}</span>
+        <span className="text-[13px] font-medium text-[rgba(0,0,0,0.5)] dark:text-[rgba(255,255,255,0.5)]">
+          Progresso
+        </span>
+        <span className="text-[13px] font-semibold" style={{ color }}>
+          {severity.toUpperCase()}
+        </span>
       </div>
-      <div className="h-2 rounded-[8px] bg-[#F2F2F7] dark:bg-[#2C2C2E] overflow-hidden" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
-        <div className="h-full" style={{ width: `${progress}%`, backgroundColor: color }} />
+      <div
+        className="h-2.5 rounded-[12px] backdrop-blur-[20px] bg-white/40 dark:bg-[rgba(30,30,30,0.4)] border border-white/30 dark:border-white/15 overflow-hidden"
+        role="progressbar"
+        aria-valuenow={progress}
+        aria-valuemin={0}
+        aria-valuemax={100}
+      >
+        <div
+          className="h-full rounded-[12px] transition-all duration-300"
+          style={{ width: `${progress}%`, backgroundColor: color, opacity: 0.8 }}
+        />
       </div>
     </div>
   )

@@ -47,16 +47,16 @@ export function LoginForm() {
       initial="hidden"
       animate="visible"
     >
-      {/* Enhanced Error State */}
+      {/* Enhanced Error State - Glass Pill iOS 26 */}
       {state.error && (
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: -10 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 25 }}
-          className="flex items-start gap-3 rounded-2xl bg-red-500/10 backdrop-blur-sm border border-red-500/30 p-4 shadow-lg shadow-red-500/5"
+          className="glass-pill flex items-start gap-3 !rounded-2xl !bg-red-500/10 dark:!bg-red-500/15 !border-red-500/30 p-4 shadow-lg shadow-red-500/10"
         >
           <div className="flex-shrink-0 mt-0.5">
-            <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400" />
+            <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 icon-glow-subtle" />
           </div>
           <div className="flex-1">
             <p className="text-sm font-medium text-red-600 dark:text-red-400">Erro ao entrar</p>
@@ -110,21 +110,20 @@ export function LoginForm() {
         />
       </motion.div>
 
-      {/* Submit Button with Enhanced Gradient and Lift Effect */}
+      {/* Submit Button - Glass Primary iOS 26 */}
       <motion.div variants={itemVariants} className="pt-3">
-        <Button 
-          type="submit" 
-          size="lg" 
+        <Button
+          type="submit"
+          size="lg"
           className={`
             w-full h-[52px] rounded-2xl
+            btn-primary-glass
             font-semibold text-[15px] tracking-tight
-            bg-gradient-to-r from-blue-500 to-blue-600
             text-white
             shadow-lg shadow-blue-500/30
             hover:shadow-xl hover:shadow-blue-500/40
             hover:-translate-y-0.5
-            hover:from-blue-600 hover:to-blue-700
-            active:translate-y-0 active:shadow-md
+            active:translate-y-0 active:scale-[0.98]
             transition-all duration-300 ease-out
             disabled:opacity-60 disabled:cursor-not-allowed
             disabled:hover:translate-y-0 disabled:hover:shadow-lg

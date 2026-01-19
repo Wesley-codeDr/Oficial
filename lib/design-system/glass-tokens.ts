@@ -1,19 +1,92 @@
 /**
  * Apple Liquid Glass iOS 26 - Design Tokens
- * 
+ *
  * Centralized design tokens for consistent Liquid Glass implementation
  * across the WellWave application.
+ *
+ * Based on Apple Human Interface Guidelines WWDC 2025
+ * https://developer.apple.com/design/human-interface-guidelines/materials
  */
+
+// ==================== APPLE LIQUID GLASS iOS 26 SPECS ====================
+
+/**
+ * Apple Liquid Glass Material Values (iOS 26 Standard)
+ * Universal blur: 40px
+ * Saturate: 180%
+ * Background opacity: 0.15-0.25 range
+ */
+export const appleLiquidGlassSpecs = {
+  regular: {
+    blur: 40,
+    backgroundOpacity: { light: 0.2, dark: 0.25 },
+    borderOpacity: { light: 0.3, dark: 0.15 },
+    specularIntensity: { light: 0.6, dark: 0.4 },
+    saturate: 180,
+  },
+  clear: {
+    blur: 40,
+    backgroundOpacity: { light: 0.15, dark: 0.18 },
+    borderOpacity: { light: 0.25, dark: 0.1 },
+    specularIntensity: { light: 0.4, dark: 0.25 },
+    saturate: 180,
+    dimmingOpacity: 0.35,
+  },
+  elevated: {
+    blur: 40,
+    backgroundOpacity: { light: 0.25, dark: 0.32 },
+    borderOpacity: { light: 0.4, dark: 0.2 },
+    specularIntensity: { light: 0.7, dark: 0.5 },
+    saturate: 180,
+  },
+} as const;
+
+/**
+ * Apple System Colors (iOS 26)
+ */
+export const appleSystemColors = {
+  blue: '#007AFF',
+  green: '#34C759',
+  red: '#FF3B30',
+  orange: '#FF9500',
+  yellow: '#FFCC00',
+  teal: '#5AC8FA',
+  purple: '#AF52DE',
+} as const;
 
 // ==================== MATERIAL VARIANTS ====================
 
 export const glassMaterial = {
   /**
-   * Standard liquid glass material
+   * Regular variant - Apple Liquid Glass 2026
+   * Use for controls/navigation: tab bars, sidebars, alerts, popovers
+   * Blurs and adjusts luminosity, scroll edge effects
+   */
+  regular: `
+    liquid-glass-regular
+    rim-light-ios26
+    liquid-glass-specular
+    noise-grain
+  `,
+
+  /**
+   * Clear variant - Apple Liquid Glass 2026
+   * Use for components over photos/videos/rich backgrounds
+   * Highly translucent with 35% dimming layer option
+   */
+  clear: `
+    liquid-glass-clear
+    rim-light-ios26
+    liquid-glass-specular-clear
+    noise-grain
+  `,
+
+  /**
+   * Standard liquid glass material (alias for regular)
    * Use for most UI components
    */
   base: `
-    liquid-glass-material
+    liquid-glass-regular
     rim-light-ios26
     liquid-glass-specular
     noise-grain
@@ -21,10 +94,10 @@ export const glassMaterial = {
 
   /**
    * Elevated glass material
-   * More prominent, higher z-index elements
+   * More prominent, higher z-index elements (modals, floating panels)
    */
   elevated: `
-    liquid-glass-material
+    liquid-glass-elevated
     rim-light-ios26
     liquid-glass-specular
     noise-grain
@@ -36,9 +109,9 @@ export const glassMaterial = {
    * More transparent, lighter feel
    */
   subtle: `
-    backdrop-blur-xl
-    bg-white/30 dark:bg-slate-800/30
-    border border-white/30 dark:border-white/10
+    backdrop-blur-[60px] saturate-[180%]
+    bg-white/15 dark:bg-slate-900/20
+    border border-white/20 dark:border-white/08
   `,
 
   /**
@@ -46,7 +119,7 @@ export const glassMaterial = {
    * Less transparent, more opaque
    */
   solid: `
-    backdrop-blur-xl
+    backdrop-blur-[80px] saturate-[200%]
     bg-white/70 dark:bg-slate-800/70
     border border-white/40 dark:border-white/20
   `,
@@ -63,79 +136,105 @@ export const glassMaterial = {
 
 // ==================== RADIUS TOKENS ====================
 
+/**
+ * iOS 26 Border Radius Standard
+ * Large cards: 24-32px
+ * Medium cards: 18-22px
+ * Buttons/small: 12-16px
+ */
 export const glassRadius = {
-  xs: 'rounded-lg',      // 8px
-  sm: 'rounded-xl',     // 12px
-  md: 'rounded-2xl',    // 16px - Apple squircle
-  lg: 'rounded-3xl',    // 24px
-  xl: 'rounded-[32px]', // 32px
-  '2xl': 'rounded-[40px]', // 40px
-  full: 'rounded-full', // 9999px
+  xs: 'rounded-[12px]',   // 12px - Small buttons, icons
+  sm: 'rounded-[14px]',   // 14px - Standard buttons, toggles
+  md: 'rounded-[18px]',   // 18px - Medium cards, inputs
+  lg: 'rounded-[24px]',   // 24px - Large cards, panels
+  xl: 'rounded-[28px]',   // 28px - Extra large containers
+  '2xl': 'rounded-[32px]', // 32px - Full modals
+  full: 'rounded-full',   // 9999px - Circular (icons at 50%)
+} as const;
+
+/**
+ * Raw pixel values for use in inline styles
+ */
+export const glassRadiusPx = {
+  xs: 12,
+  sm: 14,
+  md: 18,
+  lg: 24,
+  xl: 28,
+  '2xl': 32,
 } as const;
 
 // ==================== BLUR TOKENS ====================
 
+/**
+ * iOS 26 Standard: 40px universal blur
+ */
 export const glassBlur = {
   none: 'backdrop-blur-none',
-  sm: 'backdrop-blur-sm',   // 12px
-  md: 'backdrop-blur-md',   // 16px
-  lg: 'backdrop-blur-xl',   // 40px - Apple standard
-  xl: 'backdrop-blur-2xl',  // 80px
-  '2xl': 'backdrop-blur-[100px]', // 100px
+  sm: 'backdrop-blur-[20px]',   // 20px - Button blur
+  md: 'backdrop-blur-[40px]',   // 40px - Standard (iOS 26)
+  lg: 'backdrop-blur-[40px]',   // 40px - Same as standard
+  xl: 'backdrop-blur-[40px]',   // 40px - Same as standard
+  '2xl': 'backdrop-blur-[40px]', // 40px - Same as standard
 } as const;
 
 // ==================== SHADOW TOKENS ====================
 
+/**
+ * iOS 26 Simplified Shadow Format
+ * box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+ * box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+ */
 export const glassShadow = {
   /**
    * Base shadow for standard glass elements
    */
   base: `
-    shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15)]
-    shadow-[inset_0_1px_0_rgba(255,255,255,0.9)]
-    dark:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.4)]
-    dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.15)]
+    shadow-[0_8px_32px_rgba(0,0,0,0.1)]
+    shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]
+    dark:shadow-[0_8px_32px_rgba(0,0,0,0.25)]
+    dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]
   `,
 
   /**
    * Elevated shadow for higher z-index
    */
   elevated: `
-    shadow-[0_35px_60px_-15px_rgba(0,0,0,0.2)]
-    shadow-[inset_0_2px_0_rgba(255,255,255,0.9)]
-    dark:shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)]
-    dark:shadow-[inset_0_2px_0_rgba(255,255,255,0.15)]
+    shadow-[0_8px_32px_rgba(0,0,0,0.12)]
+    shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)]
+    dark:shadow-[0_8px_32px_rgba(0,0,0,0.35)]
+    dark:shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]
   `,
 
   /**
    * Inset shadow for depth
    */
   inset: `
-    shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]
+    shadow-[inset_0_1px_1px_rgba(255,255,255,0.1)]
   `,
 
   /**
    * Glow shadow for focus states
    */
   glow: `
-    shadow-[0_0_20px_rgba(0,122,255,0.25)]
-    dark:shadow-[0_0_30px_rgba(0,122,255,0.4)]
+    shadow-[0_0_32px_rgba(0,122,255,0.12)]
+    dark:shadow-[0_0_32px_rgba(0,122,255,0.2)]
   `,
 
   /**
    * Error state glow
    */
   glowError: `
-    shadow-[0_0_20px_rgba(255,59,48,0.25)]
-    dark:shadow-[0_0_30px_rgba(255,59,48,0.4)]
+    shadow-[0_4px_24px_rgba(255,59,48,0.3)]
+    dark:shadow-[0_4px_24px_rgba(255,59,48,0.35)]
   `,
 
   /**
    * Success state glow
    */
   glowSuccess: `
-    shadow-[0_0_20px_rgba(52,199,89,0.25)]
-    dark:shadow-[0_0_30px_rgba(52,199,89,0.4)]
+    shadow-[0_4px_24px_rgba(52,199,89,0.3)]
+    dark:shadow-[0_4px_24px_rgba(52,199,89,0.35)]
   `,
 } as const;
 
@@ -146,9 +245,9 @@ export const glassColors = {
    * Background colors
    */
   background: {
-    light: 'bg-white/55',
-    lightSubtle: 'bg-white/40',
-    lightSolid: 'bg-white/70',
+    light: 'bg-white/25',
+    lightSubtle: 'bg-white/15',
+    lightSolid: 'bg-white/50',
     dark: 'bg-slate-900/65',
     darkSubtle: 'bg-slate-800/40',
     darkSolid: 'bg-slate-800/70',
@@ -354,12 +453,112 @@ export const glassPresets = {
 
 // ==================== EXPORTS ====================
 
+// ==================== SCROLL-REACTIVE BEHAVIOR ====================
+
+/**
+ * Scroll-reactive animations for headers and tab bars
+ * Tab bars shrink on scroll, fluidly expand on scroll back
+ */
+export const scrollBehavior = {
+  /**
+   * Header shrink animation values (iOS 26: 40px universal blur)
+   */
+  header: {
+    expanded: {
+      height: 64,
+      padding: 16,
+      blur: 40,
+      opacity: 0.2,
+    },
+    collapsed: {
+      height: 48,
+      padding: 8,
+      blur: 40,
+      opacity: 0.25,
+    },
+    threshold: 50, // px scroll before starting shrink
+    transitionDuration: 200, // ms (faster: 0.2s)
+  },
+  /**
+   * Tab bar shrink animation
+   */
+  tabBar: {
+    expanded: {
+      height: 56,
+      iconSize: 24,
+      labelOpacity: 1,
+    },
+    collapsed: {
+      height: 44,
+      iconSize: 20,
+      labelOpacity: 0,
+    },
+    threshold: 100,
+  },
+} as const;
+
+// ==================== REFRACTION EFFECTS ====================
+
+/**
+ * Refraction gradient for content showing through glass
+ */
+export const refractionEffect = {
+  /**
+   * Default refraction gradient
+   */
+  default: `
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(255, 255, 255, 0) 100%
+    )
+  `,
+  /**
+   * Enhanced refraction for elevated glass
+   */
+  elevated: `
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.03) 50%,
+      rgba(255, 255, 255, 0) 100%
+    )
+  `,
+} as const;
+
+// ==================== SCROLL EDGE EFFECTS ====================
+
+/**
+ * Scroll edge blur enhancement for navigation elements
+ */
+export const scrollEdgeEffect = {
+  /**
+   * Top edge blur gradient
+   */
+  top: 'linear-gradient(to bottom, rgba(255,255,255,0.3) 0%, transparent 100%)',
+  /**
+   * Bottom edge blur gradient
+   */
+  bottom: 'linear-gradient(to top, rgba(255,255,255,0.3) 0%, transparent 100%)',
+  /**
+   * Scroll indicator fade
+   */
+  indicator: {
+    height: 40,
+    opacity: 0.6,
+  },
+} as const;
+
 /**
  * Default export containing all tokens
  */
 export const glassTokens = {
+  specs: appleLiquidGlassSpecs,
+  systemColors: appleSystemColors,
   material: glassMaterial,
   radius: glassRadius,
+  radiusPx: glassRadiusPx,
   blur: glassBlur,
   shadow: glassShadow,
   colors: glassColors,
@@ -367,6 +566,9 @@ export const glassTokens = {
   styles: glassStyles,
   focusRing: glassFocusRing,
   presets: glassPresets,
+  scrollBehavior,
+  refractionEffect,
+  scrollEdgeEffect,
 } as const;
 
 export default glassTokens;

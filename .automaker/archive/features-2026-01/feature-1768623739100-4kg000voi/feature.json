@@ -1,0 +1,294 @@
+{
+  "category": "Maintenance",
+  "description": "Comprehensive Codebase Refactoring and Project Organization\n\nPerform a complete refactoring of the project codebase to improve code quality, maintainability, and organizational structure.\n\nRequirements:\n- Analyze current project structure and identify organizational issues\n- Create a logical folder/directory structure following industry best practices\n- Group related files by feature, domain, or layer (components, services, utilities, etc.)\n- Refactor code to follow consistent coding standards and conventions\n- Remove duplicate code and extract reusable functions/components\n- Improve naming conventions for files, folders, variables, and functions\n- Separate concerns properly (business logic, presentation, data access)\n- Add or improve code documentation and comments where needed\n- Ensure proper module boundaries and reduce coupling between components\n- Update import paths to reflect new structure\n- Verify all functionality works after refactoring through testing\n\nOrganizational Goals:\n- Clear separation between source code, tests, configuration, and assets\n- Consistent file naming scheme throughout the project\n- Logical grouping that makes code easy to find and navigate\n- Scalable structure that accommodates future growth\n\nCode Quality Goals:\n- Eliminate code smells and anti-patterns\n- Improve readability and maintainability\n- Follow SOLID principles and design patterns where appropriate\n- Ensure consistent code formatting and style",
+  "title": "Passo inicial",
+  "images": [],
+  "imagePaths": [],
+  "textFilePaths": [],
+  "skipTests": false,
+  "model": "opus",
+  "thinkingLevel": "none",
+  "reasoningEffort": "none",
+  "branchName": null,
+  "priority": 2,
+  "planningMode": "spec",
+  "requirePlanApproval": true,
+  "dependencies": [],
+  "workMode": "auto",
+  "titleGenerating": false,
+  "status": "verified",
+  "id": "feature-1768623739100-4kg000voi",
+  "descriptionHistory": [
+    {
+      "description": "Comprehensive Codebase Refactoring and Project Organization\n\nPerform a complete refactoring of the project codebase to improve code quality, maintainability, and organizational structure.\n\nRequirements:\n- Analyze current project structure and identify organizational issues\n- Create a logical folder/directory structure following industry best practices\n- Group related files by feature, domain, or layer (components, services, utilities, etc.)\n- Refactor code to follow consistent coding standards and conventions\n- Remove duplicate code and extract reusable functions/components\n- Improve naming conventions for files, folders, variables, and functions\n- Separate concerns properly (business logic, presentation, data access)\n- Add or improve code documentation and comments where needed\n- Ensure proper module boundaries and reduce coupling between components\n- Update import paths to reflect new structure\n- Verify all functionality works after refactoring through testing\n\nOrganizational Goals:\n- Clear separation between source code, tests, configuration, and assets\n- Consistent file naming scheme throughout the project\n- Logical grouping that makes code easy to find and navigate\n- Scalable structure that accommodates future growth\n\nCode Quality Goals:\n- Eliminate code smells and anti-patterns\n- Improve readability and maintainability\n- Follow SOLID principles and design patterns where appropriate\n- Ensure consistent code formatting and style",
+      "timestamp": "2026-01-17T04:22:19.254Z",
+      "source": "initial"
+    }
+  ],
+  "startedAt": "2026-01-17T05:55:01.030Z",
+  "updatedAt": "2026-01-17T05:59:19.534Z",
+  "planSpec": {
+    "status": "approved",
+    "version": 1,
+    "reviewedByUser": true,
+    "generatedAt": "2026-01-17T04:25:25.350Z",
+    "tasks": [
+      {
+        "id": "T001",
+        "description": "Create Glass component consolidation directory structure",
+        "filePath": "components/ui/glass/",
+        "status": "pending"
+      },
+      {
+        "id": "T002",
+        "description": "Audit and merge glass-button variants into unified component",
+        "filePath": "components/ui/glass/glass-button.tsx",
+        "status": "pending"
+      },
+      {
+        "id": "T003",
+        "description": "Audit and merge glass-input variants into unified component",
+        "filePath": "components/ui/glass/glass-input.tsx",
+        "status": "pending"
+      },
+      {
+        "id": "T004",
+        "description": "Audit and merge glass-checkbox variants into unified component",
+        "filePath": "components/ui/glass/glass-checkbox.tsx",
+        "status": "pending"
+      },
+      {
+        "id": "T005",
+        "description": "Audit and merge glass-card variants into unified component",
+        "filePath": "components/ui/glass/glass-card.tsx",
+        "status": "pending"
+      },
+      {
+        "id": "T006",
+        "description": "Move and consolidate glass-panel component",
+        "filePath": "components/ui/glass/glass-panel.tsx",
+        "status": "pending"
+      },
+      {
+        "id": "T007",
+        "description": "Audit and merge glass-select variants into unified component",
+        "filePath": "components/ui/glass/glass-select.tsx",
+        "status": "pending"
+      },
+      {
+        "id": "T008",
+        "description": "Audit and merge glass-textarea variants into unified component",
+        "filePath": "components/ui/glass/glass-textarea.tsx",
+        "status": "pending"
+      },
+      {
+        "id": "T009",
+        "description": "Create Glass components barrel export",
+        "filePath": "components/ui/glass/index.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T010",
+        "description": "Update all imports using old Glass component paths",
+        "filePath": "multiple",
+        "status": "pending"
+      },
+      {
+        "id": "T011",
+        "description": "Delete deprecated medical/glass-inputs directory",
+        "filePath": "components/medical/glass-inputs/",
+        "status": "pending"
+      },
+      {
+        "id": "T012",
+        "description": "Delete deprecated ui/ios directory",
+        "filePath": "components/ui/ios/",
+        "status": "pending"
+      },
+      {
+        "id": "T013",
+        "description": "Audit complaints data files to identify active/deprecated code",
+        "filePath": "lib/data/",
+        "status": "pending"
+      },
+      {
+        "id": "T014",
+        "description": "Create complaints data directory structure",
+        "filePath": "lib/data/complaints/",
+        "status": "pending"
+      },
+      {
+        "id": "T015",
+        "description": "Consolidate complaint definitions into single source",
+        "filePath": "lib/data/complaints/complaint-definitions.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T016",
+        "description": "Consolidate checkbox mappings",
+        "filePath": "lib/data/complaints/checkbox-mappings.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T017",
+        "description": "Consolidate complaint groups",
+        "filePath": "lib/data/complaints/groups.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T018",
+        "description": "Move and update search index",
+        "filePath": "lib/data/complaints/search-index.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T019",
+        "description": "Create complaints barrel export",
+        "filePath": "lib/data/complaints/index.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T020",
+        "description": "Update all imports using old complaints data paths",
+        "filePath": "multiple",
+        "status": "pending"
+      },
+      {
+        "id": "T021",
+        "description": "Delete deprecated complaints data files",
+        "filePath": "lib/data/",
+        "status": "pending"
+      },
+      {
+        "id": "T022",
+        "description": "Audit types in /types/ and /lib/types/ for overlap",
+        "filePath": "types/, lib/types/",
+        "status": "pending"
+      },
+      {
+        "id": "T023",
+        "description": "Merge lib/types/medical.ts into types/medical.ts",
+        "filePath": "types/medical.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T024",
+        "description": "Merge lib/types/medical-extended.ts into types/",
+        "filePath": "types/medical-extended.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T025",
+        "description": "Merge lib/types/complaints-api.ts into types/",
+        "filePath": "types/complaints-api.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T026",
+        "description": "Create types barrel export",
+        "filePath": "types/index.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T027",
+        "description": "Update all imports using lib/types paths",
+        "filePath": "multiple",
+        "status": "pending"
+      },
+      {
+        "id": "T028",
+        "description": "Delete lib/types directory",
+        "filePath": "lib/types/",
+        "status": "pending"
+      },
+      {
+        "id": "T029",
+        "description": "Merge lib/design tokens into lib/design-system",
+        "filePath": "lib/design-system/tokens.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T030",
+        "description": "Create design-system barrel export",
+        "filePath": "lib/design-system/index.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T031",
+        "description": "Update imports using lib/design paths",
+        "filePath": "multiple",
+        "status": "pending"
+      },
+      {
+        "id": "T032",
+        "description": "Delete lib/design directory",
+        "filePath": "lib/design/",
+        "status": "pending"
+      },
+      {
+        "id": "T033",
+        "description": "Delete demo routes",
+        "filePath": "app/demo/",
+        "status": "pending"
+      },
+      {
+        "id": "T034",
+        "description": "Delete test-glass route",
+        "filePath": "app/test-glass/",
+        "status": "pending"
+      },
+      {
+        "id": "T035",
+        "description": "Delete sentry-example-page route",
+        "filePath": "app/sentry-example-page/",
+        "status": "pending"
+      },
+      {
+        "id": "T036",
+        "description": "Create utils barrel export",
+        "filePath": "lib/utils/index.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T037",
+        "description": "Create anamnese barrel export",
+        "filePath": "lib/anamnese/index.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T038",
+        "description": "Create AI barrel export",
+        "filePath": "lib/ai/index.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T039",
+        "description": "Create services barrel export",
+        "filePath": "lib/services/index.ts",
+        "status": "pending"
+      },
+      {
+        "id": "T040",
+        "description": "Run TypeScript type-check to verify no broken imports",
+        "filePath": "tsconfig.json",
+        "status": "pending"
+      },
+      {
+        "id": "T041",
+        "description": "Run build to verify compilation success",
+        "filePath": "package.json",
+        "status": "pending"
+      },
+      {
+        "id": "T042",
+        "description": "Verify application functionality with Playwright test",
+        "filePath": "playwright verification",
+        "status": "pending"
+      }
+    ],
+    "tasksTotal": 42,
+    "tasksCompleted": 3,
+    "approvedAt": "2026-01-17T04:26:21.704Z",
+    "currentTaskId": "T004"
+  }
+}

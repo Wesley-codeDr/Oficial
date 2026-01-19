@@ -1,0 +1,17 @@
+{
+  "category": "enhancement",
+  "description": "Add progress indicators showing which required CFM blocks (QP, HDA, AP, EF, HD, CD) are complete vs incomplete. Use color coding and percentage complete to guide users through the structured data entry process.\n\n**Rationale:** Medical professionals may miss required anamnesis sections, leading to non-compliant documentation. Without visual guidance, users don't know what's left to complete before finalizing a consultation.",
+  "title": "Visual indication of mandatory anamnesis blocks completion",
+  "status": "completed",
+  "id": "feature-1768798093522-06k2wmr5t",
+  "descriptionHistory": [
+    {
+      "description": "Add progress indicators showing which required CFM blocks (QP, HDA, AP, EF, HD, CD) are complete vs incomplete. Use color coding and percentage complete to guide users through the structured data entry process.\n\n**Rationale:** Medical professionals may miss required anamnesis sections, leading to non-compliant documentation. Without visual guidance, users don't know what's left to complete before finalizing a consultation.",
+      "timestamp": "2026-01-19T04:48:13.528Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-19T04:48:40.907Z",
+  "updatedAt": "2026-01-19T05:14:41.089Z"
+}

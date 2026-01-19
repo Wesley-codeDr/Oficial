@@ -1,0 +1,17 @@
+{
+  "category": "enhancement",
+  "description": "Replace static empty states with friendly, animated illustrations that show common use cases (team collaboration, personal productivity, project planning) with subtle motion to maintain visual interest.\n\n**Rationale:** Static empty states feel lifeless and abandoned. Animated illustrations create emotional connection, reduce perceived emptiness, and inspire users about what's possible with the tool.",
+  "title": "Animated Empty State Illustrations",
+  "status": "completed",
+  "id": "feature-1768667462156-ba5g3fm45",
+  "descriptionHistory": [
+    {
+      "description": "Replace static empty states with friendly, animated illustrations that show common use cases (team collaboration, personal productivity, project planning) with subtle motion to maintain visual interest.\n\n**Rationale:** Static empty states feel lifeless and abandoned. Animated illustrations create emotional connection, reduce perceived emptiness, and inspire users about what's possible with the tool.",
+      "timestamp": "2026-01-17T16:31:02.185Z",
+      "source": "initial"
+    }
+  ],
+  "branchName": "main",
+  "startedAt": "2026-01-19T04:07:29.164Z",
+  "updatedAt": "2026-01-19T04:25:35.388Z"
+}
