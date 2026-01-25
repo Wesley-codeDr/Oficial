@@ -3,6 +3,7 @@
 import React from 'react';
 import { Heart, ChevronRight } from 'lucide-react';
 import { ResponsiveContainer, AreaChart, Area, Tooltip } from 'recharts';
+import { iconStrokeWidth } from '@/lib/design-system/icon-system';
 
 const data = [
   { v: 65 }, { v: 68 }, { v: 62 }, { v: 75 }, { v: 85 }, { v: 80 }, { v: 72 }, { v: 68 }, { v: 75 }, { v: 82 }, { v: 70 }, { v: 65 }
@@ -27,12 +28,12 @@ export const HeartRateCard: React.FC = () => {
       <div className="flex justify-between items-start mb-2 relative z-10">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-red-500/10 dark:bg-red-500/20 flex items-center justify-center">
-             <Heart className="w-5 h-5 text-red-500 fill-red-500" />
+             <Heart className="w-5 h-5 text-red-500 fill-red-500" strokeWidth={iconStrokeWidth.regular} />
           </div>
           <h3 className="font-bold text-lg text-slate-800 dark:text-slate-100 tracking-tight transition-colors">Coração</h3>
         </div>
         <button className="w-8 h-8 rounded-full bg-white/50 dark:bg-slate-700/50 hover:bg-white dark:hover:bg-slate-600 flex items-center justify-center text-slate-400 dark:text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-all shadow-sm">
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-5 h-5" strokeWidth={iconStrokeWidth.regular} />
         </button>
       </div>
 

@@ -20,6 +20,7 @@ import {
 import { useTheme } from '@/contexts/ThemeContext'
 import { motion, AnimatePresence } from 'framer-motion'
 import { LiquidGlassIcon } from '@/components/ui/LiquidGlassIcon'
+import { iconStrokeWidth } from '@/lib/design-system/icon-system'
 
 // --- Types for Dynamic Navigation ---
 export interface SidebarItem {
@@ -53,24 +54,56 @@ const NavItem: React.FC<NavItemProps> = ({ id, icon: Icon, label, isActive, isCo
         aria-label={label}
         aria-current={isActive ? 'page' : undefined}
         className={`
-          relative flex items-center transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] outline-none
+          relative flex items-center transition-all duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] outline-none
+          focus-visible:ring-2 focus-visible:ring-[var(--color-primary-500)]/50 focus-visible:ring-offset-2
           ${isCollapsed ? 'justify-center w-[52px] h-[52px]' : 'w-full px-4 py-2.5'}
-          rounded-lg
-          ${isActive ? 'bg-[var(--color-primary-50)] text-[var(--color-primary-600)]' : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-gray-50)] hover:text-[var(--color-text-primary)]'}
+          rounded-xl
+          ${isActive
+            ? 'bg-[var(--color-primary-50)] dark:bg-[var(--color-primary-500)]/15 text-[var(--color-primary-600)] dark:text-[var(--color-primary-400)] shadow-sm'
+            : 'text-[var(--color-text-secondary)] hover:bg-white/10 dark:hover:bg-white/5 hover:text-[var(--color-text-primary)]'
+          }
         `}
-        whileHover={{ x: isCollapsed ? 0 : 4 }}
+        whileHover={{ x: isCollapsed ? 0 : 4, scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
       >
-        {/* Icon Container */}
-        <div className={`flex items-center justify-center shrink-0 ${isActive ? 'text-[var(--color-primary-500)]' : ''}`}>
-          <Icon className={`${isCollapsed ? 'w-6 h-6' : 'w-5 h-5'} stroke-[2px] transition-colors`} />
+        {/* Icon Container - Glass Effect */}
+        <div className={`
+          flex items-center justify-center shrink-0
+          transition-all duration-300
+          ${isActive
+            ? 'text-[var(--color-primary-500)] dark:text-[var(--color-primary-400)]'
+            : 'text-slate-500 dark:text-slate-400 group-hover/item:text-slate-700 dark:group-hover/item:text-slate-300'
+          }
+        `}>
+          <Icon
+            className={`${isCollapsed ? 'w-6 h-6' : 'w-5 h-5'} transition-all duration-300`}
+            strokeWidth={isActive ? iconStrokeWidth.medium : iconStrokeWidth.regular}
+            style={isActive ? {
+              filter: 'drop-shadow(0 0 6px currentColor)',
+            } : undefined}
+          />
         </div>
 
         {/* Label */}
         {!isCollapsed && (
-          <span className="ml-3 text-[14px] font-medium tracking-tight whitespace-nowrap overflow-hidden">
+          <span className={`
+            ml-3 text-[14px] font-medium tracking-tight whitespace-nowrap overflow-hidden
+            transition-colors duration-300
+            ${isActive ? 'font-semibold' : ''}
+          `}>
             {label}
           </span>
+        )}
+
+        {/* Active Indicator */}
+        {isActive && !isCollapsed && (
+          <motion.div
+            layoutId="activeIndicator"
+            className="absolute right-2 w-1.5 h-1.5 rounded-full bg-[var(--color-primary-500)]"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+          />
         )}
       </motion.button>
     </li>
@@ -187,7 +220,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           aria-label="Abrir menu de navegação"
           aria-expanded={isMobileDrawerOpen}
         >
-          <Menu className="w-6 h-6 text-slate-800 dark:text-white" />
+          <Menu className="w-6 h-6 text-slate-800 dark:text-white" strokeWidth={iconStrokeWidth.regular} />
         </button>
       )}
 
@@ -219,7 +252,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                 className="absolute top-4 right-4 p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                 aria-label="Fechar menu"
               >
-                <X className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+                <X className="w-5 h-5 text-slate-600 dark:text-slate-300" strokeWidth={iconStrokeWidth.regular} />
               </button>
 
               {/* Mobile Drawer Content - Same as sidebar content */}
@@ -517,9 +550,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                `}
               >
                 {theme === 'dark' ? (
-                  <Moon className="w-[10px] h-[10px] fill-current" />
+                  <Moon className="w-[10px] h-[10px] fill-current" strokeWidth={iconStrokeWidth.light} />
                 ) : (
-                  <Sun className="w-[10px] h-[10px] fill-current" />
+                  <Sun className="w-[10px] h-[10px] fill-current" strokeWidth={iconStrokeWidth.light} />
                 )}
               </div>
 
@@ -568,7 +601,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
             {!isCollapsed && (
               <div className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <LogOut className="w-4 h-4 text-slate-400 hover:text-red-500 transition-colors" />
+                <LogOut className="w-4 h-4 text-slate-400 hover:text-red-500 transition-colors" strokeWidth={iconStrokeWidth.regular} />
               </div>
             )}
           </div>

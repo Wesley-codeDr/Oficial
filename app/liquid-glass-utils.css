@@ -165,8 +165,71 @@
 }
 
 /* ========================================
-   3. ICON EFFECTS
+   3. ICON EFFECTS - APPLE LIQUID GLASS 2026
    ======================================== */
+
+/* Base Icon Transitions */
+.glass-icon {
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  flex-shrink: 0;
+}
+
+/* Icon Size Classes */
+.icon-xs { width: 12px; height: 12px; }
+.icon-sm { width: 16px; height: 16px; }
+.icon-md { width: 20px; height: 20px; }
+.icon-lg { width: 24px; height: 24px; }
+.icon-xl { width: 32px; height: 32px; }
+.icon-2xl { width: 40px; height: 40px; }
+
+/* Icon Container Sizes */
+.icon-container-xs { width: 24px; height: 24px; }
+.icon-container-sm { width: 32px; height: 32px; }
+.icon-container-md { width: 40px; height: 40px; }
+.icon-container-lg { width: 48px; height: 48px; }
+.icon-container-xl { width: 56px; height: 56px; }
+.icon-container-2xl { width: 64px; height: 64px; }
+
+/* Glass Icon Container */
+.glass-icon-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.glass-icon-container:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05) translateY(-1px);
+}
+
+.glass-icon-container.active {
+  background: rgba(0, 122, 255, 0.15);
+  border-color: rgba(0, 122, 255, 0.3);
+  box-shadow: 0 4px 20px rgba(0, 122, 255, 0.2);
+}
+
+.dark .glass-icon-container {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.dark .glass-icon-container:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Circular Icon Container */
+.glass-icon-container-circular {
+  border-radius: 9999px;
+}
 
 /* Icon Glow Effect */
 .icon-glow {
@@ -180,6 +243,11 @@
 
 .icon-glow-subtle {
   filter: drop-shadow(0 0 4px currentColor);
+}
+
+/* Liquid Glass Icon Effect */
+.icon-liquid-glow {
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 /* Color-specific icon glow effects */
@@ -196,24 +264,182 @@
   filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
 }
 
+.icon-glow-emerald:hover {
+  filter: drop-shadow(0 0 12px rgba(16, 185, 129, 0.7));
+}
+
 .icon-glow-amber {
   filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+}
+
+.icon-glow-amber:hover {
+  filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.7));
 }
 
 .icon-glow-violet {
   filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
 }
 
+.icon-glow-violet:hover {
+  filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.7));
+}
+
 .icon-glow-teal {
   filter: drop-shadow(0 0 8px rgba(20, 184, 166, 0.5));
+}
+
+.icon-glow-teal:hover {
+  filter: drop-shadow(0 0 12px rgba(20, 184, 166, 0.7));
 }
 
 .icon-glow-orange {
   filter: drop-shadow(0 0 8px rgba(249, 115, 22, 0.5));
 }
 
+.icon-glow-orange:hover {
+  filter: drop-shadow(0 0 12px rgba(249, 115, 22, 0.7));
+}
+
 .icon-glow-indigo {
   filter: drop-shadow(0 0 8px rgba(99, 102, 241, 0.5));
+}
+
+.icon-glow-indigo:hover {
+  filter: drop-shadow(0 0 12px rgba(99, 102, 241, 0.7));
+}
+
+.icon-glow-red {
+  filter: drop-shadow(0 0 8px rgba(255, 59, 48, 0.5));
+}
+
+.icon-glow-red:hover {
+  filter: drop-shadow(0 0 12px rgba(255, 59, 48, 0.7));
+}
+
+.icon-glow-green {
+  filter: drop-shadow(0 0 8px rgba(52, 199, 89, 0.5));
+}
+
+.icon-glow-green:hover {
+  filter: drop-shadow(0 0 12px rgba(52, 199, 89, 0.7));
+}
+
+/* Status Icon Colors */
+.icon-status-success {
+  color: var(--status-success, #34C759);
+}
+
+.icon-status-warning {
+  color: var(--status-warning, #FF9500);
+}
+
+.icon-status-error {
+  color: var(--status-error, #FF3B30);
+}
+
+.icon-status-info {
+  color: var(--status-info, #5AC8FA);
+}
+
+/* Icon Animation Classes */
+.icon-spin {
+  animation: icon-spin 1s linear infinite;
+}
+
+.icon-pulse {
+  animation: icon-pulse 1.5s ease-in-out infinite;
+}
+
+.icon-bounce {
+  animation: icon-bounce 0.6s ease infinite;
+}
+
+@keyframes icon-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes icon-pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+@keyframes icon-bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Icon Button Base */
+.icon-button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  padding: 0;
+  outline: none;
+  transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.icon-button:focus-visible {
+  outline: 2px solid rgba(0, 122, 255, 0.5);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.icon-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Icon with Background */
+.icon-with-bg {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--action-primary, rgba(0, 122, 255, 0.1));
+  border-radius: 12px;
+  padding: 8px;
+}
+
+.icon-with-bg-success {
+  background: rgba(52, 199, 89, 0.1);
+}
+
+.icon-with-bg-warning {
+  background: rgba(255, 149, 0, 0.1);
+}
+
+.icon-with-bg-error {
+  background: rgba(255, 59, 48, 0.1);
+}
+
+.icon-with-bg-info {
+  background: rgba(90, 200, 250, 0.1);
+}
+
+/* Dark mode adjustments for icon backgrounds */
+.dark .icon-with-bg {
+  background: rgba(10, 132, 255, 0.15);
+}
+
+.dark .icon-with-bg-success {
+  background: rgba(48, 209, 88, 0.15);
+}
+
+.dark .icon-with-bg-warning {
+  background: rgba(255, 159, 10, 0.15);
+}
+
+.dark .icon-with-bg-error {
+  background: rgba(255, 69, 58, 0.15);
+}
+
+.dark .icon-with-bg-info {
+  background: rgba(100, 210, 255, 0.15);
 }
 
 /* ========================================
