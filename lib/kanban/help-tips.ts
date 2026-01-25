@@ -189,7 +189,7 @@ export const COLUMN_HELP_TIPS: Record<KanbanColumnStatus, HelpTip[]> = {
 export function getHelpTipsForColumn(status: KanbanColumnStatus): HelpTip[] {
   const columnTips = COLUMN_HELP_TIPS[status] || []
   // Mix column-specific tips with one general tip for variety
-  const generalTip = GENERAL_HELP_TIPS[Math.floor(Math.random() * GENERAL_HELP_TIPS.length)]
+  const generalTip = GENERAL_HELP_TIPS[Math.floor(Math.random() * GENERAL_HELP_TIPS.length)]!
   return [...columnTips, generalTip]
 }
 

@@ -220,6 +220,11 @@ async function main() {
     { displayText: 'Piora progressiva', narrativeText: 'piora progressiva' },
   ]
 
+  const dyspneaHDA: any[] = []
+  const dyspneaAntecedentes: any[] = []
+  const dyspneaNegativas: any[] = []
+  const dyspneaExameFisico: any[] = []
+
   const dyspneaCheckboxes = [
     ...dyspneaQP.map((item, i) => ({
       syndromeId: dyspnea.id,
@@ -264,13 +269,14 @@ async function main() {
     })),
   ]
   await prisma.checkbox.createMany({
-    data: dyspneaCheckboxes.map(
-      ({ isRequired, isNegative, ...rest }) => ({
+    data: dyspneaCheckboxes.map((item) => {
+      const { isRequired, isNegative, ...rest } = item as any
+      return {
         ...rest,
         isRequired: isRequired || false,
         isNegative: isNegative || false,
-      }),
-    ),
+      }
+    }),
   })
 
   // Red Flag Rules for Dyspnea
@@ -347,6 +353,11 @@ async function main() {
     { displayText: 'Inicio gradual', narrativeText: 'inicio gradual' },
   ]
 
+  const abdomenHDA: any[] = []
+  const abdomenAntecedentes: any[] = []
+  const abdomenNegativas: any[] = []
+  const abdomenExameFisico: any[] = []
+
   const acuteAbdomenCheckboxes = [
     ...abdomenQP.map((item, i) => ({
       syndromeId: acuteAbdomen.id,
@@ -390,13 +401,14 @@ async function main() {
     })),
   ]
   await prisma.checkbox.createMany({
-    data: acuteAbdomenCheckboxes.map(
-      ({ isRequired, isNegative, ...rest }) => ({
+    data: acuteAbdomenCheckboxes.map((item) => {
+      const { isRequired, isNegative, ...rest } = item as any
+      return {
         ...rest,
         isRequired: isRequired || false,
         isNegative: isNegative || false,
-      }),
-    ),
+      }
+    }),
   })
 
   // Red Flag Rules for Acute Abdomen

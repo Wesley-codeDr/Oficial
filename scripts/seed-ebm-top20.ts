@@ -462,7 +462,7 @@ async function updateComplaintWithEBM(
 
   if (!validation.success) {
     console.error(chalk.red(`Validação falhou para ${ebmData.code}:`))
-    console.error(validation.error.errors)
+    console.error(validation.error.issues)
     throw new Error(`EBM content inválido para ${ebmData.code}`)
   }
 
@@ -481,7 +481,7 @@ async function updateComplaintWithEBM(
   await prisma.chief_complaints.update({
     where: { id: complaintId },
     data: {
-      additional_data: updatedAdditionalData as Prisma.InputJsonValue,
+      additional_data: updatedAdditionalData as unknown as Prisma.InputJsonValue,
       updated_at: new Date(),
     },
   })

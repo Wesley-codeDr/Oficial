@@ -3,6 +3,7 @@ import { generateObject } from 'ai'
 import { openai, DEFAULT_MODEL } from '@/lib/ai/config'
 import { EXTRACTION_SYSTEM_PROMPT, buildExtractionPrompt } from '@/lib/ai/extraction-prompts'
 import { prisma } from '@/lib/db/prisma'
+import type { Prisma } from '@prisma/client'
 
 // Define the schema for the extraction
 export const ExtractionSchema = z.object({
@@ -62,7 +63,7 @@ export async function processSourceDocument(sourceDocumentId: string) {
     const extraction = await prisma.contentExtraction.create({
       data: {
         sourceDocumentId: document.id,
-        extractedData: object as unknown as Record<string, unknown>, // Cast for Prisma Json type
+        extractedData: object as unknown as Prisma.InputJsonValue,
         status: 'REVIEW_NEEDED',
       },
     })

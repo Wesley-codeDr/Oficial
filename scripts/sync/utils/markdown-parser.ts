@@ -392,7 +392,7 @@ export function parseRedFlagsStructured(content: string): RedFlag[] {
       let i = 0;
 
       while (i < lines.length) {
-        const line = lines[i];
+        const line = lines[i] || '';
 
         if (line.trim().startsWith('- [ ]')) {
           const description = line.replace('- [ ]', '').trim();
@@ -401,18 +401,18 @@ export function parseRedFlagsStructured(content: string): RedFlag[] {
 
           // Procura por linhas de detalhes
           i++;
-          while (i < lines.length && lines[i].trim().startsWith('-')) {
-            const detailLine = lines[i].trim();
+          while (i < lines.length && (lines[i] || '').trim().startsWith('-')) {
+            const detailLine = (lines[i] || '').trim();
 
             // Extrai ação
             const actionMatch = detailLine.match(/\*\*Ação\*\*:\s*(.+)/);
             if (actionMatch) {
-              immediateAction = actionMatch[1].trim();
+              immediateAction = actionMatch[1]!.trim();
 
               // Extrai tempo da ação (ex: <10min)
               const timeMatch = immediateAction.match(/<(\d+)min/);
               if (timeMatch) {
-                timeToAction = parseInt(timeMatch[1]);
+                timeToAction = parseInt(timeMatch[1]!);
               }
             }
 
@@ -464,12 +464,12 @@ export function parseMedicationsTable(content: string): MedicationRecommendation
   let match;
 
   while ((match = medRegex.exec(section)) !== null) {
-    const genericName = match[1].trim();
-    const details = match[2];
+    const genericName = match[1]!.trim();
+    const details = match[2]!;
 
     // Extrai dose
     const doseMatch = details.match(/\*\*Dose\*\*:\s*(.+?)(?=\n|$)/m);
-    const doseString = doseMatch ? doseMatch[1].trim() : '';
+    const doseString = doseMatch ? doseMatch[1]!.trim() : '';
 
     // Parse dose e via
     const routeMatch = doseString.match(/(VO|IV|IM|SC|Inalatório|Tópico|SL|Retal|Nasal|Ocular)/);
@@ -478,7 +478,7 @@ export function parseMedicationsTable(content: string): MedicationRecommendation
 
     // Extrai frequência (se houver)
     const freqMatch = details.match(/\*\*Frequência\*\*:\s*(.+?)(?=\n|$)/m);
-    const frequency = freqMatch ? freqMatch[1].trim() : '1x/dia';
+    const frequency = freqMatch ? freqMatch[1]!.trim() : '1x/dia';
 
     // Extrai SUS
     const susMatch = details.match(/\*\*SUS\*\*:\s*(✅|❌)\s*(Sim|Não)/);
@@ -549,7 +549,7 @@ export function parseEBMCitations(content: string): EBMCitation[] {
       let match;
 
       while ((match = citationRegex.exec(sourceContent)) !== null) {
-        const title = match[1].trim();
+        const title = match[1]!.trim();
         const details = match[2] || '';
 
         // Extrai PMID
@@ -566,7 +566,7 @@ export function parseEBMCitations(content: string): EBMCitation[] {
 
         // Extrai URL
         const urlMatch = details.match(/URL:\s*(.+?)(?=\n|$)/);
-        const url = urlMatch ? urlMatch[1].trim() : undefined;
+        const url = urlMatch ? urlMatch[1]!.trim() : undefined;
 
         citations.push({
           source,
@@ -615,10 +615,10 @@ export function parseDifferentialDiagnosisTable(content: string): DifferentialDi
       continue;
     }
 
-    const condition = match[1].trim();
-    const icd10 = match[2].trim();
-    const probabilityText = match[3].trim().toLowerCase();
-    const characteristics = match[4].trim();
+    const condition = match[1]!.trim();
+    const icd10 = match[2]!.trim();
+    const probabilityText = match[3]!.trim().toLowerCase();
+    const characteristics = match[4]!.trim();
 
     // Skip separator row
     if (condition.includes('---')) continue;

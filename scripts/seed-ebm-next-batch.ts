@@ -2099,8 +2099,8 @@ async function updateComplaintWithEBM(
 
   if (!validation.success) {
     console.error(chalk.red(`Validação falhou para ${ebmData.code}:`))
-    if (validation.error && validation.error.errors) {
-      validation.error.errors.forEach((err: any) => {
+    if (validation.error && validation.error.issues) {
+      validation.error.issues.forEach((err: any) => {
         console.error(chalk.yellow(`  - ${err.path?.join('.') || 'unknown'}: ${err.message}`))
       })
     } else {
@@ -2123,7 +2123,7 @@ async function updateComplaintWithEBM(
   await prisma.chief_complaints.update({
     where: { id: complaint.id },
     data: {
-      additional_data: updatedAdditionalData as Prisma.InputJsonValue,
+      additional_data: updatedAdditionalData as unknown as Prisma.InputJsonValue,
       updated_at: new Date(),
     },
   })

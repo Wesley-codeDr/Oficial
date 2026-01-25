@@ -29,7 +29,7 @@ async function createAdminUser() {
   console.log('🚀 Criando usuário admin...\n')
 
   // Criar cliente admin do Supabase
-  const supabase = createClient(supabaseUrl, supabaseServiceKey, {
+  const supabase = createClient(supabaseUrl!, supabaseServiceKey!, {
     auth: {
       autoRefreshToken: false,
       persistSession: false,

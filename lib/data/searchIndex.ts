@@ -83,7 +83,7 @@ export function buildSearchIndex(): SearchIndex {
       searchTerms: complaint.searchTerms || [],
       chips: complaint.chips || [],
       commonMisconceptions: complaint.commonMisconceptions || [],
-      bodySystem: complaint.bodySystem || [],
+      bodySystem: Array.isArray(complaint.bodySystem) ? complaint.bodySystem : (complaint.bodySystem ? [complaint.bodySystem] : []),
       severity: complaint.severity || 3,
       riskLevel: complaint.riskLevel,
       isFastTrack: complaint.isFastTrack,

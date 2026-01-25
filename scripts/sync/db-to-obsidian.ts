@@ -160,7 +160,7 @@ export async function syncDBToObsidian(
     updated += 1
   }
 
-  const lastSyncAt = records[records.length - 1].updated_at.toISOString()
+  const lastSyncAt = records[records.length - 1]!.updated_at.toISOString()
 
   console.log(chalk.blue('\n📊 Resumo:'))
   console.log(chalk.green(`   ✓ ${updated} atualizados`))

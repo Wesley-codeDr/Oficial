@@ -238,7 +238,7 @@ async function syncFromObsidian(filePaths?: string[]): Promise<void> {
 /**
  * Inicia o file watcher do Obsidian vault
  */
-function startFileWatcher(): chokidar.FSWatcher {
+function startFileWatcher(): ReturnType<typeof chokidar.watch> {
   console.log(chalk.blue('\n👁️  Iniciando file watcher do Obsidian\n'))
   console.log(chalk.gray('   Monitorando:'))
   console.log(chalk.gray(`   • ${PATHS.queixas}`))
@@ -280,7 +280,7 @@ function startFileWatcher(): chokidar.FSWatcher {
     })
     .on('error', (error) => {
       console.error(chalk.red('Erro no file watcher:'), error)
-      state.currentError = `File watcher error: ${error.message}`
+      state.currentError = `File watcher error: ${error instanceof Error ? error.message : String(error)}`
       updateHealthStatus({
         status: 'degraded',
         lastError: state.currentError,
@@ -294,7 +294,7 @@ function startFileWatcher(): chokidar.FSWatcher {
 // Graceful Shutdown
 // ============================================================================
 
-async function shutdown(watcher: chokidar.FSWatcher, signal: string): Promise<void> {
+async function shutdown(watcher: ReturnType<typeof chokidar.watch>, signal: string): Promise<void> {
   console.log(chalk.yellow(`\n\n👋 Recebido ${signal}, encerrando agent...\n`))
 
   // Para de aceitar novos syncs
