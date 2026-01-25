@@ -40,6 +40,41 @@ Closes #
 - [ ] Implementation follows the spec and plan
 - [ ] N/A - This is not a feature (bug fix, docs, etc.)
 
+## Medical Compliance (CFM/LGPD)
+
+<!-- ⚠️ REQUIRED if this PR affects medical features or data handling -->
+
+- [ ] CFM Resolução 2.314/2022 reviewed (AI in medicine guidelines)
+- [ ] LGPD Article 11 compliance assessed (sensitive personal data - health)
+- [ ] Red flags detection validated (if applicable to clinical logic)
+- [ ] Data retention policies followed (7-20 years for medical records)
+- [ ] Audit trail implemented for medical data changes
+- [ ] FHIR/TISS compatibility verified (if data model or export changed)
+- [ ] Medical terminology accuracy verified (CID-10, CIAP-2 codes)
+- [ ] N/A - No medical features or data affected
+
+### Medical Data Changes
+
+<!-- Describe any changes to medical data handling, storage, processing, or clinical logic -->
+
+<!-- Example:
+- Modified anamnesis template for cardiology (added chest pain red flags)
+- Updated CFM compliance validator to check new mandatory fields
+- Changed data retention period for deleted anamnesis records
+-->
+
+-
+
+### Clinical Safety Review
+
+<!-- ⚠️ CRITICAL: If red flags, clinical decision support, or patient safety features were modified -->
+
+- [ ] Clinical logic changes reviewed by medical professional
+- [ ] Red flag detection tested with clinical scenarios
+- [ ] False positive/negative rates acceptable
+- [ ] Emergency protocols not compromised
+- [ ] N/A - No clinical safety implications
+
 ## Testing
 
 <!-- Describe the tests you ran and how to reproduce them -->
@@ -125,6 +160,28 @@ Closes #
 - [ ] Security review needed (describe below)
 
 <!-- Describe security considerations if any -->
+
+### Healthcare-Specific Security
+
+<!-- ⚠️ REQUIRED if this PR handles PHI/PII or medical data -->
+
+- [ ] PHI/PII data encrypted in transit (HTTPS enforced)
+- [ ] PHI/PII data encrypted at rest (database encryption)
+- [ ] Minimum necessary principle applied (data minimization)
+- [ ] Access controls verified (RBAC for medical data)
+- [ ] Sensitive data not logged or exposed in errors
+- [ ] SQL injection prevention verified (Prisma ORM used)
+- [ ] XSS prevention verified (input sanitization)
+- [ ] CSRF protection verified (for state-changing operations)
+- [ ] N/A - No healthcare data involved
+
+### Privacy & Consent
+
+- [ ] Patient consent requirements verified (LGPD Article 7)
+- [ ] Data subject rights implemented (access, rectification, deletion)
+- [ ] Data retention period documented and enforced
+- [ ] Third-party data sharing documented (if applicable)
+- [ ] N/A - No privacy implications
 
 ## Performance Considerations
 
