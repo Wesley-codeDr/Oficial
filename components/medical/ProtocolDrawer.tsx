@@ -17,15 +17,23 @@ interface ProtocolDrawerProps {
   onClose: () => void
 }
 
+const regexCache = new Map<string, RegExp>()
+
 /**
  * Extrai seção específica do markdown
  */
-function extractSection(markdown: string, sectionTitle: string): string {
-  // Remove emojis para busca flexível
-  const cleanTitle = sectionTitle.replace(/[\u{1F000}-\u{1F9FF}]|[\u{2600}-\u{26FF}]/gu, '').trim()
-  const escapedTitle = cleanTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+export function extractSection(markdown: string, sectionTitle: string): string {
+  let regex = regexCache.get(sectionTitle)
 
-  const regex = new RegExp(`##\\s*[^\\n]*${escapedTitle}[\\s\\S]*?(?=\\n##\\s|$)`, 'i')
+  if (!regex) {
+    // Remove emojis para busca flexível
+    const cleanTitle = sectionTitle.replace(/[\u{1F000}-\u{1F9FF}]|[\u{2600}-\u{26FF}]/gu, '').trim()
+    const escapedTitle = cleanTitle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+
+    regex = new RegExp(`##\\s*[^\\n]*${escapedTitle}[\\s\\S]*?(?=\\n##\\s|$)`, 'i')
+    regexCache.set(sectionTitle, regex)
+  }
+
   const match = markdown.match(regex)
 
   if (!match) return ''
