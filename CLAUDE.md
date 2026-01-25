@@ -107,6 +107,39 @@ Then: 1) /speckit.plan 2) /speckit.tasks 3) Continue
 **CFM** compliance | **LGPD** privacy | **Red flags** detection | **EBM** sources | **Professional** language
 **Load**: `app/(dashboard)/anamnese/MODULE_GUIDELINES.md` when needed
 
+## Design System — Liquid Glass 2026 (MANDATORY)
+
+**ALL UI code MUST follow the Liquid Glass 2026 Design System.**
+
+### Quick Values
+```
+Blur: 40px | Saturate: 180% | Transition: 280ms ease-out
+Radius: Container(24px) > Card(24px) > Item(16px) > Pill(14px)
+```
+
+### Required for ALL Components
+- Glass effects on cards, modals, elevated surfaces
+- 7-level radius hierarchy
+- Semantic color tokens (NO hardcoded colors)
+- Dark mode support
+- WCAG AA accessibility
+
+### Skills (Load when working on UI)
+- **Full Spec**: `.ai/skills/LIQUID_GLASS_DESIGN_SYSTEM.md`
+- **Quick Ref**: `.ai/skills/LIQUID_GLASS_QUICK_REFERENCE.md`
+
+### Design Tokens
+- **Source**: `lib/design-system/glass-tokens.ts`
+- **Animations**: `lib/design-system/animation-tokens.ts`
+- **Theme**: `lib/theme/tokens.ts`
+
+### CSS Files
+- `app/liquid-glass-2026.css` - Core glass effects
+- `app/liquid-glass-utils.css` - Utility classes
+- `app/liquid-glass-tailwind.css` - Tailwind overrides
+
+**Error**: UI code without glass effects will be rejected.
+
 ## Quick Reference
 
 ### Commands
