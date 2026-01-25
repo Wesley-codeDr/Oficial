@@ -1,14 +1,43 @@
 /**
  * WellWave Design Tokens
- * 
+ *
  * Variáveis de tema globais para o sistema WellWave
  * Baseado nas cores extraídas do logo WellWave
+ *
+ * @see types/glass-variants.ts - Para tipos de variantes consolidados
  */
+
+// Import unified variant types
+import type {
+  GlassVariant,
+  GlassMaterialVariant,
+  HealthcareVariant,
+  ButtonVariant,
+  ButtonSize,
+  BadgeVariant,
+  BadgeSize,
+  SizeVariant,
+  GlowVariant,
+  RadiusVariant,
+} from '@/types/glass-variants';
+
+// Re-export types for backward compatibility
+export type {
+  GlassVariant,
+  GlassMaterialVariant,
+  HealthcareVariant,
+  ButtonVariant,
+  ButtonSize,
+  BadgeVariant,
+  BadgeSize,
+  SizeVariant,
+  GlowVariant,
+  RadiusVariant,
+};
 
 // ============ Variáveis de Blur e Saturação - Apple Liquid Glass 2026 ============
 // iOS 26 Universal Standard: 40px blur, 180% saturate for ALL variants
 export const BLUR_VALUES = {
-  // Apple Liquid Glass 2026 - iOS 26 Universal (40px for all variants)
   DEFAULT: '40px' as const,
   SUBTLE: '40px' as const,
   CLEAR: '40px' as const,
@@ -16,7 +45,6 @@ export const BLUR_VALUES = {
 } as const;
 
 export const SATURATE_VALUES = {
-  // Apple Liquid Glass 2026 - iOS 26 Universal (180% for all variants)
   DEFAULT: '180%' as const,
   SUBTLE: '180%' as const,
   CLEAR: '180%' as const,
@@ -26,12 +54,11 @@ export const SATURATE_VALUES = {
 // ============ Variáveis de Opacidade ============
 // Aligned with liquid-glass-2026.css values
 export const OPACITY_VALUES = {
-  // Opacidade de fundo refinada para melhor contraste
-  DEFAULT: '0.25' as const,  // Aligned with CSS: 0.25
-  SUBTLE: '0.18' as const,   // Adjusted for better contrast
-  CLEAR: '0.15' as const,    // Aligned with CSS: 0.15
-  ELEVATED: '0.35' as const, // Adjusted for better contrast
-  MEDICAL: '0.30' as const,  // Adjusted for consistency
+  DEFAULT: '0.25' as const,
+  SUBTLE: '0.18' as const,
+  CLEAR: '0.15' as const,
+  ELEVATED: '0.35' as const,
+  MEDICAL: '0.30' as const,
 } as const;
 
 export const OPACITY_DARK_VALUES = {
@@ -45,16 +72,14 @@ export const OPACITY_DARK_VALUES = {
 
 // ============ Variáveis de Radius - Apple Liquid Glass 2026 ============
 // iOS 26 Standard (8px base scale)
-// Aligned with liquid-glass-2026.css values
 export const RADIUS_VALUES = {
-  // Apple Liquid Glass 2026 - iOS 26 Border Radius
-  XS: '8px' as const,     // Extra Small: 8px (1x base)
-  SM: '12px' as const,    // Small: 12px (1.5x base, buttons, toggles)
-  MD: '16px' as const,    // Medium: 16px (2x base, medium cards, inputs)
-  LG: '24px' as const,    // Large: 24px (3x base, large cards, panels)
-  XL: '32px' as const,    // Extra Large: 32px (4x base, extra large containers)
-  '2XL': '40px' as const, // 2XL: 40px (5x base, full-size modals)
-  '3XL': '48px' as const, // 3XL: 48px (6x base, hero sections)
+  XS: '8px' as const,
+  SM: '12px' as const,
+  MD: '16px' as const,
+  LG: '24px' as const,
+  XL: '32px' as const,
+  '2XL': '40px' as const,
+  '3XL': '48px' as const,
 } as const;
 
 // Aliases for lowercase radius values used in components
@@ -258,15 +283,11 @@ export const Z_INDEX = {
   NOTIFICATION: '150' as const,
 } as const;
 
-// ============ Variantes de Componentes ============
-export type GlassVariant = 'default' | 'clear' | 'elevated' | 'subtle' | 'medical' | 'danger' | 'primary' | 'success' | 'warning';
-export type GlassSize = 'sm' | 'md' | 'lg' | 'icon';
-export type ButtonVariant = 'default' | 'primary' | 'secondary' | 'danger' | 'medical-primary' | 'medical-secondary';
-export type ButtonSize = 'sm' | 'md' | 'lg';
-export type BadgeVariant = 'default' | 'primary' | 'secondary' | 'medical' | 'success' | 'warning' | 'danger';
-export type BadgeSize = 'sm' | 'md' | 'lg';
-
 // ============ Helper Functions ============
+/**
+ * All component variant types are now imported from types/glass-variants.ts
+ * This ensures a single source of truth for all variant definitions.
+ */
 /**
  * Obter classes de blur e saturação baseadas na variante
  * Usa classes CSS compatíveis com Tailwind CSS 4
