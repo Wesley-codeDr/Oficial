@@ -55,21 +55,18 @@ export async function POST(req: Request) {
     }
 
     // Ensure user exists in database
-    let dbUser = await prisma.user.findUnique({
+    // upsert is atomic and reduces database round trips
+    const dbUser = await prisma.user.upsert({
       where: { id: user.id },
+      update: {},
+      create: {
+        id: user.id,
+        email: user.email!,
+        fullName: user.user_metadata?.full_name || 'Usuario',
+        crmNumber: user.user_metadata?.crm_number || '000000',
+        crmState: user.user_metadata?.crm_state || 'SP',
+      },
     })
-
-    if (!dbUser) {
-      dbUser = await prisma.user.create({
-        data: {
-          id: user.id,
-          email: user.email!,
-          fullName: user.user_metadata?.full_name || 'Usuario',
-          crmNumber: user.user_metadata?.crm_number || '000000',
-          crmState: user.user_metadata?.crm_state || 'SP',
-        },
-      })
-    }
 
     const conversation = await prisma.chatConversation.create({
       data: {
