@@ -52,34 +52,45 @@ export function generateNGrams(text: string, n: number = 3): string[] {
  * @returns Levenshtein distance
  */
 export function levenshteinDistance(a: string, b: string): number {
+  // Optimization: Handle empty strings early
+  if (a.length === 0) return b.length
+  if (b.length === 0) return a.length
+
+  // Optimization: Ensure a is the shorter string for O(min(N,M)) space
+  if (a.length > b.length) {
+    ;[a, b] = [b, a]
+  }
+
   const aLen = a.length
   const bLen = b.length
 
-  if (aLen === 0) return bLen
-  if (bLen === 0) return aLen
+  // Optimization: Use two rows instead of full matrix to save memory
+  // Space complexity: O(min(a.length, b.length))
+  let prevRow = new Array(aLen + 1)
+  let currRow = new Array(aLen + 1)
 
-  const matrix: number[][] = Array(bLen + 1)
-    .fill(null)
-    .map(() => Array(aLen + 1).fill(0)) as number[][]
-
-  if (matrix[0]) for (let i = 0; i <= aLen; i++) matrix[0]![i] = i
-  for (let j = 0; j <= bLen; j++) if (matrix[j]) matrix[j]![0] = j
-
-  for (let j = 1; j <= bLen; j++) {
-    if (!matrix[j]) continue
-    for (let i = 1; i <= aLen; i++) {
-      const indicator = a[i - 1] === b[j - 1] ? 0 : 1
-      const prevRow = matrix[j - 1]
-      if (!prevRow) continue
-      matrix[j]![i] = Math.min(
-        matrix[j]![i - 1]! + 1, // deletion
-        prevRow[i]! + 1, // insertion
-        prevRow[i - 1]! + indicator // substitution
-      )
-    }
+  for (let i = 0; i <= aLen; i++) {
+    prevRow[i] = i
   }
 
-  return matrix[bLen]?.[aLen] ?? 0
+  for (let j = 1; j <= bLen; j++) {
+    currRow[0] = j
+    const bChar = b[j - 1]
+
+    for (let i = 1; i <= aLen; i++) {
+      const indicator = a[i - 1] === bChar ? 0 : 1
+      currRow[i] = Math.min(
+        currRow[i - 1] + 1, // deletion
+        prevRow[i] + 1, // insertion
+        prevRow[i - 1] + indicator // substitution
+      )
+    }
+
+    // Swap rows for next iteration
+    ;[prevRow, currRow] = [currRow, prevRow]
+  }
+
+  return prevRow[aLen]
 }
 
 /**
