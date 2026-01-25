@@ -15,6 +15,7 @@ import {
   buildGuidelineExtractionPrompt,
 } from '@/lib/ai/guideline-prompts'
 import { prisma } from '@/lib/db/prisma'
+import type { Prisma } from '@prisma/client'
 import type {
   GuidelineExtraction,
   FlashTemplate,
@@ -186,7 +187,7 @@ export async function processGuidelineDocument(sourceDocumentId: string) {
       prompt,
       schema: GuidelineExtractionSchema,
       temperature: 0.2, // Lower temperature for consistency
-      maxTokens: 8000, // Increased for comprehensive extraction
+      // maxTokens: 8000, // Increased for comprehensive extraction
     })
 
     console.log(`[GuidelineExtraction] Successfully extracted data for: ${object.complaintName}`)
@@ -198,7 +199,7 @@ export async function processGuidelineDocument(sourceDocumentId: string) {
     const extraction = await prisma.contentExtraction.create({
       data: {
         sourceDocumentId: document.id,
-        extractedData: object as unknown as Record<string, unknown>, // Cast for Prisma Json type
+        extractedData: object as unknown as Prisma.InputJsonValue,
         status: 'REVIEW_NEEDED', // Always requires human review
       },
     })
@@ -364,6 +365,10 @@ export async function getExtractionStats(extractionId: string) {
     throw new Error(`Extraction not found: ${extractionId}`)
   }
 
+  if (!extraction.extractedData) {
+    throw new Error(`Extraction data is empty: ${extractionId}`)
+  }
+
   const data = extraction.extractedData as unknown as GuidelineExtractionData
 
   return {
@@ -398,6 +403,10 @@ export async function exportToMarkdown(extractionId: string) {
 
   if (!extraction) {
     throw new Error(`Extraction not found: ${extractionId}`)
+  }
+
+  if (!extraction.extractedData) {
+    throw new Error(`Extraction data is empty: ${extractionId}`)
   }
 
   const data = extraction.extractedData as unknown as GuidelineExtractionData

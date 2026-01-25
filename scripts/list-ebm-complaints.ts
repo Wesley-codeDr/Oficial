@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 
 async function main() {
   const prisma = new PrismaClient()
@@ -9,7 +9,7 @@ async function main() {
       is_high_acuity: true,
       additional_data: {
         path: ['extendedContentEBM'],
-        not: null,
+        not: Prisma.JsonNull,
       },
     },
     select: {

@@ -47,7 +47,7 @@ export function parseTasksMD(filePath: string): SpecTasks {
   
   // Extract spec name from path
   const specMatch = filePath.match(/specs\/([^/]+)\/tasks\.md/);
-  const spec = specMatch ? specMatch[1] : 'unknown';
+  const spec = specMatch ? specMatch[1]! : 'unknown';
   
   // Parse overview section
   const overview: SpecTasks['overview'] = {};
@@ -95,8 +95,8 @@ export function parseTasksMD(filePath: string): SpecTasks {
     // Parse task lines: - [x] or - [ ] followed by markers and task ID
     const taskMatch = line.match(/^-\s+\[([x\s])\]\s*(.+)$/);
     if (taskMatch) {
-      const status = taskMatch[1].trim() === 'x' ? 'done' : 'pending';
-      const rest = taskMatch[2];
+      const status = taskMatch[1]!.trim() === 'x' ? 'done' : 'pending';
+      const rest = taskMatch[2]!;
       
       // Extract markers [B], [P], [D:X]
       const blocking = /\[B\]/.test(rest);
@@ -118,7 +118,7 @@ export function parseTasksMD(filePath: string): SpecTasks {
       
       // Extract file references from description
       const fileMatches = description.matchAll(/`([^`]+)`/g);
-      const files = Array.from(fileMatches, m => m[1]).filter(f => 
+      const files: string[] = (Array.from(fileMatches, m => m[1]!) as string[]).filter(f =>
         f.includes('/') || f.endsWith('.ts') || f.endsWith('.tsx') || f.endsWith('.md')
       );
       
@@ -192,7 +192,7 @@ if (require.main === module) {
     console.log(JSON.stringify(allTasks, null, 2));
   } else {
     // Parse specific file
-    const tasks = parseTasksMD(args[0]);
+    const tasks = parseTasksMD(args[0]!);
     console.log(JSON.stringify(tasks, null, 2));
   }
 }

@@ -1,4 +1,4 @@
-import type { PrismaClientOptions } from '@prisma/client'
+import { Prisma } from '@prisma/client'
 
 const config = {
   datasourceUrl: process.env.DATABASE_URL,

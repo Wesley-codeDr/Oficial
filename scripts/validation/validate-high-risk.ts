@@ -242,7 +242,7 @@ function validateMedications(
 
   // Check evidence level
   const lowEvidenceMeds = medications.filter(
-    m => !HIGH_RISK_VALIDATION_RULES.medications.evidenceLevel.includes(m.evidenceLevel)
+    m => !HIGH_RISK_VALIDATION_RULES.medications.evidenceLevel.includes(m.evidenceLevel as any)
   )
   if (lowEvidenceMeds.length > 0) {
     warnings.push({
@@ -448,7 +448,7 @@ function validateEBMReferences(
 
   // Check evidence quality
   const lowQualityRefs = references.filter(
-    r => r.evidenceQuality && !HIGH_RISK_VALIDATION_RULES.ebm.evidenceQuality.includes(r.evidenceQuality)
+    r => r.evidenceQuality && !HIGH_RISK_VALIDATION_RULES.ebm.evidenceQuality.includes(r.evidenceQuality as any)
   )
 
   if (lowQualityRefs.length > 0) {

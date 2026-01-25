@@ -67,7 +67,7 @@ function convertToKanbanTask(task: TaskFromMD, spec: string): KanbanTask {
   }
   
   return {
-    title: `${task.id}: ${task.description.split('\n')[0].substring(0, 80)}`,
+    title: `${task.id}: ${task.description.split('\n')[0]!.substring(0, 80)}`,
     description,
     status,
     labels,

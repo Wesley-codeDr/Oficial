@@ -117,16 +117,16 @@ export async function syncObsidianToDB(
 
     const validation = validateComplaintFrontmatter({
       id: parsed.id,
-      group: parsed.group,
+      group: parsed.group as any,
       title: parsed.title,
       subtitle: parsed.subtitle,
-      riskLevel: parsed.riskLevel,
+      riskLevel: parsed.riskLevel as any,
       severity: parsed.severity,
       icd10Codes: parsed.icd10Codes,
       synonyms: parsed.synonyms,
       searchTerms: parsed.searchTerms,
       chips: parsed.chips,
-      ageTargets: parsed.ageTargets,
+      ageTargets: parsed.ageTargets as any,
       isTopForAdult: parsed.isTopForAdult,
       isTopForChild: parsed.isTopForChild,
       isFastTrack: parsed.isFastTrack,
@@ -170,7 +170,7 @@ export async function syncObsidianToDB(
       continue
     }
 
-    const currentAdditional = parseAdditionalData(existing.additional_data)
+    const currentAdditional = parseAdditionalData(existing.additional_data) as any
     const existingHash = currentAdditional?.sync?.contentHash
 
     if (existingHash && existingHash === contentHash) {
@@ -195,9 +195,9 @@ export async function syncObsidianToDB(
 
     const metadata = {
       subtitle: parsed.subtitle || undefined,
-      riskLevel: parsed.riskLevel,
+      riskLevel: parsed.riskLevel as any,
       severity: parsed.severity,
-      ageTargets: parsed.ageTargets,
+      ageTargets: parsed.ageTargets as any,
       isTopForAdult: parsed.isTopForAdult,
       isTopForChild: parsed.isTopForChild,
       isFastTrack: parsed.isFastTrack,
@@ -243,10 +243,10 @@ export async function syncObsidianToDB(
       }
     }
 
-    const additionalUpdate = {
+    const additionalUpdate: any = {
       metadata,
       extendedContent,
-      extendedContentEBM: ebmContent,
+      extendedContentEBM: ebmContent as any,
       sync: {
         contentHash,
         lastSyncedAt: new Date().toISOString(),
@@ -254,7 +254,7 @@ export async function syncObsidianToDB(
       },
     }
 
-    const mergedAdditional = mergeAdditionalData(currentAdditional, additionalUpdate)
+    const mergedAdditional = mergeAdditionalData(currentAdditional, additionalUpdate as any)
 
     const updateData: Prisma.chief_complaintsUpdateInput = {
       group_id: group.id,

@@ -87,7 +87,7 @@ function updateTasksMDStatus(
       // Update the line
       const lineIndex = task.lineNumber - 1;
       if (lineIndex >= 0 && lineIndex < lines.length) {
-        const oldLine = lines[lineIndex];
+        const oldLine = lines[lineIndex]!;
         const newLine = oldLine.replace(
           /^-\s+\[([x\s])\]/,
           shouldBeDone ? '- [x]' : '- [ ]'

@@ -5,7 +5,7 @@ export interface Symptom {
   options?: string[]
   checked?: boolean
   negative?: boolean
-  value?: string | number | boolean
+  value?: string | number | boolean | string[]
   isRedFlag?: boolean
   min?: number
   max?: number
@@ -43,6 +43,7 @@ export interface ComplaintExtendedContent {
   diagnosticoDiferencial: string[]
   condutaInicial: string
   calculadoras: string[]
+  referencias?: string[]
   rawMarkdown?: string
 }
 
@@ -227,6 +228,23 @@ export type EBMSource =
   | 'sbpt'
   | 'amb'
   | 'ms'
+  | 'aha-guideline'
+  | 'neurocritical-care'
+  | 'acep'
+  | 'acg-guideline'
+  | 'sbp'
+  | 'aap'
+  | 'ilas'
+  | 'surviving-sepsis'
+  | 'ms-brasil'
+  | 'paho'
+  | 'acc-aha'
+  | 'esc-guideline'
+  | 'gold-guideline'
+  | 'amib'
+  | 'ardsnet'
+  | 'sbn'
+  | 'other'
 
 /**
  * Nível de evidência baseado no sistema Oxford CEBM
@@ -287,6 +305,7 @@ export type MedicationRoute =
   | 'Tópico'      // Tópica/cutânea
   | 'SL'          // Sublingual
   | 'Retal'       // Retal
+  | 'Vaginal'     // Vaginal
   | 'Nasal'       // Nasal
   | 'Ocular'      // Ocular
 

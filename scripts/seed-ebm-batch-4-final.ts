@@ -1,5 +1,5 @@
 #!/usr/bin/env tsx
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client'
 import chalk from 'chalk'
 import { validateEBMContent } from '../lib/validation/ebm'
 
@@ -2032,7 +2032,7 @@ async function main() {
         data: {
           additional_data: {
             extendedContentEBM: ebmData.extendedContentEBM,
-          },
+          } as unknown as Prisma.InputJsonValue,
         },
       })
 
@@ -2058,7 +2058,7 @@ async function main() {
       is_high_acuity: true,
       additional_data: {
         path: ['extendedContentEBM'],
-        not: null,
+        not: Prisma.JsonNull,
       },
     },
   })

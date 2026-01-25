@@ -62,8 +62,8 @@ export function levenshteinDistance(a: string, b: string): number {
     .fill(null)
     .map(() => Array(aLen + 1).fill(0)) as number[][]
 
-  if (matrix[0]) for (let i = 0; i <= aLen; i++) matrix[0][i] = i
-  for (let j = 0; j <= bLen; j++) if (matrix[j]) matrix[j][0] = j
+  if (matrix[0]) for (let i = 0; i <= aLen; i++) matrix[0]![i] = i
+  for (let j = 0; j <= bLen; j++) if (matrix[j]) matrix[j]![0] = j
 
   for (let j = 1; j <= bLen; j++) {
     if (!matrix[j]) continue
@@ -71,10 +71,10 @@ export function levenshteinDistance(a: string, b: string): number {
       const indicator = a[i - 1] === b[j - 1] ? 0 : 1
       const prevRow = matrix[j - 1]
       if (!prevRow) continue
-      matrix[j][i] = Math.min(
-        matrix[j][i - 1] + 1, // deletion
-        prevRow[i] + 1, // insertion
-        prevRow[i - 1] + indicator // substitution
+      matrix[j]![i] = Math.min(
+        matrix[j]![i - 1]! + 1, // deletion
+        prevRow[i]! + 1, // insertion
+        prevRow[i - 1]! + indicator // substitution
       )
     }
   }
