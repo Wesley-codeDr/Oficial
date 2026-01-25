@@ -6,6 +6,10 @@ import { FlashPreview } from './FlashPreview'
 import { AnamnesisWorkspace } from './AnamnesisWorkspace'
 import { Patient } from '@/lib/types/medical'
 import { generateFlashRecord, FlashInput } from '@/lib/data/flashTemplates'
+import {
+  getCheckboxesForTemplate,
+  generateTextFromCheckboxes,
+} from '@/lib/data/flashCheckboxes'
 import { ArrowLeft, Sparkles, MessageSquare, Calculator, User, Baby } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChatWell } from './ChatWell'
@@ -41,6 +45,9 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
     centor_score: '',
   })
 
+  // Estado para checkboxes específicos por queixa
+  const [checkedBoxes, setCheckedBoxes] = useState<Set<string>>(new Set())
+
   const [activeTool, setActiveTool] = useState<'chat' | 'calculators' | null>(null)
 
   const handleApplyScoreInternal = (scoreResult: string) => {
@@ -74,16 +81,72 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
   }
 
   const handleTemplateSelect = (id: string) => {
-    setSelectedTemplateId(id)
-    setStep('workspace')
+    handleTemplateSelectInternal(id)
   }
 
   const handleFormUpdate = (data: FlashInput['dados_variaveis']) => {
     setVariables(data)
   }
 
+  const handleCheckboxChange = (newCheckedIds: Set<string>) => {
+    setCheckedBoxes(newCheckedIds)
+  }
+
+  // Reset checkboxes when template changes
+  const handleTemplateSelectInternal = (id: string) => {
+    setSelectedTemplateId(id)
+    setCheckedBoxes(new Set()) // Reset checkboxes for new template
+    setStep('workspace')
+  }
+
   const generatedRecord = useMemo(() => {
     if (!selectedTemplateId) return null
+
+    // Obtém checkboxes do template
+    const templateCheckboxes = getCheckboxesForTemplate(selectedTemplateId)
+
+    // Se tem checkboxes específicos, gera texto baseado neles
+    if (templateCheckboxes.length > 0 && checkedBoxes.size > 0) {
+      // Gera texto de cada seção baseado nos checkboxes selecionados
+      const qpFromCheckboxes = generateTextFromCheckboxes(
+        templateCheckboxes,
+        checkedBoxes,
+        'queixa_principal',
+        variables as Record<string, string>
+      )
+
+      const efFromCheckboxes = generateTextFromCheckboxes(
+        templateCheckboxes,
+        checkedBoxes,
+        'exame_fisico',
+        variables as Record<string, string>
+      )
+
+      // Gera o record base do template
+      const baseRecord = generateFlashRecord({
+        paciente: {
+          sexo: patient.gender,
+          idade: patient.age,
+          unidade_idade: 'anos',
+          gestante: patient.isPregnant,
+        },
+        queixa_selecionada: selectedTemplateId,
+        dados_variaveis: variables,
+      })
+
+      // Combina texto dos checkboxes com template base
+      return {
+        ...baseRecord,
+        queixa_principal: qpFromCheckboxes
+          ? `${qpFromCheckboxes} há ${variables.tempo_sintomas || '--'}.`
+          : baseRecord.queixa_principal,
+        exame_fisico: efFromCheckboxes
+          ? `Bom estado geral. ${efFromCheckboxes}.`
+          : baseRecord.exame_fisico,
+      }
+    }
+
+    // Fallback para geração padrão do template
     return generateFlashRecord({
       paciente: {
         sexo: patient.gender,
@@ -94,7 +157,7 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
       queixa_selecionada: selectedTemplateId,
       dados_variaveis: variables,
     })
-  }, [selectedTemplateId, patient, variables])
+  }, [selectedTemplateId, patient, variables, checkedBoxes])
 
   const steps = ['identity', 'selection', 'workspace'] as const;
   const currentIndex = steps.indexOf(step);
@@ -191,6 +254,8 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
                       onUpdate={handleFormUpdate}
                       templateId={selectedTemplateId}
                       onSubmit={onExit}
+                      checkedBoxes={checkedBoxes}
+                      onCheckboxChange={handleCheckboxChange}
                     />
                   }
                   rightContent={

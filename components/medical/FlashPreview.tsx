@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Copy, Check, RefreshCcw, Type, Sparkles } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { LiquidEditor } from './LiquidEditor'
@@ -22,15 +22,43 @@ export const FlashPreview: React.FC<FlashPreviewProps> = ({ record, onReset }) =
   const [copiedSection, setCopiedSection] = useState<string | null>(null)
   const [isUppercaseMode, setIsUppercaseMode] = useState(false)
 
+  // Track if user has manually edited a field
+  const userEditedFields = useRef<Set<string>>(new Set())
+
   // Local state to support editing
   const [editableRecord, setEditableRecord] = useState({
     ...record,
-    hipotese_diagnostica: Array.isArray(record.hipotese_diagnostica) 
-      ? record.hipotese_diagnostica.join(', ') 
+    hipotese_diagnostica: Array.isArray(record.hipotese_diagnostica)
+      ? record.hipotese_diagnostica.join(', ')
       : record.hipotese_diagnostica
   })
 
+  // CORREÇÃO: Sincronizar editableRecord quando o prop record muda
+  // Mas preservar campos que o usuário editou manualmente
+  useEffect(() => {
+    setEditableRecord(prev => ({
+      queixa_principal: userEditedFields.current.has('queixa_principal')
+        ? prev.queixa_principal
+        : record.queixa_principal,
+      exame_fisico: userEditedFields.current.has('exame_fisico')
+        ? prev.exame_fisico
+        : record.exame_fisico,
+      hipotese_diagnostica: userEditedFields.current.has('hipotese_diagnostica')
+        ? prev.hipotese_diagnostica
+        : Array.isArray(record.hipotese_diagnostica)
+          ? record.hipotese_diagnostica.join(', ')
+          : record.hipotese_diagnostica,
+      conduta: userEditedFields.current.has('conduta')
+        ? prev.conduta
+        : record.conduta,
+      cid: record.cid,
+      cid_descricao: record.cid_descricao,
+    }))
+  }, [record])
+
   const handleUpdate = (field: string, value: string) => {
+    // Marcar campo como editado manualmente pelo usuário
+    userEditedFields.current.add(field)
     setEditableRecord((prev) => ({ ...prev, [field]: value }))
   }
 
