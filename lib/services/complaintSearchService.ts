@@ -50,6 +50,7 @@ export interface SearchIndex {
       isFastTrack: boolean
       icd10Codes: string[]
       searchWeight: number
+      normalizedTitle: string
     }
   }
   invertedIndex: {
@@ -61,6 +62,9 @@ export interface SearchIndex {
   synonymIndex: {
     [normalizedSynonym: string]: string[]
   }
+  exactTitleIndex: {
+    [normalizedTitle: string]: string[]
+  }
 }
 
 export function buildSearchIndex(complaints: Complaint[], version: string = 'runtime'): SearchIndex {
@@ -71,13 +75,16 @@ export function buildSearchIndex(complaints: Complaint[], version: string = 'run
     invertedIndex: {},
     ngramIndex: {},
     synonymIndex: {},
+    exactTitleIndex: {},
   }
 
   for (const complaint of complaints) {
+    const normalizedTitle = normalizeText(complaint.title)
     const complaintEntry = {
       id: complaint.id,
       group: complaint.group,
       title: complaint.title,
+      normalizedTitle,
       subtitle: complaint.subtitle,
       allSearchableText: [
         complaint.title,
@@ -100,6 +107,11 @@ export function buildSearchIndex(complaints: Complaint[], version: string = 'run
     }
 
     index.complaints[complaint.id] = complaintEntry
+
+    if (!index.exactTitleIndex[normalizedTitle]) {
+      index.exactTitleIndex[normalizedTitle] = []
+    }
+    index.exactTitleIndex[normalizedTitle].push(complaint.id)
 
     const processedTerms = new Set<string>()
 
@@ -210,23 +222,28 @@ export function searchComplaints(
   const scoreMap = new Map<string, number>()
   const matchTypeMap = new Map<string, 'exact' | 'prefix' | 'synonym' | 'fuzzy' | 'ngram'>()
 
-  for (const complaintId of Object.keys(index.complaints)) {
-    const complaint = index.complaints[complaintId]
-    if (!complaint) continue
-    const titleLower = normalizeText(complaint.title)
-
-    if (titleLower === normalizedTerm) {
-      scoreMap.set(complaintId, 100)
-      matchTypeMap.set(complaintId, 'exact')
+  // Optimization: O(1) Exact match using hash map
+  const exactMatchIds = index.exactTitleIndex[normalizedTerm]
+  if (exactMatchIds) {
+    for (const id of exactMatchIds) {
+      scoreMap.set(id, 100)
+      matchTypeMap.set(id, 'exact')
     }
   }
 
+  // Optimization: Use pre-computed normalizedTitle for prefix match
+  // Still O(N) but eliminates expensive normalizeText calls inside the loop
   for (const complaintId of Object.keys(index.complaints)) {
+    // Skip if we already have an exact match for this ID
+    if (scoreMap.has(complaintId)) continue
+
     const complaint = index.complaints[complaintId]
     if (!complaint) continue
-    const titleLower = normalizeText(complaint.title)
 
-    if (titleLower.startsWith(normalizedTerm) && !scoreMap.has(complaintId)) {
+    // Use pre-computed normalized title
+    const titleLower = complaint.normalizedTitle
+
+    if (titleLower.startsWith(normalizedTerm)) {
       scoreMap.set(complaintId, 85)
       matchTypeMap.set(complaintId, 'prefix')
     }
@@ -274,7 +291,8 @@ export function searchComplaints(
     const currentScore = scoreMap.get(complaintId) || 0
 
     if (currentScore < fuzzyThreshold) {
-      const fuzzyScore = fuzzyMatch(normalizedTerm, normalizeText(complaint.title), 65)
+      // Optimization: Use pre-computed normalizedTitle
+      const fuzzyScore = fuzzyMatch(normalizedTerm, complaint.normalizedTitle, 65)
       if (fuzzyScore > 0) {
         scoreMap.set(complaintId, Math.max(currentScore, fuzzyScore))
         if (!matchTypeMap.has(complaintId)) {
