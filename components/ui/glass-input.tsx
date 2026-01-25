@@ -30,6 +30,7 @@ interface GlassInputProps extends Omit<HTMLMotionProps<"input">, "variant" | "si
   errorMessage?: string
   leftIcon?: React.ReactNode
   rightIcon?: React.ReactNode
+  rightIconLabel?: string
   onRightIconClick?: () => void
   /**
    * Enable inner glow effect
@@ -128,19 +129,27 @@ const GlassInput = React.forwardRef<HTMLInputElement, GlassInputProps>(
     errorMessage,
     leftIcon,
     rightIcon,
+    rightIconLabel,
     onRightIconClick,
     innerGlow = true,
     rimLight = true,
     type = "text",
+    id,
     ...props
   }, ref) => {
     // iOS 2026 radius: 14px for inputs (glass-sm)
     const radiusClass = "rounded-glass-sm"
+    const uniqueId = React.useId()
+    const inputId = id || uniqueId
+    const errorId = `${inputId}-error`
 
     return (
       <div className="relative w-full">
         {label && (
-          <label className="block mb-2 text-sm font-medium text-slate-700 dark:text-slate-200">
+          <label
+            htmlFor={inputId}
+            className="block mb-2 text-sm font-medium text-slate-700 dark:text-slate-200"
+          >
             {label}
           </label>
         )}
@@ -233,7 +242,10 @@ const GlassInput = React.forwardRef<HTMLInputElement, GlassInputProps>(
             {/* Actual Input */}
             <input
               ref={ref}
+              id={inputId}
               type={type}
+              aria-invalid={error ? "true" : undefined}
+              aria-describedby={error && errorMessage ? errorId : undefined}
               className={cn(
                 "relative z-10 w-full bg-transparent outline-none",
                 sizeClasses[size],
@@ -252,6 +264,7 @@ const GlassInput = React.forwardRef<HTMLInputElement, GlassInputProps>(
               <button
                 type="button"
                 onClick={onRightIconClick}
+                aria-label={rightIconLabel}
                 className={cn(
                   "absolute right-3 top-1/2 -translate-y-1/2 z-10 text-slate-400 dark:text-slate-500",
                   "transition-colors duration-200",
@@ -266,6 +279,8 @@ const GlassInput = React.forwardRef<HTMLInputElement, GlassInputProps>(
           {/* Error Message */}
           {error && errorMessage && (
             <motion.p
+              id={errorId}
+              role="alert"
               initial={{ opacity: 0, y: -5 }}
               animate={{ opacity: 1, y: 0 }}
               className="mt-2 text-sm text-red-600 dark:text-red-400"
