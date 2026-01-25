@@ -144,7 +144,7 @@ importers:
         specifier: ^2.4.5
         version: 2.4.5
       pg:
-        specifier: ^8.16.3
+        specifier: ^8.17.2
         version: 8.17.2
       puppeteer:
         specifier: ^24.35.0
