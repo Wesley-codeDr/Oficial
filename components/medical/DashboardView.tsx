@@ -116,7 +116,11 @@ const CountUp = ({ value, duration = 2 }: { value: string | number, duration?: n
 const CustomChartTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     return (
-      <div className="glass-molded-3d liquid-glass-rim liquid-glass-specular px-3 py-2 rounded-[14px] shadow-xl transform -translate-y-2">
+      <div
+        role="tooltip"
+        aria-live="polite"
+        className="glass-molded-3d liquid-glass-rim liquid-glass-specular px-3 py-2 rounded-[14px] shadow-xl transform -translate-y-2"
+      >
         <p className="text-lg font-black text-slate-800 dark:text-white leading-none">
           {payload[0].value}
         </p>
@@ -149,7 +153,21 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null)
   const [dragOverColumn, setDragOverColumn] = useState<string | null>(null)
 
-  const themeMap: Record<string, any> = {
+  interface ThemeConfig {
+    gradient: string
+    border: string
+    iconColor: string
+    label: string
+    stroke: string
+    fillStart: string
+    glow: string
+    iconBg: string
+    trendColor: string
+    trendBg: string
+    chartData: Array<{ value: number }>
+  }
+
+  const themeMap: Record<string, ThemeConfig> = {
     critical: {
       gradient: 'var(--gradient-critical)',
       border: 'var(--gradient-critical-border)',
