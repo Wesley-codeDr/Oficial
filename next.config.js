@@ -6,7 +6,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   reactStrictMode: true,
   typescript: {
-    ignoreBuildErrors: true, // Temporarily enabled for deployment - TODO: Fix Prisma type issues
+    ignoreBuildErrors: false,
   },
   // Enable standalone output for Docker
   output: 'standalone',

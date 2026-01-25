@@ -699,9 +699,9 @@ export default function Home() {
 
       <Sidebar currentView={viewMode} onNavigate={handleSidebarNavigation} />
 
-      <main className="flex-1 flex flex-col h-screen overflow-y-auto scroll-smooth relative z-0 p-4">
+      <main className="flex-1 flex flex-col min-h-0 overflow-hidden relative z-0 p-4">
         {viewMode === 'dashboard' && (
-          <GlassPanel className="min-h-full flex flex-col" style={{ borderRadius: '24px' }}>
+          <GlassPanel className="flex flex-col flex-1 min-h-0 overflow-y-auto scroll-smooth" style={{ borderRadius: '24px' }}>
             <DashboardView
               tasks={tasks}
               setTasks={setTasks}
@@ -718,7 +718,7 @@ export default function Home() {
         )}
 
         {viewMode === 'flash' && (
-          <GlassPanel className="min-h-full flex flex-col p-6" style={{ borderRadius: '24px' }}>
+          <GlassPanel className="flex-1 min-h-0 overflow-y-auto flex flex-col p-6" style={{ borderRadius: '24px' }}>
             <FlashAnamnesisFlow
               patient={patient}
               setPatient={setPatient}
@@ -729,13 +729,13 @@ export default function Home() {
         )}
 
         {viewMode === 'chat-well' && (
-          <GlassPanel className="min-h-full p-6" style={{ borderRadius: '24px' }}>
+          <GlassPanel className="flex-1 min-h-0 overflow-y-auto p-6" style={{ borderRadius: '24px' }}>
             <ChatWell />
           </GlassPanel>
         )}
 
         {viewMode !== 'dashboard' && viewMode !== 'flash' && viewMode !== 'chat-well' && (
-          <GlassPanel className="flex flex-col min-h-full" style={{ borderRadius: '24px' }}>
+          <GlassPanel className="flex flex-col flex-1 min-h-0 overflow-y-auto" style={{ borderRadius: '24px' }}>
             <div className="px-6 pt-6 shrink-0 z-20">
               <Header patient={patient} setPatient={setPatient} />
             </div>

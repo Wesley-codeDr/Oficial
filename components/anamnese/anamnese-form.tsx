@@ -480,7 +480,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr,450px]">
+    <div className="grid gap-8 grid-cols-1 lg:grid-cols-[1fr,minmax(350px,450px)]">
       {/* Network Recovery Banner - spans full width */}
       <div className="lg:col-span-2">
         <NetworkRecoveryBanner

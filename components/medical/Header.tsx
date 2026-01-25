@@ -85,14 +85,14 @@ export const Header: React.FC<HeaderProps> = ({ patient, setPatient }) => {
             {/* Quick Details */}
             <div className="flex-1 min-w-0">
                <div className="flex items-center gap-3">
-                  <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tighter truncate leading-none">
+                  <h2 className="text-xl md:text-2xl font-black text-slate-900 dark:text-white tracking-tighter truncate leading-none">
                     {patient.category === 'pediatric' ? 'Pediátrico' : patient.category === 'elderly' ? 'Idoso' : 'Adulto'}
                   </h2>
                   <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 bg-slate-900/5 dark:bg-white/10 rounded-full text-[10px] font-black tracking-widest text-slate-500 dark:text-slate-400 uppercase border border-white/20">
+                    <span className="px-2.5 py-0.5 bg-slate-900/5 dark:bg-white/10 rounded-full text-xs md:text-sm font-black tracking-widest text-slate-500 dark:text-slate-400 uppercase border border-white/20">
                       {patient.age || '--'} ANOS
                     </span>
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-black border ${
+                    <span className={`px-2 py-0.5 rounded-full text-xs md:text-sm font-black border ${
                       patient.gender === 'F' ? 'bg-pink-100/50 dark:bg-pink-900/20 text-pink-500 border-pink-200/50' : 'bg-blue-100/50 dark:bg-blue-900/20 text-blue-500 border-blue-200/50'
                     }`}>
                       {patient.gender === 'F' ? 'FEM' : 'MASC'}
@@ -100,8 +100,8 @@ export const Header: React.FC<HeaderProps> = ({ patient, setPatient }) => {
                   </div>
                </div>
                <div className="flex items-center gap-2 mt-1.5 overflow-hidden">
-                  <Activity className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-                  <p className="text-[11px] font-bold text-slate-500 dark:text-slate-400 tracking-tight truncate">
+                  <Activity className="w-3.5 h-3.5 md:w-4 md:h-4 text-slate-400 shrink-0" />
+                  <p className="text-xs md:text-sm font-bold text-slate-500 dark:text-slate-400 tracking-tight truncate">
                     {patient.allergies.length > 0 ? `Alergias: ${patient.allergies.join(', ')}` : 'Sem alergias registradas'}
                   </p>
                </div>

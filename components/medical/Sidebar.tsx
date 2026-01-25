@@ -14,9 +14,11 @@ import {
   Moon,
   Eye,
   Zap,
+  Menu,
+  X,
 } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { LiquidGlassIcon } from '@/components/ui/LiquidGlassIcon'
 
 // --- Types for Dynamic Navigation ---
@@ -115,6 +117,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const [localActiveId, setLocalActiveId] = useState('dashboard')
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [hasMounted, setHasMounted] = useState(false)
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false)
 
   // Mark as mounted to avoid hydration mismatch
   useEffect(() => {
@@ -175,18 +178,148 @@ export const Sidebar: React.FC<SidebarProps> = ({
       : 'w-[88px] lg:w-[280px]'
 
   return (
-    <aside
-      suppressHydrationWarning={true}
-      className={`${widthClass} h-screen
-        bg-[var(--color-bg-primary)]
-        dark:bg-[var(--color-bg-sidebar)]
-        border-right border-[var(--color-gray-100)]
-        flex flex-col shrink-0
-        transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] z-40 relative`}
-      style={{
-        boxShadow: 'var(--shadow-sm)'
-      }}
-    >
+    <>
+      {/* Mobile Menu Button - Hamburger */}
+      {hasMounted && typeof window !== 'undefined' && window.innerWidth < 1024 && (
+        <button
+          onClick={() => setIsMobileDrawerOpen(true)}
+          className="lg:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white/90 dark:bg-slate-800/90 shadow-lg backdrop-blur-md border border-slate-200 dark:border-slate-700"
+          aria-label="Abrir menu de navegação"
+          aria-expanded={isMobileDrawerOpen}
+        >
+          <Menu className="w-6 h-6 text-slate-800 dark:text-white" />
+        </button>
+      )}
+
+      {/* Mobile Drawer Overlay */}
+      <AnimatePresence>
+        {isMobileDrawerOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 lg:hidden"
+          >
+            <div
+              className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+              onClick={() => setIsMobileDrawerOpen(false)}
+              aria-label="Fechar menu"
+            />
+            <motion.aside
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="absolute left-0 top-0 bottom-0 w-[280px] max-w-[85vw] bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700 shadow-2xl overflow-y-auto"
+            >
+              {/* Mobile Drawer Close Button */}
+              <button
+                onClick={() => setIsMobileDrawerOpen(false)}
+                className="absolute top-4 right-4 p-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                aria-label="Fechar menu"
+              >
+                <X className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+              </button>
+
+              {/* Mobile Drawer Content - Same as sidebar content */}
+              <div className="pt-16 px-4 pb-8">
+                {/* Navigation Groups */}
+                <nav
+                  className="space-y-8"
+                  role="navigation"
+                  aria-label="Navegação principal"
+                >
+                  {/* Main Group */}
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 ml-1">
+                      Menu Principal
+                    </p>
+                    <ul className="space-y-1" role="list">
+                      {menuGroups.main.map((item) => (
+                        <NavItem
+                          key={item.id}
+                          id={item.id}
+                          icon={item.icon}
+                          label={item.label}
+                          isActive={localActiveId === item.id}
+                          isCollapsed={false}
+                          onClick={() => {
+                            handleNavigation(item.id)
+                            setIsMobileDrawerOpen(false)
+                          }}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent mx-2"></div>
+
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 ml-1">
+                      Registros
+                    </p>
+                    <ul className="space-y-1" role="list" aria-label="Registros">
+                      {menuGroups.records.map((item) => (
+                        <NavItem
+                          key={item.id}
+                          id={item.id}
+                          icon={item.icon}
+                          label={item.label}
+                          isActive={localActiveId === item.id}
+                          isCollapsed={false}
+                          onClick={() => {
+                            handleNavigation(item.id)
+                            setIsMobileDrawerOpen(false)
+                          }}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="h-px bg-gradient-to-r from-transparent via-slate-200 dark:via-white/10 to-transparent mx-2" role="separator"></div>
+
+                  <div className="space-y-2">
+                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 ml-1">
+                      Sistema
+                    </p>
+                    <ul className="space-y-1" role="list" aria-label="Sistema">
+                      {menuGroups.system.map((item) => (
+                        <NavItem
+                          key={item.id}
+                          id={item.id}
+                          icon={item.icon}
+                          label={item.label}
+                          isActive={localActiveId === item.id}
+                          isCollapsed={false}
+                          onClick={() => {
+                            handleNavigation(item.id)
+                            setIsMobileDrawerOpen(false)
+                          }}
+                        />
+                      ))}
+                    </ul>
+                  </div>
+                </nav>
+              </div>
+            </motion.aside>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Desktop Sidebar */}
+      <aside
+        suppressHydrationWarning={true}
+        className={`${widthClass} h-screen
+          bg-[var(--color-bg-primary)]
+          dark:bg-[var(--color-bg-sidebar)]
+          border-right border-[var(--color-gray-100)]
+          flex flex-col shrink-0
+          transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] z-40 relative hidden lg:flex`}
+        style={{
+          boxShadow: 'var(--shadow-sm)'
+        }}
+      >
       {/* NEW: Ambient light gradient for depth */}
       <div
         className="absolute inset-0 pointer-events-none opacity-40"
@@ -442,5 +575,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       </motion.div>
     </aside>
+    </>
   )
 }

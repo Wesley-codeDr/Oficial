@@ -59,7 +59,7 @@ export function CheckboxGroup({ title, items, selectedIds, onToggle }: CheckboxG
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item, index) => {
           const isChecked = selectedIds.has(item.id)
-
+          
           return (
             <motion.div
               key={item.id}
@@ -87,11 +87,11 @@ export function CheckboxGroup({ title, items, selectedIds, onToggle }: CheckboxG
                     ? item.isRedFlag
                       ? cn(
                           'border-rose-500/50 bg-rose-500/10',
-                          useGlassShadow('danger', isDark)
+                          'shadow-[0_8px_32px_rgba(244,63,94,0.35),inset_0_1px_0_rgba(255,255,255,0.5)]'
                         )
                       : cn(
                           'border-blue-500/50 bg-blue-500/10',
-                          useGlassShadow('primary', isDark)
+                          'shadow-[0_8px_32px_rgba(0,122,255,0.35),inset_0_1px_0_rgba(255,255,255,0.5)]'
                         )
                     : cn(
                         glassBorder,

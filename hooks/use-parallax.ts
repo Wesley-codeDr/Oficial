@@ -456,8 +456,17 @@ export function useParallax(options: UseParallaxOptions = {}): UseParallaxReturn
     setIsActive(shouldBeActive)
   }, [respectReducedMotion, prefersReducedMotion, disableOnMobile, isMobile])
 
-  // Set up scroll listener
+  // Set up scroll listener only if parallax is active
   useEffect(() => {
+    const shouldBeActive = !(respectReducedMotion && prefersReducedMotion) &&
+                          !(disableOnMobile && isMobile)
+    setIsActive(shouldBeActive)
+
+    // Don't add listener if not active
+    if (!shouldBeActive) {
+      return
+    }
+
     const target = containerRef?.current || window
     
     // Initial scroll position
@@ -469,7 +478,7 @@ export function useParallax(options: UseParallaxOptions = {}): UseParallaxReturn
       target.removeEventListener('scroll', handleScroll)
       cancelAnimationFrame(rafId.current)
     }
-  }, [containerRef, handleScroll])
+  }, [containerRef, handleScroll, respectReducedMotion, prefersReducedMotion, disableOnMobile, isMobile])
 
   return {
     scrollY,

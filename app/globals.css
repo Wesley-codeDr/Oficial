@@ -1,12 +1,12 @@
 /* ========================================
    CSS IMPORT ORDER - Apple Liquid Glass 2026
 
-   1. Tailwind base styles
-   2. Liquid Glass core (CSS custom properties, base classes, variants, effects)
-   3. Liquid Glass utilities (component presets, glow effects, icon effects)
-   4. Additional Tailwind overrides
+   IMPORTANT: @import rules must come BEFORE @tailwind directives
+
+   1. External CSS imports (Liquid Glass system)
+   2. Tailwind base/components/utilities (generates CSS rules)
+   3. Custom CSS variables and overrides
    ======================================== */
-@import 'tailwindcss';
 
 /* Core Liquid Glass 2026 Design System */
 @import './liquid-glass-2026.css';
@@ -18,6 +18,34 @@
 @import './liquid-glass-tailwind.css';
 @import './typography-tailwind.css';
 @import './animations-tailwind.css';
+
+/* Tailwind base styles - must come AFTER @import statements */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================================
+   SCROLL FIX - Apple Liquid Glass 2026
+   Reset para garantir scroll consistente
+   ======================================== */
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+#__next, [data-nextjs-scroll-focus-boundary] {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/*
+  Padrão recomendado para scroll em flex layouts:
+  - Container pai: flex-1 min-h-0 overflow-hidden
+  - Container filho com scroll: overflow-y-auto custom-scrollbar
+
+  Use a classe .custom-scrollbar (definida abaixo) para scrollbars estilizados.
+*/
 
 :root {
   /* ═══════════════════════════════════════════════════════════
@@ -385,7 +413,7 @@
 
 /* === Tailwind v4 Utility Definitions === */
 
-. liquid-glass-material {
+.liquid-glass-material {
   position: relative;
   background-color: var(--liquid-glass-bg);
   -webkit-backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
@@ -474,7 +502,7 @@
 
 /* Rim Highlight utility */
 /* Liquid Sheen - Reflective highlight that moves on hover */
-. liquid-sheen {
+.liquid-sheen {
   position: relative;
   overflow: hidden;
   &::before {
@@ -498,7 +526,7 @@
   }
 }
 
-. rim-highlight {
+.rim-highlight {
   position: relative;
   &::after {
     content: '';
@@ -516,7 +544,7 @@
 }
 
 /* Animated gradient text */
-. text-gradient-animate {
+.text-gradient-animate {
   background: linear-gradient(90deg, #e5e7eb, #9ca3af, #e5e7eb);
   background-size: 200% 200%;
   -webkit-background-clip: text;
@@ -526,7 +554,7 @@
 }
 
 /* Custom scrollbar for glass components */
-. custom-scrollbar {
+.custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05);
 
@@ -552,7 +580,7 @@
 }
 
 /* Apple-style animated blobs */
-. animate-blob {
+.animate-blob {
   animation: blob 8s infinite;
 }
 
@@ -570,7 +598,7 @@
 }
 
 /* Fade in up animation */
-. animate-fade-in-up {
+.animate-fade-in-up {
   animation: fade-in-up 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
