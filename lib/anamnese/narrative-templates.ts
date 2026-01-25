@@ -96,6 +96,12 @@ export const MEDICAL_TERMS: Record<string, string> = {
   'DRGE': 'doença do refluxo gastroesofágico (DRGE)',
 }
 
+// Pre-compile regexes for performance optimization in expandMedicalTerm
+const MEDICAL_TERMS_REGEX = Object.entries(MEDICAL_TERMS).map(([abbrev, expanded]) => ({
+  regex: new RegExp(`\\b${abbrev}\\b`, 'g'),
+  expanded,
+}))
+
 // ============================================================================
 // TEMPLATES POR CATEGORIA
 // ============================================================================
@@ -516,9 +522,7 @@ export function expandMedicalTerm(term: string): string {
 
   // Procura por termos dentro do texto
   let result = term
-  for (const [abbrev, expanded] of Object.entries(MEDICAL_TERMS)) {
-    // Substitui apenas palavras completas
-    const regex = new RegExp(`\\b${abbrev}\\b`, 'g')
+  for (const { regex, expanded } of MEDICAL_TERMS_REGEX) {
     result = result.replace(regex, expanded)
   }
 
