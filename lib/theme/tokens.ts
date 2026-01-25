@@ -24,13 +24,14 @@ export const SATURATE_VALUES = {
 } as const;
 
 // ============ Variáveis de Opacidade ============
+// Aligned with liquid-glass-2026.css values
 export const OPACITY_VALUES = {
   // Opacidade de fundo refinada para melhor contraste
-  DEFAULT: '0.32' as const,
-  SUBTLE: '0.24' as const,
-  CLEAR: '0.16' as const,
-  ELEVATED: '0.44' as const,
-  MEDICAL: '0.36' as const,
+  DEFAULT: '0.25' as const,  // Aligned with CSS: 0.25
+  SUBTLE: '0.18' as const,   // Adjusted for better contrast
+  CLEAR: '0.15' as const,    // Aligned with CSS: 0.15
+  ELEVATED: '0.35' as const, // Adjusted for better contrast
+  MEDICAL: '0.30' as const,  // Adjusted for consistency
 } as const;
 
 export const OPACITY_DARK_VALUES = {
@@ -44,15 +45,16 @@ export const OPACITY_DARK_VALUES = {
 
 // ============ Variáveis de Radius - Apple Liquid Glass 2026 ============
 // iOS 26 Standard (8px base scale)
+// Aligned with liquid-glass-2026.css values
 export const RADIUS_VALUES = {
   // Apple Liquid Glass 2026 - iOS 26 Border Radius
-  XS: '12px' as const,   // Extra Small: 12px
-  SM: '14px' as const,   // Small: 14px (buttons, toggles)
-  MD: '18px' as const,   // Medium: 18px (medium cards, inputs)
-  LG: '24px' as const,   // Large: 24px (large cards, panels)
-  XL: '28px' as const,   // Extra Large: 28px (extra large containers)
-  '2XL': '32px' as const, // 2XL: 32px (full-size modals)
-  '3XL': '40px' as const, // 3XL: 40px (hero sections)
+  XS: '8px' as const,     // Extra Small: 8px (1x base)
+  SM: '12px' as const,    // Small: 12px (1.5x base, buttons, toggles)
+  MD: '16px' as const,    // Medium: 16px (2x base, medium cards, inputs)
+  LG: '24px' as const,    // Large: 24px (3x base, large cards, panels)
+  XL: '32px' as const,    // Extra Large: 32px (4x base, extra large containers)
+  '2XL': '40px' as const, // 2XL: 40px (5x base, full-size modals)
+  '3XL': '48px' as const, // 3XL: 48px (6x base, hero sections)
 } as const;
 
 // Aliases for lowercase radius values used in components

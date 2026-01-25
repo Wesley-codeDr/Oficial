@@ -1,0 +1,231 @@
+/* ========================================
+   APPLE LIQUID GLASS 2026 - TYPOGRAPHY
+   iOS 26 Typography System
+   ======================================== */
+
+/* ========================================
+   FONT SIZE CLASSES
+   ======================================== */
+
+.text-ios-xs {
+  font-size: 11px;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+}
+
+.text-ios-sm {
+  font-size: 12px;
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+.text-ios-base {
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0em;
+}
+
+.text-ios-md {
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.text-ios-lg {
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+.text-ios-xl {
+  font-size: 20px;
+  line-height: 1.6;
+  letter-spacing: -0.015em;
+}
+
+.text-ios-2xl {
+  font-size: 24px;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+
+.text-ios-3xl {
+  font-size: 28px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
+}
+
+.text-ios-4xl {
+  font-size: 34px;
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}
+
+.text-ios-5xl {
+  font-size: 40px;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+/* ========================================
+   LINE HEIGHT CLASSES
+   ======================================== */
+
+.leading-ios-tight {
+  line-height: 1.25;
+}
+
+.leading-ios-snug {
+  line-height: 1.35;
+}
+
+.leading-ios-normal {
+  line-height: 1.5;
+}
+
+.leading-ios-relaxed {
+  line-height: 1.6;
+}
+
+.leading-ios-loose {
+  line-height: 1.75;
+}
+
+/* ========================================
+   FONT WEIGHT CLASSES
+   ======================================== */
+
+.font-ios-thin {
+  font-weight: 100;
+}
+
+.font-ios-light {
+  font-weight: 300;
+}
+
+.font-ios-regular {
+  font-weight: 400;
+}
+
+.font-ios-medium {
+  font-weight: 500;
+}
+
+.font-ios-semibold {
+  font-weight: 600;
+}
+
+.font-ios-bold {
+  font-weight: 700;
+}
+
+.font-ios-heavy {
+  font-weight: 800;
+}
+
+.font-ios-black {
+  font-weight: 900;
+}
+
+/* ========================================
+   TEXT STYLES - SEMANTIC
+   ======================================== */
+
+.text-ios-headline {
+  font-size: 28px;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.text-ios-subheadline {
+  font-size: 20px;
+  line-height: 1.6;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.text-ios-title {
+  font-size: 24px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.text-ios-body {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.text-ios-callout {
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 500;
+  letter-spacing: 0em;
+}
+
+.text-ios-caption {
+  font-size: 12px;
+  line-height: 1.4;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.text-ios-footnote {
+  font-size: 11px;
+  line-height: 1.25;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+/* ========================================
+   RESPONSIVE TYPOGRAPHY
+   ======================================== */
+
+@media (max-width: 768px) {
+  .text-ios-5xl {
+    font-size: 32px;
+  }
+
+  .text-ios-4xl {
+    font-size: 28px;
+  }
+
+  .text-ios-3xl {
+    font-size: 24px;
+  }
+
+  .text-ios-2xl {
+    font-size: 20px;
+  }
+
+  .text-ios-headline {
+    font-size: 24px;
+  }
+
+  .text-ios-title {
+    font-size: 20px;
+  }
+}
+
+/* ========================================
+   ACCESSIBILITY
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    letter-spacing: normal !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .text-ios-xs,
+  .text-ios-sm,
+  .text-ios-caption,
+  .text-ios-footnote {
+    font-weight: 500;
+  }
+}

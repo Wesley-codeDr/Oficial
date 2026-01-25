@@ -1,0 +1,244 @@
+/* ========================================
+   APPLE LIQUID GLASS 2026 - SPACING
+   iOS 26 Spacing System (4px base scale)
+   ======================================== */
+
+/* ========================================
+   PADDING CLASSES
+   ======================================== */
+
+.p-ios-0 { padding: 0; }
+.p-ios-1 { padding: 4px; }
+.p-ios-2 { padding: 8px; }
+.p-ios-3 { padding: 12px; }
+.p-ios-4 { padding: 16px; }
+.p-ios-5 { padding: 20px; }
+.p-ios-6 { padding: 24px; }
+.p-ios-7 { padding: 28px; }
+.p-ios-8 { padding: 32px; }
+.p-ios-10 { padding: 40px; }
+.p-ios-12 { padding: 48px; }
+.p-ios-16 { padding: 64px; }
+.p-ios-20 { padding: 80px; }
+.p-ios-24 { padding: 96px; }
+
+/* Padding X (horizontal) */
+.px-ios-0 { padding-left: 0; padding-right: 0; }
+.px-ios-1 { padding-left: 4px; padding-right: 4px; }
+.px-ios-2 { padding-left: 8px; padding-right: 8px; }
+.px-ios-3 { padding-left: 12px; padding-right: 12px; }
+.px-ios-4 { padding-left: 16px; padding-right: 16px; }
+.px-ios-5 { padding-left: 20px; padding-right: 20px; }
+.px-ios-6 { padding-left: 24px; padding-right: 24px; }
+.px-ios-7 { padding-left: 28px; padding-right: 28px; }
+.px-ios-8 { padding-left: 32px; padding-right: 32px; }
+.px-ios-10 { padding-left: 40px; padding-right: 40px; }
+.px-ios-12 { padding-left: 48px; padding-right: 48px; }
+.px-ios-16 { padding-left: 64px; padding-right: 64px; }
+
+/* Padding Y (vertical) */
+.py-ios-0 { padding-top: 0; padding-bottom: 0; }
+.py-ios-1 { padding-top: 4px; padding-bottom: 4px; }
+.py-ios-2 { padding-top: 8px; padding-bottom: 8px; }
+.py-ios-3 { padding-top: 12px; padding-bottom: 12px; }
+.py-ios-4 { padding-top: 16px; padding-bottom: 16px; }
+.py-ios-5 { padding-top: 20px; padding-bottom: 20px; }
+.py-ios-6 { padding-top: 24px; padding-bottom: 24px; }
+.py-ios-7 { padding-top: 28px; padding-bottom: 28px; }
+.py-ios-8 { padding-top: 32px; padding-bottom: 32px; }
+.py-ios-10 { padding-top: 40px; padding-bottom: 40px; }
+.py-ios-12 { padding-top: 48px; padding-bottom: 48px; }
+.py-ios-16 { padding-top: 64px; padding-bottom: 64px; }
+
+/* Padding Top */
+.pt-ios-0 { padding-top: 0; }
+.pt-ios-1 { padding-top: 4px; }
+.pt-ios-2 { padding-top: 8px; }
+.pt-ios-3 { padding-top: 12px; }
+.pt-ios-4 { padding-top: 16px; }
+.pt-ios-5 { padding-top: 20px; }
+.pt-ios-6 { padding-top: 24px; }
+.pt-ios-8 { padding-top: 32px; }
+.pt-ios-10 { padding-top: 40px; }
+.pt-ios-12 { padding-top: 48px; }
+
+/* Padding Bottom */
+.pb-ios-0 { padding-bottom: 0; }
+.pb-ios-1 { padding-bottom: 4px; }
+.pb-ios-2 { padding-bottom: 8px; }
+.pb-ios-3 { padding-bottom: 12px; }
+.pb-ios-4 { padding-bottom: 16px; }
+.pb-ios-5 { padding-bottom: 20px; }
+.pb-ios-6 { padding-bottom: 24px; }
+.pb-ios-8 { padding-bottom: 32px; }
+.pb-ios-10 { padding-bottom: 40px; }
+.pb-ios-12 { padding-bottom: 48px; }
+
+/* Padding Left */
+.pl-ios-0 { padding-left: 0; }
+.pl-ios-1 { padding-left: 4px; }
+.pl-ios-2 { padding-left: 8px; }
+.pl-ios-3 { padding-left: 12px; }
+.pl-ios-4 { padding-left: 16px; }
+.pl-ios-5 { padding-left: 20px; }
+.pl-ios-6 { padding-left: 24px; }
+.pl-ios-8 { padding-left: 32px; }
+.pl-ios-10 { padding-left: 40px; }
+.pl-ios-12 { padding-left: 48px; }
+
+/* Padding Right */
+.pr-ios-0 { padding-right: 0; }
+.pr-ios-1 { padding-right: 4px; }
+.pr-ios-2 { padding-right: 8px; }
+.pr-ios-3 { padding-right: 12px; }
+.pr-ios-4 { padding-right: 16px; }
+.pr-ios-5 { padding-right: 20px; }
+.pr-ios-6 { padding-right: 24px; }
+.pr-ios-8 { padding-right: 32px; }
+.pr-ios-10 { padding-right: 40px; }
+.pr-ios-12 { padding-right: 48px; }
+
+/* ========================================
+   MARGIN CLASSES
+   ======================================== */
+
+.m-ios-0 { margin: 0; }
+.m-ios-1 { margin: 4px; }
+.m-ios-2 { margin: 8px; }
+.m-ios-3 { margin: 12px; }
+.m-ios-4 { margin: 16px; }
+.m-ios-5 { margin: 20px; }
+.m-ios-6 { margin: 24px; }
+.m-ios-7 { margin: 28px; }
+.m-ios-8 { margin: 32px; }
+.m-ios-10 { margin: 40px; }
+.m-ios-12 { margin: 48px; }
+.m-ios-16 { margin: 64px; }
+.m-ios-20 { margin: 80px; }
+.m-ios-24 { margin: 96px; }
+.m-ios-auto { margin: auto; }
+
+/* Margin X (horizontal) */
+.mx-ios-0 { margin-left: 0; margin-right: 0; }
+.mx-ios-1 { margin-left: 4px; margin-right: 4px; }
+.mx-ios-2 { margin-left: 8px; margin-right: 8px; }
+.mx-ios-3 { margin-left: 12px; margin-right: 12px; }
+.mx-ios-4 { margin-left: 16px; margin-right: 16px; }
+.mx-ios-5 { margin-left: 20px; margin-right: 20px; }
+.mx-ios-6 { margin-left: 24px; margin-right: 24px; }
+.mx-ios-8 { margin-left: 32px; margin-right: 32px; }
+.mx-ios-10 { margin-left: 40px; margin-right: 40px; }
+.mx-ios-12 { margin-left: 48px; margin-right: 48px; }
+.mx-ios-auto { margin-left: auto; margin-right: auto; }
+
+/* Margin Y (vertical) */
+.my-ios-0 { margin-top: 0; margin-bottom: 0; }
+.my-ios-1 { margin-top: 4px; margin-bottom: 4px; }
+.my-ios-2 { margin-top: 8px; margin-bottom: 8px; }
+.my-ios-3 { margin-top: 12px; margin-bottom: 12px; }
+.my-ios-4 { margin-top: 16px; margin-bottom: 16px; }
+.my-ios-5 { margin-top: 20px; margin-bottom: 20px; }
+.my-ios-6 { margin-top: 24px; margin-bottom: 24px; }
+.my-ios-8 { margin-top: 32px; margin-bottom: 32px; }
+.my-ios-10 { margin-top: 40px; margin-bottom: 40px; }
+.my-ios-12 { margin-top: 48px; margin-bottom: 48px; }
+
+/* Margin Top */
+.mt-ios-0 { margin-top: 0; }
+.mt-ios-1 { margin-top: 4px; }
+.mt-ios-2 { margin-top: 8px; }
+.mt-ios-3 { margin-top: 12px; }
+.mt-ios-4 { margin-top: 16px; }
+.mt-ios-5 { margin-top: 20px; }
+.mt-ios-6 { margin-top: 24px; }
+.mt-ios-8 { margin-top: 32px; }
+.mt-ios-10 { margin-top: 40px; }
+.mt-ios-12 { margin-top: 48px; }
+
+/* Margin Bottom */
+.mb-ios-0 { margin-bottom: 0; }
+.mb-ios-1 { margin-bottom: 4px; }
+.mb-ios-2 { margin-bottom: 8px; }
+.mb-ios-3 { margin-bottom: 12px; }
+.mb-ios-4 { margin-bottom: 16px; }
+.mb-ios-5 { margin-bottom: 20px; }
+.mb-ios-6 { margin-bottom: 24px; }
+.mb-ios-8 { margin-bottom: 32px; }
+.mb-ios-10 { margin-bottom: 40px; }
+.mb-ios-12 { margin-bottom: 48px; }
+
+/* Margin Left */
+.ml-ios-0 { margin-left: 0; }
+.ml-ios-1 { margin-left: 4px; }
+.ml-ios-2 { margin-left: 8px; }
+.ml-ios-3 { margin-left: 12px; }
+.ml-ios-4 { margin-left: 16px; }
+.ml-ios-5 { margin-left: 20px; }
+.ml-ios-6 { margin-left: 24px; }
+.ml-ios-8 { margin-left: 32px; }
+.ml-ios-10 { margin-left: 40px; }
+.ml-ios-12 { margin-left: 48px; }
+
+/* Margin Right */
+.mr-ios-0 { margin-right: 0; }
+.mr-ios-1 { margin-right: 4px; }
+.mr-ios-2 { margin-right: 8px; }
+.mr-ios-3 { margin-right: 12px; }
+.mr-ios-4 { margin-right: 16px; }
+.mr-ios-5 { margin-right: 20px; }
+.mr-ios-6 { margin-right: 24px; }
+.mr-ios-8 { margin-right: 32px; }
+.mr-ios-10 { margin-right: 40px; }
+.mr-ios-12 { margin-right: 48px; }
+
+/* ========================================
+   GAP CLASSES (for flexbox/grid)
+   ======================================== */
+
+.gap-ios-0 { gap: 0; }
+.gap-ios-1 { gap: 4px; }
+.gap-ios-2 { gap: 8px; }
+.gap-ios-3 { gap: 12px; }
+.gap-ios-4 { gap: 16px; }
+.gap-ios-5 { gap: 20px; }
+.gap-ios-6 { gap: 24px; }
+.gap-ios-8 { gap: 32px; }
+.gap-ios-10 { gap: 40px; }
+.gap-ios-12 { gap: 48px; }
+
+.gap-x-ios-0 { column-gap: 0; }
+.gap-x-ios-1 { column-gap: 4px; }
+.gap-x-ios-2 { column-gap: 8px; }
+.gap-x-ios-3 { column-gap: 12px; }
+.gap-x-ios-4 { column-gap: 16px; }
+.gap-x-ios-5 { column-gap: 20px; }
+.gap-x-ios-6 { column-gap: 24px; }
+.gap-x-ios-8 { column-gap: 32px; }
+
+.gap-y-ios-0 { row-gap: 0; }
+.gap-y-ios-1 { row-gap: 4px; }
+.gap-y-ios-2 { row-gap: 8px; }
+.gap-y-ios-3 { row-gap: 12px; }
+.gap-y-ios-4 { row-gap: 16px; }
+.gap-y-ios-5 { row-gap: 20px; }
+.gap-y-ios-6 { row-gap: 24px; }
+.gap-y-ios-8 { row-gap: 32px; }
+
+/* ========================================
+   RESPONSIVE SPACING
+   ======================================== */
+
+@media (max-width: 768px) {
+  /* Reduce spacing on mobile */
+  .p-ios-responsive-8 { padding: 16px; }
+  .p-ios-responsive-10 { padding: 24px; }
+  .p-ios-responsive-12 { padding: 32px; }
+
+  .px-ios-responsive-8 { padding-left: 16px; padding-right: 16px; }
+  .px-ios-responsive-10 { padding-left: 24px; padding-right: 24px; }
+  .px-ios-responsive-12 { padding-left: 32px; padding-right: 32px; }
+
+  .py-ios-responsive-8 { padding-top: 16px; padding-bottom: 16px; }
+  .py-ios-responsive-10 { padding-top: 24px; padding-bottom: 24px; }
+  .py-ios-responsive-12 { padding-top: 32px; padding-bottom: 32px; }
+}

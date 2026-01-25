@@ -19,6 +19,12 @@
 @import './typography-tailwind.css';
 @import './animations-tailwind.css';
 
+/* Apple Liquid Glass 2026 - iOS 26 System Classes */
+@import './typography-ios26.css';
+@import './spacing-ios26.css';
+@import './animations-ios26.css';
+@import './effects-ios26.css';
+
 /* Tailwind base styles - must come AFTER @import statements */
 @tailwind base;
 @tailwind components;

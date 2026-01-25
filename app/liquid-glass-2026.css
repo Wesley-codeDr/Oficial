@@ -91,7 +91,7 @@
   --radius-lg: 24px;
   --radius-xl: 32px;
   --radius-2xl: 40px;
-  --radius-3xl: 40px;
+  --radius-3xl: 48px;  /* Fixed: was 40px (duplicate of 2xl), now 48px */
   --radius-full: 9999px;
 
   /* Hierarchy-Specific Radius (7-Level System) */
