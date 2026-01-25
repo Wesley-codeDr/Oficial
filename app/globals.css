@@ -385,7 +385,7 @@
 
 /* === Tailwind v4 Utility Definitions === */
 
-@utility liquid-glass-material {
+. liquid-glass-material {
   position: relative;
   background-color: var(--liquid-glass-bg);
   -webkit-backdrop-filter: blur(var(--liquid-glass-blur)) saturate(var(--liquid-glass-saturate));
@@ -451,25 +451,30 @@
   }
 }
 
-@utility glass-elevated {
-  @apply liquid-glass-material;
+.glass-elevated {
+  position: relative;
+  background-color: var(--liquid-glass-bg);
   -webkit-backdrop-filter: blur(var(--liquid-glass-blur-elevated)) saturate(var(--liquid-glass-saturate-elevated));
   backdrop-filter: blur(var(--liquid-glass-blur-elevated)) saturate(var(--liquid-glass-saturate-elevated));
+  border: 1px solid var(--liquid-glass-border);
   box-shadow: var(--liquid-glass-shadow-elevated);
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   z-index: 10;
-  border-color: rgba(255, 255, 255, 0.5);
+  border-radius: var(--liquid-radius-lg, 32px);
+  overflow: hidden;
+  border-color: rgba(255,255,255, 0.5);
 
   &:hover {
     transform: translateY(-4px) scale(1.005);
     box-shadow:
       0 50px 100px -20px rgba(0, 0, 0, 0.25),
-      0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+      0 0 0 1px rgba(255,255,255, 0.8) inset;
   }
 }
 
 /* Rim Highlight utility */
 /* Liquid Sheen - Reflective highlight that moves on hover */
-@utility liquid-sheen {
+. liquid-sheen {
   position: relative;
   overflow: hidden;
   &::before {
@@ -493,7 +498,7 @@
   }
 }
 
-@utility rim-highlight {
+. rim-highlight {
   position: relative;
   &::after {
     content: '';
@@ -511,7 +516,7 @@
 }
 
 /* Animated gradient text */
-@utility text-gradient-animate {
+. text-gradient-animate {
   background: linear-gradient(90deg, #e5e7eb, #9ca3af, #e5e7eb);
   background-size: 200% 200%;
   -webkit-background-clip: text;
@@ -521,7 +526,7 @@
 }
 
 /* Custom scrollbar for glass components */
-@utility custom-scrollbar {
+. custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.05);
 
@@ -547,7 +552,7 @@
 }
 
 /* Apple-style animated blobs */
-@utility animate-blob {
+. animate-blob {
   animation: blob 8s infinite;
 }
 
@@ -565,7 +570,7 @@
 }
 
 /* Fade in up animation */
-@utility animate-fade-in-up {
+. animate-fade-in-up {
   animation: fade-in-up 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 

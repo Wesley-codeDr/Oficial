@@ -220,20 +220,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
             handleNavigation('dashboard')
           }}
         >
-          <div className={`flex items-center select-none group transition-all duration-500 ${isCollapsed ? 'gap-0' : 'gap-4'}`}>
+          <div className={`flex items-center select-none group transition-all duration-500 ${isCollapsed ? 'gap-0' : 'gap-3'}`}>
             {/* LOGO CONTAINER GLASS */}
             <motion.div
-              className={`
-                relative flex items-center justify-center glass-pill inner-glow-ios26 shrink-0 overflow-hidden 
-                group-hover/brand:bg-white/40 dark:group-hover/brand:bg-white/15 transition-all duration-500
-                ${isCollapsed ? 'w-[60px] h-[60px]' : 'w-14 h-14'}
-              `}
+              className="logo-glass-container w-12 h-12 shrink-0"
               animate={{ y: [0, -2, 0] }}
               transition={{
                 duration: 4,
                 repeat: Infinity,
                 ease: 'easeInOut',
               }}
+              whileHover={{
+                y: -2,
+                scale: 1.05,
+                transition: { duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] },
+              }}
+              whileTap={{ scale: 0.98, transition: { duration: 0.12 } }}
             >
               <img
                 src="/logo-wellwave.png"
