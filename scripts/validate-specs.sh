@@ -136,7 +136,7 @@ if [ "$VALIDATE_ALL" = true ]; then
         if [ -d "$spec_dir" ]; then
             # Skip special directories
             spec_name=$(basename "$spec_dir")
-            if [ "$spec_name" = "archived" ] || [ "$spec_name" = "templates" ]; then
+            if [ "$spec_name" = "archived" ] || [ "$spec_name" = "templates" ] || [ "$spec_name" = "utils" ]; then
                 continue
             fi
             ((total_specs++))

@@ -92,6 +92,9 @@ Templates padrão estão disponíveis em `specs/templates/`:
 - `api-spec.md` - Template de especificação de API
 - `technical-design.md` - Template de design técnico
 - `deployment-guide.md` - Template de guia de deploy
+- `plan.md` - Template de plano de implementação
+- `tasks.md` - Template de breakdown de tarefas
+- `research.md` - Template de pesquisa técnica
 
 ## Validação
 

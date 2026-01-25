@@ -24,6 +24,20 @@ Optimize `levenshteinDistance` to use O(min(N,M)) space.
 - [x] Reduce memory usage of `levenshteinDistance`
 - [x] Maintain correctness of the algorithm
 
+## Requirements
+
+### Functional Requirements
+
+- **FR1**: `levenshteinDistance` must return correct edit distances
+- **FR2**: Memory usage must be O(min(N,M)) instead of O(N*M)
+- **FR3**: Algorithm correctness must be maintained
+
+### Non-Functional Requirements
+
+- **NFR1**: Performance must not degrade
+- **NFR2**: All existing tests must pass
+- **NFR3**: Memory reduction must be measurable
+
 ## User Stories
 
 ### User Story 1

@@ -51,9 +51,9 @@ jobs:
           
           # Check templates exist
           REQUIRED_TEMPLATES=(
-            "templates/spec-template.md"
-            "templates/plan-template.md"
-            "templates/tasks-template.md"
+            "specs/templates/feature-spec.md"
+            "specs/templates/plan.md"
+            "specs/templates/tasks.md"
           )
           
           for template in "${REQUIRED_TEMPLATES[@]}"; do
