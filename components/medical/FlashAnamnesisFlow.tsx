@@ -5,11 +5,11 @@ import { FlashForm } from './FlashForm'
 import { FlashPreview } from './FlashPreview'
 import { AnamnesisWorkspace } from './AnamnesisWorkspace'
 import { Patient } from '@/lib/types/medical'
-import { generateFlashRecord, FlashInput } from '@/lib/data/flashTemplates'
+import { generateFlashRecord, FlashInput, flashTemplates } from '@/lib/data/flashTemplates'
 import {
   getCheckboxesForTemplate,
-  generateTextFromCheckboxes,
 } from '@/lib/data/flashCheckboxes'
+import { generateProfessionalMedicalText } from '@/lib/data/flashTextGenerator'
 import { ArrowLeft, Sparkles, MessageSquare, Calculator, User, Baby } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChatWell } from './ChatWell'
@@ -105,48 +105,32 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
     // Obtém checkboxes do template
     const templateCheckboxes = getCheckboxesForTemplate(selectedTemplateId)
 
-    // Se tem checkboxes específicos, gera texto baseado neles
+    // Se tem checkboxes específicos, usa o gerador de texto profissional
     if (templateCheckboxes.length > 0 && checkedBoxes.size > 0) {
-      // Gera texto de cada seção baseado nos checkboxes selecionados
-      const qpFromCheckboxes = generateTextFromCheckboxes(
-        templateCheckboxes,
-        checkedBoxes,
-        'queixa_principal',
-        variables as Record<string, string>
-      )
-
-      const efFromCheckboxes = generateTextFromCheckboxes(
-        templateCheckboxes,
-        checkedBoxes,
-        'exame_fisico',
-        variables as Record<string, string>
-      )
-
-      // Gera o record base do template
-      const baseRecord = generateFlashRecord({
-        paciente: {
-          sexo: patient.gender,
-          idade: patient.age,
-          unidade_idade: 'anos',
-          gestante: patient.isPregnant,
-        },
-        queixa_selecionada: selectedTemplateId,
-        dados_variaveis: variables,
+      // Gera texto médico profissional
+      const professionalText = generateProfessionalMedicalText({
+        templateId: selectedTemplateId,
+        checkedIds: checkedBoxes,
+        gender: patient.gender,
+        variables: variables as Record<string, string>,
       })
 
-      // Combina texto dos checkboxes com template base
+      // Obtém CID do template base
+      const templateData = flashTemplates[selectedTemplateId]
+      const cid = templateData?.template?.cid || ''
+      const cidDescricao = templateData?.template?.cid_descricao || ''
+
       return {
-        ...baseRecord,
-        queixa_principal: qpFromCheckboxes
-          ? `${qpFromCheckboxes} há ${variables.tempo_sintomas || '--'}.`
-          : baseRecord.queixa_principal,
-        exame_fisico: efFromCheckboxes
-          ? `Bom estado geral. ${efFromCheckboxes}.`
-          : baseRecord.exame_fisico,
+        queixa_principal: professionalText.queixa_principal,
+        exame_fisico: professionalText.exame_fisico,
+        hipotese_diagnostica: professionalText.hipotese_diagnostica,
+        conduta: professionalText.conduta,
+        cid: cid,
+        cid_descricao: cidDescricao,
       }
     }
 
-    // Fallback para geração padrão do template
+    // Fallback para geração padrão do template (quando não há checkboxes marcados)
     return generateFlashRecord({
       paciente: {
         sexo: patient.gender,
