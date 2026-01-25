@@ -158,7 +158,7 @@ function FeaturePill({ feature, index }: { feature: typeof features[0]; index: n
     >
       {/* Glow effect on hover */}
       <motion.div
-        className={`absolute inset-0 rounded-full bg-gradient-to-r ${feature.gradient} blur-xl`}
+        className={`absolute inset-0 rounded-[14px] bg-gradient-to-r ${feature.gradient} blur-xl`}
         initial={{ opacity: 0 }}
         animate={{ opacity: isHovered ? 0.6 : 0 }}
         transition={{ duration: 0.3 }}
@@ -166,7 +166,7 @@ function FeaturePill({ feature, index }: { feature: typeof features[0]; index: n
 
       <div
         className={`
-          relative flex items-center gap-2.5 px-5 py-3 rounded-full
+          relative flex items-center gap-2.5 px-5 py-3 rounded-[14px]
           liquid-glass-regular rim-light-ios26 inner-glow-ios26
           border border-white/50 dark:border-white/12
           transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-default
@@ -244,10 +244,10 @@ function SyndromeCard({ syndrome, index }: { syndrome: Syndrome; index: number }
           className="relative h-full"
         >
           {/* Card glow effect */}
-          <div className="absolute -inset-[1px] rounded-[38px] bg-gradient-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
+          <div className="absolute -inset-[1px] rounded-[24px] bg-gradient-to-br from-blue-500/20 via-transparent to-purple-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-sm" />
 
           <div
-            className="relative h-full rounded-[36px] p-6 overflow-hidden
+            className="relative h-full rounded-[24px] p-6 overflow-hidden
               liquid-glass-regular rim-light-ios26 liquid-glass-specular
               border border-white/50 dark:border-white/12
               transition-all duration-600 ease-[cubic-bezier(0.25,1,0.5,1)]"
@@ -272,9 +272,9 @@ function SyndromeCard({ syndrome, index }: { syndrome: Syndrome; index: number }
                 className="relative"
               >
                 {/* Icon glow */}
-                <div className="absolute inset-0 rounded-[20px] bg-gradient-to-br from-blue-500/30 to-purple-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="absolute inset-0 rounded-[16px] bg-gradient-to-br from-blue-500/30 to-purple-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                <div className="relative flex h-16 w-16 items-center justify-center rounded-[20px]
+                <div className="relative flex h-16 w-16 items-center justify-center rounded-[16px]
                   liquid-glass-regular rim-light-ios26 inner-glow-ios26
                   border border-white/50 dark:border-white/12
                   transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
@@ -294,7 +294,7 @@ function SyndromeCard({ syndrome, index }: { syndrome: Syndrome; index: number }
               </div>
 
               {/* Count Badge - Enhanced glass pill */}
-              <div className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold
+              <div className="inline-flex items-center gap-1.5 rounded-[14px] px-4 py-2 text-xs font-bold
                 liquid-glass-subtle
                 bg-white/60 dark:bg-slate-800/50
                 border border-white/50 dark:border-white/12

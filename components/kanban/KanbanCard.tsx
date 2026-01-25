@@ -26,7 +26,7 @@ export function KanbanCard({ task, onDelete, onMove }: KanbanCardProps) {
       className={cn(
         'group relative rounded-2xl p-4',
         'liquid-glass-material rim-light-ios26',
-        'border border-white/30 dark:border-white/10',
+        'shadow-sm',
         'shadow-sm hover:shadow-md transition-shadow duration-300',
         isCritical && 'ring-2 ring-red-500/30'
       )}

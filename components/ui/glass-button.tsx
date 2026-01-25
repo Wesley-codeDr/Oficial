@@ -139,8 +139,8 @@ const GlassButton = React.forwardRef<HTMLButtonElement, GlassButtonProps>(
     children,
     ...props
   }, ref) => {
-    // iOS 2026 radius: 14px for buttons (glass-sm)
-    const radiusClass = "rounded-glass-sm"
+    // iOS 2026 radius: 14px for buttons (Level 7 hierarchy)
+    const radiusClass = "rounded-[14px]"
 
     return (
       <motion.button

@@ -63,14 +63,14 @@ export function WelcomePanel({
       style={{
         background: 'linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%)',
         border: '1px solid #E5E7EB',
-        borderRadius: '16px',
+        borderRadius: '24px',
         padding: '24px 32px',
         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
       }}
     >
       {/* Dark mode override */}
       <div className={cn(
-        'hidden dark:block absolute inset-0 -z-10 rounded-[16px] bg-[#212529]',
+        'hidden dark:block absolute inset-0 -z-10 rounded-[24px] bg-[#212529]',
         glassBlur,
         'border-white/5'
       )} />
@@ -114,14 +114,14 @@ export function WelcomePanel({
           initial={{ opacity: 0, x: 16 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.5, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
-          className="p-6 rounded-[16px]"
+          className="p-6 rounded-[24px]"
           style={{
             background: 'var(--medical-neutral-50)',
             border: '1px solid #E5E7EB',
           }}
         >
           <div className="dark:hidden" />
-          <div className="hidden dark:block absolute inset-0 rounded-[16px]" style={{
+          <div className="hidden dark:block absolute inset-0 rounded-[24px]" style={{
             background: 'rgba(255, 255, 255, 0.03)',
             border: '1px solid rgba(255, 255, 255, 0.05)',
           }} />

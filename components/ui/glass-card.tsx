@@ -14,7 +14,20 @@ type GlassCardVariant =
 
 interface GlassCardProps extends HTMLMotionProps<"div"> {
   /**
+   * Hierarchy level (1-7) following Apple Liquid Glass 2026 design system
+   * Automatically applies appropriate radius, padding, and variant
+   * - 1: Main Container (24px radius, 16px padding)
+   * - 2: Section Cards (24px radius, 24px padding)
+   * - 3: Metric Cards (24px radius, 16px padding, 180px height)
+   * - 4: Kanban Columns (24px radius, 12px padding)
+   * - 5: Patient Cards (16px radius, 16px padding)
+   * - 6: Pills & Badges (14px radius, 6-12px padding)
+   * - 7: Icon Buttons (14px radius, 10px padding)
+   */
+  level?: 1 | 2 | 3 | 4 | 5 | 6 | 7
+  /**
    * Material variant following Apple Liquid Glass 2026 HIG
+   * Only used when `level` is not specified
    * - default/regular: For most UI components (40px blur, 0.25 opacity)
    * - clear: For components over photos/videos/rich backgrounds (40px blur, 0.15 opacity)
    * - elevated: For modals, floating panels (40px blur, 0.25 opacity)
@@ -66,9 +79,20 @@ const glowClasses = {
   info: "hover:shadow-[0_0_40px_rgba(90,200,250,0.25),0_20px_60px_-15px_rgba(90,200,250,0.15)]",
 }
 
+const levelClasses: Record<number, string> = {
+  1: "glass-level-1",
+  2: "glass-level-2",
+  3: "glass-level-3",
+  4: "glass-level-4",
+  5: "glass-level-5",
+  6: "glass-level-6",
+  7: "glass-level-7",
+}
+
 const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
   ({
     className,
+    level,
     variant = "default",
     hover = true,
     glow = "none",
@@ -79,8 +103,10 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
     children,
     ...props
   }, ref) => {
-    // iOS 2026 radius based on variant (using glass utility classes)
-    const radiusClass = variant === "elevated" ? "rounded-glass-lg" : "rounded-glass"
+    // Hierarchy level takes priority over variant
+    const hierarchyClass = level ? levelClasses[level] : ""
+    // iOS 2026 radius based on variant (only when level not specified)
+    const radiusClass = !level ? (variant === "elevated" ? "rounded-glass-lg" : "rounded-glass") : ""
 
     return (
       <motion.div
@@ -93,12 +119,14 @@ const GlassCard = React.forwardRef<HTMLDivElement, GlassCardProps>(
         } : undefined}
         transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
         className={cn(
-          // Base styles with iOS 26 radius
-          "relative p-6 overflow-hidden",
-          radiusClass,
+          // Base styles
+          "relative overflow-hidden",
+          // Hierarchy class (includes radius, padding, variant) or manual styles
+          hierarchyClass || radiusClass,
+          !level && "p-6",  // Default padding only when not using hierarchy
           "transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]",
-          // Variant styles
-          variantClasses[variant],
+          // Variant styles (only when level not specified)
+          !level && variantClasses[variant],
           // Specular highlight (use clear specular on clear variant)
           specular && (variant === "clear" ? "liquid-glass-specular-clear" : "liquid-glass-specular"),
           // Rim light effect

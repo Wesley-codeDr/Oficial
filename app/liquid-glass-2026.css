@@ -94,26 +94,33 @@
   --radius-3xl: 40px;
   --radius-full: 9999px;
 
+  /* Hierarchy-Specific Radius (7-Level System) */
+  --radius-container: 24px;  /* Level 1: Main Container */
+  --radius-card: 24px;       /* Level 2-4: Section Cards, Metrics, Kanban Columns */
+  --radius-item: 16px;       /* Level 5: Patient Cards */
+  --radius-pill: 14px;       /* Level 6: Pills & Badges */
+  --radius-icon: 14px;       /* Level 7: Icon Buttons */
+
   /* ========================================
      LIQUID GLASS BLUR SYSTEM - iOS 26
-     Task 1.4: Complete blur values
+     Universal 40px blur standard (Apple 2026)
      ======================================== */
-  --liquid-glass-blur: 60px;
+  --liquid-glass-blur: 40px;
   --liquid-glass-blur-min: 40px;
-  --liquid-glass-blur-max: 120px;
-  --liquid-glass-saturate: 220%;
+  --liquid-glass-blur-max: 40px;
+  --liquid-glass-saturate: 180%;
   --liquid-glass-saturate-min: 180%;
-  --liquid-glass-saturate-max: 280%;
+  --liquid-glass-saturate-max: 180%;
 
   /* Alias for consistency */
   --glass-blur-min: 40px;
   --glass-blur-standard: 40px;
-  --glass-blur-default: 60px;
-  --glass-blur-max: 120px;
+  --glass-blur-default: 40px;
+  --glass-blur-max: 40px;
   --glass-blur-mobile: 20px;
   --glass-saturate-min: 180%;
-  --glass-saturate-default: 220%;
-  --glass-saturate-max: 280%;
+  --glass-saturate-default: 180%;
+  --glass-saturate-max: 180%;
 
   /* ========================================
      GLASS MATERIAL VARIANTS - LIGHT MODE
@@ -2133,4 +2140,140 @@
 
 .z-emergency {
   z-index: var(--z-emergency);
+}
+
+/* ========================================
+   HIERARCHY UTILITY CLASSES
+   Apple Liquid Glass 2026 - 7-Level System
+   ======================================== */
+
+/* Level 1: Main Container (Dashboard Layout) */
+.glass-level-1 {
+  border-radius: var(--radius-container); /* 24px */
+  padding: var(--padding-md); /* 16px */
+  backdrop-filter: blur(40px) saturate(180%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, var(--glass-bg-opacity-elevated)) 0%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-elevated) * 0.8)) 50%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-elevated) * 0.9)) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, var(--glass-border-opacity-elevated));
+  box-shadow:
+    0 25px 60px -12px var(--color-shadow-medium),
+    0 12px 32px -8px var(--color-shadow-subtle),
+    0 0 0 1px rgba(255, 255, 255, 0.7) inset,
+    0 2px 0 rgba(255, 255, 255, 0.9) inset;
+}
+
+/* Level 2: Section Cards (Welcome Panel, Workspace) */
+.glass-level-2 {
+  border-radius: var(--radius-card); /* 24px */
+  padding: var(--padding-lg); /* 24px */
+  backdrop-filter: blur(40px) saturate(180%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, var(--glass-bg-opacity-regular)) 0%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-regular) * 0.7)) 50%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-regular) * 0.8)) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, var(--glass-border-opacity-regular));
+  box-shadow:
+    0 20px 60px -15px var(--color-shadow),
+    0 8px 24px -8px var(--color-shadow-subtle),
+    0 0 0 1px var(--shadow-inset-color) inset,
+    0 2px 0 var(--shadow-inset-top-color) inset;
+}
+
+/* Level 3: Metric Cards (Stats, Charts) */
+.glass-level-3 {
+  border-radius: var(--radius-card); /* 24px */
+  padding: var(--padding-md); /* 16px */
+  height: 180px;
+  backdrop-filter: blur(40px) saturate(180%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, var(--glass-bg-opacity-regular)) 0%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-regular) * 0.7)) 50%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-regular) * 0.8)) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, var(--glass-border-opacity-regular));
+  box-shadow:
+    0 20px 60px -15px var(--color-shadow),
+    0 8px 24px -8px var(--color-shadow-subtle),
+    0 0 0 1px var(--shadow-inset-color) inset,
+    0 2px 0 var(--shadow-inset-top-color) inset;
+}
+
+/* Level 4: Kanban Columns */
+.glass-level-4 {
+  border-radius: var(--radius-card); /* 24px */
+  padding: var(--padding-sm); /* 12px */
+  min-width: 320px;
+  backdrop-filter: blur(40px) saturate(180%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, var(--glass-bg-opacity-subtle)) 0%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-subtle) * 0.8)) 50%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-subtle) * 0.9)) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, var(--glass-border-opacity-subtle));
+  box-shadow:
+    0 12px 40px -10px var(--color-shadow-subtle),
+    0 4px 16px -6px rgba(0, 0, 0, 0.03),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 2px 0 rgba(255, 255, 255, 0.6) inset;
+}
+
+/* Level 5: Patient Cards (Task Cards) */
+.glass-level-5 {
+  border-radius: var(--radius-item); /* 16px */
+  padding: var(--padding-md); /* 16px */
+  backdrop-filter: blur(40px) saturate(180%);
+  background: rgba(255, 255, 255, var(--glass-bg-opacity-clear));
+  border: 1px solid rgba(255, 255, 255, var(--glass-border-opacity-clear));
+  box-shadow:
+    0 20px 60px -15px var(--color-shadow-subtle),
+    0 8px 24px -8px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 2px 0 rgba(255, 255, 255, 0.6) inset,
+    0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+/* Level 6: Pills & Badges */
+.glass-level-6 {
+  border-radius: var(--radius-pill); /* 14px */
+  padding: 6px 12px;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, var(--glass-bg-opacity-subtle)) 0%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-subtle) * 0.8)) 50%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-subtle) * 0.9)) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, var(--glass-border-opacity-subtle));
+  box-shadow:
+    0 12px 40px -10px var(--color-shadow-subtle),
+    0 4px 16px -6px rgba(0, 0, 0, 0.03),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 2px 0 rgba(255, 255, 255, 0.6) inset;
+  backdrop-filter: blur(10px) saturate(180%);
+}
+
+/* Level 7: Icon Buttons */
+.glass-level-7 {
+  border-radius: var(--radius-icon); /* 14px */
+  padding: 10px;
+  backdrop-filter: blur(40px) saturate(180%);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, var(--glass-bg-opacity-subtle)) 0%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-subtle) * 0.8)) 50%,
+    rgba(255, 255, 255, calc(var(--glass-bg-opacity-subtle) * 0.9)) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, var(--glass-border-opacity-subtle));
+  box-shadow:
+    0 12px 40px -10px var(--color-shadow-subtle),
+    0 4px 16px -6px rgba(0, 0, 0, 0.03),
+    0 0 0 1px rgba(255, 255, 255, 0.5) inset,
+    0 2px 0 rgba(255, 255, 255, 0.6) inset;
 }

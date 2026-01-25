@@ -23,7 +23,7 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 export const HeartRateCard: React.FC = () => {
   return (
-    <div className="w-full h-full p-6 rounded-[32px] bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl backdrop-saturate-[180%] border border-white/50 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group hover:bg-white/50 dark:hover:bg-slate-800/60 transition-colors duration-500">
+    <div className="w-full h-full p-4 rounded-[24px] bg-white/40 dark:bg-slate-800/40 backdrop-blur-2xl backdrop-saturate-[180%] border border-white/50 dark:border-white/10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden group hover:bg-white/50 dark:hover:bg-slate-800/60 transition-colors duration-500">
       <div className="flex justify-between items-start mb-2 relative z-10">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-red-500/10 dark:bg-red-500/20 flex items-center justify-center">

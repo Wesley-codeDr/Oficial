@@ -102,7 +102,7 @@ export function KanbanColumn({
       animate={{ opacity: 1, y: 0 }}
       className={cn(
         'relative flex flex-col min-w-[280px] max-w-[320px] h-full',
-        'rounded-3xl p-4',
+        'rounded-3xl p-3',
         'border border-white/20 dark:border-white/5'
       )}
       data-testid={`kanban-column-${status}`}

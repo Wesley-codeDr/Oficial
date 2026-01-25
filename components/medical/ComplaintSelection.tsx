@@ -226,7 +226,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
                   : 'Sintoma, queixa ou síndrome...'
               }
               className={`
-                w-full h-14 pl-16 pr-8 rounded-[32px]
+                w-full h-14 pl-16 pr-8 rounded-[24px]
                 liquid-glass-subtle
                 bg-white/55 dark:bg-slate-900/65
                 border-[1.5px] border-white/50 dark:border-white/12
@@ -257,7 +257,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
                     liquid-glass-elevated
                     bg-white/75 dark:bg-slate-900/75
                     border border-white/40 dark:border-white/20
-                    rounded-[28px]
+                    rounded-[24px]
                     shadow-[0_35px_60px_-15px_rgba(0,0,0,0.2)]
                     dark:shadow-[0_35px_60px_-15px_rgba(0,0,0,0.5)]
                   `}

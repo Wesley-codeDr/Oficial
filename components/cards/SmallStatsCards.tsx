@@ -39,7 +39,7 @@ const CardHeader: React.FC<{ title: string; icon?: React.ReactNode }> = ({ title
 );
 
 const GlassCard: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <div className="group relative p-5 rounded-[24px] bg-white/25 dark:bg-[rgba(30,30,30,0.25)] backdrop-blur-[40px] backdrop-saturate-[180%] border border-white/30 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.5)] hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.6)] transition-all duration-300 flex flex-col h-full hover:bg-white/30 dark:hover:bg-[rgba(30,30,30,0.32)] overflow-hidden liquid-glass-material rim-light-ios26 liquid-glass-specular">
+  <div className="group relative p-4 rounded-[24px] bg-white/25 dark:bg-[rgba(30,30,30,0.25)] backdrop-blur-[40px] backdrop-saturate-[180%] border border-white/30 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.5)] hover:shadow-[0_25px_50px_-12px_rgba(0,0,0,0.15),inset_0_1px_2px_rgba(255,255,255,0.6)] transition-all duration-300 flex flex-col h-full hover:bg-white/30 dark:hover:bg-[rgba(30,30,30,0.32)] overflow-hidden liquid-glass-material rim-light-ios26 liquid-glass-specular">
     {/* Subtle Shine Effect */}
     <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-[1000ms] ease-in-out bg-gradient-to-r from-transparent via-white/30 dark:via-white/10 to-transparent skew-x-12 pointer-events-none z-0" />
     

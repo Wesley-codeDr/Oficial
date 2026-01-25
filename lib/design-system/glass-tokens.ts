@@ -27,7 +27,7 @@ export interface ThemeValues {
  * Material specification for glass variants
  */
 export interface MaterialSpec {
-  /** Backdrop blur in pixels (40-120px range) */
+  /** Backdrop blur in pixels (40px universal - Apple iOS 26 standard) */
   blur: number;
   /** Saturation enhancement percentage (180-280%) */
   saturate: number;
@@ -71,6 +71,23 @@ export interface RadiusScalePx {
   lg: number;
   xl: number;
   '2xl': number;
+}
+
+/**
+ * Hierarchy-specific radius values for 7-level component system
+ * Maps to Apple Liquid Glass 2026 design hierarchy
+ */
+export interface HierarchyRadiusPx {
+  /** Level 1: Main Container (24px) */
+  container: number;
+  /** Level 2-4: Section Cards, Metrics, Kanban Columns (24px) */
+  card: number;
+  /** Level 5: Patient Cards (16px) */
+  item: number;
+  /** Level 6: Pills & Badges (14px) */
+  pill: number;
+  /** Level 7: Icon Buttons (14px) */
+  icon: number;
 }
 
 /**
@@ -665,6 +682,27 @@ export const glassRadiusPx: RadiusScalePx = {
   xl: 32,
   '2xl': 40,
 };
+
+/**
+ * Hierarchy-specific radius values (px)
+ * Maps to 7-level component hierarchy in Apple Liquid Glass 2026 design system
+ *
+ * @example
+ * ```tsx
+ * // Level 1: Main Container
+ * <div style={{ borderRadius: hierarchyRadiusPx.container }}>
+ *
+ * // Level 3: Metric Card
+ * <GlassCard level={3}>
+ * ```
+ */
+export const hierarchyRadiusPx: HierarchyRadiusPx = {
+  container: 24,  // Level 1
+  card: 24,       // Level 2-4
+  item: 16,       // Level 5
+  pill: 14,       // Level 6
+  icon: 14,       // Level 7
+} as const;
 
 /**
  * CSS custom property references for radius

@@ -162,8 +162,8 @@ const GlassBadge = React.forwardRef<HTMLDivElement, GlassBadgeProps>(
     rimLight = true,
     ...props
   }, ref) => {
-    // iOS 2026 radius: 12px for badges
-    const radiusClass = "rounded-[12px]"
+    // iOS 2026 radius: 14px for badges (Level 6 hierarchy)
+    const radiusClass = "rounded-[14px]"
 
     return (
       <motion.div
