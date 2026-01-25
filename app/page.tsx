@@ -57,39 +57,7 @@ import {
 import { useToast } from '@/hooks/use-toast'
 import { useComplaints } from '@/hooks/use-complaints'
 import { useParallax, PARALLAX_SPEEDS } from '@/hooks/use-parallax'
-
-const initialTasks: KanbanTask[] = [
-  {
-    id: '1',
-    patientName: 'J.S.M.',
-    age: '64a',
-    gender: 'M',
-    complaint: 'Dor Torácica',
-    acuity: 'orange',
-    waitTime: '12min',
-    status: 'exam',
-  },
-  {
-    id: '2',
-    patientName: 'M.A.L.',
-    age: '32a',
-    gender: 'F',
-    complaint: 'Cefaleia Súbita',
-    acuity: 'yellow',
-    waitTime: '45min',
-    status: 'wait',
-  },
-  {
-    id: '3',
-    patientName: 'R.P.S.',
-    age: '78a',
-    gender: 'M',
-    complaint: 'Dispneia',
-    acuity: 'red',
-    waitTime: '05min',
-    status: 'reval',
-  },
-]
+import { useKanbanStore } from '@/stores/kanban-store'
 
 // Helper for Library Icons
 const getLibraryIcon = (iconName: string) => {
@@ -154,7 +122,17 @@ export default function Home() {
   const [sections, setSections] = React.useState<AnamnesisSection[]>([])
 
   const [noteBlocks, setNoteBlocks] = React.useState<NoteBlock[]>([])
-  const [tasks, setTasks] = React.useState<KanbanTask[]>(initialTasks)
+  const {
+    tasks: tasksFromStore,
+    setTasks,
+    addTask,
+    moveTask,
+    loadSampleProject,
+    isLoaded
+  } = useKanbanStore()
+
+  // Safety check: ensure tasks is always an array (handles SSR/hydration)
+  const tasks = Array.isArray(tasksFromStore) ? tasksFromStore : []
 
   // Onboarding tutorial state - shows when no tasks exist
   const {
@@ -186,7 +164,12 @@ export default function Home() {
       ...prev,
       entryTime: new Date(Date.now() - 1000 * 60 * 42).toISOString()
     }))
-  }, [])
+
+    // Ensure we have at least once loaded the sample project if none exists
+    if (tasks.length === 0) {
+      loadSampleProject('medical-urgent')
+    }
+  }, [loadSampleProject, tasks.length])
 
   const [copiedId, setCopiedId] = React.useState<string | null>(null)
   const [isUppercaseMode, setIsUppercaseMode] = React.useState(false)
@@ -276,17 +259,15 @@ export default function Home() {
     }
     
     const finalStatus: KanbanStatus = statusMap[status.toLowerCase()] || 'wait'
-    const newTask: KanbanTask = {
-      id: Date.now().toString(),
+    addTask({
       patientName: patient.category === 'pediatric' ? 'Ped. Anônimo' : 'Paciente Anon.',
       age: patient.age ? `${patient.age}a` : '--',
       gender: patient.gender,
       complaint: activeProtocolId || 'Queixa Geral',
       acuity: activeRedFlags.length > 0 ? 'red' : 'green',
       waitTime: '0min',
-      status: finalStatus,
-    }
-    setTasks((prev) => [...prev, newTask])
+      status: finalStatus as any, // Bridging between medical KanbanStatus and store's status
+    })
     setIsFlowMenuOpen(false)
     if (finalStatus === 'done') setViewMode('dashboard')
   }

@@ -1,8 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import type { KanbanTask, KanbanColumnStatus } from '@/types/kanban'
-import { SAMPLE_PROJECTS, createBoardFromSample } from '@/lib/kanban/sample-projects'
-import type { SampleProject } from '@/types/kanban'
+import { KanbanTask, KanbanStatus } from '@/lib/types/medical'
+import { SAMPLE_PROJECTS, createBoardFromSample, detectBestSampleProject } from '@/lib/kanban/sample-projects'
 
 interface KanbanState {
   // Data
@@ -13,11 +12,11 @@ interface KanbanState {
 
   // Actions
   setTasks: (tasks: KanbanTask[]) => void
-  addTask: (task: Omit<KanbanTask, 'id' | 'createdAt' | 'updatedAt'>) => void
-  addTasks: (tasks: Omit<KanbanTask, 'id' | 'createdAt' | 'updatedAt'>[]) => void
+  addTask: (task: Omit<KanbanTask, 'id'>) => void
+  addTasks: (tasks: Omit<KanbanTask, 'id'>[]) => void
   updateTask: (id: string, updates: Partial<KanbanTask>) => void
   deleteTask: (id: string) => void
-  moveTask: (taskId: string, newStatus: KanbanColumnStatus) => void
+  moveTask: (taskId: string, newStatus: KanbanStatus) => void
   loadSampleProject: (projectId: string) => void
   clearBoard: () => void
   setBoardInfo: (name: string, description?: string) => void
@@ -29,95 +28,97 @@ function generateId(): string {
 
 export const useKanbanStore = create<KanbanState>()(
   persist(
-    (set, get) => ({
-      tasks: [],
-      boardName: 'Meu Quadro',
-      boardDescription: '',
-      isLoaded: false,
+    (set, _get) => {
+      const bestSample = detectBestSampleProject()
+      const initialTasks = createBoardFromSample(bestSample)
+      
+      return {
+        tasks: initialTasks as KanbanTask[],
+        boardName: bestSample.name,
+        boardDescription: bestSample.description,
+        isLoaded: true,
 
-      setTasks: (tasks) => set({ tasks, isLoaded: true }),
+        setTasks: (tasks) => set({ tasks, isLoaded: true }),
 
-      addTask: (taskData) => {
-        const now = new Date().toISOString()
-        const newTask: KanbanTask = {
-          ...taskData,
-          id: generateId(),
-          createdAt: now,
-          updatedAt: now,
-        }
-        set((state) => ({
-          tasks: [...state.tasks, newTask],
-        }))
-      },
+        addTask: (taskData) => {
+          const newTask: KanbanTask = {
+            ...taskData as any,
+            id: generateId(),
+          }
+          set((state) => ({
+            tasks: [...state.tasks, newTask],
+          }))
+        },
 
-      addTasks: (tasksData) => {
-        const now = new Date().toISOString()
-        const newTasks: KanbanTask[] = tasksData.map((taskData) => ({
-          ...taskData,
-          id: generateId(),
-          createdAt: now,
-          updatedAt: now,
-        }))
-        set((state) => ({
-          tasks: [...state.tasks, ...newTasks],
-          isLoaded: true,
-        }))
-      },
+        addTasks: (tasksData) => {
+          const newTasks: KanbanTask[] = tasksData.map((taskData) => ({
+            ...taskData as any,
+            id: generateId(),
+          }))
+          set((state) => ({
+            tasks: [...state.tasks, ...newTasks],
+            isLoaded: true,
+          }))
+        },
 
-      updateTask: (id, updates) => {
-        set((state) => ({
-          tasks: state.tasks.map((task) =>
-            task.id === id
-              ? { ...task, ...updates, updatedAt: new Date().toISOString() }
-              : task
-          ),
-        }))
-      },
+        updateTask: (id, updates) => {
+          set((state) => ({
+            tasks: state.tasks.map((task) =>
+              task.id === id
+                ? { ...task, ...updates }
+                : task
+            ),
+          }))
+        },
 
-      deleteTask: (id) => {
-        set((state) => ({
-          tasks: state.tasks.filter((task) => task.id !== id),
-        }))
-      },
+        deleteTask: (id) => {
+          set((state) => ({
+            tasks: state.tasks.filter((task) => task.id !== id),
+          }))
+        },
 
-      moveTask: (taskId, newStatus) => {
-        set((state) => ({
-          tasks: state.tasks.map((task) =>
-            task.id === taskId
-              ? { ...task, status: newStatus, updatedAt: new Date().toISOString() }
-              : task
-          ),
-        }))
-      },
+        moveTask: (taskId, newStatus) => {
+          set((state) => ({
+            tasks: state.tasks.map((task) =>
+              task.id === taskId
+                ? { ...task, status: newStatus }
+                : task
+            ),
+          }))
+        },
 
-      loadSampleProject: (projectId) => {
-        const project = SAMPLE_PROJECTS.find((p) => p.id === projectId)
-        if (!project) return
+        loadSampleProject: (projectId) => {
+          const project = SAMPLE_PROJECTS.find((p) => p.id === projectId)
+          if (!project) return
 
-        const tasks = createBoardFromSample(project)
-        set({
-          tasks,
-          boardName: project.name,
-          boardDescription: project.description,
-          isLoaded: true,
-        })
-      },
+          const tasks = createBoardFromSample(project)
+          set({
+            tasks: tasks as KanbanTask[],
+            boardName: project.name,
+            boardDescription: project.description,
+            isLoaded: true,
+          })
+        },
 
-      clearBoard: () => {
-        set({
-          tasks: [],
-          boardName: 'Meu Quadro',
-          boardDescription: '',
-          isLoaded: true,
-        })
-      },
+        clearBoard: () => {
+          const bestSample = detectBestSampleProject()
+          const tasks = createBoardFromSample(bestSample)
+          
+          set({
+            tasks: tasks as KanbanTask[],
+            boardName: bestSample.name,
+            boardDescription: bestSample.description,
+            isLoaded: true,
+          })
+        },
 
-      setBoardInfo: (name, description = '') => {
-        set({ boardName: name, boardDescription: description })
-      },
-    }),
+        setBoardInfo: (name, description = '') => {
+          set({ boardName: name, boardDescription: description })
+        },
+      }
+    },
     {
-      name: 'wellwave-kanban',
+      name: 'wellwave-kanban-v2', // Changed name to force reset to correct data structure
       partialize: (state) => ({
         tasks: state.tasks,
         boardName: state.boardName,
@@ -130,12 +131,11 @@ export const useKanbanStore = create<KanbanState>()(
 
 // Selector hooks for common queries
 export const useKanbanTasks = () => useKanbanStore((state) => state.tasks)
-export const useKanbanTasksByStatus = (status: KanbanColumnStatus) =>
+export const useKanbanTasksByStatus = (status: KanbanStatus) =>
   useKanbanStore((state) => state.tasks.filter((t) => t.status === status))
+export const useIsKanbanEmpty = () => useKanbanStore((state) => state.tasks.length === 0)
 export const useKanbanBoardInfo = () =>
   useKanbanStore((state) => ({
     name: state.boardName,
     description: state.boardDescription,
   }))
-export const useIsKanbanEmpty = () =>
-  useKanbanStore((state) => state.tasks.length === 0)

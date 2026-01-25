@@ -84,7 +84,7 @@ export const AnamnesisWorkspace: React.FC<AnamnesisWorkspaceProps> = ({
       {/* Resize Handle */}
       <div
         onMouseDown={startResizing}
-        className={`w-1.5 h-full cursor-col-resize group relative flex items-center justify-center transition-all z-30 ${
+        className={`w-1.5 h-full cursor-col-resize overflow-y-auto group relative flex items-center justify-center transition-all z-30 ${
           isResizing ? 'bg-blue-500/40' : 'bg-transparent hover:bg-blue-500/20'
         }`}
       >

@@ -59,9 +59,10 @@ CID: ${editableRecord.cid} - ${editableRecord.cid_descricao}
   `.trim()
 
   return (
-    <div className="h-full flex flex-col p-6 space-y-8 pb-32">
-      {/* Header Info */}
-      <div className="flex items-center justify-between px-2">
+    <div className="flex flex-col h-full">
+      {/* Header Info - FIXED AT TOP */}
+      <div className="flex-shrink-0 p-6 pb-4 bg-white/40 dark:bg-black/20 backdrop-blur-sm border-b border-white/10 sticky top-0 z-20">
+        <div className="flex items-center justify-between px-2">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-500">
             <Sparkles className="w-5 h-5" />
@@ -94,9 +95,11 @@ CID: ${editableRecord.cid} - ${editableRecord.cid_descricao}
           </button>
         </div>
       </div>
+      </div>
 
-      {/* Editable Sections */}
-      <div className="grid grid-cols-1 gap-5">
+      {/* SCROLLABLE CONTENT - Editable Sections */}
+      <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar p-6 pt-8 space-y-8 pb-32">
+        <div className="grid grid-cols-1 gap-5">
         <LiquidEditor 
           title="Queixa Principal"
           content={isUppercaseMode ? editableRecord.queixa_principal.toUpperCase() : editableRecord.queixa_principal}
@@ -133,10 +136,10 @@ CID: ${editableRecord.cid} - ${editableRecord.cid_descricao}
               {copiedSection === 'CID' ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
            </button>
         </div>
-      </div>
+        </div>
 
-      {/* Floating Action Hint */}
-      <div className="flex justify-center pt-10">
+        {/* Floating Action Hint */}
+        <div className="flex justify-center pt-10">
         <button 
           onClick={onReset}
           className="flex items-center gap-3 px-8 py-3 rounded-2xl bg-slate-100 dark:bg-white/5 text-slate-500 hover:text-red-500 transition-all font-bold text-sm border border-slate-200/50 dark:border-white/5 group"
@@ -144,6 +147,7 @@ CID: ${editableRecord.cid} - ${editableRecord.cid_descricao}
           <RefreshCcw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-700" />
           Encerrar e Iniciar Novo
         </button>
+        </div>
       </div>
     </div>
   )

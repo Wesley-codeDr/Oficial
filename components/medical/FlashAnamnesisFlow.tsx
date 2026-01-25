@@ -195,10 +195,10 @@ export const FlashAnamnesisFlow: React.FC<FlashAnamnesisFlowProps> = ({
                   }
                   rightContent={
                     <div className="h-full flex flex-col relative">
-                      <div className="flex-1 overflow-hidden">
-                        <FlashPreview 
-                          record={generatedRecord} 
-                          onReset={onExit} 
+                      <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
+                        <FlashPreview
+                          record={generatedRecord}
+                          onReset={onExit}
                         />
                       </div>
 
