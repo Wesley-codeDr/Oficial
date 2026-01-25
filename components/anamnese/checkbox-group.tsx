@@ -69,6 +69,15 @@ export function CheckboxGroup({ title, items, selectedIds, onToggle }: CheckboxG
             >
               <button
                 onClick={() => onToggle(item.id)}
+                role="checkbox"
+                aria-checked={isChecked}
+                aria-label={item.displayText}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    onToggle(item.id)
+                  }
+                }}
                 className={cn(
                   'group relative w-full flex items-center gap-3 border p-4 transition-all duration-300 text-left',
                   glassRadius,
