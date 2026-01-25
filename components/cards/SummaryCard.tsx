@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { TrendingUp, Zap, Clock, ChevronRight } from 'lucide-react';
+import { iconStrokeWidth } from '@/lib/design-system/icon-system';
 
 export const SummaryCard: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ export const SummaryCard: React.FC = () => {
         <a href="#" className="px-3 py-1.5 rounded-full bg-white/50 dark:bg-slate-700/50 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:bg-blue-500 hover:text-white dark:hover:bg-blue-600 flex items-center gap-1 transition-all group shadow-sm border border-white/60 dark:border-white/10">
           <span className="hidden sm:inline">Ver Todo</span>
           <span className="sm:hidden">Ver</span>
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="w-4 h-4" strokeWidth={iconStrokeWidth.medium} />
         </a>
       </div>
 
@@ -19,7 +20,7 @@ export const SummaryCard: React.FC = () => {
         {/* Steps */}
         <div className="flex items-center gap-5 p-4 rounded-[24px] bg-white/40 dark:bg-slate-700/30 border border-white/40 dark:border-white/5 shadow-sm hover:bg-white/60 dark:hover:bg-slate-700/50 transition-colors">
           <div className="w-16 h-16 rounded-[20px] bg-gradient-to-br from-indigo-500 to-blue-500 text-white flex items-center justify-center shadow-lg shadow-blue-500/20">
-            <TrendingUp className="w-7 h-7" />
+            <TrendingUp className="w-7 h-7" strokeWidth={iconStrokeWidth.regular} />
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-0.5 transition-colors">Passos</p>
@@ -30,7 +31,7 @@ export const SummaryCard: React.FC = () => {
         {/* Calories */}
         <div className="flex items-center gap-5 p-4 rounded-[24px] bg-white/40 dark:bg-slate-700/30 border border-white/40 dark:border-white/5 shadow-sm hover:bg-white/60 dark:hover:bg-slate-700/50 transition-colors">
           <div className="w-16 h-16 rounded-[20px] bg-gradient-to-br from-orange-400 to-amber-500 text-white flex items-center justify-center shadow-lg shadow-orange-500/20">
-            <Zap className="w-7 h-7 fill-white" />
+            <Zap className="w-7 h-7 fill-white" strokeWidth={iconStrokeWidth.regular} />
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-0.5 transition-colors">Calorias</p>
@@ -41,7 +42,7 @@ export const SummaryCard: React.FC = () => {
         {/* Stand Time */}
         <div className="flex items-center gap-5 p-4 rounded-[24px] bg-white/40 dark:bg-slate-700/30 border border-white/40 dark:border-white/5 shadow-sm hover:bg-white/60 dark:hover:bg-slate-700/50 transition-colors">
           <div className="w-16 h-16 rounded-[20px] bg-gradient-to-br from-emerald-400 to-teal-500 text-white flex items-center justify-center shadow-lg shadow-emerald-500/20">
-            <Clock className="w-7 h-7" />
+            <Clock className="w-7 h-7" strokeWidth={iconStrokeWidth.regular} />
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400 mb-0.5 transition-colors">Tempo em Pé</p>

@@ -9,6 +9,12 @@ import {
   liquidGlassColors,
   sidebarItemColorMap,
 } from '@/lib/design-system/liquidGlassColors'
+import {
+  IconSize,
+  iconContainerSizes,
+  iconContainerRadius,
+  iconStrokeWidth,
+} from '@/lib/design-system/icon-system'
 
 export interface LiquidGlassIconProps {
   /** Lucide icon component */
@@ -19,8 +25,8 @@ export interface LiquidGlassIconProps {
   colorKey?: IconColorKey
   /** Whether the icon is in active state */
   isActive?: boolean
-  /** Size variant */
-  size?: 'sm' | 'md' | 'lg'
+  /** Size variant - now supports full icon system sizes */
+  size?: IconSize | 'sm' | 'md' | 'lg'
   /** Additional className */
   className?: string
   /** Click handler */
@@ -29,7 +35,11 @@ export interface LiquidGlassIconProps {
   ariaLabel?: string
 }
 
-const sizeConfig = {
+/**
+ * Legacy size config for backward compatibility
+ * Maps old size names to new icon system
+ */
+const legacySizeConfig = {
   sm: {
     container: 'w-8 h-8',
     icon: 'w-4 h-4',
@@ -49,6 +59,30 @@ const sizeConfig = {
     radius: 'rounded-[14px]',
   },
 }
+
+/**
+ * Get size configuration - supports both legacy and new icon system sizes
+ */
+function getSizeConfig(size: IconSize | 'sm' | 'md' | 'lg') {
+  // Check if it's a legacy size first
+  if (size in legacySizeConfig) {
+    return legacySizeConfig[size as keyof typeof legacySizeConfig]
+  }
+
+  // Otherwise use new icon system
+  const newSize = iconContainerSizes[size as IconSize]
+  const radius = iconContainerRadius[size as IconSize]
+
+  return {
+    container: newSize.container,
+    icon: newSize.icon,
+    padding: newSize.padding,
+    radius,
+  }
+}
+
+// Keep old sizeConfig export for backward compatibility
+const sizeConfig = legacySizeConfig
 
 /**
  * LiquidGlassIcon - Apple iOS 26 Liquid Glass styled icon
@@ -74,7 +108,7 @@ export const LiquidGlassIcon: React.FC<LiquidGlassIconProps> = ({
   // Determine color configuration
   const resolvedColorKey = colorKey || sidebarItemColorMap[itemId] || 'dashboard'
   const colors = liquidGlassColors[resolvedColorKey]
-  const sizeClasses = sizeConfig[size]
+  const sizeClasses = getSizeConfig(size)
 
   return (
     <motion.div
@@ -172,7 +206,7 @@ export const LiquidGlassIcon: React.FC<LiquidGlassIconProps> = ({
           // Active state - apply dynamic glow
           isActive && 'icon-liquid-glow'
         )}
-        strokeWidth={isActive ? 2.2 : 1.8}
+        strokeWidth={isActive ? iconStrokeWidth.medium : iconStrokeWidth.regular}
         style={
           isActive
             ? {

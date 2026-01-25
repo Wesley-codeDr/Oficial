@@ -3,6 +3,7 @@
 import React from 'react';
 import { Moon, Activity, Scale, RefreshCw, ChevronRight } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, LineChart, Line, Tooltip } from 'recharts';
+import { iconStrokeWidth } from '@/lib/design-system/icon-system';
 
 const sleepData = [
   { v: 4 }, { v: 6 }, { v: 5 }, { v: 7 }, { v: 3 }, { v: 4 }, { v: 2 }
@@ -33,7 +34,7 @@ const CardHeader: React.FC<{ title: string; icon?: React.ReactNode }> = ({ title
       <h4 className="text-sm font-bold text-slate-700 dark:text-slate-200 tracking-tight transition-colors">{title}</h4>
     </div>
     <button className="text-slate-400 hover:text-slate-600 dark:text-slate-500 dark:hover:text-slate-300 transition-colors bg-white/40 dark:bg-slate-700/40 p-1 rounded-full">
-      <ChevronRight className="w-3 h-3" />
+      <ChevronRight className="w-3 h-3" strokeWidth={iconStrokeWidth.medium} />
     </button>
   </div>
 );
@@ -52,7 +53,7 @@ const GlassCard: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 export const SleepCard: React.FC = () => (
   <GlassCard>
-    <CardHeader title="Sono" icon={<Moon className="w-4 h-4 text-indigo-500 fill-indigo-500" />} />
+    <CardHeader title="Sono" icon={<Moon className="w-4 h-4 text-indigo-500 fill-indigo-500" strokeWidth={iconStrokeWidth.regular} />} />
     <div className="flex-1 flex flex-col justify-end">
         <p className="text-2xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight transition-colors">8<span className="text-sm text-slate-500 dark:text-slate-400 font-medium">h</span> 12<span className="text-sm text-slate-500 dark:text-slate-400 font-medium">m</span></p>
         <div className="h-16 w-full rounded-xl overflow-hidden">
@@ -76,14 +77,14 @@ export const VigilanceCard: React.FC = () => (
             <path className="text-white/40 dark:text-white/10 transition-colors" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
             <path className="text-emerald-500" strokeDasharray="75, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
         </svg>
-        <Activity className="absolute w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+        <Activity className="absolute w-6 h-6 text-emerald-600 dark:text-emerald-400" strokeWidth={iconStrokeWidth.regular} />
     </div>
   </GlassCard>
 );
 
 export const WeightCard: React.FC = () => (
   <GlassCard>
-    <CardHeader title="Peso" icon={<Scale className="w-4 h-4 text-orange-500" />} />
+    <CardHeader title="Peso" icon={<Scale className="w-4 h-4 text-orange-500" strokeWidth={iconStrokeWidth.regular} />} />
      <div className="flex-1 flex flex-col justify-end">
         <p className="text-2xl font-bold text-slate-900 dark:text-white mb-2 tracking-tight transition-colors">72,5 <span className="text-sm font-medium text-slate-500 dark:text-slate-400">kg</span></p>
         <div className="h-16 w-full rounded-xl overflow-hidden relative">
@@ -107,7 +108,7 @@ export const CycleCard: React.FC = () => (
             <path className="text-white/40 dark:text-white/10 transition-colors" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" />
             <path className="text-pink-500" strokeDasharray="60, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
         </svg>
-        <RefreshCw className="absolute w-6 h-6 text-pink-500 dark:text-pink-400" />
+        <RefreshCw className="absolute w-6 h-6 text-pink-500 dark:text-pink-400" strokeWidth={iconStrokeWidth.regular} />
     </div>
   </GlassCard>
 );
