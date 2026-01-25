@@ -63,3 +63,12 @@ tsconfig.tsbuildinfo
 playwright-report/
 test-results/
 playwright/.auth/
+
+# Claude Agent & Plugin files
+.agent/
+.claude-plugin/
+config.json
+labels/
+statuses/
+views.json
+sessions/
