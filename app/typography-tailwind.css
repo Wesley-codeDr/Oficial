@@ -1,0 +1,438 @@
+/**
+ * Apple iOS 2026 Typography System
+ * Classes CSS dedicadas compatíveis com Tailwind CSS 4
+ * Seguindo a escala iOS 2026 (base 8px)
+ */
+
+/* ========== Font Families ========== */
+/* SF Pro Display - For headings and display text */
+.font-sf-pro-display {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* SF Pro Text - For body text */
+.font-sf-pro-text {
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* SF Pro Caption - For captions and small text */
+.font-sf-pro-caption {
+  font-family: 'SF Pro Caption', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* SF Mono - For code and monospace text */
+.font-sf-mono {
+  font-family: 'SF Mono', Menlo, Consolas, 'Liberation Mono', 'Courier New', monospace;
+}
+
+/* ========== Font Sizes (iOS 2026 Scale - Base 8px) ========== */
+/* XS: 11px - For captions and labels */
+.text-ios-xs {
+  font-size: 11px;
+  line-height: 1.36;
+}
+
+/* SM: 12px - For small text and labels */
+.text-ios-sm {
+  font-size: 12px;
+  line-height: 1.33;
+}
+
+/* BASE: 14px - For body text (default) */
+.text-ios-base {
+  font-size: 14px;
+  line-height: 1.43;
+}
+
+/* MD: 16px - For headings and important text */
+.text-ios-md {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* LG: 18px - For large headings */
+.text-ios-lg {
+  font-size: 18px;
+  line-height: 1.56;
+}
+
+/* XL: 20px - For extra large headings */
+.text-ios-xl {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+/* 2XL: 24px - For display headings */
+.text-ios-2xl {
+  font-size: 24px;
+  line-height: 1.33;
+}
+
+/* 3XL: 28px - For hero headings */
+.text-ios-3xl {
+  font-size: 28px;
+  line-height: 1.29;
+}
+
+/* 4XL: 32px - For large display text */
+.text-ios-4xl {
+  font-size: 32px;
+  line-height: 1.25;
+}
+
+/* ========== Font Weights ========== */
+/* Regular: 400 - For normal text */
+.font-ios-regular {
+  font-weight: 400;
+}
+
+/* Medium: 500 - For emphasized text */
+.font-ios-medium {
+  font-weight: 500;
+}
+
+/* Semibold: 600 - For headings */
+.font-ios-semibold {
+  font-weight: 600;
+}
+
+/* Bold: 700 - For strong headings */
+.font-ios-bold {
+  font-weight: 700;
+}
+
+/* ========== Line Heights (iOS 2026 Scale - Base 4px) ========== */
+/* Tight: 1.25 - For compact text */
+.leading-ios-tight {
+  line-height: 1.25;
+}
+
+/* Normal: 1.5 - For body text */
+.leading-ios-normal {
+  line-height: 1.5;
+}
+
+/* Relaxed: 1.75 - For comfortable reading */
+.leading-ios-relaxed {
+  line-height: 1.75;
+}
+
+/* Loose: 2 - For very comfortable reading */
+.leading-ios-loose {
+  line-height: 2;
+}
+
+/* ========== Letter Spacing ========== */
+/* Tight letter spacing for large headings */
+.tracking-tight {
+  letter-spacing: -0.02em;
+}
+
+/* Normal letter spacing for body text */
+.tracking-normal {
+  letter-spacing: 0;
+}
+
+/* Wide letter spacing for small text */
+.tracking-wide {
+  letter-spacing: 0.02em;
+}
+
+/* ========== Text Colors - Apple Liquid Glass 2026 ========== */
+/* Primary text color - iOS 26 */
+.text-ios-primary {
+  color: #1D1D1F;
+}
+
+.dark .text-ios-primary {
+  color: #F5F5F7;
+}
+
+/* Secondary text color - iOS 26 */
+.text-ios-secondary {
+  color: #86868B;
+}
+
+.dark .text-ios-secondary {
+  color: #A1A1AA;
+}
+
+/* Tertiary text color - iOS 26 */
+.text-ios-tertiary {
+  color: rgba(29, 29, 31, 0.4);
+}
+
+.dark .text-ios-tertiary {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Muted text color - iOS 26 */
+.text-ios-muted {
+  color: #8E8E93;
+}
+
+.dark .text-ios-muted {
+  color: #6B7280;
+}
+
+/* ========== Typography Combinations ========== */
+/* Display heading - SF Pro Display + Bold + Large size */
+.typography-display {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+/* Heading - SF Pro Display + Semibold */
+.typography-heading {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 1.6;
+  letter-spacing: -0.01em;
+}
+
+/* Subheading - SF Pro Display + Medium */
+.typography-subheading {
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.56;
+}
+
+/* Body - SF Pro Text + Regular */
+.typography-body {
+  font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Caption - SF Pro Caption + Regular */
+.typography-caption {
+  font-family: 'SF Pro Caption', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.33;
+}
+
+/* ========== Responsive Typography ========== */
+/* Mobile typography adjustments */
+@media (max-width: 768px) {
+  .text-ios-4xl {
+    font-size: 28px;
+  }
+  
+  .text-ios-3xl {
+    font-size: 24px;
+  }
+  
+  .text-ios-2xl {
+    font-size: 20px;
+  }
+  
+  .text-ios-xl {
+    font-size: 18px;
+  }
+}
+
+/* ========== Spacing (iOS 2026 Scale - Base 8px) ========== */
+/* 0: 0px - For no spacing */
+.p-ios-0 {
+  padding: 0;
+}
+
+/* 1: 4px - For tight spacing */
+.p-ios-1 {
+  padding: 4px;
+}
+
+/* 2: 8px - For base spacing */
+.p-ios-2 {
+  padding: 8px;
+}
+
+/* 3: 12px - For comfortable spacing */
+.p-ios-3 {
+  padding: 12px;
+}
+
+/* 4: 16px - For medium spacing */
+.p-ios-4 {
+  padding: 16px;
+}
+
+/* 5: 20px - For large spacing */
+.p-ios-5 {
+  padding: 20px;
+}
+
+/* 6: 24px - For extra large spacing */
+.p-ios-6 {
+  padding: 24px;
+}
+
+/* 8: 32px - For very large spacing */
+.p-ios-8 {
+  padding: 32px;
+}
+
+/* 10: 40px - For huge spacing */
+.p-ios-10 {
+  padding: 40px;
+}
+
+/* 12: 48px - For massive spacing */
+.p-ios-12 {
+  padding: 48px;
+}
+
+/* 16: 64px - For extra massive spacing */
+.p-ios-16 {
+  padding: 64px;
+}
+
+/* 20: 80px - For ultra massive spacing */
+.p-ios-20 {
+  padding: 80px;
+}
+
+/* 24: 96px - For extreme spacing */
+.p-ios-24 {
+  padding: 96px;
+}
+
+/* Margin spacing variants */
+.m-ios-0 {
+  margin: 0;
+}
+
+.m-ios-1 {
+  margin: 4px;
+}
+
+.m-ios-2 {
+  margin: 8px;
+}
+
+.m-ios-3 {
+  margin: 12px;
+}
+
+.m-ios-4 {
+  margin: 16px;
+}
+
+.m-ios-5 {
+  margin: 20px;
+}
+
+.m-ios-6 {
+  margin: 24px;
+}
+
+.m-ios-8 {
+  margin: 32px;
+}
+
+.m-ios-10 {
+  margin: 40px;
+}
+
+.m-ios-12 {
+  margin: 48px;
+}
+
+.m-ios-16 {
+  margin: 64px;
+}
+
+.m-ios-20 {
+  margin: 80px;
+}
+
+.m-ios-24 {
+  margin: 96px;
+}
+
+/* Gap spacing for flex/grid */
+.gap-ios-0 {
+  gap: 0;
+}
+
+.gap-ios-1 {
+  gap: 4px;
+}
+
+.gap-ios-2 {
+  gap: 8px;
+}
+
+.gap-ios-3 {
+  gap: 12px;
+}
+
+.gap-ios-4 {
+  gap: 16px;
+}
+
+.gap-ios-5 {
+  gap: 20px;
+}
+
+.gap-ios-6 {
+  gap: 24px;
+}
+
+.gap-ios-8 {
+  gap: 32px;
+}
+
+.gap-ios-10 {
+  gap: 40px;
+}
+
+.gap-ios-12 {
+  gap: 48px;
+}
+
+.gap-ios-16 {
+  gap: 64px;
+}
+
+.gap-ios-20 {
+  gap: 80px;
+}
+
+.gap-ios-24 {
+  gap: 96px;
+}
+
+/* ========== Accessibility ========== */
+/* Reduced motion - Disable text transitions */
+@media (prefers-reduced-motion: reduce) {
+  .typography-display,
+  .typography-heading,
+  .typography-subheading,
+  .typography-body,
+  .typography-caption {
+    transition: none !important;
+  }
+}
+
+/* High contrast mode - Ensure text is readable */
+@media (prefers-contrast: more) {
+  .text-ios-primary,
+  .text-ios-secondary,
+  .text-ios-muted {
+    color: #000000 !important;
+  }
+  
+  .dark .text-ios-primary,
+  .dark .text-ios-secondary,
+  .dark .text-ios-muted {
+    color: #FFFFFF !important;
+  }
+}

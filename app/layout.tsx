@@ -1,8 +1,12 @@
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+
+// Apple Liquid Glass 2026 - SF Pro Display font stack
+// Falls back to system fonts for native Apple experience
 import { Providers } from '@/components/providers'
 import { Toaster } from '@/components/ui/toaster'
 import './globals.css'
+import './liquid-glass-2026.css'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -122,13 +126,28 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body
-        className={`${inter.variable} font-sans antialiased min-h-screen bg-[#fbfbfd] text-[#1d1d1f] dark:bg-[#000000] dark:text-[#f5f5f7] selection:bg-blue-500/30`}
+        className={`${inter.variable} font-sf-pro-display antialiased min-h-screen bg-[#FFFFFF] text-[#1D1D1F] dark:bg-[#000000] dark:text-[#F5F5F7] selection:bg-[#007AFF]/30`}
         suppressHydrationWarning
+        style={{
+          fontFamily: "'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+        }}
       >
-        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-blue-400/20 blur-[120px] animate-blob-1" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-400/20 blur-[120px] animate-blob-2" />
-          <div className="absolute top-[30%] right-[10%] w-[30%] h-[30%] rounded-full bg-purple-400/10 blur-[120px] animate-blob-3" />
+        {/* Apple Liquid Glass 2026 Background - iOS 26 Specification */}
+        <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none liquid-glass-bg">
+          {/* Primary Blob - Apple Blue (#007AFF) - Refined for 2026 V3.0 Visionary */}
+          <div className="absolute top-[-20%] left-[-15%] w-[80%] h-[80%] rounded-full bg-[#007AFF]/30 dark:bg-[#0A84FF]/25 blur-[120px] animate-blob-1 liquid-blob liquid-blob-1" />
+          {/* Secondary Blob - Apple Green (#34C759) - Heart of Health */}
+          <div className="absolute bottom-[-20%] right-[-15%] w-[70%] h-[70%] rounded-full bg-[#34C759]/25 dark:bg-[#30D158]/20 blur-[120px] animate-blob-2 liquid-blob liquid-blob-2" />
+          {/* Tertiary Blob - Apple Purple (#BF5AF2) - Pure Intelligence */}
+          <div className="absolute top-[10%] right-[-5%] w-[60%] h-[60%] rounded-full bg-[#BF5AF2]/20 dark:bg-[#BF5AF2]/18 blur-[120px] animate-blob-3 liquid-blob liquid-blob-3" />
+          
+          {/* Noise Texture - Apple 2026 V3.0 "Physical" Grain */}
+          <div 
+            className="absolute inset-0 opacity-[0.012] dark:opacity-[0.018] pointer-events-none mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            }}
+          />
         </div>
         <Providers>
           {children}

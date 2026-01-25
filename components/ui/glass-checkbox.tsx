@@ -76,7 +76,7 @@ const GlassCheckbox = React.forwardRef<
             'flex items-center justify-center',
             'transition-all duration-[300ms] ease-[cubic-bezier(0.25,1,0.5,1)]',
             // Base glass material
-            'backdrop-blur-[20px] saturate-[150%]',
+            'liquid-glass-subtle',
             intensityStyles[glassIntensity],
             // Border
             'border-2',

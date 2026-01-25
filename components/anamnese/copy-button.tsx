@@ -4,6 +4,8 @@ import { useState } from 'react'
 import { Copy, Check } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { useTheme } from 'next-themes'
+import * as Theme from '@/lib/theme'
 
 interface CopyButtonProps {
   text: string
@@ -11,6 +13,13 @@ interface CopyButtonProps {
 }
 
 export function CopyButton({ text, className }: CopyButtonProps) {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  // Get theme-specific classes
+  const glassHoverScale = Theme.useGlassHoverScale()
+  const glassTapScale = Theme.useGlassTapScale()
+
   const [copied, setCopied] = useState(false)
 
   const handleCopy = async () => {
@@ -34,7 +43,12 @@ export function CopyButton({ text, className }: CopyButtonProps) {
       size="sm"
       onClick={handleCopy}
       disabled={!text}
-      className={cn(copied && 'bg-green-600 hover:bg-green-600', className)}
+      className={cn(
+        copied && 'bg-emerald-600 hover:bg-emerald-600',
+        glassHoverScale,
+        glassTapScale,
+        className
+      )}
     >
       {copied ? (
         <>

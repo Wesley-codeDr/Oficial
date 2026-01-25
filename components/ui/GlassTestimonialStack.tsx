@@ -159,7 +159,7 @@ export const GlassTestimonialStack: React.FC<GlassTestimonialStackProps> = ({
                   whileTap={{ cursor: 'grabbing' }}
                >
                    <div className="mx-auto w-[95%] xs:w-[92%] sm:w-[90%] md:w-[85%] lg:w-full max-w-md">
-                      <div className="group relative rounded-[32px] xs:rounded-[36px] sm:rounded-[40px] liquid-glass-material liquid-sheen bg-white/60! dark:bg-slate-900/60! backdrop-blur-[50px] border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-500 glass-texture">
+                      <div className="group relative rounded-[32px] xs:rounded-[36px] sm:rounded-[40px] liquid-glass-material liquid-sheen bg-white/60! dark:bg-slate-900/60! liquid-glass-default border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.15)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] overflow-hidden transition-all duration-500 glass-texture">
 
                          {/* Specular Gradient Overlay (Shine) */}
                          <div className="absolute inset-0 bg-linear-to-tr from-white/30 via-transparent to-transparent opacity-50 pointer-events-none" />
@@ -243,7 +243,7 @@ const GlassCard = ({ position }: { position: 'middle' | 'back' }) => {
         className="absolute w-full pointer-events-none"
       >
          <div className="mx-auto w-[95%] xs:w-[92%] sm:w-[90%] md:w-[85%] lg:w-full max-w-md opacity-40 grayscale-50 blur-[2px]">
-             <div className="rounded-[32px] xs:rounded-[36px] sm:rounded-[40px] liquid-glass-material bg-white/30! dark:bg-slate-900/30! backdrop-blur-[30px] border-white/10 shadow-none overflow-hidden min-h-[280px] xs:min-h-[300px] sm:min-h-[320px] flex flex-col p-4 xs:p-5 sm:p-6 md:p-8 glass-texture">
+             <div className="rounded-[32px] xs:rounded-[36px] sm:rounded-[40px] liquid-glass-material bg-white/30! dark:bg-slate-900/30! liquid-glass-subtle border-white/10 shadow-none overflow-hidden min-h-[280px] xs:min-h-[300px] sm:min-h-[320px] flex flex-col p-4 xs:p-5 sm:p-6 md:p-8 glass-texture">
                  {/* Skeleton-like structure for depth context */}
                  <div className="flex items-center gap-3 xs:gap-4 mb-4 xs:mb-5 sm:mb-6 opacity-50">
                     <div className="w-12 h-12 xs:w-13 xs:h-13 sm:w-14 sm:h-14 rounded-2xl bg-white/20" />

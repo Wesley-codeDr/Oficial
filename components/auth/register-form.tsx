@@ -150,7 +150,6 @@ export function RegisterForm() {
           leftIcon={<User className="h-[18px] w-[18px]" />}
           required
           autoComplete="name"
-          glassIntensity="medium"
         />
       </motion.div>
 
@@ -167,7 +166,6 @@ export function RegisterForm() {
           leftIcon={<Mail className="h-[18px] w-[18px]" />}
           required
           autoComplete="email"
-          glassIntensity="medium"
         />
       </motion.div>
 
@@ -184,7 +182,6 @@ export function RegisterForm() {
             placeholder="123456"
             leftIcon={<FileText className="h-[18px] w-[18px]" />}
             required
-            glassIntensity="medium"
           />
         </div>
         <div className="space-y-2.5">
@@ -197,7 +194,6 @@ export function RegisterForm() {
             placeholder="Selecione"
             options={stateOptions}
             required
-            glassIntensity="medium"
           />
         </div>
       </motion.div>
@@ -218,7 +214,6 @@ export function RegisterForm() {
           required
           autoComplete="new-password"
           minLength={6}
-          glassIntensity="medium"
         />
         <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5">Minimo de 6 caracteres</p>
       </motion.div>

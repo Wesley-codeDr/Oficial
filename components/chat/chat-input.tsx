@@ -4,6 +4,19 @@ import { useRef, useEffect, KeyboardEvent } from 'react'
 import { Send, Square } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { useTheme } from 'next-themes'
+import * as Tokens from '@/lib/theme/tokens'
+import {
+  useGlassBlur,
+  useGlassOpacity,
+  useGlassBorder,
+  useGlassRadius,
+  useGlassNoise,
+  useGlassSpecular,
+  useGlassRimLight,
+  useGlassHoverScale,
+  useGlassTapScale,
+} from '@/lib/theme/hooks'
 
 interface ChatInputProps {
   value: string
@@ -26,6 +39,19 @@ export function ChatInput({
   placeholder = 'Digite sua pergunta...',
   className,
 }: ChatInputProps) {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+  
+  const glassBlur = useGlassBlur()
+  const glassOpacity = useGlassOpacity('default', isDark)
+  const glassBorder = useGlassBorder('default', isDark)
+  const glassRadius = useGlassRadius('default')
+  const glassNoise = useGlassNoise()
+  const glassSpecular = useGlassSpecular()
+  const glassRimLight = useGlassRimLight()
+  const glassHoverScale = useGlassHoverScale()
+  const glassTapScale = useGlassTapScale()
+  
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   // Auto-resize textarea
@@ -48,7 +74,16 @@ export function ChatInput({
 
   return (
     <form onSubmit={onSubmit} className={cn('relative', className)}>
-      <div className="relative flex items-end gap-2 rounded-2xl liquid-glass-material rim-light-ios26 p-2">
+      <div className={cn(
+        'relative flex items-end gap-2 rounded-2xl p-2',
+        glassBlur,
+        glassOpacity,
+        glassBorder,
+        glassRadius,
+        glassNoise,
+        glassSpecular,
+        glassRimLight
+      )}>
         <textarea
           ref={textareaRef}
           value={value}
@@ -67,7 +102,18 @@ export function ChatInput({
               size="icon"
               variant="ghost"
               onClick={onStop}
-              className="h-8 w-8 glass-pill hover:bg-white/20 dark:hover:bg-white/10"
+              className={cn(
+                'h-8 w-8',
+                glassBlur,
+                glassOpacity,
+                glassBorder,
+                glassRadius,
+                glassNoise,
+                glassSpecular,
+                glassHoverScale,
+                glassTapScale,
+                'hover:bg-white/20 dark:hover:bg-white/10'
+              )}
             >
               <Square className="h-4 w-4" />
               <span className="sr-only">Parar</span>
@@ -77,7 +123,18 @@ export function ChatInput({
               type="submit"
               size="icon"
               disabled={!value.trim() || disabled}
-              className="h-8 w-8 btn-primary-glass text-white disabled:opacity-50"
+              className={cn(
+                'h-8 w-8 text-white disabled:opacity-50',
+                glassBlur,
+                glassOpacity,
+                glassBorder,
+                glassRadius,
+                glassNoise,
+                glassSpecular,
+                glassHoverScale,
+                glassTapScale,
+                'bg-blue-500 hover:bg-blue-600'
+              )}
             >
               <Send className="h-4 w-4" />
               <span className="sr-only">Enviar</span>

@@ -43,30 +43,39 @@ function determineSeverity(text: string): Severity {
   return 'warning'
 }
 
+// Task 5.7: Healthcare-critical variant with 7:1 contrast ratio (WCAG AAA)
 const SEVERITY_CONFIG = {
   critical: {
-    bg: 'bg-red-50 dark:bg-red-950/40',
-    border: 'border-red-300 dark:border-red-800',
+    bg: 'bg-red-50/95 dark:bg-red-950/90',
+    border: 'border-red-500/50 dark:border-red-500/50',
     text: 'text-red-700 dark:text-red-300',
     icon: XCircle,
     dot: 'bg-red-500',
-    title: '🚨 ALERTA CRÍTICO'
+    title: '🚨 ALERTA CRÍTICO',
+    // Task 5.7: Z-index priority above glass overlays
+    zIndex: 'z-critical-alert',
+    // Task 5.7: Pulse animation for visibility
+    pulse: 'animate-critical-pulse'
   },
   danger: {
-    bg: 'bg-orange-50 dark:bg-orange-950/40',
-    border: 'border-orange-300 dark:border-orange-800',
+    bg: 'bg-orange-50/90 dark:bg-orange-950/85',
+    border: 'border-orange-400/40 dark:border-orange-500/40',
     text: 'text-orange-700 dark:text-orange-300',
     icon: AlertTriangle,
     dot: 'bg-orange-500',
-    title: '⚠️ Sinais de Alarme'
+    title: '⚠️ SINAIS DE ALARME',
+    zIndex: 'z-healthcare-alert',
+    pulse: ''
   },
   warning: {
-    bg: 'bg-yellow-50 dark:bg-yellow-950/40',
-    border: 'border-yellow-300 dark:border-yellow-800',
+    bg: 'bg-yellow-50/90 dark:bg-yellow-950/85',
+    border: 'border-yellow-400/40 dark:border-yellow-600/40',
     text: 'text-yellow-700 dark:text-yellow-300',
     icon: AlertCircle,
     dot: 'bg-yellow-500',
-    title: 'ℹ️ Atenção'
+    title: 'ℹ️ ATENÇÃO',
+    zIndex: 'z-healthcare-alert',
+    pulse: ''
   }
 }
 
@@ -107,9 +116,14 @@ export function RedFlagAlert({ redFlags, className, showActions = false, onActio
         animate={{ opacity: 1, y: 0, height: 'auto' }}
         exit={{ opacity: 0, y: -20, height: 0 }}
         className={cn(
+          // Task 5.7: Use liquid glass subtle variant for forms
+          'liquid-glass-2026-elevated',
           'rounded-xl border-2 overflow-hidden',
           config.bg,
           config.border,
+          // Task 5.7: Z-index priority and pulse animation for critical
+          config.zIndex,
+          config.pulse,
           className
         )}
       >
@@ -210,7 +224,11 @@ function FlagGroup({ flags, severity, showActions, onActionClick }: FlagGroupPro
           key={flag.id}
           initial={{ opacity: 0, x: -10 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-start gap-3 p-3 rounded-lg bg-white/50 dark:bg-black/20"
+          className={cn(
+            'flex items-start gap-3 p-3 rounded-lg',
+            'liquid-glass-subtle bg-white/50 dark:bg-black/20',
+            'border border-white/30 dark:border-white/15'
+          )}
         >
           <span className={cn('h-2 w-2 rounded-full mt-1.5 shrink-0', config.dot)} />
           <div className="flex-1 min-w-0">
@@ -222,7 +240,9 @@ function FlagGroup({ flags, severity, showActions, onActionClick }: FlagGroupPro
                 onClick={() => onActionClick?.(flag)}
                 className={cn(
                   'mt-2 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors',
-                  config.bg, config.text, 'hover:opacity-80'
+                  config.bg,
+                  config.text,
+                  'hover:opacity-80'
                 )}
               >
                 → {flag.action}

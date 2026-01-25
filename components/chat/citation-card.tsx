@@ -3,6 +3,19 @@
 import { ExternalLink, BookOpen, FileText, GraduationCap } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
 import type { Citation } from '@/lib/ai/citations'
+import { useTheme } from 'next-themes'
+import * as Tokens from '@/lib/theme/tokens'
+import {
+  useGlassBlur,
+  useGlassOpacity,
+  useGlassBorder,
+  useGlassRadius,
+  useGlassNoise,
+  useGlassSpecular,
+  useGlassRimLight,
+  useGlassHoverScale,
+  useGlassTapScale,
+} from '@/lib/theme/hooks'
 
 interface CitationCardProps {
   citation: Citation
@@ -16,6 +29,19 @@ const typeIcons = {
 }
 
 export function CitationCard({ citation }: CitationCardProps) {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+  
+  const glassBlur = useGlassBlur()
+  const glassOpacity = useGlassOpacity('default', isDark)
+  const glassBorder = useGlassBorder('default', isDark)
+  const glassRadius = useGlassRadius('default')
+  const glassNoise = useGlassNoise()
+  const glassSpecular = useGlassSpecular()
+  const glassRimLight = useGlassRimLight()
+  const glassHoverScale = useGlassHoverScale()
+  const glassTapScale = useGlassTapScale()
+  
   const Icon = typeIcons[citation.type] || FileText
 
   return (
@@ -38,7 +64,12 @@ export function CitationCard({ citation }: CitationCardProps) {
                 href={`https://pubmed.ncbi.nlm.nih.gov/${citation.pmid}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-blue-500 hover:underline"
+                className={cn(
+                  'flex items-center gap-1 text-xs',
+                  glassHoverScale,
+                  glassTapScale,
+                  'text-blue-500 hover:underline'
+                )}
               >
                 PMID: {citation.pmid}
                 <ExternalLink className="h-3 w-3" />
@@ -49,7 +80,12 @@ export function CitationCard({ citation }: CitationCardProps) {
                 href={`https://doi.org/${citation.doi}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-blue-500 hover:underline"
+                className={cn(
+                  'flex items-center gap-1 text-xs',
+                  glassHoverScale,
+                  glassTapScale,
+                  'text-blue-500 hover:underline'
+                )}
               >
                 DOI
                 <ExternalLink className="h-3 w-3" />

@@ -148,7 +148,6 @@ export function ForgotPasswordForm() {
           leftIcon={<Mail className="h-[18px] w-[18px]" />}
           required
           autoComplete="email"
-          glassIntensity="medium"
         />
       </motion.div>
 

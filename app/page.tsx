@@ -11,7 +11,11 @@ import { AnamnesisView } from '@/components/medical/AnamnesisView'
 import { AccessibilityGuide } from '@/components/medical/AccessibilityGuide'
 import { FlashAnamnesisFlow } from '@/components/medical/FlashAnamnesisFlow'
 import { ChatWell } from '@/components/medical/ChatWell'
-import { GlassPanel } from '@/components/glass/GlassPanel'
+import { GlassCard } from '@/components/ui/glass/GlassCard'
+import { GlassTokenProvider } from '@/components/ui/glass/GlassTokenProvider'
+
+// Legacy GlassPanel compatibility wrapper
+const GlassPanel = GlassCard
 import { AnamnesisWorkspace } from '@/components/medical/AnamnesisWorkspace'
 import { SmartNotePanel } from '@/components/medical/SmartNotePanel'
 import { HeartScoreCalculator } from '@/components/medical/HeartScoreCalculator'
@@ -622,7 +626,8 @@ export default function Home() {
   }, [complaints])
 
   return (
-    <div className="flex h-screen w-full bg-gradient-to-br from-slate-50 via-blue-50/30 to-emerald-50/20 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-[#0087FF]/30 relative overflow-hidden">
+    <GlassTokenProvider>
+      <div suppressHydrationWarning className="flex h-screen w-full bg-[#FFFFFF] dark:bg-[#000000] text-[#1D1D1F] dark:text-[#F5F5F7] font-sf-pro-display selection:bg-[#007AFF]/30 relative overflow-hidden" style={{ fontFamily: "'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
       {/*
         LIQUID GLASS 2026 - MEDICAL BACKGROUND
         Enhanced with medical blue (#0087FF) and health green (#00D68F)
@@ -630,105 +635,73 @@ export default function Home() {
       */}
       {isMounted && (
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" style={{ perspective: '1200px', perspectiveOrigin: '50% 50%' }}>
-          {/* Primary Medical Blue Blob - Trust & Professionalism - ENHANCED */}
+          {/* Apple Liquid Glass 2026 - iOS 26 Background Blobs - V3.0 Visionary */}
+          {/* Primary - Apple Blue (#007AFF) */}
           <motion.div
             animate={{
-              scale: [1, 1.15, 0.95, 1],
-              x: [0, 40, -20, 0],
-              y: [0, -30, 20, 0],
-              rotate: [0, 10, -5, 0]
+              scale: [1, 1.2, 0.9, 1],
+              x: [0, 80, -40, 0],
+              y: [0, -70, 40, 0],
+              rotate: [0, 12, -7, 0]
             }}
             transition={{ duration: 25, repeat: Infinity, ease: [0.45, 0, 0.55, 1] }}
-            className="absolute -top-[10%] -left-[5%] w-[800px] h-[800px] rounded-full"
+            className="absolute -top-[20%] -left-[15%] w-[1200px] h-[1200px] rounded-full bg-[#007AFF]/30 dark:bg-[#0A84FF]/25 liquid-blob liquid-blob-1"
             style={{
-              background: 'radial-gradient(circle at 40% 40%, rgba(0, 122, 255, 0.18) 0%, rgba(0, 122, 255, 0.08) 50%, transparent 80%)',
-              filter: 'blur(100px) saturate(220%)',
+              filter: 'blur(160px) saturate(280%)',
               mixBlendMode: 'normal',
               ...(parallaxActive && transforms.blob1?.style),
             }}
           />
-          {/* Secondary Health Green Blob - Vitality & Wellness - ENHANCED */}
+          {/* Secondary - Apple Green (#34C759) */}
           <motion.div
             animate={{
-              scale: [1, 1.2, 0.9, 1],
-              x: [0, -40, 30, 0],
-              y: [0, 40, -20, 0],
-              rotate: [0, -15, 10, 0]
+              scale: [1, 1.3, 0.8, 1],
+              x: [0, -80, 60, 0],
+              y: [0, 80, -40, 0],
+              rotate: [0, -18, 15, 0]
             }}
             transition={{ duration: 30, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 2 }}
-            className="absolute top-[25%] -right-[10%] w-[750px] h-[750px] rounded-full"
+            className="absolute top-[25%] -right-[20%] w-[1100px] h-[1100px] rounded-full bg-[#34C759]/25 dark:bg-[#30D158]/20 liquid-blob liquid-blob-2"
             style={{
-              background: 'radial-gradient(circle at 60% 50%, rgba(52, 199, 89, 0.15) 0%, rgba(52, 199, 89, 0.05) 50%, transparent 80%)',
-              filter: 'blur(120px) saturate(240%)',
+              filter: 'blur(150px) saturate(280%)',
               mixBlendMode: 'normal',
               ...(parallaxActive && transforms.blob2?.style),
             }}
           />
-          {/* Tertiary Teal Bloom - Balance & Calm - ENHANCED */}
+          {/* Tertiary - Apple Purple (#BF5AF2) */}
           <motion.div
             animate={{
-              scale: [1, 1.1, 1, 1],
-              x: [0, 30, -20, 0],
-              y: [0, -25, 30, 0],
+              scale: [1, 1.2, 1, 1],
+              x: [0, 60, -40, 0],
+              y: [0, -50, 60, 0],
             }}
             transition={{ duration: 28, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 4 }}
-            className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] rounded-full"
+            className="absolute bottom-[-20%] left-[10%] w-[900px] h-[900px] rounded-full bg-[#BF5AF2]/20 dark:bg-[#BF5AF2]/18 liquid-blob liquid-blob-3"
             style={{
-              background: 'radial-gradient(circle, rgba(90, 200, 250, 0.18) 0%, rgba(90, 200, 250, 0.05) 60%, transparent 80%)',
-              filter: 'blur(90px) saturate(220%)',
+              filter: 'blur(140px) saturate(280%)',
               mixBlendMode: 'normal',
               ...(parallaxActive && transforms.blob3?.style),
             }}
           />
-          {/* Accent Deep Blue - Depth - ENHANCED */}
-          <motion.div
-            animate={{
-              scale: [1, 1.15, 0.95, 1],
-              x: [0, 20, -20, 0],
-              y: [0, -30, 25, 0],
-            }}
-            transition={{ duration: 32, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 1 }}
-            className="absolute top-[50%] left-[40%] w-[550px] h-[550px] rounded-full"
-            style={{
-              background: 'radial-gradient(circle, rgba(88, 86, 214, 0.15) 0%, rgba(88, 86, 214, 0.05) 50%, transparent 80%)',
-              filter: 'blur(80px) saturate(210%)',
-              mixBlendMode: 'normal',
-              ...(parallaxActive && transforms.blob4?.style),
-            }}
-          />
-          {/* Violet Depth Layer */}
-          <motion.div
-            animate={{
-              scale: [1, 1.05, 1.1, 1],
-              opacity: [0.4, 0.6, 0.4],
-            }}
-            transition={{ duration: 24, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 5 }}
-            className="absolute top-[10%] right-[15%] w-[500px] h-[500px] rounded-full"
-            style={{
-              background: 'radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, transparent 70%)',
-              filter: 'blur(100px) saturate(230%)',
-              mixBlendMode: 'normal',
-            }}
-          />
-
-          {/* Refined Noise Grain 2026 - Tactile Texture */}
+          
+          {/* Apple Liquid Glass 2026 - Noise Texture */}
           <div 
-            className="absolute inset-0 opacity-[0.02] dark:opacity-[0.03] pointer-events-none mix-blend-overlay"
+            className="absolute inset-0 opacity-[0.012] dark:opacity-[0.018] pointer-events-none mix-blend-overlay"
             style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
             }}
           />
           
-          {/* Top Gradient Fade for Header Visibility */}
-          <div className="absolute top-0 left-0 right-0 h-[200px] bg-gradient-to-b from-white/60 via-white/30 to-transparent dark:from-slate-950/70 dark:via-slate-950/30 dark:to-transparent" />
+          {/* Top Gradient Fade - Apple 2026 Style */}
+          <div className="absolute top-0 left-0 right-0 h-[200px] bg-gradient-to-b from-white/60 via-white/30 to-transparent dark:from-black/70 dark:via-black/30 dark:to-transparent" />
         </div>
       )}
 
       <Sidebar currentView={viewMode} onNavigate={handleSidebarNavigation} />
 
-      <main className="flex-1 flex flex-col h-full min-w-0 relative z-0 p-4">
+      <main className="flex-1 flex flex-col h-screen overflow-y-auto scroll-smooth relative z-0 p-4">
         {viewMode === 'dashboard' && (
-          <GlassPanel className="h-full overflow-hidden flex flex-col" style={{ borderRadius: '24px' }}>
+          <GlassPanel className="min-h-full flex flex-col" style={{ borderRadius: '24px' }}>
             <DashboardView
               tasks={tasks}
               setTasks={setTasks}
@@ -745,7 +718,7 @@ export default function Home() {
         )}
 
         {viewMode === 'flash' && (
-          <GlassPanel className="h-full overflow-hidden flex flex-col p-6" style={{ borderRadius: '24px' }}>
+          <GlassPanel className="min-h-full flex flex-col p-6" style={{ borderRadius: '24px' }}>
             <FlashAnamnesisFlow
               patient={patient}
               setPatient={setPatient}
@@ -756,18 +729,18 @@ export default function Home() {
         )}
 
         {viewMode === 'chat-well' && (
-          <GlassPanel className="h-full overflow-hidden p-6" style={{ borderRadius: '24px' }}>
+          <GlassPanel className="min-h-full p-6" style={{ borderRadius: '24px' }}>
             <ChatWell />
           </GlassPanel>
         )}
 
         {viewMode !== 'dashboard' && viewMode !== 'flash' && viewMode !== 'chat-well' && (
-          <GlassPanel className="flex flex-col h-full overflow-hidden" style={{ borderRadius: '24px' }}>
+          <GlassPanel className="flex flex-col min-h-full" style={{ borderRadius: '24px' }}>
             <div className="px-6 pt-6 shrink-0 z-20">
               <Header patient={patient} setPatient={setPatient} />
             </div>
 
-            <div className="flex-1 overflow-y-auto custom-scrollbar px-6 pb-6 relative">
+            <div className="flex-1 px-6 pb-6 relative">
               {viewMode === 'selection' && (
                 <ComplaintSelection onSelect={selectComplaint} patient={patient} />
               )}
@@ -988,5 +961,6 @@ export default function Home() {
         onComplete={completeTour}
       />
     </div>
+    </GlassTokenProvider>
   )
 }

@@ -5,7 +5,7 @@ import { Thermometer } from 'lucide-react';
 
 export const BloodPressureCard: React.FC = () => {
   return (
-    <div className="w-full h-full p-6 rounded-[24px] bg-white/55 dark:bg-[rgba(30,30,30,0.55)] backdrop-blur-[40px] saturate-[180%] border border-white/40 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.3)] flex flex-col justify-between hover:scale-[1.02] transition-all duration-200">
+    <div className="w-full h-full p-6 rounded-[24px] bg-white/55 dark:bg-[rgba(30,30,30,0.55)] liquid-glass-subtle border border-white/40 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.3)] flex flex-col justify-between hover:scale-[1.02] transition-all duration-200">
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           {/* Icon badge with subtle purple tint - allowed for icons */}

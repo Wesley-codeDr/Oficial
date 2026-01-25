@@ -91,7 +91,7 @@ const GlassSheetContent = forwardRef<
               heightClasses[height],
               // Glass styling
               'bg-white/75 dark:bg-slate-900/80',
-              'backdrop-blur-[80px] saturate-[180%]',
+              'liquid-glass-default',
               'border-t border-white/30 dark:border-white/10',
               'rounded-t-[32px]',
               // Shadow

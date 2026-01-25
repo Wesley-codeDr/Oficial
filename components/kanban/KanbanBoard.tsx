@@ -8,7 +8,8 @@ import { KANBAN_COLUMNS } from '@/types/kanban'
 import type { KanbanColumnStatus, KanbanTask } from '@/types/kanban'
 import { KanbanColumn } from './KanbanColumn'
 import { KanbanEmptyState } from './KanbanEmptyState'
-import { Button } from '@/components/ui/button'
+import { GlassButton } from '@/components/ui/glass-button'
+import { GlassInput } from '@/components/ui/glass-input'
 import { cn } from '@/lib/utils'
 
 interface AddTaskDialogState {
@@ -94,15 +95,14 @@ export function KanbanBoard() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
+          <GlassButton
+            variant="danger"
             size="sm"
             onClick={handleClearBoard}
-            className="gap-2 text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20"
+            icon={<RotateCcw className="h-4 w-4" />}
           >
-            <RotateCcw className="h-4 w-4" />
             Reiniciar
-          </Button>
+          </GlassButton>
         </div>
       </div>
 
@@ -132,26 +132,17 @@ export function KanbanBoard() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="liquid-glass-material rim-light-ios26 rounded-2xl p-6 w-full max-w-md border border-white/30"
+            className="liquid-glass-2026 rounded-2xl p-6 w-full max-w-md"
             onClick={(e) => e.stopPropagation()}
           >
             <h3 className="text-lg font-semibold text-slate-800 dark:text-white mb-4">
               Nova Tarefa
             </h3>
 
-            <input
-              type="text"
+            <GlassInput
               value={newTaskTitle}
               onChange={(e) => setNewTaskTitle(e.target.value)}
               placeholder="Título da tarefa..."
-              className={cn(
-                'w-full px-4 py-3 rounded-xl',
-                'bg-white/50 dark:bg-slate-800/50',
-                'border border-slate-200 dark:border-slate-700',
-                'text-slate-800 dark:text-white',
-                'placeholder:text-slate-400',
-                'focus:outline-none focus:ring-2 focus:ring-blue-500/50'
-              )}
               autoFocus
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleSubmitTask()
@@ -160,20 +151,20 @@ export function KanbanBoard() {
             />
 
             <div className="flex justify-end gap-2 mt-4">
-              <Button
-                variant="ghost"
+              <GlassButton
+                variant="secondary"
                 onClick={() => setAddTaskDialog({ isOpen: false, status: null })}
               >
                 Cancelar
-              </Button>
-              <Button
+              </GlassButton>
+              <GlassButton
+                variant="primary"
                 onClick={handleSubmitTask}
                 disabled={!newTaskTitle.trim()}
-                className="bg-blue-500 hover:bg-blue-600 text-white"
+                icon={<Plus className="h-4 w-4 mr-1" />}
               >
-                <Plus className="h-4 w-4 mr-1" />
                 Adicionar
-              </Button>
+              </GlassButton>
             </div>
           </motion.div>
         </div>

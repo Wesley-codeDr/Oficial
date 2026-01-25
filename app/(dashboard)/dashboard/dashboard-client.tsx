@@ -4,6 +4,8 @@ import Link from 'next/link'
 import { Heart, Wind, Activity as ActivityIcon, Plus, Sparkles, Zap, Shield, ArrowRight } from 'lucide-react'
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import { GlassCard } from '@/components/ui/glass-card'
+import { GlassButton } from '@/components/ui/glass-button'
+import { GlassBadge } from '@/components/ui/glass-badge'
 import { useRef, useEffect, useState } from 'react'
 
 interface Syndrome {
@@ -30,26 +32,26 @@ const iconMap: Record<string, typeof Heart> = {
 const features = [
   {
     icon: Zap,
-    title: 'Rapido',
+    title: 'Rápido',
     description: 'Anamnese em minutos',
-    gradient: 'from-amber-500/20 to-orange-500/20',
-    iconGradient: 'from-amber-400 to-orange-500',
+    gradient: 'from-[#FF9500]/20 to-[#FF9500]/20',
+    iconGradient: 'from-[#FF9500] to-[#FF9500]',
     glow: 'orange' as const,
   },
   {
     icon: Shield,
     title: 'Seguro',
     description: 'Dados protegidos',
-    gradient: 'from-green-500/20 to-emerald-500/20',
-    iconGradient: 'from-green-400 to-emerald-500',
+    gradient: 'from-[#34C759]/20 to-[#34C759]/20',
+    iconGradient: 'from-[#34C759] to-[#34C759]',
     glow: 'green' as const,
   },
   {
     icon: Sparkles,
     title: 'IA',
-    description: 'Inteligencia artificial',
-    gradient: 'from-purple-500/20 to-pink-500/20',
-    iconGradient: 'from-purple-400 to-pink-500',
+    description: 'Inteligência artificial',
+    gradient: 'from-[#AF52DE]/20 to-[#AF52DE]/20',
+    iconGradient: 'from-[#AF52DE] to-[#AF52DE]',
     glow: 'purple' as const,
   },
 ]
@@ -58,11 +60,11 @@ const features = [
 function AnimatedBackground() {
   return (
     <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
-      {/* Primary blob - Blue */}
+      {/* Primary blob - Apple System Blue */}
       <motion.div
         className="absolute w-[600px] h-[600px] rounded-full opacity-30 dark:opacity-20"
         style={{
-          background: 'radial-gradient(circle, rgba(59,130,246,0.4) 0%, rgba(59,130,246,0) 70%)',
+          background: 'radial-gradient(circle, rgba(0,122,255,0.4) 0%, rgba(0,122,255,0) 70%)',
           filter: 'blur(80px)',
           top: '-10%',
           right: '-5%',
@@ -79,11 +81,11 @@ function AnimatedBackground() {
         }}
       />
 
-      {/* Secondary blob - Teal */}
+      {/* Secondary blob - Apple System Teal */}
       <motion.div
         className="absolute w-[500px] h-[500px] rounded-full opacity-25 dark:opacity-15"
         style={{
-          background: 'radial-gradient(circle, rgba(20,184,166,0.4) 0%, rgba(20,184,166,0) 70%)',
+          background: 'radial-gradient(circle, rgba(90,200,250,0.35) 0%, rgba(90,200,250,0) 70%)',
           filter: 'blur(60px)',
           bottom: '10%',
           left: '-10%',
@@ -100,11 +102,11 @@ function AnimatedBackground() {
         }}
       />
 
-      {/* Tertiary blob - Purple */}
+      {/* Tertiary blob - Apple System Purple */}
       <motion.div
         className="absolute w-[400px] h-[400px] rounded-full opacity-20 dark:opacity-10"
         style={{
-          background: 'radial-gradient(circle, rgba(139,92,246,0.35) 0%, rgba(139,92,246,0) 70%)',
+          background: 'radial-gradient(circle, rgba(175,82,222,0.35) 0%, rgba(175,82,222,0) 70%)',
           filter: 'blur(70px)',
           top: '40%',
           left: '30%',
@@ -165,13 +167,8 @@ function FeaturePill({ feature, index }: { feature: typeof features[0]; index: n
       <div
         className={`
           relative flex items-center gap-2.5 px-5 py-3 rounded-full
-          backdrop-blur-[var(--lg-regular-blur)] saturate-[var(--lg-regular-saturate)]
-          bg-white/50 dark:bg-white/12
-          border border-white/35 dark:border-white/12
-          shadow-[0_4px_16px_rgba(0,0,0,0.06),0_1px_2px_rgba(0,0,0,0.04),inset_0_1px_0_rgba(255,255,255,0.8)]
-          dark:shadow-[0_4px_16px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.12)]
-          hover:shadow-[0_12px_32px_rgba(0,0,0,0.12),inset_0_1px_0_rgba(255,255,255,0.9)]
-          dark:hover:shadow-[0_12px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.18)]
+          liquid-glass-regular rim-light-ios26 inner-glow-ios26
+          border border-white/50 dark:border-white/12
           transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-default
           overflow-hidden
         `}
@@ -251,13 +248,8 @@ function SyndromeCard({ syndrome, index }: { syndrome: Syndrome; index: number }
 
           <div
             className="relative h-full rounded-[36px] p-6 overflow-hidden
-              liquid-glass-regular
-              bg-white/28 dark:bg-slate-900/32
-              border border-white/35 dark:border-white/12
-              shadow-[0_8px_40px_rgba(0,78,146,0.08),0_2px_8px_rgba(0,0,0,0.03),inset_0_1px_1px_rgba(255,255,255,0.6)]
-              dark:shadow-[0_8px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.12)]
-              group-hover:shadow-[0_20px_60px_rgba(59,130,246,0.15),0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_2px_rgba(255,255,255,0.8)]
-              dark:group-hover:shadow-[0_20px_60px_rgba(59,130,246,0.2),inset_0_1px_0_rgba(255,255,255,0.18)]
+              liquid-glass-regular rim-light-ios26 liquid-glass-specular
+              border border-white/50 dark:border-white/12
               transition-all duration-600 ease-[cubic-bezier(0.25,1,0.5,1)]"
           >
             {/* Noise texture */}
@@ -269,26 +261,7 @@ function SyndromeCard({ syndrome, index }: { syndrome: Syndrome; index: number }
               }}
             />
 
-            {/* Specular highlight - Apple Liquid Glass 2026 */}
-            <div
-              className="absolute top-0 left-[5%] right-[5%] h-[50%] pointer-events-none rounded-t-[36px] z-[20]"
-              style={{
-                background: 'radial-gradient(ellipse 85% 45% at 50% 0%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.35) 30%, rgba(255,255,255,0.12) 50%, transparent 75%)',
-                opacity: 'var(--lg-regular-specular, 0.7)',
-              }}
-            />
-
-            {/* Rim light effect - Apple conic gradient */}
-            <div
-              className="absolute inset-0 pointer-events-none rounded-[36px] z-[50] opacity-85 dark:opacity-50"
-              style={{
-                padding: '1.5px',
-                background: 'conic-gradient(from 225deg at 50% 50%, rgba(255,255,255,0.9) 0deg, rgba(255,255,255,0.5) 45deg, rgba(255,255,255,0.2) 90deg, rgba(255,255,255,0.1) 135deg, rgba(255,255,255,0.2) 180deg, rgba(255,255,255,0.4) 225deg, rgba(255,255,255,0.6) 270deg, rgba(255,255,255,0.8) 315deg, rgba(255,255,255,0.9) 360deg)',
-                WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                WebkitMaskComposite: 'xor',
-                maskComposite: 'exclude',
-              }}
-            />
+            {/* Specular and rim light provided via utility classes */}
 
             {/* Content */}
             <div className="relative z-10 flex flex-col items-center space-y-5 text-center">
@@ -302,15 +275,11 @@ function SyndromeCard({ syndrome, index }: { syndrome: Syndrome; index: number }
                 <div className="absolute inset-0 rounded-[20px] bg-gradient-to-br from-blue-500/30 to-purple-500/30 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
                 <div className="relative flex h-16 w-16 items-center justify-center rounded-[20px]
-                  backdrop-blur-[var(--lg-regular-blur)] saturate-[var(--lg-regular-saturate)]
-                  bg-gradient-to-br from-blue-500/12 to-purple-500/12
-                  group-hover:from-blue-500/25 group-hover:to-purple-500/25
-                  border border-white/35 dark:border-white/12
-                  shadow-[0_4px_16px_rgba(59,130,246,0.12),inset_0_1px_0_rgba(255,255,255,0.5)]
-                  group-hover:shadow-[0_8px_32px_rgba(59,130,246,0.25),inset_0_2px_0_rgba(255,255,255,0.6)]
+                  liquid-glass-regular rim-light-ios26 inner-glow-ios26
+                  border border-white/50 dark:border-white/12
                   transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
                 >
-                  <IconComponent className="h-8 w-8 text-blue-600 dark:text-blue-400 transition-all duration-300 group-hover:drop-shadow-[0_0_12px_rgba(59,130,246,0.6)]" />
+                  <IconComponent className="h-8 w-8 text-[#007AFF] dark:text-blue-400 transition-all duration-300" />
                 </div>
               </motion.div>
 
@@ -326,7 +295,7 @@ function SyndromeCard({ syndrome, index }: { syndrome: Syndrome; index: number }
 
               {/* Count Badge - Enhanced glass pill */}
               <div className="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-xs font-bold
-                backdrop-blur-xl saturate-[180%]
+                liquid-glass-subtle
                 bg-white/60 dark:bg-slate-800/50
                 border border-white/50 dark:border-white/12
                 shadow-[0_2px_12px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,0.7)]
@@ -388,7 +357,7 @@ export function DashboardClient({ syndromes }: DashboardClientProps) {
             Nova Anamnese
           </h1>
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-lg leading-relaxed">
-            Selecione a sindrome clinica para iniciar o preenchimento da anamnese.
+            Selecione a síndrome clínica para iniciar o preenchimento da anamnese.
           </p>
         </motion.div>
 
@@ -434,10 +403,10 @@ export function DashboardClient({ syndromes }: DashboardClientProps) {
 
                 <div className="space-y-2">
                   <h2 className="text-2xl font-bold text-slate-900 dark:text-white">
-                    Nenhuma sindrome disponivel
+                    Nenhuma síndrome disponível
                   </h2>
                   <p className="text-slate-600 dark:text-slate-400">
-                    Execute o seed do banco de dados para adicionar as sindromes iniciais.
+                    Execute o seed do banco de dados para adicionar as síndromes iniciais.
                   </p>
                 </div>
 

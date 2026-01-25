@@ -48,7 +48,7 @@ const DialogOverlay = React.forwardRef<
     className={cn(
       "fixed inset-0 z-50",
       "bg-black/25 dark:bg-black/45",
-      "backdrop-blur-[8px] saturate-[120%]",
+      "liquid-glass-subtle",
       "-webkit-backdrop-filter: blur(8px) saturate(120%)",
       // Animation
       "data-[state=open]:animate-in data-[state=closed]:animate-out",
@@ -72,7 +72,7 @@ const DialogContent = React.forwardRef<
         // Positioning
         "fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2",
         // Glass effect
-        "backdrop-blur-[80px] saturate-[200%]",
+        "liquid-glass-default",
         "bg-white/75 dark:bg-slate-900/80",
         "border border-white/50 dark:border-white/15",
         "rounded-[32px] p-6",
@@ -103,7 +103,7 @@ const DialogContent = React.forwardRef<
         "flex h-8 w-8 items-center justify-center",
         "rounded-full",
         "bg-black/6 dark:bg-white/8",
-        "backdrop-blur-[10px]",
+        "liquid-glass-subtle",
         "border border-white/30 dark:border-white/15",
         "text-slate-600 dark:text-slate-400",
         "hover:bg-black/12 dark:hover:bg-white/15",

@@ -42,7 +42,7 @@ export const RemindersCard: React.FC = () => {
   };
 
   return (
-    <div className="relative p-6 rounded-[24px] bg-white/55 dark:bg-[rgba(30,30,30,0.55)] backdrop-blur-[40px] saturate-[180%] border border-white/40 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.3)] h-full flex flex-col transition-colors overflow-hidden">
+    <div className="relative p-6 rounded-[24px] bg-white/55 dark:bg-[rgba(30,30,30,0.55)] liquid-glass-subtle border border-white/40 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.3)] h-full flex flex-col transition-colors overflow-hidden">
 
       {/* Header */}
       <div className="flex justify-between items-center mb-6 shrink-0">
@@ -82,7 +82,7 @@ export const RemindersCard: React.FC = () => {
 
       {/* Add Modal Overlay */}
       {isAdding && (
-        <div className="absolute inset-0 z-20 bg-white/90 dark:bg-[rgba(30,30,30,0.95)] backdrop-blur-[40px] p-6 flex flex-col animate-in fade-in zoom-in-95 duration-200 rounded-[24px]">
+        <div className="absolute inset-0 z-20 bg-white/90 dark:bg-[rgba(30,30,30,0.95)] liquid-glass-subtle p-6 flex flex-col animate-in fade-in zoom-in-95 duration-200 rounded-[24px]">
            <div className="flex justify-between items-center mb-6">
               <h4 className="text-lg font-bold text-[rgba(0,0,0,0.85)] dark:text-white">Novo Lembrete</h4>
               <button onClick={handleCancel} className="p-1 rounded-[10px] hover:bg-white/40 dark:hover:bg-white/10 transition-colors text-[rgba(0,0,0,0.45)] dark:text-[rgba(255,255,255,0.5)]">

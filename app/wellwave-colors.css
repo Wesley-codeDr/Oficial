@@ -1,0 +1,722 @@
+/**
+ * WellWave Color Palette
+ * Modern, harmonious, and WCAG AA compliant color system
+ * Based on logo analysis with primary navy blue (#00227d) and cyan (#1fa8e3)
+ */
+
+/* ========================================
+   WELLWAVE BRAND COLORS
+   ======================================== */
+
+:root {
+  /* Primary Colors - Navy Blue (#00227d) */
+  --ww-primary-50: #e8ecfd;
+  --ww-primary-100: #d1d8fb;
+  --ww-primary-200: #a3b5f7;
+  --ww-primary-300: #7c92f3;
+  --ww-primary-400: #546fef;
+  --ww-primary-500: #2d4ceb;
+  --ww-primary-600: #00227d; /* Brand primary */
+  --ww-primary-700: #001b6a;
+  --ww-primary-800: #001557;
+  --ww-primary-900: #001044;
+  --ww-primary-950: #000b31;
+
+  /* Secondary Colors - Cyan (#1fa8e3) */
+  --ww-secondary-50: #e3f8fd;
+  --ww-secondary-100: #b8ebfb;
+  --ww-secondary-200: #8adff8;
+  --ww-secondary-300: #5cd3f5;
+  --ww-secondary-400: #2ec7f2;
+  --ww-secondary-500: #0d8bb8; /* Adjusted for better contrast */
+  --ww-secondary-600: #0a6e94;
+  --ww-secondary-700: #075170;
+  --ww-secondary-800: #04344c;
+  --ww-secondary-900: #021728;
+  --ww-secondary-950: #010b14;
+
+  /* Accent Colors - Light Blue (#81d4f1) */
+  --ww-accent-50: #f0fbff;
+  --ww-accent-100: #dff7fe;
+  --ww-accent-200: #bdeffb;
+  --ww-accent-300: #9be7f9;
+  --ww-accent-400: #79dff6;
+  --ww-accent-500: #81d4f1; /* Brand accent */
+  --ww-accent-600: #4cb8d6;
+  --ww-accent-700: #3a9cb8;
+  --ww-accent-800: #28809a;
+  --ww-accent-900: #16647c;
+  --ww-accent-950: #0b485e;
+
+  /* Neutral Colors - Light Gray (#f3f3f5) */
+  --ww-neutral-50: #fafafa;
+  --ww-neutral-100: #f5f5f7;
+  --ww-neutral-200: #e5e5e8;
+  --ww-neutral-300: #d4d4d7;
+  --ww-neutral-400: #a3a3a8;
+  --ww-neutral-500: #737379;
+  --ww-neutral-600: #52525a;
+  --ww-neutral-700: #3f3f46;
+  --ww-neutral-800: #27272a;
+  --ww-neutral-900: #18181b;
+  --ww-neutral-950: #09090b;
+
+  /* Black Colors - Pure Black (#000000) */
+  --ww-black-50: #f2f2f2;
+  --ww-black-100: #e5e5e5;
+  --ww-black-200: #d4d4d4;
+  --ww-black-300: #a3a3a3;
+  --ww-black-400: #737373;
+  --ww-black-500: #525252;
+  --ww-black-600: #404040;
+  --ww-black-700: #262626;
+  --ww-black-800: #171717;
+  --ww-black-900: #0a0a0a;
+  --ww-black-950: #000000; /* Pure black */
+}
+
+/* ========================================
+   SEMANTIC COLORS
+   ======================================== */
+
+:root {
+  /* Success - Green */
+  --ww-success-50: #f0fdf4;
+  --ww-success-100: #dcfce7;
+  --ww-success-200: #bbf7d0;
+  --ww-success-300: #86efac;
+  --ww-success-400: #4ade80;
+  --ww-success-500: #22c55e;
+  --ww-success-600: #16a34a;
+  --ww-success-700: #15803d; /* Adjusted for better contrast */
+  --ww-success-800: #166534;
+  --ww-success-900: #14532d;
+  --ww-success-950: #052e16;
+
+  /* Warning - Amber */
+  --ww-warning-50: #fffbeb;
+  --ww-warning-100: #fef3c7;
+  --ww-warning-200: #fde68a;
+  --ww-warning-300: #fcd34d;
+  --ww-warning-400: #fbbf24;
+  --ww-warning-500: #f59e0b;
+  --ww-warning-600: #d97706;
+  --ww-warning-700: #b45309; /* Adjusted for better contrast */
+  --ww-warning-800: #92400e;
+  --ww-warning-900: #78350f;
+  --ww-warning-950: #451a03;
+
+  /* Danger - Red */
+  --ww-danger-50: #fef2f2;
+  --ww-danger-100: #fee2e2;
+  --ww-danger-200: #fecaca;
+  --ww-danger-300: #fca5a5;
+  --ww-danger-400: #f87171;
+  --ww-danger-500: #ef4444;
+  --ww-danger-600: #dc2626;
+  --ww-danger-700: #b91c1c;
+  --ww-danger-800: #991b1b;
+  --ww-danger-900: #7f1d1d;
+  --ww-danger-950: #450a0a;
+
+  /* Medical Refresh 2026 - Professional Palette */
+  --medical-primary: #0077B6;
+  --medical-secondary: #2A9D8F;
+  --medical-alert: #E9C46A;
+  --medical-critical: #E63946;
+  --medical-success: #57CC99;
+  --medical-neutral-50: #F8F9FA;
+  --medical-neutral-500: #6C757D;
+  --medical-neutral-900: #212529;
+
+  /* Metric Card Gradients - Soft & Professional */
+  --grad-thoracic: linear-gradient(135deg, #FFE5E5 0%, #FFF0F0 100%);
+  --grad-patients: linear-gradient(135deg, #E3F2FD 0%, #F5F9FF 100%);
+  --grad-revals: linear-gradient(135deg, #E8F5E9 0%, #F1F8F2 100%);
+  --grad-ecg: linear-gradient(135deg, #FFF8E1 0%, #FFFDF5 100%);
+}
+
+/* ========================================
+   SEMANTIC COLORS
+   ======================================== */
+
+:root {
+  /* Success - Green */
+  --ww-success-50: #f0fdf4;
+  --ww-success-100: #dcfce7;
+  --ww-success-200: #bbf7d0;
+  --ww-success-300: #86efac;
+  --ww-success-400: #4ade80;
+  --ww-success-500: #57CC99; /* Updated to Emerald */
+  --ww-success-600: #2A9D8F; /* Updated to Calmo */
+  --ww-success-700: #15803d; 
+  --ww-success-800: #166534;
+  --ww-success-900: #14532d;
+  --ww-success-950: #052e16;
+
+  /* Warning - Amber */
+  --ww-warning-50: #fffbeb;
+  --ww-warning-100: #fef3c7;
+  --ww-warning-200: #fde68a;
+  --ww-warning-300: #fcd34d;
+  --ww-warning-400: #fbbf24;
+  --ww-warning-500: #E9C46A; /* Updated to Amber suavizado */
+  --ww-warning-600: #d97706;
+  --ww-warning-700: #b45309;
+  --ww-warning-800: #92400e;
+  --ww-warning-900: #78350f;
+  --ww-warning-950: #451a03;
+
+  /* Danger - Red */
+  --ww-danger-50: #fef2f2;
+  --ww-danger-100: #fee2e2;
+  --ww-danger-200: #fecaca;
+  --ww-danger-300: #fca5a5;
+  --ww-danger-400: #f87171;
+  --ww-danger-500: #E63946; /* Updated to Vermelho médico */
+  --ww-danger-600: #dc2626;
+  --ww-danger-700: #b91c1c;
+  --ww-danger-800: #991b1b;
+  --ww-danger-900: #7f1d1d;
+  --ww-danger-950: #450a0a;
+
+  /* Medical - Blue */
+  --ww-medical-50: #eff6ff;
+  --ww-medical-100: #dbeafe;
+  --ww-medical-200: #bfdbfe;
+  --ww-medical-300: #93c5fd;
+  --ww-medical-400: #60a5fa;
+  --ww-medical-500: #0077B6; /* Updated to Azul médico */
+  --ww-medical-600: #2563eb;
+  --ww-medical-700: #1d4ed8;
+  --ww-medical-800: #1e40af;
+  --ww-medical-900: #1e3a8a;
+  --ww-medical-950: #172554;
+}
+
+/* ========================================
+   TEXT COLORS (WCAG AA COMPLIANT)
+   ======================================== */
+
+:root {
+  /* Primary Text Colors */
+  --text-ww-primary: #18181b; /* High contrast on light backgrounds */
+  --text-ww-primary-100: #fafafa; /* High contrast on dark backgrounds */
+  --text-ww-primary-200: #f5f5f7; /* Medium contrast on dark backgrounds */
+
+  /* Secondary Text Colors */
+  --text-ww-secondary: #27272a; /* High contrast on light backgrounds */
+  --text-ww-secondary-400: #a3a3a8; /* Medium contrast on light backgrounds */
+  --text-ww-secondary-500: #737379; /* Lower contrast on light backgrounds */
+
+  /* Neutral Text Colors */
+  --text-ww-neutral: #52525a; /* Body text on light backgrounds */
+  --text-ww-neutral-100: #fafafa; /* High contrast on dark backgrounds */
+  --text-ww-neutral-200: #f5f5f7; /* Medium contrast on dark backgrounds */
+  --text-ww-neutral-400: #a3a3a8; /* Medium contrast on light backgrounds */
+  --text-ww-neutral-500: #737379; /* Lower contrast on light backgrounds */
+  --text-ww-neutral-600: #52525a; /* Body text on light backgrounds */
+  --text-ww-neutral-700: #3f3f46; /* Subtle text on light backgrounds */
+
+  /* Semantic Text Colors */
+  --text-ww-success: #166534; /* Success text on light backgrounds */
+  --text-ww-warning: #92400e; /* Warning text on light backgrounds */
+  --text-ww-danger: #991b1b; /* Danger text on light backgrounds */
+  --text-ww-medical: #1e40af; /* Medical text on light backgrounds */
+
+  /* White Text */
+  --text-white: #ffffff; /* High contrast on dark backgrounds */
+}
+
+/* ========================================
+   BACKGROUND COLORS
+   ======================================== */
+
+:root {
+  /* Primary Backgrounds */
+  --bg-ww-primary: #00227d; /* Primary brand background */
+  --bg-ww-primary-50: #e8ecfd;
+  --bg-ww-primary-100: #d1d8fb;
+  --bg-ww-primary-200: #a3b5f7;
+  --bg-ww-primary-300: #7c92f3;
+  --bg-ww-primary-400: #546fef;
+  --bg-ww-primary-500: #2d4ceb;
+  --bg-ww-primary-600: #00227d;
+  --bg-ww-primary-700: #001b6a;
+  --bg-ww-primary-800: #001557;
+  --bg-ww-primary-900: #001044;
+  --bg-ww-primary-950: #000b31;
+
+  /* Secondary Backgrounds */
+  --bg-ww-secondary: #0d8bb8; /* Secondary brand background */
+  --bg-ww-secondary-50: #e3f8fd;
+  --bg-ww-secondary-100: #b8ebfb;
+  --bg-ww-secondary-200: #8adff8;
+  --bg-ww-secondary-300: #5cd3f5;
+  --bg-ww-secondary-400: #2ec7f2;
+  --bg-ww-secondary-500: #0d8bb8;
+  --bg-ww-secondary-600: #0a6e94;
+  --bg-ww-secondary-700: #075170;
+  --bg-ww-secondary-800: #04344c;
+  --bg-ww-secondary-900: #021728;
+  --bg-ww-secondary-950: #010b14;
+
+  /* Neutral Backgrounds */
+  --bg-ww-neutral: #f3f3f5; /* Light background */
+  --bg-ww-neutral-50: #fafafa;
+  --bg-ww-neutral-100: #f5f5f7;
+  --bg-ww-neutral-200: #e5e5e8;
+  --bg-ww-neutral-300: #d4d4d7;
+  --bg-ww-neutral-400: #a3a3a8;
+  --bg-ww-neutral-500: #737379;
+  --bg-ww-neutral-600: #52525a;
+  --bg-ww-neutral-700: #3f3f46;
+  --bg-ww-neutral-800: #27272a;
+  --bg-ww-neutral-900: #18181b;
+  --bg-ww-neutral-950: #09090b;
+
+  /* Semantic Backgrounds */
+  --bg-ww-success: #15803d; /* Success background */
+  --bg-ww-warning: #b45309; /* Warning background */
+  --bg-ww-danger: #b91c1c; /* Danger background */
+  --bg-ww-medical: #1d4ed8; /* Medical background */
+
+  /* White Background */
+  --bg-white: #ffffff; /* Pure white background */
+}
+
+/* ========================================
+   BORDER COLORS
+   ======================================== */
+
+:root {
+  /* Primary Borders */
+  --border-ww-primary: #00227d;
+  --border-ww-primary-50: #e8ecfd;
+  --border-ww-primary-100: #d1d8fb;
+  --border-ww-primary-200: #a3b5f7;
+  --border-ww-primary-300: #7c92f3;
+  --border-ww-primary-400: #546fef;
+  --border-ww-primary-500: #2d4ceb;
+  --border-ww-primary-600: #00227d;
+  --border-ww-primary-700: #001b6a;
+  --border-ww-primary-800: #001557;
+  --border-ww-primary-900: #001044;
+  --border-ww-primary-950: #000b31;
+
+  /* Secondary Borders */
+  --border-ww-secondary: #0d8bb8;
+  --border-ww-secondary-50: #e3f8fd;
+  --border-ww-secondary-100: #b8ebfb;
+  --border-ww-secondary-200: #8adff8;
+  --border-ww-secondary-300: #5cd3f5;
+  --border-ww-secondary-400: #2ec7f2;
+  --border-ww-secondary-500: #0d8bb8;
+  --border-ww-secondary-600: #0a6e94;
+  --border-ww-secondary-700: #075170;
+  --border-ww-secondary-800: #04344c;
+  --border-ww-secondary-900: #021728;
+  --border-ww-secondary-950: #010b14;
+
+  /* Neutral Borders */
+  --border-ww-neutral: #d4d4d7;
+  --border-ww-neutral-50: #fafafa;
+  --border-ww-neutral-100: #f5f5f7;
+  --border-ww-neutral-200: #e5e5e8;
+  --border-ww-neutral-300: #d4d4d7;
+  --border-ww-neutral-400: #a3a3a8;
+  --border-ww-neutral-500: #737379;
+  --border-ww-neutral-600: #52525a;
+  --border-ww-neutral-700: #3f3f46;
+  --border-ww-neutral-800: #27272a;
+  --border-ww-neutral-900: #18181b;
+  --border-ww-neutral-950: #09090b;
+
+  /* Semantic Borders */
+  --border-ww-success: #16a34a;
+  --border-ww-warning: #d97706;
+  --border-ww-danger: #dc2626;
+  --border-ww-medical: #2563eb;
+
+  /* White Border */
+  --border-white: #ffffff;
+}
+
+/* ========================================
+   SHADOW COLORS
+   ======================================== */
+
+:root {
+  /* Primary Shadows */
+  --shadow-ww-primary: rgba(0, 34, 125, 0.15);
+  --shadow-ww-primary-25: rgba(0, 34, 125, 0.25);
+  --shadow-ww-primary-35: rgba(0, 34, 125, 0.35);
+  --shadow-ww-primary-45: rgba(0, 34, 125, 0.45);
+
+  /* Secondary Shadows */
+  --shadow-ww-secondary: rgba(31, 168, 227, 0.15);
+  --shadow-ww-secondary-25: rgba(31, 168, 227, 0.25);
+  --shadow-ww-secondary-35: rgba(31, 168, 227, 0.35);
+  --shadow-ww-secondary-45: rgba(31, 168, 227, 0.45);
+
+  /* Neutral Shadows */
+  --shadow-ww-neutral: rgba(15, 23, 42, 0.08);
+  --shadow-ww-neutral-12: rgba(15, 23, 42, 0.12);
+  --shadow-ww-neutral-15: rgba(15, 23, 42, 0.15);
+
+  /* Dark Mode Shadows */
+  --shadow-ww-dark: rgba(0, 0, 0, 0.25);
+  --shadow-ww-dark-30: rgba(0, 0, 0, 0.3);
+  --shadow-ww-dark-40: rgba(0, 0, 0, 0.4);
+
+  /* Semantic Shadows */
+  --shadow-ww-success: rgba(34, 197, 94, 0.15);
+  --shadow-ww-warning: rgba(245, 158, 11, 0.15);
+  --shadow-ww-danger: rgba(239, 68, 68, 0.15);
+  --shadow-ww-medical: rgba(59, 130, 246, 0.15);
+}
+
+/* ========================================
+   GRADIENTS
+   ======================================== */
+
+:root {
+  /* Primary Gradient */
+  --gradient-ww-primary: linear-gradient(135deg, var(--ww-primary-400), var(--ww-primary-500), var(--ww-primary-600));
+  --gradient-ww-primary-dark: linear-gradient(135deg, var(--ww-primary-600), var(--ww-primary-700), var(--ww-primary-800));
+
+  /* Secondary Gradient */
+  --gradient-ww-secondary: linear-gradient(135deg, var(--ww-secondary-400), var(--ww-secondary-500), var(--ww-secondary-600));
+
+  /* Accent Gradient */
+  --gradient-ww-accent: linear-gradient(135deg, var(--ww-accent-400), var(--ww-accent-500), var(--ww-accent-600));
+
+  /* Success Gradient */
+  --gradient-ww-success: linear-gradient(135deg, var(--ww-success-400), var(--ww-success-500), var(--ww-success-600));
+
+  /* Warning Gradient */
+  --gradient-ww-warning: linear-gradient(135deg, var(--ww-warning-400), var(--ww-warning-500), var(--ww-warning-600));
+
+  /* Danger Gradient */
+  --gradient-ww-danger: linear-gradient(135deg, var(--ww-danger-400), var(--ww-danger-500), var(--ww-danger-600));
+
+  /* Medical Gradient */
+  --gradient-ww-medical: linear-gradient(135deg, var(--ww-medical-400), var(--ww-medical-500), var(--ww-medical-600));
+  --gradient-ww-medical-green: linear-gradient(135deg, var(--ww-medical-green-400), var(--ww-medical-green-500), var(--ww-medical-green-600));
+  --gradient-ww-medical-teal: linear-gradient(135deg, var(--ww-medical-teal-400), var(--ww-medical-teal-500), var(--ww-medical-teal-600));
+
+  /* Glass Gradient */
+  --gradient-ww-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+  --gradient-ww-glass-dark: linear-gradient(135deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1));
+}
+
+/* ========================================
+   GLASS EFFECTS
+   ======================================== */
+
+:root {
+  /* Glass Default */
+  --glass-ww-bg: rgba(243, 243, 245, 0.7);
+  --glass-ww-border: rgba(0, 34, 125, 0.1);
+  --glass-ww-shadow: rgba(0, 34, 125, 0.08);
+  --glass-ww-blur: 20px;
+
+  /* Glass Subtle */
+  --glass-ww-subtle-bg: rgba(243, 243, 245, 0.5);
+  --glass-ww-subtle-border: rgba(0, 34, 125, 0.05);
+  --glass-ww-subtle-shadow: rgba(0, 34, 125, 0.04);
+
+  /* Glass Strong */
+  --glass-ww-strong-bg: rgba(243, 243, 245, 0.9);
+  --glass-ww-strong-border: rgba(0, 34, 125, 0.2);
+  --glass-ww-strong-shadow: rgba(0, 34, 125, 0.15);
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+/* WellWave Colors */
+.bg-ww-primary { background-color: var(--bg-ww-primary); }
+.bg-ww-primary-50 { background-color: var(--bg-ww-primary-50); }
+.bg-ww-primary-100 { background-color: var(--bg-ww-primary-100); }
+.bg-ww-primary-200 { background-color: var(--bg-ww-primary-200); }
+.bg-ww-primary-300 { background-color: var(--bg-ww-primary-300); }
+.bg-ww-primary-400 { background-color: var(--bg-ww-primary-400); }
+.bg-ww-primary-500 { background-color: var(--bg-ww-primary-500); }
+.bg-ww-primary-600 { background-color: var(--bg-ww-primary-600); }
+.bg-ww-primary-700 { background-color: var(--bg-ww-primary-700); }
+.bg-ww-primary-800 { background-color: var(--bg-ww-primary-800); }
+.bg-ww-primary-900 { background-color: var(--bg-ww-primary-900); }
+.bg-ww-primary-950 { background-color: var(--bg-ww-primary-950); }
+
+.bg-ww-secondary { background-color: var(--bg-ww-secondary); }
+.bg-ww-secondary-50 { background-color: var(--bg-ww-secondary-50); }
+.bg-ww-secondary-100 { background-color: var(--bg-ww-secondary-100); }
+.bg-ww-secondary-200 { background-color: var(--bg-ww-secondary-200); }
+.bg-ww-secondary-300 { background-color: var(--bg-ww-secondary-300); }
+.bg-ww-secondary-400 { background-color: var(--bg-ww-secondary-400); }
+.bg-ww-secondary-500 { background-color: var(--bg-ww-secondary-500); }
+.bg-ww-secondary-600 { background-color: var(--bg-ww-secondary-600); }
+.bg-ww-secondary-700 { background-color: var(--bg-ww-secondary-700); }
+.bg-ww-secondary-800 { background-color: var(--bg-ww-secondary-800); }
+.bg-ww-secondary-900 { background-color: var(--bg-ww-secondary-900); }
+.bg-ww-secondary-950 { background-color: var(--bg-ww-secondary-950); }
+
+.bg-ww-accent { background-color: var(--ww-accent-500); }
+.bg-ww-accent-50 { background-color: var(--ww-accent-50); }
+.bg-ww-accent-100 { background-color: var(--ww-accent-100); }
+.bg-ww-accent-200 { background-color: var(--ww-accent-200); }
+.bg-ww-accent-300 { background-color: var(--ww-accent-300); }
+.bg-ww-accent-400 { background-color: var(--ww-accent-400); }
+.bg-ww-accent-500 { background-color: var(--ww-accent-500); }
+.bg-ww-accent-600 { background-color: var(--ww-accent-600); }
+.bg-ww-accent-700 { background-color: var(--ww-accent-700); }
+.bg-ww-accent-800 { background-color: var(--ww-accent-800); }
+.bg-ww-accent-900 { background-color: var(--ww-accent-900); }
+.bg-ww-accent-950 { background-color: var(--ww-accent-950); }
+
+.bg-ww-neutral { background-color: var(--bg-ww-neutral); }
+.bg-ww-neutral-50 { background-color: var(--bg-ww-neutral-50); }
+.bg-ww-neutral-100 { background-color: var(--bg-ww-neutral-100); }
+.bg-ww-neutral-200 { background-color: var(--bg-ww-neutral-200); }
+.bg-ww-neutral-300 { background-color: var(--bg-ww-neutral-300); }
+.bg-ww-neutral-400 { background-color: var(--bg-ww-neutral-400); }
+.bg-ww-neutral-500 { background-color: var(--bg-ww-neutral-500); }
+.bg-ww-neutral-600 { background-color: var(--bg-ww-neutral-600); }
+.bg-ww-neutral-700 { background-color: var(--bg-ww-neutral-700); }
+.bg-ww-neutral-800 { background-color: var(--bg-ww-neutral-800); }
+.bg-ww-neutral-900 { background-color: var(--bg-ww-neutral-900); }
+.bg-ww-neutral-950 { background-color: var(--bg-ww-neutral-950); }
+
+.bg-ww-success { background-color: var(--bg-ww-success); }
+.bg-ww-warning { background-color: var(--bg-ww-warning); }
+.bg-ww-danger { background-color: var(--bg-ww-danger); }
+.bg-ww-medical { background-color: var(--bg-ww-medical); }
+
+.bg-ww-primary\/25 { background-color: rgba(0, 34, 125, 0.25); }
+.bg-ww-primary\/30 { background-color: rgba(0, 34, 125, 0.30); }
+.bg-ww-primary\/45 { background-color: rgba(0, 34, 125, 0.45); }
+.bg-ww-primary\/90 { background-color: rgba(0, 34, 125, 0.90); }
+
+.bg-ww-secondary\/25 { background-color: rgba(13, 139, 184, 0.25); }
+.bg-ww-secondary\/30 { background-color: rgba(13, 139, 184, 0.30); }
+.bg-ww-secondary\/45 { background-color: rgba(13, 139, 184, 0.45); }
+.bg-ww-secondary\/90 { background-color: rgba(13, 139, 184, 0.90); }
+
+.bg-ww-neutral\/20 { background-color: rgba(243, 243, 245, 0.20); }
+.bg-ww-neutral\/25 { background-color: rgba(243, 243, 245, 0.25); }
+.bg-ww-neutral\/30 { background-color: rgba(243, 243, 245, 0.30); }
+.bg-ww-neutral\/40 { background-color: rgba(243, 243, 245, 0.40); }
+.bg-ww-neutral\/45 { background-color: rgba(243, 243, 245, 0.45); }
+.bg-ww-neutral\/50 { background-color: rgba(243, 243, 245, 0.50); }
+
+/* Text Colors */
+.text-ww-primary { color: var(--text-ww-primary); }
+.text-ww-primary-100 { color: var(--text-ww-primary-100); }
+.text-ww-primary-200 { color: var(--text-ww-primary-200); }
+
+.text-ww-secondary { color: var(--text-ww-secondary); }
+.text-ww-secondary-400 { color: var(--text-ww-secondary-400); }
+.text-ww-secondary-500 { color: var(--text-ww-secondary-500); }
+
+.text-ww-neutral { color: var(--text-ww-neutral); }
+.text-ww-neutral-100 { color: var(--text-ww-neutral-100); }
+.text-ww-neutral-200 { color: var(--text-ww-neutral-200); }
+.text-ww-neutral-400 { color: var(--text-ww-neutral-400); }
+.text-ww-neutral-500 { color: var(--text-ww-neutral-500); }
+.text-ww-neutral-600 { color: var(--text-ww-neutral-600); }
+.text-ww-neutral-700 { color: var(--text-ww-neutral-700); }
+
+.text-ww-success { color: var(--text-ww-success); }
+.text-ww-warning { color: var(--text-ww-warning); }
+.text-ww-danger { color: var(--text-ww-danger); }
+.text-ww-medical { color: var(--text-ww-medical); }
+
+.text-white { color: var(--text-white); }
+
+/* Border Colors */
+.border-ww-primary { border-color: var(--border-ww-primary); }
+.border-ww-primary-50 { border-color: var(--border-ww-primary-50); }
+.border-ww-primary-100 { border-color: var(--border-ww-primary-100); }
+.border-ww-primary-200 { border-color: var(--border-ww-primary-200); }
+.border-ww-primary-300 { border-color: var(--border-ww-primary-300); }
+.border-ww-primary-400 { border-color: var(--border-ww-primary-400); }
+.border-ww-primary-500 { border-color: var(--border-ww-primary-500); }
+.border-ww-primary-600 { border-color: var(--border-ww-primary-600); }
+.border-ww-primary-700 { border-color: var(--border-ww-primary-700); }
+.border-ww-primary-800 { border-color: var(--border-ww-primary-800); }
+.border-ww-primary-900 { border-color: var(--border-ww-primary-900); }
+.border-ww-primary-950 { border-color: var(--border-ww-primary-950); }
+
+.border-ww-secondary { border-color: var(--border-ww-secondary); }
+.border-ww-secondary-50 { border-color: var(--border-ww-secondary-50); }
+.border-ww-secondary-100 { border-color: var(--border-ww-secondary-100); }
+.border-ww-secondary-200 { border-color: var(--border-ww-secondary-200); }
+.border-ww-secondary-300 { border-color: var(--border-ww-secondary-300); }
+.border-ww-secondary-400 { border-color: var(--border-ww-secondary-400); }
+.border-ww-secondary-500 { border-color: var(--border-ww-secondary-500); }
+.border-ww-secondary-600 { border-color: var(--border-ww-secondary-600); }
+.border-ww-secondary-700 { border-color: var(--border-ww-secondary-700); }
+.border-ww-secondary-800 { border-color: var(--border-ww-secondary-800); }
+.border-ww-secondary-900 { border-color: var(--border-ww-secondary-900); }
+.border-ww-secondary-950 { border-color: var(--border-ww-secondary-950); }
+
+.border-ww-neutral { border-color: var(--border-ww-neutral); }
+.border-ww-neutral-50 { border-color: var(--border-ww-neutral-50); }
+.border-ww-neutral-100 { border-color: var(--border-ww-neutral-100); }
+.border-ww-neutral-200 { border-color: var(--border-ww-neutral-200); }
+.border-ww-neutral-300 { border-color: var(--border-ww-neutral-300); }
+.border-ww-neutral-400 { border-color: var(--border-ww-neutral-400); }
+.border-ww-neutral-500 { border-color: var(--border-ww-neutral-500); }
+.border-ww-neutral-600 { border-color: var(--border-ww-neutral-600); }
+.border-ww-neutral-700 { border-color: var(--border-ww-neutral-700); }
+.border-ww-neutral-800 { border-color: var(--border-ww-neutral-800); }
+.border-ww-neutral-900 { border-color: var(--border-ww-neutral-900); }
+.border-ww-neutral-950 { border-color: var(--border-ww-neutral-950); }
+
+.border-ww-success { border-color: var(--border-ww-success); }
+.border-ww-warning { border-color: var(--border-ww-warning); }
+.border-ww-danger { border-color: var(--border-ww-danger); }
+.border-ww-medical { border-color: var(--border-ww-medical); }
+
+.border-ww-primary\/50 { border-color: rgba(0, 34, 125, 0.50); }
+.border-ww-primary\/70 { border-color: rgba(0, 34, 125, 0.70); }
+.border-ww-secondary\/15 { border-color: rgba(13, 139, 184, 0.15); }
+.border-ww-secondary\/25 { border-color: rgba(13, 139, 184, 0.25); }
+.border-ww-neutral\/30 { border-color: rgba(243, 243, 245, 0.30); }
+.border-ww-neutral\/50 { border-color: rgba(243, 243, 245, 0.50); }
+.border-ww-neutral\/70 { border-color: rgba(243, 243, 245, 0.70); }
+
+/* Glass Effects */
+.glass-ww-default {
+  background: var(--glass-ww-bg);
+  backdrop-filter: blur(var(--glass-ww-blur));
+  -webkit-backdrop-filter: blur(var(--glass-ww-blur));
+  border: 1px solid var(--glass-ww-border);
+  box-shadow: 0 8px 32px var(--glass-ww-shadow);
+}
+
+.glass-ww-subtle {
+  background: var(--glass-ww-subtle-bg);
+  backdrop-filter: blur(var(--glass-ww-blur));
+  -webkit-backdrop-filter: blur(var(--glass-ww-blur));
+  border: 1px solid var(--glass-ww-subtle-border);
+  box-shadow: 0 8px 32px var(--glass-ww-subtle-shadow);
+}
+
+.glass-ww-strong {
+  background: var(--glass-ww-strong-bg);
+  backdrop-filter: blur(var(--glass-ww-blur));
+  -webkit-backdrop-filter: blur(var(--glass-ww-blur));
+  border: 1px solid var(--glass-ww-strong-border);
+  box-shadow: 0 8px 32px var(--glass-ww-strong-shadow);
+}
+
+/* ========================================
+   DARK MODE OVERRIDES
+   ======================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark Mode Glass Effects */
+    --glass-ww-bg: rgba(0, 0, 0, 0.5);
+    --glass-ww-border: rgba(0, 34, 125, 0.15);
+    --glass-ww-shadow: rgba(0, 0, 0, 0.3);
+
+    --glass-ww-subtle-bg: rgba(0, 0, 0, 0.3);
+    --glass-ww-subtle-border: rgba(0, 34, 125, 0.08);
+    --glass-ww-subtle-shadow: rgba(0, 0, 0, 0.2);
+
+    --glass-ww-strong-bg: rgba(0, 0, 0, 0.7);
+    --glass-ww-strong-border: rgba(0, 34, 125, 0.25);
+    --glass-ww-strong-shadow: rgba(0, 0, 0, 0.4);
+
+    /* Dark Mode Backgrounds */
+    --bg-ww-neutral: #18181b;
+    --bg-ww-neutral-50: #09090b;
+    --bg-ww-neutral-100: #18181b;
+    --bg-ww-neutral-200: #27272a;
+    --bg-ww-neutral-300: #3f3f46;
+    --bg-ww-neutral-400: #52525a;
+    --bg-ww-neutral-500: #737379;
+    --bg-ww-neutral-600: #a3a3a8;
+    --bg-ww-neutral-700: #d4d4d7;
+    --bg-ww-neutral-800: #e5e5e8;
+    --bg-ww-neutral-900: #f5f5f7;
+    --bg-ww-neutral-950: #fafafa;
+  }
+}
+
+/* Dark mode class support */
+.dark {
+  /* Dark Mode Glass Effects */
+  --glass-ww-bg: rgba(0, 0, 0, 0.5);
+  --glass-ww-border: rgba(0, 34, 125, 0.15);
+  --glass-ww-shadow: rgba(0, 0, 0, 0.3);
+
+  --glass-ww-subtle-bg: rgba(0, 0, 0, 0.3);
+  --glass-ww-subtle-border: rgba(0, 34, 125, 0.08);
+  --glass-ww-subtle-shadow: rgba(0, 0, 0, 0.2);
+
+  --glass-ww-strong-bg: rgba(0, 0, 0, 0.7);
+  --glass-ww-strong-border: rgba(0, 34, 125, 0.25);
+  --glass-ww-strong-shadow: rgba(0, 0, 0, 0.4);
+
+  /* Dark Mode Backgrounds */
+  --bg-ww-neutral: #18181b;
+  --bg-ww-neutral-50: #09090b;
+  --bg-ww-neutral-100: #18181b;
+  --bg-ww-neutral-200: #27272a;
+  --bg-ww-neutral-300: #3f3f46;
+  --bg-ww-neutral-400: #52525a;
+  --bg-ww-neutral-500: #737379;
+  --bg-ww-neutral-600: #a3a3a8;
+  --bg-ww-neutral-700: #d4d4d7;
+  --bg-ww-neutral-800: #e5e5e8;
+  --bg-ww-neutral-900: #f5f5f7;
+  --bg-ww-neutral-950: #fafafa;
+}
+
+/* ========================================
+   ACCESSIBILITY FEATURES
+   ======================================== */
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Reduced Transparency */
+@media (prefers-reduced-transparency: reduce) {
+  .glass-ww-default,
+  .glass-ww-subtle,
+  .glass-ww-strong {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(243, 243, 245, 0.95);
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --glass-ww-bg: rgba(0, 34, 125, 0.95);
+    --glass-ww-border: rgba(0, 34, 125, 0.5);
+    --glass-ww-shadow: rgba(0, 34, 125, 0.3);
+  }
+
+  .glass-ww-default,
+  .glass-ww-subtle,
+  .glass-ww-strong {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-width: 2px;
+  }
+}

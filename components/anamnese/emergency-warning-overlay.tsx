@@ -20,12 +20,14 @@ import type {
   DetectedEmergency,
   EmergencySeverity
 } from '@/hooks/use-emergency-detection'
+import { useTheme } from 'next-themes'
+import * as Theme from '@/lib/theme'
 
 /**
  * EmergencyWarningOverlay
  *
  * A prominent, real-time visual warning component that displays
- * when emergency indicators are detected in the anamnesis form.
+ * when emergency indicators are detected in anamnesis form.
  *
  * Features:
  * - Glassmorphism design following Apple Liquid Glass 2026 spec
@@ -110,6 +112,21 @@ export function EmergencyWarningOverlay({
   className,
   position = 'inline'
 }: EmergencyWarningOverlayProps) {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  // Get theme-specific classes
+  const glassBlur = Theme.useGlassBlur('elevated')
+  const glassOpacity = Theme.useGlassOpacity('elevated', isDark)
+  const glassBorder = Theme.useGlassBorder('elevated', isDark)
+  const glassShadow = Theme.useGlassShadow('elevated', isDark)
+  const glassRadius = Theme.useGlassRadius('default')
+  const glassNoise = Theme.useGlassNoise()
+  const glassSpecular = Theme.useGlassSpecular()
+  const glassRimLight = Theme.useGlassRimLight()
+  const glassHoverScale = Theme.useGlassHoverScale()
+  const glassTapScale = Theme.useGlassTapScale()
+
   const [isExpanded, setIsExpanded] = useState(true)
   const [showAll, setShowAll] = useState(false)
   const [dismissedInSession, setDismissedInSession] = useState(false)
@@ -157,10 +174,18 @@ export function EmergencyWarningOverlay({
         exit={{ opacity: 0, y: -20, scale: 0.95 }}
         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
         className={cn(
+          'relative overflow-hidden p-4 sm:p-5',
+          glassBlur,
+          glassOpacity,
+          glassBorder,
+          glassShadow,
+          glassRadius,
+          glassNoise,
+          glassSpecular,
+          glassRimLight,
           config.glassClass,
           config.pulseClass,
           config.borderClass,
-          'p-4 sm:p-5',
           position === 'top' && 'emergency-overlay-fixed',
           className
         )}
@@ -215,7 +240,9 @@ export function EmergencyWarningOverlay({
               className={cn(
                 'p-2 rounded-xl transition-colors',
                 'hover:bg-black/10 dark:hover:bg-white/10',
-                config.textColor
+                config.textColor,
+                glassHoverScale,
+                glassTapScale
               )}
               whileTap={{ scale: 0.9 }}
               aria-label={isExpanded ? 'Recolher alertas' : 'Expandir alertas'}
@@ -234,7 +261,9 @@ export function EmergencyWarningOverlay({
                 className={cn(
                   'p-2 rounded-xl transition-colors',
                   'hover:bg-black/10 dark:hover:bg-white/10',
-                  config.textColor
+                  config.textColor,
+                  glassHoverScale,
+                  glassTapScale
                 )}
                 whileTap={{ scale: 0.9 }}
                 aria-label="Dispensar alertas"
@@ -278,7 +307,9 @@ export function EmergencyWarningOverlay({
                       'bg-white/30 dark:bg-black/20',
                       'hover:bg-white/50 dark:hover:bg-black/30',
                       'transition-colors',
-                      config.textColor
+                      config.textColor,
+                      glassHoverScale,
+                      glassTapScale
                     )}
                     whileHover={{ scale: 1.01 }}
                     whileTap={{ scale: 0.99 }}
@@ -299,7 +330,11 @@ export function EmergencyWarningOverlay({
                   className={cn(
                     'mt-4 p-3 rounded-xl',
                     'bg-red-500/10 border border-red-500/30',
-                    'flex items-center gap-3'
+                    'flex items-center gap-3',
+                    glassBlur,
+                    glassOpacity,
+                    glassBorder,
+                    glassRadius
                   )}
                 >
                   <Phone className="w-5 h-5 text-red-500" />
@@ -332,16 +367,40 @@ function EmergencyAlertItem({ emergency, index, onDismiss }: EmergencyAlertItemP
   const { indicator, triggeredBy } = emergency
   const config = SEVERITY_CONFIG[indicator.severity]
 
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  // Get theme-specific classes
+  const glassBlur = Theme.useGlassBlur('subtle')
+  const glassOpacity = Theme.useGlassOpacity('subtle', isDark)
+  const glassBorder = Theme.useGlassBorder('subtle', isDark)
+  const glassShadow = Theme.useGlassShadow('subtle', isDark)
+  const glassRadius = Theme.useGlassRadius('default')
+  const glassNoise = Theme.useGlassNoise()
+  const glassSpecular = Theme.useGlassSpecular()
+  const glassRimLight = Theme.useGlassRimLight()
+  const glassHoverScale = Theme.useGlassHoverScale()
+  const glassTapScale = Theme.useGlassTapScale()
+
   return (
     <motion.div
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: index * 0.05 }}
       className={cn(
-        'p-3 sm:p-4 rounded-xl',
+        'p-3 sm:p-4 rounded-xl relative overflow-hidden',
         'bg-white/40 dark:bg-black/20',
         'border border-white/30 dark:border-white/10',
-        'relative overflow-hidden'
+        glassBlur,
+        glassOpacity,
+        glassBorder,
+        glassShadow,
+        glassRadius,
+        glassNoise,
+        glassSpecular,
+        glassRimLight,
+        glassHoverScale,
+        glassTapScale
       )}
     >
       {/* Severity Indicator Line */}
@@ -397,7 +456,11 @@ function EmergencyAlertItem({ emergency, index, onDismiss }: EmergencyAlertItemP
         {onDismiss && indicator.severity !== 'critical' && (
           <motion.button
             onClick={(e) => { e.stopPropagation(); onDismiss(); }}
-            className="p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 text-slate-400"
+            className={cn(
+              'p-1.5 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 text-slate-400',
+              glassHoverScale,
+              glassTapScale
+            )}
             whileTap={{ scale: 0.9 }}
             aria-label="Dispensar alerta"
           >

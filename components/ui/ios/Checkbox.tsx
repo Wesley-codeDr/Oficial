@@ -1,6 +1,8 @@
 "use client"
 
 import { useId } from 'react'
+import { useTheme } from 'next-themes'
+import { useGlassBlur, useGlassOpacity, useGlassBorder, useGlassShadow, useGlassRadius } from '@/lib/theme'
 
 export interface IOSCheckboxProps {
   id?: string
@@ -14,15 +16,25 @@ export interface IOSCheckboxProps {
 export function IOSCheckbox({ id, label, narrative, checked, onChange, disabled }: IOSCheckboxProps) {
   const autoId = useId()
   const inputId = id ?? autoId
+  const { theme } = useTheme()
+  const isDark = theme === 'dark'
+
+  // Use theme hooks for dynamic classes
+  const blurClass = useGlassBlur('default')
+  const opacityClass = useGlassOpacity('default', isDark)
+  const borderClass = useGlassBorder('default', isDark)
+  const shadowClass = useGlassShadow('default', isDark)
+  const radiusClass = useGlassRadius('default')
+
   return (
     <label
       htmlFor={inputId}
-      className={
-        'flex items-start gap-3 p-4 rounded-[18px] backdrop-blur-[40px] saturate-[180%] border transition-all duration-200 focus-within:ring-2 focus-within:ring-[#007AFF]/40 ' +
-        'bg-white/55 dark:bg-[rgba(30,30,30,0.55)] border-white/40 dark:border-white/15 shadow-[0_4px_16px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.3)] ' +
-        (disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:bg-white/70 dark:hover:bg-[rgba(30,30,30,0.65)]')
-      }
-      aria-disabled={disabled}
+      className={`
+        flex items-start gap-3 p-4 ${radiusClass} liquid-glass-default border transition-all duration-200 focus-within:ring-2 focus-within:ring-[#007AFF]/40
+        ${opacityClass} ${borderClass} ${shadowClass}
+        ${disabled ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer hover:bg-white/70 dark:hover:bg-[rgba(30,30,30,0.65)]'}
+      `}
+      data-disabled={disabled}
     >
       <input
         id={inputId}
@@ -31,22 +43,21 @@ export function IOSCheckbox({ id, label, narrative, checked, onChange, disabled 
         onChange={(e) => onChange(e.target.checked)}
         disabled={disabled}
         className="sr-only"
-        aria-checked={checked}
       />
       <span
-        className={
-          'mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-[10px] border transition-all duration-200 ' +
-          (checked
+        className={`
+          mt-0.5 inline-flex h-6 w-6 items-center justify-center rounded-[10px] border transition-all duration-200
+          ${checked
             ? 'bg-[rgba(0,122,255,0.25)] dark:bg-[rgba(0,122,255,0.35)] border-[#007AFF]/50'
-            : 'bg-white/50 dark:bg-white/10 border-white/40 dark:border-white/20')
-        }
+            : 'bg-white/50 dark:bg-white/10 border-white/40 dark:border-white/20'}
+        `}
         role="checkbox"
         aria-checked={checked}
         aria-hidden="true"
       >
         {checked ? (
           <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M7.8 14.3L4.5 11l1.4-1.4l1.9 1.9l6.2-6.2l1.4 1.4l-7.6 7.6z" fill="#007AFF" />
+            <path d="M7.8 14.3L4.5 11l1.4 1.4l1.9 1.9l6.2 6.2l1.4 1.4l7.6 7.6z" fill="#007AFF" />
           </svg>
         ) : null}
       </span>

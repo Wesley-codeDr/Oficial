@@ -156,7 +156,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
         analytics.redFlagDetected(
           syndrome.code,
           emergency.indicator.label,
-          emergency.indicator.severity.toUpperCase()
+          emergency.indicator.severity.toUpperCase() as 'WARNING' | 'CRITICAL'
         )
       })
     },
@@ -511,8 +511,13 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           </div>
         )}
 
-        {/* Complaint Selector */}
-        <div className="glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[36px] p-6 shadow-xl">
+        {/* Complaint Selector - Task 5.6: Subtle glass for form containers */}
+        <div className={cn(
+          'relative overflow-hidden',
+          'liquid-glass-2026-subtle',
+          'rounded-2xl',
+          'p-6'
+        )}>
           <ComplaintSelector
             selectedComplaintId={selectedComplaintId}
             onComplaintSelect={handleComplaintSelect}
@@ -520,12 +525,17 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           />
         </div>
 
-        {/* Priority Checkboxes Panel */}
+        {/* Priority Checkboxes Panel - Task 5.6: Subtle glass for form containers */}
         {selectedComplaintId && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[36px] p-6 shadow-xl"
+            className={cn(
+              'relative overflow-hidden',
+              'liquid-glass-2026-subtle',
+              'rounded-2xl',
+              'p-6'
+            )}
           >
             <PriorityCheckboxPanel
               complaintId={selectedComplaintId}
@@ -535,16 +545,20 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           </motion.div>
         )}
 
-        {/* Mode Toggle and Main Controls */}
+        {/* Mode Toggle and Main Controls - Task 5.6: Subtle glass for form controls */}
         <div className="flex flex-wrap items-center justify-between gap-4 px-2">
-          <div className="flex items-center gap-2 p-1.5 glass-pill rounded-[20px]">
+          <div className={cn(
+            'relative overflow-hidden flex items-center gap-2 p-1.5',
+            'liquid-glass-2026-subtle',
+            'rounded-2xl'
+          )}>
             <button
               onClick={() => setOutputMode('SUMMARY')}
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all',
+                'flex items-center gap-2 px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all',
                 outputMode === 'SUMMARY'
-                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
-                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10'
+                  ? 'bg-blue-500/90 text-white shadow-lg shadow-blue-500/20 backdrop-blur-xl active:scale-95'
+                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10 hover:scale-105'
               )}
             >
               <List className="h-3.5 w-3.5" />
@@ -553,10 +567,10 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             <button
               onClick={() => setOutputMode('DETAILED')}
               className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all',
+                'flex items-center gap-2 px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all',
                 outputMode === 'DETAILED'
-                  ? 'glass-pill bg-blue-500/90 text-white shadow-lg shadow-blue-500/20'
-                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10'
+                  ? 'bg-blue-500/90 text-white shadow-lg shadow-blue-500/20 backdrop-blur-xl active:scale-95'
+                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10 hover:scale-105'
               )}
             >
               <FileText className="h-3.5 w-3.5" />
@@ -564,7 +578,12 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             </button>
           </div>
 
-          <div className="text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2 glass-pill px-4 py-2">
+          <div className={cn(
+            'text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2',
+            'px-4 py-2',
+            'liquid-glass-2026-subtle',
+            'rounded-2xl'
+          )}>
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
             {selectedIds.size} Iten{selectedIds.size !== 1 ? 's' : ''} Selecionado
             {selectedIds.size !== 1 ? 's' : ''}
@@ -612,16 +631,17 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           ))}
         </div>
 
-        {/* Sticky Action Footer for Mobile/Small Screens */}
-        <div className="flex flex-wrap items-center gap-4 border-t border-white/10 pt-8 pb-12">
+        {/* Sticky Action Footer for Mobile/Small Screens - Task 5.6: Clear focus on controls */}
+        <div className="flex flex-wrap items-center gap-4 pt-8 pb-12 border-t border-white/20 dark:border-white/10">
           <button
             onClick={handleReset}
             disabled={selectedIds.size === 0}
             className={cn(
-              'glass-pill px-4 py-2.5 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
+              'px-4 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
+              'liquid-glass-2026-subtle',
               selectedIds.size === 0
                 ? 'text-slate-400 cursor-not-allowed'
-                : 'text-slate-600 dark:text-slate-300 hover:bg-white/20 hover:scale-105'
+                : 'text-slate-600 dark:text-slate-300 hover:bg-white/20 hover:scale-105 active:scale-95'
             )}
           >
             <RotateCcw className="h-3.5 w-3.5" />
@@ -632,10 +652,10 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             onClick={handleSave}
             disabled={isPending || selectedIds.size === 0}
             className={cn(
-              'px-8 py-3.5 rounded-[20px] font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 flex items-center gap-3',
+              'px-8 py-3.5 rounded-3xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 flex items-center gap-3',
               isPending || selectedIds.size === 0
-                ? 'glass-pill bg-slate-500/20 text-slate-400 cursor-not-allowed'
-                : 'btn-primary-glass text-white hover:scale-105 shadow-xl shadow-blue-500/10 active:scale-95'
+                ? 'liquid-glass-2026-subtle bg-slate-500/20 text-slate-400 cursor-not-allowed'
+                : 'liquid-glass-2026-elevated bg-blue-500/90 text-white shadow-xl shadow-blue-500/10 hover:scale-105 active:scale-95'
             )}
           >
             {isPending ? (
@@ -650,10 +670,11 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             onClick={handleOpenChat}
             disabled={isPending || !savedSessionId}
             className={cn(
-              'glass-pill px-4 py-2.5 rounded-[14px] text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
+              'px-4 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
+              'liquid-glass-2026-subtle',
               isPending || !savedSessionId
                 ? 'text-slate-400 cursor-not-allowed'
-                : 'text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 hover:scale-105'
+                : 'text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 hover:scale-105 active:scale-95'
             )}
           >
             <MessageSquare className="h-3.5 w-3.5" />
@@ -664,7 +685,10 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             <ExportPDFButton
               sessionId={savedSessionId}
               disabled={isPending}
-              className="glass-pill px-4 py-2.5 rounded-[14px] text-[10px] font-black uppercase tracking-widest"
+              className={cn(
+                'px-4 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest',
+                'liquid-glass-2026-subtle'
+              )}
             />
           )}
         </div>

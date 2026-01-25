@@ -9,7 +9,7 @@ export function EmergencyModeBar({ active, onToggle }: EmergencyModeBarProps) {
   return (
     <div
       className={
-        'flex items-center justify-between p-3 rounded-[24px] backdrop-blur-[40px] saturate-[180%] border transition-all duration-200 ' +
+        'flex items-center justify-between p-3 rounded-[24px] liquid-glass-subtle border transition-all duration-200 ' +
         (active
           ? 'bg-[rgba(255,59,48,0.15)] dark:bg-[rgba(255,59,48,0.2)] border-[rgba(255,59,48,0.3)]'
           : 'bg-white/55 dark:bg-[rgba(30,30,30,0.55)] border-white/40 dark:border-white/15')

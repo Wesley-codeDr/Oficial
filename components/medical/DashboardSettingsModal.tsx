@@ -67,8 +67,8 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-[60px] p-4 animate-in fade-in duration-200">
-       <div className="w-full max-w-2xl bg-white/25 backdrop-blur-[60px] rim-light-ios26 inner-glow-ios26 rounded-[32px] shadow-glass-elevated overflow-hidden flex flex-col max-h-[85vh]">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 liquid-glass-default p-4 animate-in fade-in duration-200">
+       <div className="w-full max-w-2xl bg-white/25 liquid-glass-default rim-light-ios26 inner-glow-ios26 rounded-[32px] shadow-glass-elevated overflow-hidden flex flex-col max-h-[85vh]">
           
           {/* Header */}
           <div className="px-6 py-5 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-between shrink-0">

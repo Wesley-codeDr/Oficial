@@ -65,38 +65,32 @@ export const ChatWell: React.FC = () => {
   }
 
   return (
-    <div className="h-full flex flex-col overflow-hidden w-full relative">
+    <div className="chat-container flex flex-col h-full max-w-[900px] mx-auto overflow-hidden relative">
       {/* MESSAGES AREA */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar space-y-6 px-2 py-4">
+      <div className="flex-1 overflow-y-auto custom-scrollbar space-y-4 p-6">
         <AnimatePresence initial={false}>
           {messages.map((msg) => (
             <motion.div
               key={msg.id}
-              initial={{ opacity: 0, scale: 0.9, y: 10, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
-              transition={{ type: 'spring', damping: 20, stiffness: 150 }}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
               className={`flex w-full ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               <div
                 className={`
-                  relative max-w-[85%] p-4 rounded-[28px] shadow-lg transition-all duration-300
+                  chat-message relative max-w-[80%] p-4 shadow-sm transition-all
                   ${
                     msg.sender === 'user'
-                      ? 'bg-linear-to-br from-blue-600 to-indigo-600 text-white rounded-tr-sm shadow-blue-500/20'
-                      : 'liquid-glass-material bg-white/40! dark:bg-white/5! border-white/40 dark:border-white/10 text-slate-800 dark:text-slate-100 rounded-tl-sm glass-texture'
+                      ? 'bg-[var(--color-primary-500)] text-white rounded-[16px] rounded-br-[4px]'
+                      : 'bg-[var(--color-gray-100)] text-[var(--color-text-primary)] rounded-[16px] rounded-bl-[4px]'
                   }
                 `}
               >
-                {/* Subtle highlight for bot messages */}
-                {msg.sender === 'bot' && (
-                  <div className="absolute inset-0 rounded-[28px] border border-white/30 pointer-events-none" />
-                )}
-                
-                <p className="text-[14px] leading-relaxed font-medium whitespace-pre-wrap">{msg.text}</p>
+                <p className="text-[14px] leading-relaxed font-normal whitespace-pre-wrap">{msg.text}</p>
                 <span
                   className={`
-                    text-[9px] font-black mt-2 block uppercase tracking-widest opacity-60
-                    ${msg.sender === 'user' ? 'text-blue-100' : 'text-slate-500'}
+                    text-[9px] font-medium mt-1 block uppercase tracking-wider opacity-60
+                    ${msg.sender === 'user' ? 'text-white/80' : 'text-[var(--color-text-secondary)]'}
                   `}
                 >
                   {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -108,16 +102,16 @@ export const ChatWell: React.FC = () => {
 
         {isTyping && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="flex justify-start w-full"
           >
             <div
-              className="liquid-glass-material bg-white/30! dark:bg-white/5! px-4 py-3 rounded-2xl rounded-tl-sm flex items-center gap-1.5"
+              className="bg-[var(--color-gray-100)] px-4 py-2 rounded-[16px] rounded-bl-[4px] flex items-center gap-1"
             >
-              <span className="w-1.5 h-1.5 bg-blue-500 rounded-full animate-bounce [animation-delay:-0.3s]" />
-              <span className="w-1.5 h-1.5 bg-blue-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
-              <span className="w-1.5 h-1.5 bg-blue-300 rounded-full animate-bounce" />
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+              <div className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" />
             </div>
           </motion.div>
         )}
@@ -125,52 +119,25 @@ export const ChatWell: React.FC = () => {
       </div>
 
       {/* INPUT AREA */}
-      <div className="p-4 pt-2 relative z-20">
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          className="p-2 rounded-[32px] liquid-glass-material bg-white/40! dark:bg-black/30! backdrop-blur-3xl border-white/40 dark:border-white/10 shadow-2xl flex items-end gap-2 group focus-within:ring-2 focus-within:ring-blue-500/30 transition-all duration-500"
-        >
-          <button
-            className="p-3.5 rounded-2xl hover:bg-blue-500/10 text-slate-500 dark:text-slate-400 transition-all duration-300 shrink-0 hover:scale-110 active:scale-95"
-          >
-            <Paperclip className="w-5 h-5" />
-          </button>
-
+      <div className="p-6 pt-0">
+        <div className="chat-input-container bg-[var(--color-bg-primary)] border border-[var(--color-gray-200)] rounded-xl p-3 flex items-center gap-3 shadow-md focus-within:border-[var(--color-primary-400)] transition-all">
           <textarea
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Perguntar ao ChatWW..."
-            className="w-full bg-transparent border-none focus:ring-0 p-3.5 text-slate-800 dark:text-white placeholder:text-slate-500 font-medium resize-none max-h-32 min-h-[48px] custom-scrollbar text-[14px]"
+            placeholder="Digite sua mensagem..."
+            className="chat-input flex-1 bg-transparent border-none outline-none text-[var(--color-text-primary)] text-sm font-normal resize-none h-10 py-2"
             rows={1}
-            style={{ height: 'auto' }}
-            onInput={(e) => {
-              const target = e.target as any
-              target.style.height = 'auto'
-              target.style.height = target.scrollHeight + 'px'
-            }}
           />
 
           <button
             onClick={handleSend}
             disabled={!inputValue.trim()}
-            className={`
-              p-3.5 rounded-2xl transition-all duration-500 shrink-0
-              ${
-                inputValue.trim()
-                  ? 'bg-linear-to-r from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/40 hover:scale-110 active:scale-90 scale-105'
-                  : 'bg-slate-200 dark:bg-white/5 text-slate-400 cursor-not-allowed'
-              }
-            `}
+            className="chat-send-btn w-11 h-11 rounded-full bg-[var(--color-primary-500)] text-white flex items-center justify-center hover:bg-[var(--color-primary-600)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Send className="w-5 h-5" />
           </button>
-        </motion.div>
-        
-        <p className="text-[9px] text-center mt-3 text-slate-400 font-black uppercase tracking-widest opacity-60">
-          IA MÉDICA DE ALTA FIDELIDADE • APPLE VISION PROTOCOL
-        </p>
+        </div>
       </div>
     </div>
   )

@@ -43,7 +43,7 @@ const sheetVariants = cva(
   [
     "fixed z-50 gap-4 p-6",
     // Glass styling base
-    "backdrop-blur-[80px] saturate-[200%]",
+    "liquid-glass-default",
     "bg-white/75 dark:bg-slate-900/80",
     "shadow-[0_25px_60px_-15px_rgba(0,0,0,0.15)]",
     "dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.4)]",
@@ -116,7 +116,7 @@ const SheetContent = React.forwardRef<
           "rounded-full",
           // Glass button styling
           "bg-black/5 dark:bg-white/10",
-          "backdrop-blur-[10px]",
+          "liquid-glass-subtle",
           "border border-white/30 dark:border-white/15",
           "text-slate-500 dark:text-slate-400",
           // Hover state

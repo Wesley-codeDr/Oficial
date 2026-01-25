@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
-import { Button } from '@/components/ui/button'
+import { GlassButton } from '@/components/ui/glass-button'
 import { ChatInterface } from '@/components/chat/chat-interface'
 import { DeleteConversationButton } from './delete-button'
 
@@ -12,7 +12,7 @@ interface ChatPageProps {
   params: Promise<{ id: string }>
 }
 
-export async function generateMetadata({ params: _params }: ChatPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: ChatPageProps): Promise<Metadata> {
   return {
     title: 'Chat EBM | WellWave',
     description: 'Conversa com o assistente EBM.',
@@ -80,11 +80,11 @@ export default async function ChatPage({ params }: ChatPageProps) {
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between border-b px-4 py-3">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" asChild>
+          <GlassButton variant="secondary" size="icon" asChild>
             <Link href="/chat">
               <ArrowLeft className="h-5 w-5" />
             </Link>
-          </Button>
+          </GlassButton>
           <div>
             <h1 className="font-semibold">Chat EBM</h1>
             {contextSummary && (

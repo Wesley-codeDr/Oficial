@@ -57,7 +57,7 @@ export const Header: React.FC<HeaderProps> = ({ patient, setPatient }) => {
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
         className="relative w-full p-1 rounded-[44px] overflow-hidden
-          backdrop-blur-[80px] saturate-[200%]
+          liquid-glass-default
           bg-white/25 dark:bg-slate-900/28
           border border-white/40 dark:border-white/12
           shadow-[0_8px_32px_rgba(0,78,146,0.08),inset_0_1px_1px_rgba(255,255,255,0.5)]

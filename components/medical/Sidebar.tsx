@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
 import { motion } from 'framer-motion'
+import { LiquidGlassIcon } from '@/components/ui/LiquidGlassIcon'
 
 // --- Types for Dynamic Navigation ---
 export interface SidebarItem {
@@ -31,8 +32,9 @@ export interface SidebarGroups {
   system: SidebarItem[]
 }
 
-// --- NavItem Component ---
+// --- NavItem Component with Liquid Glass Icons ---
 interface NavItemProps {
+  id: string
   icon: React.ElementType
   label: string
   isActive: boolean
@@ -40,9 +42,9 @@ interface NavItemProps {
   onClick: () => void
 }
 
-const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollapsed, onClick }) => {
+const NavItem: React.FC<NavItemProps> = ({ id, icon: Icon, label, isActive, isCollapsed, onClick }) => {
   return (
-    <li className="relative group/item flex justify-center">
+    <li className="relative group/item flex justify-center w-full">
       <motion.button
         onClick={onClick}
         title={isCollapsed ? label : undefined}
@@ -50,70 +52,24 @@ const NavItem: React.FC<NavItemProps> = ({ icon: Icon, label, isActive, isCollap
         aria-current={isActive ? 'page' : undefined}
         className={`
           relative flex items-center transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] outline-none
-          ${isCollapsed ? 'justify-center w-[60px] h-[60px]' : 'w-full px-4 py-3'}
+          ${isCollapsed ? 'justify-center w-[52px] h-[52px]' : 'w-full px-4 py-2.5'}
+          rounded-lg
+          ${isActive ? 'bg-[var(--color-primary-50)] text-[var(--color-primary-600)]' : 'text-[var(--color-text-secondary)] hover:bg-[var(--color-gray-50)] hover:text-[var(--color-text-primary)]'}
         `}
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ x: isCollapsed ? 0 : 4 }}
         whileTap={{ scale: 0.98 }}
       >
-        {/* Background Layer - iOS 26 Glass Hover/Active */}
-        <motion.div
-          className={`
-            absolute inset-0 rounded-[14px] transition-all duration-200
-            ${
-              isActive
-                ? 'backdrop-blur-[40px] saturate-[180%] bg-white/25 dark:bg-[rgba(30,30,30,0.25)] border border-white/30 dark:border-white/15 shadow-[0_8px_32px_rgba(0,122,255,0.12)]'
-                : 'bg-transparent group-hover/item:bg-white/15 dark:group-hover/item:bg-[rgba(30,30,30,0.15)]'
-            }
-          `}
-        />
-
         {/* Icon Container */}
-        <motion.div
-          className={`relative z-10 flex items-center justify-center transition-all duration-500 ${isCollapsed ? 'w-full' : ''}`}
-          animate={{ scale: isActive ? 1.1 : 1 }}
-        >
-          <div
-            className={`
-              flex items-center justify-center w-10 h-10 rounded-[12px] transition-all duration-200
-              ${
-                isActive
-                  ? 'bg-[rgba(0,122,255,0.15)] backdrop-blur-[20px] text-[#007AFF] dark:text-[#0A84FF] border border-[rgba(0,122,255,0.2)]'
-                  : 'text-[rgba(0,0,0,0.5)] dark:text-[rgba(255,255,255,0.5)] group-hover/item:text-[#007AFF] dark:group-hover/item:text-[#0A84FF]'
-              }
-           `}
-          >
-            <Icon
-              className={`
-                 w-5 h-5 transition-all duration-500 icon-volumetric
-                 ${isActive ? 'stroke-[2.2px] fill-current/10 icon-glow-blue' : 'stroke-[1.8px]'}
-               `}
-            />
-          </div>
-        </motion.div>
+        <div className={`flex items-center justify-center shrink-0 ${isActive ? 'text-[var(--color-primary-500)]' : ''}`}>
+          <Icon className={`${isCollapsed ? 'w-6 h-6' : 'w-5 h-5'} stroke-[2px] transition-colors`} />
+        </div>
 
         {/* Label */}
-        <motion.div
-          className="flex items-center overflow-hidden whitespace-nowrap"
-          animate={{
-            width: isCollapsed ? 0 : 'auto',
-            opacity: isCollapsed ? 0 : 1,
-            marginLeft: isCollapsed ? 0 : 12,
-          }}
-          transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-        >
-          <span
-            className={`
-              text-[14px] tracking-tight relative z-10 transition-colors duration-300
-              ${
-                isActive
-                  ? 'font-semibold text-slate-900 dark:text-white'
-                  : 'font-medium text-slate-500 dark:text-slate-400 group-hover/item:text-slate-900 dark:group-hover/item:text-slate-100'
-              }
-            `}
-          >
+        {!isCollapsed && (
+          <span className="ml-3 text-[14px] font-medium tracking-tight whitespace-nowrap overflow-hidden">
             {label}
           </span>
-        </motion.div>
+        )}
       </motion.button>
     </li>
   )
@@ -221,18 +177,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside
       suppressHydrationWarning={true}
-      className={`${widthClass} h-[calc(100vh-1rem)]
-        backdrop-blur-[40px] saturate-[180%]
-        bg-[linear-gradient(135deg,rgba(255,255,255,0.25)_0%,rgba(255,255,255,0.1)_100%)]
-        dark:bg-[linear-gradient(135deg,rgba(30,30,30,0.25)_0%,rgba(30,30,30,0.15)_100%)]
-        border border-white/30 dark:border-white/15
-        flex flex-col shrink-0 my-2 ml-2 rounded-[24px]
-        transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] z-40 relative overflow-hidden`}
+      className={`${widthClass} h-screen
+        bg-[var(--color-bg-primary)]
+        dark:bg-[var(--color-bg-sidebar)]
+        border-right border-[var(--color-gray-100)]
+        flex flex-col shrink-0
+        transition-all duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] z-40 relative`}
       style={{
-        boxShadow: `
-          0 8px 32px rgba(0, 0, 0, 0.1),
-          inset 0 1px 1px rgba(255, 255, 255, 0.2)
-        `
+        boxShadow: 'var(--shadow-sm)'
       }}
     >
       {/* NEW: Ambient light gradient for depth */}
@@ -260,24 +212,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
         animate={hasMounted ? asideAnimation.animate : false}
         transition={asideAnimation.transition}
       >
-        {/* Brand Section - Apple 2025 Style */}
+        {/* Brand Section - Animated WellWave Style */}
         <div
-          className={`h-32 flex items-center transition-all duration-700 cursor-pointer group/brand ${isCollapsed ? 'justify-center w-full' : 'justify-start pl-8'}`}
+          className={`h-32 flex items-center transition-all duration-700 cursor-pointer logo-container group/brand ${isCollapsed ? 'justify-center w-full' : 'justify-start pl-8'}`}
           onClick={() => {
             setIsCollapsed(!isCollapsed)
             handleNavigation('dashboard')
           }}
         >
-          {/* Adjusted GAP to 4 (16px) for better spacing */}
-          <div
-            className={`flex items-center select-none group transition-all duration-500 ${isCollapsed ? 'gap-0' : 'gap-4'}`}
-          >
+          <div className={`flex items-center select-none group transition-all duration-500 ${isCollapsed ? 'gap-0' : 'gap-4'}`}>
             {/* LOGO CONTAINER GLASS */}
             <motion.div
               className={`
-              relative flex items-center justify-center glass-pill inner-glow-ios26 shrink-0 overflow-hidden group-hover/brand:bg-white/40 dark:group-hover/brand:bg-white/15 transition-all duration-500
-              ${isCollapsed ? 'w-[60px] h-[60px]' : 'w-14 h-14'}
-            `}
+                relative flex items-center justify-center glass-pill inner-glow-ios26 shrink-0 overflow-hidden 
+                group-hover/brand:bg-white/40 dark:group-hover/brand:bg-white/15 transition-all duration-500
+                ${isCollapsed ? 'w-[60px] h-[60px]' : 'w-14 h-14'}
+              `}
               animate={{ y: [0, -2, 0] }}
               transition={{
                 duration: 4,
@@ -288,36 +238,25 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <img
                 src="/logo-wellwave.png"
                 alt="WellWave Logo"
-                className="w-10 h-10 object-contain relative z-10"
+                className="logo-icon object-contain relative z-10"
               />
             </motion.div>
 
             <div
               className={`
-             flex flex-col justify-center h-[44px] overflow-hidden whitespace-nowrap 
-             transition-all duration-[700ms] ease-[cubic-bezier(0.19,1,0.22,1)] 
-             ${isCollapsed ? 'max-w-0 opacity-0 -translate-x-4' : 'max-w-[180px] opacity-100 translate-x-0 hidden lg:flex'}
-          `}
+                flex flex-col justify-center h-[44px] overflow-hidden whitespace-nowrap 
+                transition-all duration-[700ms] ease-[cubic-bezier(0.19,1,0.22,1)] 
+                ${
+                  isCollapsed
+                    ? 'max-w-0 opacity-0 -translate-x-4'
+                    : 'max-w-0 opacity-0 -translate-x-4 lg:max-w-[180px] lg:opacity-100 lg:translate-x-0'
+                }
+              `}
             >
-              <h1 className="text-[20px] font-bold tracking-tight flex items-baseline gap-0.5 leading-none">
-                <span className="text-[#1d1d1f] dark:text-[#f5f5f7] transition-colors duration-300">
-                  Well
-                </span>
-                <motion.span
-                  className="bg-gradient-to-r from-sky-500 via-indigo-500 via-sky-400 to-blue-600 bg-[length:200%_auto] bg-clip-text text-transparent font-bold tracking-tight"
-                  animate={{
-                    opacity: [1, 0.85, 1],
-                    backgroundPosition: ['0% 50%', '200% 50%'],
-                  }}
-                  transition={{
-                    opacity: { duration: 5, repeat: Infinity, ease: 'easeInOut' },
-                    backgroundPosition: { duration: 8, repeat: Infinity, ease: 'linear' },
-                  }}
-                >
-                  Wave
-                </motion.span>
+              <h1 className="logo-title leading-none">
+                <span className="logo-title__well logo-shine">Well</span>
+                <span className="logo-title__wave logo-shine ml-0.5">Wave</span>
               </h1>
-              {/* Adjusted Tracking and Opacity for Hierarchy */}
               <span className="text-[9px] text-slate-400 dark:text-slate-500 font-bold tracking-[0.2em] uppercase mt-1 ml-0.5 opacity-80">
                 Professional
               </span>
@@ -336,6 +275,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {menuGroups.main.map((item) => (
               <NavItem
                 key={item.id}
+                id={item.id}
                 icon={item.icon}
                 label={item.label}
                 isActive={localActiveId === item.id}
@@ -353,6 +293,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {menuGroups.records.map((item) => (
               <NavItem
                 key={item.id}
+                id={item.id}
                 icon={item.icon}
                 label={item.label}
                 isActive={localActiveId === item.id}
@@ -371,6 +312,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             {menuGroups.system.map((item) => (
               <NavItem
                 key={item.id}
+                id={item.id}
                 icon={item.icon}
                 label={item.label}
                 isActive={localActiveId === item.id}
@@ -468,7 +410,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         `}
           >
             <div className="relative shrink-0">
-              <div className="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden ring-1 ring-white/30 dark:ring-white/10 shadow-md">
+              <div className="w-10 h-10 rounded-full bg-ww-neutral dark:bg-ww-primary overflow-hidden ring-1 ring-ww-primary/30 dark:ring-ww-primary/10 shadow-ww-md">
                 <img
                   src="https://picsum.photos/200"
                   alt="User"

@@ -1,6 +1,17 @@
-"use client"
+'use client'
 
+import { useTheme } from 'next-themes'
 import type { SeverityLevel } from '../../lib/anamnese/severity'
+import { cn } from '@/lib/utils'
+import * as Tokens from '@/lib/theme/tokens'
+import {
+  useGlassBlur,
+  useGlassOpacity,
+  useGlassBorder,
+  useGlassRadius,
+  useGlassNoise,
+  useGlassSpecular,
+} from '@/lib/theme/hooks'
 
 export interface ProgressStatusProps {
   progress: number // 0-100
@@ -8,6 +19,18 @@ export interface ProgressStatusProps {
 }
 
 export function ProgressStatus({ progress, severity }: ProgressStatusProps) {
+  const { theme, systemTheme } = useTheme()
+  const isDark = theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
+
+  // Get theme classes
+  const glassBlur = useGlassBlur()
+  const glassOpacity = useGlassOpacity('subtle', isDark)
+  const glassBorder = useGlassBorder(isDark)
+  const glassRadius = useGlassRadius('SM')
+  const glassNoise = useGlassNoise()
+  const glassSpecular = useGlassSpecular('subtle')
+
+  // Get color based on severity
   const color = severity === 'critical' ? '#FF3B30' : severity === 'high' ? '#FF9500' : severity === 'moderate' ? '#007AFF' : '#34C759'
 
   return (
@@ -21,11 +44,17 @@ export function ProgressStatus({ progress, severity }: ProgressStatusProps) {
         </span>
       </div>
       <div
-        className="h-2.5 rounded-[12px] backdrop-blur-[20px] bg-white/40 dark:bg-[rgba(30,30,30,0.4)] border border-white/30 dark:border-white/15 overflow-hidden"
+        className={cn(
+          'h-2.5 rounded-[12px] overflow-hidden',
+          glassBlur,
+          glassOpacity,
+          glassBorder,
+          glassRadius,
+          glassNoise,
+          glassSpecular,
+          'liquid-glass-subtle bg-white/40 dark:bg-[rgba(30,30,30,0.4)] border-white/30 dark:border-white/15'
+        )}
         role="progressbar"
-        aria-valuenow={progress}
-        aria-valuemin={0}
-        aria-valuemax={100}
       >
         <div
           className="h-full rounded-[12px] transition-all duration-300"

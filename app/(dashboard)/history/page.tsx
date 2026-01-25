@@ -4,7 +4,8 @@ import { formatDistanceToNow } from '@/lib/utils'
 import { Heart, Wind, Activity, CheckCircle, AlertTriangle, FileText } from 'lucide-react'
 
 import { GlassCard } from '@/components/ui/glass-card'
-import { Button } from '@/components/ui/button'
+import { GlassButton } from '@/components/ui/glass-button'
+import { GlassBadge } from '@/components/ui/glass-badge'
 import { CopyButton } from '@/components/anamnese/copy-button'
 import { getUserSessions } from '@/lib/anamnese/actions'
 import { HistoryEmptyState } from './history-empty-state'
@@ -48,7 +49,7 @@ export default async function HistoryPage() {
             return (
               <GlassCard key={session.id} hover={false} className="p-4">
                 <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[20px] bg-primary/10">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-[16px] bg-primary/10">
                     <IconComponent className="h-6 w-6 text-primary" />
                   </div>
 
@@ -56,16 +57,16 @@ export default async function HistoryPage() {
                     <div className="flex items-center gap-2">
                       <h3 className="font-semibold">{session.syndrome.name}</h3>
                       {redFlagCount > 0 && (
-                        <span className="flex items-center gap-1 rounded-[14px] bg-destructive/10 px-2 py-0.5 text-xs font-medium text-destructive">
+                        <GlassBadge variant="danger" size="sm">
                           <AlertTriangle className="h-3 w-3" />
                           {redFlagCount}
-                        </span>
+                        </GlassBadge>
                       )}
                       {session.wasCopied && (
-                        <span className="flex items-center gap-1 rounded-[14px] bg-green-500/10 px-2 py-0.5 text-xs font-medium text-green-600 dark:text-green-400">
+                        <GlassBadge variant="success" size="sm">
                           <CheckCircle className="h-3 w-3" />
                           Copiado
-                        </span>
+                        </GlassBadge>
                       )}
                     </div>
                     <div className="flex items-center gap-4 text-sm text-muted-foreground">
@@ -83,7 +84,7 @@ export default async function HistoryPage() {
                 </div>
 
                 {session.generatedText && (
-                  <div className="mt-4 rounded-[20px] bg-muted/50 p-3">
+                  <div className="mt-4 rounded-[16px] bg-muted/50 p-3">
                     <p className="line-clamp-3 text-sm text-muted-foreground">
                       {session.generatedText}
                     </p>

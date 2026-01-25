@@ -3,8 +3,22 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Copy, Check, AlertTriangle, FileText, Maximize2, Minimize2, Sparkles } from 'lucide-react'
+import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
 import { EmptyStateIllustration } from '@/components/ui/empty-state-illustration'
+import * as Tokens from '@/lib/theme/tokens'
+import {
+  useGlassBlur,
+  useGlassOpacity,
+  useGlassBorder,
+  useGlassShadow,
+  useGlassRadius,
+  useGlassNoise,
+  useGlassSpecular,
+  useGlassRimLight,
+  useGlassHoverScale,
+  useGlassTapScale,
+} from '@/lib/theme/hooks'
 
 interface NarrativePreviewProps {
   narrative: string
@@ -19,8 +33,23 @@ export function NarrativePreview({
   onCopy,
   className,
 }: NarrativePreviewProps) {
+  const { theme, systemTheme } = useTheme()
+  const isDark = theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
+
   const [copied, setCopied] = useState(false)
   const [expanded, setExpanded] = useState(false)
+
+  // Get theme classes
+  const glassBlur = useGlassBlur()
+  const glassOpacity = useGlassOpacity('default', isDark)
+  const glassBorder = useGlassBorder(isDark)
+  const glassShadow = useGlassShadow('default', isDark)
+  const glassRadius = useGlassRadius('LG')
+  const glassNoise = useGlassNoise()
+  const glassSpecular = useGlassSpecular()
+  const glassRimLight = useGlassRimLight()
+  const glassHoverScale = useGlassHoverScale()
+  const glassTapScale = useGlassTapScale()
 
   const handleCopy = async () => {
     if (!narrative) return
@@ -45,15 +74,39 @@ export function NarrativePreview({
       <div
         className={cn(
           'flex flex-col transition-all duration-700 ease-[0.22,1,0.36,1]',
-          'liquid-glass-material rounded-[40px] border border-white/40 dark:border-white/10 shadow-2xl overflow-hidden',
+          glassBlur,
+          glassOpacity,
+          glassBorder,
+          glassShadow,
+          glassRadius,
+          glassNoise,
+          glassSpecular,
+          glassRimLight,
           expanded ? 'fixed inset-8 z-50' : 'relative',
           className
         )}
       >
         {/* Header Section */}
-        <div className="px-8 py-6 border-b border-white/20 dark:border-white/10 flex items-center justify-between bg-white/10 dark:bg-white/5 backdrop-blur-md">
+        <div className={cn(
+          'px-8 py-6 border-b flex items-center justify-between',
+          glassBlur,
+          glassOpacity,
+          glassBorder.replace('border-', 'border-b-'),
+          glassNoise,
+          glassSpecular,
+          'bg-white/10 dark:bg-white/5 backdrop-blur-md border-white/20 dark:border-white/10'
+        )}>
           <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-2xl bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-500">
+            <div className={cn(
+              'w-10 h-10 rounded-2xl flex items-center justify-center',
+              glassBlur,
+              glassOpacity,
+              glassBorder,
+              glassRadius,
+              glassNoise,
+              glassSpecular,
+              'bg-blue-500/20 border-blue-500/30 text-blue-500'
+            )}>
                <FileText className="h-5 w-5" />
             </div>
             <div>
@@ -68,7 +121,18 @@ export function NarrativePreview({
           <div className="flex items-center gap-2">
             <button
               onClick={() => setExpanded(!expanded)}
-              className="p-2.5 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 transition-all text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+              className={cn(
+                'p-2.5 rounded-xl transition-all text-slate-400 hover:text-slate-600 dark:hover:text-slate-200',
+                glassBlur,
+                glassOpacity,
+                glassBorder,
+                glassRadius,
+                glassNoise,
+                glassSpecular,
+                glassHoverScale,
+                glassTapScale,
+                'bg-white/10 border-white/20 hover:bg-white/20'
+              )}
             >
               {expanded ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
             </button>
@@ -78,8 +142,8 @@ export function NarrativePreview({
               className={cn(
                 'flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all duration-300',
                 copied 
-                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/20' 
-                  : 'bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:grayscale'
+                  ? cn('bg-emerald-500 text-white', useGlassShadow('success', isDark))
+                  : cn('bg-blue-600 text-white hover:scale-105 active:scale-95 disabled:opacity-50 disabled:grayscale', useGlassShadow('primary', isDark))
               )}
             >
               <AnimatePresence mode="wait">
@@ -103,7 +167,15 @@ export function NarrativePreview({
             <motion.div 
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
-              className="px-8 py-3 bg-rose-500/10 border-b border-rose-500/20 flex items-center gap-3 overflow-hidden"
+              className={cn(
+                'px-8 py-3 border-b flex items-center gap-3 overflow-hidden',
+                glassBlur,
+                glassOpacity,
+                glassBorder.replace('border-', 'border-b-'),
+                glassNoise,
+                glassSpecular,
+                'bg-rose-500/10 border-rose-500/20'
+              )}
             >
               <AlertTriangle className="h-4 w-4 text-rose-500" />
               <span className="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-400">
@@ -136,7 +208,7 @@ export function NarrativePreview({
                 animate={{ opacity: [0.5, 1, 0.5] }}
                 transition={{ duration: 2, repeat: Infinity }}
               >
-                Aguardando selecao de sintomas...
+                Aguardando seleção de sintomas...
               </motion.p>
             </motion.div>
           ) : (
@@ -156,7 +228,15 @@ export function NarrativePreview({
 
         {/* Footer Statistics */}
         {!isEmpty && (
-          <div className="px-8 py-4 bg-white/5 border-t border-white/20 dark:border-white/10 flex justify-between items-center">
+          <div className={cn(
+            'px-8 py-4 border-t flex justify-between items-center',
+            glassBlur,
+            glassOpacity,
+            glassBorder.replace('border-', 'border-t-'),
+            glassNoise,
+            glassSpecular,
+            'bg-white/5 border-white/20 dark:border-white/10'
+          )}>
             <div className="flex gap-4">
                <div className="flex flex-col">
                   <span className="text-[8px] font-black text-slate-400 uppercase tracking-widest">Palavras</span>
@@ -167,7 +247,16 @@ export function NarrativePreview({
                   <span className="text-xs font-bold text-slate-600 dark:text-slate-400">{narrative.length}</span>
                </div>
             </div>
-            <div className="px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-[8px] font-black uppercase tracking-widest text-blue-500">
+            <div className={cn(
+              'px-3 py-1 rounded-full text-[8px] font-black uppercase tracking-widest',
+              glassBlur,
+              glassOpacity,
+              glassBorder,
+              glassRadius,
+              glassNoise,
+              glassSpecular,
+              'bg-blue-500/10 border-blue-500/20 text-blue-500'
+            )}>
                EBM-Sync Active
             </div>
           </div>

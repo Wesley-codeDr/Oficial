@@ -3,10 +3,11 @@ import Link from 'next/link'
 import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import { MessageSquare, ChevronRight } from 'lucide-react'
+import { MessageSquare, ChevronRight, Plus } from 'lucide-react'
 import { GlassCard } from '@/components/ui/glass-card'
+import { GlassButton } from '@/components/ui/glass-button'
+import { GlassBadge } from '@/components/ui/glass-badge'
 import { formatDistanceToNow } from '@/lib/utils'
-import { NewChatButton } from './new-chat-button'
 import { ChatEmptyState } from './chat-empty-state'
 
 export const metadata: Metadata = {

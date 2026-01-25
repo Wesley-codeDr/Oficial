@@ -98,7 +98,7 @@ const GlassSlider = forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, Gl
           onMouseLeave={() => setIsHovering(false)}
         >
           <SliderPrimitive.Track
-            className="relative h-1 w-full grow overflow-hidden rounded-full backdrop-blur-[20px]"
+            className="relative h-1 w-full grow overflow-hidden rounded-full liquid-glass-subtle"
             style={{
               backgroundColor: 'rgba(120, 120, 128, 0.16)',
             }}
@@ -115,7 +115,7 @@ const GlassSlider = forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, Gl
             <motion.div
               className={cn(
                 'relative block rounded-full w-7 h-7 bg-white',
-                'border border-white/50 backdrop-blur-[10px]',
+                'border border-white/50 liquid-glass-subtle',
                 'focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50 focus-visible:ring-offset-2',
                 disabled ? 'cursor-not-allowed' : 'cursor-grab active:cursor-grabbing'
               )}
@@ -142,7 +142,7 @@ const GlassSlider = forwardRef<React.ElementRef<typeof SliderPrimitive.Root>, Gl
                     className={cn(
                       'absolute -top-10 left-1/2 -translate-x-1/2',
                       'px-2.5 py-1.5 rounded-lg',
-                      'backdrop-blur-[40px] saturate-[180%]',
+                      'liquid-glass-subtle',
                       'bg-white/80 dark:bg-slate-900/80',
                       'border border-white/50 dark:border-white/12',
                       'shadow-lg text-sm font-medium',

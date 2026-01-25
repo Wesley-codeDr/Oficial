@@ -16,6 +16,8 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { CheckboxCategory } from '@/lib/types/medical'
+import { useTheme } from 'next-themes'
+import * as Theme from '@/lib/theme'
 
 interface CFMProgressIndicatorProps {
   /**
@@ -144,6 +146,21 @@ export function CFMProgressIndicator({
   showLabels = true,
   className,
 }: CFMProgressIndicatorProps) {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  // Get theme-specific classes
+  const glassBlur = Theme.useGlassBlur('default')
+  const glassOpacity = Theme.useGlassOpacity('default', isDark)
+  const glassBorder = Theme.useGlassBorder('default', isDark)
+  const glassShadow = Theme.useGlassShadow('default', isDark)
+  const glassRadius = Theme.useGlassRadius('default')
+  const glassNoise = Theme.useGlassNoise()
+  const glassSpecular = Theme.useGlassSpecular()
+  const glassRimLight = Theme.useGlassRimLight()
+  const glassHoverScale = Theme.useGlassHoverScale()
+  const glassTapScale = Theme.useGlassTapScale()
+
   // Calculate progress for each block
   const blockProgress = useMemo((): BlockProgress[] => {
     return CFM_BLOCKS.map(({ category }) => {
@@ -272,7 +289,16 @@ export function CFMProgressIndicator({
   return (
     <div
       className={cn(
-        'glass-molded rim-light-ios26 inner-glow-ios26 noise-grain rounded-[24px] p-4 shadow-lg',
+        'relative overflow-hidden',
+        glassBlur,
+        glassOpacity,
+        glassBorder,
+        glassShadow,
+        glassRadius,
+        glassNoise,
+        glassSpecular,
+        glassRimLight,
+        'p-4',
         className
       )}
     >
@@ -351,7 +377,8 @@ export function CFMProgressIndicator({
                   'relative rounded-xl p-2.5 transition-all duration-300',
                   statusClasses.bg,
                   statusClasses.ring,
-                  'hover:scale-[1.02]'
+                  glassHoverScale,
+                  glassTapScale
                 )}
               >
                 {/* Status indicator */}

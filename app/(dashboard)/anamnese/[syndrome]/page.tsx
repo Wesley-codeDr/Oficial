@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
+import { GlassButton } from '@/components/ui/glass-button'
 import { AnamnesePageWrapper } from '@/components/anamnese/anamnese-page-wrapper'
 import { getSyndromeByCode } from '@/lib/anamnese/actions'
 
@@ -37,11 +37,11 @@ export default async function AnamnesePage({ params }: AnamnesePageProps) {
     <div className="container mx-auto max-w-7xl space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" asChild>
+        <GlassButton variant="secondary" size="icon" asChild>
           <Link href="/dashboard">
             <ArrowLeft className="h-5 w-5" />
           </Link>
-        </Button>
+        </GlassButton>
         <div>
           <h1 className="text-2xl font-bold tracking-tight">{syndrome.name}</h1>
           <p className="text-muted-foreground">{syndrome.description}</p>

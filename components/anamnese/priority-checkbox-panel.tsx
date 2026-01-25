@@ -2,9 +2,24 @@
 
 import { useMemo } from 'react'
 import { Stethoscope, AlertTriangle, CheckCircle2, FileText, Pill, Heart, Activity, XCircle } from 'lucide-react'
+import { useTheme } from 'next-themes'
+import { cn } from '@/lib/utils'
 import { getPriorityCheckboxes, countPriorityCheckboxes } from '@/lib/data/complaintCheckboxMap'
 import type { CheckboxCategory } from '@/lib/types/medical'
 import { useComplaints } from '@/hooks/use-complaints'
+import * as Tokens from '@/lib/theme/tokens'
+import {
+  useGlassBlur,
+  useGlassOpacity,
+  useGlassBorder,
+  useGlassShadow,
+  useGlassRadius,
+  useGlassNoise,
+  useGlassSpecular,
+  useGlassRimLight,
+  useGlassHoverScale,
+  useGlassTapScale,
+} from '@/lib/theme/hooks'
 
 interface PriorityCheckboxPanelProps {
   complaintId: string
@@ -14,12 +29,12 @@ interface PriorityCheckboxPanelProps {
 
 const CATEGORY_CONFIG: Record<CheckboxCategory, { label: string; icon: React.ElementType; color: string }> = {
   QP: { label: 'Queixa Principal', icon: FileText, color: 'text-blue-600 dark:text-blue-400' },
-  HDA: { label: 'Historia da Doenca', icon: Activity, color: 'text-purple-600 dark:text-purple-400' },
+  HDA: { label: 'Historia da Doença', icon: Activity, color: 'text-purple-600 dark:text-purple-400' },
   ANTECEDENTES: { label: 'Antecedentes', icon: Heart, color: 'text-rose-600 dark:text-rose-400' },
-  MEDICACOES: { label: 'Medicacoes', icon: Pill, color: 'text-teal-600 dark:text-teal-400' },
+  MEDICACOES: { label: 'Medicações', icon: Pill, color: 'text-teal-600 dark:text-teal-400' },
   ALERGIAS: { label: 'Alergias', icon: AlertTriangle, color: 'text-amber-600 dark:text-amber-400' },
-  HABITOS: { label: 'Habitos', icon: Activity, color: 'text-green-600 dark:text-green-400' },
-  EXAME_FISICO: { label: 'Exame Fisico', icon: Stethoscope, color: 'text-indigo-600 dark:text-indigo-400' },
+  HABITOS: { label: 'Hábitos', icon: Activity, color: 'text-green-600 dark:text-green-400' },
+  EXAME_FISICO: { label: 'Exame Físico', icon: Stethoscope, color: 'text-indigo-600 dark:text-indigo-400' },
   NEGATIVAS: { label: 'Negativas Pertinentes', icon: XCircle, color: 'text-slate-600 dark:text-slate-400' },
 }
 
@@ -39,6 +54,9 @@ export function PriorityCheckboxPanel({
   selectedCheckboxes,
   onToggle,
 }: PriorityCheckboxPanelProps) {
+  const { theme, systemTheme } = useTheme()
+  const isDark = theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
+
   const { data: complaintsResponse } = useComplaints({ limit: 500, isActive: true })
   const complaints = useMemo(() => complaintsResponse?.data ?? [], [complaintsResponse?.data])
   const priorityCheckboxes = useMemo(() => getPriorityCheckboxes(complaintId), [complaintId])
@@ -60,6 +78,18 @@ export function PriorityCheckboxPanel({
     return count
   }, [priorityCheckboxes, selectedCheckboxes])
 
+  // Get theme classes
+  const glassBlur = useGlassBlur()
+  const glassOpacity = useGlassOpacity('default', isDark)
+  const glassBorder = useGlassBorder(isDark)
+  const glassShadow = useGlassShadow('default', isDark)
+  const glassRadius = useGlassRadius('MD')
+  const glassNoise = useGlassNoise()
+  const glassSpecular = useGlassSpecular()
+  const glassRimLight = useGlassRimLight()
+  const glassHoverScale = useGlassHoverScale()
+  const glassTapScale = useGlassTapScale()
+
   if (!priorityCheckboxes || !complaint) {
     return null
   }
@@ -68,17 +98,45 @@ export function PriorityCheckboxPanel({
   const progressPercentage = totalCheckboxes > 0 ? Math.round((selectedCount / totalCheckboxes) * 100) : 0
 
   return (
-    <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800/50 dark:to-indigo-900/30 rounded-xl border border-blue-200 dark:border-blue-800/50 overflow-hidden">
+    <div className={cn(
+      'overflow-hidden',
+      glassBlur,
+      glassOpacity,
+      glassBorder,
+      glassShadow,
+      glassRadius,
+      glassNoise,
+      glassSpecular,
+      glassRimLight,
+      'bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800/50 dark:to-indigo-900/30'
+    )}>
       {/* Header */}
-      <div className="px-4 py-3 bg-blue-100/50 dark:bg-blue-900/30 border-b border-blue-200 dark:border-blue-800/50">
+      <div className={cn(
+        'px-4 py-3 border-b',
+        glassBlur,
+        glassOpacity,
+        glassBorder.replace('border-', 'border-b-'),
+        glassNoise,
+        glassSpecular,
+        'bg-blue-100/50 dark:bg-blue-900/30 border-blue-200 dark:border-blue-800/50'
+      )}>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-600 flex items-center justify-center">
+            <div className={cn(
+              'w-10 h-10 rounded-lg flex items-center justify-center',
+              glassBlur,
+              glassOpacity,
+              glassBorder,
+              glassRadius,
+              glassNoise,
+              glassSpecular,
+              'bg-blue-600'
+            )}>
               <Stethoscope className="w-5 h-5 text-white" />
             </div>
             <div>
               <h3 className="font-semibold text-slate-800 dark:text-slate-200">
-                Checkboxes Prioritarios
+                Checkboxes Prioritários
               </h3>
               <p className="text-sm text-slate-600 dark:text-slate-400">
                 {complaint.title}
@@ -151,20 +209,27 @@ export function PriorityCheckboxPanel({
                       key={checkboxKey}
                       type="button"
                       onClick={() => onToggle(item, category)}
-                      className={`
-                        flex items-center gap-2 px-3 py-2 rounded-lg text-left text-sm
-                        transition-all duration-150
-                        ${isSelected
-                          ? 'bg-blue-600 text-white shadow-md'
-                          : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'}
-                      `}
+                      className={cn(
+                        'flex items-center gap-2 px-3 py-2 rounded-lg text-left text-sm transition-all',
+                        glassBlur,
+                        glassOpacity,
+                        glassBorder,
+                        glassRadius,
+                        glassNoise,
+                        glassSpecular,
+                        glassHoverScale,
+                        glassTapScale,
+                        isSelected
+                          ? cn('bg-blue-600 text-white', useGlassShadow('primary', isDark))
+                          : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
+                      )}
                     >
-                      <div className={`
-                        w-5 h-5 rounded flex items-center justify-center shrink-0
-                        ${isSelected
+                      <div className={cn(
+                        'w-5 h-5 rounded flex items-center justify-center shrink-0',
+                        isSelected
                           ? 'bg-white/20'
-                          : 'border-2 border-slate-300 dark:border-slate-600'}
-                      `}>
+                          : 'border-2 border-slate-300 dark:border-slate-600'
+                      )}>
                         {isSelected && (
                           <CheckCircle2 className="w-4 h-4" />
                         )}
@@ -180,7 +245,15 @@ export function PriorityCheckboxPanel({
       </div>
 
       {/* Footer Tip */}
-      <div className="px-4 py-2 bg-blue-50 dark:bg-blue-900/20 border-t border-blue-200 dark:border-blue-800/50">
+      <div className={cn(
+        'px-4 py-2 border-t',
+        glassBlur,
+        glassOpacity,
+        glassBorder.replace('border-', 'border-t-'),
+        glassNoise,
+        glassSpecular,
+        'bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50'
+      )}>
         <p className="text-xs text-blue-700 dark:text-blue-300 flex items-center gap-1.5">
           <AlertTriangle className="w-3.5 h-3.5" />
           Checkboxes recomendados para esta queixa. Selecione os pertinentes ao caso.

@@ -78,7 +78,6 @@ export function LoginForm() {
           leftIcon={<Mail className="h-[18px] w-[18px]" />}
           required
           autoComplete="email"
-          glassIntensity="medium"
         />
       </motion.div>
 
@@ -106,7 +105,6 @@ export function LoginForm() {
           leftIcon={<Lock className="h-[18px] w-[18px]" />}
           required
           autoComplete="current-password"
-          glassIntensity="medium"
         />
       </motion.div>
 

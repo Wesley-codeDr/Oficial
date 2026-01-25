@@ -84,7 +84,7 @@ const GlassCircleButton = forwardRef<HTMLButtonElement, GlassCircleButtonProps>(
         className={cn(
           'relative flex items-center justify-center',
           'rounded-full',
-          'backdrop-blur-[60px] saturate-[180%]',
+          'liquid-glass-elevated',
           'transition-colors duration-200',
           'focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
           sizeStyles.button,

@@ -30,7 +30,7 @@ const toastVariants = cva(
     variants: {
       variant: {
         default: `
-          backdrop-blur-[60px] saturate-[180%]
+          liquid-glass-elevated
           bg-white/80 dark:bg-slate-900/80
           border-white/40 dark:border-white/10
           text-slate-900 dark:text-slate-100
@@ -38,25 +38,32 @@ const toastVariants = cva(
           dark:shadow-[0_35px_60px_-15px_rgba(0,0,0,0.4)]
         `,
         destructive: `
-          backdrop-blur-[60px] saturate-[180%]
-          bg-rose-500/90 dark:bg-rose-500/85
-          border-rose-500/40 dark:border-rose-500/30
+          liquid-glass-elevated
+          bg-[#FF3B30]/90 dark:bg-[#FF453A]/85
+          border-[#FF3B30]/40 dark:border-[#FF453A]/30
           text-white
-          shadow-[0_35px_60px_-15px_rgba(244,63,94,0.3)]
+          shadow-[0_35px_60px_-15px_rgba(255,59,48,0.3)]
         `,
         success: `
-          backdrop-blur-[60px] saturate-[180%]
-          bg-green-500/90 dark:bg-green-500/85
-          border-green-500/40 dark:border-green-500/30
+          liquid-glass-elevated
+          bg-[#34C759]/90 dark:bg-[#30D158]/85
+          border-[#34C759]/40 dark:border-[#30D158]/30
           text-white
-          shadow-[0_35px_60px_-15px_rgba(34,197,94,0.3)]
+          shadow-[0_35px_60px_-15px_rgba(52,199,89,0.3)]
         `,
         warning: `
-          backdrop-blur-[60px] saturate-[180%]
-          bg-orange-500/90 dark:bg-orange-500/85
-          border-orange-500/40 dark:border-orange-500/30
+          liquid-glass-elevated
+          bg-[#FF9500]/90 dark:bg-[#FF9F0A]/85
+          border-[#FF9500]/40 dark:border-[#FF9F0A]/30
           text-white
-          shadow-[0_35px_60px_-15px_rgba(249,115,22,0.3)]
+          shadow-[0_35px_60px_-15px_rgba(255,149,0,0.3)]
+        `,
+        info: `
+          liquid-glass-elevated
+          bg-[#5AC8FA]/90 dark:bg-[#5AC8FA]/85
+          border-[#5AC8FA]/40 dark:border-[#5AC8FA]/30
+          text-white
+          shadow-[0_35px_60px_-15px_rgba(90,200,250,0.3)]
         `,
       },
     },
@@ -135,15 +142,16 @@ ToastDescription.displayName = ToastPrimitives.Description.displayName
 
 const ToastIcon = ({ variant }: { variant: VariantProps<typeof toastVariants>['variant'] }) => {
   const icons = {
-    default: <Info className="h-5 w-5 text-blue-600 dark:text-blue-400" />,
-    destructive: <AlertCircle className="h-5 w-5 text-rose-100" />,
-    success: <CheckCircle className="h-5 w-5 text-green-100" />,
-    warning: <AlertCircle className="h-5 w-5 text-orange-100" />,
+    default: <Info className="h-5 w-5 text-[#007AFF] dark:text-[#0A84FF]" />,
+    destructive: <AlertCircle className="h-5 w-5 text-white/90" />,
+    success: <CheckCircle className="h-5 w-5 text-white/90" />,
+    warning: <AlertCircle className="h-5 w-5 text-white/90" />,
+    info: <Info className="h-5 w-5 text-white/90" />,
   }
 
   return (
     <div className="shrink-0 mt-0.5">
-      {icons[variant] || icons.default}
+      {icons[variant as keyof typeof icons] || icons.default}
     </div>
   )
 }

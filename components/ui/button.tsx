@@ -39,18 +39,18 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: `
-          bg-gradient-to-br from-medical-blue-400 via-medical-blue-500 to-medical-blue-600
+          bg-gradient-to-br from-ww-primary-600 via-ww-primary-700 to-ww-primary-800
           text-white
-          shadow-[0_8px_32px_rgba(0,122,255,0.35),inset_0_1px_0_rgba(255,255,255,0.25)]
-          hover:shadow-[0_12px_40px_rgba(0,122,255,0.45),inset_0_1px_0_rgba(255,255,255,0.3)]
+          shadow-[0_8px_32px_rgba(0,34,125,0.35),inset_0_1px_0_rgba(31,168,227,0.25)]
+          hover:shadow-[0_12px_40px_rgba(0,34,125,0.45),inset_0_1px_0_rgba(31,168,227,0.3)]
           hover:-translate-y-1
           hover:brightness-110
-          active:translate-y-0 active:shadow-[0_4px_16px_rgba(0,122,255,0.3)]
+          active:translate-y-0 active:shadow-[0_4px_16px_rgba(0,34,125,0.3)]
           before:absolute before:inset-0 before:rounded-[40px] before:bg-gradient-to-b before:from-white/20 before:to-transparent before:pointer-events-none
           relative overflow-hidden
         `,
         "medical-green": `
-          bg-gradient-to-br from-medical-green-400 via-medical-green-500 to-medical-green-600
+          bg-gradient-to-br from-medical-green-500 via-medical-green-600 to-medical-green-700
           text-white
           shadow-[0_8px_32px_rgba(52,199,89,0.35),inset_0_1px_0_rgba(255,255,255,0.25)]
           hover:shadow-[0_12px_40px_rgba(52,199,89,0.45),inset_0_1px_0_rgba(255,255,255,0.3)]
@@ -61,7 +61,7 @@ const buttonVariants = cva(
           relative overflow-hidden
         `,
         "medical-teal": `
-          bg-gradient-to-br from-medical-teal-400 via-medical-teal-500 to-medical-teal-600
+          bg-gradient-to-br from-medical-teal-500 via-medical-teal-600 to-medical-teal-700
           text-white
           shadow-[0_8px_32px_rgba(48,176,199,0.35),inset_0_1px_0_rgba(255,255,255,0.25)]
           hover:shadow-[0_12px_40px_rgba(48,176,199,0.45),inset_0_1px_0_rgba(255,255,255,0.3)]
@@ -72,7 +72,8 @@ const buttonVariants = cva(
           relative overflow-hidden
         `,
         destructive: `
-          bg-gradient-to-br from-[#FF453A] via-[#FF3B30] to-[#E6332B]
+          bg-gradient-to-br from-healthcare-critical via-healthcare-critical to-healthcare-critical/90
+          dark:from-healthcare-critical-dark dark:via-healthcare-critical-dark dark:to-healthcare-critical-dark/90
           text-white
           shadow-[0_8px_32px_rgba(255,59,48,0.35),inset_0_1px_0_rgba(255,255,255,0.25)]
           hover:shadow-[0_12px_40px_rgba(255,59,48,0.45),inset_0_1px_0_rgba(255,255,255,0.3)]
@@ -83,39 +84,40 @@ const buttonVariants = cva(
           relative overflow-hidden
         `,
         outline: `
-          backdrop-blur-[80px] saturate-[200%]
-          bg-white/25 dark:bg-slate-900/30
-          border-[1.5px] border-white/50 dark:border-white/15
-          text-slate-800 dark:text-slate-100
-          shadow-[0_8px_32px_rgba(0,122,255,0.08),inset_0_1px_1px_rgba(255,255,255,0.5)]
-          dark:shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(255,255,255,0.1)]
-          hover:bg-white/40 dark:hover:bg-slate-900/45
+          glass-ww-default
+          bg-ww-neutral/25 dark:bg-ww-primary/30
+          border-[1.5px] border-ww-neutral/50 dark:border-ww-primary/15
+          text-ww-primary dark:text-ww-primary-100
+          shadow-[0_8px_32px_rgba(0,34,125,0.08),inset_0_1px_1px_rgba(31,168,227,0.5)]
+          dark:shadow-[0_8px_32px_rgba(0,0,0,0.3),inset_0_1px_0_rgba(31,168,227,0.1)]
+          hover:bg-ww-neutral/40 dark:hover:bg-ww-primary/45
           hover:scale-[1.02]
-          hover:shadow-[0_12px_40px_rgba(0,122,255,0.12),inset_0_1px_1px_rgba(255,255,255,0.6)]
-          hover:border-white/70 dark:hover:border-white/25
+          hover:shadow-[0_12px_40px_rgba(0,34,125,0.12),inset_0_1px_1px_rgba(31,168,227,0.6)]
+          hover:border-ww-neutral/70 dark:hover:border-ww-primary/25
         `,
         secondary: `
-          backdrop-blur-[80px] saturate-[200%]
-          bg-white/35 dark:bg-slate-900/40
-          border-[1.5px] border-white/45 dark:border-white/12
-          text-slate-700 dark:text-slate-200
-          shadow-[0_8px_32px_rgba(0,122,255,0.06),inset_0_1px_1px_rgba(255,255,255,0.5)]
-          dark:shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.08)]
-          hover:bg-white/50 dark:hover:bg-slate-900/55
+          bg-ww-primary-900 dark:bg-ww-secondary-900
+          border-[1.5px] border-ww-primary-800 dark:border-ww-secondary-800
+          text-white dark:text-ww-secondary-100
+          shadow-[0_8px_32px_rgba(0,34,125,0.06),inset_0_1px_1px_rgba(31,168,227,0.5)]
+          dark:shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(31,168,227,0.08)]
+          hover:bg-ww-primary-800 dark:hover:bg-ww-secondary-800
           hover:scale-[1.02]
-          hover:border-medical-blue-500/30
+          hover:shadow-[0_12px_40px_rgba(0,34,125,0.12),inset_0_1px_1px_rgba(31,168,227,0.6)]
+          dark:hover:shadow-[0_12px_40px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(31,168,227,0.12)]
+          hover:border-ww-primary-700 dark:hover:border-ww-secondary-700
         `,
         ghost: `
-          backdrop-blur-[40px]
-          bg-white/20 dark:bg-white/5
-          text-slate-700 dark:text-slate-200
-          hover:bg-white/45 dark:hover:bg-white/12
+          glass-ww-subtle
+          bg-ww-neutral/20 dark:bg-ww-primary/5
+          text-ww-primary dark:text-ww-primary-200
+          hover:bg-ww-neutral/45 dark:hover:bg-ww-primary/12
           hover:scale-[1.02]
           border border-transparent
-          hover:border-white/30
+          hover:border-ww-neutral/30
         `,
         "glass-medical": `
-          backdrop-blur-[80px] saturate-[200%]
+          liquid-glass-default
           bg-medical-blue-500/10 dark:bg-medical-blue-400/15
           border-[1.5px] border-medical-blue-500/25 dark:border-medical-blue-400/30
           text-medical-blue-700 dark:text-medical-blue-300
@@ -125,7 +127,7 @@ const buttonVariants = cva(
           hover:shadow-[0_12px_40px_rgba(0,122,255,0.2)]
           hover:border-medical-blue-500/40
         `,
-        link: "text-medical-blue-500 dark:text-medical-blue-400 underline-offset-4 hover:underline font-medium",
+        link: "text-ww-secondary dark:text-ww-secondary-400 underline-offset-4 hover:underline font-medium",
       },
       size: {
         default: "h-11 px-6 py-2 has-[>svg]:px-3",

@@ -4,6 +4,9 @@ import React, { useState } from 'react'
 import { User, ChevronRight, Phone as PhoneIcon, ShieldAlert, Calculator, Info } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { usePatientStore } from '@/stores/patient-store'
+import { useTheme } from 'next-themes'
+import * as Theme from '@/lib/theme'
+import { cn } from '@/lib/utils'
 
 interface PatientContextModalProps {
   isOpen: boolean
@@ -14,6 +17,21 @@ export const PatientContextModal: React.FC<PatientContextModalProps> = ({
   isOpen,
   onComplete,
 }) => {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  // Get theme-specific classes
+  const glassBlur = Theme.useGlassBlur('elevated')
+  const glassOpacity = Theme.useGlassOpacity('elevated', isDark)
+  const glassBorder = Theme.useGlassBorder('elevated', isDark)
+  const glassShadow = Theme.useGlassShadow('elevated', isDark)
+  const glassRadius = Theme.useGlassRadius('default')
+  const glassNoise = Theme.useGlassNoise()
+  const glassSpecular = Theme.useGlassSpecular()
+  const glassRimLight = Theme.useGlassRimLight()
+  const glassHoverScale = Theme.useGlassHoverScale()
+  const glassTapScale = Theme.useGlassTapScale()
+
   const { setContext, markContextSet } = usePatientStore()
 
   const [gender, setGender] = useState<'M' | 'F'>('M')
@@ -68,19 +86,41 @@ export const PatientContextModal: React.FC<PatientContextModalProps> = ({
       <motion.div 
         initial={{ opacity: 0, scale: 0.95, y: 20, filter: 'blur(10px)' }}
         animate={{ opacity: 1, scale: 1, y: 0, filter: 'blur(0px)' }}
-        className="w-full max-w-md bg-white/70 dark:bg-[#1c1c1e]/60 backdrop-blur-[60px] rounded-[48px] shadow-2xl border border-white/40 dark:border-white/10 overflow-hidden z-10"
+        className={cn(
+          'w-full max-w-md overflow-hidden z-10',
+          glassBlur,
+          glassOpacity,
+          glassBorder,
+          glassShadow,
+          glassRadius,
+          glassNoise,
+          glassSpecular,
+          glassRimLight
+        )}
       >
         {/* Header */}
-        <div className="px-8 py-6 border-b border-white/20 dark:border-white/5 bg-white/20 dark:bg-white/5">
+        <div className={cn(
+          'px-8 py-6 border-b',
+          'border-white/20 dark:border-white/5 bg-white/20 dark:bg-white/5'
+        )}>
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl bg-blue-500 text-white shadow-lg shadow-blue-500/20">
-              <User className="w-5 h-5" />
+            <div className={cn(
+              'p-3 rounded-2xl shadow-lg',
+              'bg-blue-500 shadow-blue-500/20'
+            )}>
+              <User className="w-5 h-5 text-white" />
             </div>
             <div>
-               <h2 className="text-2xl font-black tracking-tighter text-slate-900 dark:text-white leading-tight">
+              <h2 className={cn(
+                'text-2xl font-black tracking-tighter leading-tight',
+                'text-slate-900 dark:text-white'
+              )}>
                 Contexto Clínico
               </h2>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-black uppercase tracking-[0.2em]">
+              <p className={cn(
+                'text-[10px] uppercase tracking-[0.2em]',
+                'text-slate-500 dark:text-slate-400 font-black'
+              )}>
                 Otimizando a Narrativa
               </p>
             </div>
@@ -92,26 +132,37 @@ export const PatientContextModal: React.FC<PatientContextModalProps> = ({
           
           {/* 1. Sexo e Idade */}
           <section className="space-y-4">
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
+            <h3 className={cn(
+              'text-[10px] uppercase tracking-widest ml-1',
+              'text-slate-400 dark:text-slate-500 font-black'
+            )}>
               1. Identificação Essencial
             </h3>
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setGender('M')}
-                className={`flex flex-col items-center justify-center gap-2 p-5 rounded-[32px] border transition-all duration-300
-                  ${gender === 'M' 
+                className={cn(
+                  'flex flex-col items-center justify-center gap-2 p-5 rounded-[32px] border transition-all duration-300',
+                  gender === 'M' 
                     ? 'bg-blue-500/20 border-blue-500/50 text-blue-600 dark:text-blue-400' 
-                    : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'}`}
+                    : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10',
+                  glassHoverScale,
+                  glassTapScale
+                )}
               >
                 <span className="text-2xl font-black">♂</span>
                 <span className="text-xs font-black uppercase tracking-widest">Homem</span>
               </button>
               <button
                 onClick={() => setGender('F')}
-                className={`flex flex-col items-center justify-center gap-2 p-5 rounded-[32px] border transition-all duration-300
-                  ${gender === 'F' 
+                className={cn(
+                  'flex flex-col items-center justify-center gap-2 p-5 rounded-[32px] border transition-all duration-300',
+                  gender === 'F' 
                     ? 'bg-rose-500/20 border-rose-500/50 text-rose-600 dark:text-rose-400' 
-                    : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'}`}
+                    : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10',
+                  glassHoverScale,
+                  glassTapScale
+                )}
               >
                 <span className="text-2xl font-black">♀</span>
                 <span className="text-xs font-black uppercase tracking-widest">Mulher</span>
@@ -119,54 +170,63 @@ export const PatientContextModal: React.FC<PatientContextModalProps> = ({
             </div>
 
             <div className="relative group">
-                <input 
-                  type="number"
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                  placeholder="Idade (opcional)"
-                  className="w-full age-input-glass pl-12 text-sm"
-                />
-                <Calculator className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
-                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400">ANOS</span>
+              <input 
+                type="number"
+                value={age}
+                onChange={(e) => setAge(e.target.value)}
+                placeholder="Idade (opcional)"
+                className="w-full age-input-glass pl-12 text-sm"
+              />
+              <Calculator className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+              <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] font-black text-slate-400">ANOS</span>
             </div>
           </section>
 
           {/* 2. Contato e Alergias */}
           <section className="space-y-3">
-            <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
+            <h3 className={cn(
+              'text-[10px] uppercase tracking-widest ml-1',
+              'text-slate-400 dark:text-slate-500 font-black'
+            )}>
               2. Informações Adicionais
             </h3>
             <div className="grid grid-cols-1 gap-3">
-                <div className="relative group">
-                    <input 
-                      type="text"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                      placeholder="Telefone (opcional)"
-                      className="w-full age-input-glass pl-10 text-sm"
-                    />
-                    <PhoneIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
-                </div>
-                <div className="relative group">
-                    <input 
-                      type="text"
-                      value={allergies}
-                      onChange={(e) => setAllergies(e.target.value)}
-                      placeholder="Alergias (opcional)"
-                      className="w-full age-input-glass pl-10 text-sm"
-                    />
-                    <ShieldAlert className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-rose-500 transition-colors" />
-                </div>
+              <div className="relative group">
+                <input 
+                  type="text"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="Telefone (opcional)"
+                  className="w-full age-input-glass pl-10 text-sm"
+                />
+                <PhoneIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+              </div>
+              <div className="relative group">
+                <input 
+                  type="text"
+                  value={allergies}
+                  onChange={(e) => setAllergies(e.target.value)}
+                  placeholder="Alergias (opcional)"
+                  className="w-full age-input-glass pl-10 text-sm"
+                />
+                <ShieldAlert className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-rose-500 transition-colors" />
+              </div>
             </div>
           </section>
 
           {/* 3. Dor */}
           <section className="space-y-4">
             <div className="flex items-center justify-between px-1">
-              <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">
+              <h3 className={cn(
+                'text-[10px] uppercase tracking-widest',
+                'text-slate-400 dark:text-slate-500 font-black'
+              )}>
                 3. Intensidade da Dor
               </h3>
-              <div className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all ${getIntensityColorClass(painIntensity)}`}>
+              <div className={cn(
+                'px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border transition-all',
+                getIntensityColorClass(painIntensity)
+              )}>
                 {intensityLabel(painIntensity)}
               </div>
             </div>
@@ -191,9 +251,16 @@ export const PatientContextModal: React.FC<PatientContextModalProps> = ({
           <div className="space-y-4 pt-4 border-t border-white/10">
             <button
               onClick={() => setShowAdvanced(!showAdvanced)}
-              className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 hover:text-blue-600 transition-colors"
+              className={cn(
+                'flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-blue-500 hover:text-blue-600 transition-colors',
+                glassHoverScale,
+                glassTapScale
+              )}
             >
-              <ChevronRight className={`w-3.5 h-3.5 transition-transform duration-300 ${showAdvanced ? 'rotate-90' : ''}`} />
+              <ChevronRight className={cn(
+                'w-3.5 h-3.5 transition-transform duration-300',
+                showAdvanced ? 'rotate-90' : ''
+              )} />
               Parâmetros Avançados
             </button>
 
@@ -206,14 +273,25 @@ export const PatientContextModal: React.FC<PatientContextModalProps> = ({
                   className="space-y-6 overflow-hidden"
                 >
                   <section className="space-y-2">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Evolução</p>
+                    <p className={cn(
+                      'text-[9px] font-black uppercase tracking-widest pl-1',
+                      'text-slate-400 dark:text-slate-500'
+                    )}>
+                      Evolução
+                    </p>
                     <div className="flex gap-2">
                       {(['agudo', 'subagudo', 'crônico'] as const).map((type) => (
                         <button
                           key={type}
                           onClick={() => setEvolutionType(evolutionType === type ? undefined : type)}
-                          className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase border transition-all
-                            ${evolutionType === type ? 'bg-blue-500 text-white border-transparent' : 'bg-white/5 border-white/10 text-slate-400'}`}
+                          className={cn(
+                            'flex-1 py-3 rounded-xl text-[10px] font-black uppercase border transition-all',
+                            evolutionType === type 
+                              ? 'bg-blue-500 text-white border-transparent' 
+                              : 'bg-white/5 border-white/10 text-slate-400',
+                            glassHoverScale,
+                            glassTapScale
+                          )}
                         >
                           {type}
                         </button>
@@ -222,14 +300,25 @@ export const PatientContextModal: React.FC<PatientContextModalProps> = ({
                   </section>
 
                   <section className="space-y-2">
-                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest pl-1">Início</p>
+                    <p className={cn(
+                      'text-[9px] font-black uppercase tracking-widest pl-1',
+                      'text-slate-400 dark:text-slate-500'
+                    )}>
+                      Início
+                    </p>
                     <div className="flex gap-2">
                       {(['súbito', 'progressivo', 'insidioso'] as const).map((type) => (
                         <button
                           key={type}
                           onClick={() => setOnsetType(onsetType === type ? undefined : type)}
-                          className={`flex-1 py-3 rounded-xl text-[10px] font-black uppercase border transition-all
-                            ${onsetType === type ? 'bg-blue-500 text-white border-transparent' : 'bg-white/5 border-white/10 text-slate-400'}`}
+                          className={cn(
+                            'flex-1 py-3 rounded-xl text-[10px] font-black uppercase border transition-all',
+                            onsetType === type 
+                              ? 'bg-blue-500 text-white border-transparent' 
+                              : 'bg-white/5 border-white/10 text-slate-400',
+                            glassHoverScale,
+                            glassTapScale
+                          )}
                         >
                           {type}
                         </button>
@@ -246,13 +335,23 @@ export const PatientContextModal: React.FC<PatientContextModalProps> = ({
         <div className="p-8 pt-4">
           <button
             onClick={handleComplete}
-            className="w-full py-5 rounded-[24px] bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-black text-xs uppercase tracking-[0.2em] shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
+            className={cn(
+              'w-full py-5 rounded-[24px] text-white dark:text-slate-900 font-black text-xs uppercase tracking-[0.2em] shadow-xl',
+              'bg-slate-900 dark:bg-white hover:scale-[1.02] active:scale-95 transition-all',
+              glassHoverScale,
+              glassTapScale
+            )}
           >
             Iniciar Anamnese
           </button>
           <div className="mt-4 flex items-center justify-center gap-2 opacity-40">
-               <Info className="w-3 h-3" />
-               <p className="text-[8px] font-black uppercase tracking-widest">Identificação Básica Opcional</p>
+            <Info className="w-3 h-3" />
+            <p className={cn(
+              'text-[8px] font-black uppercase tracking-widest',
+              'text-slate-500 dark:text-slate-400'
+            )}>
+              Identificação Básica Opcional
+            </p>
           </div>
         </div>
       </motion.div>

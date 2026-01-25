@@ -5,7 +5,9 @@ import { type ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 import { springConfig, cardHover, cardTap } from '@/lib/animations'
 
-type GlowColor = 'teal' | 'blue' | 'amber' | 'violet' | 'orange' | 'green' | 'none'
+type GlowColor =
+  | 'teal' | 'blue' | 'amber' | 'violet' | 'orange' | 'green' | 'none'
+  | 'primary' | 'success' | 'warning' | 'critical' | 'info'
 
 interface GlassContainerProps extends Omit<HTMLMotionProps<'div'>, 'children'> {
   children: ReactNode
@@ -24,22 +26,54 @@ const glowColors: Record<GlowColor, string> = {
   orange: 'from-orange-500/30 to-red-500/30',
   green: 'from-emerald-500/30 to-teal-500/30',
   none: '',
+  // Healthcare semantic glow colors (iOS 26)
+  primary: 'from-healthcare-primary/30 to-blue-500/30',
+  success: 'from-healthcare-success/30 to-emerald-500/30',
+  warning: 'from-healthcare-warning/30 to-amber-500/30',
+  critical: 'from-healthcare-critical/30 to-red-500/30',
+  info: 'from-healthcare-info/30 to-cyan-500/30',
 }
 
 const sizeClasses = {
-  sm: 'p-4 rounded-2xl',
-  md: 'p-6 rounded-[28px]',
-  lg: 'p-8 rounded-[32px]',
+  sm: 'p-4 rounded-glass-sm',
+  md: 'p-6 rounded-glass',
+  lg: 'p-8 rounded-glass-lg',
   xl: 'p-10 rounded-[40px]',
 }
 
 const variantClasses = {
-  card: 'bg-white/25 dark:bg-[#1c1c1e]/25 backdrop-blur-4xl saturate-180 border border-white/30 dark:border-white/10 shadow-glass dark:shadow-glass-dark ring-1 ring-white/40 dark:ring-white/5',
-  panel:
-    'bg-white/25 dark:bg-white/[0.03] backdrop-blur-4xl saturate-180 border border-white/30 dark:border-white/10',
-  section:
-    'bg-white/15 dark:bg-white/[0.02] backdrop-blur-4xl saturate-180 border border-white/20 dark:border-white/5',
-  nav: 'bg-white/25 dark:bg-[#1c1c1e]/25 backdrop-blur-4xl saturate-180 border-b border-white/30 dark:border-white/10 shadow-glass dark:shadow-glass-dark',
+  card: [
+    'liquid-glass-default',
+    'bg-[linear-gradient(135deg,rgba(255,255,255,0.28)_0%,rgba(255,255,255,calc(var(--glass-bg-opacity-regular)*0.7))_50%,rgba(255,255,255,calc(var(--glass-bg-opacity-regular)*0.8))_100%)]',
+    'dark:bg-[linear-gradient(135deg,rgba(30,41,59,var(--glass-bg-opacity-dark))_0%,rgba(30,41,59,calc(var(--glass-bg-opacity-dark)*0.8))_50%,rgba(30,41,59,var(--glass-bg-opacity-dark))_100%)]',
+    'border border-white/35 dark:border-white/20',
+    'shadow-[0_20px_60px_-15px_var(--color-shadow),0_8px_24px_-8px_var(--color-shadow-subtle),inset_0_0_1px_rgba(255,255,255,0.6),inset_0_2px_0_rgba(255,255,255,0.8)]',
+    'dark:shadow-[0_20px_60px_-15px_var(--color-shadow-dark),0_8px_24px_-8px_var(--color-shadow-subtle-dark),inset_0_0_1px_rgba(255,255,255,0.3),inset_0_2px_0_rgba(255,255,255,0.5)]',
+  ].join(' '),
+  panel: [
+    'liquid-glass-default',
+    'bg-[linear-gradient(135deg,rgba(255,255,255,0.28)_0%,rgba(255,255,255,calc(var(--glass-bg-opacity-regular)*0.7))_50%,rgba(255,255,255,calc(var(--glass-bg-opacity-regular)*0.8))_100%)]',
+    'dark:bg-[linear-gradient(135deg,rgba(30,41,59,var(--glass-bg-opacity-dark))_0%,rgba(30,41,59,calc(var(--glass-bg-opacity-dark)*0.8))_50%,rgba(30,41,59,var(--glass-bg-opacity-dark))_100%)]',
+    'border border-white/35 dark:border-white/20',
+    'shadow-[0_20px_60px_-15px_var(--color-shadow),0_8px_24px_-8px_var(--color-shadow-subtle),inset_0_0_1px_rgba(255,255,255,0.6),inset_0_2px_0_rgba(255,255,255,0.8)]',
+    'dark:shadow-[0_20px_60px_-15px_var(--color-shadow-dark),0_8px_24px_-8px_var(--color-shadow-subtle-dark),inset_0_0_1px_rgba(255,255,255,0.3),inset_0_2px_0_rgba(255,255,255,0.5)]',
+  ].join(' '),
+  section: [
+    'liquid-glass-default',
+    'bg-[linear-gradient(135deg,rgba(255,255,255,0.18)_0%,rgba(255,255,255,calc(var(--glass-bg-opacity-subtle)*0.7))_50%,rgba(255,255,255,calc(var(--glass-bg-opacity-subtle)*0.8))_100%)]',
+    'dark:bg-[linear-gradient(135deg,rgba(30,41,59,calc(var(--glass-bg-opacity-dark)*0.7))_0%,rgba(30,41,59,calc(var(--glass-bg-opacity-dark)*0.8))_50%,rgba(30,41,59,calc(var(--glass-bg-opacity-dark)*0.7))_100%)]',
+    'border border-white/25 dark:border-white/10',
+    'shadow-[0_20px_60px_-15px_var(--color-shadow-subtle),0_8px_24px_-8px_var(--color-shadow-subtle),inset_0_0_1px_rgba(255,255,255,0.5),inset_0_2px_0_rgba(255,255,255,0.7)]',
+    'dark:shadow-[0_20px_60px_-15px_var(--color-shadow-dark),0_8px_24px_-8px_var(--color-shadow-subtle-dark),inset_0_0_1px_rgba(255,255,255,0.2),inset_0_2px_0_rgba(255,255,255,0.4)]',
+  ].join(' '),
+  nav: [
+    'liquid-glass-default',
+    'bg-[linear-gradient(135deg,rgba(255,255,255,0.28)_0%,rgba(255,255,255,calc(var(--glass-bg-opacity-regular)*0.7))_50%,rgba(255,255,255,calc(var(--glass-bg-opacity-regular)*0.8))_100%)]',
+    'dark:bg-[linear-gradient(135deg,rgba(30,41,59,var(--glass-bg-opacity-dark))_0%,rgba(30,41,59,calc(var(--glass-bg-opacity-dark)*0.8))_50%,rgba(30,41,59,var(--glass-bg-opacity-dark))_100%)]',
+    'border border-white/35 dark:border-white/20',
+    'shadow-[0_20px_60px_-15px_var(--color-shadow),0_8px_24px_-8px_var(--color-shadow-subtle),inset_0_0_1px_rgba(255,255,255,0.6),inset_0_2px_0_rgba(255,255,255,0.8)]',
+    'dark:shadow-[0_20px_60px_-15px_var(--color-shadow-dark),0_8px_24px_-8px_var(--color-shadow-subtle-dark),inset_0_0_1px_rgba(255,255,255,0.3),inset_0_2px_0_rgba(255,255,255,0.5)]',
+  ].join(' '),
 }
 
 export function GlassContainer({
@@ -151,6 +185,37 @@ export function GlassMetricCard({
       trendBg: 'bg-slate-100/50 dark:bg-slate-500/10',
       trendColor: 'text-slate-600 dark:text-slate-400',
     },
+    // Healthcare semantic colors (iOS 26)
+    primary: {
+      iconBg: 'bg-healthcare-primary-glass dark:bg-healthcare-primary/20',
+      iconColor: 'text-healthcare-primary dark:text-healthcare-primary-dark',
+      trendBg: 'bg-healthcare-primary-tint dark:bg-healthcare-primary/10',
+      trendColor: 'text-healthcare-primary dark:text-healthcare-primary-dark',
+    },
+    success: {
+      iconBg: 'bg-healthcare-success-glass dark:bg-healthcare-success/20',
+      iconColor: 'text-healthcare-success dark:text-healthcare-success-dark',
+      trendBg: 'bg-healthcare-success-glass dark:bg-healthcare-success/10',
+      trendColor: 'text-healthcare-success dark:text-healthcare-success-dark',
+    },
+    warning: {
+      iconBg: 'bg-healthcare-warning-glass dark:bg-healthcare-warning/20',
+      iconColor: 'text-healthcare-warning dark:text-healthcare-warning-dark',
+      trendBg: 'bg-healthcare-warning-glass dark:bg-healthcare-warning/10',
+      trendColor: 'text-healthcare-warning dark:text-healthcare-warning-dark',
+    },
+    critical: {
+      iconBg: 'bg-healthcare-critical-glass dark:bg-healthcare-critical/20',
+      iconColor: 'text-healthcare-critical dark:text-healthcare-critical-dark',
+      trendBg: 'bg-healthcare-critical-glass dark:bg-healthcare-critical/10',
+      trendColor: 'text-healthcare-critical dark:text-healthcare-critical-dark',
+    },
+    info: {
+      iconBg: 'bg-healthcare-info-glass dark:bg-healthcare-info/20',
+      iconColor: 'text-healthcare-info dark:text-healthcare-info-dark',
+      trendBg: 'bg-healthcare-info-glass dark:bg-healthcare-info/10',
+      trendColor: 'text-healthcare-info dark:text-healthcare-info-dark',
+    },
   }
 
   const theme = glowClasses[glow]
@@ -158,11 +223,13 @@ export function GlassMetricCard({
   return (
     <motion.div
       className={cn(
-        'group relative overflow-hidden rounded-liquid-lg p-6 h-[200px] flex flex-col justify-between',
-        'bg-white/25 dark:bg-[#1c1c1e]/25 backdrop-blur-4xl saturate-180',
-        'border border-white/30 dark:border-white/10',
-        'shadow-glass dark:shadow-glass-dark hover:shadow-glass-elevated',
-        'ring-1 ring-white/40 dark:ring-white/5',
+        'group relative overflow-hidden rounded-glass p-6 h-[200px] flex flex-col justify-between',
+        'liquid-glass-default',
+        'bg-[linear-gradient(135deg,rgba(255,255,255,0.28)_0%,rgba(255,255,255,calc(var(--glass-bg-opacity-regular)*0.7))_50%,rgba(255,255,255,calc(var(--glass-bg-opacity-regular)*0.8))_100%)]',
+        'dark:bg-[linear-gradient(135deg,rgba(30,41,59,var(--glass-bg-opacity-dark))_0%,rgba(30,41,59,calc(var(--glass-bg-opacity-dark)*0.8))_50%,rgba(30,41,59,var(--glass-bg-opacity-dark))_100%)]',
+        'border border-white/35 dark:border-white/20',
+        'shadow-[0_20px_60px_-15px_var(--color-shadow),0_8px_24px_-8px_var(--color-shadow-subtle),inset_0_0_1px_rgba(255,255,255,0.6),inset_0_2px_0_rgba(255,255,255,0.8)]',
+        'dark:shadow-[0_20px_60px_-15px_var(--color-shadow-dark),0_8px_24px_-8px_var(--color-shadow-subtle-dark),inset_0_0_1px_rgba(255,255,255,0.3),inset_0_2px_0_rgba(255,255,255,0.5)]',
         'transition-all duration-500 hover:scale-[1.02]',
         className
       )}
@@ -171,7 +238,7 @@ export function GlassMetricCard({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      <div className="light-refraction" />
+      <div className="light-reflection" />
 
       <div
         className={cn(
@@ -186,7 +253,7 @@ export function GlassMetricCard({
       <div className="relative z-10 flex justify-between items-start">
         <div
           className={cn(
-            'rounded-[20px] w-12 h-12 flex items-center justify-center',
+            'rounded-[16px] w-12 h-12 flex items-center justify-center',
             'backdrop-blur-md shadow-sm border border-white/40 dark:border-white/5',
             theme.iconBg,
             theme.iconColor
@@ -214,7 +281,7 @@ export function GlassMetricCard({
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M5 10l7-7m0 0l7 7m-7-7v18"
+                d="M5 10l7 7m0 0l7 7m-7 7v18"
               />
             </svg>
             {trendValue}

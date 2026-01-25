@@ -2,7 +2,21 @@
 
 import { motion } from 'framer-motion'
 import { AlertTriangle, Check } from 'lucide-react'
+import { useTheme } from 'next-themes'
 import { cn } from '@/lib/utils'
+import * as Tokens from '@/lib/theme/tokens'
+import {
+  useGlassBlur,
+  useGlassOpacity,
+  useGlassBorder,
+  useGlassShadow,
+  useGlassRadius,
+  useGlassNoise,
+  useGlassSpecular,
+  useGlassRimLight,
+  useGlassHoverScale,
+  useGlassTapScale,
+} from '@/lib/theme/hooks'
 
 type CheckboxItem = {
   id: string
@@ -20,6 +34,21 @@ interface CheckboxGroupProps {
 }
 
 export function CheckboxGroup({ title, items, selectedIds, onToggle }: CheckboxGroupProps) {
+  const { theme, systemTheme } = useTheme()
+  const isDark = theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
+
+  // Get theme classes
+  const glassBlur = useGlassBlur()
+  const glassOpacity = useGlassOpacity('default', isDark)
+  const glassBorder = useGlassBorder(isDark)
+  const glassShadow = useGlassShadow('default', isDark)
+  const glassRadius = useGlassRadius('MD')
+  const glassNoise = useGlassNoise()
+  const glassSpecular = useGlassSpecular()
+  const glassRimLight = useGlassRimLight()
+  const glassHoverScale = useGlassHoverScale()
+  const glassTapScale = useGlassTapScale()
+
   if (items.length === 0) return null
 
   return (
@@ -41,12 +70,25 @@ export function CheckboxGroup({ title, items, selectedIds, onToggle }: CheckboxG
               <button
                 onClick={() => onToggle(item.id)}
                 className={cn(
-                  'group relative w-full flex items-center gap-3 rounded-[24px] border p-4 transition-all duration-300 text-left',
+                  'group relative w-full flex items-center gap-3 border p-4 transition-all duration-300 text-left',
+                  glassRadius,
+                  glassHoverScale,
+                  glassTapScale,
                   isChecked
                     ? item.isRedFlag
-                      ? 'border-rose-500/50 bg-rose-500/10 shadow-[0_0_20px_rgba(244,63,94,0.1)]'
-                      : 'border-blue-500/50 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.1)]'
-                    : 'border-white/20 dark:border-white/5 bg-white/5 dark:bg-black/5 hover:border-white/40 dark:hover:border-white/20 hover:bg-white/10 dark:hover:bg-white/10'
+                      ? cn(
+                          'border-rose-500/50 bg-rose-500/10',
+                          useGlassShadow('danger', isDark)
+                        )
+                      : cn(
+                          'border-blue-500/50 bg-blue-500/10',
+                          useGlassShadow('primary', isDark)
+                        )
+                    : cn(
+                        glassBorder,
+                        glassOpacity,
+                        'hover:border-white/40 dark:hover:border-white/20 hover:bg-white/10 dark:hover:bg-white/10'
+                      )
                 )}
               >
                 {/* Visual Checkbox Replacement */}
@@ -78,7 +120,10 @@ export function CheckboxGroup({ title, items, selectedIds, onToggle }: CheckboxG
                 )}
                 
                 {/* Hover Glow Effect */}
-                <div className="absolute inset-0 rounded-[24px] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none ring-1 ring-inset ring-white/20" />
+                <div className={cn(
+                  'absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none',
+                  glassRimLight
+                )} />
               </button>
             </motion.div>
           )

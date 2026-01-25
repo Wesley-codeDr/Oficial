@@ -80,7 +80,7 @@ const GlassSelect = React.forwardRef<
             'relative flex w-full items-center justify-between',
             'h-12 px-4',
             // Glass material
-            'backdrop-blur-[40px] saturate-[180%]',
+            'liquid-glass-subtle',
             intensityStyles[glassIntensity],
             // Border
             'border-[1.5px]',
@@ -141,7 +141,7 @@ const GlassSelect = React.forwardRef<
                   // Custom scrollbar
                   'custom-scrollbar',
                   // Glass material (stronger blur for dropdown)
-                  'backdrop-blur-[60px] saturate-[180%]',
+                  'liquid-glass-elevated',
                   intensityStyles[glassIntensity].replace(
                     glassIntensity === 'light'
                       ? '/35'

@@ -1,0 +1,583 @@
+/**
+ * Apple iOS 2026 Animation System
+ * Classes CSS dedicadas compatíveis com Tailwind CSS 4
+ * Seguindo o padrão Apple iOS2026 para animações sutis e micro-interações
+ */
+
+/* ========== Hover Scale Animations ========== */
+/* Default hover scale - 1.02 */
+.hover-scale-ios-default {
+  transition: transform 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hover-scale-ios-default:hover {
+  transform: scale(1.02);
+}
+
+/* Subtle hover scale - 1.01 */
+.hover-scale-ios-subtle {
+  transition: transform 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hover-scale-ios-subtle:hover {
+  transform: scale(1.01);
+}
+
+/* Clear hover scale - 1.03 */
+.hover-scale-ios-clear {
+  transition: transform 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hover-scale-ios-clear:hover {
+  transform: scale(1.03);
+}
+
+/* Elevated hover scale - 1.04 */
+.hover-scale-ios-elevated {
+  transition: transform 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.hover-scale-ios-elevated:hover {
+  transform: scale(1.04);
+}
+
+/* ========== Tap Scale Animations ========== */
+/* Default tap scale - 0.95 */
+.tap-scale-ios-default {
+  transition: transform 100ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tap-scale-ios-default:active {
+  transform: scale(0.95);
+}
+
+/* Subtle tap scale - 0.93 */
+.tap-scale-ios-subtle {
+  transition: transform 100ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tap-scale-ios-subtle:active {
+  transform: scale(0.93);
+}
+
+/* Clear tap scale - 0.97 */
+.tap-scale-ios-clear {
+  transition: transform 100ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tap-scale-ios-clear:active {
+  transform: scale(0.97);
+}
+
+/* Elevated tap scale - 0.92 */
+.tap-scale-ios-elevated {
+  transition: transform 100ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.tap-scale-ios-elevated:active {
+  transform: scale(0.92);
+}
+
+/* ========== Float Animations ========== */
+/* Default float - translateY(-10px) */
+.animate-float-ios-default {
+  animation: float-ios-default 3s ease-in-out infinite;
+}
+
+@keyframes float-ios-default {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Subtle float - translateY(-6px) */
+.animate-float-ios-subtle {
+  animation: float-ios-subtle 4s ease-in-out infinite;
+}
+
+@keyframes float-ios-subtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ========== Pulse Animations ========== */
+/* Default pulse - box-shadow */
+.animate-pulse-ios-default {
+  animation: pulse-ios-default 2s ease-in-out infinite;
+}
+
+@keyframes pulse-ios-default {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(0, 122, 255, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(0, 122, 255, 0.3);
+  }
+}
+
+/* Success pulse - green */
+.animate-pulse-ios-success {
+  animation: pulse-ios-success 2s ease-in-out infinite;
+}
+
+@keyframes pulse-ios-success {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(52, 199, 89, 0.3);
+  }
+}
+
+/* Warning pulse - orange */
+.animate-pulse-ios-warning {
+  animation: pulse-ios-warning 2s ease-in-out infinite;
+}
+
+@keyframes pulse-ios-warning {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 149, 0, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(255, 149, 0, 0.3);
+  }
+}
+
+/* Error pulse - red */
+.animate-pulse-ios-error {
+  animation: pulse-ios-error 2s ease-in-out infinite;
+}
+
+@keyframes pulse-ios-error {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+  }
+  50% {
+    box-shadow: 0 0 20px 5px rgba(255, 59, 48, 0.3);
+  }
+}
+
+/* ========== Shimmer Animations ========== */
+/* Default shimmer - linear gradient */
+.animate-shimmer-ios-default {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-shimmer-ios-default::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0) 20%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0) 80%,
+    transparent 100%
+  );
+  animation: shimmer-ios-default 1.5s linear infinite;
+}
+
+@keyframes shimmer-ios-default {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ========== Ripple Animations ========== */
+/* Default ripple - radial gradient */
+.animate-ripple-ios-default {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-ripple-ios-default::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  transform: translate(-50%, -50%);
+  animation: ripple-ios-default 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes ripple-ios-default {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0.35;
+  }
+  100% {
+    width: 400px;
+    height: 400px;
+    opacity: 0;
+  }
+}
+
+/* ========== Slide Animations ========== */
+/* Slide up - translateY */
+.animate-slide-up-ios-default {
+  animation: slide-up-ios-default 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes slide-up-ios-default {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide down */
+.animate-slide-down-ios-default {
+  animation: slide-down-ios-default 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes slide-down-ios-default {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slide left */
+.animate-slide-left-ios-default {
+  animation: slide-left-ios-default 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes slide-left-ios-default {
+  0% {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Slide right */
+.animate-slide-right-ios-default {
+  animation: slide-right-ios-default 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes slide-right-ios-default {
+  0% {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ========== Scale Animations ========== */
+/* Scale in - scale */
+.animate-scale-in-ios-default {
+  animation: scale-in-ios-default 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scale-in-ios-default {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Scale out */
+.animate-scale-out-ios-default {
+  animation: scale-out-ios-default 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes scale-out-ios-default {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* ========== Fade Animations ========== */
+/* Fade in */
+.animate-fade-in-ios-default {
+  animation: fade-in-ios-default 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fade-in-ios-default {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Fade out */
+.animate-fade-out-ios-default {
+  animation: fade-out-ios-default 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fade-out-ios-default {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ========== Bounce Animations ========== */
+/* Bounce in */
+.animate-bounce-in-ios-default {
+  animation: bounce-in-ios-default 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes bounce-in-ios-default {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* ========== Haptic Animations ========== */
+/* Light haptic - scale(0.97) */
+.animate-haptic-light-ios {
+  animation: haptic-light-ios 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes haptic-light-ios {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(0.97);
+  }
+  70% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Medium haptic */
+.animate-haptic-medium-ios {
+  animation: haptic-medium-ios 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes haptic-medium-ios {
+  0% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(0.95);
+  }
+  65% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Heavy haptic */
+.animate-haptic-heavy-ios {
+  animation: haptic-heavy-ios 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes haptic-heavy-ios {
+  0% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(0.92);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  80% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ========== Micro-interactions ========== */
+/* Interactive element - combines hover and tap */
+.interactive-ios-default {
+  transition: all 150ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.interactive-ios-default:hover {
+  transform: scale(1.02);
+}
+
+.interactive-ios-default:active {
+  transform: scale(0.95);
+}
+
+/* Interactive lift - translateY on hover */
+.interactive-lift-ios {
+  transition: transform 200ms cubic-bezier(0.25, 1, 0.5, 1), box-shadow 200ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.interactive-lift-ios:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.interactive-lift-ios:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== GPU Acceleration ========== */
+/* Force GPU acceleration for smooth animations */
+.gpu-acceleration-ios {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+/* ========== Accessibility ========== */
+/* Reduced motion - Disable animations */
+@media (prefers-reduced-motion: reduce) {
+  .hover-scale-ios-default,
+  .hover-scale-ios-subtle,
+  .hover-scale-ios-clear,
+  .hover-scale-ios-elevated,
+  .tap-scale-ios-default,
+  .tap-scale-ios-subtle,
+  .tap-scale-ios-clear,
+  .tap-scale-ios-elevated,
+  .animate-float-ios-default,
+  .animate-float-ios-subtle,
+  .animate-pulse-ios-default,
+  .animate-pulse-ios-success,
+  .animate-pulse-ios-warning,
+  .animate-pulse-ios-error,
+  .animate-shimmer-ios-default,
+  .animate-ripple-ios-default,
+  .animate-slide-up-ios-default,
+  .animate-slide-down-ios-default,
+  .animate-slide-left-ios-default,
+  .animate-slide-right-ios-default,
+  .animate-scale-in-ios-default,
+  .animate-scale-out-ios-default,
+  .animate-fade-in-ios-default,
+  .animate-fade-out-ios-default,
+  .animate-bounce-in-ios-default,
+  .animate-haptic-light-ios,
+  .animate-haptic-medium-ios,
+  .animate-haptic-heavy-ios,
+  .interactive-ios-default,
+  .interactive-lift-ios {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+  
+  .interactive-ios-default:hover,
+  .interactive-lift-ios:hover {
+    transform: none !important;
+  }
+  
+  .interactive-ios-default:active,
+  .interactive-lift-ios:active {
+    transform: none !important;
+  }
+}
+
+/* High contrast mode - Ensure animations are visible */
+@media (prefers-contrast: more) {
+  .animate-pulse-ios-default,
+  .animate-pulse-ios-success,
+  .animate-pulse-ios-warning,
+  .animate-pulse-ios-error {
+    animation-duration: 1s !important;
+  }
+}
+
+/* ========== Responsive Animations ========== */
+/* Mobile - Faster animations */
+@media (max-width: 768px) {
+  .animate-slide-up-ios-default,
+  .animate-slide-down-ios-default,
+  .animate-slide-left-ios-default,
+  .animate-slide-right-ios-default,
+  .animate-scale-in-ios-default,
+  .animate-scale-out-ios-default,
+  .animate-fade-in-ios-default,
+  .animate-fade-out-ios-default,
+  .animate-bounce-in-ios-default {
+    animation-duration: 0.3s !important;
+  }
+  
+  .animate-shimmer-ios-default {
+    animation-duration: 1s !important;
+  }
+  
+  .hover-scale-ios-default,
+  .hover-scale-ios-subtle,
+  .hover-scale-ios-clear,
+  .hover-scale-ios-elevated {
+    transition-duration: 100ms !important;
+  }
+  
+  .tap-scale-ios-default,
+  .tap-scale-ios-subtle,
+  .tap-scale-ios-clear,
+  .tap-scale-ios-elevated {
+    transition-duration: 80ms !important;
+  }
+}

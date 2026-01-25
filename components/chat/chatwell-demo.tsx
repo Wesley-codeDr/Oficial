@@ -7,6 +7,20 @@ import { cn } from '@/lib/utils'
 import { ChatInput as ClaudeChatInput } from '@/components/chat/chat-input'
 import { GlassContainer } from '@/components/ui/glass-container'
 import { springConfig } from '@/lib/animations'
+import { useTheme } from 'next-themes'
+import * as Tokens from '@/lib/theme/tokens'
+import {
+  useGlassBlur,
+  useGlassOpacity,
+  useGlassBorder,
+  useGlassRadius,
+  useGlassNoise,
+  useGlassSpecular,
+  useGlassRimLight,
+  useGlassInnerGlow,
+  useGlassHoverScale,
+  useGlassTapScale,
+} from '@/lib/theme/hooks'
 
 // ===== TYPES =====
 
@@ -63,35 +77,35 @@ Baseado nas informações clínicas:
 
   conduta: `**Sugestão de Conduta**
 
-**Medidas Imediatas:**
-1. Estabilização do paciente
-2. Monitorização de sinais vitais
-3. Acesso venoso periférico
+  **Medidas Imediatas:**
+  1. Estabilização do paciente
+  2. Monitorização de sinais vitais
+  3. Acesso venoso periférico
 
-**Tratamento Proposto:**
-- [Dependente do diagnóstico]
-- Analgesia conforme necessidade
-- Hidratação adequada
+  **Tratamento Proposto:**
+  - [Dependente do diagnóstico]
+  - Analgesia conforme necessidade
+  - Hidratação adequada
 
-**Orientações:**
-- Reavaliação em [período]
-- Sinais de alarme
-- Retorno se piora
+  **Orientações:**
+  - Reavaliação em [período]
+  - Sinais de alarme
+  - Retorno se piora
 
-*Complete com dados clínicos para conduta específica.*`,
+  *Complete com dados clínicos para conduta específica.*`,
 
   prescricao: `**Modelo de Prescrição**
 
-1. **Dipirona** 1g IV 6/6h (se dor ou febre)
-2. **Ondansetrona** 4mg IV (se náuseas)
-3. **SF 0,9%** 500ml IV em 2h
+  1. **Dipirona** 1g IV 6/6h (se dor ou febre)
+  2. **Ondansetrona** 4mg IV em 2h (se náuseas)
+  3. **SF 0,9%** 500ml IV em 2h
 
-**Observações:**
-- Verificar alergias antes de administrar
-- Ajustar conforme função renal
-- Monitorar resposta clínica
+  **Observações:**
+  - Verificar alergias antes de administrar
+  - Ajustar conforme função renal
+  - Monitorar resposta clínica
 
-*Confirme dados do paciente e alergias.*`,
+  *Confirme dados do paciente e alergias.*`,
 }
 
 // ===== MESSAGE COMPONENT =====
@@ -101,7 +115,18 @@ interface MessageBubbleProps {
 }
 
 function MessageBubble({ message }: MessageBubbleProps) {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
   const isUser = message.role === 'user'
+  
+  const glassBlur: string = useGlassBlur()
+  const glassOpacity: string = useGlassOpacity('default', isDark)
+  const glassBorder: string = useGlassBorder('default', isDark)
+  const glassRadius: string = useGlassRadius('default')
+  const glassNoise: string = useGlassNoise()
+  const glassSpecular: string = useGlassSpecular()
+  const glassRimLight: string = useGlassRimLight()
+  const glassInnerGlow: string = useGlassInnerGlow()
 
   return (
     <motion.div
@@ -114,9 +139,13 @@ function MessageBubble({ message }: MessageBubbleProps) {
       <div
         className={cn(
           'w-8 h-8 rounded-full flex items-center justify-center shrink-0',
-          isUser
-            ? 'bg-blue-500 text-white'
-            : 'bg-linear-to-br from-violet-500 to-purple-600 text-white'
+          glassBlur,
+          glassOpacity,
+          glassBorder,
+          glassRadius,
+          glassNoise,
+          glassSpecular,
+          isUser ? 'bg-blue-500 text-white' : 'bg-gradient-to-br from-violet-500 to-purple-600 text-white'
         )}
       >
         {isUser ? (
@@ -130,6 +159,14 @@ function MessageBubble({ message }: MessageBubbleProps) {
       <div
         className={cn(
           'max-w-[80%] rounded-2xl px-4 py-3',
+          glassBlur,
+          glassOpacity,
+          glassBorder,
+          glassRadius,
+          glassNoise,
+          glassSpecular,
+          glassRimLight,
+          glassInnerGlow,
           isUser
             ? 'bg-blue-500 text-white'
             : 'bg-white/60 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/10'
@@ -149,9 +186,7 @@ function MessageBubble({ message }: MessageBubbleProps) {
         <div
           className={cn(
             'prose prose-sm max-w-none',
-            isUser
-              ? 'prose-invert'
-              : 'dark:prose-invert prose-slate'
+            isUser ? 'prose-invert' : 'dark:prose-invert prose-slate'
           )}
         >
           {message.content.split('\n').map((line, i) => (
@@ -196,10 +231,22 @@ function MessageBubble({ message }: MessageBubbleProps) {
 // ===== MAIN DEMO COMPONENT =====
 
 export function ChatWellDemo() {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+  
+  const glassBlur: string = useGlassBlur()
+  const glassOpacity: string = useGlassOpacity('default', isDark)
+  const glassBorder: string = useGlassBorder('default', isDark)
+  const glassRadius: string = useGlassRadius('default')
+  const glassNoise: string = useGlassNoise()
+  const glassSpecular: string = useGlassSpecular()
+  const glassRimLight: string = useGlassRimLight()
+  const glassInnerGlow: string = useGlassInnerGlow()
+  
   const [messages, setMessages] = useState<Message[]>([])
   const [isTyping, setIsTyping] = useState(false)
   const [inputValue, setInputValue] = useState('')
-  const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -255,13 +302,23 @@ export function ChatWellDemo() {
       {/* Header */}
       <div className="text-center py-6">
         <div className="inline-flex items-center gap-2 mb-2">
-          <div className="w-10 h-10 rounded-2xl bg-linear-to-br from-blue-500 to-violet-600 flex items-center justify-center">
+          <div className={cn(
+            'w-10 h-10 rounded-2xl flex items-center justify-center',
+            glassBlur,
+            glassOpacity,
+            glassBorder,
+            glassRadius,
+            glassNoise,
+            glassSpecular,
+            glassRimLight,
+            'bg-gradient-to-br from-blue-500/20 to-violet-500/20'
+          )}>
             <Bot className="w-5 h-5 text-white" />
           </div>
-          <h1 className="text-2xl font-bold text-slate-800 dark:text-white">
-            ChatWell
-          </h1>
         </div>
+        <h1 className="text-2xl font-bold text-slate-800 dark:text-white">
+          ChatWell
+        </h1>
         <p className="text-sm text-slate-500 dark:text-slate-400">
           Assistente médico profissional
         </p>
@@ -277,7 +334,17 @@ export function ChatWellDemo() {
           {/* Empty state */}
           {messages.length === 0 && !isTyping && (
             <div className="h-full flex flex-col items-center justify-center text-center py-12">
-              <div className="w-16 h-16 rounded-3xl bg-linear-to-br from-blue-500/20 to-violet-500/20 flex items-center justify-center mb-4">
+              <div className={cn(
+                'w-16 h-16 rounded-3xl flex items-center justify-center mb-4',
+                glassBlur,
+                glassOpacity,
+                glassBorder,
+                glassRadius,
+                glassNoise,
+                glassSpecular,
+                glassRimLight,
+                'bg-gradient-to-br from-blue-500/20 to-violet-500/20'
+              )}>
                 <Sparkles className="w-8 h-8 text-blue-500" />
               </div>
               <h2 className="text-lg font-semibold text-slate-700 dark:text-slate-200 mb-2">
@@ -306,10 +373,30 @@ export function ChatWellDemo() {
                 exit={{ opacity: 0, y: -10 }}
                 className="flex gap-3"
               >
-                <div className="w-8 h-8 rounded-full bg-linear-to-br from-violet-500 to-purple-600 flex items-center justify-center">
+                <div className={cn(
+                  'w-8 h-8 rounded-full flex items-center justify-center',
+                  glassBlur,
+                  glassOpacity,
+                  glassBorder,
+                  glassRadius,
+                  glassNoise,
+                  glassSpecular,
+                  glassRimLight,
+                  'bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center'
+                )}>
                   <Bot className="w-4 h-4 text-white" />
                 </div>
-                <div className="bg-white/60 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/10 rounded-2xl px-4 py-3">
+                <div className={cn(
+                  'bg-white/60 dark:bg-white/10 backdrop-blur-md border border-white/40 dark:border-white/10 rounded-2xl px-4 py-3',
+                  glassBlur,
+                  glassOpacity,
+                  glassBorder,
+                  glassRadius,
+                  glassNoise,
+                  glassSpecular,
+                  glassRimLight,
+                  glassInnerGlow
+                )}>
                   <div className="flex gap-1">
                     <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
                     <span

@@ -1,0 +1,705 @@
+/* 
+ * Apple Liquid Glass 2026 - Tailwind CSS 4 Compatible Utilities
+ * 
+ * Este arquivo fornece classes CSS compatíveis com Tailwind CSS 4 para efeitos de vidro.
+ * Tailwind CSS 4 não suporta classes com valores dinâmicos entre colchetes,
+ * então criamos classes CSS dedicadas para cada valor necessário.
+ */
+
+/* ========== BACKDROP BLUR CLASSES ========== */
+
+/* ========== APPLE LIQUID GLASS 2026 - BACKDROP BLUR ========== */
+/* iOS 26 Universal Standard: ALL variants use 40px blur */
+
+/* Universal blur - 40px (iOS 26 Standard) */
+.backdrop-blur-40px {
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+/* Legacy support - mapped to 40px */
+.backdrop-blur-50px {
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+/* Legacy support - mapped to 40px */
+.backdrop-blur-60px {
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+/* Elevated blur - 40px (iOS 26 Standard) */
+.backdrop-blur-elevated {
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+}
+
+/* ========== APPLE LIQUID GLASS 2026 - SATURATE ========== */
+/* iOS 26 Universal Standard: ALL variants use 180% saturate */
+
+/* Universal saturate - 180% (iOS 26 Standard) */
+.saturate-180 {
+  backdrop-filter: saturate(180%);
+  -webkit-backdrop-filter: saturate(180%);
+}
+
+/* Legacy support - mapped to 180% */
+.saturate-200 {
+  backdrop-filter: saturate(180%);
+  -webkit-backdrop-filter: saturate(180%);
+}
+
+/* Legacy support - mapped to 180% */
+.saturate-150 {
+  backdrop-filter: saturate(180%);
+  -webkit-backdrop-filter: saturate(180%);
+}
+
+/* Legacy support - mapped to 180% */
+.saturate-100 {
+  backdrop-filter: saturate(180%);
+  -webkit-backdrop-filter: saturate(180%);
+}
+
+/* ========== COMBINED BLUR + SATURATE CLASSES ========== */
+
+/* Default: 40px blur + 180% saturate */
+.liquid-glass-default {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+}
+
+/* Subtle: 40px blur + 180% saturate */
+.liquid-glass-subtle {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+}
+
+/* Clear: 40px blur + 180% saturate */
+.liquid-glass-clear {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+}
+
+/* Elevated: 40px blur + 180% saturate */
+.liquid-glass-elevated {
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+}
+
+/* ========== OPACITY CLASSES ========== */
+
+/* Default opacity - 0.20 */
+.opacity-glass-default {
+  opacity: 0.20;
+}
+
+/* Subtle opacity - 0.15 */
+.opacity-glass-subtle {
+  opacity: 0.15;
+}
+
+/* Clear opacity - 0.10 */
+.opacity-glass-clear {
+  opacity: 0.10;
+}
+
+/* Elevated opacity - 0.25 */
+.opacity-glass-elevated {
+  opacity: 0.25;
+}
+
+/* Medical opacity - 0.30 */
+.opacity-glass-medical {
+  opacity: 0.30;
+}
+
+/* ========== BACKGROUND OPACITY CLASSES ========== */
+
+/* Default background opacity - light mode */
+.bg-opacity-default {
+  background-color: rgba(255, 255, 255, 0.20);
+}
+
+/* Subtle background opacity - light mode */
+.bg-opacity-subtle {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Clear background opacity - light mode */
+.bg-opacity-clear {
+  background-color: rgba(255, 255, 255, 0.10);
+}
+
+/* Elevated background opacity - light mode */
+.bg-opacity-elevated {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Medical background opacity - light mode */
+.bg-opacity-medical {
+  background-color: rgba(255, 255, 255, 0.30);
+}
+
+/* Default background opacity - dark mode */
+.dark .bg-opacity-default {
+  background-color: rgba(0, 0, 0, 0.40);
+}
+
+/* Subtle background opacity - dark mode */
+.dark .bg-opacity-subtle {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+
+/* Clear background opacity - dark mode */
+.dark .bg-opacity-clear {
+  background-color: rgba(0, 0, 0, 0.30);
+}
+
+/* Elevated background opacity - dark mode */
+.dark .bg-opacity-elevated {
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+/* Medical background opacity - dark mode */
+.dark .bg-opacity-medical {
+  background-color: rgba(0, 0, 0, 0.50);
+}
+
+/* ========== BORDER OPACITY CLASSES ========== */
+
+/* Default border opacity - 0.30 */
+.border-glass-default {
+  border-color: rgba(255, 255, 255, 0.30);
+}
+
+/* Subtle border opacity - 0.25 */
+.border-glass-subtle {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Clear border opacity - 0.20 */
+.border-glass-clear {
+  border-color: rgba(255, 255, 255, 0.20);
+}
+
+/* Elevated border opacity - 0.40 */
+.border-glass-elevated {
+  border-color: rgba(255, 255, 255, 0.40);
+}
+
+/* Medical border opacity - 0.50 */
+.border-glass-medical {
+  border-color: rgba(255, 255, 255, 0.50);
+}
+
+/* ========== DARK MODE BORDER OPACITY CLASSES ========== */
+
+/* Default border opacity - dark mode */
+.dark .border-glass-default {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Subtle border opacity - dark mode */
+.dark .border-glass-subtle {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Clear border opacity - dark mode */
+.dark .border-glass-clear {
+  border-color: rgba(255, 255, 255, 0.10);
+}
+
+/* Elevated border opacity - dark mode */
+.dark .border-glass-elevated {
+  border-color: rgba(255, 255, 255, 0.20);
+}
+
+/* Medical border opacity - dark mode */
+.dark .border-glass-medical {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ========== BORDER RADIUS CLASSES ========== */
+
+/* Default radius - 24px */
+.radius-glass-default {
+  border-radius: 24px;
+}
+
+/* Subtle radius - 18px */
+.radius-glass-subtle {
+  border-radius: 18px;
+}
+
+/* Clear radius - 32px */
+.radius-glass-clear {
+  border-radius: 32px;
+}
+
+/* Elevated radius - 28px */
+.radius-glass-elevated {
+  border-radius: 28px;
+}
+
+/* Medical radius - 20px */
+.radius-glass-medical {
+  border-radius: 20px;
+}
+
+/* ========== SPECULAR HIGHLIGHT CLASSES ========== */
+
+/* Default specular highlight */
+.specular-glass-default::after {
+  background: radial-gradient(
+    ellipse 100% 60% at 50% 0%,
+    rgba(255, 255, 255, 0.6) 0%,
+    rgba(255, 255, 255, 0.25) 35%,
+    transparent 70%
+  );
+}
+
+/* Subtle specular highlight */
+.specular-glass-subtle::after {
+  background: radial-gradient(
+    ellipse 100% 60% at 50% 0%,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.15) 35%,
+    transparent 70%
+  );
+}
+
+/* Clear specular highlight */
+.specular-glass-clear::after {
+  background: radial-gradient(
+    ellipse 100% 60% at 50% 0%,
+    rgba(255, 255, 255, 0.8) 0%,
+    rgba(255, 255, 255, 0.4) 35%,
+    transparent 70%
+  );
+}
+
+/* Elevated specular highlight */
+.specular-glass-elevated::after {
+  background: radial-gradient(
+    ellipse 100% 60% at 50% 0%,
+    rgba(255, 255, 255, 0.7) 0%,
+    rgba(255, 255, 255, 0.35) 35%,
+    transparent 70%
+  );
+}
+
+/* Medical specular highlight */
+.specular-glass-medical::after {
+  background: radial-gradient(
+    ellipse 100% 60% at 50% 0%,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.2) 35%,
+    transparent 70%
+  );
+}
+
+/* ========== RIM LIGHT CLASSES ========== */
+
+/* Default rim light */
+.rim-light-glass-default::before {
+  background: conic-gradient(
+    from 45deg at 50% 50%,
+    rgba(255, 255, 255, 1) 0deg,
+    rgba(255, 255, 255, 0.5) 45deg,
+    rgba(255, 255, 255, 0.2) 90deg,
+    rgba(255, 255, 255, 0.1) 135deg,
+    rgba(255, 255, 255, 0.3) 180deg,
+    rgba(255, 255, 255, 0.5) 225deg,
+    rgba(255, 255, 255, 0.8) 270deg,
+    rgba(255, 255, 255, 0.4) 315deg,
+    rgba(255, 255, 255, 1) 360deg
+  );
+}
+
+/* Subtle rim light */
+.rim-light-glass-subtle::before {
+  background: conic-gradient(
+    from 45deg at 50% 50%,
+    rgba(255, 255, 255, 0.8) 0deg,
+    rgba(255, 255, 255, 0.4) 45deg,
+    rgba(255, 255, 255, 0.15) 90deg,
+    rgba(255, 255, 255, 0.08) 135deg,
+    rgba(255, 255, 255, 0.25) 180deg,
+    rgba(255, 255, 255, 0.4) 225deg,
+    rgba(255, 255, 255, 0.6) 270deg,
+    rgba(255, 255, 255, 0.3) 315deg,
+    rgba(255, 255, 255, 0.8) 360deg
+  );
+}
+
+/* Clear rim light */
+.rim-light-glass-clear::before {
+  background: conic-gradient(
+    from 45deg at 50% 50%,
+    rgba(255, 255, 255, 1) 0deg,
+    rgba(255, 255, 255, 0.6) 45deg,
+    rgba(255, 255, 255, 0.3) 90deg,
+    rgba(255, 255, 255, 0.15) 135deg,
+    rgba(255, 255, 255, 0.4) 180deg,
+    rgba(255, 255, 255, 0.6) 225deg,
+    rgba(255, 255, 255, 0.9) 270deg,
+    rgba(255, 255, 255, 0.5) 315deg,
+    rgba(255, 255, 255, 1) 360deg
+  );
+}
+
+/* Elevated rim light */
+.rim-light-glass-elevated::before {
+  background: conic-gradient(
+    from 45deg at 50% 50%,
+    rgba(255, 255, 255, 1) 0deg,
+    rgba(255, 255, 255, 0.6) 45deg,
+    rgba(255, 255, 255, 0.25) 90deg,
+    rgba(255, 255, 255, 0.12) 135deg,
+    rgba(255, 255, 255, 0.35) 180deg,
+    rgba(255, 255, 255, 0.6) 225deg,
+    rgba(255, 255, 255, 0.85) 270deg,
+    rgba(255, 255, 255, 0.45) 315deg,
+    rgba(255, 255, 255, 1) 360deg
+  );
+}
+
+/* Medical rim light */
+.rim-light-glass-medical::before {
+  background: conic-gradient(
+    from 45deg at 50% 50%,
+    rgba(255, 255, 255, 0.9) 0deg,
+    rgba(255, 255, 255, 0.45) 45deg,
+    rgba(255, 255, 255, 0.18) 90deg,
+    rgba(255, 255, 255, 0.09) 135deg,
+    rgba(255, 255, 255, 0.27) 180deg,
+    rgba(255, 255, 255, 0.45) 225deg,
+    rgba(255, 255, 255, 0.72) 270deg,
+    rgba(255, 255, 255, 0.36) 315deg,
+    rgba(255, 255, 255, 0.9) 360deg
+  );
+}
+
+/* ========== INNER GLOW CLASSES ========== */
+
+/* Default inner glow */
+.inner-glow-glass-default {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.6),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.05),
+    inset 1px 0 1px rgba(255, 255, 255, 0.3),
+    inset -1px 0 1px rgba(0, 0, 0, 0.03);
+}
+
+/* Subtle inner glow */
+.inner-glow-glass-subtle {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.4),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.03),
+    inset 1px 0 1px rgba(255, 255, 255, 0.2),
+    inset -1px 0 1px rgba(0, 0, 0, 0.02);
+}
+
+/* Clear inner glow */
+.inner-glow-glass-clear {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.8),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.08),
+    inset 1px 0 1px rgba(255, 255, 255, 0.4),
+    inset -1px 0 1px rgba(0, 0, 0, 0.05);
+}
+
+/* Elevated inner glow */
+.inner-glow-glass-elevated {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.06),
+    inset 1px 0 1px rgba(255, 255, 255, 0.35),
+    inset -1px 0 1px rgba(0, 0, 0, 0.04);
+}
+
+/* Medical inner glow */
+.inner-glow-glass-medical {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.04),
+    inset 1px 0 1px rgba(255, 255, 255, 0.25),
+    inset -1px 0 1px rgba(0, 0, 0, 0.02);
+}
+
+/* ========== DARK MODE INNER GLOW CLASSES ========== */
+
+/* Default inner glow - dark mode */
+.dark .inner-glow-glass-default {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.2),
+    inset 1px 0 1px rgba(255, 255, 255, 0.08),
+    inset -1px 0 1px rgba(0, 0, 0, 0.1);
+}
+
+/* Subtle inner glow - dark mode */
+.dark .inner-glow-glass-subtle {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.15),
+    inset 1px 0 1px rgba(255, 255, 255, 0.05),
+    inset -1px 0 1px rgba(0, 0, 0, 0.08);
+}
+
+/* Clear inner glow - dark mode */
+.dark .inner-glow-glass-clear {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.2),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.3),
+    inset 1px 0 1px rgba(255, 255, 255, 0.1),
+    inset -1px 0 1px rgba(0, 0, 0, 0.15);
+}
+
+/* Elevated inner glow - dark mode */
+.dark .inner-glow-glass-elevated {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.18),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.25),
+    inset 1px 0 1px rgba(255, 255, 255, 0.1),
+    inset -1px 0 1px rgba(0, 0, 0, 0.12);
+}
+
+/* Medical inner glow - dark mode */
+.dark .inner-glow-glass-medical {
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.12),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.2),
+    inset 1px 0 1px rgba(255, 255, 255, 0.06),
+    inset -1px 0 1px rgba(0, 0, 0, 0.1);
+}
+
+/* ========== HOVER SCALE CLASSES ========== */
+
+/* Default hover scale */
+.hover-scale-glass-default:hover {
+  transform: scale(1.02);
+}
+
+/* Subtle hover scale */
+.hover-scale-glass-subtle:hover {
+  transform: scale(1.015);
+}
+
+/* Clear hover scale */
+.hover-scale-glass-clear:hover {
+  transform: scale(1.03);
+}
+
+/* Elevated hover scale */
+.hover-scale-glass-elevated:hover {
+  transform: scale(1.025);
+}
+
+/* ========== TAP SCALE CLASSES ========== */
+
+/* Default tap scale */
+.tap-scale-glass-default:active {
+  transform: scale(0.98);
+}
+
+/* Subtle tap scale */
+.tap-scale-glass-subtle:active {
+  transform: scale(0.99);
+}
+
+/* Clear tap scale */
+.tap-scale-glass-clear:active {
+  transform: scale(0.97);
+}
+
+/* Elevated tap scale */
+.tap-scale-glass-elevated:active {
+  transform: scale(0.96);
+}
+
+/* ========== TRANSITION CLASSES ========== */
+
+/* Default transition */
+.transition-glass-default {
+  transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Fast transition */
+.transition-glass-fast {
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Slow transition */
+.transition-glass-slow {
+  transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ========== GPU ACCELERATION CLASSES ========== */
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  contain: layout style paint;
+}
+
+/* ========== ACCESSIBILITY FALLBACKS ========== */
+
+/* ========== APPLE LIQUID GLASS 2026 - ACCESSIBILITY ========== */
+/* Reduced transparency */
+@media (prefers-reduced-transparency: reduce) {
+  .backdrop-blur-40px,
+  .backdrop-blur-50px,
+  .backdrop-blur-60px,
+  .backdrop-blur-elevated,
+  .saturate-180,
+  .saturate-200,
+  .saturate-150,
+  .saturate-100,
+  .liquid-glass-default,
+  .liquid-glass-subtle,
+  .liquid-glass-clear,
+  .liquid-glass-elevated {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .transition-glass-default,
+  .transition-glass-fast,
+  .transition-glass-slow {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========== NOISE TEXTURE CLASSES ========== */
+
+/* Default noise texture - light mode */
+.noise-glass-default::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* Subtle noise texture - light mode */
+.noise-glass-subtle::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* Clear noise texture - light mode */
+.noise-glass-clear::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* Elevated noise texture - light mode */
+.noise-glass-elevated::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* Medical noise texture - light mode */
+.noise-glass-medical::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.02;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+  background-repeat: repeat;
+  mix-blend-mode: overlay;
+}
+
+/* Default noise texture - dark mode */
+.dark .noise-glass-default::before {
+  opacity: 0.05;
+}
+
+/* Subtle noise texture - dark mode */
+.dark .noise-glass-subtle::before {
+  opacity: 0.04;
+}
+
+/* Clear noise texture - dark mode */
+.dark .noise-glass-clear::before {
+  opacity: 0.06;
+}
+
+/* Elevated noise texture - dark mode */
+.dark .noise-glass-elevated::before {
+  opacity: 0.055;
+}
+
+/* Medical noise texture - dark mode */
+.dark .noise-glass-medical::before {
+  opacity: 0.04;
+}
+
+
+/* ========== DIMMING CLASSES ========== */
+
+/* Default dimming layer - light mode */
+.liquid-glass-dim::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0.35);
+  mix-blend-mode: multiply;
+}
+
+/* Default dimming layer - dark mode */
+.dark .liquid-glass-dim::before {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* ========== REFRACTION CLASSES ========== */
+
+/* Default refraction effect - light mode */
+.liquid-glass-refraction::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.05) 100%);
+  opacity: 0.3;
+}
+
+/* Default refraction effect - dark mode */
+.dark .liquid-glass-refraction::after {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.02) 100%);
+}
+

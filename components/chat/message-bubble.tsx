@@ -3,6 +3,18 @@
 import { cn } from '@/lib/utils'
 import { User, Bot } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
+import { useTheme } from 'next-themes'
+import * as Tokens from '@/lib/theme/tokens'
+import {
+  useGlassBlur,
+  useGlassOpacity,
+  useGlassBorder,
+  useGlassRadius,
+  useGlassNoise,
+  useGlassSpecular,
+  useGlassRimLight,
+  useGlassInnerGlow,
+} from '@/lib/theme/hooks'
 
 interface MessageBubbleProps {
   role: 'user' | 'assistant'
@@ -11,8 +23,19 @@ interface MessageBubbleProps {
 }
 
 export function MessageBubble({ role, content, isStreaming }: MessageBubbleProps) {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
   const isUser = role === 'user'
-
+  
+  const glassBlur = useGlassBlur()
+  const glassOpacity = useGlassOpacity('default', isDark)
+  const glassBorder = useGlassBorder('default', isDark)
+  const glassRadius = useGlassRadius('default')
+  const glassNoise = useGlassNoise()
+  const glassSpecular = useGlassSpecular()
+  const glassRimLight = useGlassRimLight()
+  const glassInnerGlow = useGlassInnerGlow()
+  
   return (
     <div
       className={cn(
@@ -23,8 +46,15 @@ export function MessageBubble({ role, content, isStreaming }: MessageBubbleProps
       {/* Avatar */}
       <div
         className={cn(
-          'flex h-8 w-8 shrink-0 items-center justify-center rounded-full glass-pill rim-light-ios26',
-          isUser ? 'bg-primary/20 text-primary backdrop-blur-xl' : 'bg-muted/50 backdrop-blur-xl'
+          'flex h-8 w-8 shrink-0 items-center justify-center rounded-full',
+          glassBlur,
+          glassOpacity,
+          glassBorder,
+          glassRadius,
+          glassNoise,
+          glassSpecular,
+          glassRimLight,
+          isUser ? 'bg-primary/20 text-primary' : 'bg-muted/50'
         )}
       >
         {isUser ? (
@@ -37,10 +67,18 @@ export function MessageBubble({ role, content, isStreaming }: MessageBubbleProps
       {/* Message Content */}
       <div
         className={cn(
-          'flex max-w-[80%] flex-col gap-1 rounded-2xl px-4 py-2 glass-pill rim-light-ios26 inner-glow-ios26',
+          'flex max-w-[80%] flex-col gap-1 rounded-2xl px-4 py-2',
+          glassBlur,
+          glassOpacity,
+          glassBorder,
+          glassRadius,
+          glassNoise,
+          glassSpecular,
+          glassRimLight,
+          glassInnerGlow,
           isUser
-            ? 'bg-primary/20 text-primary-foreground backdrop-blur-xl'
-            : 'bg-muted/50 text-foreground backdrop-blur-xl'
+            ? 'bg-primary/20 text-primary-foreground'
+            : 'bg-muted/50 text-foreground'
         )}
       >
         <div className="prose prose-sm dark:prose-invert max-w-none">

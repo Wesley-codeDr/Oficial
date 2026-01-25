@@ -471,6 +471,241 @@ export const modalAnimations = {
   },
 } as const
 
+// ==================== STAGGER FADE-IN CONFIG ====================
+
+/**
+ * Stagger fade-in animation configuration for sequential child animations
+ * Duration: 600ms per child, Delay: 100ms increment per child
+ * Uses Apple spring easing for fluid motion
+ */
+export const staggerFadeInConfig = {
+  /** Container variants for orchestrating staggered children */
+  container: {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1, // 100ms delay between children
+        delayChildren: 0.05, // Initial delay before first child
+      },
+    },
+  } as Variants,
+
+  /** Individual child item animation */
+  item: {
+    hidden: {
+      opacity: 0,
+      y: 20,
+      scale: 0.95
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6, // 600ms per child
+        ease: [0.25, 1, 0.5, 1], // Apple spring easing
+      },
+    },
+  } as Variants,
+
+  /** Faster stagger for compact lists */
+  fast: {
+    container: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.05,
+          delayChildren: 0.02,
+        },
+      },
+    } as Variants,
+    item: {
+      hidden: { opacity: 0, y: 12, scale: 0.98 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          duration: 0.4,
+          ease: [0.25, 1, 0.5, 1],
+        },
+      },
+    } as Variants,
+  },
+
+  /** Slower stagger for cards/large items */
+  slow: {
+    container: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.15,
+          delayChildren: 0.1,
+        },
+      },
+    } as Variants,
+    item: {
+      hidden: { opacity: 0, y: 30, scale: 0.92 },
+      visible: {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        transition: {
+          duration: 0.8,
+          ease: [0.25, 1, 0.5, 1],
+        },
+      },
+    } as Variants,
+  },
+} as const
+
+// ==================== FRAMER MOTION ANIMATION PRESETS ====================
+
+/**
+ * Pre-built animation presets for common UI patterns
+ * Ready to use with Framer Motion components
+ */
+export const animationPresets = {
+  /** Fade in from bottom */
+  fadeInUp: {
+    initial: { opacity: 0, y: 20 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 10 },
+    transition: { duration: 0.3, ease: [0.25, 1, 0.5, 1] },
+  },
+
+  /** Fade in with scale */
+  fadeInScale: {
+    initial: { opacity: 0, scale: 0.95 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.98 },
+    transition: { duration: 0.25, ease: [0.25, 1, 0.5, 1] },
+  },
+
+  /** Glass blur entrance */
+  glassEntrance: {
+    initial: { opacity: 0, filter: 'blur(10px)', scale: 0.98 },
+    animate: { opacity: 1, filter: 'blur(0px)', scale: 1 },
+    exit: { opacity: 0, filter: 'blur(5px)', scale: 0.99 },
+    transition: { duration: 0.4, ease: [0.25, 1, 0.5, 1] },
+  },
+
+  /** Slide from right (iOS navigation) */
+  slideFromRight: {
+    initial: { x: '100%', opacity: 0 },
+    animate: { x: 0, opacity: 1 },
+    exit: { x: '-30%', opacity: 0 },
+    transition: { duration: 0.35, ease: [0.25, 1, 0.5, 1] },
+  },
+
+  /** Slide from bottom (sheet/modal) */
+  slideFromBottom: {
+    initial: { y: '100%', opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+    exit: { y: '50%', opacity: 0 },
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+      damping: 30
+    },
+  },
+
+  /** Pop in effect */
+  popIn: {
+    initial: { opacity: 0, scale: 0.8 },
+    animate: { opacity: 1, scale: 1 },
+    exit: { opacity: 0, scale: 0.9 },
+    transition: {
+      type: 'spring',
+      stiffness: 400,
+      damping: 25,
+    },
+  },
+
+  /** Subtle hover lift */
+  hoverLift: {
+    whileHover: { y: -4, scale: 1.02 },
+    whileTap: { scale: 0.98 },
+    transition: { type: 'spring', stiffness: 400, damping: 25 },
+  },
+
+  /** Card hover effect */
+  cardHover: {
+    whileHover: {
+      y: -6,
+      scale: 1.015,
+      boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
+    },
+    whileTap: { scale: 0.98 },
+    transition: { type: 'spring', stiffness: 350, damping: 25 },
+  },
+
+  /** Button press effect */
+  buttonPress: {
+    whileHover: { scale: 1.02 },
+    whileTap: { scale: 0.96 },
+    transition: { type: 'spring', stiffness: 500, damping: 30 },
+  },
+} as const
+
+// ==================== APPLE SPRING PHYSICS ====================
+
+/**
+ * Apple-style spring physics configurations for Framer Motion
+ */
+export const appleSpringPhysics = {
+  /** Default UI interactions */
+  default: {
+    type: 'spring' as const,
+    stiffness: 350,
+    damping: 32,
+    mass: 1,
+  },
+
+  /** Liquid Glass feel - slightly heavier */
+  glass: {
+    type: 'spring' as const,
+    stiffness: 300,
+    damping: 30,
+    mass: 1.1,
+  },
+
+  /** Soft transitions for modals/sheets */
+  soft: {
+    type: 'spring' as const,
+    stiffness: 200,
+    damping: 28,
+    mass: 1,
+  },
+
+  /** Fast haptic-like feedback */
+  haptic: {
+    type: 'spring' as const,
+    stiffness: 600,
+    damping: 40,
+    mass: 0.7,
+  },
+
+  /** Gesture interactions */
+  gesture: {
+    type: 'spring' as const,
+    stiffness: 450,
+    damping: 42,
+    mass: 1,
+  },
+
+  /** Bouncy feel for playful interactions */
+  bouncy: {
+    type: 'spring' as const,
+    stiffness: 400,
+    damping: 20,
+    mass: 0.8,
+  },
+} as const
+
 // ==================== EXPORTS ====================
 
 export const microInteractions = {
@@ -486,6 +721,9 @@ export const microInteractions = {
   loading: loadingAnimations,
   tooltip: tooltipAnimations,
   modal: modalAnimations,
+  stagger: staggerFadeInConfig,
+  presets: animationPresets,
+  spring: appleSpringPhysics,
 } as const
 
 export default microInteractions

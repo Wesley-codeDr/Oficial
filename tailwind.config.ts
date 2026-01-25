@@ -1,235 +1,367 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss";
 
 const config: Config = {
-  darkMode: 'class' as const,
+  darkMode: ["class"],
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    screens: {
-      xs: '320px', // iPhone SE 1st gen, extreme small phones
-      sm: '640px', // Mobile landscape
-      md: '768px', // Tablet portrait
-      lg: '1024px', // Desktop / tablet landscape
-      xl: '1280px', // Large desktop
-      '2xl': '1536px', // Extra large desktop
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
     },
     extend: {
-      fontFamily: {
-        sans: ['SF Pro Display', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-        mono: ['SF Mono', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
-      },
-      fontWeight: {
-        'apple-thin': '100',
-        'apple-normal': '400',
-        'apple-medium': '500',
-        'apple-semibold': '600',
-        'apple-bold': '700',
-        'apple-black': '900',
-      },
-      letterSpacing: {
-        'apple-tight': '-0.015em',
-        'apple-display': '-0.03em',
-        'apple-label': '0.08em',
-        'apple-caps': '0.15em',
-      },
-      fontSize: {
-        // Responsive typography with fluid scaling using clamp()
-        'responsive-xs': ['clamp(0.625rem, 0.5rem + 0.5vw, 0.75rem)', { lineHeight: '1.5' }],
-        'responsive-sm': ['clamp(0.75rem, 0.625rem + 0.5vw, 0.875rem)', { lineHeight: '1.5' }],
-        'responsive-base': ['clamp(0.875rem, 0.75rem + 0.5vw, 1rem)', { lineHeight: '1.6' }],
-        'responsive-lg': ['clamp(1rem, 0.875rem + 0.5vw, 1.125rem)', { lineHeight: '1.6' }],
-        'responsive-xl': ['clamp(1.125rem, 1rem + 0.5vw, 1.25rem)', { lineHeight: '1.4' }],
-        'responsive-2xl': ['clamp(1.25rem, 1.125rem + 0.5vw, 1.5rem)', { lineHeight: '1.3' }],
-        'responsive-3xl': ['clamp(1.5rem, 1.25rem + 1vw, 1.875rem)', { lineHeight: '1.2' }],
-        'responsive-4xl': ['clamp(1.875rem, 1.5rem + 1.5vw, 2.25rem)', { lineHeight: '1.1' }],
-      },
       colors: {
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-        popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
+        border: "var(--border-color)",
+        input: "var(--color-gray-200)",
+        ring: "var(--color-primary-400)",
+        background: "var(--color-bg-primary)",
+        foreground: "var(--color-text-primary)",
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
+          50: "#E6F3FA",
+          100: "#CCE7F5",
+          200: "#99CFEB",
+          300: "#66B7E1",
+          400: "#339FD7",
+          500: "#0077B6",
+          600: "#005F92",
+          700: "#00476D",
+          800: "#002F49",
+          900: "#001824",
+          DEFAULT: "#0077B6",
         },
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
+          50: "#E6F5F3",
+          100: "#CCEBE7",
+          200: "#99D7CF",
+          300: "#66C3B7",
+          400: "#33AF9F",
+          500: "#2A9D8F",
+          600: "#227D72",
+          700: "#195E56",
+          800: "#113F39",
+          900: "#081F1D",
+          DEFAULT: "#2A9D8F",
+        },
+        success: {
+          light: "#D1FAE5",
+          DEFAULT: "#57CC99",
+          dark: "#059669",
+        },
+        warning: {
+          light: "#FEF3C7",
+          DEFAULT: "#E9C46A",
+          dark: "#92400E",
+        },
+        error: {
+          light: "#FEE2E2",
+          DEFAULT: "#E63946",
+          dark: "#991B1B",
+        },
+        text: {
+          primary: "#1A1A2E",
+          secondary: "#6B7280",
+          muted: "#9CA3AF",
+        },
+        // Legacy support while migrating
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        chart: {
-          '1': 'hsl(var(--chart-1))',
-          '2': 'hsl(var(--chart-2))',
-          '3': 'hsl(var(--chart-3))',
-          '4': 'hsl(var(--chart-4))',
-          '5': 'hsl(var(--chart-5))',
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
-        // Medical-specific colors (WellWave Palette)
-        medical: {
-          primary: '#004e92', // Deep Ocean Blue
-          secondary: '#00c6ff', // Cyan/Teal
-          accent: '#eef2f3', // Soft Light Blue
-          redFlag: '#FF3B30',
-          warning: '#FF9500',
-          safe: '#34C759',
-          info: '#5AC8FA',
-        },
-        // Apple accent colors - Native Pro Standards
+        // Apple 2026 System Colors
         apple: {
-          blue: '#0A84FF',
-          green: '#30D158',
-          orange: '#FF9F0A',
-          red: '#FF453A',
-          purple: '#BF5AF2',
-          pink: '#FF375F',
-          teal: '#64D2FF',
-          gray: '#8E8E93',
+          blue: {
+            DEFAULT: "#007AFF",
+            light: "#0A84FF",
+            dark: "#0062CC",
+          },
+          green: {
+            DEFAULT: "#34C759",
+            light: "#30D158",
+            dark: "#248A3D",
+          },
+          red: {
+            DEFAULT: "#FF3B30",
+            light: "#FF453A",
+            dark: "#D70015",
+          },
+          orange: {
+            DEFAULT: "#FF9500",
+            light: "#FF9F0A",
+            dark: "#C93400",
+          },
+          teal: {
+            DEFAULT: "#5AC8FA",
+            light: "#64D2FF",
+            dark: "#0AADFF",
+          },
+          purple: {
+            DEFAULT: "#AF52DE",
+            light: "#BF5AF2",
+            dark: "#8944AB",
+          },
         },
-        // Glass effect specific colors
-        glass: {
-          background: 'rgba(255, 255, 255, 0.45)',
-          border: 'rgba(255, 255, 255, 0.2)',
-          highlight: 'rgba(255, 255, 255, 0.05)',
+        // Healthcare semantic colors
+        healthcare: {
+          primary: "#007AFF",
+          success: "#34C759",
+          warning: "#FF9500",
+          critical: "#FF3B30",
+          info: "#5AC8FA",
         },
+      },
+      fontFamily: {
+        sans: ["Inter", "system-ui", "sans-serif"],
+        display: ["Plus Jakarta Sans", "Inter", "sans-serif"],
       },
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-        'apple-cta': '16px',
-        'apple-card': '32px',
-        'apple-input': '22px',
-        '3xl': '1.5rem',
-        '4xl': '2rem',
-        '5xl': '2.75rem',
-        'liquid-sm': '20px',
-        'liquid-md': '28px',
-        'liquid-lg': '32px',
-        'liquid-xl': '40px',
-      },
-      animation: {
-        // Animações suaves estilo Apple
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'fade-in-up': 'fadeInUp 0.5s ease-out',
-        'fade-in-down': 'fadeInDown 0.5s ease-out',
-        'slide-in-right': 'slideInRight 0.5s ease-out',
-        'slide-in-left': 'slideInLeft 0.5s ease-out',
-        'scale-in': 'scaleIn 0.3s ease-out',
-        'bounce-subtle': 'bounceSubtle 0.6s ease-out',
-        shimmer: 'shimmer 2s linear infinite',
-        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-        blob: 'blob 7s infinite',
-        'accordion-down': 'accordion-down 0.2s ease-out',
-        'accordion-up': 'accordion-up 0.2s ease-out',
+        lg: "var(--radius-lg)",
+        md: "var(--radius-md)",
+        sm: "var(--radius-sm)",
+        card: "16px",
+        button: "12px",
+        // Apple Liquid Glass 2026 radius scale
+        "glass-xs": "8px",
+        "glass-sm": "12px",
+        "glass-md": "16px",
+        "glass-lg": "24px",
+        "glass-xl": "32px",
+        "glass-2xl": "40px",
+        "glass-full": "9999px",
       },
       keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
-        fadeInUp: {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
         },
-        fadeInDown: {
-          '0%': { opacity: '0', transform: 'translateY(-10px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
+        "slide-in-right": {
+          from: { transform: "translateX(100%)" },
+          to: { transform: "translateX(0)" },
         },
-        slideInRight: {
-          '0%': { opacity: '0', transform: 'translateX(-20px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
+        "slide-in-left": {
+          from: { transform: "translateX(-100%)" },
+          to: { transform: "translateX(0)" },
         },
-        slideInLeft: {
-          '0%': { opacity: '0', transform: 'translateX(20px)' },
-          '100%': { opacity: '1', transform: 'translateX(0)' },
+        "slide-in-up": {
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
         },
-        scaleIn: {
-          '0%': { opacity: '0', transform: 'scale(0.95)' },
-          '100%': { opacity: '1', transform: 'scale(1)' },
+        "slide-in-down": {
+          from: { transform: "translateY(-100%)" },
+          to: { transform: "translateY(0)" },
         },
-        bounceSubtle: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-5px)' },
+        "slide-out-right": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(100%)" },
         },
-        shimmer: {
-          '0%': { backgroundPosition: '-1000px 0' },
-          '100%': { backgroundPosition: '1000px 0' },
+        "slide-out-left": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(-100%)" },
         },
-        blob: {
-          '0%': { transform: 'translate(0px, 0px) scale(1)' },
-          '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
-          '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
-          '100%': { transform: 'translate(0px, 0px) scale(1)' },
+        "slide-out-up": {
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(-100%)" },
         },
-        'accordion-down': {
-          from: { height: '0' },
-          to: { height: 'var(--radix-accordion-content-height)' },
+        "slide-out-down": {
+          from: { transform: "translateY(0)" },
+          to: { transform: "translateY(100%)" },
         },
-        'accordion-up': {
-          from: { height: 'var(--radix-accordion-content-height)' },
-          to: { height: '0' },
+        "fade-in": {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+        "fade-out": {
+          from: { opacity: "1" },
+          to: { opacity: "0" },
+        },
+        "scale-in": {
+          from: { transform: "scale(0.95)", opacity: "0" },
+          to: { transform: "scale(1)", opacity: "1" },
+        },
+        "scale-out": {
+          from: { transform: "scale(1)", opacity: "1" },
+          to: { transform: "scale(0.95)", opacity: "0" },
+        },
+        "spin-slow": {
+          from: { transform: "rotate(0deg)" },
+          to: { transform: "rotate(360deg)" },
+        },
+        "pulse-slow": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.7" },
+        },
+        "bounce-slow": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-20px)" },
+        },
+        "shimmer": {
+          "0%": { backgroundPosition: "-1000px 0" },
+          "100%": { backgroundPosition: "1000px 0" },
+        },
+        "glow": {
+          "0%, 100%": { boxShadow: "0 0 20px rgba(0, 34, 125, 0.3)" },
+          "50%": { boxShadow: "0 0 40px rgba(0, 34, 125, 0.6)" },
+        },
+        "gradient-shift": {
+          "0%, 100%": { backgroundPosition: "0% 50%" },
+          "50%": { backgroundPosition: "100% 50%" },
+        },
+        // Apple Liquid Glass 2026 haptic feedback keyframes
+        "haptic-light": {
+          "0%": { transform: "scale(1)" },
+          "30%": { transform: "scale(0.97)" },
+          "70%": { transform: "scale(1.02)" },
+          "100%": { transform: "scale(1)" },
+        },
+        "haptic-medium": {
+          "0%": { transform: "scale(1)" },
+          "25%": { transform: "scale(0.95)" },
+          "65%": { transform: "scale(1.03)" },
+          "100%": { transform: "scale(1)" },
+        },
+        "haptic-heavy": {
+          "0%": { transform: "scale(1)" },
+          "20%": { transform: "scale(0.92)" },
+          "50%": { transform: "scale(1.05)" },
+          "80%": { transform: "scale(0.98)" },
+          "100%": { transform: "scale(1)" },
+        },
+        "specular-shimmer": {
+          "0%, 100%": { opacity: "0.85" },
+          "50%": { opacity: "1" },
+        },
+        "stagger-fade-in": {
+          "from": { opacity: "0", transform: "translateY(20px) scale(0.95)" },
+          "to": { opacity: "1", transform: "translateY(0) scale(1)" },
         },
       },
-      backdropBlur: {
-        xs: '2px',
-        xl: '20px',
-        '2xl': '40px',
-        '3xl': '50px',
-        '4xl': '60px',
-        '5xl': '80px',
-      },
-      backdropSaturate: {
-        '150': '150%',
-        '180': '180%',
-        '200': '200%',
-      },
-      transitionTimingFunction: {
-        apple: 'cubic-bezier(0.4, 0, 0.2, 1)',
-        'apple-in': 'cubic-bezier(0.4, 0, 1, 1)',
-        'apple-out': 'cubic-bezier(0, 0, 0.2, 1)',
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "slide-in-right": "slide-in-right 0.3s ease-out",
+        "slide-in-left": "slide-in-left 0.3s ease-out",
+        "slide-in-up": "slide-in-up 0.3s ease-out",
+        "slide-in-down": "slide-in-down 0.3s ease-out",
+        "slide-out-right": "slide-out-right 0.3s ease-out",
+        "slide-out-left": "slide-out-left 0.3s ease-out",
+        "slide-out-up": "slide-out-up 0.3s ease-out",
+        "slide-out-down": "slide-out-down 0.3s ease-out",
+        "fade-in": "fade-in 0.2s ease-out",
+        "fade-out": "fade-out 0.2s ease-out",
+        "scale-in": "scale-in 0.2s ease-out",
+        "scale-out": "scale-out 0.2s ease-out",
+        "spin-slow": "spin-slow 3s linear infinite",
+        "pulse-slow": "pulse-slow 3s ease-in-out infinite",
+        "bounce-slow": "bounce-slow 2s ease-in-out infinite",
+        "float": "float 6s ease-in-out infinite",
+        "shimmer": "shimmer 2s linear infinite",
+        "glow": "glow 2s ease-in-out infinite",
+        "gradient-shift": "gradient-shift 3s ease infinite",
+        // Apple Liquid Glass 2026 haptic feedback animations
+        "haptic-light": "haptic-light 0.2s cubic-bezier(0.25, 1, 0.5, 1)",
+        "haptic-medium": "haptic-medium 0.25s cubic-bezier(0.25, 1, 0.5, 1)",
+        "haptic-heavy": "haptic-heavy 0.35s cubic-bezier(0.25, 1, 0.5, 1)",
+        "specular-shimmer": "specular-shimmer 8s ease-in-out infinite",
+        "stagger-fade-in": "stagger-fade-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards",
       },
       boxShadow: {
-        apple: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        'apple-lg': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'apple-xl': '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-        glass: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.4)',
-        'glass-dark': '0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
-        'glass-elevated':
-          '0 25px 50px -12px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.5)',
-        'glow-blue': '0 4px 24px rgba(59, 130, 246, 0.35)',
-        'glow-blue-intense': '0 8px 32px rgba(59, 130, 246, 0.45)',
-        'glow-red': '0 4px 24px rgba(255, 59, 48, 0.35)',
-        'glow-red-intense': '0 8px 32px rgba(255, 59, 48, 0.45)',
-        'glow-green': '0 4px 24px rgba(52, 199, 89, 0.35)',
-        float: '0 25px 50px -12px rgba(0, 0, 0, 0.15)',
+        // Base glass shadows
+        "glass": "0 8px 32px 0 rgba(0, 34, 125, 0.08)",
+        "glass-strong": "0 8px 32px 0 rgba(0, 34, 125, 0.15)",
+        "glass-subtle": "0 8px 32px 0 rgba(0, 34, 125, 0.04)",
+        "glass-light": "0 8px 32px rgba(0, 0, 0, 0.08)",
+        "glass-dark": "0 8px 32px rgba(0, 0, 0, 0.4)",
+        "glass-inset": "inset 0 1px 0 rgba(255, 255, 255, 0.3)",
+        "glass-elevated": "0 4px 16px rgba(0, 102, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2)",
+        // Apple Liquid Glass 2026 shadow tokens
+        "glass-2026-regular": "0 20px 60px -15px rgba(0, 0, 0, 0.08), 0 8px 24px -8px rgba(0, 0, 0, 0.04), inset 0 0 0 1px rgba(255, 255, 255, 0.6), inset 0 2px 0 rgba(255, 255, 255, 0.8)",
+        "glass-2026-clear": "0 20px 60px -15px rgba(0, 0, 0, 0.04), 0 8px 24px -8px rgba(0, 0, 0, 0.03), inset 0 0 0 1px rgba(255, 255, 255, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.6)",
+        "glass-2026-elevated": "0 25px 60px -12px rgba(0, 0, 0, 0.15), 0 12px 32px -8px rgba(0, 0, 0, 0.08), inset 0 0 0 1px rgba(255, 255, 255, 0.7), inset 0 2px 0 rgba(255, 255, 255, 0.9)",
+        "glass-2026-subtle": "0 12px 40px -10px rgba(0, 0, 0, 0.04), 0 4px 16px -6px rgba(0, 0, 0, 0.02), inset 0 0 0 1px rgba(255, 255, 255, 0.5), inset 0 2px 0 rgba(255, 255, 255, 0.6)",
+        // Glow shadows
+        "glow": "0 0 20px rgba(0, 34, 125, 0.3)",
+        "glow-strong": "0 0 40px rgba(0, 34, 125, 0.6)",
+        "glow-subtle": "0 0 10px rgba(0, 34, 125, 0.15)",
+        // Apple glow colors
+        "glow-blue": "0 4px 24px rgba(0, 122, 255, 0.3)",
+        "glow-blue-intense": "0 8px 32px rgba(0, 122, 255, 0.4)",
+        "glow-green": "0 4px 24px rgba(52, 199, 89, 0.3)",
+        "glow-green-intense": "0 8px 32px rgba(52, 199, 89, 0.4)",
+        "glow-red": "0 4px 24px rgba(255, 59, 48, 0.3)",
+        "glow-red-intense": "0 8px 32px rgba(255, 59, 48, 0.4)",
+        "glow-teal": "0 4px 24px rgba(90, 200, 250, 0.3)",
+        "glow-purple": "0 4px 24px rgba(175, 82, 222, 0.3)",
+        "glow-orange": "0 4px 24px rgba(255, 149, 0, 0.3)",
+        // Inner glow shadows
+        "inner-glow": "inset 0 1px 1px rgba(31, 168, 227, 0.5)",
+        "inner-glow-strong": "inset 0 1px 1px rgba(31, 168, 227, 0.8)",
+        "inner-glow-subtle": "inset 0 1px 1px rgba(31, 168, 227, 0.3)",
+      },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+      },
+      backdropBlur: {
+        xs: "2px",
+        glass: "20px",
+        "glass-heavy": "40px",
+        // Apple Liquid Glass 2026 blur scale
+        "glass-2026": "40px",
+        "glass-2026-regular": "60px",
+        "glass-2026-clear": "80px",
+        "glass-2026-max": "120px",
+      },
+      // Apple Liquid Glass 2026 easing curves
+      transitionTimingFunction: {
+        "apple": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "apple-spring": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "apple-ease-in": "cubic-bezier(0.42, 0, 1, 1)",
+        "apple-ease-out": "cubic-bezier(0.25, 1, 0.5, 1)",
+        "apple-ease-in-out": "cubic-bezier(0.4, 0, 0.2, 1)",
+        "apple-bounce": "cubic-bezier(0.68, -0.55, 0.265, 1.55)",
+      },
+      // Apple Liquid Glass 2026 duration scale
+      transitionDuration: {
+        "instant": "100ms",
+        "fast": "200ms",
+        "normal": "300ms",
+        "slow": "500ms",
+        "slower": "700ms",
+        "slowest": "1000ms",
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
-}
+  plugins: [require("tailwindcss-animate")],
+};
 
-export default config
+export default config;

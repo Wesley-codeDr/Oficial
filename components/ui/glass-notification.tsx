@@ -63,7 +63,7 @@ const GlassNotification = forwardRef<HTMLDivElement, GlassNotificationProps>(
               'relative w-full max-w-sm mx-auto',
               // Glass styling
               'bg-white/80 dark:bg-slate-900/80',
-              'backdrop-blur-[60px] saturate-[180%]',
+              'liquid-glass-elevated',
               'border border-white/30 dark:border-white/10',
               'rounded-3xl',
               // Shadow

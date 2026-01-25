@@ -163,7 +163,7 @@ const GlassControlTile = forwardRef<HTMLButtonElement, GlassControlTileProps>(
         disabled={disabled}
         className={cn(
           'relative flex flex-col items-center justify-center gap-1.5',
-          'backdrop-blur-[60px] saturate-[180%]',
+          'liquid-glass-elevated',
           'border border-white/20',
           'transition-colors duration-200',
           'focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',

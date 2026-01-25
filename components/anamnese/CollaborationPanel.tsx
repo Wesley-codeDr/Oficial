@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from 'react'
 import { getClient } from '../../lib/supabase/client'
+import { useTheme } from 'next-themes'
+import { cn } from '@/lib/utils'
+import * as Theme from '@/lib/theme'
 
 export interface CollaborationPanelProps {
   sessionId: string
@@ -19,6 +22,19 @@ interface PresenceMeta {
 }
 
 export function CollaborationPanel({ sessionId }: CollaborationPanelProps) {
+  const { theme, resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === 'dark'
+
+  // Get theme-specific classes
+  const glassBlur = Theme.useGlassBlur('subtle')
+  const glassOpacity = Theme.useGlassOpacity('subtle', isDark)
+  const glassBorder = Theme.useGlassBorder('subtle', isDark)
+  const glassShadow = Theme.useGlassShadow('subtle', isDark)
+  const glassRadius = Theme.useGlassRadius('LG')
+  const glassNoise = Theme.useGlassNoise()
+  const glassSpecular = Theme.useGlassSpecular('subtle')
+  const glassRimLight = Theme.useGlassRimLight()
+
   const [users, setUsers] = useState<PresenceUser[]>([])
 
   useEffect(() => {
@@ -50,7 +66,17 @@ export function CollaborationPanel({ sessionId }: CollaborationPanelProps) {
 
   return (
     <aside
-      className="p-4 rounded-[24px] backdrop-blur-[40px] saturate-[180%] bg-white/55 dark:bg-[rgba(30,30,30,0.55)] border border-white/40 dark:border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.3)]"
+      className={cn(
+        'relative overflow-hidden p-4',
+        glassBlur,
+        glassOpacity,
+        glassBorder,
+        glassShadow,
+        glassRadius,
+        glassNoise,
+        glassSpecular,
+        glassRimLight
+      )}
       aria-label="Colaboração multiprofissional"
     >
       <div className="text-[13px] font-semibold uppercase tracking-wider text-[rgba(0,0,0,0.5)] dark:text-[rgba(255,255,255,0.5)]">

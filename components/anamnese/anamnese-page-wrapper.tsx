@@ -23,30 +23,24 @@ type SyndromeData = {
   checkboxes: CheckboxData[]
 }
 
-interface AnamnesePageWrapperProps {
-  syndrome: SyndromeData
-}
-
-export function AnamnesePageWrapper({ syndrome }: AnamnesePageWrapperProps) {
-  const { isContextSet, reset } = usePatientStore()
-  const [showModal, setShowModal] = useState(false)
-  const [isReady, setIsReady] = useState(false)
+export function AnamnesePageWrapper({ syndrome }: { syndrome: SyndromeData }) {
+  const { reset } = usePatientStore()
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   // Check if context is set on mount
   useEffect(() => {
     // Reset context for each new anamnese session
-    // This ensures the user always sets the context for the current patient
+    // This ensures user always sets context for current patient
     reset()
-    setShowModal(true)
-    setIsReady(true)
+    setIsModalOpen(true)
   }, [reset])
 
   const handleModalComplete = () => {
-    setShowModal(false)
+    setIsModalOpen(false)
   }
 
   // Don't render anything until we've checked the store
-  if (!isReady) {
+  if (!isModalOpen) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
         <div className="animate-pulse text-muted-foreground">Carregando...</div>
@@ -56,8 +50,8 @@ export function AnamnesePageWrapper({ syndrome }: AnamnesePageWrapperProps) {
 
   return (
     <>
-      <PatientContextModal isOpen={showModal} onComplete={handleModalComplete} />
-      {!showModal && <AnamneseForm syndrome={syndrome} />}
+      <PatientContextModal isOpen={isModalOpen} onComplete={handleModalComplete} />
+      {!isModalOpen && <AnamneseForm syndrome={syndrome} />}
     </>
   )
 }

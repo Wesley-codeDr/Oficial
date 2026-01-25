@@ -191,7 +191,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
               onClick={handleBack}
               className={`
                 w-12 h-12 rounded-2xl flex items-center justify-center shrink-0
-                backdrop-blur-[40px] saturate-[180%]
+                liquid-glass-subtle
                 bg-white/55 dark:bg-slate-900/65
                 border-[1.5px] border-white/50 dark:border-white/12
                 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
@@ -227,7 +227,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
               }
               className={`
                 w-full h-14 pl-16 pr-8 rounded-[32px]
-                backdrop-blur-[40px] saturate-[180%]
+                liquid-glass-subtle
                 bg-white/55 dark:bg-slate-900/65
                 border-[1.5px] border-white/50 dark:border-white/12
                 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
@@ -254,7 +254,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
                   transition={{ duration: 0.2, ease: [0.25, 1, 0.5, 1] }}
                   className={`
                     absolute mt-4 left-4 right-4 z-40 overflow-hidden py-2
-                    backdrop-blur-[60px] saturate-[180%]
+                    liquid-glass-elevated
                     bg-white/75 dark:bg-slate-900/75
                     border border-white/40 dark:border-white/20
                     rounded-[28px]
@@ -339,7 +339,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
                     onClick={() => onSelect(complaint.id, complaint.group)}
                     className={`
                       w-full text-left p-5 rounded-2xl
-                      backdrop-blur-[40px] saturate-[180%]
+                      liquid-glass-subtle
                       bg-white/55 dark:bg-slate-900/65
                       border-[1.5px] border-white/40 dark:border-white/12
                       shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
@@ -402,7 +402,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
                       onClick={() => onSelect(complaint.id, complaint.group)}
                       className={`
                         w-full text-left p-4 rounded-2xl
-                        backdrop-blur-[40px] saturate-[180%]
+                        liquid-glass-subtle
                         bg-white/55 dark:bg-slate-900/65
                         border-[1.5px] border-white/40 dark:border-white/12
                         shadow-[0_25px_50px_-12px_rgba(0,0,0,0.1)]
@@ -453,7 +453,7 @@ export const ComplaintSelection: React.FC<ComplaintSelectionProps> = ({ onSelect
                       onClick={() => setSelectedGroupCode(group.code)}
                       className={`
                         w-full text-left p-4 rounded-2xl relative overflow-hidden
-                        backdrop-blur-[40px] saturate-[180%]
+                        liquid-glass-subtle
                         ${isRecommended
                           ? 'bg-gradient-to-br from-blue-500/15 to-purple-500/15 dark:from-blue-500/10 dark:to-purple-500/10'
                           : 'bg-white/55 dark:bg-slate-900/65'

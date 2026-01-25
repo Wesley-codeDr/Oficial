@@ -101,14 +101,19 @@ export function KanbanColumn({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        'flex flex-col min-w-[280px] max-w-[320px] h-full',
+        'relative flex flex-col min-w-[280px] max-w-[320px] h-full',
         'rounded-3xl p-4',
-        'bg-gradient-to-b',
-        COLUMN_COLORS[column.color],
         'border border-white/20 dark:border-white/5'
       )}
       data-testid={`kanban-column-${status}`}
     >
+      <div
+        className={cn(
+          'absolute inset-0 -z-10 rounded-3xl',
+          'bg-gradient-to-b',
+          COLUMN_COLORS[column.color]
+        )}
+      />
       {/* Column Header */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-3">
