@@ -29,6 +29,7 @@ import { usePatientStore } from '@/stores/patient-store'
 import { useComplaint } from '@/hooks/use-complaints'
 import { useCFMProgress } from '@/hooks/use-cfm-progress'
 import { useEmergencyDetection } from '@/hooks/use-emergency-detection'
+import { anamneseLogger, logAndReturnError } from '@/lib/logging'
 import type { CheckboxCategory as CheckboxCategoryType } from '@/lib/types/medical'
 
 type CheckboxData = {
@@ -54,12 +55,12 @@ interface AnamneseFormProps {
 
 const CATEGORY_LABELS: Record<CheckboxCategory, string> = {
   QP: 'Queixa Principal',
-  HDA: 'Historia da Doenca Atual',
+  HDA: 'História da Doença Atual',
   ANTECEDENTES: 'Antecedentes Pessoais',
-  MEDICACOES: 'Medicacoes em Uso',
+  MEDICACOES: 'Medicações em Uso',
   ALERGIAS: 'Alergias',
-  HABITOS: 'Habitos de Vida',
-  EXAME_FISICO: 'Exame Fisico',
+  HABITOS: 'Hábitos de Vida',
+  EXAME_FISICO: 'Exame Físico',
   NEGATIVAS: 'Negativas Pertinentes',
 }
 
@@ -246,7 +247,10 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
       // Silent success - indicator shows status
     },
     onSaveError: (error) => {
-      console.error('Auto-save failed:', error)
+      anamneseLogger.error('Auto-save failed', error, {
+        syndromeId: syndrome.id,
+        checkedItemsCount: selectedIds.size,
+      })
     },
   })
 
@@ -312,7 +316,9 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
       // Se não encontrar o checkbox, logar e retornar
       if (!checkboxId) {
-        console.warn(`Checkbox not found: ${category} - ${label}`)
+        anamneseLogger.warn(`Checkbox not found: ${category} - ${label}`, undefined, {
+          syndromeId: syndrome.id,
+        })
         return
       }
 
@@ -418,9 +424,16 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
         toast({
           title: 'Anamnese salva!',
-          description: 'A anamnese foi salva no seu historico.',
+          description: 'A anamnese foi salva no seu histórico.',
         })
-      } catch (_error) {
+      } catch (error) {
+        anamneseLogger.error('Erro ao salvar anamnese', error, {
+          syndromeId: syndrome.id,
+          checkedItemsCount: selectedIds.size,
+          outputMode,
+          redFlagsCount: redFlags.length,
+        })
+
         toast({
           title: 'Erro ao salvar',
           description: 'Ocorreu um erro ao salvar a anamnese. Tente novamente.',
@@ -431,18 +444,32 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
   }
 
   const handleCopy = () => {
-    if (savedSessionId) {
-      // Track copy event
-      analytics.anamnaseCopied(syndrome.code, savedSessionId)
-
-      startTransition(async () => {
-        try {
-          await markSessionAsCopied(savedSessionId)
-        } catch (_error) {
-          // Silent fail - not critical
-        }
+    if (!savedSessionId) {
+      toast({
+        title: 'Salve a anamnese primeiro',
+        description: 'Salve a anamnese antes de abrir o chat para ter contexto.',
+        variant: 'destructive',
       })
+      return
     }
+
+    startTransition(async () => {
+      try {
+        analytics.anamneseCopied(syndrome.code, savedSessionId)
+        await markSessionAsCopied(savedSessionId)
+      } catch (error) {
+        anamneseLogger.error('Erro ao copiar anamnese', error, {
+          syndromeId: syndrome.code,
+          sessionId: savedSessionId,
+        })
+
+        toast({
+          title: 'Erro ao copiar',
+          description: 'Ocorreu um erro ao copiar a anamnese. Tente novamente.',
+          variant: 'destructive',
+        })
+      }
+    })
   }
 
   const handleOpenChat = () => {
@@ -469,10 +496,15 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
         const conversation = await response.json()
         router.push(`/chat/${conversation.id}`)
-      } catch (_error) {
+      } catch (error) {
+        anamneseLogger.error('Erro ao abrir chat', error, {
+          sessionId: savedSessionId,
+          syndromeId: syndrome.id,
+        })
+
         toast({
           title: 'Erro ao abrir chat',
-          description: 'Nao foi possivel iniciar o chat. Tente novamente.',
+          description: 'Não foi possível iniciar o chat. Tente novamente.',
           variant: 'destructive',
         })
       }
@@ -548,160 +580,147 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
         {/* Mode Toggle and Main Controls - Task 5.6: Subtle glass for form controls */}
         <div className="flex flex-wrap items-center justify-between gap-4 px-2">
           <div className={cn(
-            'relative overflow-hidden flex items-center gap-2 p-1.5',
-            'liquid-glass-2026-subtle',
-            'rounded-2xl'
+            'flex flex-wrap items-center gap-2'
           )}>
-            <button
-              onClick={() => setOutputMode('SUMMARY')}
-              className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all',
-                outputMode === 'SUMMARY'
-                  ? 'bg-blue-500/90 text-white shadow-lg shadow-blue-500/20 backdrop-blur-xl active:scale-95'
-                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10 hover:scale-105'
-              )}
-            >
-              <List className="h-3.5 w-3.5" />
-              Resumido
-            </button>
-            <button
-              onClick={() => setOutputMode('DETAILED')}
-              className={cn(
-                'flex items-center gap-2 px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all',
-                outputMode === 'DETAILED'
-                  ? 'bg-blue-500/90 text-white shadow-lg shadow-blue-500/20 backdrop-blur-xl active:scale-95'
-                  : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 hover:bg-white/10 hover:scale-105'
-              )}
-            >
-              <FileText className="h-3.5 w-3.5" />
-              Detalhado
-            </button>
+            {/* Mode Toggle */}
+            <div className={cn(
+              'flex items-center gap-2',
+              'liquid-glass-2026-subtle',
+              'rounded-lg',
+              'p-2'
+            )}>
+              <button
+                onClick={() => setOutputMode('SUMMARY')}
+                className={cn(
+                  'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                  outputMode === 'SUMMARY'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-muted-foreground hover:bg-muted'
+                )}
+              >
+                Resumo
+              </button>
+              <button
+                onClick={() => setOutputMode('DETAILED')}
+                className={cn(
+                  'px-3 py-1.5 rounded-md text-sm font-medium transition-colors',
+                  outputMode === 'DETAILED'
+                    ? 'bg-primary text-primary-foreground'
+                    : 'text-muted-foreground hover:bg-muted'
+                )}
+              >
+                Detalhado
+              </button>
+            </div>
           </div>
 
-          <div className={cn(
-            'text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest flex items-center gap-2',
-            'px-4 py-2',
-            'liquid-glass-2026-subtle',
-            'rounded-2xl'
-          )}>
-            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
-            {selectedIds.size} Iten{selectedIds.size !== 1 ? 's' : ''} Selecionado
-            {selectedIds.size !== 1 ? 's' : ''}
+          {/* Action Buttons */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={handleReset}
+              className={cn(
+                'p-2 rounded-lg',
+                'liquid-glass-2026-subtle',
+                'hover:bg-muted',
+                'transition-colors'
+              )}
+              title="Resetar seleção"
+            >
+              <RotateCcw className="h-5 w-5" />
+            </button>
+
+            <button
+              onClick={handleSave}
+              disabled={isPending || selectedIds.size === 0}
+              className={cn(
+                'flex items-center gap-2 px-4 py-2 rounded-lg',
+                'bg-primary text-primary-foreground',
+                'hover:bg-primary/90',
+                'disabled:opacity-50 disabled:cursor-not-allowed',
+                'transition-colors'
+              )}
+            >
+              <Save className="h-5 w-5" />
+              {isPending ? 'Salvando...' : 'Salvar'}
+            </button>
+
+            <button
+              onClick={handleCopy}
+              disabled={!savedSessionId || isPending}
+              className={cn(
+                'flex items-center gap-2 px-4 py-2 rounded-lg',
+                'liquid-glass-2026-subtle',
+                'hover:bg-muted',
+                'disabled:opacity-50 disabled:cursor-not-allowed',
+                'transition-colors'
+              )}
+              title="Copiar para área de transferência"
+            >
+              <FileText className="h-5 w-5" />
+            </button>
+
+            <button
+              onClick={handleOpenChat}
+              disabled={!savedSessionId || isPending}
+              className={cn(
+                'flex items-center gap-2 px-4 py-2 rounded-lg',
+                'liquid-glass-2026-subtle',
+                'hover:bg-muted',
+                'disabled:opacity-50 disabled:cursor-not-allowed',
+                'transition-colors'
+              )}
+              title="Abrir chat com contexto da anamnese"
+            >
+              <MessageSquare className="h-5 w-5" />
+            </button>
           </div>
+        </div>
+
+        {/* Export PDF Button */}
+        <ExportPDFButton
+          sessionId={savedSessionId}
+          syndrome={syndrome}
+          narrative={narrative}
+          selectedCheckboxes={selectedCheckboxes}
+          redFlags={redFlags}
+          patientContext={patientContext}
+        />
+      </div>
+
+      {/* Right Panel - Preview */}
+      <div className="space-y-8">
+        {/* Narrative Preview */}
+        <div className={cn(
+          'relative overflow-hidden',
+          'liquid-glass-2026-subtle',
+          'rounded-2xl',
+          'p-6'
+        )}>
+          <h3 className="text-lg font-semibold mb-4">Narrativa Gerada</h3>
+          <NarrativePreview narrative={narrative} />
         </div>
 
         {/* CFM Progress Indicator */}
         <CFMProgressIndicator
           selectedByCategory={selectedByCategory}
           totalByCategory={totalByCategory}
-          showLabels={true}
         />
 
-        {/* Emergency Warning Overlay - Real-time critical symptom detection */}
-        {hasEmergency && (
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-          >
-            <EmergencyWarningOverlay
-              emergencies={detectedEmergencies}
-              highestSeverity={highestSeverity}
-              requiresImmediateAction={requiresImmediateAction}
-              onDismiss={dismissAll}
-              onDismissOne={dismissEmergency}
-              position="inline"
-            />
-          </motion.div>
+        {/* Red Flags Alert */}
+        {redFlags.length > 0 && (
+          <RedFlagAlert redFlags={normalizedRedFlags} />
         )}
 
-        {/* Red Flag Alert - Static warnings from checkbox metadata */}
-        <RedFlagAlert redFlags={normalizedRedFlags} />
-
-        {/* Checkbox Groups */}
-        <div className="space-y-10 px-1">
-          {CATEGORY_ORDER.map((category) => (
-            <CheckboxGroup
-              key={category}
-              title={CATEGORY_LABELS[category]}
-              items={groupedCheckboxes[category]}
-              selectedIds={selectedIds}
-              onToggle={handleToggle}
-            />
-          ))}
-        </div>
-
-        {/* Sticky Action Footer for Mobile/Small Screens - Task 5.6: Clear focus on controls */}
-        <div className="flex flex-wrap items-center gap-4 pt-8 pb-12 border-t border-white/20 dark:border-white/10">
-          <button
-            onClick={handleReset}
-            disabled={selectedIds.size === 0}
-            className={cn(
-              'px-4 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
-              'liquid-glass-2026-subtle',
-              selectedIds.size === 0
-                ? 'text-slate-400 cursor-not-allowed'
-                : 'text-slate-600 dark:text-slate-300 hover:bg-white/20 hover:scale-105 active:scale-95'
-            )}
-          >
-            <RotateCcw className="h-3.5 w-3.5" />
-            Limpar
-          </button>
-
-          <button
-            onClick={handleSave}
-            disabled={isPending || selectedIds.size === 0}
-            className={cn(
-              'px-8 py-3.5 rounded-3xl font-black text-xs uppercase tracking-[0.2em] transition-all duration-300 flex items-center gap-3',
-              isPending || selectedIds.size === 0
-                ? 'liquid-glass-2026-subtle bg-slate-500/20 text-slate-400 cursor-not-allowed'
-                : 'liquid-glass-2026-elevated bg-blue-500/90 text-white shadow-xl shadow-blue-500/10 hover:scale-105 active:scale-95'
-            )}
-          >
-            {isPending ? (
-              <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-            ) : (
-              <Save className="h-4 w-4" />
-            )}
-            {isPending ? 'Gravando...' : 'Finalizar Log'}
-          </button>
-
-          <button
-            onClick={handleOpenChat}
-            disabled={isPending || !savedSessionId}
-            className={cn(
-              'px-4 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2',
-              'liquid-glass-2026-subtle',
-              isPending || !savedSessionId
-                ? 'text-slate-400 cursor-not-allowed'
-                : 'text-blue-600 dark:text-blue-400 hover:bg-blue-500/10 hover:scale-105 active:scale-95'
-            )}
-          >
-            <MessageSquare className="h-3.5 w-3.5" />
-            <span>Consultar EBM</span>
-          </button>
-
-          {savedSessionId && (
-            <ExportPDFButton
-              sessionId={savedSessionId}
-              disabled={isPending}
-              className={cn(
-                'px-4 py-2.5 rounded-2xl text-[10px] font-black uppercase tracking-widest',
-                'liquid-glass-2026-subtle'
-              )}
-            />
-          )}
-        </div>
-      </div>
-
-      {/* Right Panel - Preview */}
-      <div className="lg:sticky lg:top-8 lg:self-start">
-        <NarrativePreview
-          narrative={narrative}
-          redFlagCount={redFlags.length}
-          onCopy={handleCopy}
-          className="h-full min-h-[500px]"
-        />
+        {/* Emergency Warning Overlay */}
+        {hasEmergency && (
+          <EmergencyWarningOverlay
+            emergencies={detectedEmergencies}
+            highestSeverity={highestSeverity}
+            requiresImmediateAction={requiresImmediateAction}
+            onDismiss={dismissEmergency}
+            onDismissAll={dismissAll}
+          />
+        )}
       </div>
     </div>
   )

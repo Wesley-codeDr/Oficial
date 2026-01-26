@@ -44,6 +44,7 @@ export function NarrativePreview({
   const glassOpacity = useGlassOpacity('default', isDark)
   const glassBorder = useGlassBorder(isDark)
   const glassShadow = useGlassShadow('default', isDark)
+  const glassShadowSuccess = useGlassShadow('success', isDark)
   const glassRadius = useGlassRadius('LG')
   const glassNoise = useGlassNoise()
   const glassSpecular = useGlassSpecular()
@@ -141,9 +142,9 @@ export function NarrativePreview({
               disabled={isEmpty}
               className={cn(
                 'flex items-center gap-2 px-5 py-2.5 rounded-xl font-black text-[10px] uppercase tracking-widest transition-all duration-300',
-                copied 
-                  ? cn('bg-emerald-500 text-white', useGlassShadow('success', isDark))
-                  : cn('bg-blue-600 text-white hover:scale-105 active:scale-95 disabled:opacity-50 disabled:grayscale', useGlassShadow('primary', isDark))
+                copied
+                  ? cn('bg-emerald-500 text-white', glassShadowSuccess)
+                  : cn('bg-blue-600 text-white hover:scale-105 active:scale-95 disabled:opacity-50 disabled:grayscale', glassShadow)
               )}
             >
               <AnimatePresence mode="wait">

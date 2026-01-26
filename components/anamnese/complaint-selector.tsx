@@ -73,6 +73,7 @@ export function ComplaintSelector({
   const glassOpacity = useGlassOpacity('default', isDark)
   const glassBorder = useGlassBorder(isDark)
   const glassShadow = useGlassShadow('default', isDark)
+  const glassShadowPrimary = useGlassShadow('primary', isDark)
   const glassRadius = useGlassRadius('MD')
   const glassNoise = useGlassNoise()
   const glassSpecular = useGlassSpecular()
@@ -153,7 +154,7 @@ export function ComplaintSelector({
           'transition-all',
           glassHoverScale,
           selectedComplaint
-            ? cn('ring-2 ring-blue-500/50', useGlassShadow('primary', isDark))
+            ? cn('ring-2 ring-blue-500/50', glassShadowPrimary)
             : 'hover:ring-2 hover:ring-blue-300/50'
         )}
       >
@@ -284,9 +285,9 @@ export function ComplaintSelector({
                 glassNoise,
                 glassSpecular,
                 glassHoverScale,
-                !selectedGroup
-                  ? cn('bg-blue-500/90 text-white', useGlassShadow('primary', isDark))
-                  : 'hover:bg-white/20 text-slate-600 dark:text-slate-300'
+                 !selectedGroup
+                   ? cn('bg-blue-500/90 text-white', glassShadowPrimary)
+                   : 'hover:bg-white/20 text-slate-600 dark:text-slate-300'
               )}
             >
               Todos ({complaints.length})
@@ -306,7 +307,7 @@ export function ComplaintSelector({
                   glassSpecular,
                   glassHoverScale,
                   selectedGroup === group.code
-                    ? cn('bg-blue-500/90 text-white', useGlassShadow('primary', isDark))
+                    ? cn('bg-blue-500/90 text-white', glassShadowPrimary)
                     : 'hover:bg-white/20 text-slate-600 dark:text-slate-300'
                 )}
               >
@@ -350,7 +351,7 @@ export function ComplaintSelector({
                       glassHoverScale,
                       glassTapScale,
                       selectedComplaintId === complaint.id
-                        ? cn('bg-blue-500/10 ring-1 ring-blue-500/20', useGlassShadow('primary', isDark))
+                        ? cn('bg-blue-500/10 ring-1 ring-blue-500/20', glassShadowPrimary)
                         : 'hover:bg-white/10 dark:hover:bg-white/5'
                     )}
                   >

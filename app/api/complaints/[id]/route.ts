@@ -8,6 +8,8 @@ import {
   parseAdditionalData,
 } from '@/lib/db/complaints'
 import { ComplaintUpdateSchema } from '@/lib/validation/complaints'
+import { withRateLimit, apiLimiter } from '@/lib/rate-limit'
+import { requirePermission, ResourceType, Action, handlePermissionError } from '@/lib/permissions'
 
 async function findComplaintById(id: string) {
   return prisma.chief_complaints.findFirst({
@@ -21,10 +23,14 @@ async function findComplaintById(id: string) {
 }
 
 export async function GET(
-  _req: Request,
+  req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Apply rate limiting
+    const rateLimitResponse = await withRateLimit(req, apiLimiter, 30)
+    if (rateLimitResponse) return rateLimitResponse
+
     const user = await getUser()
 
     if (!user) {
@@ -53,10 +59,21 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    // Apply rate limiting
+    const rateLimitResponse = await withRateLimit(req, apiLimiter, 10)
+    if (rateLimitResponse) return rateLimitResponse
+
     const user = await getUser()
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    // Check permission - only admins can update complaints
+    try {
+      requirePermission(user, ResourceType.CHIEF_COMPLAINTS, Action.UPDATE)
+    } catch (permissionError) {
+      return handlePermissionError(permissionError)
     }
 
     const { id } = await params
@@ -125,7 +142,8 @@ export async function PUT(
     }
 
     if (parsedBody.data.groupCode) {
-      data.group_id = groupId
+      // @ts-ignore - group_id exists in Prisma schema but not in generated types
+      (data as any).group_id = groupId
     }
 
     if (parsedBody.data.synonyms !== undefined) {
@@ -157,7 +175,7 @@ export async function PUT(
     }
 
     if (additionalUpdate !== undefined) {
-      data.additional_data = mergedAdditional
+      data.additional_data = mergedAdditional as Prisma.InputJsonValue
     }
 
     const updatedFields = Object.keys(data).filter(

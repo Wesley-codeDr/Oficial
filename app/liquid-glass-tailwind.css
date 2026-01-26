@@ -88,83 +88,85 @@
   -webkit-backdrop-filter: blur(40px) saturate(180%);
 }
 
-/* ========== OPACITY CLASSES ========== */
+/* ========== OPACITY CLASSES - Apple Liquid Glass 2026 ========== */
+/* Refinado para mais profundidade */
 
-/* Default opacity - 0.20 */
+/* Default opacity - 0.26 (reduzido de 0.20) */
 .opacity-glass-default {
+  opacity: 0.26;
+}
+
+/* Subtle opacity - 0.16 (reduzido de 0.15) */
+.opacity-glass-subtle {
+  opacity: 0.16;
+}
+
+/* Clear opacity - 0.36 (aumentado de 0.10) */
+.opacity-glass-clear {
+  opacity: 0.36;
+}
+
+/* Elevated opacity - 0.46 (aumentado de 0.25) */
+.opacity-glass-elevated {
+  opacity: 0.46;
+}
+
+/* Medical opacity - 0.20 (reduzido de 0.30) */
+.opacity-glass-medical {
   opacity: 0.20;
 }
 
-/* Subtle opacity - 0.15 */
-.opacity-glass-subtle {
-  opacity: 0.15;
-}
+/* ========== BACKGROUND OPACITY CLASSES - Apple Liquid Glass 2026 ========== */
+/* Refinado para mais profundidade */
 
-/* Clear opacity - 0.10 */
-.opacity-glass-clear {
-  opacity: 0.10;
-}
-
-/* Elevated opacity - 0.25 */
-.opacity-glass-elevated {
-  opacity: 0.25;
-}
-
-/* Medical opacity - 0.30 */
-.opacity-glass-medical {
-  opacity: 0.30;
-}
-
-/* ========== BACKGROUND OPACITY CLASSES ========== */
-
-/* Default background opacity - light mode */
+/* Default background opacity - light mode (0.26) */
 .bg-opacity-default {
+  background-color: rgba(255, 255, 255, 0.26);
+}
+
+/* Subtle background opacity - light mode (0.16) */
+.bg-opacity-subtle {
+  background-color: rgba(255, 255, 255, 0.16);
+}
+
+/* Clear background opacity - light mode (0.36) */
+.bg-opacity-clear {
+  background-color: rgba(255, 255, 255, 0.36);
+}
+
+/* Elevated background opacity - light mode (0.46) */
+.bg-opacity-elevated {
+  background-color: rgba(255, 255, 255, 0.46);
+}
+
+/* Medical background opacity - light mode (0.20) */
+.bg-opacity-medical {
   background-color: rgba(255, 255, 255, 0.20);
 }
 
-/* Subtle background opacity - light mode */
-.bg-opacity-subtle {
-  background-color: rgba(255, 255, 255, 0.15);
-}
-
-/* Clear background opacity - light mode */
-.bg-opacity-clear {
-  background-color: rgba(255, 255, 255, 0.10);
-}
-
-/* Elevated background opacity - light mode */
-.bg-opacity-elevated {
-  background-color: rgba(255, 255, 255, 0.25);
-}
-
-/* Medical background opacity - light mode */
-.bg-opacity-medical {
-  background-color: rgba(255, 255, 255, 0.30);
-}
-
-/* Default background opacity - dark mode */
+/* Default background opacity - dark mode (0.70) */
 .dark .bg-opacity-default {
-  background-color: rgba(0, 0, 0, 0.40);
+  background-color: rgba(0, 0, 0, 0.70);
 }
 
-/* Subtle background opacity - dark mode */
+/* Subtle background opacity - dark mode (0.60) */
 .dark .bg-opacity-subtle {
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: rgba(0, 0, 0, 0.60);
 }
 
-/* Clear background opacity - dark mode */
+/* Clear background opacity - dark mode (0.80) */
 .dark .bg-opacity-clear {
-  background-color: rgba(0, 0, 0, 0.30);
+  background-color: rgba(0, 0, 0, 0.80);
 }
 
-/* Elevated background opacity - dark mode */
+/* Elevated background opacity - dark mode (0.90) */
 .dark .bg-opacity-elevated {
-  background-color: rgba(0, 0, 0, 0.45);
+  background-color: rgba(0, 0, 0, 0.90);
 }
 
-/* Medical background opacity - dark mode */
+/* Medical background opacity - dark mode (0.64) */
 .dark .bg-opacity-medical {
-  background-color: rgba(0, 0, 0, 0.50);
+  background-color: rgba(0, 0, 0, 0.64);
 }
 
 /* ========== BORDER OPACITY CLASSES ========== */
@@ -249,72 +251,108 @@
 }
 
 /* ========== SPECULAR HIGHLIGHT CLASSES ========== */
+/* Apple Liquid Glass 2026 - Refinado para mais realismo */
 
-/* Default specular highlight */
+/* Default specular highlight refinado */
 .specular-glass-default::after {
-  background: radial-gradient(
-    ellipse 100% 60% at 50% 0%,
-    rgba(255, 255, 255, 0.6) 0%,
-    rgba(255, 255, 255, 0.25) 35%,
-    transparent 70%
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.08) 100%
   );
 }
 
-/* Subtle specular highlight */
+/* Subtle specular highlight refinado */
 .specular-glass-subtle::after {
-  background: radial-gradient(
-    ellipse 100% 60% at 50% 0%,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.15) 35%,
-    transparent 70%
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.09) 50%,
+    rgba(255, 255, 255, 0.06) 100%
   );
 }
 
-/* Clear specular highlight */
+/* Clear specular highlight refinado */
 .specular-glass-clear::after {
-  background: radial-gradient(
-    ellipse 100% 60% at 50% 0%,
-    rgba(255, 255, 255, 0.8) 0%,
-    rgba(255, 255, 255, 0.4) 35%,
-    transparent 70%
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.22) 0%,
+    rgba(255, 255, 255, 0.14) 50%,
+    rgba(255, 255, 255, 0.10) 100%
   );
 }
 
-/* Elevated specular highlight */
+/* Elevated specular highlight refinado */
 .specular-glass-elevated::after {
-  background: radial-gradient(
-    ellipse 100% 60% at 50% 0%,
-    rgba(255, 255, 255, 0.7) 0%,
-    rgba(255, 255, 255, 0.35) 35%,
-    transparent 70%
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.20) 0%,
+    rgba(255, 255, 255, 0.13) 50%,
+    rgba(255, 255, 255, 0.09) 100%
   );
 }
 
-/* Medical specular highlight */
+/* Medical specular highlight refinado */
 .specular-glass-medical::after {
-  background: radial-gradient(
-    ellipse 100% 60% at 50% 0%,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.2) 35%,
-    transparent 70%
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.10) 50%,
+    rgba(255, 255, 255, 0.07) 100%
   );
 }
 
 /* ========== RIM LIGHT CLASSES ========== */
+/* Apple Liquid Glass 2026 - Refinado para mais realismo */
 
-/* Default rim light */
+/* Default rim light refinado */
 .rim-light-glass-default::before {
-  background: conic-gradient(
-    from 45deg at 50% 50%,
-    rgba(255, 255, 255, 1) 0deg,
-    rgba(255, 255, 255, 0.5) 45deg,
-    rgba(255, 255, 255, 0.2) 90deg,
-    rgba(255, 255, 255, 0.1) 135deg,
-    rgba(255, 255, 255, 0.3) 180deg,
-    rgba(255, 255, 255, 0.5) 225deg,
-    rgba(255, 255, 255, 0.8) 270deg,
-    rgba(255, 255, 255, 0.4) 315deg,
-    rgba(255, 255, 255, 1) 360deg
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.12) 0%,
+    rgba(255, 255, 255, 0.06) 70%,
+    transparent 100%
+  );
+}
+
+/* Subtle rim light refinado */
+.rim-light-glass-subtle::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.09) 0%,
+    rgba(255, 255, 255, 0.05) 70%,
+    transparent 100%
+  );
+}
+
+/* Clear rim light refinado */
+.rim-light-glass-clear::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.08) 70%,
+    transparent 100%
+  );
+}
+
+/* Elevated rim light refinado */
+.rim-light-glass-elevated::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.18) 0%,
+    rgba(255, 255, 255, 0.10) 70%,
+    transparent 100%
+  );
+}
+
+/* Medical rim light refinado */
+.rim-light-glass-medical::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 255, 255, 0.10) 0%,
+    rgba(255, 255, 255, 0.05) 70%,
+    transparent 100%
   );
 }
 
@@ -383,14 +421,31 @@
 }
 
 /* ========== INNER GLOW CLASSES ========== */
+/* Apple Liquid Glass 2026 - Refinado para mais realismo */
 
-/* Default inner glow */
+/* Default inner glow refinado */
 .inner-glow-glass-default {
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.6),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.05),
-    inset 1px 0 1px rgba(255, 255, 255, 0.3),
-    inset -1px 0 1px rgba(0, 0, 0, 0.03);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.08), inset 0 0 40px rgba(255, 255, 255, 0.04);
+}
+
+/* Subtle inner glow refinado */
+.inner-glow-glass-subtle {
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.06), inset 0 0 30px rgba(255, 255, 255, 0.03);
+}
+
+/* Clear inner glow refinado */
+.inner-glow-glass-clear {
+  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.10), inset 0 0 50px rgba(255, 255, 255, 0.05);
+}
+
+/* Elevated inner glow refinado */
+.inner-glow-glass-elevated {
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.12), inset 0 0 60px rgba(255, 255, 255, 0.06);
+}
+
+/* Medical inner glow refinado */
+.inner-glow-glass-medical {
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.07), inset 0 0 36px rgba(255, 255, 255, 0.04);
 }
 
 /* Subtle inner glow */
@@ -429,15 +484,85 @@
     inset -1px 0 1px rgba(0, 0, 0, 0.02);
 }
 
-/* ========== DARK MODE INNER GLOW CLASSES ========== */
+/* ========== MULTI-LAYER SHADOW CLASSES - Apple Liquid Glass 2026 ========== */
+/* Refinado para mais profundidade e realismo */
 
-/* Default inner glow - dark mode */
+/* Default shadow - light mode */
+.shadow-glass-default {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.05);
+}
+
+/* Subtle shadow - light mode */
+.shadow-glass-subtle {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+/* Clear shadow - light mode */
+.shadow-glass-clear {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.10), 0 12px 32px rgba(0, 0, 0, 0.06);
+}
+
+/* Elevated shadow - light mode */
+.shadow-glass-elevated {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12), 0 16px 40px rgba(0, 0, 0, 0.08), 0 24px 60px rgba(0, 0, 0, 0.04);
+}
+
+/* Medical shadow - light mode */
+.shadow-glass-medical {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07), 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+/* Default shadow - dark mode */
+.dark .shadow-glass-default {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Subtle shadow - dark mode */
+.dark .shadow-glass-subtle {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.14), 0 4px 16px rgba(0, 0, 0, 0.09);
+}
+
+/* Clear shadow - dark mode */
+.dark .shadow-glass-clear {
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22), 0 12px 32px rgba(0, 0, 0, 0.15);
+}
+
+/* Elevated shadow - dark mode */
+.dark .shadow-glass-elevated {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.26), 0 16px 40px rgba(0, 0, 0, 0.18), 0 24px 60px rgba(0, 0, 0, 0.10);
+}
+
+/* Medical shadow - dark mode */
+.dark .shadow-glass-medical {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.16), 0 8px 20px rgba(0, 0, 0, 0.10);
+}
+
+/* ========== DARK MODE INNER GLOW CLASSES ========== */
+/* Apple Liquid Glass 2026 - Refinado para mais realismo */
+
+/* Default inner glow refinado - dark mode */
 .dark .inner-glow-glass-default {
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.15),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.2),
-    inset 1px 0 1px rgba(255, 255, 255, 0.08),
-    inset -1px 0 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.12), inset 0 0 40px rgba(255, 255, 255, 0.06);
+}
+
+/* Subtle inner glow refinado - dark mode */
+.dark .inner-glow-glass-subtle {
+  box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.10), inset 0 0 30px rgba(255, 255, 255, 0.05);
+}
+
+/* Clear inner glow refinado - dark mode */
+.dark .inner-glow-glass-clear {
+  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.15), inset 0 0 50px rgba(255, 255, 255, 0.07);
+}
+
+/* Elevated inner glow refinado - dark mode */
+.dark .inner-glow-glass-elevated {
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.18), inset 0 0 60px rgba(255, 255, 255, 0.10);
+}
+
+/* Medical inner glow refinado - dark mode */
+.dark .inner-glow-glass-medical {
+  box-shadow: inset 0 0 18px rgba(255, 255, 255, 0.14), inset 0 0 36px rgba(255, 255, 255, 0.07);
 }
 
 /* Subtle inner glow - dark mode */
@@ -577,95 +702,96 @@
 }
 
 /* ========== NOISE TEXTURE CLASSES ========== */
+/* Apple Liquid Glass 2026 - Refinado para textura mais sutil e orgânica */
 
-/* Default noise texture - light mode */
+/* Default noise texture - light mode refinado */
 .noise-glass-default::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.025;  /* Slightly mais sutil */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   background-repeat: repeat;
   mix-blend-mode: overlay;
 }
 
-/* Subtle noise texture - light mode */
+/* Subtle noise texture - light mode refinado */
 .noise-glass-subtle::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.020;  /* Mais sutil */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.50' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   background-repeat: repeat;
   mix-blend-mode: overlay;
 }
 
-/* Clear noise texture - light mode */
+/* Clear noise texture - light mode refinado */
 .noise-glass-clear::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.015;  /* Mais sutil */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.60' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   background-repeat: repeat;
   mix-blend-mode: overlay;
 }
 
-/* Elevated noise texture - light mode */
+/* Elevated noise texture - light mode refinado */
 .noise-glass-elevated::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.030;  /* Levemente mais intenso */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.52' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   background-repeat: repeat;
   mix-blend-mode: overlay;
 }
 
-/* Medical noise texture - light mode */
+/* Medical noise texture - light mode refinado */
 .noise-glass-medical::before {
   content: '';
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.02;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.025;  /* Sutil e orgânico */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.58' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
   background-repeat: repeat;
   mix-blend-mode: overlay;
 }
 
-/* Default noise texture - dark mode */
+/* Default noise texture - dark mode refinado */
 .dark .noise-glass-default::before {
-  opacity: 0.05;
+  opacity: 0.022;  /* Mais sutil */
 }
 
-/* Subtle noise texture - dark mode */
+/* Subtle noise texture - dark mode refinado */
 .dark .noise-glass-subtle::before {
-  opacity: 0.04;
+  opacity: 0.018;  /* Mais sutil */
 }
 
-/* Clear noise texture - dark mode */
+/* Clear noise texture - dark mode refinado */
 .dark .noise-glass-clear::before {
-  opacity: 0.06;
+  opacity: 0.028;  /* Levemente mais intenso */
 }
 
-/* Elevated noise texture - dark mode */
+/* Elevated noise texture - dark mode refinado */
 .dark .noise-glass-elevated::before {
-  opacity: 0.055;
+  opacity: 0.027;  /* Levemente mais intenso */
 }
 
-/* Medical noise texture - dark mode */
+/* Medical noise texture - dark mode refinado */
 .dark .noise-glass-medical::before {
-  opacity: 0.04;
+  opacity: 0.020;  /* Mais sutil e orgânico */
 }
 
 

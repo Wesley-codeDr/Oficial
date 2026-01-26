@@ -361,17 +361,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
         }}
       />
 
-      {/* NEW: Caustics effect on sidebar */}
-      <div
-        className="absolute inset-0 pointer-events-none opacity-25"
-        style={{
-          background: `
-            radial-gradient(ellipse 30% 20% at 15% 85%, rgba(255, 255, 255, 0.12) 0%, transparent 50%),
-            radial-gradient(ellipse 25% 15% at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-            radial-gradient(ellipse 20% 25% at 90% 25%, rgba(255, 255, 255, 0.08) 0%, transparent 50%)
-          `,
-        }}
-      />
+      {/* NEW: Caustics effect on sidebar using system class */}
+      <div className="caustics-2026 absolute inset-0 pointer-events-none" />
       <motion.div
         className="w-full h-full flex flex-col"
         initial={hasMounted ? asideAnimation.initial : false}
@@ -387,9 +378,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           }}
         >
           <div className={`flex items-center select-none group transition-all duration-500 ${isCollapsed ? 'gap-0' : 'gap-3'}`}>
-            {/* LOGO CONTAINER GLASS */}
             <motion.div
-              className="logo-glass-container w-12 h-12 shrink-0"
+              className="logo-glass-container w-12 h-12 shrink-0 relative"
               animate={{ y: [0, -2, 0] }}
               transition={{
                 duration: 4,
@@ -403,6 +393,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               }}
               whileTap={{ scale: 0.98, transition: { duration: 0.12 } }}
             >
+              <div className="specular-2026 absolute inset-0 rounded-xl pointer-events-none" />
               <img
                 src="/logo-wellwave.png"
                 alt="WellWave Logo"
@@ -432,9 +423,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
           </div>
         </div>
 
-        {/* Navigation Groups */}
         <nav
-          className={`flex-1 overflow-y-auto space-y-10 py-6 custom-scrollbar relative z-10 transition-all duration-500 ${isCollapsed ? 'px-0' : 'px-4'}`}
+          className={`flex-1 overflow-y-auto space-y-10 py-6 custom-scrollbar relative z-10 transition-all duration-500 ${isCollapsed ? 'px-0' : 'px-4'} rim-light-ios26`}
           role="navigation"
           aria-label="Navegação principal"
         >
@@ -512,13 +502,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
               </div>
             )}
 
-            {/* The Switch */}
+             {/* The Switch */}
             <button
               onClick={toggleTheme}
               className={`
                   group relative h-[36px] w-[64px] rounded-full
                   transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]
-                  cursor-pointer outline-none
+                  cursor-pointer outline-none backdrop-blur-ios26
                   ${
                     theme === 'dark'
                       ? 'bg-[#2c2c2e]/80 border border-white/5 shadow-[inset_0_2px_6px_rgba(0,0,0,0.4)]'
@@ -566,10 +556,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
             </button>
           </div>
 
-          {/* User Profile */}
+           {/* User Profile */}
           <div
             className={`
-          flex items-center rounded-[24px] transition-all duration-500 group w-full
+          flex items-center rounded-[24px] transition-all duration-500 group w-full inner-glow-ios26
           ${
             isCollapsed
               ? 'justify-center p-2 bg-transparent hover:bg-white/10 dark:hover:bg-white/5'

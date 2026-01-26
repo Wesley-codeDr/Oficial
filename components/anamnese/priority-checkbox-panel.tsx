@@ -83,6 +83,7 @@ export function PriorityCheckboxPanel({
   const glassOpacity = useGlassOpacity('default', isDark)
   const glassBorder = useGlassBorder(isDark)
   const glassShadow = useGlassShadow('default', isDark)
+  const glassShadowPrimary = useGlassShadow('primary', isDark)
   const glassRadius = useGlassRadius('MD')
   const glassNoise = useGlassNoise()
   const glassSpecular = useGlassSpecular()
@@ -220,7 +221,7 @@ export function PriorityCheckboxPanel({
                         glassHoverScale,
                         glassTapScale,
                         isSelected
-                          ? cn('bg-blue-600 text-white', useGlassShadow('primary', isDark))
+                          ? cn('bg-blue-600 text-white', glassShadowPrimary)
                           : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
                       )}
                     >

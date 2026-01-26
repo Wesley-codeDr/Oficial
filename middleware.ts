@@ -1,11 +1,11 @@
 /**
- * NOTE: Next.js 16 deprecates middleware.ts in favor of proxy.ts for routing.
+ * NOTE: Next.js 15+ deprecates middleware.ts in favor of proxy.ts for routing.
  * However, proxy.ts is ONLY for routing (rewrites, redirects, headers).
  * Authentication should be handled in Layouts or Route Handlers.
  *
  * This middleware handles Supabase session refresh and route protection.
  * Keeping middleware.ts until Supabase provides official migration guidance.
- * See: https://nextjs.org/docs/app/guides/upgrading/version-16
+ * See: https://nextjs.org/docs/app/guides/upgrading
  */
 import { type NextRequest } from 'next/server'
 import { updateSession } from '@/lib/supabase/middleware'

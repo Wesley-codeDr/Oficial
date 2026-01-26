@@ -12,6 +12,7 @@
  */
 
 import { useState, useEffect, useCallback, useRef } from 'react'
+import { AUTO_SAVE_CONFIG } from '@/lib/config/auto-save'
 
 // ============================================================================
 // Types
@@ -44,7 +45,7 @@ export interface UseAutoSaveOptions<T> {
   data: T
   /** Save function that persists data */
   onSave: (data: T) => Promise<void>
-  /** Debounce delay in milliseconds (default: 2000) */
+  /** Debounce delay in milliseconds (default: AUTO_SAVE_CONFIG.SAVED_STATUS_DURATION) */
   debounceMs?: number
   /** Whether auto-save is enabled (default: true) */
   enabled?: boolean
@@ -70,21 +71,13 @@ export interface UseAutoSaveReturn extends AutoSaveState {
 }
 
 // ============================================================================
-// Configuration
-// ============================================================================
-
-const DEFAULT_DEBOUNCE_MS = 2000
-const RECOVERY_RETRY_DELAY = 5000
-const MAX_RECOVERY_ATTEMPTS = 3
-
-// ============================================================================
 // Hook Implementation
 // ============================================================================
 
 export function useAutoSave<T>({
   data,
   onSave,
-  debounceMs = DEFAULT_DEBOUNCE_MS,
+  debounceMs = AUTO_SAVE_CONFIG.DEFAULT_DEBOUNCE_MS,
   enabled = true,
   isValid = () => true,
   onSaveSuccess,
@@ -188,7 +181,7 @@ export function useAutoSave<T>({
           if (isMountedRef.current) {
             setStatus('idle')
           }
-        }, 2000)
+        }, AUTO_SAVE_CONFIG.SAVED_STATUS_DURATION)
       } catch (err) {
         if (!isMountedRef.current) return
 
@@ -246,7 +239,7 @@ export function useAutoSave<T>({
     }
 
     const attemptRecovery = async () => {
-      if (recoveryAttemptsRef.current >= MAX_RECOVERY_ATTEMPTS) {
+      if (recoveryAttemptsRef.current >= AUTO_SAVE_CONFIG.MAX_RECOVERY_ATTEMPTS) {
         setStatus('error')
         setError('Múltiplas tentativas falharam. Por favor, salve manualmente.')
         return
@@ -255,6 +248,10 @@ export function useAutoSave<T>({
       recoveryAttemptsRef.current++
 
       const latestData = recoveryQueueRef.current[recoveryQueueRef.current.length - 1]
+
+      if (!latestData) {
+        return
+      }
 
       try {
         await onSave(latestData)
@@ -269,10 +266,10 @@ export function useAutoSave<T>({
           if (isMountedRef.current) {
             setStatus('idle')
           }
-        }, 2000)
+        }, AUTO_SAVE_CONFIG.SAVED_STATUS_DURATION)
       } catch {
         // Wait and retry
-        setTimeout(attemptRecovery, RECOVERY_RETRY_DELAY)
+        setTimeout(attemptRecovery, AUTO_SAVE_CONFIG.RECOVERY_RETRY_DELAY)
       }
     }
 

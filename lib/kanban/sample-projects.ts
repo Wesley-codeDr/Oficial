@@ -1,4 +1,5 @@
 import { KanbanTask, KanbanStatus } from '@/lib/types/medical'
+import { generateIdWithPrefix } from '@/lib/utils'
 
 export interface SampleProject {
   id: string
@@ -87,8 +88,8 @@ export const SAMPLE_PROJECTS: SampleProject[] = [
 export function createBoardFromSample(sample: SampleProject): KanbanTask[] {
   return sample.tasks.map((task) => ({
     ...task,
-    id: `task-${Math.random().toString(36).substring(2, 9)}`,
-  })) as KanbanTask[]
+    id: generateIdWithPrefix('task-'),
+  }))
 }
 
 // Get sample project by use case

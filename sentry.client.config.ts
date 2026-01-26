@@ -5,10 +5,10 @@
 import * as Sentry from "@sentry/nextjs";
 
 Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN || "https://893edabca7965e86e06718dbfcba0166@o4510188708691968.ingest.us.sentry.io/4510497457831936",
+  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN,
 
   // Adjust this value in production, or use tracesSampler for greater control
-  tracesSampleRate: 1,
+  tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.1 : 1,
 
   // Setting this option to true will print useful information to the console while you're setting up Sentry.
   debug: false,
@@ -27,4 +27,21 @@ Sentry.init({
       blockAllMedia: true,
     }),
   ],
+
+  // Before send callback to filter sensitive data
+  beforeSend(event, hint) {
+    // Remove sensitive data from the event
+    if (event.request) {
+      delete event.request.cookies
+      delete event.request.headers
+    }
+
+    // Remove user PII
+    if (event.user) {
+      delete event.user.email
+      delete event.user.ip_address
+    }
+
+    return event
+  },
 });

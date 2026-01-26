@@ -39,7 +39,7 @@ const nextConfig = {
               "img-src 'self' data: https: blob:",
               "font-src 'self' data:",
               "connect-src 'self' https://*.supabase.co https://api.openai.com https://vercel.live wss://*.supabase.co",
-              "frame-ancestors *",
+              "frame-ancestors 'self'",
               "base-uri 'self'",
               "form-action 'self'",
             ].join('; ')

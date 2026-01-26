@@ -233,8 +233,8 @@ const FloatingCalculatorCard: React.FC<FloatingCalculatorCardProps> = ({ calcula
 
 // --- MAIN COMPONENT ---
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnamnesisData = Record<string, any>;
+  type AnamnesisData = Record<string, any>;
+
 
 interface AnamnesisViewProps {
   patient?: Patient;
@@ -297,13 +297,11 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
   useEffect(() => {
     const firstSection = sections[0]
     if (firstSection && !activeSectionId) {
-       setActiveSectionId(firstSection.id);
+      setActiveSectionId(firstSection.id);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sections]);
 
   useEffect(() => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const doc = (globalThis as any)?.document;
     const container = doc?.getElementById('form-container');
     if (!container) return;
@@ -341,15 +339,13 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
     return () => container.removeEventListener('scroll', handleScroll);
   }, [sections]);
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleInputChange = React.useCallback((id: string, value: any) => {
     onDataChange(prev => ({ ...prev, [id]: value }));
   }, [onDataChange]);
 
   const scrollToSection = (id: string, smoothScroll: boolean = true) => {
-    setActiveSectionId(id);
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const doc = (globalThis as any).document;
+     setActiveSectionId(id);
+     const doc = (globalThis as any).document;
     const container = doc?.getElementById('form-container');
     const el = doc?.getElementById(`sec-${id}`);
 
@@ -624,14 +620,13 @@ export const AnamnesisView: React.FC<AnamnesisViewProps> = ({
                          </motion.button>
                       </div>
 
-                      <div className="liquid-glass-material bg-white/70! dark:bg-[#1c1c1e]/40! backdrop-blur-3xl rounded-[40px] border border-white/60 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.06)] overflow-hidden relative group/card">
-                         {/* Rim Light / Glow Effect */}
-                         <div className="absolute inset-x-0 top-0 h-px bg-linear-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+                       <div className="liquid-glass-material bg-white/70! dark:bg-[#1c1c1e]/40! backdrop-blur-3xl rounded-[40px] border border-white/60 dark:border-white/10 shadow-[0_25px_60px_rgba(0,0,0,0.06)] overflow-hidden relative group/card inner-glow-ios26">
+                          <div className="rim-light-ios26 absolute inset-0 pointer-events-none" />
 
-                         {section.items.map((item) => (
-                            <div key={item.id}>
-                               {renderItem(item)}
-                            </div>
+                          {section.items.map((item) => (
+                             <div key={item.id}>
+                                {renderItem(item)}
+                             </div>
                          ))}
                          {section.items.length === 0 && (
                              <div className="p-12 text-center text-slate-400 italic font-bold text-sm opacity-50">

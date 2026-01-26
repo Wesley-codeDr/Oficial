@@ -283,7 +283,7 @@ function isMarkdownList(content: string): boolean {
 
 function isNumberedList(content: string): boolean {
   const lines = content.split('\n')
-  const numberedPattern = /^\s*\d+[\.\)]\s+/
+  const numberedPattern = /^\s*\d+[.\)\-]\s+/
   const numberedLines = lines.filter(line => numberedPattern.test(line))
   return numberedLines.length >= 1 && numberedLines.length / lines.length > 0.3
 }
@@ -525,7 +525,7 @@ function parseNumberedList(content: string): ParsedTask[] {
     const trimmed = line.trim()
 
     // Match: 1. Task, 1) Task, 1 - Task
-    const match = trimmed.match(/^\d+[\.\)\-]\s*(.+)$/)
+    const match = trimmed.match(/^\d+[.\)\-]\s*(.+)$/)
 
     if (match) {
       const taskText = match[1]?.trim()

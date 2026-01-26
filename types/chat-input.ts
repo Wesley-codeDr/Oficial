@@ -3,6 +3,8 @@
  * Professional medical chat interface types
  */
 
+import { generateIdWithPrefix } from '@/lib/utils'
+
 // ===== ATTACHMENT TYPES =====
 
 export type AttachmentType = 'image' | 'document' | 'code'
@@ -118,10 +120,17 @@ export function getAttachmentType(mimeType: string): AttachmentType {
 }
 
 /**
- * Generates a unique ID for attachments
+ * Generates a unique ID for attachments using UUID v4
+ * 
+ * @returns Unique attachment ID in format 'att_{uuid}'
+ * 
+ * @example
+ * ```typescript
+ * const attachmentId = generateAttachmentId() // 'att-550e8400-e29b-41d4-a716-446655440000'
+ * ```
  */
 export function generateAttachmentId(): string {
-  return `att_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`
+  return generateIdWithPrefix('att-')
 }
 
 /**

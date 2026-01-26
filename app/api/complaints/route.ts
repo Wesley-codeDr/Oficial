@@ -4,8 +4,12 @@ import { prisma } from '@/lib/db/prisma'
 import { getUser } from '@/lib/supabase/server'
 import { mapDbComplaintToApiPayload } from '@/lib/db/complaints'
 import { ComplaintListQuerySchema } from '@/lib/validation/complaints'
+import { withRateLimit, apiLimiter } from '@/lib/rate-limit'
 
 export async function GET(request: NextRequest) {
+  // Apply rate limiting
+  const rateLimitResponse = await withRateLimit(request, apiLimiter, 30)
+  if (rateLimitResponse) return rateLimitResponse
   try {
     const user = await getUser()
 

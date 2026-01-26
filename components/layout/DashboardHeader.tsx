@@ -13,14 +13,14 @@ interface DashboardHeaderProps {
 }
 
 export function DashboardHeader({ userName, userAvatar, notifications = 0 }: DashboardHeaderProps) {
-  // Mobile menu state
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
   // Scroll-aware glass values (fallback to Apple defaults if hook is unavailable)
-  const glass = typeof useScrollGlass === 'function' ? useScrollGlass() : undefined
+  const glass = useScrollGlass()
   const isScrolled = glass?.isScrolled ?? false
   const blur = glass?.blur ?? 40
   const opacity = glass?.opacity ?? 0.25
+
+  // Mobile menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const navItems = [
     { icon: Activity, label: 'Nova Anamnese', href: '/dashboard' },

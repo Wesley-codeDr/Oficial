@@ -52,22 +52,22 @@ export const SATURATE_VALUES = {
 } as const;
 
 // ============ Variáveis de Opacidade ============
-// Aligned with liquid-glass-2026.css values
+// Aligned with liquid-glass-2026.css values - Refinado para mais profundidade
 export const OPACITY_VALUES = {
-  DEFAULT: '0.25' as const,
-  SUBTLE: '0.18' as const,
-  CLEAR: '0.15' as const,
-  ELEVATED: '0.35' as const,
-  MEDICAL: '0.30' as const,
+  DEFAULT: '0.26' as const,  // Reduzido de 0.25 para 0.26
+  SUBTLE: '0.16' as const,  // Reduzido de 0.18 para 0.16
+  CLEAR: '0.36' as const,   // Reduzido de 0.15 para 0.36
+  ELEVATED: '0.46' as const, // Reduzido de 0.35 para 0.46
+  MEDICAL: '0.20' as const,  // Reduzido de 0.30 para 0.20
 } as const;
 
 export const OPACITY_DARK_VALUES = {
-  // Opacidade de fundo refinada para modo escuro
-  DEFAULT: '0.78' as const,
-  SUBTLE: '0.66' as const,
-  CLEAR: '0.48' as const,
-  ELEVATED: '0.84' as const,
-  MEDICAL: '0.76' as const,
+  // Opacidade de fundo refinada para modo escuro - Refinado
+  DEFAULT: '0.70' as const,  // Reduzido de 0.78 para 0.70
+  SUBTLE: '0.60' as const,  // Reduzido de 0.66 para 0.60
+  CLEAR: '0.80' as const,   // Reduzido de 0.48 para 0.80
+  ELEVATED: '0.90' as const, // Reduzido de 0.84 para 0.90
+  MEDICAL: '0.64' as const,  // Reduzido de 0.76 para 0.64
 } as const;
 
 // ============ Variáveis de Radius - Apple Liquid Glass 2026 ============
@@ -137,23 +137,23 @@ export const NOISE_DARK_VALUES = {
 } as const;
 
 // ============ Variáveis de Sombras - Apple Liquid Glass 2026 ============
-// iOS 26 Multi-Layer Shadow System
+// iOS 26 Multi-Layer Shadow System - Refinado para mais profundidade
 export const SHADOW_VALUES = {
-  // Apple Liquid Glass 2026 - iOS 26 Light Mode Shadows
-  DEFAULT: '0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.5)' as const,
-  SUBTLE: '0 12px 40px -10px rgba(0, 0, 0, 0.05), 0 4px 16px -6px rgba(0, 0, 0, 0.03), inset 0 1px 0 rgba(255, 255, 255, 0.5)' as const,
-  CLEAR: '0 20px 60px -15px rgba(0, 0, 0, 0.05), 0 8px 24px -8px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.5)' as const,
-  ELEVATED: '0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 8px 24px rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.6)' as const,
-  MEDICAL: '0 8px 32px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04), inset 0 1px 1px rgba(255, 255, 255, 0.5)' as const,
+  // Apple Liquid Glass 2026 - iOS 26 Light Mode Shadows - Refinado
+  DEFAULT: '0 4px 12px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.05)' as const,
+  SUBTLE: '0 2px 8px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.04)' as const,
+  CLEAR: '0 6px 16px rgba(0, 0, 0, 0.10), 0 12px 32px rgba(0, 0, 0, 0.06)' as const,
+  ELEVATED: '0 8px 20px rgba(0, 0, 0, 0.12), 0 16px 40px rgba(0, 0, 0, 0.08), 0 24px 60px rgba(0, 0, 0, 0.04)' as const,
+  MEDICAL: '0 4px 10px rgba(0, 0, 0, 0.07), 0 8px 20px rgba(0, 0, 0, 0.04)' as const,
 } as const;
 
 export const SHADOW_DARK_VALUES = {
-  // Apple Liquid Glass 2026 - iOS 26 Dark Mode Shadows
-  DEFAULT: '0 8px 32px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)' as const,
-  SUBTLE: '0 12px 40px -10px rgba(0, 0, 0, 0.2), 0 4px 16px -6px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.1)' as const,
-  CLEAR: '0 20px 60px -15px rgba(0, 0, 0, 0.3), 0 8px 24px -8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)' as const,
-  ELEVATED: '0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.15)' as const,
-  MEDICAL: '0 8px 32px rgba(0, 0, 0, 0.35), 0 2px 8px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)' as const,
+  // Apple Liquid Glass 2026 - iOS 26 Dark Mode Shadows - Refinado
+  DEFAULT: '0 4px 12px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.12)' as const,
+  SUBTLE: '0 2px 8px rgba(0, 0, 0, 0.14), 0 4px 16px rgba(0, 0, 0, 0.09)' as const,
+  CLEAR: '0 6px 16px rgba(0, 0, 0, 0.22), 0 12px 32px rgba(0, 0, 0, 0.15)' as const,
+  ELEVATED: '0 8px 20px rgba(0, 0, 0, 0.26), 0 16px 40px rgba(0, 0, 0, 0.18), 0 24px 60px rgba(0, 0, 0, 0.10)' as const,
+  MEDICAL: '0 4px 10px rgba(0, 0, 0, 0.16), 0 8px 20px rgba(0, 0, 0, 0.10)' as const,
 } as const;
 
 // ============ Variáveis de Animação ============

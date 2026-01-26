@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { KanbanTask, KanbanStatus } from '@/lib/types/medical'
 import { SAMPLE_PROJECTS, createBoardFromSample, detectBestSampleProject } from '@/lib/kanban/sample-projects'
+import { generateIdWithPrefix } from '@/lib/utils'
 
 interface KanbanState {
   // Data
@@ -23,7 +24,7 @@ interface KanbanState {
 }
 
 function generateId(): string {
-  return `task-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+  return generateIdWithPrefix('task-')
 }
 
 export const useKanbanStore = create<KanbanState>()(
@@ -33,7 +34,7 @@ export const useKanbanStore = create<KanbanState>()(
       const initialTasks = createBoardFromSample(bestSample)
       
       return {
-        tasks: initialTasks as KanbanTask[],
+        tasks: initialTasks,
         boardName: bestSample.name,
         boardDescription: bestSample.description,
         isLoaded: true,
@@ -42,7 +43,7 @@ export const useKanbanStore = create<KanbanState>()(
 
         addTask: (taskData) => {
           const newTask: KanbanTask = {
-            ...taskData as any,
+            ...taskData,
             id: generateId(),
           }
           set((state) => ({
@@ -52,7 +53,7 @@ export const useKanbanStore = create<KanbanState>()(
 
         addTasks: (tasksData) => {
           const newTasks: KanbanTask[] = tasksData.map((taskData) => ({
-            ...taskData as any,
+            ...taskData,
             id: generateId(),
           }))
           set((state) => ({
@@ -93,7 +94,7 @@ export const useKanbanStore = create<KanbanState>()(
 
           const tasks = createBoardFromSample(project)
           set({
-            tasks: tasks as KanbanTask[],
+            tasks,
             boardName: project.name,
             boardDescription: project.description,
             isLoaded: true,
@@ -105,7 +106,7 @@ export const useKanbanStore = create<KanbanState>()(
           const tasks = createBoardFromSample(bestSample)
           
           set({
-            tasks: tasks as KanbanTask[],
+            tasks,
             boardName: bestSample.name,
             boardDescription: bestSample.description,
             isLoaded: true,

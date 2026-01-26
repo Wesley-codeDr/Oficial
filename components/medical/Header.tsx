@@ -52,17 +52,18 @@ export const Header: React.FC<HeaderProps> = ({ patient, setPatient }) => {
   return (
     <header className="w-full mb-6 px-1">
       {/* Smart Patient Capsule - Liquid Glass 2026 */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, scale: 0.98, y: -10 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ duration: 0.6, ease: [0.25, 1, 0.5, 1] }}
         className="relative w-full p-1 rounded-[44px] overflow-hidden
-          liquid-glass-default
+          liquid-glass-default backdrop-blur-ios26-heavy
           bg-white/25 dark:bg-slate-900/28
           border border-white/40 dark:border-white/12
           shadow-[0_8px_32px_rgba(0,78,146,0.08),inset_0_1px_1px_rgba(255,255,255,0.5)]
           dark:shadow-[0_8px_32px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.1)]"
       >
+      <div className="specular-2026 absolute inset-0 pointer-events-none" />
         {/* Main Header Bar - Unified Summary */}
         <div 
           className="flex items-center justify-between px-4 py-2 min-h-[72px] cursor-pointer"
@@ -72,7 +73,7 @@ export const Header: React.FC<HeaderProps> = ({ patient, setPatient }) => {
           <div className="flex items-center gap-4 flex-1 min-w-0">
             {/* Avatar Capsule */}
             <div className="relative shrink-0">
-                <div className={`w-14 h-14 rounded-[24px] flex items-center justify-center text-2xl shadow-lg ring-1 ring-white/50 dark:ring-white/10 transition-all duration-500 ${
+                <div className={`w-14 h-14 rounded-[24px] flex items-center justify-center text-2xl shadow-lg ring-1 ring-white/50 dark:ring-white/10 transition-all duration-500 rim-light-ios26 ${
                   patient.category === 'pediatric' ? 'bg-linear-to-br from-blue-50 to-blue-100 dark:from-blue-900/40 dark:to-blue-800/20 text-blue-500' :
                   patient.category === 'elderly' ? 'bg-linear-to-br from-slate-50 to-slate-100 dark:from-slate-800 dark:to-slate-700 text-slate-500' :
                   patient.isPregnant ? 'bg-linear-to-br from-pink-50 to-pink-100 dark:from-pink-900/40 dark:to-pink-800/20 text-pink-500' :

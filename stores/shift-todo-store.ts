@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { useShallow } from 'zustand/react/shallow'
 import type { ShiftTodo, StickyNote, ShiftInfo, TaskPriority, StickyNoteColor } from '@/types/shift-todo'
+import { generateIdWithPrefix } from '@/lib/utils'
 
 interface ShiftTodoState {
   // Data
@@ -30,7 +31,11 @@ interface ShiftTodoState {
 }
 
 function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
+  return generateIdWithPrefix('todo-')
+}
+
+function generateStickyNoteId(): string {
+  return generateIdWithPrefix('note-')
 }
 
 export const useShiftTodoStore = create<ShiftTodoState>()(
@@ -109,7 +114,7 @@ export const useShiftTodoStore = create<ShiftTodoState>()(
 
       addStickyNote: (content, color = 'yellow') => {
         const newNote: StickyNote = {
-          id: generateId(),
+          id: generateStickyNoteId(),
           content,
           color,
           createdAt: new Date().toISOString(),
