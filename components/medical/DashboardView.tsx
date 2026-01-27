@@ -243,7 +243,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           trend="up"
           trendValue="+2"
           data={themeMap.critical.chartData}
-          componentDensity={density}
+          density={componentDensity}
         />
         <MetricCard
           title={themeMap.info.label}
@@ -255,7 +255,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           trend="down"
           trendValue="-3"
           data={themeMap.info.chartData}
-          componentDensity={density}
+          density={componentDensity}
         />
         <MetricCard
           title={themeMap.success.label}
@@ -267,7 +267,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           trend="up"
           trendValue="+1"
           data={themeMap.success.chartData}
-          componentDensity={density}
+          density={componentDensity}
         />
         <MetricCard
           title={themeMap.warning.label}
@@ -279,7 +279,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
           trend="down"
           trendValue="-2m"
           data={themeMap.warning.chartData}
-          componentDensity={density}
+          density={componentDensity}
         />
       </section>
 
@@ -311,7 +311,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 tasks={tasks.filter((t) => t.status === columnId)}
                 isDropTarget={dragOverColumn === columnId}
                 draggedTaskId={draggedTaskId}
-                componentDensity={density}
+                density={componentDensity}
                 onDragStart={handleDragStart}
                 onDragEnd={handleDragEnd}
                 onDragOver={(e: any) => handleDragOver(e, columnId)}

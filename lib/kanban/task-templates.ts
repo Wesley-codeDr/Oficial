@@ -8,7 +8,7 @@ export interface TaskTemplate {
   name: string
   description: string
   icon: 'bug' | 'lightbulb' | 'clock' | 'check-square'
-  task: Omit<KanbanTask, 'id' | 'createdAt' | 'updatedAt'>
+  task: Omit<KanbanTask, 'id'>
 }
 
 export const TASK_TEMPLATES: TaskTemplate[] = [
@@ -43,6 +43,8 @@ Se aplicável, adicione screenshots.
       status: 'todo',
       priority: 'high',
       labels: ['bug'],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     },
   },
   {
@@ -71,6 +73,8 @@ Outras soluções que você considerou.`,
       status: 'backlog',
       priority: 'medium',
       labels: ['feature', 'enhancement'],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     },
   },
   {
@@ -105,6 +109,8 @@ Data/Hora: `,
       status: 'in_progress',
       priority: 'medium',
       labels: ['meeting', 'notes'],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     },
   },
   {
@@ -127,6 +133,8 @@ Informações adicionais relevantes.`,
       status: 'todo',
       priority: 'medium',
       labels: ['task'],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     },
   },
 ]
@@ -140,7 +148,7 @@ export function getTemplateById(id: string): TaskTemplate | undefined {
 export function createTaskFromTemplate(
   template: TaskTemplate,
   statusOverride?: KanbanColumnStatus
-): Omit<KanbanTask, 'id' | 'createdAt' | 'updatedAt'> {
+): Omit<KanbanTask, 'id'> {
   return {
     ...template.task,
     status: statusOverride ?? template.task.status,

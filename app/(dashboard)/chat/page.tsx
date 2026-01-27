@@ -9,6 +9,7 @@ import { GlassButton } from '@/components/ui/glass-button'
 import { GlassBadge } from '@/components/ui/glass-badge'
 import { formatDistanceToNow } from '@/lib/utils'
 import { ChatEmptyState } from './chat-empty-state'
+import { NewChatButton } from './new-chat-button'
 
 export const metadata: Metadata = {
   title: 'Chat EBM | WellWave',

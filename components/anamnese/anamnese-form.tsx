@@ -154,7 +154,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     onEmergencyDetected: (emergencies) => {
       // Track emergency detection analytics
       emergencies.forEach((emergency) => {
-        analytics.redFlagDetected(
+        analytics.redFlag.detected(
           syndrome.code,
           emergency.indicator.label,
           emergency.indicator.severity.toUpperCase() as 'WARNING' | 'CRITICAL'
@@ -286,7 +286,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
     // Clear priority checkboxes when changing complaint
     setPrioritySelectedCheckboxes(new Set())
     // Track analytics
-    analytics.complaintSelection(complaintId, '')
+    analytics.complaint.selected(complaintId, '')
   }, [])
 
   const handleComplaintClear = useCallback(() => {
@@ -316,7 +316,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
       // Se não encontrar o checkbox, logar e retornar
       if (!checkboxId) {
-        anamneseLogger.warn(`Checkbox not found: ${category} - ${label}`, undefined, {
+        anamneseLogger.warn(`Checkbox not found: ${category} - ${label}`, {
           syndromeId: syndrome.id,
         })
         return
@@ -408,18 +408,18 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
         setSavedSessionId(session.id)
 
         // Track analytics events
-        analytics.anamneseCompleted(
+        analytics.anamnese.completed(
           syndrome.code,
           selectedIds.size,
           redFlags.length > 0,
           outputMode
         )
-        analytics.sessionSaved(syndrome.code, session.id)
+        analytics.anamnese.sessionSaved(syndrome.code, session.id)
 
         // Track red flags if detected
         redFlags.forEach((rf) => {
           const displayText = 'displayText' in rf ? rf.displayText : rf.description
-          analytics.redFlagDetected(syndrome.code, displayText, 'WARNING')
+          analytics.redFlag.detected(syndrome.code, displayText, 'WARNING')
         })
 
         toast({
@@ -455,7 +455,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
     startTransition(async () => {
       try {
-        analytics.anamneseCopied(syndrome.code, savedSessionId)
+        analytics.anamnese.copied(syndrome.code, savedSessionId)
         await markSessionAsCopied(savedSessionId)
       } catch (error) {
         anamneseLogger.error('Erro ao copiar anamnese', error, {
@@ -678,12 +678,11 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
 
         {/* Export PDF Button */}
         <ExportPDFButton
-          sessionId={savedSessionId}
+          sessionId={savedSessionId ?? ''}
           syndrome={syndrome}
           narrative={narrative}
           selectedCheckboxes={selectedCheckboxes}
           redFlags={redFlags}
-          patientContext={patientContext}
         />
       </div>
 
@@ -697,7 +696,7 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
           'p-6'
         )}>
           <h3 className="text-lg font-semibold mb-4">Narrativa Gerada</h3>
-          <NarrativePreview narrative={narrative} />
+          <NarrativePreview narrative={narrative} redFlagCount={redFlags.length} onCopy={handleCopy} />
         </div>
 
         {/* CFM Progress Indicator */}
@@ -717,8 +716,8 @@ export function AnamneseForm({ syndrome }: AnamneseFormProps) {
             emergencies={detectedEmergencies}
             highestSeverity={highestSeverity}
             requiresImmediateAction={requiresImmediateAction}
-            onDismiss={dismissEmergency}
-            onDismissAll={dismissAll}
+            onDismissOne={dismissEmergency}
+            onDismiss={dismissAll}
           />
         )}
       </div>

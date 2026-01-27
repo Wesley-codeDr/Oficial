@@ -1,4 +1,4 @@
-import { KanbanTask, KanbanStatus } from '@/lib/types/medical'
+import { KanbanTask, KanbanColumnStatus } from '@/types/kanban'
 import { generateIdWithPrefix } from '@/lib/utils'
 
 export interface SampleProject {
@@ -19,40 +19,40 @@ export const SAMPLE_PROJECTS: SampleProject[] = [
     useCase: 'medical',
     tasks: [
       {
-        patientName: 'Dor Torácica - Leito 5',
-        age: '62a',
-        gender: 'M',
-        complaint: 'Aguardando ECG',
-        acuity: 'red',
-        waitTime: '5min',
-        status: 'exam',
+        title: 'Dor Torácica - Leito 5',
+        description: 'Aguardando ECG',
+        status: 'in_progress',
+        priority: 'critical',
+        labels: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       },
       {
-        patientName: 'Cefaleia - Leito 2',
-        age: '45a',
-        gender: 'F',
-        complaint: 'Aguardando analgesia',
-        acuity: 'orange',
-        waitTime: '12min',
-        status: 'wait',
+        title: 'Cefaleia - Leito 2',
+        description: 'Aguardando analgesia',
+        status: 'todo',
+        priority: 'high',
+        labels: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       },
       {
-        patientName: 'Dispneia - Sala de Emergência',
-        age: '78a',
-        gender: 'M',
-        complaint: 'Em Ventilação Não Invasiva (VNI)',
-        acuity: 'red',
-        waitTime: '2min',
-        status: 'reval',
+        title: 'Dispneia - Sala de Emergência',
+        description: 'Em Ventilação Não Invasiva (VNI)',
+        status: 'review',
+        priority: 'critical',
+        labels: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       },
       {
-        patientName: 'Síncope - Leito 8',
-        age: '30a',
-        gender: 'F',
-        complaint: 'Aguardando Troponina',
-        acuity: 'yellow',
-        waitTime: '25min',
-        status: 'wait',
+        title: 'Síncope - Leito 8',
+        description: 'Aguardando Troponina',
+        status: 'todo',
+        priority: 'medium',
+        labels: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       }
     ]
   },
@@ -64,22 +64,22 @@ export const SAMPLE_PROJECTS: SampleProject[] = [
     useCase: 'software',
     tasks: [
       {
-        patientName: 'UI: Refatorar Header',
-        age: '--',
-        gender: 'M',
-        complaint: 'Melhorar glassmorphism',
-        acuity: 'yellow',
-        waitTime: '0min',
-        status: 'exam',
+        title: 'UI: Refatorar Header',
+        description: 'Melhorar glassmorphism',
+        status: 'backlog',
+        priority: 'medium',
+        labels: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       },
       {
-        patientName: 'Bug: Sync com Obsidian',
-        age: '--',
-        gender: 'M',
-        complaint: 'Erro ao salvar metadados',
-        acuity: 'red',
-        waitTime: '0min',
-        status: 'wait',
+        title: 'Bug: Sync com Obsidian',
+        description: 'Erro ao salvar metadados',
+        status: 'todo',
+        priority: 'high',
+        labels: [],
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
       }
     ]
   }
@@ -89,6 +89,8 @@ export function createBoardFromSample(sample: SampleProject): KanbanTask[] {
   return sample.tasks.map((task) => ({
     ...task,
     id: generateIdWithPrefix('task-'),
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   }))
 }
 

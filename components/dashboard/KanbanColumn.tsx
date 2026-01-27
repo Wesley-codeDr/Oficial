@@ -10,6 +10,7 @@ import * as React from 'react'
 import { motion } from 'framer-motion'
 import type { KanbanTask, KanbanStatus } from '@/lib/types/medical'
 import { DASHBOARD_CONFIG } from '@/lib/config/dashboard'
+import { KanbanCard } from './KanbanCard'
 
 interface KanbanColumnProps {
   id: string
@@ -19,11 +20,11 @@ interface KanbanColumnProps {
   isDropTarget: boolean
   draggedTaskId: string | null
   density?: 'compact' | 'comfortable'
-  onDragStart?: (e: any, taskId: string) => void
-  onDragEnd?: (e: any) => void
-  onDragOver?: (e: any, columnId: string) => void
+  onDragStart?: (e: React.DragEvent, id: string) => void
+  onDragEnd?: (e: React.DragEvent) => void
+  onDragOver?: (e: React.DragEvent<HTMLDivElement>, columnId: string) => void
   onDragLeave?: () => void
-  onDrop?: (e: any, columnId: string) => void
+  onDrop?: (e: React.DragEvent<HTMLDivElement>, columnId: string) => void
   onStatusChange?: (taskId: string, newStatus: string) => void
 }
 
@@ -117,4 +118,3 @@ export const KanbanColumn = ({
   )
 }
 
-// Import KanbanCard at the end to avoid circular dependency

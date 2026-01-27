@@ -236,7 +236,7 @@ export const MetricCard = ({
                 <feComposite in="SourceGraphic" in2="blur" operator="over" />
               </filter>
             </defs>
-            <Tooltip content={<CustomChartTooltip />} cursor={false} />
+            <Tooltip content={<CustomChartTooltip active={true} payload={data} />} cursor={false} />
             <Area
               type="monotone"
               dataKey="value"

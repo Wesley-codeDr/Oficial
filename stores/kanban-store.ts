@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { KanbanTask, KanbanStatus } from '@/lib/types/medical'
+import { KanbanColumnStatus } from '@/types/kanban'
 import { SAMPLE_PROJECTS, createBoardFromSample, detectBestSampleProject } from '@/lib/kanban/sample-projects'
 import { generateIdWithPrefix } from '@/lib/utils'
 
@@ -17,7 +18,7 @@ interface KanbanState {
   addTasks: (tasks: Omit<KanbanTask, 'id'>[]) => void
   updateTask: (id: string, updates: Partial<KanbanTask>) => void
   deleteTask: (id: string) => void
-  moveTask: (taskId: string, newStatus: KanbanStatus) => void
+  moveTask: (taskId: string, newStatus: KanbanColumnStatus) => void
   loadSampleProject: (projectId: string) => void
   clearBoard: () => void
   setBoardInfo: (name: string, description?: string) => void
@@ -132,7 +133,7 @@ export const useKanbanStore = create<KanbanState>()(
 
 // Selector hooks for common queries
 export const useKanbanTasks = () => useKanbanStore((state) => state.tasks)
-export const useKanbanTasksByStatus = (status: KanbanStatus) =>
+export const useKanbanTasksByStatus = (status: KanbanColumnStatus) =>
   useKanbanStore((state) => state.tasks.filter((t) => t.status === status))
 export const useIsKanbanEmpty = () => useKanbanStore((state) => state.tasks.length === 0)
 export const useKanbanBoardInfo = () =>

@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plus, Trash2, RotateCcw } from 'lucide-react'
 import { useKanbanStore, useIsKanbanEmpty } from '@/stores/kanban-store'
-import { KANBAN_COLUMNS } from '@/types/kanban'
-import type { KanbanColumnStatus, KanbanTask } from '@/types/kanban'
+import { KANBAN_COLUMNS, type KanbanColumnStatus, type KanbanTask } from '@/types/kanban'
 import { KanbanColumn } from './KanbanColumn'
 import { KanbanEmptyState } from './KanbanEmptyState'
 import { GlassButton } from '@/components/ui/glass-button'
@@ -42,7 +41,7 @@ export function KanbanBoard() {
     setAddTaskDialog({ isOpen: true, status })
   }
 
-  const handleAddTaskFromTemplate = (taskData: Omit<KanbanTask, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const handleAddTaskFromTemplate = (taskData: Omit<KanbanTask, 'id'>) => {
     addTask(taskData)
   }
 
@@ -54,6 +53,8 @@ export function KanbanBoard() {
       status: addTaskDialog.status,
       priority: 'medium',
       labels: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     })
 
     setNewTaskTitle('')
@@ -99,7 +100,7 @@ export function KanbanBoard() {
             variant="danger"
             size="sm"
             onClick={handleClearBoard}
-            icon={<RotateCcw className="h-4 w-4" />}
+            leftIcon={<RotateCcw className="h-4 w-4" />}
           >
             Reiniciar
           </GlassButton>
@@ -112,7 +113,7 @@ export function KanbanBoard() {
           {KANBAN_COLUMNS.map((column) => (
             <KanbanColumn
               key={column.id}
-              status={column.id}
+              status={column.id as KanbanColumnStatus}
               tasks={tasks}
               onDeleteTask={deleteTask}
               onMoveTask={moveTask}
@@ -161,7 +162,7 @@ export function KanbanBoard() {
                 variant="primary"
                 onClick={handleSubmitTask}
                 disabled={!newTaskTitle.trim()}
-                icon={<Plus className="h-4 w-4 mr-1" />}
+                leftIcon={<Plus className="h-4 w-4 mr-1" />}
               >
                 Adicionar
               </GlassButton>

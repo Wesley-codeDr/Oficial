@@ -134,6 +134,16 @@ export default function Home() {
   // Safety check: ensure tasks is always an array (handles SSR/hydration)
   const tasks = Array.isArray(tasksFromStore) ? tasksFromStore : []
 
+  // Wrapper function to convert store's setTasks to React.Dispatch<SetStateAction<KanbanTask[]>>
+  const setTasksWrapper: React.Dispatch<React.SetStateAction<KanbanTask[]>> = React.useCallback((value) => {
+    if (typeof value === 'function') {
+      const updater = value as (prevState: KanbanTask[]) => KanbanTask[]
+      setTasks(updater(tasks))
+    } else {
+      setTasks(value)
+    }
+  }, [setTasks, tasks])
+
   // Onboarding tutorial state - shows when no tasks exist
   const {
     showOnboarding,
@@ -596,6 +606,8 @@ export default function Home() {
         }
       }
     }
+    // Return empty function when viewMode !== 'protocol' to satisfy TypeScript
+    return undefined
   }, [generateNote, viewMode])
 
   const handlePrint = () => {
@@ -685,7 +697,7 @@ export default function Home() {
           <GlassPanel className="flex flex-col flex-1 min-h-0 overflow-y-auto scroll-smooth" style={{ borderRadius: '24px' }}>
             <DashboardView
               tasks={tasks}
-              setTasks={setTasks}
+              setTasks={setTasksWrapper}
               onNewAttendance={() => setViewMode('selection')}
               onSettings={() =>
                 toast({

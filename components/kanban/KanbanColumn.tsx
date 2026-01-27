@@ -17,7 +17,7 @@ interface KanbanColumnProps {
   onDeleteTask: (id: string) => void
   onMoveTask: (taskId: string, newStatus: KanbanColumnStatus) => void
   onAddTask?: (status: KanbanColumnStatus) => void
-  onAddTaskFromTemplate?: (task: Omit<KanbanTask, 'id' | 'createdAt' | 'updatedAt'>) => void
+  onAddTaskFromTemplate?: (task: Omit<KanbanTask, 'id'>) => void
 }
 
 const TEMPLATE_ICONS: Record<TaskTemplate['icon'], React.ElementType> = {
