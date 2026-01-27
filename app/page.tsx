@@ -13,6 +13,9 @@ import { FlashAnamnesisFlow } from '@/components/medical/FlashAnamnesisFlow'
 import { ChatWell } from '@/components/medical/ChatWell'
 import { GlassCard } from '@/components/ui/glass/GlassCard'
 import { GlassTokenProvider } from '@/components/ui/glass/GlassTokenProvider'
+
+// Legacy GlassPanel compatibility wrapper
+const GlassPanel = GlassCard
 import { AnamnesisWorkspace } from '@/components/medical/AnamnesisWorkspace'
 import { SmartNotePanel } from '@/components/medical/SmartNotePanel'
 import { HeartScoreCalculator } from '@/components/medical/HeartScoreCalculator'
@@ -55,10 +58,6 @@ import { useToast } from '@/hooks/use-toast'
 import { useComplaints } from '@/hooks/use-complaints'
 import { useParallax, PARALLAX_SPEEDS } from '@/hooks/use-parallax'
 import { useKanbanStore } from '@/stores/kanban-store'
-import { noteBlockToKanbanTask, noteBlocksToKanbanTasks } from '@/lib/type-adapters'
-
-// Legacy GlassPanel compatibility wrapper
-const GlassPanel = GlassCard
 
 // Helper for Library Icons
 const getLibraryIcon = (iconName: string) => {
@@ -122,7 +121,6 @@ export default function Home() {
   const [anamnesisData, setAnamnesisData] = React.useState<Record<string, any>>({})
   const [sections, setSections] = React.useState<AnamnesisSection[]>([])
 
-  // Use type adapter to resolve type mismatch
   const [noteBlocks, setNoteBlocks] = React.useState<NoteBlock[]>([])
   const {
     tasks: tasksFromStore,
@@ -167,7 +165,7 @@ export default function Home() {
       entryTime: new Date(Date.now() - 1000 * 60 * 42).toISOString()
     }))
 
-    // Ensure we have at least once loaded sample project if none exists
+    // Ensure we have at least once loaded the sample project if none exists
     if (tasks.length === 0) {
       loadSampleProject('medical-urgent')
     }
@@ -198,7 +196,7 @@ export default function Home() {
         description: "O resultado foi adicionado à conduta.",
       })
     } else {
-      toast({
+       toast({
         title: "Bloco de Conduta não encontrado",
         description: "Adicione um bloco de conduta para aplicar o score.",
         variant: "destructive"
@@ -219,7 +217,6 @@ export default function Home() {
 
     await clipboard.writeText(content)
     setCopiedId(blockId)
-
     globalThis.setTimeout?.(() => setCopiedId(null), 2000)
   }
 
@@ -245,7 +242,7 @@ export default function Home() {
       protocolos: 'library',
       anamnese: 'selection',
       dashboard: 'dashboard',
-      accessibility: 'accessibility',
+      acessibilidade: 'accessibility',
       flash: 'flash',
       'chat-well': 'chat-well',
     }
@@ -260,11 +257,10 @@ export default function Home() {
       'uti': 'reval',
       'emergência': 'exam'
     }
-
+    
     const finalStatus: KanbanStatus = statusMap[status.toLowerCase()] || 'wait'
-
     addTask({
-      patientName: patient.category === 'pediatric' ? 'Ped. Anônimo' : 'Paciente Anôn.',
+      patientName: patient.category === 'pediatric' ? 'Ped. Anônimo' : 'Paciente Anon.',
       age: patient.age ? `${patient.age}a` : '--',
       gender: patient.gender,
       complaint: activeProtocolId || 'Queixa Geral',
@@ -308,6 +304,7 @@ export default function Home() {
     )
 
     setAnamnesisData((prev) => ({ ...prev, [newId]: true }))
+
     setIsAddModalOpen(false)
     setTargetSectionId(null)
     setNewSymptomName('')
@@ -333,13 +330,11 @@ export default function Home() {
         })
       })
     }
-
     if (activeProtocolId === 'dor_toracica') {
       if (patient.medications.some((m) => /sildenafil|tadalafila|viagra/i.test(m))) {
         alerts.push('CONTRAINDICAÇÃO ABSOLUTA: Nitratos (risco de óbito com inibidores de PDE-5).')
       }
     }
-
     if (alerts.length > 0) {
       blocks.push({
         id: 'safety_check',
@@ -359,9 +354,8 @@ export default function Home() {
     if (patient.medications.length > 0) {
       allergiesContent += `Em uso de ${patient.medications.join(', ')}.`
     } else {
-      allergiesContent += 'Nega uso de medicamentos de uso contínuo.'
+      allergiesContent += 'Nega uso de medicações de uso contínuo.'
     }
-
     blocks.push({
       id: 'allergies',
       title: 'Alergias & Medicações',
@@ -394,7 +388,6 @@ export default function Home() {
       'Subagudo': 'caráter subagudo',
       'Crônico': 'caráter crônico',
     }
-
     const chronicityText = chronicityMap[chronicity] || 'caráter agudo'
 
     // Mapeia início para texto narrativo técnico
@@ -403,36 +396,109 @@ export default function Home() {
       'Progressivo': 'instalação progressiva',
       'Insidioso': 'instalação insidiosa',
     }
-
     const onsetText = onsetMap[onset] || 'instalação súbita'
 
-    // 4. Hypotheses
-    const hypotheses = getHypotheses(activeProtocolId)
-    const hypothesesText = hypotheses.length > 0
-      ? `Hipóteses diagnósticas:\n${hypotheses.join('\n')}`
-      : 'Nenhuma hipótese diagnóstica.'
+    // Texto corrido: Queixa Principal e HDA
+    let hda = `Paciente admitido na unidade de emergência apresentando ${protocolName.toLowerCase()}. `
+    hda += `Refere sintomatologia de ${chronicityText} e ${onsetText}`
+    if (duration && duration !== 'não especificado') {
+      hda += ` com tempo de evolução de aproximadamente ${duration}`
+    }
+    hda += `, referida como ${intensityText}. `
 
-    blocks.push({
-      id: 'hda',
-      title: 'História da Doença Atual',
-      iconName: 'heart',
-      content: `Paciente admitido na unidade de emergência apresentando ${protocolName.toLowerCase()}. `
-        + `Refere sintomatologia de ${chronicityText} e ${onsetText}. `
-        + (duration && duration !== 'não especificado' ? ` com tempo de evolução de aproximadamente ${duration}.` : '')
-        + `Referida como ${intensityText}. `
-        + (intensityNum > 0 ? `Com ${intensityText} de dor.` : 'Sem dor.') + '\n\n'
-        + hypothesesText,
+    // Coleta achados positivos separados por categoria com terminologia médica
+    const sintomas: string[] = []
+    const localizacao: string[] = []
+    const caracteristicas: string[] = []
+
+    sections.forEach((section) => {
+      // Ignora metadados e exame físico no bloco da HDA
+      if (section.id !== 'meta_characterization' && section.id !== 'exame_fisico' && section.id !== 'general') {
+        section.items.forEach((item) => {
+          const val = anamnesisData[item.id]
+          const label = item.label.toLowerCase()
+
+          if (item.type === 'boolean' && val === true) {
+            if (label.includes('local') || label.includes('epigástrio') || label.includes('hipocôndrio') || label.includes('fossa')) {
+              localizacao.push(label.replace('local da dor:', '').replace('local:', '').trim())
+            } else if (label.includes('tipo') || label.includes('irradiação') || label.includes('contínua') || label.includes('intermitente')) {
+              caracteristicas.push(label.replace('tipo', '').replace(':', '').trim())
+            } else {
+              sintomas.push(label)
+            }
+          } else if (item.type === 'segment' && val && typeof val === 'string' && val !== 'Não' && val !== 'Ausente') {
+            const valLower = val.toLowerCase()
+            if (label.includes('local')) {
+              localizacao.push(`em ${valLower}`)
+            } else if (label.includes('tipo')) {
+              caracteristicas.push(`descrita como ${valLower}`)
+            } else if (label.includes('irradiação')) {
+              caracteristicas.push(`com irradiação para ${valLower}`)
+            } else {
+              caracteristicas.push(`${label}: ${valLower}`)
+            }
+          } else if (item.type === 'multiSelect' && Array.isArray(val) && val.length > 0) {
+            val.forEach((v: string) => {
+              const vLower = v.toLowerCase()
+              if (label.includes('local')) {
+                localizacao.push(`em ${vLower}`)
+              } else {
+                caracteristicas.push(vLower)
+              }
+            })
+          } else if (item.type === 'text' && val && val.trim() !== '') {
+            caracteristicas.push(`${label}: ${val}`)
+          }
+        })
+      }
     })
 
-    // 5. Physical Exam - Padrão: Apresentação (achados) / Evidência (sinais objetivos)
+    // Monta narrativa médica estruturada
+    if (localizacao.length > 0) {
+      hda += `Localiza o quadro álgico principalmente ${localizacao.join(' e ')}. `
+    }
+    
+    if (caracteristicas.length > 0) {
+      hda += `A dor é ${caracteristicas.join(', ')}. `
+    }
+
+    if (sintomas.length > 0) {
+      hda += `Associa ao quadro ${sintomas.join(', ')}. `
+    }
+
+    // Negativas pertinentes automáticas baseadas no protocolo
+    const sintomasNegativos: string[] = []
+    sections.forEach((section) => {
+      if (section.id !== 'meta_characterization' && section.id !== 'exame_fisico') {
+        section.items.forEach((item) => {
+          if (item.type === 'boolean' && anamnesisData[item.id] === false) {
+             // Só adiciona negativas se forem importantes (ex: náuseas, vômitos, dispneia)
+             if (/náusea|vômito|dispneia|sudorese|desmaio|síncope/i.test(item.label)) {
+                sintomasNegativos.push(item.label.toLowerCase())
+             }
+          }
+        })
+      }
+    })
+
+    if (sintomasNegativos.length > 0) {
+      hda += `Nega ${sintomasNegativos.join(', ')}.`
+    } else {
+      hda += `Nega demais sintomas associados ou intercorrências até o presente momento.`
+    }
+
+    blocks.push({ id: 'hda', title: 'História da Doença Atual', iconName: 'heart', content: hda.trim() })
+
+    // 4. Physical Exam - Padrão: Apresenta (achados) / Evidencia (sinais objetivos)
     const efSection = sections.find((s) => s.id === 'exame_fisico')
     const achadosClinicosEF: string[] = []
     const sinaisObjetivosEF: string[] = []
 
-    // Lista de sinais objetivos que usam "Evidência"
+    // Lista de sinais objetivos que usam "Evidencia"
     const sinaisObjetivos = [
-      'sinal de murphý', 'sinal de blumberg', 'sinal de rovsing', 'sinal de psoas',
-      'sinal de giordano', 'rigidez de nuca',
+      'sinal de murphy', 'sinal de blumberg', 'sinal de rovsing', 'sinal de psoas',
+      'sinal de giordano', 'sinal de kernig', 'sinal de brudzinski', 'rigidez de nuca',
+      'déficit neurológico', 'abdome em tábua', 'descompressão brusca', 'crepitações', 'sibilos'
     ]
 
     if (efSection) {
@@ -452,28 +518,29 @@ export default function Home() {
             finding = `${labelLower}: ${String(val).toLowerCase()}`
           }
 
-          const isSinalObjetivo = sinaisObjetivos.some(s => labelLower.includes(s))
-          if (isSinalObjetivo) {
-            sinaisObjetivosEF.push(finding)
-          } else {
-            achadosClinicosEF.push(finding)
+          if (finding) {
+            const isSinalObjetivo = sinaisObjetivos.some(s => labelLower.includes(s))
+            if (isSinalObjetivo) {
+              sinaisObjetivosEF.push(finding)
+            } else {
+              achadosClinicosEF.push(finding)
+            }
           }
         }
       })
     }
 
-    // Monta narrativa médica estruturada
+    // Monta texto corrido do exame físico profissional
     let efContent = 'Ao exame físico segmentar e direcionado, '
-
     if (achadosClinicosEF.length > 0 || sinaisObjetivosEF.length > 0) {
       if (achadosClinicosEF.length > 0) {
         efContent += `apresenta ${achadosClinicosEF.join(', ')}. `
       }
       if (sinaisObjetivosEF.length > 0) {
-        efContent += `evidência ${sinaisObjetivosEF.join(', ')}.`
+        efContent += `À ectoscopia/manobras especiais, evidencia ${sinaisObjetivosEF.join(', ')}.`
       }
     } else {
-      efContent += 'não se observam alterações clínicas significativas ou sinais de instabilidade no momento.'
+      efContent += 'não se observa alterações clínicas significativas ou sinais de instabilidade no momento.'
     }
 
     blocks.push({
@@ -483,15 +550,20 @@ export default function Home() {
       content: efContent.trim(),
     })
 
+    // 5. Hypotheses
+    blocks.push({
+      id: 'hypotheses',
+      title: 'Hipóteses',
+      iconName: 'brain',
+      content: getHypotheses(activeProtocolId).join('\n'),
+    })
+
     // 6. Conduct
     let conduct =
       activeRedFlags.length > 0
         ? 'Protocolo de Alta Complexidade / Emergência.'
         : 'Protocolo de Risco Habitual / Sintomáticos.'
-
-    if (alerts.length > 0) {
-      conduct += '\n\n!!! ATENÇÃO AOS ALERTAS DE SEGURANÇA !!!'
-    }
+    if (alerts.length > 0) conduct += '\n!!! ATENÇÃO AOS ALERTAS DE SEGURANÇA !!!'
 
     blocks.push({
       id: 'conduta',
@@ -500,29 +572,18 @@ export default function Home() {
       content: conduct,
       alerts: activeRedFlags.map((f) => f.label),
     })
-
-    // 7. Sources
-    const references = getStructuredReferences(activeProtocolId)
-    blocks.push({
-      id: 'sources',
-      title: 'Referências',
-      iconName: 'list',
-      content: references.length > 0 ? references.join('\n') : 'Nenhuma referência.',
-    })
+    blocks.push({ id: 'sources', title: 'Referências', iconName: 'list', content: '' })
 
     // Apply manual edits if they exist
     const finalBlocks: NoteBlock[] = blocks.map(block => {
-      const manualContent = manualNoteEdits[block.id]
-      return {
-        ...block,
-        content: typeof manualContent === 'string' ? manualContent : (block.content || "")
+      const manualContent = manualNoteEdits[block.id];
+      return { 
+        ...block, 
+        content: typeof manualContent === 'string' ? manualContent : (block.content || "") 
       }
     })
 
-    // Convert NoteBlocks to KanbanTasks and update store
-    const kanbanTasks = noteBlocksToKanbanTasks(finalBlocks)
-    setTasks(kanbanTasks)
-
+    setNoteBlocks(finalBlocks)
   }, [anamnesisData, patient, activeProtocolId, activeComplaint, sections, editingBlockId, activeRedFlags, manualNoteEdits])
 
   // Trigger Note Generation on Data Change
@@ -537,402 +598,350 @@ export default function Home() {
     }
   }, [generateNote, viewMode])
 
+  const handlePrint = () => {
+    globalThis.print?.()
+  }
+
+  const complaintGroups = React.useMemo(() => {
+    return buildComplaintGroups(complaints, { includeAll: true })
+  }, [complaints])
+
   return (
-    <div className="grid gap-8 grid-cols-1 lg:grid-cols-[1fr,minmax(350px,450px)]">
-      {/* Sidebar */}
-      <div className="lg:col-span-2">
-        <Sidebar />
-      </div>
+    <GlassTokenProvider>
+      <div suppressHydrationWarning className="flex h-screen w-full bg-[#FFFFFF] dark:bg-[#000000] text-[#1D1D1F] dark:text-[#F5F5F7] font-sf-pro-display selection:bg-[#007AFF]/30 relative overflow-hidden" style={{ fontFamily: "'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }}>
+      {/*
+        LIQUID GLASS 2026 - MEDICAL BACKGROUND
+        Enhanced with medical blue (#0087FF) and health green (#00D68F)
+        Color psychology: Blue = Trust/Professionalism, Green = Health/Vitality
+      */}
+      {isMounted && (
+        <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden" style={{ perspective: '1200px', perspectiveOrigin: '50% 50%' }}>
+          {/* Apple Liquid Glass 2026 - iOS 26 Background Blobs - V3.0 Visionary */}
+          {/* Primary - Apple Blue (#007AFF) */}
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 0.9, 1],
+              x: [0, 80, -40, 0],
+              y: [0, -70, 40, 0],
+              rotate: [0, 12, -7, 0]
+            }}
+            transition={{ duration: 25, repeat: Infinity, ease: [0.45, 0, 0.55, 1] }}
+            className="absolute -top-[20%] -left-[15%] w-[1200px] h-[1200px] rounded-full bg-[#007AFF]/30 dark:bg-[#0A84FF]/25 liquid-blob liquid-blob-1"
+            style={{
+              filter: 'blur(160px) saturate(280%)',
+              mixBlendMode: 'normal',
+              ...(parallaxActive && transforms.blob1?.style),
+            }}
+          />
+          {/* Secondary - Apple Green (#34C759) */}
+          <motion.div
+            animate={{
+              scale: [1, 1.3, 0.8, 1],
+              x: [0, -80, 60, 0],
+              y: [0, 80, -40, 0],
+              rotate: [0, -18, 15, 0]
+            }}
+            transition={{ duration: 30, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 2 }}
+            className="absolute top-[25%] -right-[20%] w-[1100px] h-[1100px] rounded-full bg-[#34C759]/25 dark:bg-[#30D158]/20 liquid-blob liquid-blob-2"
+            style={{
+              filter: 'blur(150px) saturate(280%)',
+              mixBlendMode: 'normal',
+              ...(parallaxActive && transforms.blob2?.style),
+            }}
+          />
+          {/* Tertiary - Apple Purple (#BF5AF2) */}
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1, 1],
+              x: [0, 60, -40, 0],
+              y: [0, -50, 60, 0],
+            }}
+            transition={{ duration: 28, repeat: Infinity, ease: [0.45, 0, 0.55, 1], delay: 4 }}
+            className="absolute bottom-[-20%] left-[10%] w-[900px] h-[900px] rounded-full bg-[#BF5AF2]/20 dark:bg-[#BF5AF2]/18 liquid-blob liquid-blob-3"
+            style={{
+              filter: 'blur(140px) saturate(280%)',
+              mixBlendMode: 'normal',
+              ...(parallaxActive && transforms.blob3?.style),
+            }}
+          />
+          
+          {/* Apple Liquid Glass 2026 - Noise Texture */}
+          <div 
+            className="absolute inset-0 opacity-[0.012] dark:opacity-[0.018] pointer-events-none mix-blend-overlay"
+            style={{
+              backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+            }}
+          />
+          
+          {/* Top Gradient Fade - Apple 2026 Style */}
+          <div className="absolute top-0 left-0 right-0 h-[200px] bg-gradient-to-b from-white/60 via-white/30 to-transparent dark:from-black/70 dark:via-black/30 dark:to-transparent" />
+        </div>
+      )}
 
-      {/* Main Content Area */}
-      <div className="space-y-8">
-        {/* Dashboard View */}
+      <Sidebar currentView={viewMode} onNavigate={handleSidebarNavigation} />
+
+      <main className="flex-1 flex flex-col min-h-0 overflow-hidden relative z-0 p-4">
         {viewMode === 'dashboard' && (
-          <DashboardView />
+          <GlassPanel className="flex flex-col flex-1 min-h-0 overflow-y-auto scroll-smooth" style={{ borderRadius: '24px' }}>
+            <DashboardView
+              tasks={tasks}
+              setTasks={setTasks}
+              onNewAttendance={() => setViewMode('selection')}
+              onSettings={() =>
+                toast({
+                  title: 'Em desenvolvimento',
+                  description: 'Painel de configurações em breve.',
+                })
+              }
+              onStartTour={startTour}
+            />
+          </GlassPanel>
         )}
 
-        {/* Complaint Selection */}
-        {viewMode === 'selection' && (
-          <ComplaintSelection />
-        )}
-
-        {/* Protocol View */}
-        {viewMode === 'protocol' && (
-          <div className="space-y-6">
-            {/* Protocol Header */}
-            <div className="flex items-center justify-between">
-              <h2 className="text-2xl font-bold">
-                {activeComplaint?.title || 'Selecione uma Queixa'}
-              </h2>
-              <Button
-                onClick={() => handleSidebarNavigation('library')}
-                variant="ghost"
-                size="sm"
-              >
-                <BookOpen className="w-5 h-5" />
-              </Button>
-            </div>
-
-            {/* Protocol Content */}
-            {sections.map((section) => (
-              <div key={section.id} className="space-y-4">
-                <h3 className="text-xl font-semibold">{section.title}</h3>
-                {section.items.map((item) => (
-                  <div key={item.id} className="flex items-start gap-3">
-                    <input
-                      type={item.type}
-                      checked={item.checked}
-                      onChange={(checked) => {
-                        const val = checked as boolean
-                        setAnamnesisData((prev) => ({ ...prev, [item.id]: val }))
-                      }}
-                      className="h-5 w-5"
-                    />
-                    <label className="text-sm text-slate-700">{item.label}</label>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Library View */}
-        {viewMode === 'library' && (
-          <div className="space-y-6">
-            <Header />
-            <div className="grid gap-6 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-              {buildComplaintGroups().map((group) => (
-                <GlassCard key={group.code} className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    {getLibraryIcon(group.icon)}
-                    <h3 className="text-xl font-semibold">{group.label}</h3>
-                  </div>
-                  <div className="space-y-2">
-                    {group.complaints.map((complaint) => (
-                      <button
-                        key={complaint.id}
-                        onClick={() => selectComplaint(complaint.id, group.code)}
-                        className={cn(
-                          'w-full text-left px-4 py-3 rounded-lg',
-                          'hover:bg-slate-100',
-                          'transition-colors'
-                        )}
-                      >
-                        <div className="text-sm font-medium">{complaint.title}</div>
-                        <div className="text-xs text-slate-500">{complaint.code}</div>
-                      </button>
-                    ))}
-                  </div>
-                </GlassCard>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Anamnesis View */}
-        {viewMode === 'anamnese' && (
-          <AnamnesisView />
-        )}
-
-        {/* Accessibility Guide */}
-        {viewMode === 'accessibility' && (
-          <AccessibilityGuide />
-        )}
-
-        {/* Flash Anamnesis Flow */}
         {viewMode === 'flash' && (
-          <FlashAnamnesisFlow />
+          <GlassPanel className="flex-1 min-h-0 overflow-y-auto flex flex-col p-6" style={{ borderRadius: '24px' }}>
+            <FlashAnamnesisFlow
+              patient={patient}
+              setPatient={setPatient}
+              onExit={() => setViewMode('dashboard')}
+              onApplyScore={handleApplyScore}
+            />
+          </GlassPanel>
         )}
 
-        {/* Chat Well */}
         {viewMode === 'chat-well' && (
-          <ChatWell />
+          <GlassPanel className="flex-1 min-h-0 overflow-y-auto p-6" style={{ borderRadius: '24px' }}>
+            <ChatWell />
+          </GlassPanel>
         )}
 
-        {/* Kanban Board */}
-        {viewMode === 'kanban' && (
-          <div className="space-y-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold">Quadro de Tarefas</h2>
-              <Button
-                onClick={() => handleSidebarNavigation('dashboard')}
-                variant="ghost"
-                size="sm"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </Button>
+        {viewMode !== 'dashboard' && viewMode !== 'flash' && viewMode !== 'chat-well' && (
+          <GlassPanel className="flex flex-col flex-1 min-h-0 overflow-y-auto" style={{ borderRadius: '24px' }}>
+            <div className="px-6 pt-6 shrink-0 z-20">
+              <Header patient={patient} setPatient={setPatient} />
             </div>
 
-            <div className="flex items-center gap-4">
-              <Button
-                onClick={loadSampleProject}
-                variant="outline"
-                size="sm"
-              >
-                <Sparkles className="w-5 h-5" />
-                Carregar Exemplo
-              </Button>
+            <div className="flex-1 px-6 pb-6 relative">
+              {viewMode === 'selection' && (
+                <ComplaintSelection onSelect={selectComplaint} patient={patient} />
+              )}
 
-              <Button
-                onClick={() => setIsAddModalOpen(true)}
-                variant="outline"
-                size="sm"
-              >
-                <Calculator className="w-5 h-5" />
-                Nova Tarefa
-              </Button>
-            </div>
-
-            {/* Kanban Board Component */}
-            <div className="min-h-[600px]">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex gap-2">
-                  <Button
-                    onClick={() => handleSetFlow('ambulatorial')}
-                    variant={tasks.some(t => t.status === 'exam') ? 'default' : 'outline'}
-                    size="sm"
-                  >
-                    Ambulatorial
-                  </Button>
-                  <Button
-                    onClick={() => handleSetFlow('observação')}
-                    variant={tasks.some(t => t.status === 'wait') ? 'default' : 'outline'}
-                    size="sm"
-                  >
-                    Observação
-                  </Button>
-                  <Button
-                    onClick={() => handleSetFlow('internação')}
-                    variant={tasks.some(t => t.status === 'wait') ? 'default' : 'outline'}
-                    size="sm"
-                  >
-                    Internação
-                  </Button>
-                  <Button
-                    onClick={() => handleSetFlow('uti')}
-                    variant={tasks.some(t => t.status === 'wait') ? 'default' : 'outline'}
-                    size="sm"
-                  >
-                    U.T.I.
-                  </Button>
-                  <Button
-                    onClick={() => handleSetFlow('emergência')}
-                    variant={tasks.some(t => t.status === 'exam') ? 'default' : 'outline'}
-                    size="sm"
-                  >
-                    Exame
-                  </Button>
-                  <Button
-                    onClick={() => handleSetFlow('reval')}
-                    variant={tasks.some(t => t.status === 'done') ? 'default' : 'outline'}
-                    size="sm"
-                  >
-                    Reval
-                  </Button>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button
-                    onClick={() => setIsUppercaseMode(!isUppercaseMode)}
-                    variant="ghost"
-                    size="sm"
-                  >
-                    <CaseUpper className="w-5 h-5" />
-                  </Button>
-                </div>
-              </div>
-
-              {/* Task Board */}
-              <div className="min-h-[500px]">
-                {tasks.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center h-64 text-center text-slate-500">
-                    <List className="w-12 h-12 text-slate-400 mb-4" />
-                    <p className="text-slate-600 mb-2">
-                      Nenhuma tarefa no quadro.
-                      <br />
-                      Clique em "Carregar Exemplo" para começar.
-                    </p>
-                  </div>
-                ) : (
-                  tasks.map((task) => (
-                    <div
-                      key={task.id}
-                      className={cn(
-                        'p-4 rounded-lg border-2',
-                        'bg-white',
-                        'shadow-sm',
-                        'hover:shadow-md',
-                        'transition-all'
-                      )}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                            <span className="text-lg font-bold">
-                              {task.status === 'exam' && '🩺'}
-                              {task.status === 'wait' && '⏳'}
-                              {task.status === 'reval' && '🔄'}
-                              {task.status === 'done' && '✅'}
-                            </span>
-                          </div>
-                          <div className="flex-1">
-                            <span className="text-sm font-medium text-slate-900">{task.patientName}</span>
-                            <div className="text-xs text-slate-500">{task.age}</div>
-                            <div className="text-xs text-slate-500">{task.gender === 'F' ? 'F' : 'M'}</div>
-                          </div>
-                        </div>
-
-                        <div className="text-sm text-slate-700">{task.complaint}</div>
-
-                        <div className="flex items-center gap-2">
-                          <Button
-                            onClick={() => {
-                              if (task.status === 'done') {
-                                toast({
-                                  title: 'Tarefa já concluída',
-                                  description: 'Esta tarefa já foi marcada como concluída.',
-                                  variant: 'destructive',
-                                })
-                                return
-                              }
-                              handleSetFlow(task.status)
-                            }}
-                            variant="ghost"
-                            size="sm"
-                            disabled={task.status === 'done'}
-                          >
-                            <Check className="w-4 h-4" />
-                          </Button>
-                          <Button
-                            onClick={() => {
-                              if (task.status === 'done') {
-                                toast({
-                                  title: 'Tarefa já concluída',
-                                  description: 'Esta tarefa já foi marcada como concluída.',
-                                  variant: 'destructive',
-                                })
-                                return
-                              }
-                              handleSetFlow(task.status)
-                            }}
-                            variant="ghost"
-                            size="sm"
-                            disabled={task.status === 'done'}
-                          >
-                            <XCircle className="w-4 h-4" />
-                          </Button>
-                        </div>
-                      </div>
+              {viewMode === 'library' && (
+                <div className="p-2">
+                  <div className="flex items-center gap-3 mb-8">
+                    <div className="p-3 rounded-2xl glass-pill bg-purple-500/10 text-purple-500">
+                      <Activity className="w-6 h-6" />
                     </div>
-                  ))
-                )}
-              </div>
-            </div>
-
-            {/* Note Generation Modal */}
-            {editingBlockId && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold">Editar Nota</h3>
-                    <Button
-                      onClick={() => setEditingBlockId(null)}
-                      variant="ghost"
-                      size="sm"
-                    >
-                      <XCircle className="w-5 h-5" />
-                    </Button>
-                  </div>
-
-                  <textarea
-                    className="w-full min-h-[300px] p-3 border rounded-md"
-                    defaultValue={noteBlocks.find(b => b.id === editingBlockId)?.content || ''}
-                    onChange={(e) => {
-                      const content = e.target.value
-                      setManualNoteEdits(prev => ({ ...prev, [editingBlockId]: content }))
-                    }}
-                  />
-
-                  <div className="flex justify-end gap-2">
-                    <Button
-                      onClick={() => {
-                        const content = manualNoteEdits[editingBlockId]
-                        if (!content) {
-                          toast({
-                            title: 'Conteúdo vazio',
-                            description: 'Por favor, adicione algum conteúdo.',
-                            variant: 'destructive',
-                          })
-                          return
-                        }
-                        setManualNoteEdits(prev => ({ ...prev, [editingBlockId]: undefined }))
-                        setEditingBlockId(null)
-                      }}
-                      variant="default"
-                    >
-                      Salvar
-                    </Button>
-                    <Button
-                      onClick={() => setEditingBlockId(null)}
-                      variant="ghost"
-                    >
-                      Cancelar
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {/* Add Task Modal */}
-            {isAddModalOpen && targetSectionId && (
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-                <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold">Nova Tarefa</h3>
-                    <Button
-                      onClick={() => setIsAddModalOpen(false)}
-                      variant="ghost"
-                      size="sm"
-                    >
-                      <XCircle className="w-5 h-5" />
-                    </Button>
-                  </div>
-
-                  <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-medium mb-2">
-                        Nome da tarefa
-                      </label>
-                      <input
-                        type="text"
-                        value={newSymptomName}
-                        onChange={(e) => setNewSymptomName(e.target.value)}
-                        className="w-full px-3 py-2 border rounded-md"
-                        placeholder="Ex: Tosse persistente, Febre..."
-                      />
-                    </div>
-
-                    <div className="flex justify-end">
-                      <Button
-                        onClick={handleSaveCustomSymptom}
-                        variant="default"
-                        disabled={!newSymptomName.trim()}
-                      >
-                        Adicionar
-                      </Button>
-                      <Button
-                        onClick={() => setIsAddModalOpen(false)}
-                        variant="ghost"
-                      >
-                        Cancelar
-                      </Button>
+                      <h2 className="text-2xl font-bold text-slate-800 dark:text-white tracking-tight">
+                        Biblioteca de Protocolos
+                      </h2>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">
+                        Calculadoras e scores clínicos disponíveis.
+                      </p>
                     </div>
                   </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    {complaintGroups.map((group) => {
+                       const calculator = getCalculatorsForGroup(group.code)
+                       if (!calculator) return null
+                       return (
+                         <div key={`lib-${group.code}`} className="liquid-glass-material rounded-[24px] p-6 flex flex-col gap-4">
+                           <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded-xl flex items-center justify-center glass-pill">
+                                {getLibraryIcon(group.icon)}
+                              </div>
+                              <h3 className="font-bold text-slate-700 dark:text-slate-200">
+                                {group.label}
+                              </h3>
+                           </div>
+                           <div>
+                              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">
+                                Ferramentas
+                              </p>
+                              <p className="text-sm font-medium text-slate-600 dark:text-slate-300">
+                                {calculator}
+                              </p>
+                           </div>
+                           <Button
+                              variant="secondary"
+                              size="sm"
+                              className="mt-auto"
+                              onClick={() => {
+                                if (group.code === 'CV') setIsCalculatorOpen(true)
+                              }}
+                           >
+                              <Calculator className="w-4 h-4 mr-2" /> Acessar
+                           </Button>
+                         </div>
+                       )
+                    })}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+
+              {viewMode === 'accessibility' && <AccessibilityGuide />}
+
+              {viewMode === 'protocol' && (
+                <div className="h-full w-full overflow-hidden">
+                   <AnamnesisWorkspace 
+                      activeTool={activeTool}
+                      onActiveToolChange={setActiveTool}
+                      leftContent={
+                        <div className="flex flex-col h-full bg-transparent">
+                           <div className="shrink-0 flex items-center gap-2 px-6 pt-5 pb-2">
+                              <Button variant="secondary" size="sm" onClick={() => setViewMode('selection')}>
+                                 <ArrowLeft className="w-4 h-4 mr-2" />
+                                 Voltar
+                              </Button>
+                           </div>
+                           <div className="flex-1 overflow-hidden px-4">
+                              <AnamnesisView
+                                 patient={patient}
+                                 sections={sections}
+                                 data={anamnesisData}
+                                 onDataChange={setAnamnesisData}
+                                 onAddSymptom={handleOpenAddModal}
+                                 complaint={activeComplaint}
+                              />
+                           </div>
+                        </div>
+                      }
+                      rightContent={
+                        <SmartNotePanel 
+                           noteBlocks={noteBlocks}
+                           isUppercaseMode={isUppercaseMode}
+                           setIsUppercaseMode={setIsUppercaseMode}
+                           onPrint={handlePrint}
+                           editingBlockId={editingNoteBlockId}
+                           setEditingBlockId={setEditingNoteBlockId}
+                           manualEdits={manualNoteEdits}
+                           setManualEdits={setManualNoteEdits}
+                           copyBlock={copyBlockToClipboard}
+                           copiedId={copiedId}
+                           footer={
+                              <div className="flex flex-col gap-4 w-full">
+                                {/* Segmented Control (ChatWW/Scores) - iOS Style */}
+                                <div className="w-full h-16 p-1.5 liquid-glass-material bg-white/40 dark:bg-black/40 backdrop-blur-3xl rounded-2xl border border-white/40 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
+                                  <div className="flex items-center gap-1.5 h-full relative">
+
+                                    {/* Sliding White Pill Indicator */}
+                                    <div
+                                      className="absolute top-0 bottom-0 left-0 w-[calc(50%-3px)] bg-white dark:bg-white/20 rounded-[14px] shadow-lg transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                                      style={{
+                                        transform: activeTool === 'calculators' ? 'translateX(calc(100% + 6px))' : 'translateX(0)',
+                                        opacity: activeTool ? 1 : 0
+                                      }}
+                                    />
+
+                                    {/* ChatWW Segment */}
+                                    <button
+                                      onClick={() => setActiveTool(activeTool === 'chat' ? null : 'chat')}
+                                      className={`
+                                        relative z-10 flex-1 h-full rounded-[14px]
+                                        flex items-center justify-center gap-2.5
+                                        transition-all duration-300
+                                        ${activeTool === 'chat'
+                                          ? 'text-slate-900 dark:text-white'
+                                          : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'}
+                                      `}
+                                      role="tab"
+                                      aria-selected={activeTool === 'chat'}
+                                      aria-label="ChatWW - Medical Assistant"
+                                    >
+                                      <MessageSquare className="w-5 h-5" />
+                                      <span className="text-[12px] font-black uppercase tracking-widest">ChatWW</span>
+                                    </button>
+
+                                    {/* Scores Segment */}
+                                    <button
+                                      onClick={() => setActiveTool(activeTool === 'calculators' ? null : 'calculators')}
+                                      className={`
+                                        relative z-10 flex-1 h-full rounded-[14px]
+                                        flex items-center justify-center gap-2.5
+                                        transition-all duration-300
+                                        ${activeTool === 'calculators'
+                                          ? 'text-slate-900 dark:text-white'
+                                          : 'text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-300'}
+                                      `}
+                                      role="tab"
+                                      aria-selected={activeTool === 'calculators'}
+                                      aria-label="Scores - Medical Calculators"
+                                    >
+                                      <div className="relative">
+                                        <Calculator className="w-5 h-5" />
+                                        {hasCalculators && !activeTool && (
+                                          <span className="absolute -top-1.5 -right-1.5 w-3 h-3 bg-rose-500 rounded-full border-2 border-white dark:border-slate-900 animate-pulse shadow-sm" />
+                                        )}
+                                      </div>
+                                      <span className="text-[12px] font-black uppercase tracking-widest">Scores</span>
+                                    </button>
+                                  </div>
+                                </div>
+
+                                {/* Definir Fluxo Button (Primary Action) */}
+                                <div className="relative w-full">
+                                  <button
+                                    onClick={() => setIsFlowMenuOpen(!isFlowMenuOpen)}
+                                    className="w-full h-16 rounded-2xl bg-linear-to-r from-slate-900 to-slate-800 dark:from-white dark:to-slate-200 text-white dark:text-slate-900 transition-all duration-500 shadow-2xl shadow-blue-500/10 group border-0 text-[12px] font-black uppercase tracking-widest hover:scale-[1.02] active:scale-95 flex items-center justify-center relative overflow-hidden"
+                                  >
+                                     <div className="absolute inset-0 bg-linear-to-r from-blue-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                     <div className="relative z-10 flex items-center">
+                                        <GitBranch className="w-5 h-5 mr-3 transition-transform duration-700 group-hover:rotate-180" />
+                                        Definir Fluxo
+                                     </div>
+                                  </button>
+                                  
+                                  {isFlowMenuOpen && (
+                                    <div className="absolute bottom-full left-0 right-0 z-20 mb-6 w-full animate-in fade-in slide-in-from-bottom-4 duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]">
+                                      <div className="p-3 liquid-glass-material bg-white/80! dark:bg-black/70! backdrop-blur-3xl rounded-[32px] border border-white/40 dark:border-white/10 shadow-[0_40px_100px_rgba(0,0,0,0.3)]">
+                                         <div className="grid grid-cols-2 gap-2">
+                                            {['Ambulatorial', 'Observação', 'Internação', 'UTI', 'Emergência'].map((status) => (
+                                              <button
+                                                key={status}
+                                                onClick={() => handleSetFlow(status.toLowerCase() as any)}
+                                                className={`
+                                                  px-4 py-4 rounded-[20px] text-[12px] font-black uppercase tracking-widest text-left transition-all duration-300
+                                                  ${status === 'Emergência' ? 'bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white col-span-2' : 'hover:bg-blue-500/10 hover:text-blue-500'}
+                                                `}
+                                              >
+                                                {status}
+                                              </button>
+                                            ))}
+                                         </div>
+                                      </div>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                           }
+                        />
+                      }
+                      sidebarContent={{
+                        chat: <ChatWell />,
+                        calculators: <HeartScoreCalculator 
+                          isOpen={true} // Controlled by AnamnesisWorkspace overlay
+                          onClose={() => setActiveTool(null)}
+                          patient={patient}
+                          onApply={handleApplyScore}
+                          // Note: In real app, props for antecedents would pass here
+                        />
+                      }}
+                   />
+                </div>
+              )}
+            </div>
+          </GlassPanel>
         )}
-      </div>
+      </main>
+
+      {/* Onboarding Tutorial Overlay */}
+      <OnboardingTutorial
+        isOpen={showOnboarding}
+        onClose={closeTour}
+        onComplete={completeTour}
+      />
     </div>
+    </GlassTokenProvider>
   )
 }
