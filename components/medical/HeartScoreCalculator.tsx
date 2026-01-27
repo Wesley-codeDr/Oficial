@@ -129,13 +129,13 @@ export const HeartScoreCalculator: React.FC<HeartScoreCalculatorProps> = ({
           <div className="flex items-center space-x-1 rounded-xl bg-black/20 p-1 backdrop-blur-md border border-white/5">
             <button className={cn(
               "rounded-lg px-4 py-1.5 text-[10px] font-black uppercase tracking-widest transition-all duration-300",
-              mode === 'modal' ? "bg-white text-black shadow-lg rim-highlight" : "text-white/60 hover:text-white"
+              mode === 'modal' ? "bg-white text-black shadow-lg rim-highlight" : "text-white/80 hover:text-white"
             )}>
               Modal
             </button>
             <button className={cn(
               "rounded-lg px-4 py-1.5 text-[10px] font-black uppercase tracking-widest transition-all duration-300",
-              mode === 'inline' ? "bg-white text-black shadow-lg rim-highlight" : "text-white/60 hover:text-white"
+              mode === 'inline' ? "bg-white text-black shadow-lg rim-highlight" : "text-white/80 hover:text-white"
             )}>
               Inline
             </button>
@@ -263,24 +263,24 @@ export const HeartScoreCalculator: React.FC<HeartScoreCalculatorProps> = ({
 
          <div className="h-px bg-white/5" />
 
-         {/* A & R Auto-Calculated Grid */}
-         <div className="grid grid-cols-2 gap-4">
-            <div className="p-5 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md rim-highlight group hover:bg-white/10 transition-colors duration-500">
-               <div className="flex items-center gap-2 mb-3">
-                 <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center text-[9px] font-black group-hover:bg-white group-hover:text-black transition-colors">A</div>
-                 <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] group-hover:text-white/60 transition-colors">Idade</span>
-               </div>
+          {/* A & R Auto-Calculated Grid */}
+          <div className="grid grid-cols-2 gap-4">
+             <div className="p-5 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md rim-highlight group hover:bg-white/10 transition-colors duration-500">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center text-[9px] font-black group-hover:bg-white group-hover:text-black transition-colors">A</div>
+                  <span className="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] group-hover:text-white/70 transition-colors">Idade</span>
+                </div>
                <div className="flex items-center justify-between mt-1">
                  <span className="text-xl font-black group-hover:scale-105 transition-transform origin-left">{patient.age || 0} anos</span>
                  <span className="text-blue-400 font-black text-2xl drop-shadow-[0_0_10px_rgba(96,165,250,0.3)]">+{agePoints}</span>
                </div>
             </div>
 
-            <div className="p-5 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md rim-highlight group hover:bg-white/10 transition-colors duration-500">
-               <div className="flex items-center gap-2 mb-3">
-                 <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center text-[9px] font-black group-hover:bg-white group-hover:text-black transition-colors">R</div>
-                 <span className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] group-hover:text-white/60 transition-colors">Fatores</span>
-               </div>
+             <div className="p-5 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md rim-highlight group hover:bg-white/10 transition-colors duration-500">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-5 h-5 rounded-full bg-white/15 flex items-center justify-center text-[9px] font-black group-hover:bg-white group-hover:text-black transition-colors">R</div>
+                  <span className="text-[10px] font-black text-white/50 uppercase tracking-[0.2em] group-hover:text-white/70 transition-colors">Fatores</span>
+                </div>
                <div className="flex items-center justify-between mt-1">
                  <span className="text-xl font-black group-hover:scale-105 transition-transform origin-left">{riskFactorsCount} detectados</span>
                  <span className="text-blue-400 font-black text-2xl drop-shadow-[0_0_10px_rgba(96,165,250,0.3)]">+{riskPoints}</span>

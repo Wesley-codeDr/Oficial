@@ -38,16 +38,16 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
   // DnD Handlers
   const handleSort = () => {
     if (dragItem.current === null || dragOverItem.current === null) return;
-    
+
     const _kpiOrder = [...localKpiOrder];
     const draggedItemContent = _kpiOrder[dragItem.current];
-    
+
     _kpiOrder.splice(dragItem.current, 1);
     _kpiOrder.splice(dragOverItem.current, 0, draggedItemContent);
-    
+
     dragItem.current = null;
     dragOverItem.current = null;
-    
+
     setLocalKpiOrder(_kpiOrder);
     updatePreferences({ kpiOrder: _kpiOrder });
   };
@@ -68,8 +68,14 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 liquid-glass-default p-4 animate-in fade-in duration-200">
-       <div className="w-full max-w-2xl bg-white/25 liquid-glass-default rim-light-ios26 inner-glow-ios26 rounded-[32px] shadow-glass-elevated overflow-hidden flex flex-col max-h-[85vh]">
-          
+       <div
+         role="dialog"
+         aria-labelledby="dashboard-settings-modal-title"
+         aria-describedby="dashboard-settings-modal-description"
+         aria-modal="true"
+         className="w-full max-w-2xl bg-white/25 liquid-glass-default rim-light-ios26 inner-glow-ios26 rounded-[32px] shadow-glass-elevated overflow-hidden flex flex-col max-h-[85vh]"
+       >
+
           {/* Header */}
           <div className="px-6 py-5 border-b border-slate-200/50 dark:border-white/5 flex items-center justify-between shrink-0">
              <div className="flex items-center gap-3">
@@ -77,19 +83,27 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
                    <Layout className="w-5 h-5" />
                 </div>
                 <div>
-                   <h2 className="text-xl font-bold text-slate-800 dark:text-white leading-tight">Personalizar Home</h2>
-                   <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">Ajuste a visualização do seu painel.</p>
+                   <h2
+                     id="dashboard-settings-modal-title"
+                     className="text-xl font-bold text-slate-800 dark:text-white leading-tight"
+                   >Personalizar Home</h2>
+                   <p
+                     id="dashboard-settings-modal-description"
+                     className="text-xs text-slate-500 dark:text-slate-400 font-medium"
+                   >Ajuste a visualização do seu painel.</p>
                 </div>
              </div>
              <div className="flex items-center gap-2">
                 <button
                   onClick={resetPreferences}
+                  aria-label="Restaurar configurações padrão"
                   className="px-3 py-1.5 rounded-lg text-xs font-bold text-slate-500 glass-pill hover:bg-white/20 dark:hover:bg-white/10 transition-colors flex items-center gap-1.5"
                 >
                   <RotateCcw className="w-3.5 h-3.5" /> Padrão
                 </button>
                 <button
                   onClick={onClose}
+                  aria-label="Fechar modal de configurações"
                   className="p-2 rounded-full glass-pill hover:bg-white/20 dark:hover:bg-white/10 transition-colors text-slate-400"
                 >
                    <X className="w-5 h-5" />
@@ -129,15 +143,17 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
                             <span className="flex-1 text-sm font-bold text-slate-700 dark:text-slate-200">
                                {KPI_LABELS[kpiId]}
                             </span>
-                            <button
-                               onClick={() => toggleKpiVisibility(kpiId)}
-                               className={cn(
-                                 'p-2 rounded-xl transition-colors glass-pill',
-                                 isVisible ? 'text-blue-500 bg-blue-500/10' : 'text-slate-400'
-                               )}
-                            >
-                               {isVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
-                            </button>
+                             <button
+                                onClick={() => toggleKpiVisibility(kpiId)}
+                                aria-label={isVisible ? `Ocultar ${KPI_LABELS[kpiId]}` : `Mostrar ${KPI_LABELS[kpiId]}`}
+                                aria-pressed={isVisible}
+                                className={cn(
+                                  'p-2 rounded-xl transition-colors glass-pill',
+                                  isVisible ? 'text-blue-500 bg-blue-500/10' : 'text-slate-400'
+                                )}
+                             >
+                                {isVisible ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                             </button>
                          </div>
                       );
                    })}
@@ -206,55 +222,59 @@ export const DashboardSettingsModal: React.FC<DashboardSettingsModalProps> = ({ 
                 <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                    <Columns className="w-3.5 h-3.5" /> Colunas do Quadro
                 </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                   {Object.entries(COLUMN_LABELS).map(([id, label]) => {
-                      const isVisible = preferences.visibleKanbanColumns.includes(id);
-                      return (
-                         <button
-                           key={id}
-                           onClick={() => toggleColumnVisibility(id)}
-                           className={cn(
-                             'flex items-center justify-between p-3.5 rounded-2xl transition-all duration-200 text-left',
-                             isVisible
-                               ? 'glass-pill bg-blue-500/10 text-blue-700 dark:text-blue-300'
-                               : 'glass-pill opacity-40'
-                           )}
-                         >
-                            <span className={cn(
-                              'text-sm font-semibold',
-                              isVisible ? 'text-blue-700 dark:text-blue-300' : 'text-slate-600 dark:text-slate-400'
-                            )}>
-                               {label}
-                            </span>
-                            <div className={cn(
-                               'w-5 h-5 rounded-full flex items-center justify-center transition-all',
-                               isVisible ? 'bg-blue-500 text-white' : 'bg-slate-200 dark:bg-slate-700 text-transparent'
-                            )}>
-                               <Check className="w-3 h-3 stroke-[3px]" />
-                            </div>
-                         </button>
-                      );
-                   })}
-                </div>
+                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="group" aria-label="Selecionar colunas do quadro">
+                    {Object.entries(COLUMN_LABELS).map(([id, label]) => {
+                       const isVisible = preferences.visibleKanbanColumns.includes(id);
+                       return (
+                          <button
+                            key={id}
+                            onClick={() => toggleColumnVisibility(id)}
+                            aria-pressed={isVisible}
+                            aria-label={`${isVisible ? 'Ocultar' : 'Mostrar'} ${label}`}
+                            className={cn(
+                              'flex items-center justify-between p-3.5 rounded-2xl transition-all duration-200 text-left',
+                              isVisible
+                                ? 'glass-pill bg-blue-500/10 text-blue-700 dark:text-blue-300'
+                                : 'glass-pill opacity-40'
+                            )}
+                          >
+                             <span className={cn(
+                               'text-sm font-semibold',
+                               isVisible ? 'text-blue-700 dark:text-blue-300' : 'text-slate-600 dark:text-slate-400'
+                             )}>
+                                {label}
+                             </span>
+                             <div className={cn(
+                                'w-5 h-5 rounded-full flex items-center justify-center transition-all',
+                                isVisible ? 'bg-blue-500 text-white' : 'bg-slate-200 dark:bg-slate-700 text-transparent'
+                             )}>
+                                <Check className="w-3 h-3 stroke-[3px]" />
+                             </div>
+                          </button>
+                       );
+                    })}
+                 </div>
              </section>
 
           </div>
 
-          {/* Footer */}
-          <div className="p-5 border-t border-slate-200/50 dark:border-white/5 glass-pill flex justify-end gap-3">
-             <button
-                onClick={onClose}
-                className="px-6 py-3 rounded-xl font-bold text-sm text-slate-500 glass-pill hover:bg-white/20 dark:hover:bg-white/10 transition-colors"
-             >
-                Cancelar
-             </button>
-             <button
-                onClick={onClose}
-                className="px-8 py-3 rounded-xl btn-primary-glass text-white font-bold text-sm shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
-             >
-                Concluir
-             </button>
-          </div>
+           {/* Footer */}
+           <div className="p-5 border-t border-slate-200/50 dark:border-white/5 glass-pill flex justify-end gap-3">
+              <button
+                 onClick={onClose}
+                 aria-label="Cancelar alterações"
+                 className="px-6 py-3 rounded-xl font-bold text-sm text-slate-500 glass-pill hover:bg-white/20 dark:hover:bg-white/10 transition-colors"
+              >
+                 Cancelar
+              </button>
+              <button
+                 onClick={onClose}
+                 aria-label="Confirmar alterações"
+                 className="px-8 py-3 rounded-xl btn-primary-glass text-white font-bold text-sm shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all"
+              >
+                 Concluir
+              </button>
+           </div>
 
        </div>
     </div>

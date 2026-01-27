@@ -57,7 +57,7 @@ const variantClasses: Record<GlassButtonVariant, string> = {
     "dark:bg-[linear-gradient(135deg,rgba(0,122,255,0.95)_0%,rgba(0,122,255,0.85)_50%,rgba(0,122,255,0.95)_100%)]",
     "border border-[rgba(0,122,255,0.4)] dark:border-[rgba(0,122,255,0.5)]",
     "shadow-[0_12px_32px_-10px_rgba(0,122,255,0.25),0_6px_20px_-6px_rgba(0,122,255,0.15),inset_0_0_1px_rgba(255,255,255,0.7),inset_0_1px_0_rgba(0,122,255,0.2)]",
-    "text-white dark:text-white hover:text-white",
+    "text-white",
   ].join(" "),
   secondary: [
     "liquid-glass-default",
@@ -90,7 +90,7 @@ const variantClasses: Record<GlassButtonVariant, string> = {
     "dark:bg-[linear-gradient(135deg,rgba(52,211,153,0.95)_0%,rgba(52,211,153,0.85)_50%,rgba(52,211,153,0.95)_100%)]",
     "border border-healthcare-success/40 dark:border-healthcare-success-dark/50",
     "shadow-[0_12px_32px_-10px_rgba(0,200,83,0.25),0_6px_20px_-6px_rgba(0,200,83,0.15),inset_0_0_1px_rgba(255,255,255,0.7),inset_0_1px_0_rgba(0,200,83,0.2)]",
-    "text-white dark:text-white hover:text-white",
+    "text-white",
   ].join(" "),
   "healthcare-warning": [
     "backdrop-blur-glass",
@@ -106,7 +106,7 @@ const variantClasses: Record<GlassButtonVariant, string> = {
     "dark:bg-[linear-gradient(135deg,rgba(248,113,113,0.95)_0%,rgba(248,113,113,0.85)_50%,rgba(248,113,113,0.95)_100%)]",
     "border border-healthcare-critical/40 dark:border-healthcare-critical-dark/50",
     "shadow-[0_12px_32px_-10px_rgba(255,59,48,0.25),0_6px_20px_-6px_rgba(255,59,48,0.15),inset_0_0_1px_rgba(255,255,255,0.7),inset_0_1px_0_rgba(255,59,48,0.2)]",
-    "text-white dark:text-white hover:text-white",
+    "text-white",
   ].join(" "),
   "healthcare-info": [
     "backdrop-blur-glass",
